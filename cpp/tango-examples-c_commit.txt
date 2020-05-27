@@ -1,0 +1,54 @@
+﻿ Update README deprecation notice
+ Update project status
+ Merge pull request #113 from googlesamples/release-m20
+
+Release m20
+ Merge remote-tracking branch 'origin/master' into release-m20
+ Merge pull request #108 from googlesamples/release-ikariotikos
+
+release-ikariotikos
+ release-m20
+ release-ikariotikos
+ Merge pull request #102 from googlesamples/release-hopka
+
+release hopka
+ release hopka
+ Merge pull request #100 from googlesamples/release-gankino
+
+Release gankino
+ release gankino
+ release-gankino
+ Merge pull request #99 from googlesamples/release-farandole
+
+release farandole
+ release farandole
+ release eisa
+ Merge pull request #95 from googlesamples/release-eisa
+
+release-eisa
+ release-eisa
+ Merge pull request #94 from gitunit/master
+
+conversion from yuv to rgb improved
+ conversion from yuv to rgb improved
+ Merge pull request #93 from googlesamples/release-caporales
+
+release-caporales
+ release-caporales
+ Merge pull request #92 from googlesamples/release-biyelgee
+
+release biyelgee
+ release biyelgee
+ Merge pull request #90 from googlesamples/release-argentine_tango
+
+release argentine_tango
+ release argentine_tango
+ Merge pull request #89 from googlesamples/release-zaniah
+
+release zaniah
+ release zaniah
+ Merge pull request #88 from googlesamples/release-yildun
+
+Release yildun
+ release yildun
+ release yildun

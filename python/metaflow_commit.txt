@@ -1,0 +1,120 @@
+﻿ Revert "AWS Step Functions Integration" (#203)
+
+This reverts commit 0f3765c5aa97a26fb4ea53d00e42defaab5a6dad.
+ Set ttls on AWS DynamoDB items to save cost
+ Add timeouts to workflow and states
+ Handle AWS Batch job search for StepFunctions execution
+ Handle JSONType parameters
+ Bunch of enhancements
+
+1. Remove the dependency on REGION_NAME for AWS DynamoDb access through AWS Batch.
+   For now, just use the same region as AWS Batch, since there is no way for us
+   to specify AWS Region for AWS DynamoDb within AWS StepFunctions
+2. Handle branches within foreaches
+3. Some code cleanup
+ Clean up some spurious code
+ Throw a nice error when triggering a non-existent workflow
+ Fix call to get_datastore_root_from_config in cli.py
+ Fix datastore_root configuration method calls
+ AWS Step Functions Integration
+ Trigger release on `published` (#199)
+
+`created` event is not emitted when a draft release is published, while `published` event is always emitted with or without a draft release.
+ Bump metaflow version to 2.0.5 in preparation for release (#198)
+
+* Bump metaflow version to 2.0.5 in preparation for release
+
+* correct a vimers fat finger
+ pin pylint version to 2.4.4 since 2.5.0 does not like self.next() syntax (#196)
+
+* pin pylint version to 2.4.4 since 2.5.0 does not like self.next() syntax
+
+* marking pylint version < 2.5.0
+
+Co-authored-by: Jason Ge <jge@netflix.com>
+ Increase retry count for AWS Batch logs streaming (#197)
+
+Modify the retry behavior for log fetching on AWS Batch by adding
+jitters to exponential backoffs as well as reset the retry counter
+for every successful request.
+
+Additionally, fail the metaflow task even if AWS Batch task succeeds
+but we fail to stream the task logs back to the user's terminal.
+ Fix broken logging of prefixes in datatools.S3._read_many_files (#195)
+
+The prefixes passed are generators, so we don't have acesss to the first element
+ Bump metaflow version to 2.0.4 in preparation for release (#194)
+ Mute `ThrottleException` for AWS Logs API for AWS Batch (#193)
+
+* Mute `ThrottleException` for AWS Logs API for AWS Batch
+
+Currently, the flow logs are polluted with  occasional `ThrottleExceptions`.
+They don't result in flow failures since we retry log fetching till the tasks
+are alive and do a best-effort pull after the tasks have finished. This patch
+swallows the `ThrottleExceptions` so that the end-user isn't thrown off track.
+
+* Roll back num_tries to 20 in throttle
+ Remove spurious code in current.py (#189)
+ Expose Retry Count in Current Singleton (#188)
+
+current.retry_count now returns the retry attempt (0, 1, .. so on)
+for a metaflow task
+ Expose job attempt configuration for AWS Batch jobs (#187)
+
+StepFunctions cannot control retrying strategy for AWS Batch
+since `$$.State.RetryCount` in SFN ContextObject is a number
+and AWS Batch only accepts strings as configuration values.
+
+So, instead of relying on StepFunctions to retry failed jobs
+we will pass on the baton to AWS Batch instead.
+ Expose `create_job` and `register_job_definition` methods for SFN integration (#186)
+ Pre-empt log collection when Batch task crashes (#185)
+
+Fix a bug where log collection gets into an infinite
+loop when AWS Batch job crashes before being executed
+on ECS. Clean up some log statements as well.
+ Set thresholds for retrying `describeJobs` in AWS Batch integration (#160)
+
+* Set thresholds for retrying `describeJobs` in AWS Batch integration
+
+* remove from None for exception handling
+
+* change delay multiplier to 1.2
+
+* change max_tries to 20
+ Add PYTHONNOUSERSITE explicitly (#178)
+
+Patch to test a hypothesis.
+
+More context - https://gitter.im/metaflow_org/community?at=5e8ee8315d148a0460f51623
+ fix: endpoint_url for boto3 client (#132)
+
+ Merge pull request #154 from Netflix/release-2.0.3
+
+Preparing to release 2.0.3
+ Release notes -
+
+1. Use a smaller standalone Conda installer for AWS Batch
+2. Add METAFLOW_S3_ENDPOINT_URL configuration (#130)
+3. Use the CLI datastore-root before checking for METAFLOW_DATASTORE_SYSROOT_S3
+4. Fix an issue where using the local metadata provider with Batch resulted
+   in .metaflow/.metaflow instead of just .metaflow
+5. Add a way to get parameter names passed to a flow (using
+   current.parameter_names) (#137)
+6. Properly indent on show (#92)
+7. Surpress superfluous message when running on Batch
+ Release notes -
+
+1. Use a smaller standalone Conda installer for AWS Batch
+2. Add METAFLOW_S3_ENDPOINT_URL configuration (#130)
+3. Use the CLI datastore-root before checking for METAFLOW_DATASTORE_SYSROOT_S3
+4. Fix an issue where using the local metadata provider with Batch resulted
+   in .metaflow/.metaflow instead of just .metaflow
+5. Add a way to get parameter names passed to a flow (using
+   current.parameter_names) (#137)
+6. Properly indent on show (#92)
+7. Surpress superfluous message when running on Batch
+ Merge pull request #143 from Netflix/list_parameter_names
+
+Add a method to list the name of the parameters for a flow. Fixes #137
+ Address comment

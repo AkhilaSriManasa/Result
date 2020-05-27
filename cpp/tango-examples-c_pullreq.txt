@@ -1,0 +1,73 @@
+﻿ [NOT FOR MERGE] Change hello video app to make minimal example
+ This PR changes the hello video example app to make a minimal example which only connect to onFrameAvailable and print a log message when the callback is triggered.
+Its purpose is to demonstrate issues encountered when connecting to camera callbacks.
+ Release m20
+ 
+ release-ikariotikos
+ 
+ Fixed TangoInitializationHelper.java for API 24+
+ Fixed the new [Log tag 23 character limit](https://developer.android.com/reference/android/util/Log.html#isLoggable%28java.lang.String,%20int%29)  imposed if using API 24+ since `TangoInitializationHelper` is 25 characters
+
+ and also removed x86 options since they were removed in #102 from the `Application.mk` files
+
+ release hopka
+ 
+ Release gankino
+ 
+ release farandole
+ 
+ New overload method tango_gl
+ Simply added a single function overload to allow to set normals AND indices at the same time when setting drawing objects info. Simple fix otherwise making a redundant call to set the vertices twice.
+ release-eisa
+ 
+ conversion from yuv to rgb improved
+ this is the ITU-R version of converting RGB to YUV.
+After conversion, values are clamped to the range of [0,255].
+ release-caporales
+ 
+ release biyelgee
+ 
+ release argentine_tango
+ 
+ release zaniah
+ 
+ Release yildun
+ 
+ Release wasat
+ 
+ release-vega
+ 
+ Removing unnecessary reference to LOCAL_PATH, it could break some builds.
+ 
+ Release unukalhai
+ 
+ Build example projects for all available architectures
+ Currently, example projects will only build for armeabi-v7a. This change makes it so that all projects will build for x86, arm64, and arm by default. I've tested this locally and all projects built without issue.
+
+ Build example projects for all available architectures
+ Currently, example projects will only build for armeabi-v7a. This change makes it so that all projects will build for x86, arm64, and arm by default. I've tested this locally and all projects built without issue.
+
+ release-tania-borealis
+ 
+ Update build.gradle to latest android studio version ( 2.2.0-alpha6 ), which supports ndkbuild
+ Tested build project on a tango device, seems they are ok. I had to update tango core before running sample apps.  May you kindly review the change? thank you a lot!
+
+ README: cpp_mesh_builder_example is not in the repository.
+ Remove lines 39 and 40.
+
+ release qianru
+ 
+ Release okul
+ 
+ measurement display fix
+ the measurement result never appeared, my pullrequest should fix that.
+
+ Release mira
+ Release mira
+
+ Release lucida
+ Release lucida
+
+ Release kajam
+ release kajam
+

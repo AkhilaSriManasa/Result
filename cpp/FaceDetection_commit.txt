@@ -1,0 +1,9 @@
+﻿ Version 0.1.0
+ Limit batch size for Rnet and Onet for caffe.
+Mxnet/Tensorflow version should add similiar limitation on batch size too.
+ Add arm64 libtensorflow.so
+ skip rnet/onet when previous output size is zero
+ Polished README.md
+ Update README.md
+ mtcc project initialization
+ Initial commit

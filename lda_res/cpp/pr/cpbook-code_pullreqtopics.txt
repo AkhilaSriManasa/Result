@@ -1,0 +1,68 @@
+﻿NUMTopics = 2
+(0, '0.181*"add" + 0.055*"solution" + 0.021*"stdin" + 0.021*"read" + 0.021*"build" + 0.021*"make" + 0.021*"bit" + 0.021*"class" + 0.021*"input" + 0.021*"use"')
+(1, '0.062*"add" + 0.036*"fix" + 0.029*"use" + 0.023*"problem" + 0.023*"code" + 0.016*"function" + 0.016*"change" + 0.016*"replace" + 0.016*"first" + 0.016*"step"')
+
+------------------------
+NUMTopics = 3
+(0, '0.210*"add" + 0.062*"solution" + 0.023*"stdin" + 0.023*"build" + 0.023*"read" + 0.023*"make" + 0.023*"bit" + 0.023*"class" + 0.023*"input" + 0.023*"sysstdin"')
+(1, '0.068*"add" + 0.039*"fix" + 0.032*"use" + 0.024*"problem" + 0.024*"code" + 0.017*"change" + 0.017*"step" + 0.017*"replace" + 0.017*"dvaput" + 0.017*"function"')
+(2, '0.011*"add" + 0.010*"use" + 0.010*"fix" + 0.010*"solution" + 0.010*"code" + 0.010*"problem" + 0.010*"function" + 0.010*"first" + 0.010*"dvaput" + 0.010*"replace"')
+
+------------------------
+NUMTopics = 4
+(0, '0.012*"add" + 0.010*"solution" + 0.010*"stdin" + 0.010*"input" + 0.010*"easy" + 0.010*"read" + 0.010*"use" + 0.010*"build" + 0.010*"class" + 0.010*"bit"')
+(1, '0.072*"add" + 0.041*"fix" + 0.033*"use" + 0.025*"problem" + 0.025*"code" + 0.017*"change" + 0.017*"step" + 0.017*"replace" + 0.017*"dvaput" + 0.017*"function"')
+(2, '0.010*"add" + 0.010*"use" + 0.010*"fix" + 0.010*"code" + 0.010*"problem" + 0.010*"function" + 0.010*"first" + 0.010*"dvaput" + 0.010*"replace" + 0.010*"step"')
+(3, '0.229*"add" + 0.067*"solution" + 0.024*"py" + 0.024*"sysstdin" + 0.024*"make" + 0.024*"bit" + 0.024*"class" + 0.024*"build" + 0.024*"read" + 0.024*"use"')
+
+------------------------
+NUMTopics = 5
+(0, '0.014*"add" + 0.011*"solution" + 0.010*"stdin" + 0.010*"use" + 0.010*"input" + 0.010*"easy" + 0.010*"read" + 0.010*"build" + 0.010*"class" + 0.010*"bit"')
+(1, '0.074*"add" + 0.042*"fix" + 0.034*"use" + 0.026*"problem" + 0.026*"code" + 0.018*"change" + 0.018*"step" + 0.018*"replace" + 0.018*"dvaput" + 0.018*"function"')
+(2, '0.010*"add" + 0.010*"use" + 0.010*"fix" + 0.010*"code" + 0.010*"problem" + 0.010*"function" + 0.010*"first" + 0.010*"dvaput" + 0.010*"replace" + 0.010*"step"')
+(3, '0.242*"add" + 0.071*"solution" + 0.025*"py" + 0.025*"sysstdin" + 0.025*"make" + 0.025*"bit" + 0.025*"class" + 0.025*"build" + 0.025*"read" + 0.025*"use"')
+(4, '0.011*"add" + 0.010*"solution" + 0.010*"problem" + 0.010*"use" + 0.010*"fix" + 0.010*"code" + 0.010*"easy" + 0.010*"first" + 0.010*"replace" + 0.010*"step"')
+
+------------------------
+NUMTopics = 6
+(0, '0.251*"add" + 0.073*"solution" + 0.026*"stdin" + 0.026*"input" + 0.026*"read" + 0.026*"easy" + 0.026*"build" + 0.026*"use" + 0.026*"class" + 0.026*"bit"')
+(1, '0.076*"add" + 0.043*"fix" + 0.035*"use" + 0.026*"problem" + 0.026*"code" + 0.018*"change" + 0.018*"step" + 0.018*"replace" + 0.018*"dvaput" + 0.018*"function"')
+(2, '0.010*"add" + 0.010*"use" + 0.010*"fix" + 0.010*"code" + 0.010*"problem" + 0.010*"function" + 0.010*"first" + 0.010*"dvaput" + 0.010*"replace" + 0.010*"algorithmscom"')
+(3, '0.014*"add" + 0.011*"solution" + 0.010*"py" + 0.010*"sysstdin" + 0.010*"make" + 0.010*"bit" + 0.010*"class" + 0.010*"build" + 0.010*"read" + 0.010*"use"')
+(4, '0.010*"add" + 0.010*"problem" + 0.010*"fix" + 0.010*"code" + 0.010*"use" + 0.010*"solution" + 0.010*"first" + 0.010*"replace" + 0.010*"step" + 0.010*"dvaput"')
+(5, '0.010*"add" + 0.010*"use" + 0.010*"fix" + 0.010*"problem" + 0.010*"code" + 0.010*"step" + 0.010*"first" + 0.010*"increase" + 0.010*"replace" + 0.010*"function"')
+
+------------------------
+NUMTopics = 7
+(0, '0.010*"add" + 0.010*"solution" + 0.010*"fix" + 0.010*"use" + 0.010*"problem" + 0.010*"stdin" + 0.010*"build" + 0.010*"easy" + 0.010*"class" + 0.010*"implementation"')
+(1, '0.078*"add" + 0.044*"fix" + 0.035*"use" + 0.027*"code" + 0.027*"problem" + 0.018*"change" + 0.018*"replace" + 0.018*"function" + 0.018*"step" + 0.018*"dvaput"')
+(2, '0.010*"add" + 0.010*"fix" + 0.010*"use" + 0.010*"code" + 0.010*"problem" + 0.010*"function" + 0.010*"first" + 0.010*"dvaput" + 0.010*"replace" + 0.010*"step"')
+(3, '0.010*"add" + 0.010*"solution" + 0.010*"fix" + 0.010*"use" + 0.010*"py" + 0.010*"problem" + 0.010*"sysstdin" + 0.010*"build" + 0.010*"implementation" + 0.010*"bit"')
+(4, '0.010*"add" + 0.010*"fix" + 0.010*"problem" + 0.010*"code" + 0.010*"use" + 0.010*"replace" + 0.010*"first" + 0.010*"step" + 0.010*"dvaput" + 0.010*"function"')
+(5, '0.010*"add" + 0.010*"solution" + 0.010*"use" + 0.010*"fix" + 0.010*"problem" + 0.010*"implementation" + 0.010*"sysstdin" + 0.010*"build" + 0.010*"easy" + 0.010*"read"')
+(6, '0.258*"add" + 0.075*"solution" + 0.026*"use" + 0.026*"bit" + 0.026*"py" + 0.026*"read" + 0.026*"input" + 0.026*"make" + 0.026*"sysstdin" + 0.026*"class"')
+
+------------------------
+NUMTopics = 8
+(0, '0.010*"add" + 0.010*"solution" + 0.010*"use" + 0.010*"fix" + 0.010*"problem" + 0.010*"stdin" + 0.010*"build" + 0.010*"easy" + 0.010*"class" + 0.010*"code"')
+(1, '0.079*"add" + 0.044*"fix" + 0.036*"use" + 0.027*"problem" + 0.027*"code" + 0.018*"change" + 0.018*"replace" + 0.018*"function" + 0.018*"dvaput" + 0.018*"step"')
+(2, '0.010*"add" + 0.010*"fix" + 0.010*"use" + 0.010*"code" + 0.010*"problem" + 0.010*"function" + 0.010*"first" + 0.010*"dvaput" + 0.010*"replace" + 0.010*"want"')
+(3, '0.010*"add" + 0.010*"solution" + 0.010*"fix" + 0.010*"use" + 0.010*"py" + 0.010*"build" + 0.010*"sysstdin" + 0.010*"class" + 0.010*"problem" + 0.010*"easy"')
+(4, '0.010*"add" + 0.010*"solution" + 0.010*"fix" + 0.010*"problem" + 0.010*"use" + 0.010*"build" + 0.010*"easy" + 0.010*"class" + 0.010*"input" + 0.010*"replace"')
+(5, '0.010*"add" + 0.010*"solution" + 0.010*"use" + 0.010*"fix" + 0.010*"problem" + 0.010*"implementation" + 0.010*"sysstdin" + 0.010*"build" + 0.010*"class" + 0.010*"py"')
+(6, '0.264*"add" + 0.076*"solution" + 0.027*"use" + 0.027*"py" + 0.027*"bit" + 0.027*"input" + 0.027*"make" + 0.027*"class" + 0.027*"read" + 0.027*"sysstdin"')
+(7, '0.011*"add" + 0.010*"fix" + 0.010*"code" + 0.010*"use" + 0.010*"problem" + 0.010*"step" + 0.010*"solution" + 0.010*"first" + 0.010*"function" + 0.010*"replace"')
+
+------------------------
+NUMTopics = 9
+(0, '0.010*"add" + 0.010*"solution" + 0.010*"problem" + 0.010*"use" + 0.010*"fix" + 0.010*"easy" + 0.010*"bit" + 0.010*"build" + 0.010*"class" + 0.010*"implementation"')
+(1, '0.080*"add" + 0.045*"fix" + 0.036*"use" + 0.027*"problem" + 0.027*"code" + 0.018*"change" + 0.018*"replace" + 0.018*"function" + 0.018*"dvaput" + 0.018*"step"')
+(2, '0.010*"add" + 0.010*"fix" + 0.010*"use" + 0.010*"code" + 0.010*"problem" + 0.010*"function" + 0.010*"first" + 0.010*"dvaput" + 0.010*"replace" + 0.010*"algorithmscom"')
+(3, '0.010*"add" + 0.010*"solution" + 0.010*"fix" + 0.010*"use" + 0.010*"first" + 0.010*"easy" + 0.010*"py" + 0.010*"class" + 0.010*"build" + 0.010*"implementation"')
+(4, '0.010*"add" + 0.010*"solution" + 0.010*"fix" + 0.010*"problem" + 0.010*"use" + 0.010*"py" + 0.010*"build" + 0.010*"class" + 0.010*"easy" + 0.010*"implementation"')
+(5, '0.010*"add" + 0.010*"solution" + 0.010*"fix" + 0.010*"use" + 0.010*"problem" + 0.010*"make" + 0.010*"easy" + 0.010*"input" + 0.010*"build" + 0.010*"py"')
+(6, '0.269*"add" + 0.078*"solution" + 0.027*"use" + 0.027*"py" + 0.027*"bit" + 0.027*"input" + 0.027*"make" + 0.027*"class" + 0.027*"read" + 0.027*"sysstdin"')
+(7, '0.010*"add" + 0.010*"solution" + 0.010*"fix" + 0.010*"use" + 0.010*"code" + 0.010*"problem" + 0.010*"easy" + 0.010*"step" + 0.010*"stdin" + 0.010*"build"')
+(8, '0.010*"add" + 0.010*"code" + 0.010*"use" + 0.010*"fix" + 0.010*"first" + 0.010*"problem" + 0.010*"step" + 0.010*"function" + 0.010*"dvaput" + 0.010*"replace"')
+
+------------------------

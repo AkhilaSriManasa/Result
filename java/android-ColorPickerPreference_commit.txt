@@ -1,0 +1,91 @@
+﻿ Use android:title as color picker dialog title (#50)
+
+* Enabled multidex
+
+* Used PreferenceFragmentCompat
+
+Used PreferenceFragmentCompat instead of Preference.
+This will also made the library works well with AppCompat and AndroidX
+
+* Use android:title as dialog title
+ Use androidx.preference.Preference (#49)
+
+* Enable MultiDex
+* Use PreferenceFragmentCompat
+
+Use PreferenceFragmentCompat instead of Preference.
+This will also make the library works with AppCompat and AndroidX
+ fix comment typo
+ Build update to android pie - API 28 (#45)
+ Update LICENSE
+ Merge pull request #42 from stephanepechard/master
+
+Upload to bintray for gradle installation
+ Upload to bintray
+ Merge pull request #37 from daxgirl/master
+
+Fix for perisisting defaultValue attr
+ Added annotations to edited method
+Removed "unused" annotation from a method used to convert hex string to color integer.
+ Fix for setting DefaultValue as hex string
+
+I have noticed that when you set defaultValue you can only set it as an actual color integer.
+
+1. If you set it as hex string it crashes, as it expects integer
+2. If you set it as reference to resources color, it persists 0 into shared preferences
+
+Method onGetDefaultValue was modified to look for a string and if it is not null, to use built in method to parse hex string into color integer and return it as default. Color hex can only be used with 6 or 8 chars. If the string is null, it will look for an integer and use it.
+ Reversed to original
+ Fix for setting DefaultValue as hex string
+
+I have noticed that when you set defaultValue you can only set it as an actual color integer.
+
+1. If you set it as hex string it crashes, as it expects integer
+2. If you set it as reference to resources color, it persists 0 into shared preferences
+
+Method onGetDefaultValue was modified to look for a string and if it is not null, to use built in method to parse hex string into color integer and return it as default. Color hex can only be used with 6 or 8 chars. If the string is null, it will look for an integer and use it.
+ Fix for setting DefaultValue as hex string
+
+I have noticed that when you set defaultValue you can only set it as an actual color integer.
+
+1. If you set it as hex string it crashes, as it expects integer
+2. If you set it as reference to resources color, it persists 0 into shared preferences
+
+Method onGetDefaultValue was modified to look for a string and if it is not null, to use built in method to parse hex string into color integer and return it as default. Color hex can only be used with 6 or 8 chars. If the string is null, it will look for an integer and use it.
+ Merge pull request #35 from sherpya/master
+
+fixed rotation when using android:configChanges
+ fixed rotation when using android:configChanges
+
+If the mainfest has config changes attributes for an activity
+
+e.g. using
+android:configChanges="keyboard|keyboardHidden|orientation|screenSize|locale"
+
+the layout is not re-created on orientation change.
+Since the ColorPicker dialog uses different layouts for different
+orientations, it will end up using the wrong layout.
+
+Added a global layout change observer to detect this change
+and recreate the layout
+ Merge pull request #34 from JoseGD/sample-separated
+
+Sample project moved to a separate directory
+ Sample project moved to a separate directory
+ fix incorrect path
+ back to original namespace net.margaritov
+ remove .idea folder
+ fix incorrect path
+ Merge pull request #32 from JudeRosario/master
+
+Added setup instructions to project
+ Added setup instructions to project
+ Merge pull request #31 from C0br4/master
+
+Made change to Androidstudio
+ Merge remote-tracking branch 'origin/master'
+ replaced old relict package names in layouts
+ Updated Readme.rst
+ Update Readme
+ updated to AndroidStudio project structure
+ Update README.rst

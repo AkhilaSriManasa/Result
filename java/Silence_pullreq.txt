@@ -1,0 +1,150 @@
+﻿ Stringlate af 8824
+ Please add this Afrikaans translation. The existing one seem to have been made by a translation AI.
+ Add makefile
+ ### Description
+Adding Android makefile to enable Silence to be build as system app during making Android ROM.
+ Add Support for 18:9 device ratio
+ fixes #714
+ Updated af (Afrikaans) translation
+ Commit made via [Stringlate](https://lonamiwebs.github.io/stringlate/)
+ Updating Gradle to 4.4
+ Updating Gradle from 3.3 to 4.4 
+
+Preparing the integration of the vcard4android library.
+
+ spaces
+ spaces
+ Fix encoding of plaintext backups
+ Fixes #659 :
+Rewrite special characters escaping in plaintext backups to avoid having some characters illegally escaped (such as surrogates characters).
+This PR uses Apache Commons's XML escaping method instead, which correctly handles character encoding, so the part using regex to match characters that needed to be encoded has been removed.
+
+Also force UTF-8 encoding of output file to match the charset specified in it.
+ Project improvements : proposals from Android Studio
+ I applied some of the propositions that Android Studio inspector found in Silence.
+I let you cherry-pick the commits that you want.
+
+For me the more usefull commits are :
+- "SDK_INT is never <9 because minSdkVersion 9"
+ Patch for #662
+ Bug fix for issue #662 
+ NPE fix (No identity key)
+ Fixes an NPE when trying to display the identity key (when user has no identity key) in a QrCode
+ Transiflex
+ 
+ Removed com.madgag.spongycastle:prov dependency
+ I removed the ```com.madgag.spongycastle``` dependency to reduce the number of dependencies of Signal and because it makes a lot of code that is unused.
+
+I added tests for most of the code of ```class org.smssecure.smssecure.util.Hex```
+
+I hope @BLeQuerrec that you will be interested by this PR.
+ Add option to share key fingerprint
+ Add an option to the "your identity key" menu allowing to share your key fingerprint using android share function.
+ 
+Fixes #601 
+
+ App name should not be translated
+ 
+ Remove duplicate summary for "unread divider"
+ ...as it does not actually add any more info.
+ Emoji extractor improvement
+ Migrates emoji-extractor script to Python3, improving code style (PEP8, etc). Adapts work done by ariasuni in PR #575.
+
+Tested against both Python 3.6 (latest stable 3.X) and 3.4 (earliest stable 3.X) by running on NotoColorEmoji.ttf from googlei18n/noto-emoji.
+
+
+ Updated de (German) translation
+ Commit made via Stringlate
+ Adding an option to disable the new message separator in conversation
+ ### Description
+Adding an option to the SMS/MMS preference section to hide the new message separator.
+
+Closes #559
+  
+ Allow usage of system emoji instead of built-in support
+ ### Description
+As some users using Android 6 / 7 consider the new Android 8 emoji as ugly, here's an option to use system emoji instead of built-in emoji.
+
+When switched on, this option deactivates the built-in emoji drawer, letting the user use the keyboard's emoji panel. Silence will render emoji using system ones.
+
+This commit allows users to use other emoji sets (via Magisk modules per instance).
+
+ Do not use container for long encrypted messages, prepare to multiple wire prefixes
+ Long encrypted messages are embed in containers and sent in multiple splitted messages. Splitted messages aren't displayed and Silence stores them to wait for the full container. This way to send encrypted messages creates a risk to consider an unencrypted message as a contained one, resulting in lost of unencrypted messages in rare (but plausible) situations.
+
+This PR changes the way to send encrypted messages. They aren't splitted in containers anymore. Non contained encrypted messages will be fully recognized and decrypted by previous Silence releases.
+
+The first commit do not change the way to receive and decrypt messages yet. So it can still lost unencrypted messages. The second displays containers instead of discarding them, resulting in no more lost messages but garbage if recipient uses old version. We can:
+
+- Merge the PR as it and release a new tag. This will fix a lot of bugs but encrypted messages sent with Silence >= 0.15.8 will result in garbage for users with the new release (those messages won't be lost, anyway).
+\- OR -
+- Merge the first commit only, release the new tag and wait for ~1 month until users update their version. Then, we will merge the second commit and push another update. This will result in less garbage as most of users should use the version with the way to send encrypted messages, but at the cost that we will wait for a month to fix issues.
+ Display emojis natively
+ Instead of re-implementing everything to do with inserting, displaying,
+copying, etc. emojis, we fall back on the OS to do everything.
+
+This results in better compatibility, less bugs, less unexpected
+behavior, a smaller app size, and a more native experience.
+
+Fixes #607 - emojis are now the same between notifications and within the app
+Fixes #593 - emoji display being handled by the OS means they are always displayed properly
+Fixes #587 - uses the system emoji pack which can be changed (albeit with root/Xposed/Magisk)
+Fixes #525 - uses the familiar system arrangement of emojis
+Fixes #513 - same as 587
+Fixes #458 - Letting the OS handle emojis should fix any crashes around rendering them
+
+The downside is that some keyboards that don't provide a way to insert emoji won't be able to insert emoji. However, IMO this a bug with those keyboards and shouldn't compromise the quality of this app. I'm open to discussion on fixes/workarounds (that don't involve baking in a specific set of emojis into the app).
+ Spelling: All TX bugreports cleared
+ Initiate → start
+Successfully →
+Send failed → Sending failed
+Unarchive → De-archivation
+
+Textblocks shortened and improved
+ Configurable font size
+ It's quiet difficult for me without my glasses to read/write correctly my Silence messages because of the small font size. Could you please make it configurable ?
+Thanks a lot for your work on Silence.
+ Materialize app icon
+ ### Description
+It's an attempt to materialize the icon (including the dark version), though not guaranteed to fully match the standard.
+
+ spelling error corrected
+ wrong: `Privatspäre`  
+correct: `Privatsphäre`
+ Add an option to delay sending message
+ ### Description
+
+Add an option that allows to trigger a countdown after pressing the "send" button. It gives a chance to the user to cancel the message just before it is sent. Perfect for fat fingers :) .
+
+Tested on my OnePlus 5 running OxygenOS 4.5.6 (Android 7.1.1) and on my LG G4 running latest LineageOS nightly (Android 7.1.1).
+
+Thanks.
+ Add graphics in a fastlane supply directory structure
+ This will allow the screenshots to be used in the F-Droid store.
+
+See https://fdroid.gitlab.io/fdroid-website/docs/All_About_Descriptions_Graphics_and_Screenshots/
+for more details
+
+Ref #583
+ Cleaning and improvement of emoji-extractor scripts
+ - Code style (PEP8, etc.)
+- Migration to Python3
+- Minor logic cleaning/improvement
+- Important factorization
+ Update strings.xml
+ - Improved lexical consistency
+- Fixed typos, grammar, punctuation
+ Add buttons to get the app easily
+ <!-- Please ensure that:
+- You are requesting `unstable` as base branch
+- You have followed the Code Style Guidelines: https://github.com/WhisperSystems/Signal-Android/wiki/Code-Style-Guidelines
+- Your contribution is ready to be merged as is
+-->
+
+### Description
+<!--
+Describe briefly what your pull request proposes to fix. Especially if you have more than one commit, it is helpful to give a summary of what your contribution as a whole is trying to solve. You can also use the `fixes #1234` syntax to refer to specific issues either here or in your commit message.
+Also, please describe shortly how you tested that your fix actually works and the devices you tested it on.
+-->
+
+Add buttons with links to F-Droid and Google Play Store

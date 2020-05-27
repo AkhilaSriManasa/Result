@@ -1,0 +1,503 @@
+﻿ update mysql connector, fix #131
+ update mysql connector, fix #131
+ Update mysql driver version
+ Change from 5.1.41 to 5.1.48 to make it works with MySql > [Security] Bump com.fasterxml.jackson.version from 2.9.9 to 2.10.0.pr1
+ Bumps `com.fasterxml.jackson.version` from 2.9.9 to 2.10.0.pr1.
+
+Updates `jackson-core` from 2.9.9 to 2.10.0.pr1
+<details>
+<summary>Commits</summary>
+
+- [`01a392d`](https://github.com/FasterXML/jackson-core/commit/01a392d7b5f2894bf70baac2941ee3374b4feec9) [maven-release-plugin] prepare release jackson-core-2.10.0.pr1
+- [`cfd0e0a`](https://github.com/FasterXML/jackson-core/commit/cfd0e0a09781e8f690c007df528e9eb25a54e453) uh, try that again
+- [`317acaa`](https://github.com/FasterXML/jackson-core/commit/317acaa5a3cfb160a33b9ab29c50018ee3b95c84) [maven-release-plugin] prepare for next development iteration
+- [`03c16b5`](https://github.com/FasterXML/jackson-core/commit/03c16b53eb17e3407de01a790d5afc619baaabb1) [maven-release-plugin] prepare release jackson-core-2.10.0.pr1
+- [`26d6c0d`](https://github.com/FasterXML/jackson-core/commit/26d6c0deb752938a04bc2007c6cd64b024fd645b) prepare for 2.10.0.pr1
+- [`155d1db`](https://github.com/FasterXML/jackson-core/commit/155d1dba958b471351f9f6a10834247c5c67aece) Merge branch '2.9' into 2.10
+- [`e473e99`](https://github.com/FasterXML/jackson-core/commit/e473e9987e2cfe438e80002d2d1da86fade3c6d8) Fix [#540](https://github-redirect.dependabot.com/FasterXML/jackson-core/issues/540)
+- [`d88d8f0`](https://github.com/FasterXML/jackson-core/commit/d88d8f07f18b2f1cc8965eec2af2137000757bb0) javadoc improvements
+- [`9e57cbf`](https://github.com/FasterXML/jackson-core/commit/9e57cbf487b94f02eab9a4743da6a47bf9aeddd1) Minor naming improvement for internal buffer
+- [`ef8f95d`](https://github.com/FasterXML/jackson-core/commit/ef8f95d47710eaaae714b2b01f48d3db72fe2c7e) Merge branch '2.10' of https://github.com/FasterXML/jackson-core into 2.10
+- Additional commits viewable in [compare view](https://github.com/FasterXML/jackson-core/compare/jackson-core-2.9.9...jackson-core-2.10.0.pr1)
+</details>
+<br />
+
+Updates `jackson-databind` from 2.9.9 to 2.10.0.pr1 **This update includes a security fix.**
+<details>
+<summary>Vulnerabilities fixed</summary>
+
+*Sourced from The GitHub Security Advisory Database.*
+
+> **Low severity vulnerability that affects com.fasterxml.jackson.core:jackson-databind**
+> FasterXML jackson-databind 2.x before 2.9.9.1 might allow attackers to have a variety of impacts by leveraging failure to block the logback-core class from polymorphic deserialization. Depending on the classpath content, remote code execution may be possible.
+> 
+> Affected versions: < 2.9.9.1
+
+</details>
+<details>
+<summary>Commits</summary>
+
+- See full diff in [compare view](https://github.com/FasterXML/jackson/commits)
+</details>
+<br />
+
+Updates `jackson-annotations` from 2.9.9 to 2.10.0.pr1
+<details>
+<summary>Commits</summary>
+
+- See full diff in [compare view](https://github.com/FasterXML/jackson/commits)
+</details>
+<br />
+
+Dependabot will resolve any conflicts with this PR as long as you don't alter it yourself. You can also trigger a rebase manually by commenting `@dependabot rebase`.
+
+[//]: # (dependabot-automerge-start)
+[//]: # (dependabot-automerge-end)
+
+---
+
+<details>
+<summary>Dependabot commands and options</summary>
+<br />
+
+You can trigger Dependabot actions by commenting on this PR:
+- `@dependabot rebase` will rebase this PR
+- `@dependabot recreate` will recreate this PR, overwriting any edits that have been made to it
+- `@dependabot merge` will merge this PR after your CI passes on it
+- `@dependabot squash and merge` will squash and merge this PR after your CI passes on it
+- `@dependabot cancel merge` will cancel a previously requested merge and block automerging
+- `@dependabot reopen` will reopen this PR if it is closed
+- `@dependabot ignore this [patch|minor|major] version` will close this PR and stop Dependabot creating any more for this minor/major version (unless you reopen the PR or upgrade to it). To ignore the version in this PR you can just close it
+- `@dependabot ignore this dependency` will close this PR and stop Dependabot creating any more for this dependency (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot use these labels` will set the current labels as the default for future PRs for this repo and language
+- `@dependabot use these reviewers` will set the current reviewers as the default for future PRs for this repo and language
+- `@dependabot use these assignees` will set the current assignees as the default for future PRs for this repo and language
+- `@dependabot use this milestone` will set the current milestone as the default for future PRs for this repo and language
+- `@dependabot badge me` will comment on this PR with code to add a "Dependabot enabled" badge to your readme
+
+Additionally, you can set the following in your Dependabot [dashboard](https://app.dependabot.com):
+- Update frequency (including time of day and day of week)
+- Automerge options (never/patch/minor, and dev/runtime dependencies)
+- Pull request limits (per update run and/or open at any time)
+- Out-of-range updates (receive only lockfile updates, if desired)
+- Security updates (receive only security updates, if desired)
+
+Finally, you can contact us by mentioning @dependabot.
+
+</details>
+ Squash Integration
+ This is a patch to integrate Squash.io with Lavagna. I believe this is going to be handy to the project so any project maintainers and developers can quickly check the branch changes deployed on its own isolated VM.
+
+Example of Lavagna working with Squash (credentials: user/user): https://squash-setup-cagmw.squash.io
+
+Squash is free for Open Source, maintainers just need to [signup](https://squash.io/signup/) and reach out to the support through the chat window and we will enable a forever free Open Source account. Once this is done, Squash will post a comment on each Pull Request like this:
+
+![squash-pr-comment](https://user-images.githubusercontent.com/98694/50752537-de98b200-120b-11e9-9d8f-264eddc4ca3f.png)
+
+When you click on the Squash link in a new PR it will deploy the branch of code into a brand new VM, **this process takes about 2 minutes**.  
+
+Let me know what you think please. Thanks.
+
+
+ Bump org.springframework.version from 5.0.10.RELEASE to 5.1.1.RELEASE
+ Bumps `org.springframework.version` from 5.0.10.RELEASE to 5.1.1.RELEASE.
+
+Updates `spring-webmvc` from 5.0.10.RELEASE to 5.1.1.RELEASE
+<details>
+<summary>Commits</summary>
+
+- [`601fb6f`](https://github.com/spring-projects/spring-framework/commit/601fb6fb226d7e257de6c3b50fe556a987542ede) Release version 5.1.1.RELEASE
+- [`423aa28`](https://github.com/spring-projects/spring-framework/commit/423aa28ed584b4ff6e5bad218c09beef5e91951e) HttpRange validates requested ranges
+- [`5094941`](https://github.com/spring-projects/spring-framework/commit/50949415d71dea9ff07d4f5d2ad85732e46918a0) Upgrade spring-test to Hibernate ORM 5.3.6 (for JDK 11 compatibility)
+- [`608fd76`](https://github.com/spring-projects/spring-framework/commit/608fd766cb0ba461992101579ecc3223a23ace86) Upgrade to Checkstyle 8.13, Groovy 2.5.3, Aalto XML 1.1.1
+- [`58b3af9`](https://github.com/spring-projects/spring-framework/commit/58b3af94758ea8e6f5521dfecfcf3ab9d3610456) Nullability fine-tuning and related polishing
+- [`5f2d47a`](https://github.com/spring-projects/spring-framework/commit/5f2d47a17eaba88a19e011e600f4f09f262e88bf) MethodValidationInterceptor excludes FactoryBean metadata methods
+- [`2255d22`](https://github.com/spring-projects/spring-framework/commit/2255d222e311ade8813308626ea2da954c7825c0) Fix punctuation in reference manual ([#1992](https://github-redirect.dependabot.com/spring-projects/spring-framework/issues/1992))
+- [`ecd0d7f`](https://github.com/spring-projects/spring-framework/commit/ecd0d7f0f6bc26c12f7bc1ed85aad4618bc726e2) Complete initialization with bindToRouterFunction
+- [`309e70a`](https://github.com/spring-projects/spring-framework/commit/309e70a48e6c8ce5e3199d31a753f08d82f60020) Separate factory method cache for introspection purposes
+- [`658c7f9`](https://github.com/spring-projects/spring-framework/commit/658c7f99d7a2ce6a931bf6b0c61d662ca6f57afb) Lenient date parsing in HeadersResultMatchers
+- Additional commits viewable in [compare view](https://github.com/spring-projects/spring-framework/compare/v5.0.10.RELEASE...v5.1.1.RELEASE)
+</details>
+<br />
+
+Updates `spring-websocket` from 5.0.10.RELEASE to 5.1.1.RELEASE
+<details>
+<summary>Commits</summary>
+
+- [`601fb6f`](https://github.com/spring-projects/spring-framework/commit/601fb6fb226d7e257de6c3b50fe556a987542ede) Release version 5.1.1.RELEASE
+- [`423aa28`](https://github.com/spring-projects/spring-framework/commit/423aa28ed584b4ff6e5bad218c09beef5e91951e) HttpRange validates requested ranges
+- [`5094941`](https://github.com/spring-projects/spring-framework/commit/50949415d71dea9ff07d4f5d2ad85732e46918a0) Upgrade spring-test to Hibernate ORM 5.3.6 (for JDK 11 compatibility)
+- [`608fd76`](https://github.com/spring-projects/spring-framework/commit/608fd766cb0ba461992101579ecc3223a23ace86) Upgrade to Checkstyle 8.13, Groovy 2.5.3, Aalto XML 1.1.1
+- [`58b3af9`](https://github.com/spring-projects/spring-framework/commit/58b3af94758ea8e6f5521dfecfcf3ab9d3610456) Nullability fine-tuning and related polishing
+- [`5f2d47a`](https://github.com/spring-projects/spring-framework/commit/5f2d47a17eaba88a19e011e600f4f09f262e88bf) MethodValidationInterceptor excludes FactoryBean metadata methods
+- [`2255d22`](https://github.com/spring-projects/spring-framework/commit/2255d222e311ade8813308626ea2da954c7825c0) Fix punctuation in reference manual ([#1992](https://github-redirect.dependabot.com/spring-projects/spring-framework/issues/1992))
+- [`ecd0d7f`](https://github.com/spring-projects/spring-framework/commit/ecd0d7f0f6bc26c12f7bc1ed85aad4618bc726e2) Complete initialization with bindToRouterFunction
+- [`309e70a`](https://github.com/spring-projects/spring-framework/commit/309e70a48e6c8ce5e3199d31a753f08d82f60020) Separate factory method cache for introspection purposes
+- [`658c7f9`](https://github.com/spring-projects/spring-framework/commit/658c7f99d7a2ce6a931bf6b0c61d662ca6f57afb) Lenient date parsing in HeadersResultMatchers
+- Additional commits viewable in [compare view](https://github.com/spring-projects/spring-framework/compare/v5.0.10.RELEASE...v5.1.1.RELEASE)
+</details>
+<br />
+
+Updates `spring-messaging` from 5.0.10.RELEASE to 5.1.1.RELEASE
+<details>
+<summary>Commits</summary>
+
+- [`601fb6f`](https://github.com/spring-projects/spring-framework/commit/601fb6fb226d7e257de6c3b50fe556a987542ede) Release version 5.1.1.RELEASE
+- [`423aa28`](https://github.com/spring-projects/spring-framework/commit/423aa28ed584b4ff6e5bad218c09beef5e91951e) HttpRange validates requested ranges
+- [`5094941`](https://github.com/spring-projects/spring-framework/commit/50949415d71dea9ff07d4f5d2ad85732e46918a0) Upgrade spring-test to Hibernate ORM 5.3.6 (for JDK 11 compatibility)
+- [`608fd76`](https://github.com/spring-projects/spring-framework/commit/608fd766cb0ba461992101579ecc3223a23ace86) Upgrade to Checkstyle 8.13, Groovy 2.5.3, Aalto XML 1.1.1
+- [`58b3af9`](https://github.com/spring-projects/spring-framework/commit/58b3af94758ea8e6f5521dfecfcf3ab9d3610456) Nullability fine-tuning and related polishing
+- [`5f2d47a`](https://github.com/spring-projects/spring-framework/commit/5f2d47a17eaba88a19e011e600f4f09f262e88bf) MethodValidationInterceptor excludes FactoryBean metadata methods
+- [`2255d22`](https://github.com/spring-projects/spring-framework/commit/2255d222e311ade8813308626ea2da954c7825c0) Fix punctuation in reference manual ([#1992](https://github-redirect.dependabot.com/spring-projects/spring-framework/issues/1992))
+- [`ecd0d7f`](https://github.com/spring-projects/spring-framework/commit/ecd0d7f0f6bc26c12f7bc1ed85aad4618bc726e2) Complete initialization with bindToRouterFunction
+- [`309e70a`](https://github.com/spring-projects/spring-framework/commit/309e70a48e6c8ce5e3199d31a753f08d82f60020) Separate factory method cache for introspection purposes
+- [`658c7f9`](https://github.com/spring-projects/spring-framework/commit/658c7f99d7a2ce6a931bf6b0c61d662ca6f57afb) Lenient date parsing in HeadersResultMatchers
+- Additional commits viewable in [compare view](https://github.com/spring-projects/spring-framework/compare/v5.0.10.RELEASE...v5.1.1.RELEASE)
+</details>
+<br />
+
+Updates `spring-jdbc` from 5.0.10.RELEASE to 5.1.1.RELEASE
+<details>
+<summary>Commits</summary>
+
+- [`601fb6f`](https://github.com/spring-projects/spring-framework/commit/601fb6fb226d7e257de6c3b50fe556a987542ede) Release version 5.1.1.RELEASE
+- [`423aa28`](https://github.com/spring-projects/spring-framework/commit/423aa28ed584b4ff6e5bad218c09beef5e91951e) HttpRange validates requested ranges
+- [`5094941`](https://github.com/spring-projects/spring-framework/commit/50949415d71dea9ff07d4f5d2ad85732e46918a0) Upgrade spring-test to Hibernate ORM 5.3.6 (for JDK 11 compatibility)
+- [`608fd76`](https://github.com/spring-projects/spring-framework/commit/608fd766cb0ba461992101579ecc3223a23ace86) Upgrade to Checkstyle 8.13, Groovy 2.5.3, Aalto XML 1.1.1
+- [`58b3af9`](https://github.com/spring-projects/spring-framework/commit/58b3af94758ea8e6f5521dfecfcf3ab9d3610456) Nullability fine-tuning and related polishing
+- [`5f2d47a`](https://github.com/spring-projects/spring-framework/commit/5f2d47a17eaba88a19e011e600f4f09f262e88bf) MethodValidationInterceptor excludes FactoryBean metadata methods
+- [`2255d22`](https://github.com/spring-projects/spring-framework/commit/2255d222e311ade8813308626ea2da954c7825c0) Fix punctuation in reference manual ([#1992](https://github-redirect.dependabot.com/spring-projects/spring-framework/issues/1992))
+- [`ecd0d7f`](https://github.com/spring-projects/spring-framework/commit/ecd0d7f0f6bc26c12f7bc1ed85aad4618bc726e2) Complete initialization with bindToRouterFunction
+- [`309e70a`](https://github.com/spring-projects/spring-framework/commit/309e70a48e6c8ce5e3199d31a753f08d82f60020) Separate factory method cache for introspection purposes
+- [`658c7f9`](https://github.com/spring-projects/spring-framework/commit/658c7f99d7a2ce6a931bf6b0c61d662ca6f57afb) Lenient date parsing in HeadersResultMatchers
+- Additional commits viewable in [compare view](https://github.com/spring-projects/spring-framework/compare/v5.0.10.RELEASE...v5.1.1.RELEASE)
+</details>
+<br />
+
+Updates `spring-context-support` from 5.0.10.RELEASE to 5.1.1.RELEASE
+<details>
+<summary>Commits</summary>
+
+- [`601fb6f`](https://github.com/spring-projects/spring-framework/commit/601fb6fb226d7e257de6c3b50fe556a987542ede) Release version 5.1.1.RELEASE
+- [`423aa28`](https://github.com/spring-projects/spring-framework/commit/423aa28ed584b4ff6e5bad218c09beef5e91951e) HttpRange validates requested ranges
+- [`5094941`](https://github.com/spring-projects/spring-framework/commit/50949415d71dea9ff07d4f5d2ad85732e46918a0) Upgrade spring-test to Hibernate ORM 5.3.6 (for JDK 11 compatibility)
+- [`608fd76`](https://github.com/spring-projects/spring-framework/commit/608fd766cb0ba461992101579ecc3223a23ace86) Upgrade to Checkstyle 8.13, Groovy 2.5.3, Aalto XML 1.1.1
+- [`58b3af9`](https://github.com/spring-projects/spring-framework/commit/58b3af94758ea8e6f5521dfecfcf3ab9d3610456) Nullability fine-tuning and related polishing
+- [`5f2d47a`](https://github.com/spring-projects/spring-framework/commit/5f2d47a17eaba88a19e011e600f4f09f262e88bf) MethodValidationInterceptor excludes FactoryBean metadata methods
+- [`2255d22`](https://github.com/spring-projects/spring-framework/commit/2255d222e311ade8813308626ea2da954c7825c0) Fix punctuation in reference manual ([#1992](https://github-redirect.dependabot.com/spring-projects/spring-framework/issues/1992))
+- [`ecd0d7f`](https://github.com/spring-projects/spring-framework/commit/ecd0d7f0f6bc26c12f7bc1ed85aad4618bc726e2) Complete initialization with bindToRouterFunction
+- [`309e70a`](https://github.com/spring-projects/spring-framework/commit/309e70a48e6c8ce5e3199d31a753f08d82f60020) Separate factory method cache for introspection purposes
+- [`658c7f9`](https://github.com/spring-projects/spring-framework/commit/658c7f99d7a2ce6a931bf6b0c61d662ca6f57afb) Lenient date parsing in HeadersResultMatchers
+- Additional commits viewable in [compare view](https://github.com/spring-projects/spring-framework/compare/v5.0.10.RELEASE...v5.1.1.RELEASE)
+</details>
+<br />
+
+Updates `spring-test` from 5.0.10.RELEASE to 5.1.1.RELEASE
+<details>
+<summary>Commits</summary>
+
+- [`601fb6f`](https://github.com/spring-projects/spring-framework/commit/601fb6fb226d7e257de6c3b50fe556a987542ede) Release version 5.1.1.RELEASE
+- [`423aa28`](https://github.com/spring-projects/spring-framework/commit/423aa28ed584b4ff6e5bad218c09beef5e91951e) HttpRange validates requested ranges
+- [`5094941`](https://github.com/spring-projects/spring-framework/commit/50949415d71dea9ff07d4f5d2ad85732e46918a0) Upgrade spring-test to Hibernate ORM 5.3.6 (for JDK 11 compatibility)
+- [`608fd76`](https://github.com/spring-projects/spring-framework/commit/608fd766cb0ba461992101579ecc3223a23ace86) Upgrade to Checkstyle 8.13, Groovy 2.5.3, Aalto XML 1.1.1
+- [`58b3af9`](https://github.com/spring-projects/spring-framework/commit/58b3af94758ea8e6f5521dfecfcf3ab9d3610456) Nullability fine-tuning and related polishing
+- [`5f2d47a`](https://github.com/spring-projects/spring-framework/commit/5f2d47a17eaba88a19e011e600f4f09f262e88bf) MethodValidationInterceptor excludes FactoryBean metadata methods
+- [`2255d22`](https://github.com/spring-projects/spring-framework/commit/2255d222e311ade8813308626ea2da954c7825c0) Fix punctuation in reference manual ([#1992](https://github-redirect.dependabot.com/spring-projects/spring-framework/issues/1992))
+- [`ecd0d7f`](https://github.com/spring-projects/spring-framework/commit/ecd0d7f0f6bc26c12f7bc1ed85aad4618bc726e2) Complete initialization with bindToRouterFunction
+- [`309e70a`](https://github.com/spring-projects/spring-framework/commit/309e70a48e6c8ce5e3199d31a753f08d82f60020) Separate factory method cache for introspection purposes
+- [`658c7f9`](https://github.com/spring-projects/spring-framework/commit/658c7f99d7a2ce6a931bf6b0c61d662ca6f57afb) Lenient date parsing in HeadersResultMatchers
+- Additional commits viewable in [compare view](https://github.com/spring-projects/spring-framework/compare/v5.0.10.RELEASE...v5.1.1.RELEASE)
+</details>
+<br />
+
+Dependabot will resolve any conflicts with this PR as long as you don't alter it yourself. You can also trigger a rebase manually by commenting `@dependabot rebase`.
+
+---
+
+**Note:** This repo was added to Dependabot recently, so you'll receive a maximum of 5 PRs for your first few update runs. Once an update run creates fewer than 5 PRs we'll remove that limit.
+
+You can always request more updates by clicking `Bump now` in your [Dependabot dashboard](https://app.dependabot.com).
+
+<details>
+<summary>Dependabot commands and options</summary>
+<br />
+
+You can trigger Dependabot actions by commenting on this PR:
+- `@dependabot rebase` will rebase this PR
+- `@dependabot recreate` will recreate this PR, overwriting any edits that have been made to it
+- `@dependabot merge` will merge this PR after your CI passes on it
+- `@dependabot cancel merge` will cancel a previously requested merge
+- `@dependabot reopen` will reopen this PR if it is closed
+- `@dependabot ignore this [patch|minor|major] version` will close this PR and stop Dependabot creating any more for this minor/major version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this dependency` will close this PR and stop Dependabot creating any more for this dependency (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot use these labels` will set the current labels as the default for future PRs for this repo and language
+- `@dependabot use these reviewers` will set the current reviewers as the default for future PRs for this repo and language
+- `@dependabot use these assignees` will set the current assignees as the default for future PRs for this repo and language
+- `@dependabot use this milestone` will set the current milestone as the default for future PRs for this repo and language
+- `@dependabot badge me` will comment on this PR with code to add a "Dependabot enabled" badge to your readme
+
+Additionally, you can set the following in your Dependabot [dashboard](https://app.dependabot.com):
+- Update frequency (including time of day and day of week)
+- Automerge options (never/patch/minor, and dev/runtime dependencies)
+- Pull request limits (per update run and/or open at any time)
+- Out-of-range updates (receive only lockfile updates, if desired)
+- Security updates (receive only security updates, if desired)
+
+Finally, you can contact us by mentioning @dependabot.
+
+</details>
+ Bump license-maven-plugin from 1.14 to 1.16
+ Bumps [license-maven-plugin](https://github.com/mojohaus/license-maven-plugin) from 1.14 to 1.16.
+<details>
+<summary>Commits</summary>
+
+- [`92a7c75`](https://github.com/mojohaus/license-maven-plugin/commit/92a7c75cd096b15d3064ac7bcda5388584303dc2) [maven-release-plugin] prepare release license-maven-plugin-1.16
+- [`d4ec205`](https://github.com/mojohaus/license-maven-plugin/commit/d4ec205dba5dbfcc9c76d2cc1bc3a2b1ba32f2da) Let's use ResolutionScope.TEST in mojos Closes [#127](https://github-redirect.dependabot.com/mojohaus/license-maven-plugin/issues/127)
+- [`b9b88e8`](https://github.com/mojohaus/license-maven-plugin/commit/b9b88e8f95a447cba1da7fbdb3d450f6083c2d05) Add lineSeparator parameter to configuration Close [#106](https://github-redirect.dependabot.com/mojohaus/license-maven-plugin/issues/106)
+- [`210a416`](https://github.com/mojohaus/license-maven-plugin/commit/210a416d12e17b5bcbb4561e27a9a2bb18ed92e8) aggregate-add-third-party for version 1.14 and 1.15 not working Closes [#126](https://github-redirect.dependabot.com/mojohaus/license-maven-plugin/issues/126)
+- [`0143fb0`](https://github.com/mojohaus/license-maven-plugin/commit/0143fb01046036b35370d05e99b755f277519425) [maven-release-plugin] prepare for next development iteration
+- [`a5d3473`](https://github.com/mojohaus/license-maven-plugin/commit/a5d3473dfe873fe6cd3c9fb1c83ba3c2eb0004b2) [maven-release-plugin] prepare release license-maven-plugin-1.15
+- [`b8f9cb6`](https://github.com/mojohaus/license-maven-plugin/commit/b8f9cb6fc50a7a5f2c7f4c0855e0f1ea488beacb) update some dependencies and my identity
+- [`b1d058e`](https://github.com/mojohaus/license-maven-plugin/commit/b1d058edfdf6997ec1e706f1e7ce051d3769a738) Fix [#117](https://github-redirect.dependabot.com/mojohaus/license-maven-plugin/issues/117) Add possibility to include/exclude types ([#118](https://github-redirect.dependabot.com/mojohaus/license-maven-plugin/issues/118))
+- [`7e54e9a`](https://github.com/mojohaus/license-maven-plugin/commit/7e54e9a8a88d78a34e34961c55d66bb881246564) Add trimHeaderLine option ([#99](https://github-redirect.dependabot.com/mojohaus/license-maven-plugin/issues/99))
+- [`a02726c`](https://github.com/mojohaus/license-maven-plugin/commit/a02726c780c074dd7f3a18dc7abb2a0bbd4ef81f) Multi license aggregate third-party ([#116](https://github-redirect.dependabot.com/mojohaus/license-maven-plugin/issues/116))
+- Additional commits viewable in [compare view](https://github.com/mojohaus/license-maven-plugin/compare/license-maven-plugin-1.14...license-maven-plugin-1.16)
+</details>
+<br />
+
+[![Dependabot compatibility score](https://api.dependabot.com/badges/compatibility_score?dependency-name=org.codehaus.mojo:license-maven-plugin&package-manager=maven&previous-version=1.14&new-version=1.16)](https://dependabot.com/compatibility-score.html?dependency-name=org.codehaus.mojo:license-maven-plugin&package-manager=maven&previous-version=1.14&new-version=1.16)
+
+Dependabot will resolve any conflicts with this PR as long as you don't alter it yourself. You can also trigger a rebase manually by commenting `@dependabot rebase`.
+
+---
+
+**Note:** This repo was added to Dependabot recently, so you'll receive a maximum of 5 PRs for your first few update runs. Once an update run creates fewer than 5 PRs we'll remove that limit.
+
+You can always request more updates by clicking `Bump now` in your [Dependabot dashboard](https://app.dependabot.com).
+
+<details>
+<summary>Dependabot commands and options</summary>
+<br />
+
+You can trigger Dependabot actions by commenting on this PR:
+- `@dependabot rebase` will rebase this PR
+- `@dependabot recreate` will recreate this PR, overwriting any edits that have been made to it
+- `@dependabot merge` will merge this PR after your CI passes on it
+- `@dependabot cancel merge` will cancel a previously requested merge
+- `@dependabot reopen` will reopen this PR if it is closed
+- `@dependabot ignore this [patch|minor|major] version` will close this PR and stop Dependabot creating any more for this minor/major version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this dependency` will close this PR and stop Dependabot creating any more for this dependency (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot use these labels` will set the current labels as the default for future PRs for this repo and language
+- `@dependabot use these reviewers` will set the current reviewers as the default for future PRs for this repo and language
+- `@dependabot use these assignees` will set the current assignees as the default for future PRs for this repo and language
+- `@dependabot use this milestone` will set the current milestone as the default for future PRs for this repo and language
+- `@dependabot badge me` will comment on this PR with code to add a "Dependabot enabled" badge to your readme
+
+Additionally, you can set the following in your Dependabot [dashboard](https://app.dependabot.com):
+- Update frequency (including time of day and day of week)
+- Automerge options (never/patch/minor, and dev/runtime dependencies)
+- Pull request limits (per update run and/or open at any time)
+- Out-of-range updates (receive only lockfile updates, if desired)
+- Security updates (receive only security updates, if desired)
+
+Finally, you can contact us by mentioning @dependabot.
+
+</details>
+ Bump plexus-compiler-javac-errorprone from 2.5 to 2.8.5
+ Bumps plexus-compiler-javac-errorprone from 2.5 to 2.8.5.
+
+[![Dependabot compatibility score](https://api.dependabot.com/badges/compatibility_score?dependency-name=org.codehaus.plexus:plexus-compiler-javac-errorprone&package-manager=maven&previous-version=2.5&new-version=2.8.5)](https://dependabot.com/compatibility-score.html?dependency-name=org.codehaus.plexus:plexus-compiler-javac-errorprone&package-manager=maven&previous-version=2.5&new-version=2.8.5)
+
+Dependabot will resolve any conflicts with this PR as long as you don't alter it yourself. You can also trigger a rebase manually by commenting `@dependabot rebase`.
+
+---
+
+**Note:** This repo was added to Dependabot recently, so you'll receive a maximum of 5 PRs for your first few update runs. Once an update run creates fewer than 5 PRs we'll remove that limit.
+
+You can always request more updates by clicking `Bump now` in your [Dependabot dashboard](https://app.dependabot.com).
+
+<details>
+<summary>Dependabot commands and options</summary>
+<br />
+
+You can trigger Dependabot actions by commenting on this PR:
+- `@dependabot rebase` will rebase this PR
+- `@dependabot recreate` will recreate this PR, overwriting any edits that have been made to it
+- `@dependabot merge` will merge this PR after your CI passes on it
+- `@dependabot cancel merge` will cancel a previously requested merge
+- `@dependabot reopen` will reopen this PR if it is closed
+- `@dependabot ignore this [patch|minor|major] version` will close this PR and stop Dependabot creating any more for this minor/major version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this dependency` will close this PR and stop Dependabot creating any more for this dependency (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot use these labels` will set the current labels as the default for future PRs for this repo and language
+- `@dependabot use these reviewers` will set the current reviewers as the default for future PRs for this repo and language
+- `@dependabot use these assignees` will set the current assignees as the default for future PRs for this repo and language
+- `@dependabot use this milestone` will set the current milestone as the default for future PRs for this repo and language
+- `@dependabot badge me` will comment on this PR with code to add a "Dependabot enabled" badge to your readme
+
+Additionally, you can set the following in your Dependabot [dashboard](https://app.dependabot.com):
+- Update frequency (including time of day and day of week)
+- Automerge options (never/patch/minor, and dev/runtime dependencies)
+- Pull request limits (per update run and/or open at any time)
+- Out-of-range updates (receive only lockfile updates, if desired)
+- Security updates (receive only security updates, if desired)
+
+Finally, you can contact us by mentioning @dependabot.
+
+</details>
+ Adds the ldap user check before create a new entry in the database
+ In case of LDAP Authentication users are created even if they don't exist in the LDAP. This fix tries to solve this problem by checking the user existence before authentication.
+ #79: add additional fields when creating a new card
+ Added:
+
+- labels
+- description
+- all columns and locations
+- due date
+- milestone
+- assigned users
+- files
+ Fix java.lang.IllegalArgumentException when setting the Remember Me cookie under Tomcat
+ The current code in UserSession.java is using a comma (",") to separate the user id from the user token in the remember-me cookie: unfortunately the comma is not a valid character for a cookie value according to RFC 6265 and Tomcat rejects it with a 500 error and the following exception:
+
+`java.lang.IllegalArgumentException: An invalid character [44] was present in the Cookie value
+  org.apache.tomcat.util.http.Rfc6265CookieProcessor.validateCookieValue(Rfc6265CookieProcessor.java:182)
+  org.apache.tomcat.util.http.Rfc6265CookieProcessor.generateHeader(Rfc6265CookieProcessor.java:115)
+  org.apache.catalina.connector.Response.generateCookieString(Response.java:999)
+  org.apache.catalina.connector.Response.addCookie(Response.java:947)
+  org.apache.catalina.connector.ResponseFacade.addCookie(ResponseFacade.java:386)
+  io.lavagna.web.helper.UserSession.addRememberMeCookie(UserSession.java:160)
+  io.lavagna.web.helper.UserSession.setUser(UserSession.java:135)
+  io.lavagna.web.helper.UserSession.setUser(UserSession.java:146)
+  io.lavagna.config.WebSecurityConfig$2.setUser(WebSecurityConfig.java:135)
+  io.lavagna.web.security.login.PasswordLogin.doAction(PasswordLogin.java:63)
+  io.lavagna.web.security.SecurityConfiguration$LoginUrlMatcher.doAction(SecurityConfiguration.java:256)
+  io.lavagna.web.security.SecurityFilter.handleWith(SecurityFilter.java:85)
+  io.lavagna.web.security.SecurityFilter.doFilterInternal(SecurityFilter.java:69)
+  io.lavagna.web.security.AbstractBaseFilter.doFilter(AbstractBaseFilter.java:46)
+  io.lavagna.web.security.AnonymousUserFilter.doFilterInternal(AnonymousUserFilter.java:59)
+  io.lavagna.web.security.AbstractBaseFilter.doFilter(AbstractBaseFilter.java:46)
+  io.lavagna.web.security.RememberMeFilter.doFilterInternal(RememberMeFilter.java:55)
+  io.lavagna.web.security.AbstractBaseFilter.doFilter(AbstractBaseFilter.java:46)
+  io.lavagna.web.security.CSFRFilter.doFilterInternal(CSFRFilter.java:62)
+  io.lavagna.web.security.AbstractBaseFilter.doFilter(AbstractBaseFilter.java:46)
+  io.lavagna.web.security.HSTSFilter.doFilterInternal(HSTSFilter.java:96)
+  io.lavagna.web.security.AbstractBaseFilter.doFilter(AbstractBaseFilter.java:46)`
+
+This pull requests simply replaces the comma with a slash, which hopefully won't ever be found in a user id or user token.
+ Calendar feed: use UTC in card and milestone due date
+ This PR intends to fix an issue close to #70: when loading the calendar feed into a calendar application, due dates have no timezone indication and thus may appear earlier or later than the actual date .
+
+For example, when I set a due date for 2017-04-03, my server which is in the Europe/Paris timezone outputs a calendar entry such as:
+
+````
+BEGIN:VEVENT
+DTSTAMP:20170402T154957Z
+DTSTART;VALUE=DATE;VALUE=DATE:20170402
+SUMMARY:TECH-24 Test notification 2 (OPEN)
+CREATED:20170402T145334Z
+LAST-MODIFIED:20170402T153717Z
+UID:00000005-0000-0018-0000-000600000006
+ORGANIZER;CN=datafaber:MAILTO:admin@datafaber.net
+URL:https://tasks.datafaber.net/BASE/TECH-24
+DESCRIPTION:Test notification in progress
+BEGIN:VALARM
+TRIGGER:PT0S
+ACTION:DISPLAY
+DESCRIPTION:TECH-24 Test notification 2 (OPEN)
+END:VALARM
+END:VEVENT
+````
+
+where the actual due date appears in the JSON responses from Lavagna as:
+
+````
+            "labelColor": 0,
+            "labelDomain": "SYSTEM",
+            "labelId": 6,
+            "labelName": "DUE_DATE",
+            "labelProjectId": 2,
+            "labelType": "TIMESTAMP",
+            "labelUnique": true,
+            "labelValueCard": null,
+            "labelValueCardId": 24,
+            "labelValueId": 6,
+            "labelValueInt": null,
+            "labelValueLabelId": 6,
+            "labelValueList": null,
+            "labelValueString": null,
+            "labelValueTimestamp": "2017-04-02T22:00:00.000Z",
+            "labelValueType": "TIMESTAMP",
+            "labelValueUseUniqueIndex": true,
+            "labelValueUser": null,
+            "value": {
+                "valueCard": null,
+                "valueInt": null,
+                "valueList": null,
+                "valueString": null,
+                "valueTimestamp": "2017-04-02T22:00:00.000Z",
+                "valueUser": null
+            }
+````
+
+The 2-hours difference with GMT and the loss of the time component make calendar applications believe that this due date is Apr, 2 2017 at midnight, which is a day earlier than intended.
+
+Due dates for milestones have the same issue.
+
+With the changes from this pull request, due dates for cards and milestones are exported in UTC time so that calendar applications can correctly display dates and reminders.
+ add eslint, refactor code, fix a few bugs
+ 
+ internal auth provider
+ Resolved #71 
+Added internal auth provider. This also address #41 
+- create and import users with password
+- login with password
+- change password in edit profile screen
+
+Resolved #72
+- users can be filtered by active/inactive/all in the admin panel
+- admin can edit display name and email addresses
+- admin can reset a user password 
+
+ - Removed Lombok and replaced it with Kotlin
+ - Migrated more models to Kotlin
+
+- Migrated more models to Kotlin
+
+- Updated to Kotlin 1.0.5 and moved Kotlin files to the right directory
+
+- additional kotlin work: add mockito extension, fix merged files
+ Css for layout
+ remove few thousand lines off css :beers: 
+
+ Flexbox board v2
+ merge flexbox work
+
+ Test cases for remembermefilter and anonymoususerfilter
+ 
+ smtp-configuration form validation added.
+ Added form validation while saving SMTP configuration parameters.
+
+ Fixed travis build status icon which was png instead of svg
+ Before:
+![image](https://cloud.githubusercontent.com/assets/3884632/12041961/9c342526-ae76-11e5-85d7-4ec982f1e349.png)
+
+After:
+![image](https://cloud.githubusercontent.com/assets/3884632/12041976/b2d94338-ae76-11e5-831b-d6a45240f80d.png)
+
+Due to compression, the difference is hard to spot, but a closer look reveals the improvement :)
+
+ Add a Gitter chat badge to README.md
+ ### digitalfondue/lavagna now has a Chat Room on Gitter
+
+@syjer has just created a chat room. You can visit it here: [https://gitter.im/digitalfondue/lavagna](https://gitter.im/digitalfondue/lavagna?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&content=body_link).
+
+This pull-request adds this badge to your README.md:
+
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/digitalfondue/lavagna?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=body_badge)
+
+If my aim is a little off, please [let me know](https://github.com/gitterHQ/readme-badger/issues).
+
+Happy chatting.
+
+PS: [Click here](https://gitter.im/settings/badger/opt-out) if you would prefer not to receive automatic pull-requests from Gitter in future.
+

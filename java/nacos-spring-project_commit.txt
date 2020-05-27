@@ -1,0 +1,55 @@
+﻿ Update README.md
+ Merge pull request #198 from nacos-group/develop
+
+Format code style
+ Merge pull request #197 from chuntaojun/develop
+
+style: code format
+ style: code format
+ Merge pull request #196 from nacos-group/develop
+
+Update spring-context-support version to 1.0.5
+ Merge pull request #195 from chuntaojun/develop
+
+refactor: update spring-context-support to 1.0.5
+ refactor: update spring-context-support to 1.0.5
+ Merge pull request #194 from nacos-group/develop
+
+Update version to 0.3.6
+ Merge pull request #193 from chuntaojun/develop
+
+docs: update nacos-client version to 1.2.0
+ docs: update nacos-client version to 1.2.0
+ Merge pull request #192 from chuntaojun/develop
+
+feat: issue #189
+ style: remove unuse dir
+ docs: update version to 0.3.6
+ fix: Fix missing XML configuration information
+ refactor: remove nacos.xsd about data-ids setting
+ feat: issue #189
+ Merge pull request #186 from ZShUn/develop
+
+1.添加username password参数
+ 1.config.xml GlobalNacosPropertiesBeanDefinitionParser 增加username,password属性
+2.EnableNacosDiscovery 导包
+ Merge remote-tracking branch 'upstream/develop' into develop
+ Merge pull request #188 from chuntaojun/develop
+
+Upgrade nacos-client to 1.2.0-beta.1
+ feat: update nacos-client to 1.2.0-beta.1
+ 1.格式化代码
+ 1.修复username password 未导包问题
+2.修复注释描述错误
+ 1.修复username password 未导包问题
+ 1.添加username password参数
+ Merge pull request #184 from nacos-group/develop
+
+hotfix/getBeanOfType
+ Merge pull request #183 from chuntaojun/hotfix/getBeanOfType
+
+update verion 0.3.4 => 0.3.5
+ fix: fix pom version
+ docs: update version 0.3.4  Merge pull request #182 from chuntaojun/hotfix/getBeanOfType
+
+Hotfix/get bean of type

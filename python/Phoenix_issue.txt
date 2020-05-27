@@ -1,0 +1,2082 @@
+﻿ No ActivatePrivateFonts, AddPrivateFont is broken
+ According to https://trac.wxwidgets.org/ticket/13568 ActivatePrivateFonts should be called after AddPrivateFont  but there is no support for that.
+Would you be a sweetie and follow the Issue template and post your wxPython, Python version info as well as your OS.
+Attach a sample program showing it broke also please.
+
+@RyanHope it looks like `ActivatePrivateFonts` got removed from the API:
+https://github.com/wxWidgets/wxWidgets/commit/283f5a4d5678f7f936144b8dc365904e53704b60
+
+It appears `AddPrivateFont` is all that you need to do.
+
+ Crash when creating submenus
+ <!-- For bugs or other problems please provide the following details in addition to
+     your issue report, if applicable. See also https://wxpython.org/pages/how-to-submit-issue/
+
+     For issues about building on Linux, please read this page before reporting it here:
+     https://wxpython.org/blog/2017-08-17-builds-for-linux-with-pip/
+-->
+
+**Operating system**: Windows 10 or Mac OSX
+**wxPython version & source**:          4.1.0 binary from PyPI
+**Python version & source**:             2.7.12
+
+**Description of the problem**:
+
+If one tries to create a submenu with a wx.MenuItem, it crashes the application with a segmentation fault.  Happens if you just right click to pop the menu, and then click off to dismiss the menu.  To demonstrate, change the following line in the PopupMenu.py wxPython demo.  This is right around line 96.
+[PopupMenu_bug.zip](https://github.com/wxWidgets/Phoenix/files/4672614/PopupMenu_bug.zip)
+
+
+```python
+        #menu.Append(self.popupID7, "Test Submenu", sm) # original line of code
+        sm = wx.MenuItem(menu, self.popupID7, "Test Submenu", subMenu=sm) 
+        menu.Append(sm)        
+```
+
+Doing it that way had always worked in wxPython 3.  Attached is the full demo code that crashes.
+
+Update: I found that if I instead replaced with 
+```python
+   #menu.Append(self.popupID7, "Test Submenu", sm) # original line of code
+   item = wx.MenuItem(menu, self.popupID7, "Test Submenu", subMenu=sm) 
+   menu.Append(item)        
+```
+it does not crash and works just fine.  However, the change of variable name should not matter; it seems like the garbage collection is jumping in too early to destroy the submenu referred to by sm, perhaps??
+
+I'm not sure what is happening here.
+
+https://wxpython.org/Phoenix/docs/html/wx.Menu.html#wx.Menu.Append
+The documentation says it is deprecated.
+... so yea, you can expect it to just disappear at any time... apparently this was that time.
+
+But; I'm not using the depreciated overload of wx.Menu.Append; I'm using the very last one, which is not.  (In fact the deprecated one is the one currently used in the demo, but as you can see in the comments above, I'm commenting that one out, in favor of the two lines below).
+
+Trying to illustrate better what is happening; here is another sample.  Here is a close surrogate to what my original application was doing.  Creating the submenu in its own function and passing it back without saving it in a variable first (thereby not increasing its reference count).  This code is a slightly modified form of the PopupMenu.py demo.  I've marked what I modified with hashes:
+
+```python
+        menu.Append(self.popupID6, "Six")
+       
+        ################
+        # This crashes, because no one has held a reference to the submenu on the Python side.
+        item = wx.MenuItem(menu, self.popupID7, "Test Submenu", subMenu=self.CreateSubMenu()) 
+        menu.Append(item)
+        #################
+
+
+        # Popup the menu.  If an item is selected then its handler
+        # will be called before PopupMenu returns.
+        self.PopupMenu(menu)
+        menu.Destroy()
+
+    ####################
+    def CreateSubMenu(self):
+        sm = wx.Menu()
+        sm.Append(self.popupID8, "sub item 1")
+        sm.Append(self.popupID9, "sub item 2")
+        return sm
+    ####################
+```
+
+This second one doesn't crash, because I save a reference to the submenu on the Python side. But I shouldn't have to do that.
+
+```python
+        menu.Append(self.popupID6, "Six")
+       
+        ################
+        # This works without crashing, because we hold a reference on the Python side
+        sm = self.CreateSubMenu()
+        item = wx.MenuItem(menu, self.popupID7, "Test Submenu", subMenu=sm) 
+        menu.Append(item)
+        #################
+
+
+        # Popup the menu.  If an item is selected then its handler
+        # will be called before PopupMenu returns.
+        self.PopupMenu(menu)
+        menu.Destroy()
+
+    ####################
+    def CreateSubMenu(self):
+        sm = wx.Menu()
+        sm.Append(self.popupID8, "sub item 1")
+        sm.Append(self.popupID9, "sub item 2")
+        return sm
+    ####################
+```
+
+
+
+Your reproducer code isn't complete unfortunately:
+
+```
+$ python3 PopupMenu_bug.py 
+Traceback (most recent call last):
+  File "PopupMenu_bug.py", line 5, in <module>
+    import images
+ModuleNotFoundError: No module named 'images'
+```
+
+The code that I submitted was meant to be run in the demo directory of the wxPython demos, because I was trying to change as little as possible to reproduce the bug.  I'll resubmit a code shortly that is standalone.
+
+Attached is a standalone code that demonstrates.
+
+[PopupMenu_bug_standalone.zip](https://github.com/wxWidgets/Phoenix/files/4679029/PopupMenu_bug_standalone.zip)
+
+
+Sorry about that.  I missed the part of it being part of the demo.  I see the problem now.
+
+ CustomTreeCtrl: items invisible with dark themes on Ubuntu
+ **Operating system**: Ubuntu 18.04
+**wxPython version & source**:          pypi, 4.1.0
+**Python version & source**:            3.6.9
+
+**Description of the problem**:
+With dark themes agw.CustomTreeCtrl has issues with displaying tree items, they are pretty much invisible unless selected, see screenshot from wxpython demo.
+This was reported in an old [ticket](http://trac.wxwidgets.org/ticket/13377), probably it's caused by hardcoded values.
+![Selection_012](https://user-images.githubusercontent.com/7494312/82705883-7999fc80-9c46-11ea-8562-79b6fbcd27c9.png)
+
+The issue is certainly due to setting the background color of CustomTreeCtrl to wx.WHITE in the initialization. There might be other problems later - in terms of text color, for example, but they should be tackled later. It’s an easy fix, although I have no idea what the default background color should be (I.e., what SystemSettings to use?).
+
+Also, the background color (and text color and so on) should probably be made dynamic by binding the wx.SYS_COLOUR_CHANGED and adapt those colors on the fly, so people who like playing with themes can have an instant feedback for it.
+
+There is a fix already for this in commit https://github.com/wxWidgets/Phoenix/pull/1128/commits/ac0f578a01e4e4fc9c1e50a349a154367217d05d
+
+> There is a fix already for this in commit [ac0f578](https://github.com/wxWidgets/Phoenix/commit/ac0f578a01e4e4fc9c1e50a349a154367217d05d)
+
+This is in #1128. I tested that particular commit locally and it doesn't seem to help though.
+
+I just checked Ubuntu 18.04 dark theme and it works even without that commit.
+
+Like infinity77 said, the background color is probably being forced somewhere with `SetBackgroundColour(wx.WHITE)`. The demo does this as well.
+
+If you find the line you can delete it, but without https://github.com/wxWidgets/Phoenix/commit/ac0f578a01e4e4fc9c1e50a349a154367217d05d it will cause everyone with a "light" theme to get an ugly background.
+
+@petrasovaa , just for fun I went to take a look at the GRASS code. Not sure if this is the issue, but on line 199 in the file gui/wxPython/gui_core/treeview.py you have this:
+
+self.SetBackgroundColour("white")
+
+Of course that may not be the issue at all - I’ve browsed the code for exactly 1 minute and I have no clue whatsoever about the GRASS UI architecture.
+
+The same can be seen at line 179 of gui/wxPython/lmgr/layertree.py
+
+Back when I was porting the demo to phoenix I recall coming across the issue that the text was invisible.
+Figuring out what the background color should be and inverting it should work I would think and if user has applied a personal color then do that or some such.
+Here is where I removed the sanity hack I did to make sure I could see the text.
+https://github.com/wxWidgets/Phoenix/commit/fa0001c49c2457c0d0587ab207152fcdd059d78d#diff-c8d144a0eb60caedab6fb2d0c2dff908
+I don't recall if anything else was done afterwards regarding the text color.
+
+ Pasting non-text object into IntCtrl raises TypeError
+ **Operating system**: Windows 8.1
+**wxPython version & source**:          4.0.6 via pip install (see note)
+**Python version & source**:            Python 3.6.1 downloaded from python.org
+
+**Description of the problem**:
+Pasting a non-text object into an IntCtrl raises the following TypeError:
+`Traceback (most recent call last):
+  File "(path)\intctrl.py", line 203, in OnChar
+    new_text = textval[:sel_start] + paste_text + textval[sel_to:]
+TypeError: must be str, not NoneType`
+In my case I accidentally pasted after taking a screenshot. Copying part of an image and pasting it also raises the same error. I would have expected the invalid paste to be ignored, as with pasting non-integerizable strings.
+
+Note: Since updating to the newest wxPython breaks parts of my GUI I have not tested with the newest version, but manual inspection of the IntCtrl.py file shows that only one change has been made between the two versions and it does not touch the code regarding this issue. I therefore assume it is still present.
+
+The underlying issue is that paste_text is set to None (since the clipboard contents are not text) and the str + operation raises the error on concatenation of None. Checking and handling the None case for paste_text should thus fix the issue.
+
+ wx.CustomObject; overriding SetData causes a stack overflow
+ **Operating system**: Windows 10
+**wxPython version & source**: 4.1.0, pypi binary
+**Python version & source**: 2.7.12 Anaconda
+
+**Description of the problem**: 
+
+If you derive a new object from wx.CustomObject and try to override the SetData function, the override doesn't work.  Calling the wx.CustomObject's SetData from the overridden function just calls the override again, leading to an infinite loop and stack overflow.
+
+I have attached a slightly modified version of the wxPython demo code, CustomDragAndDrop.py, that demonstrates the problem.  All that is changed in the attached code is to derive a new class from wx.CustomDataObject that doesn't do anything except call wx.CustomDataObject's corresponding methods, and then use that class wherever wx.CustomDataObject appears.
+
+```python
+class MyDataObject(wx.CustomDataObject):
+    def __init__(self, *args, **kwargs):
+        wx.CustomDataObject.__init__(self, *args, **kwargs)
+
+    def SetData(self, *args, **kwargs):
+        print("Executing SetData")  
+        return wx.CustomDataObject.SetData(self, *args, **kwargs) # infinite loop caused here.
+```
+
+[CustomDragAndDrop_bug.zip](https://github.com/wxWidgets/Phoenix/files/4665505/CustomDragAndDrop_bug.zip)
+
+
+ Build of wxPython Crashing at compling corewx
+ 
+**Operating system**: Amazon Linux release 2 (Karoo)
+**wxPython version & source**:          4.1.0 via pip install
+**Python version & source**:         Python 2.7.16 (default, Dec 12 2019, 23:58:22) [GCC 7.3.1 20180712 (Red Hat 7.3.1-6)] on linux2   
+
+**Description of the problem**:
+loading via "pip install --user wxPython"
+
+See section on build log below where it begins to crash...
+
+```
+    [ 93/917] Compiling sip/cpp/sip_corewxItemContainer.cpp
+    ../../../../sip/cpp/sip_corewxUIActionSimulator.cpp: In function ‘PyObject* meth_wxUIActionSimulator_MouseMove(PyObject*, PyObject*, PyObject*)’:
+    ../../../../sip/cpp/sip_corewxUIActionSimulator.cpp:31:12: error: ‘::wxUIActionSimulator’ has not been declared
+              ::wxUIActionSimulator *sipCpp;
+                ^~~~~~~~~~~~~~~~~~~
+    ../../../../sip/cpp/sip_corewxUIActionSimulator.cpp:31:12: note: suggested alternative: ‘sipName_wxUIActionSimulator’
+              ::wxUIActionSimulator *sipCpp;
+                ^~~~~~~~~~~~~~~~~~~
+                sipName_wxUIActionSimulator
+    ../../../../sip/cpp/sip_corewxUIActionSimulator.cpp:31:33: error: ‘sipCpp’ was not declared in this scope
+              ::wxUIActionSimulator *sipCpp;
+                                     ^~~~~~
+    ../../../../sip/cpp/sip_corewxUIActionSimulator.cpp:31:33: note: suggested alternative: ‘stpcpy’
+              ::wxUIActionSimulator *sipCpp;
+                                     ^~~~~~
+                                     stpcpy
+    ../../../../sip/cpp/sip_corewxUIActionSimulator.cpp:58:12: error: ‘::wxUIActionSimulator’ has not been declared
+              ::wxUIActionSimulator *sipCpp;
+                ^~~~~~~~~~~~~~~~~~~
+    ../../../../sip/cpp/sip_corewxUIActionSimulator.cpp:58:12: note: suggested alternative: ‘sipName_wxUIActionSimulator’
+              ::wxUIActionSimulator *sipCpp;
+                ^~~~~~~~~~~~~~~~~~~
+                sipName_wxUIActionSimulator
+    ../../../../sip/cpp/sip_corewxUIActionSimulator.cpp:58:33: error: ‘sipCpp’ was not declared in this scope
+              ::wxUIActionSimulator *sipCpp;
+                                     ^~~~~~
+    ../../../../sip/cpp/sip_corewxUIActionSimulator.cpp:58:33: note: suggested alternative: ‘stpcpy’
+              ::wxUIActionSimulator *sipCpp;
+                                     ^~~~~~
+                                     stpcpy
+    ../../../../sip/cpp/sip_corewxUIActionSimulator.cpp: In function ‘PyObject* meth_wxUIActionSimulator_MouseDown(PyObject*, PyObject*, PyObject*)’:
+    ../../../../sip/cpp/sip_corewxUIActionSimulator.cpp:100:12: error: ‘::wxUIActionSimulator’ has not been declared
+              ::wxUIActionSimulator *sipCpp;
+                ^~~~~~~~~~~~~~~~~~~
+    ../../../../sip/cpp/sip_corewxUIActionSimulator.cpp:100:12: note: suggested alternative: ‘sipName_wxUIActionSimulator’
+              ::wxUIActionSimulator *sipCpp;
+                ^~~~~~~~~~~~~~~~~~~
+                sipName_wxUIActionSimulator
+    ../../../../sip/cpp/sip_corewxUIActionSimulator.cpp:100:33: error: ‘sipCpp’ was not declared in this scope
+              ::wxUIActionSimulator *sipCpp;
+                                     ^~~~~~
+    ../../../../sip/cpp/sip_corewxUIActionSimulator.cpp:100:33: note: suggested alternative: ‘stpcpy’
+              ::wxUIActionSimulator *sipCpp;
+                                     ^~~~~~
+                                     stpcpy
+    ../../../../sip/cpp/sip_corewxUIActionSimulator.cpp: In function ‘PyObject* meth_wxUIActionSimulator_MouseUp(PyObject*, PyObject*, PyObject*)’:
+    ../../../../sip/cpp/sip_corewxUIActionSimulator.cpp:141:12: error: ‘::wxUIActionSimulator’ has not been declared
+              ::wxUIActionSimulator *sipCpp;
+                ^~~~~~~~~~~~~~~~~~~
+    ../../../../sip/cpp/sip_corewxUIActionSimulator.cpp:141:12: note: suggested alternative: ‘sipName_wxUIActionSimulator’
+              ::wxUIActionSimulator *sipCpp;
+                ^~~~~~~~~~~~~~~~~~~
+                sipName_wxUIActionSimulator
+    ../../../../sip/cpp/sip_corewxUIActionSimulator.cpp:141:33: error: ‘sipCpp’ was not declared in this scope
+              ::wxUIActionSimulator *sipCpp;
+                                     ^~~~~~
+    ../../../../sip/cpp/sip_corewxUIActionSimulator.cpp:141:33: note: suggested alternative: ‘stpcpy’
+              ::wxUIActionSimulator *sipCpp;
+                                     ^~~~~~
+                                     stpcpy
+    ../../../../sip/cpp/sip_corewxUIActionSimulator.cpp: In function ‘PyObject* meth_wxUIActionSimulator_MouseClick(PyObject*, PyObject*, PyObject*)’:
+    ../../../../sip/cpp/sip_corewxUIActionSimulator.cpp:182:12: error: ‘::wxUIActionSimulator’ has not been declared
+              ::wxUIActionSimulator *sipCpp;
+                ^~~~~~~~~~~~~~~~~~~
+    ../../../../sip/cpp/sip_corewxUIActionSimulator.cpp:182:12: note: suggested alternative: ‘sipName_wxUIActionSimulator’
+              ::wxUIActionSimulator *sipCpp;
+                ^~~~~~~~~~~~~~~~~~~
+                sipName_wxUIActionSimulator
+    ../../../../sip/cpp/sip_corewxUIActionSimulator.cpp:182:33: error: ‘sipCpp’ was not declared in this scope
+              ::wxUIActionSimulator *sipCpp;
+                                     ^~~~~~
+    ../../../../sip/cpp/sip_corewxUIActionSimulator.cpp:182:33: note: suggested alternative: ‘stpcpy’
+              ::wxUIActionSimulator *sipCpp;
+                                     ^~~~~~
+                                     stpcpy
+    ../../../../sip/cpp/sip_corewxUIActionSimulator.cpp: In function ‘PyObject* meth_wxUIActionSimulator_MouseDblClick(PyObject*, PyObject*, PyObject*)’:
+    ../../../../sip/cpp/sip_corewxUIActionSimulator.cpp:223:12: error: ‘::wxUIActionSimulator’ has not been declared
+              ::wxUIActionSimulator *sipCpp;
+                ^~~~~~~~~~~~~~~~~~~
+    ../../../../sip/cpp/sip_corewxUIActionSimulator.cpp:223:12: note: suggested alternative: ‘sipName_wxUIActionSimulator’
+              ::wxUIActionSimulator *sipCpp;
+                ^~~~~~~~~~~~~~~~~~~
+                sipName_wxUIActionSimulator
+    ../../../../sip/cpp/sip_corewxUIActionSimulator.cpp:223:33: error: ‘sipCpp’ was not declared in this scope
+              ::wxUIActionSimulator *sipCpp;
+                                     ^~~~~~
+    ../../../../sip/cpp/sip_corewxUIActionSimulator.cpp:223:33: note: suggested alternative: ‘stpcpy’
+              ::wxUIActionSimulator *sipCpp;
+                                     ^~~~~~
+                                     stpcpy
+    ../../../../sip/cpp/sip_corewxUIActionSimulator.cpp: In function ‘PyObject* meth_wxUIActionSimulator_MouseDragDrop(PyObject*, PyObject*, PyObject*)’:
+    ../../../../sip/cpp/sip_corewxUIActionSimulator.cpp:268:12: error: ‘::wxUIActionSimulator’ has not been declared
+              ::wxUIActionSimulator *sipCpp;
+                ^~~~~~~~~~~~~~~~~~~
+    ../../../../sip/cpp/sip_corewxUIActionSimulator.cpp:268:12: note: suggested alternative: ‘sipName_wxUIActionSimulator’
+              ::wxUIActionSimulator *sipCpp;
+                ^~~~~~~~~~~~~~~~~~~
+                sipName_wxUIActionSimulator
+    ../../../../sip/cpp/sip_corewxUIActionSimulator.cpp:268:33: error: ‘sipCpp’ was not declared in this scope
+              ::wxUIActionSimulator *sipCpp;
+                                     ^~~~~~
+    ../../../../sip/cpp/sip_corewxUIActionSimulator.cpp:268:33: note: suggested alternative: ‘stpcpy’
+              ::wxUIActionSimulator *sipCpp;
+                                     ^~~~~~
+                                     stpcpy
+    ../../../../sip/cpp/sip_corewxUIActionSimulator.cpp: In function ‘PyObject* meth_wxUIActionSimulator_KeyDown(PyObject*, PyObject*, PyObject*)’:
+    ../../../../sip/cpp/sip_corewxUIActionSimulator.cpp:314:12: error: ‘::wxUIActionSimulator’ has not been declared
+              ::wxUIActionSimulator *sipCpp;
+                ^~~~~~~~~~~~~~~~~~~
+    ../../../../sip/cpp/sip_corewxUIActionSimulator.cpp:314:12: note: suggested alternative: ‘sipName_wxUIActionSimulator’
+              ::wxUIActionSimulator *sipCpp;
+                ^~~~~~~~~~~~~~~~~~~
+                sipName_wxUIActionSimulator
+    ../../../../sip/cpp/sip_corewxUIActionSimulator.cpp:314:33: error: ‘sipCpp’ was not declared in this scope
+              ::wxUIActionSimulator *sipCpp;
+                                     ^~~~~~
+    ../../../../sip/cpp/sip_corewxUIActionSimulator.cpp:314:33: note: suggested alternative: ‘stpcpy’
+              ::wxUIActionSimulator *sipCpp;
+                                     ^~~~~~
+                                     stpcpy
+    ../../../../sip/cpp/sip_corewxUIActionSimulator.cpp: In function ‘PyObject* meth_wxUIActionSimulator_KeyUp(PyObject*, PyObject*, PyObject*)’:
+    ../../../../sip/cpp/sip_corewxUIActionSimulator.cpp:357:12: error: ‘::wxUIActionSimulator’ has not been declared
+              ::wxUIActionSimulator *sipCpp;
+                ^~~~~~~~~~~~~~~~~~~
+    ../../../../sip/cpp/sip_corewxUIActionSimulator.cpp:357:12: note: suggested alternative: ‘sipName_wxUIActionSimulator’
+              ::wxUIActionSimulator *sipCpp;
+                ^~~~~~~~~~~~~~~~~~~
+                sipName_wxUIActionSimulator
+    ../../../../sip/cpp/sip_corewxUIActionSimulator.cpp:357:33: error: ‘sipCpp’ was not declared in this scope
+              ::wxUIActionSimulator *sipCpp;
+                                     ^~~~~~
+    ../../../../sip/cpp/sip_corewxUIActionSimulator.cpp:357:33: note: suggested alternative: ‘stpcpy’
+              ::wxUIActionSimulator *sipCpp;
+                                     ^~~~~~
+                                     stpcpy
+    ../../../../sip/cpp/sip_corewxUIActionSimulator.cpp: In function ‘PyObject* meth_wxUIActionSimulator_Char(PyObject*, PyObject*, PyObject*)’:
+    ../../../../sip/cpp/sip_corewxUIActionSimulator.cpp:400:12: error: ‘::wxUIActionSimulator’ has not been declared
+              ::wxUIActionSimulator *sipCpp;
+                ^~~~~~~~~~~~~~~~~~~
+    ../../../../sip/cpp/sip_corewxUIActionSimulator.cpp:400:12: note: suggested alternative: ‘sipName_wxUIActionSimulator’
+              ::wxUIActionSimulator *sipCpp;
+                ^~~~~~~~~~~~~~~~~~~
+                sipName_wxUIActionSimulator
+    ../../../../sip/cpp/sip_corewxUIActionSimulator.cpp:400:33: error: ‘sipCpp’ was not declared in this scope
+              ::wxUIActionSimulator *sipCpp;
+                                     ^~~~~~
+    ../../../../sip/cpp/sip_corewxUIActionSimulator.cpp:400:33: note: suggested alternative: ‘stpcpy’
+              ::wxUIActionSimulator *sipCpp;
+                                     ^~~~~~
+                                     stpcpy
+    ../../../../sip/cpp/sip_corewxUIActionSimulator.cpp: In function ‘PyObject* meth_wxUIActionSimulator_Select(PyObject*, PyObject*, PyObject*)’:
+    ../../../../sip/cpp/sip_corewxUIActionSimulator.cpp:443:12: error: ‘::wxUIActionSimulator’ has not been declared
+              ::wxUIActionSimulator *sipCpp;
+                ^~~~~~~~~~~~~~~~~~~
+    ../../../../sip/cpp/sip_corewxUIActionSimulator.cpp:443:12: note: suggested alternative: ‘sipName_wxUIActionSimulator’
+              ::wxUIActionSimulator *sipCpp;
+                ^~~~~~~~~~~~~~~~~~~
+                sipName_wxUIActionSimulator
+    ../../../../sip/cpp/sip_corewxUIActionSimulator.cpp:443:33: error: ‘sipCpp’ was not declared in this scope
+              ::wxUIActionSimulator *sipCpp;
+                                     ^~~~~~
+    ../../../../sip/cpp/sip_corewxUIActionSimulator.cpp:443:33: note: suggested alternative: ‘stpcpy’
+              ::wxUIActionSimulator *sipCpp;
+                                     ^~~~~~
+                                     stpcpy
+    ../../../../sip/cpp/sip_corewxUIActionSimulator.cpp: In function ‘PyObject* meth_wxUIActionSimulator_Text(PyObject*, PyObject*, PyObject*)’:
+    ../../../../sip/cpp/sip_corewxUIActionSimulator.cpp:486:12: error: ‘::wxUIActionSimulator’ has not been declared
+              ::wxUIActionSimulator *sipCpp;
+                ^~~~~~~~~~~~~~~~~~~
+    ../../../../sip/cpp/sip_corewxUIActionSimulator.cpp:486:12: note: suggested alternative: ‘sipName_wxUIActionSimulator’
+              ::wxUIActionSimulator *sipCpp;
+                ^~~~~~~~~~~~~~~~~~~
+                sipName_wxUIActionSimulator
+    ../../../../sip/cpp/sip_corewxUIActionSimulator.cpp:486:33: error: ‘sipCpp’ was not declared in this scope
+              ::wxUIActionSimulator *sipCpp;
+                                     ^~~~~~
+    ../../../../sip/cpp/sip_corewxUIActionSimulator.cpp:486:33: note: suggested alternative: ‘stpcpy’
+              ::wxUIActionSimulator *sipCpp;
+                                     ^~~~~~
+                                     stpcpy
+    ../../../../sip/cpp/sip_corewxUIActionSimulator.cpp: In function ‘void release_wxUIActionSimulator(void*, int)’:
+    ../../../../sip/cpp/sip_corewxUIActionSimulator.cpp:523:32: error: ‘wxUIActionSimulator’ in namespace ‘::’ does not name a type
+         delete reinterpret_cast< ::wxUIActionSimulator *>(sipCppV);
+                                    ^~~~~~~~~~~~~~~~~~~
+    ../../../../sip/cpp/sip_corewxUIActionSimulator.cpp:523:52: error: expected ‘>’ before ‘*’ token
+         delete reinterpret_cast< ::wxUIActionSimulator *>(sipCppV);
+                                                        ^
+    ../../../../sip/cpp/sip_corewxUIActionSimulator.cpp:523:52: error: expected ‘(’ before ‘*’ token
+    ../../../../sip/cpp/sip_corewxUIActionSimulator.cpp:523:53: error: expected primary-expression before ‘>’ token
+         delete reinterpret_cast< ::wxUIActionSimulator *>(sipCppV);
+                                                         ^
+    ../../../../sip/cpp/sip_corewxUIActionSimulator.cpp:523:63: error: expected ‘)’ before ‘;’ token
+         delete reinterpret_cast< ::wxUIActionSimulator *>(sipCppV);
+                                                                   ^
+    ../../../../sip/cpp/sip_corewxUIActionSimulator.cpp: In function ‘void* init_type_wxUIActionSimulator(sipSimpleWrapper*, PyObject*, PyObject*, PyObject**, PyObject**, PyObject**)’:
+    ../../../../sip/cpp/sip_corewxUIActionSimulator.cpp:542:8: error: ‘::wxUIActionSimulator’ has not been declared
+          ::wxUIActionSimulator *sipCpp = SIP_NULLPTR;
+            ^~~~~~~~~~~~~~~~~~~
+    ../../../../sip/cpp/sip_corewxUIActionSimulator.cpp:542:8: note: suggested alternative: ‘dealloc_wxUIActionSimulator’
+          ::wxUIActionSimulator *sipCpp = SIP_NULLPTR;
+            ^~~~~~~~~~~~~~~~~~~
+            dealloc_wxUIActionSimulator
+    ../../../../sip/cpp/sip_corewxUIActionSimulator.cpp:542:29: error: ‘sipCpp’ was not declared in this scope
+          ::wxUIActionSimulator *sipCpp = SIP_NULLPTR;
+                                 ^~~~~~
+    ../../../../sip/cpp/sip_corewxUIActionSimulator.cpp:542:29: note: suggested alternative: ‘stpcpy’
+          ::wxUIActionSimulator *sipCpp = SIP_NULLPTR;
+                                 ^~~~~~
+                                 stpcpy
+    ../../../../sip/cpp/sip_corewxUIActionSimulator.cpp:550:27: error: expected type-specifier before ‘::’ token
+                 sipCpp = new  ::wxUIActionSimulator();
+                               ^~
+    ../../../../sip/cpp/sip_corewxUIActionSimulator.cpp:555:24: error: type ‘<type error>’ argument given to ‘delete’, expected pointer
+                     delete sipCpp;
+                            ^~~~~~
+    
+    Waf: Leaving directory `/tmp/pip-build-ygB5rv/wxPython/build/waf/2.7/gtk3'
+    Build failed
+     -> task in '_core' failed with exit status 1 (run with -v to display more information)
+    Command '"/usr/bin/python2" /tmp/pip-build-ygB5rv/wxPython/bin/waf-2.0.19 --wx_config=/tmp/pip-build-ygB5rv/wxPython/build/wxbld/gtk3/wx-config --gtk3 --python="/usr/bin/python2" --out=build/waf/2.7/gtk3 configure build ' failed with exit code 1.
+    Finished command: build_py (2m35.981s)
+    Finished command: build (13m20.776s)
+    Command '"/usr/bin/python2" -u build.py build' failed with exit code 1.
+    
+    ----------------------------------------
+Command "/usr/bin/python2 -u -c "import setuptools, tokenize;__file__='/tmp/pip-build-ygB5rv/wxPython/setup.py';f=getattr(tokenize, 'open', open)(__file__);code=f.read().replace('\r\n', '\n');f.close();exec(compile(code, __file__, 'exec'))" install --record /tmp/pip-6xE3GR-record/install-record.txt --single-version-externally-managed --compile --user --prefix=" failed with error code 1 in /tmp/pip-build-ygB5rv/wxPython/
+
+Can you provide the entire build log?  It's possible the something went wrong much earlier in the process.
+
+ Fix STC StartStyling Demo
+ Update indicator stuff to work with wxPy4.0 and 4.1 with scintilla version change
+Also appended wxPython version and Scintilla version string to demo text for easy reference.
+
+Fixes #1641 
+
+
+ wx.stc FindText function returns tupple instead of int in version 4.1.0
+ 
+**Operating system**: Linux, Ubuntu 18.04-20.04
+**wxPython version & source**:       wxPython 4.1.0 from pip install wxpython
+**Python version & source**:            python3.5-3.8 ubuntu repo
+**Description of the problem**:   FindText function returns tuple instead of int like in previous version 4.01-4.0.7   
+
+See https://github.com/deonis1/linxtl (Module/colour.py) for more details
+
+
+
+You are very observant. You will notice it returns it as a selection like 2 tuple now.
+so you need to change your return var to accept 2 values or use [0] or [1] depending on which one you need. You can still expect -1 for wx.NOTFOUND.
+
+You will notice Scintilla has been updated so you will have a little bit of work to do wrapping a function if you want it to work the old way. This is not a bug. Its a you need to upgrade/adapt type of thing.
+```python
+print(wx.stc.StyledTextCtrl.GetLibraryVersionInfo().GetVersionString())
+```
+
+When wx updates Scintilla(Its a 3rd party piece) usually there is a quite a bit of changes. 
+Changelog is here for base Scintilla to give you an idea.
+https://www.scintilla.org/ScintillaHistory.html
+
+But yeah just for reference this is what was done on wxPy side.
+https://github.com/wxWidgets/Phoenix/pull/1271/files
+
+I agree it is not a bug but there are multiple other issues with styling and so on. Not a big fan of these changes. 
+
+
+@deonis1 since I'm feeling nice today here is how I wrapped a backwards compatibility function.
+You will not need the decorator btw...
+
+```python
+    if wx.VERSION[0:3] < (4, 1, 0, 0, '')[0:3]:
+        @overwrittenmethod
+        def FindText(self, minPos, maxPos, text, flags=0):  # -> (int, findEnd)
+            """
+            Override StyledTextCtrl.FindText
+
+            findEnd isnt in a tuple in earlier versions so add it to prevent error
+            """
+            findBegin = super(BaseSTC, self).FindText(minPos, maxPos, text, flags)
+            if findBegin == -1:
+                return (-1, -1)
+            findEnd = findBegin + len(text)
+            return (findBegin, findEnd)
+```
+
+@RobinD42 This can be closed.
+
+ wx.stc SetStyling does not work in 4.1.0
+ **Operating system**: Linux, Ubuntu 18.04-20.04
+**wxPython version & source**:       wxPython 4.1.0 from pip install wxpython
+**Python version & source**:            python3.5-3.8 ubuntu repo
+
+**Description of the problem**:   
+
+Custom styling with text.StartStyling(start, wx.stc.STC_INDICS_MASK)  text.SetStyling(length, wx.stc.STC_INDIC2_MASK) no longer return styled text.  Was working fine in version 4.0.1-4.07
+
+See https://github.com/deonis1/linxtl (Module/colour.py) for more details
+
+
+
+Here is the doc strings. Seems the StyledTextCtrl1.py demo broke on StartStyling.
+
+wxPython 4.0.7.post2 and wxPython 4.1.1a1
+```
+SetStyling(length, style)
+
+Change style from current styling position for length characters to a
+style and move the current styling position to after this newly styled
+segment.
+```
+
+wxPython 4.0.7.post2
+```
+StartStyling(start, mask=255)
+```
+wxPython 4.1.1a1
+```
+StartStyling(start)
+
+Set the current styling position to start.
+```
+
+@deonis1 
+This Issue will be closed when demo commit is merged by Robin. 
+Reference the changes I did to fix the demo for wxPy4.0/4.1 Scintilla changes and apply that to your code.
+
+For the record, it looks like `StartStyling` was changed upstream in the Scintilla code.
+
+ plugins and web-extensions in dynamic wxGTK builds
+ See https://discuss.wxpython.org/t/wxpython-4-1-and-wx-html2/34633
+
+wxWidgets 3.1 (wxPython 4.1) on Linux can be built with plugins (currently just the SDL audio backend) and if libwebkit2gtk-4.0 is available then there will also be a webkit extension built and put in a web-extensions folder in the plugin folder. And the plugin folder is based on the configured prefix.
+
+If wxWidgets is installed in the prefix, and wxPython is built with the `--use-syswx` flag then all is well.  If wxPython is built to use a relocatable wx included in wxPython's package dir then those things are missing. Just adding them to the wxPython package will not be enough. wxWidgets will need updated to be told were to load the plugin/extensions from. I'm thinking that using an environment variable would be the easiest as well as the most flexible.
+
+This issue has been mentioned on **Discuss wxPython**. There might be relevant details there:
+
+https://discuss.wxpython.org/t/wxpython-4-1-and-wx-html2/34633/2
+
+
+ Gtk-Critical: assertion failed
+ <!-- For bugs or other problems please provide the following details in addition to
+     your issue report, if applicable. See also https://wxpython.org/pages/how-to-submit-issue/
+
+     For issues about building on Linux, please read this page before reporting it here:
+     https://wxpython.org/blog/2017-08-17-builds-for-linux-with-pip/
+-->
+
+**Operating system**: Raspbian Buster
+**wxPython version & source**: 4.0.7 post2, built according to [this](https://wiki.wxpython.org/BuildWxPythonOnRaspberryPi)         <!-- pypi, self-built, etc. -->
+**Python version & source**: Python 3.7.3           <!-- stock, anaconda, EDM, distro, self-built, etc. -->
+
+**Description of the problem**: Whenever I run a program that uses wx I get the message: _(wxGUIv0.75.1.py:892): Gtk-CRITICAL **: 12:54:54.156: gtk_distribute_natural_allocation: assertion 'extra_space >= 0' failed_
+(The number in the bracket is changing every time.)
+The wx.Frame shows up without any problem and seems to be working fine, but sooner or later (roughly after 1min up to 3min runtime) it will freeze completely (the program keeps running though, it continues giving print output – as it is intended to – in the Terminal). In addition to that, something very strange happens: When I open a new window (eg. File Manager) and drag it over the wx.Frame, the part of the File Manager that lays over the wx.Frame will be "brand marked" onto the wx.Frame. This only occurs when the wx.Frame is already frozen and when the other window was opened after the wx.Frame froze.
+
+<!-- if possible please include a small runnable application that demonstrates the problem -->
+
+```python
+# Put code sample here
+```
+Unfortunately, there isn't enough information here to help you.  GTK tends to produce a lot of output, not all of which is useful.  In a lot of cases, it is because you have not allocated enough space in your UI for the widgets to fit.
+
+Can you provide a [SSCCE](http://sscce.org/) that reproduces the problem?
+
+Well, while making the SSCCE I found what was causing the freeze. I did not use wx.CallAfter to communicate to the main thread. This issue works now, although I get a `free(): invalid pointer` error after some runtime, but that is another topic.
+Thanks anyways!
+
+ Eliminate deprecation warning
+ Remove import of 'imp' module to eliminate deprecation warning.
+
+ Datetime.strptime error in wxPython why
+ ```
+# coding=utf-8
+import wx
+import sys
+import datetime
+
+if __name__ == "__main__":
+    print("wxpython version:", wx.version())
+    print("Python version:", sys.version)
+    print("Run before wx:", datetime.datetime.strptime("02/02/2020", '%d/%m/%Y'), "normal")
+    app = wx.App()
+    print("Run after wx:", datetime.datetime.strptime("02/02/2020", '%d/%m/%Y'), "error")
+
+    # frame = MainFrame()
+    # frame.SetSize(0, 0, 1200, 750)
+    # frame.Center()
+    # frame.Show()
+    app.MainLoop()
+```
+
+
+```
+wxpython version: 4.1.0 msw (phoenix) wxWidgets 3.1.4
+Python version: 3.6.8 (tags/v3.6.8:3c6b436a57, Dec 24 2018, 00:16:47) [MSC v.1916 64 bit (AMD64)]
+Run before wx: 2020-02-02 00:00:00 normal
+Traceback (most recent call last):
+  File "K:/test/a.py", line 14, in <module>
+    print("Run after wx:", datetime.datetime.strptime("02/02/2020", '%d/%m/%Y'), "error")
+  File "C:\Program Files\Python36\lib\_strptime.py", line 565, in _strptime_datetime
+    tt, fraction = _strptime(data_string, format)
+  File "C:\Program Files\Python36\lib\_strptime.py", line 334, in _strptime
+    if (_getlang() != locale_time.lang or
+  File "C:\Program Files\Python36\lib\_strptime.py", line 31, in _getlang
+    return locale.getlocale(locale.LC_TIME)
+  File "C:\Program Files\Python36\lib\locale.py", line 581, in getlocale
+    return _parse_localename(localename)
+  File "C:\Program Files\Python36\lib\locale.py", line 490, in _parse_localename
+    raise ValueError('unknown locale: %s' % localename)
+ValueError: unknown locale: zh-CN
+```
+
+See also https://github.com/pyinstaller/pyinstaller/issues/4874
+
+I'm seeing this too with wxPython 4.1.0 (and Python 3.8.1 MSW 64 bit, for the record).
+The same traceback occurs even if the locale is set explicitly through wx:
+```
+import wx
+import datetime
+app = wx.App()
+loc = wx.Locale(wx.LANGUAGE_ENGLISH_UK)
+print(datetime.datetime.strptime('2020', "%Y"))
+```
+However, if the locale is set using the Python locale module, it doesn't:
+```
+import wx
+import datetime, locale
+app = wx.App()
+locale.setlocale(locale.LC_ALL, 'en_GB')
+print(datetime.datetime.strptime('2020', "%Y"))
+```
+
+No traceback in this case. It seems to be a usable workaround. 
+
+Note that some older 4.0.x wxPython's insisted on the opposite, requiring wx.Locale instead of Python locale, as seen in this assertion failure from 4.0.4 wx.Image.ConvertToBitmap: 
+`
+wx._core.wxAssertionError: C++ assertion "strcmp(setlocale(LC_ALL, NULL), "C") == 0" failed at ..\..\src\common\intl.cpp(1579) in wxLocale::GetInfo(): You probably called setlocale() directly instead of using wxLocale and now there is a mismatch between C/C++ and Windows locale.
+`
+
+Edited to add: 
+Apparently not just older wxPythons: 4.1.0 wx.Image gave me this:
+```
+wx._core.wxAssertionError: C++ assertion "wxString::Format("%.3f", 1.23).find(str) != wxString::npos" failed at ..\..\src\common\intl.cpp(1638) in `anonymous-namespace'::GetInfoFromLCID(): Decimal separator mismatch -- did you use setlocale()?If so, use wxLocale to change the locale instead.
+```
+It seems locale.setlocale is not a usable workaround after all.
+
+For those seeing this, what does `locale.getlocale()` return *before* and *after* calling `wx.App()`?
+
+> 对于那些看到此消息的人，_在_致电_之前_和_之后_`locale.getlocale()`返回什么？____`wx.App()`
+
+```
+# coding=utf-8
+
+import wx
+import sys
+import datetime, locale
+
+if __name__ == "__main__":
+    print("wxpython version:", wx.version())
+    print("Python version:", sys.version)
+    print("Run before wx:", locale.getlocale())
+    app = wx.App()
+    print("Run after wx:", locale.getlocale())
+    
+
+    # Use this locale.setlocale(locale.LC_ALL, "") to return to normal.
+    locale.setlocale(locale.LC_ALL, "") 
+    print("Run after wx:", locale.getlocale())
+
+    app.MainLoop()
+```
+
+```
+wxpython version: 4.1.0 msw (phoenix) wxWidgets 3.1.4
+Python version: 3.6.8 (tags/v3.6.8:3c6b436a57, Dec 24 2018, 00:16:47) [MSC v.1916 64 bit (AMD64)]
+Run before wx: (None, None)
+Traceback (most recent call last):
+  File "K:/test/a.py", line 14, in <module>
+    print("Run after wx:", locale.getlocale())
+  File "C:\Program Files\Python36\lib\locale.py", line 581, in getlocale
+    return _parse_localename(localename)
+  File "C:\Program Files\Python36\lib\locale.py", line 490, in _parse_localename
+    raise ValueError('unknown locale: %s' % localename)
+ValueError: unknown locale: zh-CN
+```
+
+
+
+
+
+
+```
+    def InitLocale(self):
+        """
+        Try to ensure that the C and Python locale is in sync with wxWidgets locale.
+        """
+        import locale
+        print("BugTest1", locale.getlocale())
+
+        self.ResetLocale()
+        print("BugTest2", locale.getlocale())
+
+        import locale
+        print("BugTest3", locale.getlocale())
+
+        try:
+            loc, enc = locale.getlocale()
+        except ValueError:
+            loc = enc = None
+            print("BugTest4", locale.getlocale())
+        print("BugTest5", locale.getlocale())
+
+        # Try to set it to the same language as what is already set in the C locale
+        info = wx.Locale.FindLanguageInfo(loc) if loc else None
+        if info:
+            self._initial_locale = wx.Locale(info.Language)
+            print("BugTest6", locale.getlocale())
+
+        else:
+            # otherwise fall back to the system default
+            print("BugTest7", locale.getlocale())
+            self._initial_locale = wx.Locale(wx.LANGUAGE_DEFAULT)
+            print("BugTest8", locale.getlocale())
+```
+
+```
+wxpython version: 4.1.0 msw (phoenix) wxWidgets 3.1.4
+Python version: 3.6.8 (tags/v3.6.8:3c6b436a57, Dec 24 2018, 00:16:47) [MSC v.1916 64 bit (AMD64)]
+Run before wx: (None, None)
+BugTest1 (None, None)
+BugTest2 (None, None)
+BugTest3 (None, None)
+BugTest5 (None, None)
+BugTest7 (None, None)
+Traceback (most recent call last):
+  File "i:\python\lib\site-packages\wx\core.py", line 2204, in OnPreInit
+    self.InitLocale()
+  File "i:\python\lib\site-packages\wx\core.py", line 2287, in InitLocale
+    print("BugTest8", locale.getlocale())
+  File "C:\Program Files\Python36\lib\locale.py", line 581, in getlocale
+    return _parse_localename(localename)
+  File "C:\Program Files\Python36\lib\locale.py", line 490, in _parse_localename
+    raise ValueError('unknown locale: %s' % localename)
+ValueError: unknown locale: zh-CN
+```
+
+
+
+`self._initial_locale `
+changed to
+
+`self._initial_locale = wx.Locale(wx.LANGUAGE_UNKNOWN)
+`
+No traceback in this case
+
+
+@RobinD42 perhaps in the case where Python's `locale.getlocale()` returns `None`, wxPython should NOT be calling `wx.Locale(wx.LANGUAGE_DEFAULT)`?  It seems like in that case you are setting a locale where none is currently set.
+
+> 
+> 
+> For those seeing this, what does `locale.getlocale()` return _before_ and _after_ calling `wx.App()`?
+
+```
+Python 3.8.1 (tags/v3.8.1:1b293b6, Dec 18 2019, 23:11:46) [MSC v.1916 64 bit (AMD64)] on win32
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import locale
+>>> locale.getlocale()
+('Danish_Denmark', '1252')
+>>> import wx
+>>> wx.version()
+'4.1.0 msw (phoenix) wxWidgets 3.1.4'
+>>> locale.getlocale()
+('Danish_Denmark', '1252')
+>>> app = wx.App()
+>>> locale.getlocale()
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "C:\flonidan\env\Python38-64\lib\locale.py", line 591, in getlocale
+    return _parse_localename(localename)
+  File "C:\flonidan\env\Python38-64\lib\locale.py", line 499, in _parse_localename
+    raise ValueError('unknown locale: %s' % localename)
+ValueError: unknown locale: da-DK
+```
+
+What confuses me about the error message is the hyphen. Because the usual notation uses an underscore.
+```python
+>>> locale.setlocale(locale.LC_ALL, ('en-US', 'UTF-8'))
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "/usr/lib/python3.8/locale.py", line 608, in setlocale
+    return _setlocale(category, locale)
+locale.Error: unsupported locale setting
+>>> locale.setlocale(locale.LC_ALL, ('en_US', 'UTF-8'))
+'en_US.UTF-8'
+>>> 
+```
+
+See also `locale.locale_alias.keys()`.
+
+ PropertyGrid demo (custom PGEditors) crashing wxPython 4.1.0
+ <!-- For bugs or other problems please provide the following details in addition to
+     your issue report, if applicable. See also https://wxpython.org/pages/how-to-submit-issue/
+
+     For issues about building on Linux, please read this page before reporting it here:
+     https://wxpython.org/blog/2017-08-17-builds-for-linux-with-pip/
+-->
+
+**Operating system**: Windows 10 64-bit, CentOS7 x64
+**wxPython version & source**:   4.1.0, built from source
+**Python version & source**: Python 2.7.12, self built 
+
+**Description of the problem**:
+Several of the "Custom Properties and Editors" of the PropertyGrid demo (demo/PropertyGrid.py) are not working with wxPython 4.1.0, causing a crash of the application. 
+
+Many of these examples are also not up to date with the latest wxWidgets used by this release.
+* wxPG_SUBID1 and wxPG_SUBID2 are no longer used by wxPGEditor, the controls just use wxID_ANY in propgrid/editors.cpp
+* wxPGWindowList.m_primary is no longer available, but there is a GetPrimary() method instead.
+
+In the PropertyGrid.py demo, I have made substitutions to get past these wxWidgets changes (wxpg.PG_SUBID1 / PG_SUBID2 -> wx.ID_ANY; m_primary -> GetPrimary()), but then the examples will cause the application to crash.
+
+Using a debug build of wxPython, I see the following assertion:
+
+    python: ../../../../sip/siplib/siplib.c:3444: parseResult: Assertion `assign_helper != ((void *)0)' failed.
+Aborted (core dumped)
+
+This assert fails when trying to edit the following rows of the demo:
+* ImageFileWithLargeEditor
+* IntProperty2 
+* MultipleButtons
+
+(There is also an unrelated exception when the 'SetPropertyValues' or 'GetPropertyValues' or 'GetPropertyValues (as_strings=True)' or 'AutoFill' buttons are pressed)
+
+--
+My application (working with wxPython 4.0.7post2) makes use of custom editors, based on the SampleMultiButtonEditor from this demo - but given that this is no longer working with the 4.1.0 release, it would be nice to know if the demo just needs to be updated, or if the changes in wxWidgets require a fix to wxPython's SIP code so that we can still have custom PGEditor classes in Python.
+
+ wx._core.wxAssertionError: -- newer version issue w/widgetsizer.Add(... wx.ALL|wx.ALIGN_RIGHT)
+ **Operating system**: MacOs, Windows 10, Ubuntu 16.04
+**wxPython version & source**:    pypi  4.1.0 (windows, MacOS) & source build on ubuntu
+**Python version & source**:          anaconda, python 3.7 and python 3.6
+
+**Description of the problem**:
+
+Firstly, thanks for this package - we use it in our package (https://github.com/AlexEMG/DeepLabCut). 3 of our users are hitting the same issue, across platforms. This appears to be the culprit (`widgetsizer.Add(self.quit , 1, wx.ALL|wx.ALIGN_RIGHT, 15)`) code here: https://github.com/AlexEMG/DeepLabCut/blob/9cf2f5a263a4c72bd176414225d64d055bf75858/deeplabcut/generate_training_dataset/labeling_toolbox.py#L216  but has been deployed successfully for the last 1.5+ years; rolling back to, for example, `4.0.7.post2` works as intended. Thanks for any tips on improving our code/if this is indeed a wxPython issue, for the fix :).
+
+Here is our discussion on the issue: **https://github.com/AlexEMG/DeepLabCut/issues/682**
+
+
+```python
+Traceback (most recent call last):
+  File "/Applications/anaconda3/envs/DLC-CPU/lib/python3.7/site-packages/matplotlib/backends/backend_wx.py", line 844, in _onSize
+    self.bitmap = wx.Bitmap(self._width, self._height)
+wx._core.wxAssertionError: C++ assertion ""w > 0 && h > 0"" failed at /Users/robind/projects/bb2/dist-osx-py37/build/ext/wxWidgets/src/osx/core/bitmap.cpp(1008) in Create(): invalid bitmap size
+Traceback (most recent call last):
+  File "/Applications/anaconda3/envs/DLC-CPU/lib/python3.7/site-packages/deeplabcut/gui/label_frames.py", line 102, in label_frames
+    deeplabcut.label_frames(self.config)
+  File "/Applications/anaconda3/envs/DLC-CPU/lib/python3.7/site-packages/deeplabcut/generate_training_dataset/trainingsetmanipulation.py", line 260, in label_frames
+    labeling_toolbox.show(config,imtypes=imtypes)
+  File "/Applications/anaconda3/envs/DLC-CPU/lib/python3.7/site-packages/deeplabcut/generate_training_dataset/labeling_toolbox.py", line 701, in show
+    frame = MainFrame(None, config, imtypes).Show()
+  File "/Applications/anaconda3/envs/DLC-CPU/lib/python3.7/site-packages/deeplabcut/generate_training_dataset/labeling_toolbox.py", line 216, in __init__
+    widgetsizer.Add(self.quit , 1, wx.ALL|wx.ALIGN_RIGHT, 15)
+wx._core.wxAssertionError: C++ assertion "!(flags & wxALIGN_RIGHT)" failed at /Users/robind/projects/bb2/dist-osx-py37/build/ext/wxWidgets/src/common/sizer.cpp(2098) in DoInsert(): Horizontal alignment flags are ignored in horizontal sizers
+```
+
+I think it’s a bit too extreme (being conservative here) to go nuclear and raise an assertion error just because of sizer flags. Even if the sizer flags are ignored, who cares? Do we need to atomize an entire application just because there’s an additional, redundant wx.ALIGN_RIGHT? Maybe a DeprecationWarning would be better? I understand that it’s not under Phoenix’ control as the assert comes from wxWidgets, but, wxWidgets guys, seriously?
+
+This is another case related to #1270 I did a while ago. Robin confirmed that it was indeed time to remove them. This has been deprecated/markedForRemoval in wxWidgets for some time, and since wxPython Phoenix finally caught up to wxWidgets, this will probably be reported more. 
+There wasn't a release note made in 4.1, but Robin went ahead and made a small note in changelog for 4.1.x that mentions this change.
+... But in all reality since it wasn't throwing deprecation messages for whatever reason, wxWidgets should have just outright fixed the problem when it was first noticed instead of prolonging. 
+@MMathisLab If you look at the PullReqz #1272 changes it sorta shows what needs changed when upgrading to wxPy 4.1.
+While we all feel your pain having to deal with this, doing a search on your whole program python .py files will find most of them unless it may be xml or something else. It is how I dealt with the issue with my software. And just if you are curious, It didn't change anything visually as far as I can tell. Hope this helps.
+
+thanks, @Metallicow!
+
+ Could not find gtk. I have checked I have installed gtk3
+ <!-- For bugs or other problems please provide the following details in addition to
+     your issue report, if applicable. See also https://wxpython.org/pages/how-to-submit-issue/
+
+     For issues about building on Linux, please read this page before reporting it here:
+     https://wxpython.org/blog/2017-08-17-builds-for-linux-with-pip/
+-->
+
+**Operating system**: Linux Ubuntu 18.04.3
+**wxPython version & source**:    4.10       <!-- pypi, self-built, etc. -->
+**Python version & source**:      3.6.9      <!-- stock, anaconda, EDM, distro, self-built, etc. -->
+
+**Description of the problem**:
+
+<!-- if possible please include a small runnable application that demonstrates the problem -->
+
+```
+checking for GTK+ - version >= 3.0.0... no
+*** Could not run GTK+ test program, checking why...
+*** The test program failed to compile or link. See the file config.log for the
+*** exact error that occurred. This usually means GTK+ is incorrectly installed.
+configure: error: 
+The development files for GTK+ were not found. For GTK+ 2, please
+ensure that pkg-config is in the path and that gtk+-2.0.pc is
+installed. For GTK+ 1.2 please check that gtk-config is in the path,
+and that the version is 1.2.3 or above. Also check that the
+libraries returned by 'pkg-config gtk+-2.0 --libs' or 'gtk-config
+--libs' are in the LD_LIBRARY_PATH or equivalent.
+```
+I am very sure that I have installed gtk3-dev.
+bash command:
+```
+pkg-config --modversion gtk+-3.0
+```
+results:
+```
+3.22.30
+```
+
+
+The reason I have found.
+It is because the package cairo.pc error.
+```
+sudo gedit /usr/lib/x86_64-linux-gnu/pkgconfig/cairo.pc
+```
+Change the freetype version 9.7.3 to 2.7.3 to solve the problem.
+
+ Scrolling many child windows freezes Windows OS
+ wxPython 4.0.3, Python 2.7/3.8
+Issue affects Windows 10 and Windows 7 with the default theme.
+Does not affect Windows 7 with the "classic" theme, WindowsXP, MacOS, Ubuntu/GTK3
+
+When a window with many child windows is scrolled the `dwm.exe` process begins consuming 100% CPU. This effectively freezes the desktop window manager for a period of time. It affects all programs running. The system eventually recovers after a time.
+
+Can be reproduced with following snippet. Use the mouse to move the scrollbar thumb rapidly up and down, then attempt to switch to another window. The entire Windows OS user interface will be frozen for several seconds.
+ 
+```python
+import wx
+
+class MyWindow(wx.ScrolledWindow):
+    def __init__(self, parent, number):
+        wx.ScrolledWindow.__init__(self, parent)
+        bitmap = wx.ArtProvider.GetBitmap(wx.ART_WARNING, wx.ART_OTHER, (16,16))
+        for row in range(number):
+            widget = wx.StaticBitmap(self, pos=(2, row * 20), bitmap=bitmap)
+        self.SetScrollbars(10, 10, 0, (number + 1) * 20 // 10, 0, 0)
+
+class MyFrame(wx.Frame):
+    def __init__(self, parent):
+        wx.Frame.__init__(self, parent, title="Child Window Demo")
+        img_window = MyWindow(self, number=2000)
+        self.Show()
+
+app = wx.App(redirect=False)
+locale = wx.Locale(wx.LANGUAGE_DEFAULT)
+frame = MyFrame(None)
+frame.Show()
+app.MainLoop()
+```
+
+"Child Window Demo")
+This is creating a lot of issues. Thanks for reporting the problem!
+
+[I've found an old ticket which talks about the same issue on the wxwidgets trac.](https://trac.wxwidgets.org/ticket/15766)
+Doesn't look like it's ever going to be fixed. :(
+
+This issue from stack overflow seems similar:
+[why-is-my-mfc-application-hanging-after-interacting-with-both-scroll-bars](https://stackoverflow.com/questions/59655147/why-is-my-mfc-application-hanging-after-interacting-with-both-scroll-bars)
+
+ [ULC] add orientation parameter to GetScrollPos
+ 
+
+ [ULC] add method GetCheckedItemCount
+ Added a method to get the number of checked items.
+
+@topic2k Note: returning a len for a list comp I'm pretty sure would be a lot faster. Also would be a one-liner.
+
+```python
+        GetLine = self.GetLine  # local optimization
+        return len([line for line in range(self.GetItemCount()) if GetLine(line).IsChecked(col)])
+```
+Haven't timeit tested but it is just a simple for loop that could look like this.
+
+@Metallicow, for me it makes no big difference (maybe i'm doing the tests wrong, never used timeit before). Most times your version is a little faster, sometimes mine.
+
+I've attached my [test app](https://github.com/wxWidgets/Phoenix/files/4638564/ulc-speedtest.py.txt) (added .txt to the filename, as .py files are not allowed for upload) and replaced `GetCheckedItemCount` with this code:
+
+<details>
+<summary>GetCheckedItemCount with timeit</summary>
+
+```python
+
+    def GetCheckedItemCount(self, col=0):
+        """
+        Returns the number of checked items in the given column.
+
+        :param col: an integer specifying the column index.
+        :returns: the number of checked items.
+        :rtype: int
+        """
+
+        import timeit
+
+        def cnt1():
+            countChkd = 0
+            get_line = self.GetLine
+            for line in range(self.GetItemCount()):
+                if get_line(line).IsChecked(col):
+                    countChkd += 1
+            return countChkd
+
+        def cnt2():
+            GetLine = self.GetLine  # local optimization
+            return len([line for line in range(self.GetItemCount()) if GetLine(line).IsChecked(col)])
+
+        print("timeit cnt1(): ", timeit.timeit(stmt="cnt1()", number=1, globals=locals()))
+        print("timeit cnt2(): ", timeit.timeit(stmt="cnt2()", number=1, globals=locals()))
+        print()
+
+        return cnt2()
+```
+</details>
+
+ I run the test on Python 3.8.0 (default, Oct 15 2019, 09:10:20) [GCC 9.2.1 20191008] on linux and wxPython 4.1.0 gtk3 (phoenix) wxWidgets 3.1.4
+
+
+
+Well for what its worth it appears if ya want more speed the thing to do would be to refactor/optimize the whole UltimateListCtrl. Most of the agw widgets are pure python, so anywhere things could be pushed into C would make it definitely faster.
+It appears only the local opt did very little. also it is questionable if this function would get run more than once.
+
+I see your speed issue haha... Sorry to say agw aui sucks like this too.
+I'd say what you wrote is fine for now(add the local opt in), but if you really want to squeeze all the performance you can out of it, a rewrite/refactor would be in order, which would be a lot more work and testing each function for all possible bottlenecks. If the whole file was optimized for speed you would sacrifice some readability and would have to duplicate some code also since function calls are expensive.
+
+Anyhow here is my sample results. I tried testing against count also, tho it didnt make any improvement.
+
+```
+wxPython 4.0.7.post2 msw (phoenix) wxWidgets 3.0.5 Scintilla 3.21
+Python 2.7.18 (v2.7.18:8d21aa21f2, Apr 20 2020, 13:19:08) [MSC v.1500 32 bit (Intel)] on win32
+Timeit Test - 1000 times
+Test1:[22.47498697548353, 22.43635968767434, 22.463036032237568]
+Test2:[22.1063757112166, 22.100655598119886, 22.27809651977529]
+Test3:[22.121768246947283, 22.159043612526688, 22.160652946004006]
+
+Winner: Test2
+Loser: Test1
+```
+<details>
+    <summary>Collapsible Content - timeit sample with added ulc stuff</summary>
+
+```python
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+# Imports ---------------------------------------------------------------------
+# -Python Imports.
+import os
+import sys
+import timeit
+
+# -wxPython Imports.
+import wx
+from wx.lib.embeddedimage import PyEmbeddedImage
+
+# test widget
+from wx.lib.agw import ultimatelistctrl as ulc
+ULC_KIND_NORMAL = 0  # A normal item
+ULC_KIND_CHECKBOX = 1  # checkbox-like item
+ULC_KIND_RADIO = 2  # A radiobutton-type item
+ULC_COUNTER_IN_HEADER = 0x100000000
+
+
+clock16 = PyEmbeddedImage(
+    "iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABK0lEQVR4AaWTPWqEUBSFAwMp"
+    "ZwsTsEk19fRuwZVkC2JnI9hZiUKwVCuF1LbWbiClYKFGlRu/QEAmczPFHLjwePeco/fnPV3h"
+    "sMVxi9MW5y0uBGfuyP1wFDxv8WIYxptlWR+2bX8mSfJFcOaOHBy4t8Svpmm+B0HQNU0jbdtK"
+    "XddSVZVM0yTckYMDd29ywJVEURQLwnVdBYRhKJ7nyTAMwh05OHDR/JZz5Ndwh7BHHMfi+75g"
+    "AAAcuGjQYnCiPn6Rr9wzgAMXDVoMzjQJZ3DPAMBFgxaDC50ex1GuEUWRuK4rfd/LHnDRoP3X"
+    "oCxLcRxH8jyXeZ41A70ExpdlGSaSpqksy3KrBL2JABFiRtp13Z8mKmNUoIxRXaQ99EXSV5lm"
+    "EZy1VX78MT38nL8BuoU1fzYVzjQAAAAASUVORK5CYII=")
+
+
+class TimeitPanel(wx.Panel):
+    def __init__(self, parent, id=wx.ID_ANY,
+                 pos=wx.DefaultPosition, size=wx.DefaultSize,
+                 style=wx.BORDER_SUNKEN, name='panel'):
+        wx.Panel.__init__(self, parent, id, pos, size, style, name)
+
+        # Add testwidget to timeit sample---------
+        self.testwidget = ulc.UltimateListCtrl(self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, style=0,
+                                               agwStyle=ULC_COUNTER_IN_HEADER | ulc.ULC_REPORT | ulc.ULC_NO_HIGHLIGHT | ulc.ULC_AUTO_CHECK_CHILD)
+        # choices=None,
+        # columns=None,
+        self.testwidget.Freeze()
+        choices = ["item number %d" % idx for idx in range(1000)]
+        columns=['']
+
+        info = ulc.UltimateListItem()
+        info.SetMask(
+            ulc.ULC_MASK_TEXT |
+            ulc.ULC_MASK_KIND |
+            ulc.ULC_MASK_FORMAT
+        )
+        info.SetText(columns[0])
+        info.SetAlign(ulc.ULC_FORMAT_LEFT)
+        info.SetKind(ULC_KIND_CHECKBOX)
+        self.testwidget.InsertColumnInfo(0, info)
+        self.testwidget.SetColumnWidth(0, ulc.ULC_AUTOSIZE_FILL)
+
+        AddChoice = self.AddChoice
+        [AddChoice(choice, item_data=choice) for choice in choices]
+        self.testwidget.Thaw()
+        #-----------------------------------------
+
+        self.rb = wx.RadioBox(self, wx.ID_ANY, 'Number of times to test',
+                              choices=('1', '10', '42', '100', '1000',
+                                       '10000', '100000', '1000000'),
+                              majorDimension=4,
+                              style=wx.RA_SPECIFY_COLS)
+        self.rb.SetSelection(2)
+
+        self.b1 = wx.Button(self, wx.ID_ANY, 'timeit')
+        self.b1.Bind(wx.EVT_BUTTON, self.OnRunTheTimeitTests)
+
+        vbSizer = wx.BoxSizer(wx.VERTICAL)
+        vbSizer.Add(self.testwidget, 1, wx.EXPAND | wx.ALL, 5)
+        vbSizer.Add(self.rb, 0, wx.EXPAND | wx.ALL, 5)
+        vbSizer.Add(self.b1, 0, wx.EXPAND | wx.ALL, 5)
+        self.SetSizer(vbSizer)
+
+
+    # ulc helper
+    def AddChoice(self, choice, checked=False, item_data=None):
+        idx = self.testwidget.GetItemCount()
+        new_item = ulc.UltimateListItem()
+        new_item.SetId(idx)
+        new_item.SetColumn(0)
+        new_item.SetKind(ULC_KIND_CHECKBOX)
+        new_item.Check(checked)
+        new_item.SetState(ulc.ULC_STATE_FOCUSED)
+        new_item.SetPyData(item_data)
+        new_item.SetText(choice)
+        self.testwidget.InsertItem(new_item)
+        # self._dirty = True
+        return idx
+
+    def OnRunTheTimeitTests(self, event=None):
+        """
+        Explain a bit about the tests being performed HERE.
+        Ex: local vs. global access time, considering dots kill performance.
+        """
+        # - Add Some Tests. 1 or more tests supported.
+        def Test1():
+            countChkd = 0
+            ## get_line = self.testwidget.GetItem
+            for line in range(self.testwidget.GetItemCount()):
+                ## if get_line(line).IsChecked():
+                if self.testwidget.GetItem(line).IsChecked():
+                    countChkd += 1
+            ##print(countChkd)
+            return countChkd
+        def Test2():
+            GetLine = self.testwidget.GetItem  # local optimization
+            ##print(len([line for line in range(self.testwidget.GetItemCount()) if GetLine(line).IsChecked()]))
+            return len([line for line in range(self.testwidget.GetItemCount()) if GetLine(line).IsChecked()])
+        def Test3():
+            GetLine = self.testwidget.GetItem  # local optimization
+            ##print(len([line for line in range(self.testwidget.GetItemCount()) if GetLine(line).IsChecked()]))
+            return [GetLine(line).IsChecked() for line in range(self.testwidget.GetItemCount())].count(True)
+
+        # - Prepare all the data for the Tests before testing.
+        theLocals = locals()
+        sortedLocals = sorted(list(theLocals.values()), key=str)
+        allTestsTuple = tuple(sortedLocals)
+
+        # - Define how many times we want to run the tests.
+        timeitThisNumberTimes = int(self.rb.GetStringSelection())
+
+        # - Do the actual testing and print out the individual results.
+        print('')
+        print('-' * 42)
+        print('Timeit Test')
+
+        testResultsDict = {}
+        testResultsList = []
+        for test in allTestsTuple:
+            if not hasattr(test, '__call__'):
+                continue
+            testResults = timeit.repeat(test, number=timeitThisNumberTimes)
+            print('%s:%s' % (test.__name__, testResults))
+            testResultsList.append(testResults)
+            testResultsDict['%s' % testResults] = test.__name__
+
+        # Now that the testing is over, lets figure out the winners and losers.
+        print('')
+        winner = min(testResultsList)
+        loser = max(testResultsList)
+        print('Winner: %s' % testResultsDict['%s' % winner])
+        print('Loser: %s' % testResultsDict['%s' % loser])
+
+
+class TimeitFrame(wx.Frame):
+    def __init__(self, parent, id=wx.ID_ANY, title=wx.EmptyString,
+                 pos=wx.DefaultPosition, size=wx.DefaultSize,
+                 style=wx.DEFAULT_FRAME_STYLE | wx.STAY_ON_TOP,
+                 name='frame'):
+        wx.Frame.__init__(self, parent, id, title, pos, size, style, name)
+        global gMainWin
+        gMainWin = self
+        panel = TimeitPanel(self)
+        vbSizer = wx.BoxSizer(wx.VERTICAL)
+        vbSizer.Add(panel, 1, wx.EXPAND | wx.ALL, 5)
+        self.SetSizerAndFit(vbSizer)
+        self.Centre()
+        statusBar = self.CreateStatusBar()
+        pyVER = '%d.%d.%d %s' % sys.version_info[:4]
+        verInfo = 'wxPython %s running on Python %s' % (wx.version(), pyVER)
+        statusBar.SetStatusText(verInfo, 0)
+        self.Bind(wx.EVT_CLOSE, self.OnDestroy)
+
+
+    def OnDestroy(self, event):
+        self.Destroy()
+
+
+class TimeitApp(wx.App):
+    def OnInit(self):
+        self.SetClassName('TimeitApp')
+        self.SetAppName('TimeitApp')
+        gMainWin = TimeitFrame(None)
+        gMainWin.SetTitle('Timeit Test: ')
+        gMainWin.SetIcon(clock16.GetIcon())
+        self.SetTopWindow(gMainWin)
+        gMainWin.Show()
+        return True
+
+
+if __name__ == '__main__':
+    gApp = TimeitApp(redirect=False,
+                     filename=None,
+                     useBestVisual=False,
+                     clearSigInt=True)
+
+    gApp.MainLoop()
+
+```
+</details>
+
+
+wx.ID_ANY, titleAlthough it doesn't make a big difference, i changed to list comprehension as 'it looks nicer'. :smiley: 
+
+ [ULC] add parameter column index to SendNotify
+ Added a column parameter to SendNotify and set it to the column index in an UltimateListEvent where applicable.
+
+ [ULC] fix calculation of line width
+ If one or more columns are hidden, HitTest would falsely report a hit when clicked right beside the last visible column within the range of the hidden column(s).
+
+
+<details>
+<summary>sample code to show HitTest problem.</summary>
+
+```python
+import wx
+from wx.lib.agw import ultimatelistctrl as ulc
+
+
+class TestFrame(wx.Frame):
+
+    def __init__(self):
+        super(TestFrame, self).__init__(None, size=(700, 300))
+
+        self.lst_ctrl = ulc.UltimateListCtrl(self, agwStyle=ulc.ULC_REPORT)
+        self.fill_list_ctrl(self.lst_ctrl)
+        szr = wx.BoxSizer(wx.VERTICAL)
+        szr.Add(wx.StaticText(
+            self,
+            label="right click on an item in different columns,"
+                  "\nright behind the last column of an item and"
+                  "\nnear the right border of the frame."
+        ))
+        szr.Add(self.lst_ctrl, 1, wx.EXPAND)
+        self.SetSizer(szr)
+        self.Bind(ulc.EVT_LIST_ITEM_RIGHT_CLICK, self.on_right_click)
+        self.lst_ctrl.SetColumnWidth(2, wx.LIST_AUTOSIZE_USEHEADER)
+
+    def on_right_click(self, event):
+        evt_index = event.GetIndex()
+        evt_column = event.GetColumn()
+
+        print("  item index:", evt_index)
+        print("column index:", evt_column)
+        print()
+
+    def fill_list_ctrl(self, ctrl):
+        col_info = ulc.UltimateListItem()
+        col_info.SetMask(ulc.ULC_MASK_TEXT | ulc.ULC_MASK_KIND)
+        col_info.SetKind(0)
+        col_info.SetText('this is column 0')
+        ctrl.InsertColumnInfo(-1, col_info)
+
+        col_info.SetText('this is column 1')
+        col_info.SetShown(False)
+        col_info.SetMask(ulc.ULC_MASK_TEXT | ulc.ULC_MASK_KIND | ulc.ULC_MASK_SHOWN)
+        ctrl.InsertColumnInfo(-1, col_info)
+
+        col_info.SetText('this is column 2 (column 1 is hidden)')
+        col_info.SetMask(ulc.ULC_MASK_TEXT | ulc.ULC_MASK_KIND)
+        ctrl.InsertColumnInfo(-1, col_info)
+
+        for idx in range(5):
+            item = ulc.UltimateListItem()
+            item.SetId(idx)
+            item.SetMask(ulc.ULC_MASK_TEXT | ulc.ULC_MASK_KIND)
+            item.SetKind(0)
+            item.SetColumn(0)
+            item.SetText("row %d, column 0" % idx)
+
+            ctrl.InsertItem(item)
+            item.SetColumn(1)
+            item.SetText("row %d, column 1" % idx)
+
+            ctrl.SetItem(item)
+            item.SetColumn(2)
+            item.SetText("row %d, column 2" % idx)
+            ctrl.SetItem(item)
+
+        ctrl.SetColumnWidth(0, ulc.ULC_AUTOSIZE)
+        ctrl.SetColumnWidth(1, ulc.ULC_AUTOSIZE)
+        ctrl.SetColumnWidth(2, ulc.ULC_AUTOSIZE)
+
+
+if __name__ == '__main__':
+    app = wx.App()
+    win = TestFrame()
+    win.Show()
+    app.MainLoop()
+```
+
+
+</details>
+ new event wx.lib.agw.aui.EVT_AUI_PANE_CLOSED
+ I needed an event when a pane was closed, but the existing `wx.lib.agw.aui.EVT_AUI_PANE_CLOSE` is fired when a pane is about to be closed and that sometimes led to timing issues.
+I added an extra event that is fired when the pane is really closed.
+I was thinking about to rename EVT_AUI_PANE_CLOSE to EVT_AUI_PANE_CLOSING (which better fits), but that could break older code. So i just changed the docstring.
+@RobinD42 what is preferred: just adding a commit with changes or squashing the commits and force-push?
+
+Just adding the new commits is fine. It makes it easy to see what's changed. If a PR gets messy enough that a squash would be better, then I can do that when merging.
+
+ Fix issue #1364
+ <!-- Be sure to set the issue number that this PR fixes or implements below, and give
+     a good description. If this PR is for a new feature or enhancement, then it's
+     okay to remove the "Fixes #..." below, but be sure to give an even better
+     description of the PR in that case.
+
+     See also https://wxpython.org/pages/contributor-guide/  -->
+
+Fixes #1364 
+
+
+@RobinD42 What are your thoughts on this issue and my proposed fix?
+
+@jmoraleda Do you have a small running sample that can reproduce this on py2/3 and specs on the wxPython relz version? (no sample on the ticket page) I don't seem to have this issue with my program. In my code editor I can load from a settings.ini string or other methods. But I also at one point added oddball checks of sorts to make sure things was dockable on startup and not looking screwy. The agw aui sample doesn't save settings inbetween starts so it is hard to tell if this might be specific to something else. an ini sample should be fine to try and reproduce what you are getting i would think... not sure how you are trying to load the perspective...
+
+ assertion with Freeze / Thaw / PropertyGridManager / DestroyLater
+ **Operating system**: Windows 10, 64 bit
+**wxPython version & source**:         4.1.0 from PyPi
+**Python version & source**:            stock 3.6.4, 64 bit
+
+**Description of the problem**: destroying a PropertyGridManager inside Freeze/Thaw triggers an assertion
+
+`Thaw() without matching Freeze()`
+
+Using e.g. `Destroy` instead of `DestroyLater` or using `TextCtrl` instead of `PropertyGridManager` does not trigger the assertion.
+
+E.g. Python 3.8, 64 bit with wxPython 4.0.7 does not trigger the assertion.
+
+With `SetAssertMode(0)` the assertion is ignored.
+
+```python
+# -*- coding: UTF-8 -*-
+
+import sys, wx, wx.propgrid
+
+print(sys.version)
+print(wx.VERSION)
+
+
+class MyFrame(wx.Frame):
+    def __init__(self):
+        wx.Frame.__init__(self, None, style=wx.DEFAULT_FRAME_STYLE)
+
+        self.child = wx.propgrid.PropertyGridManager(self)
+        #self.child = wx.TextCtrl(self)
+        wx.CallAfter(self.destroy_property_grid)
+
+    def destroy_property_grid(self):
+        self.Freeze()
+        # this triggers an assertion for a PropertyGridManager; OK for a TextCtrl
+        self.child.DestroyLater()
+        ## this would work:
+        #self.child.Destroy()
+        self.Thaw()
+        self.Refresh()
+
+
+class App(wx.App):
+    def OnInit(self):
+        #self.SetAssertMode(0)  # avoid assertion
+        self.myframe = MyFrame()
+        self.SetTopWindow(self.myframe)
+        self.myframe.Show()
+        return True
+
+
+if __name__ == "__main__":
+    app = App(0)
+    app.MainLoop()
+```
+Output:
+```
+3.6.4 (v3.6.4:d48eceb, Dec 19 2017, 06:54:40) [MSC v.1900 64 bit (AMD64)]
+(4, 1, 0, '')
+Traceback (most recent call last):
+  File "d:\Python\Python36-64\lib\site-packages\wx\core.py", line 3383, in <lambda>
+    lambda event: event.callable(*event.args, **event.kw) )
+  File "PropGrid_Freeze.py", line 23, in destroy_property_grid
+    self.Thaw()
+wx._core.wxAssertionError: C++ assertion "m_freezeCount" failed at ..\..\src\common\wincmn.cpp(1287) in wxWindowBase::Thaw(): Thaw() without matching Freeze()
+```
+
+ wxPython crash: Process finished with exit code -1073740771 (0xC000041D)
+ <!-- For bugs or other problems please provide the following details in addition to
+     your issue report, if applicable. See also https://wxpython.org/pages/how-to-submit-issue/
+
+     For issues about building on Linux, please read this page before reporting it here:
+     https://wxpython.org/blog/2017-08-17-builds-for-linux-with-pip/
+-->
+
+**Operating system**: Windows 10 Build 18363
+**wxPython version & source**: 4.1.0 from PyPi
+**Python version & source**: 3.7.7 from python.org executed using PyCharm 2020.1.0
+
+**Description of the problem**: My Python script crashes:  
+`Process finished with exit code -1073740771 (0xC000041D)` (The output is from PyCharm, so it crashes with that exit code)
+
+<!-- if possible please include a small runnable application that demonstrates the problem -->
+
+```python
+import sys
+
+import wx
+import wx.lib
+import wx.richtext
+import wx.dataview
+from wx._dataview import TLI_LAST
+from wx.html import HtmlWindow
+
+VERSION = "1.1.0"
+
+
+# noinspection PyUnusedLocal
+class MainFrame(wx.Frame):
+    def __init__(self):
+        super().__init__(None)
+
+        self.data = {}
+        self.path = None
+        self.SetTitle(f"NZT Explorer {VERSION}")
+
+        self.panel = wx.Panel(self)
+
+        # self.valueImage = wx.Bitmap("file.png")
+        # self.packageImage = wx.Bitmap("package.png")
+
+        # Controls
+        # self.sizer = wx.BoxSizer(wx.VERTICAL)
+        self.treeCtrl = wx.dataview.TreeListCtrl(self.panel, wx.ID_ANY, )
+        self.nameColumn = self.treeCtrl.AppendColumn("Name")
+        self.valueColumn = self.treeCtrl.AppendColumn("Value")
+        self.treeCtrl.Bind(wx.dataview.EVT_TREELIST_ITEM_ACTIVATED, self.open_item)
+
+        root_item = self.treeCtrl.GetRootItem()
+        item: wx.dataview.TreeListItem = self.treeCtrl.AppendItem(root_item, "")
+        self.treeCtrl.SetItemText(item, self.nameColumn, f"<Not Opened Yet>")
+        self.treeCtrl.SetItemText(item, self.valueColumn, f"")
+        self.rootItem = item
+        self.panel.Bind(wx.EVT_SIZE, self.resize_tree)
+
+        # Menu Bar
+        self.menuBar = wx.MenuBar(style=0)
+
+        # File Menu
+        self.fileMenu = wx.Menu()
+        self.fileExitItem = wx.MenuItem(self.fileMenu, wx.ID_ANY, "E&xit")
+        self.fileMenu.Bind(wx.EVT_MENU, self.exit_command, self.fileExitItem)
+        self.fileMenu.Append(self.fileExitItem)
+        self.menuBar.Append(self.fileMenu, "&File")
+
+        # Node Menu
+        self.nodeMenu = wx.Menu()
+        self.nodeValueMenu = wx.Menu()
+        self.nodeValueObject = wx.MenuItem(self.nodeValueMenu, wx.ID_ANY, "New &Object Value")
+        self.nodeValueMenu.Bind(wx.EVT_MENU, self.new_object, self.nodeValueObject)
+        self.nodeValueMenu.Append(self.nodeValueObject)
+        self.nodeMenu.AppendSubMenu(self.nodeValueMenu, "New &Value")
+        self.menuBar.Append(self.nodeMenu, "&Node")
+
+        self.helpMenu = wx.Menu()
+        self.menuBar.Append(self.helpMenu, "&Help")
+
+        self.SetMenuBar(self.menuBar)
+
+        # self.new()
+
+        # Set sizer
+        # self.panel.SetSizer(self.sizer)
+
+    def new_object(self, evt: wx.CommandEvent):
+        import wx
+
+        app = wx.App()
+
+        with wx.MessageDialog(self, "WARNING!", "Are you sure you want to create a new object?\n"
+                                                "Don't use this feature unless you know what you are doing.", wx.YES_NO | wx.ICON_WARNING) as dialog:
+            result = dialog.ShowModal()
+
+        if result == wx.ID_YES:
+            with wx.TextEntryDialog(self, "Name for the new string:", "New String") as dialog:
+                dialog: wx.TextEntryDialog
+                dialog.ShowModal()
+                name: str = dialog.GetValue()
+
+            with wx.TextEntryDialog(self, "Code for the new object", "New String") as dialog:
+                dialog: wx.NumberEntryDialog
+                dialog.ShowModal()
+                code: str = dialog.GetValue()
+
+            with wx.TextEntryDialog(self, "Filename for the new object", "New String") as dialog:
+                dialog: wx.NumberEntryDialog
+                dialog.ShowModal()
+                file: str = dialog.GetValue()
+
+            glob = {}
+            loc = {}
+
+            try:
+                exec(compile(code, file, "exec"), glob, loc)
+            except Exception as e:
+                import traceback
+
+                with wx.MessageDialog(self, "Error", traceback.format_exception(e.__class__, e, e.__traceback__),
+                                      wx.OK | wx.CENTRE | wx.ICON_ERROR) as dialog:
+                    dialog.ShowModal()
+
+            with wx.SingleChoiceDialog(self, "Choose an local object to create", "Boolean", loc.keys()) as dialog:
+                dialog: wx.SingleChoiceDialog
+                dialog.ShowModal()
+                choosen = dialog.GetStringSelection()
+
+                if choosen:
+                    value = loc[choosen]
+                else:
+                    return
+
+            selected_item: wx.TreeItemId = self.treeCtrl.GetSelection()
+            if selected_item == self.treeCtrl.GetRootItem():
+                path = []
+            else:
+                path: list = self.treeCtrl.GetItemData(selected_item)["path"]
+            self.new_value(path, selected_item, name, value)
+        # evt.Destroy()
+
+    def exit_command(self, evt: wx.CommandEvent):
+        if self.path:
+            # nzt_file = NZTFile(self.path, "r")
+            # nzt_file.load()
+            # if nzt_file.data != self.data:
+            #     with wx.MessageDialog(self, "Are you sure you want to quit?", "Question",
+            #                           wx.YES | wx.NO | wx.NO_DEFAULT | wx.CENTRE | wx.ICON_QUESTION) as messageDialog:
+            #         messageDialog: wx.MessageDialog
+            #         choice = messageDialog.ShowModal()
+            #         if choice == wx.ID_NO:
+            #             nzt_file.close()
+            #             return
+            #
+            # nzt_file.close()
+            pass
+        sys.exit(0)
+
+    def resize_tree(self, event: wx.SizeEvent):
+        self.treeCtrl.SetSize(event.GetSize())
+
+    def new_value(self, path, item, name, value):
+        sys.exit(0)
+        parent_value = self.get_value(path, self.data)
+        parent_type = self.get_type2(path, self.data)
+        # print(parent_value, parent_type)
+        if parent_type == dict:
+            if name not in parent_value:
+                parent_value[name] = value
+                self._refresh_tree_item(item, parent_value, path)
+            else:
+                raise ValueError(f"Value '{name}' already in path")
+        elif parent_type == list:
+            parent_value.append(value)
+            self._refresh_tree_item(item, parent_value, path)
+
+class Main(wx.App):
+    def __init__(self):
+        super().__init__(False)
+
+        self.mainFrame = MainFrame()
+        self.mainFrame.Show()
+
+
+if __name__ == '__main__':
+    import os
+
+    os.chdir(os.path.abspath(os.getcwd()))
+    Main().MainLoop()
+```
+
+Go to Node -> New Value -> New Object Value
+Then press `No` in the dialog.
+
+The process crashes with 0xC000041D.
+
+It happends when `if result == wx.ID_YES:` is False. (Line 79)
+
+You are doing several things wrong that lead to the crash:
+First of all, there should only be one wx.app, you cannot just create another instance (l. 71). The import in line 69 is unnecessary. And then you access the dialog in line 78, which is already destroyed because you have already left the with scope. Any access to the dialog must be done within the with statement. The evt.Destroy() on line 121 looks dangerous, you should not do that.
+
+I hope this helps you...
+
+I tried with `return` in the with statement, it leads to the same crash. I will try to remove the wx.App() at line 71. YES!!! It works. Thanks @VonAncken 
+
+You still have to indent the code starting at line 77 so that it is inside the with block. Because as soon as the with block is finished, Destroy() is automatically called on the dialog.
+
+It's working completely fine, and the `result` variable is an integer, namely the ID of the button that was pressed. So, I don't need to indent the code.
+
+ Request: Overload for wx.Icon
+ **Description of the problem**: wx.Icon only has so many overloads.
+
+```python
+Icon()
+Icon(icon)
+Icon(name, type=BITMAP_TYPE_ANY, desiredWidth=-1, desiredHeight=-1)
+Icon(loc)
+Icon(bmp)
+```
+
+Basically I need something like this...
+```python
+Icon(loc, desiredSize=32)
+...or
+wx.IconLocation(filename, desiredSize=wx.Size(32, 32))
+```
+
+**The Problem** If a wx.IconLocation is feed to a wx.Icon, then the largest size returned is 32x32 usually. By using pywin32 I have worked around this, but IconLocation should work like desired size when requested.
+
+As far as it seems 32x32 is the biggest icon extracted from...
+Example:
+```
+path = r'C:\Program Files\Mozilla Firefox\firefox.exe'
+wx.IconLocation(path)
+```
+OBVIOUSLY the icon in the *.exe has sizes to accommodate like 256. I think 512-1024 is highest sizes used sometimes. Anyhow... I need the highest/best resolution in some cases. Would prefer to not use extra pywin32 code I've wrote, but to have it built in. @RobinD42 Is this possible as a overload?....
+Reference SampleApp.py
+
+```python
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+"""
+https://stackoverflow.com/questions/23263599/how-to-extract-128x128-icon-bitmap-data-from-exe-in-python
+
+How to get biggest Icon from *.exe since wx.IconLocation seems to be limited to 16 and 32 sizes.
+"""
+
+
+# python Imports.
+from __future__ import unicode_literals
+
+import ctypes
+import ctypes.util
+
+# pywin32 Imports.
+import win32con
+import win32api
+# import win32gui
+
+
+USER32 = ctypes.windll.user32
+KERNEL32 = ctypes.windll.kernel32
+
+
+def GetWindowsExeIcon(path):
+    """
+    Get a *.exe icon.
+
+    :return: HICON
+    """
+    # memcpy is used to copy data from resource storage to our buffer.
+    libc = ctypes.CDLL(ctypes.util.find_library('c'))
+    libc.memcpy.argtypes = [ctypes.c_void_p, ctypes.c_void_p, ctypes.c_size_t]
+    libc.memcpy.restype = ctypes.c_char_p
+
+    # Patch FindResourceW, ctypes.windll.kernel32.SizeofResource
+    FindResourceW = KERNEL32.FindResourceW
+    FindResourceW.argtypes = [ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p]
+    FindResourceW.restype = ctypes.c_void_p
+    SizeofResource = KERNEL32.SizeofResource
+    SizeofResource.argtypes = [ctypes.c_void_p, ctypes.c_void_p]
+    SizeofResource.restype = ctypes.c_size_t
+
+    # Using LoadLibrary (rather than CreateFile) is required otherwise
+    # LoadResource, FindResource and others will fail.
+    hLib = win32api.LoadLibraryEx(path, 0, 2)
+
+    # Get the icon groups, default is the first group.
+    iconGroups = win32api.EnumResourceNames(hLib, win32con.RT_GROUP_ICON)
+    groupName = iconGroups[0]
+    print(groupName)
+    hRes = win32api.LoadResource(hLib, win32con.RT_GROUP_ICON, groupName)
+    mem_icon_dir = KERNEL32.LockResource(hRes)
+
+    # We want 32 bit color icons, not 16 or 256 color.
+    # Common icon sizes...
+    # iconSizes = (16, 24, 32, 48, 64, 96, 128, 256, 512, 1024)
+    iconSizes = (1024,)  # Hopefully return the biggest icon....
+    for iconSize in iconSizes:
+        iconName = USER32.LookupIconIdFromDirectoryEx(mem_icon_dir, True, iconSize, iconSize, 0x00000000);
+        hResourceInfo = FindResourceW(hLib, iconName, win32con.RT_ICON)
+        size = KERNEL32.SizeofResource(hLib, hResourceInfo)
+        rec = win32api.LoadResource(hLib, win32con.RT_ICON, iconName)
+        mem_icon = KERNEL32.LockResource(rec)
+
+        # Get and return the icon data.
+        binary_data = (ctypes.c_ubyte * size)()
+        libc.memcpy(binary_data, mem_icon, size)
+        hIcon = USER32.CreateIconFromResourceEx(binary_data, size, True, 0x00030000, 0, 0, 0x00000000)
+        print('hIcon', hIcon)
+        ## info = win32gui.GetIconInfo(hIcon)
+        ## print('info', info)
+        ## bminfo = win32gui.GetObject(info[4])
+        ## print('bminfo', bminfo)
+
+        return hIcon
+
+
+if __name__ == '__main__':
+    import sys
+    import wx
+
+    class MyFrame(wx.Frame):
+        def __init__(self, parent, id=wx.ID_ANY, title=wx.EmptyString,
+                     pos=wx.DefaultPosition, size=wx.DefaultSize,
+                     style=wx.DEFAULT_FRAME_STYLE, name='frame'):
+            wx.Frame.__init__(self, parent, id, title, pos, size, style, name)
+            global gMainWin
+            gMainWin = self
+            wxVER = 'wxPython %s' % wx.version()
+            pyVER = 'python %d.%d.%d.%s' % sys.version_info[0:4]
+            versionInfos = '%s %s' % (wxVER, pyVER)
+            self.CreateStatusBar().SetStatusText(versionInfos)
+
+            # path = r'C:\Program Files\Internet Explorer\iexplore.exe'
+            path = r'C:\Program Files\Mozilla Firefox\firefox.exe'
+            hIcon = GetWindowsExeIcon(path)
+            icon = wx.Icon()
+            icon.CreateFromHICON(hIcon)
+            print(icon.Width)
+
+            bmp = wx.Bitmap()
+            bmp.CopyFromIcon(icon)
+            print(bmp.GetSize())
+            bmp = bmp.ConvertToImage().Rescale(128, 128).ConvertToBitmap()
+            print(bmp.GetSize())
+
+            sb = wx.StaticBitmap(self, -1, bmp)
+
+            self.SetIcon(icon)
+            self.Bind(wx.EVT_CLOSE, self.OnDestroy)
+
+        def OnDestroy(self, event):
+            self.Destroy()
+
+    app = wx.App(0)
+    frame = MyFrame(None)
+    frame.Show()
+    app.MainLoop()
+
+
+```
+
+wx.ID_ANY, title lib.plot speed enhancement via slicing
+ **Operating system**: Win7  [MSC v.1916 64 bit (AMD64)] on win32
+**wxPython version & source**:           pypi 4.1.0
+**Python version & source**:          stock  Python 3.8.2 (tags/v3.8.2:7b3ab59, Feb 25 2020, 23:03:10)
+**Description of the problem**: 
+**wxPyPlot** and **wx,lib,plot** both have significant delays when plotting multiple channels of data with more than ~500k samples per channel. Reason appears to be that all of the samples passed to PolyLine() are copied, rescaled, and sent to Drawlines(), then the extra (if zoomed) clipped with SetClippingRegion(). So in the stock case, zooming into 1,000 samples still takes as long to display as 500k.
+A modern display with 3840 pixel width does not need more than say 2*n points so sending 50,000 or a million to the DC is wasted. 
+
+wx.lib.Plot was even slower than wxPyPlot, and so I stuck with it for >15 years.
+We put up with 5-30 second redraws for years, but with extra time these days I looked into doing slicing **_in_** the plot library itself rather than computing indices etc to pass in.
+
+
+**Possible Solution**:
+A solution is to enable slicing as an optional attribute of the PlotCanvas, so that when large n is expected it can be sliced and still behave the same otherwise.
+The speed up is typically 100x to 300x.
+When loading a large data set, the slice._step is key to reducing the workload of Drawlines().
+When a zoomed view is in place, slice._start and slice._stop  values can further prevent extraneous data passing.
+The are likely better specific, Pythonic, methodologies, but  my personal implementation added some code to PlotCanvas.Draw() - two object attributes:
+```python
+        # whether slice logic should be applied when drawing
+        self.b_slc = False
+        # whether polynomial resampling should be applied when drawing
+        self.b_resamp = False
+```
+and two call attributes:
+```python
+        graphics.draw(dc, _slice=_slice, b_resamp= self.b_resamp)
+```
+The **_slice** slice object and boolean **b_resamp** are passed through PlotGraphics.draw() to PolyLine.draw(). (I tried  adding scipy.resample.resample_poly() as well to deal with aliasing in sinusoidal type data, but have not yet been able to deal with the edge effects, and no other resample is fast enough.)
+```python
+    def draw(self, dc, printerScale, coord= None, 
+            _slice= slice(None), b_resamp = False):
+        colour = self.attributes['colour']
+        width = self.attributes['width'] * printerScale
+        style= self.attributes['style']
+        dc.SetPen(wx.Pen(wx.Colour(colour), int(width), style))
+        if coord is None:
+           if _slice != slice(None):
+                if b_resamp and resample_available:
+                    # has edge artifacts
+                    res = resample_poly(self.scaled[_slice.start:_slice.stop], 1, _slice.step, padtype='mean')
+                    ## with lots of channels/data points, can take a long time to zoom out (?)
+                    dc.DrawLineList(lineListFromPoints(res))#res[10:-10]))
+                else:
+                    dc.DrawLineList(lineListFromPoints(self.scaled[_slice]))
+            else:
+                dc.DrawLineList(lineListFromPoints(self.scaled))
+        else:
+            dc.DrawLines(coord) #draw legend line
+```
+[wxPyPlot.zip](https://github.com/wxWidgets/Phoenix/files/4583589/wxPyPlot.zip)
+
+I have not (yet) tried to apply this to **wx.lib.Plot()**, as I'm much less familiar with that source code.
+Similar slicing could be applied to markers etc. as well, especially since dense, large marker counts do not display well, and there is no point in sending (slow) markers to PolyMarker._drawmarkers() that just get clipped. Here is an example of a 500k sample 10 channel array with PPG heartbeat data and markers for each beat, about 300, which rendered in 0.190 seconds:
+![PPG](https://user-images.githubusercontent.com/20799053/81115455-97423480-8ed8-11ea-9a24-92a59958a69d.jpg)
+
+
+There is also a DrawLines() issue where during some oddball 500k samp data input the call would take 30+ seconds, while another channel (same 2D numpy array obj) would take 0.2 seconds. DrawLineList() does not behave the same, (and in some instances DrawLineList() is faster), so we wrote a conversion function:
+```python
+def lineListFromPoints(points):
+    '''Convert an array of [x,y] pairs into an array of
+    [x1, y1, x2, y2] quads suitable for DrawLineList.'''
+    if len(points) % 2 == 0:
+        tup = (points, points[1:-1])
+    else:
+        tup = (points[:-1], points[1:])
+    return numpy.concatenate(tup).reshape(-1, 4)
+```
+
+This is a big drawback to wx.lib.plot. It is an effective and simple plotting library but very slow with large datasets. It definitely needs some kind of slicing, resampling or data aggregation to speed up its plot.
+
+I've also looked into this. Like you said, handling the edge effects is the hard part. How to handle lines that get clipped by the slicing and draw them properly. I made a version of `PolyLine` that takes the data aggregation approach, putting the data into "bins" (kind of like how Kibana uses "buckets") and then drawing those as lines/polygons. 
+
+Is the graph you show resampled? Do you have a small demo with a large dataset you could post?
+
+
+
+> This is a big drawback to wx.lib.plot. It is an effective and simple plotting library but very slow with large datasets. It definitely needs some kind of slicing, resampling or data aggregation to speed up its plot.
+
+The fundamental issue is that all of the PolyPoints get scaleAndShift() for every redraw, then all get stuffed into the DC - a lot of ops for a 1200 pixel plot.
+
+> Is the graph you show resampled? 
+
+Yes, it is PPG data sampled at 2560Hz from a device trial, sliced withing wxPyPlot, without anti-alias resample. I found that aliasing is not an issue with our real data, although it might render oddly with pure sine waves or such, in which case b_resamp should be True.
+However, the edge effects from resample_poly() need to be dealt with for best results. For zoom()'d views the data could be "padded" with actual data about 16 points beyond the desired zoom, then cropped. For the full dataset to plot one would need to implement a mirrored pad I'd think, then crop that off.
+
+>Do you have a small demo with a large dataset you could post?
+
+The demo in wxPyPlot.zip mostly works, I didn't debug  all of the menu options...
+
+My mod of wxPyPlot starts in PlotCanvas.__init__() by adding two attributes
+
+```
+        # whether slice logic should be applied when drawing
+        self.b_slc = False
+        # whether polynomial resampling should be applied when drawing
+        self.b_resamp = False
+```
+so I create the plot and then set them. (Look at lines 1411- 1412 in the attached Demo.)
+Then, in PlotCanvas.draw() method it inspects the data size sent, and DC size as it exists, and creates appropriate slice object to reduce the data sent downstream. So, all calls to Draw() for that plot slice (or not) depending on the PlotCanvas object's attribute. The rest is transparent to user code.
+
+I wrangled the old demo into wx Phoenix functionality, with 500k points, which take 1.4s to plot on my laptop, so just run the lib stand-alone with Py3* and wx4*
+[wxPyPlot.zip](https://github.com/wxWidgets/Phoenix/files/4660692/wxPyPlot.zip)
+
+Similar slicing could be added to wx.lib.plot of course, but I haven't looked at that code in years.
+
+
+
+Also, the old Demo in the wxPyPlot I'd attached "works" as far as showing speed, but the zoom behaves oddly - it does not in my app.
+
+I just uploaded my timeit_test_sample.py that works with wxPy/Py2.7-3.8 . I get tired of posting it...
+https://github.com/Metallicow/timeit-tests
+Feel free to make a testcase and produce results or toy with it and argue the points.
+Graphics performance is hard to diagnose without extensive results.
+
+I made a couple of mods to the wxPyPlot demo to keep the test from being forever.
+I also added the CPU info the timeit_test.py
+[plot_and_test.zip](https://github.com/wxWidgets/Phoenix/files/4669371/plot_and_test.zip)
+
+> ------------------------------------------
+> Timeit Test - 1 times
+> Python 3.8.2 (tags/v3.8.2:7b3ab59, Feb 25 2020, 23:03:10) [MSC v.1916 64 bit (AM
+> D64)] on win32
+> Intel64 Family 6 Model 42 Stepping 7, GenuineIntel
+> wxPython 4.1.0 msw (phoenix) wxWidgets 3.1.4
+> 
+> 1 plot of Draw4 took: 31.602886 sec.
+> 1 plot of Draw4 took: 25.061850 sec.
+> 1 plot of Draw4 took: 34.966490 sec.
+> 1 plot of Draw4 took: 32.769741 sec.
+> 1 plot of Draw4 took: 34.795623 sec.
+> No_slice:[31.603878674, 25.062483353999994, 34.967344346000004, 32.7710188890000
+> 04, 34.79675218900002]
+> 
+> 1 plot of Draw4 took: 0.160768 sec.
+> 1 plot of Draw4 took: 0.192459 sec.
+> 1 plot of Draw4 took: 0.192428 sec.
+> 1 plot of Draw4 took: 0.195984 sec.
+> 1 plot of Draw4 took: 0.285880 sec.
+> Sliced:[0.1621324129999948, 0.1937130250000223, 0.19360475000001998, 0.197217819
+> 00000224, 0.28700470399999745]
+> 
+> Winner: Sliced
+> Loser: No_slice
+
+_(Not sure why it's doing 5 calls...)_
+Note that the step value for 500,000 is 129, and the algo I use creates a step>1 for n>4096
+`stp = 1 + int(numpy.power(2, numpy.ceil(numpy.log(pnts/2.**12)/numpy.log(2))))`
+For users with 4k screens, 2**13 might be more appropriate, or use wx.GetDisplaySize() and adjust.
+
+As a SO user said [https://stackoverflow.com/a/13897054](https://stackoverflow.com/a/13897054)
+it would help even more in these instances to make lib.plot or wxPyPlot multi-threaded, as much of the time needed is in computationally expensive scaling operations. Since I regularly plot 6 channels of 500k points, each could get a thread for the scaleAndShift() operation which is at the heart of the time needed. With 4 cores/8 HW threads it would help a lot. But, this slicing seems to work for me.
+
+I had also made some effort to remove the edge effects when using scipy resamplepoly() in  PolyLine.draw via padding, but I'm not really happy with it.
+
+I'm really confused as to what the difference is between wxPyPlot and wx.lib.plot.
+They seem to be the exact same libraries. Maybe wx.lib.plot is a newer version of wxPyPlot?
+
+
+> I'm really confused as to what the difference is between wxPyPlot and wx.lib.plot.
+> They seem to be the exact same libraries. Maybe wx.lib.plot is a newer version of wxPyPlot?
+
+yes it is - it has several improvements including log plots and better demo as well. A colleague made some of his own improvements of his own to lib.plot for speed and function, but has not opened a ticket to check in etc, yet. I recall it also has an extraneous copy() in it as well. His does not yet include slicing.
+
+@rjsdotorg The reason its doing the test 5 times is because .repeat gives better results when looking at it in end. Basically it is best of 3 or 5 depending on your python version. Repeat was raised to 5 from 3 in Py3.7 iirc. Using just .timeit will only perform the test once. so if you use repeat on 1 million it will actually be 3 million or 5 million, but with timeit it would be 1 million. Repeat will give better results if you call a function many times for example.
+
+ ScrolledPanel scroll bar disappears when adding another panel to the frame
+ **Operating system**: Ubuntu Linux 18.04 LTS
+**wxPython version & source**: 4.1.0 built via `pip` for Python3
+**Python version & source**: 3.6.9 64-bit from Ubuntu distro (apt)
+
+**Description of the problem**:
+In my wxPython app I inherit from `wx.Frame`, then create a main panel from `wx.Panel`, add a `ScrolledPanel` and to that I add a `wx.Bitmap` as child. That bitmap/image is larger in height than the scrolled panel, so the vertical scroll bar is shown - everything as expected.
+
+Then I add another `wx.Panel` below that scrolled panel, without any children, but that alone makes the scroll bar in the scrolled panel disappear. Is this a bug or a feature?
+
+Here is a fully working example.
+Uncomment the code in `def init_panel(self)` to see the strange behaviour:
+```python
+import wx
+import wx.grid
+import wx.lib.intctrl
+import wx.lib.scrolledpanel
+
+class TestApp(wx.Frame):
+    IMAGE_SIZE = 800
+    SCROLL_SPEED = 10
+
+    def __init__(self):
+        super(TestApp, self).__init__(
+            None, title="wxPython Test", style=wx.DEFAULT_FRAME_STYLE ^ wx.RESIZE_BORDER,
+        )
+
+        self.init_panel()
+        self.main_panel.Layout()
+        self.main_panel.Fit()
+        self.Center()
+        self.Show()
+
+    def init_panel(self):
+        self.main_panel = wx.Panel(self)
+        self.main_sizer = wx.BoxSizer(wx.VERTICAL)
+        self.main_panel.SetSizer(self.main_sizer)
+
+        self.bitmaps_panel = wx.lib.scrolledpanel.ScrolledPanel(self.main_panel)
+        self.bitmaps_panel.SetMinSize((-1, 250))
+        self.bitmaps_panel.SetupScrolling(scroll_x=False, scroll_y=True, rate_y=self.SCROLL_SPEED)
+        self.bitmaps_panel.SetAutoLayout(True)
+
+        self.bitmaps_sizer = wx.BoxSizer(wx.VERTICAL)
+        self.bitmaps_panel.SetSizer(self.bitmaps_sizer)
+
+        bitmap = wx.Bitmap(wx.Image(self.IMAGE_SIZE, self.IMAGE_SIZE))
+        self.bitmaps_sizer.Add(wx.StaticBitmap(self.bitmaps_panel, wx.ID_ANY, bitmap))
+        self.bitmaps_sizer.Fit(self)
+        self.main_sizer.Add(self.bitmaps_panel, 0, flag=wx.EXPAND)
+
+        ## With this block commented it works, uncomment to see the scroll bar dissapear
+        # self.stats_panel = wx.Panel(self)
+        # self.stats_sizer = wx.BoxSizer(wx.VERTICAL)
+        # self.stats_panel.SetSizer(self.stats_sizer)
+        # self.main_sizer.Add(self.stats_panel, 0, flag=wx.EXPAND)
+
+        self.main_sizer.Fit(self)
+
+if __name__ == "__main__":
+    wxapp = wx.App()
+    app = TestApp()
+    wxapp.MainLoop()
+```
+
+"wxPython Test", styleSorry, my fault:
+The new panel `stats_panel` should be a child of `self.main_panel` instead of `self` directly.
+
+ listmix.CheckListCtrlMixin interferes with wx.ListCtrl in 4.1.0
+ 
+**Operating system**: Ubuntu 18.04
+**wxPython version & source**:         4.1.0 from Pypi
+
+**Description of the problem**:
+It seems checkboxes can now be activated directly in wx.ListCtrl without the listmix.CheckListCtrlMixin class. If the mixin class is used, the check boxes do not work (can't be checked/unchecked), although it didn't give me any error.
+The CheckListCtrlMixin demo fails because the API is slightly different. When you fix the demo so that it at least runs, you can see the check boxes don't work.
+
+
+ummm, yes it appears checkboxes was added to listctrl in wxWidgets in this cycle iirc. I'll check it out.
+
+@petrasovaa Will a regular listctrl work for you now or is there specific reason it needs to be fixed... Ex: wxPy4.0/4.1 compatibility...?
+
+I added the checkboxes to the regular ListCtrl.py demo, so basically unless you are using wxPy4.0 the Mixin is kind of useless it seems now... unless someone can come up with a decent reason why they would still need it...
+
+@RobinD42 What do you think should happen? Add a version check to the mixin demo that says it isn't needed in wxPy4.1+ or just remove the demo...?
+
+One thing that does come to thought is if someone might want a custom checkbox or a 3way... Not sure how easily that could be done with the mixin, as I didn't write it myself. The mixin has been in the library for quite some time, and not sure if the original author still plays around with wxPy...
+
+The problem is the compatibility, given it's a mixin, it's little tricky to make sure your code runs with both versions, I ended up writing my own simple mixin class handling the differences.
+
+I'd suppose if I ran onto that, I would probably do a version check and just create a empty class that just passes. Could you explain a little bit more how you might deal with it...?
+
+I at one time created a CheckListBoxSTC, but I didn't do much with it and it isn't released or finished by any means. I'm trying to judge how bad or better performance would be if I did drawing on the stc to make it work like a listctrl instead of a listbox...?
+Here is a pick if interested. I did it this way for custom checkbox image and syntax highlighting for text, etc...
+![CheckListBoxSTC](https://user-images.githubusercontent.com/4668356/82366979-b19c0800-99d8-11ea-8c79-a2c7131d2b56.png)
+
+
+[Here](https://github.com/OSGeo/grass/pull/570/commits/5ebd1d0e9872cc60a7ac5b5fb11543300f307dda#diff-460c1c7a2742204f49dc3921d7ef5fdb) is the workaround that works for me, I have a wrapper CheckListCtrlMixin class which is either just calling the old mixin class constructor or it's enabling the checkboxes in new ListCtrl. I have also a wrapper around ListCtrl, because the API is different.
+ 
+
+Ok. that looks like something I'd do. I'll wait for Robin to comment on it.
+It's not preferable in the longrun, but if we have to maintain compatibility with wx/wxPy versions I'd say it is close to what might be optimum.
+
+ ULC block item dragging
+ I wanted to block item dragging in UltimateListControl, but couldn't find a way. With this little addition i was able to get the desired result. If there is another way (any idea @infinity77 ?) , please tell me, otherwise i would love to see this PR merged.
+
+
+
+

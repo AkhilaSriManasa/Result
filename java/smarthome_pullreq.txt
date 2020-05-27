@@ -1,0 +1,320 @@
+﻿ Bump jquery from 2.1.3 to 3.5.0 in /extensions/ui/org.eclipse.smarthome.ui.paper
+ Bumps [jquery](https://github.com/jquery/jquery) from 2.1.3 to 3.5.0.
+<details>
+<summary>Commits</summary>
+<ul>
+<li><a href="https://github.com/jquery/jquery/commit/7a0a850f3d41c0412609c1d32b1e602d4afe2f4e"><code>7a0a850</code></a> 3.5.0</li>
+<li><a href="https://github.com/jquery/jquery/commit/8570a08f6689223aa06ca8cc51d488c6d81d44f9"><code>8570a08</code></a> Release: Update AUTHORS.txt</li>
+<li><a href="https://github.com/jquery/jquery/commit/da3dd85b63c4e3a6a768132c2a83a1a6eec24840"><code>da3dd85</code></a> Ajax: Do not execute scripts for unsuccessful HTTP responses</li>
+<li><a href="https://github.com/jquery/jquery/commit/065143c2e93512eb0c82d1b344b71d06eb7cf01c"><code>065143c</code></a> Ajax: Overwrite s.contentType with content-type header value, if any</li>
+<li><a href="https://github.com/jquery/jquery/commit/1a4f10ddc37c34c6dc3a451ee451b5c6cf367399"><code>1a4f10d</code></a> Tests: Blacklist one focusin test in IE</li>
+<li><a href="https://github.com/jquery/jquery/commit/9e15d6b469556eccfa607c5ecf53b20c84529125"><code>9e15d6b</code></a> Event: Use only one focusin/out handler per matching window &amp; document</li>
+<li><a href="https://github.com/jquery/jquery/commit/966a70909019aa09632c87c0002c522fa4a1e30e"><code>966a709</code></a> Manipulation: Skip the select wrapper for &lt;option&gt; outside of IE 9</li>
+<li><a href="https://github.com/jquery/jquery/commit/1d61fd9407e6fbe82fe55cb0b938307aa0791f77"><code>1d61fd9</code></a> Manipulation: Make jQuery.htmlPrefilter an identity function</li>
+<li><a href="https://github.com/jquery/jquery/commit/04bf577e2f961c9dde85ddadc77f71bc7bc671cc"><code>04bf577</code></a> Selector: Update Sizzle from 2.3.4 to 2.3.5</li>
+<li><a href="https://github.com/jquery/jquery/commit/7506c9ca62a2f3ef773e19385918c31e9d62d412"><code>7506c9c</code></a> Build: Resolve Travis config warnings</li>
+<li>Additional commits viewable in <a href="https://github.com/jquery/jquery/compare/2.1.3...3.5.0">compare view</a></li>
+</ul>
+</details>
+<details>
+<summary>Maintainer changes</summary>
+<p>This version was pushed to npm by <a href="https://www.npmjs.com/~mgol">mgol</a>, a new releaser for jquery since your current version.</p>
+</details>
+<br />
+
+
+[![Dependabot compatibility score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=jquery&package-manager=npm_and_yarn&previous-version=2.1.3&new-version=3.5.0)](https://help.github.com/articles/configuring-automated-security-fixes)
+
+Dependabot will resolve any conflicts with this PR as long as you don't alter it yourself. You can also trigger a rebase manually by commenting `@dependabot rebase`.
+
+[//]: # (dependabot-automerge-start)
+[//]: # (dependabot-automerge-end)
+
+---
+
+<details>
+<summary>Dependabot commands and options</summary>
+<br />
+
+You can trigger Dependabot actions by commenting on this PR:
+- `@dependabot rebase` will rebase this PR
+- `@dependabot recreate` will recreate this PR, overwriting any edits that have been made to it
+- `@dependabot merge` will merge this PR after your CI passes on it
+- `@dependabot squash and merge` will squash and merge this PR after your CI passes on it
+- `@dependabot cancel merge` will cancel a previously requested merge and block automerging
+- `@dependabot reopen` will reopen this PR if it is closed
+- `@dependabot close` will close this PR and stop Dependabot recreating it. You can achieve the same result by closing it manually
+- `@dependabot ignore this major version` will close this PR and stop Dependabot creating any more for this major version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this minor version` will close this PR and stop Dependabot creating any more for this minor version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this dependency` will close this PR and stop Dependabot creating any more for this dependency (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot use these labels` will set the current labels as the default for future PRs for this repo and language
+- `@dependabot use these reviewers` will set the current reviewers as the default for future PRs for this repo and language
+- `@dependabot use these assignees` will set the current assignees as the default for future PRs for this repo and language
+- `@dependabot use this milestone` will set the current milestone as the default for future PRs for this repo and language
+
+You can disable automated security fix PRs for this repo from the [Security Alerts page](https://github.com/eclipse/smarthome/network/alerts).
+
+</details>
+ Bump angular from 1.5.7 to 1.7.9 in /extensions/ui/org.eclipse.smarthome.ui.paper
+ Bumps [angular](https://github.com/angular/angular.js) from 1.5.7 to 1.7.9.
+<details>
+<summary>Changelog</summary>
+
+*Sourced from [angular's changelog](https://github.com/angular/angular.js/blob/master/CHANGELOG.md).*
+
+> # 1.7.9 pollution-eradication (2019-11-19)
+> 
+> ## Bug Fixes
+> - **angular.merge:** do not merge __proto__ property
+>   ([726f49](https://github.com/angular/angular.js/commit/726f49dcf6c23106ddaf5cfd5e2e592841db743a))
+>   <br>(Thanks to the [Snyk Security Research Team](https://snyk.io/blog/snyk-research-team-discovers-severe-prototype-pollution-security-vulnerabilities-affecting-all-versions-of-lodash/) for identifyng this issue.)
+> - **ngStyle:** correctly remove old style when new style value is invalid
+>   ([5edd25](https://github.com/angular/angular.js/commit/5edd25364f617083363dc2bd61f9230b38267578),
+>   [#16860](https://github-redirect.dependabot.com/angular/angular.js/issues/16860),
+>   [#16868](https://github-redirect.dependabot.com/angular/angular.js/issues/16868))
+> 
+> 
+> <a name="1.7.8"></a>
+> # 1.7.8 enthusiastic-oblation (2019-03-11)
+> 
+> 
+> ## Bug Fixes
+> - **required:** correctly validate required on non-input element surrounded by ngIf
+>   ([a4c7bd](https://github.com/angular/angular.js/commit/a4c7bdccd76c39c30e33f6215da9a00cc8acde2c),
+>   [#16830](https://github-redirect.dependabot.com/angular/angular.js/issues/16830),
+>   [#16836](https://github-redirect.dependabot.com/angular/angular.js/issues/16836))
+> 
+> 
+> <a name="1.7.7"></a>
+> # 1.7.7 kingly-exiting (2019-02-04)
+> 
+> ## Bug Fixes
+> - **ngRequired:** set error correctly when inside ngRepeat and false by default
+>   ([5ad4f5](https://github.com/angular/angular.js/commit/5ad4f5562c37b1cb575e3e5fddd96e9dd10408e2),
+>   [#16814](https://github-redirect.dependabot.com/angular/angular.js/issues/16814),
+>   [#16820](https://github-redirect.dependabot.com/angular/angular.js/issues/16820))
+> 
+> 
+> <a name="1.7.6"></a>
+> # 1.7.6 gravity-manipulation (2019-01-17)
+> 
+> ## Bug Fixes
+> - **$compile:** fix ng-prop-* with undefined values
+>   ([772440](https://github.com/angular/angular.js/commit/772440cdaf9a9bfa40de1675e20a5f0e356089ed),
+>   [#16797](https://github-redirect.dependabot.com/angular/angular.js/issues/16797),
+>   [#16798](https://github-redirect.dependabot.com/angular/angular.js/issues/16798))
+> - **compile:** properly handle false value for boolean attrs with jQuery
+>   ([27486b](https://github.com/angular/angular.js/commit/27486bd15e70946ece2ba713e4e8654b7f9bddad),
+>   [#16778](https://github-redirect.dependabot.com/angular/angular.js/issues/16778),
+>   [#16779](https://github-redirect.dependabot.com/angular/angular.js/issues/16779))
+> - **ngRepeat:**
+>   - fix reference to last collection value remaining across linkages
+>   ([cf919a](https://github.com/angular/angular.js/commit/cf919a6fb7fc655f3fa37a74899a797ea5b8073e))
+>   - fix trackBy function being invoked with incorrect scope
+>   ([d4d103](https://github.com/angular/angular.js/commit/d4d1031bcd9b30ae6a58bd60a79bcc9d20f0f2b7),
+></tr></table> ... (truncated)
+</details>
+<details>
+<summary>Commits</summary>
+
+- [`d257c45`](https://github.com/angular/angular.js/commit/d257c4564d069a279c5625ad6b68008d4a4dbb11) docs: release notes for 1.7.9
+- [`1b1684c`](https://github.com/angular/angular.js/commit/1b1684c2b20a75df677426d4e4a61d51af3b5c44) docs($compile): fix typos and incorrect example
+- [`726f49d`](https://github.com/angular/angular.js/commit/726f49dcf6c23106ddaf5cfd5e2e592841db743a) fix(angular.merge): do not merge __proto__ property
+- [`8a187f1`](https://github.com/angular/angular.js/commit/8a187f16c37e0574b1a1fa7ccc54f3690d9d81ec) chore(saucelabs): switch to latest version of desktop Safari
+- [`d97e6f1`](https://github.com/angular/angular.js/commit/d97e6f169536fdb7bd8b0c7735b79348d5669213) chore(saucelabs): upgrade SauceConnect to 4.5.4
+- [`26e893a`](https://github.com/angular/angular.js/commit/26e893a2faa5be9b563948963dc4ac71990e5100) docs(guide/migration): fix typo (misceallenous --> miscellaneous)
+- [`5edd253`](https://github.com/angular/angular.js/commit/5edd25364f617083363dc2bd61f9230b38267578) fix(ngStyle): correctly remove old style when new style value is invalid
+- [`019dded`](https://github.com/angular/angular.js/commit/019dded64b7a58d67994af5f0f5b532f1c97b908) chore(*): update jQuery from 3.2.1 to 3.4.0
+- [`0007be1`](https://github.com/angular/angular.js/commit/0007be1ca2f3d3b8e1b914e2cdc3c943cbe16bc9) chore(*): make yarn.lock & GitHub templates identical between master & v1.7.x
+- [`863528f`](https://github.com/angular/angular.js/commit/863528f2999a32cfb16761258e94e03479e349e8) docs(DEVELOPERS): remove git revert misleading information
+- Additional commits viewable in [compare view](https://github.com/angular/angular.js/compare/v1.5.7...v1.7.9)
+</details>
+<details>
+<summary>Maintainer changes</summary>
+
+This version was pushed to npm by [petebacondarwin](https://www.npmjs.com/~petebacondarwin), a new releaser for angular since your current version.
+</details>
+<br />
+
+[![Dependabot compatibility score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=angular&package-manager=npm_and_yarn&previous-version=1.5.7&new-version=1.7.9)](https://help.github.com/articles/configuring-automated-security-fixes)
+
+Dependabot will resolve any conflicts with this PR as long as you don't alter it yourself. You can also trigger a rebase manually by commenting `@dependabot rebase`.
+
+[//]: # (dependabot-automerge-start)
+[//]: # (dependabot-automerge-end)
+
+---
+
+<details>
+<summary>Dependabot commands and options</summary>
+<br />
+
+You can trigger Dependabot actions by commenting on this PR:
+- `@dependabot rebase` will rebase this PR
+- `@dependabot recreate` will recreate this PR, overwriting any edits that have been made to it
+- `@dependabot merge` will merge this PR after your CI passes on it
+- `@dependabot squash and merge` will squash and merge this PR after your CI passes on it
+- `@dependabot cancel merge` will cancel a previously requested merge and block automerging
+- `@dependabot reopen` will reopen this PR if it is closed
+- `@dependabot ignore this [patch|minor|major] version` will close this PR and stop Dependabot creating any more for this minor/major version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this dependency` will close this PR and stop Dependabot creating any more for this dependency (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot use these labels` will set the current labels as the default for future PRs for this repo and language
+- `@dependabot use these reviewers` will set the current reviewers as the default for future PRs for this repo and language
+- `@dependabot use these assignees` will set the current assignees as the default for future PRs for this repo and language
+- `@dependabot use this milestone` will set the current milestone as the default for future PRs for this repo and language
+
+You can disable automated security fix PRs for this repo from the [Security Alerts page](https://github.com/eclipse/smarthome/network/alerts).
+
+</details>
+ Create tags_no.properties
+ Norwegian translation
+ Change method name 'little' to 'getLittleField'
+ This class is used to represent Field.  This method named 'little' is to get a LittleField object. Thus, the method name 'getLittleField' is more intuitive than 'little'.
+ Change method name 'localize' to 'createChannelType'
+ This class is used to provide default system wide channel types.  This method named 'localize' is to create channel type. Thus, the method name 'createChannelType' is more intuitive than 'localize'.
+ HexUtils: Fix typo in javadoc
+ The problem was detected by Verification job in JGit project.
+ Update README.md with format, NaN documentation
+ 
+ PLEASE DO NOT CREATE ANY PULL REQUESTS AGAINST THIS REPO
+ See https://www.eclipse.org/lists/smarthome-dev/msg00195.html for details.
+ Remove static "for the next 3 hours" text
+ This is applied to every forecast, no matter how far in the future.
+ Bose Soundtouch - fixed an issue with async. websocket requests
+ When a refresh command is sent to some of the Bose's items, the following exception could be thrown:
+
+```
+Exception occurred while informing handler: Blocking message pending 10000 for BLOCKING
+java.lang.IllegalStateException: Blocking message pending 10000 for BLOCKING
+	at org.eclipse.jetty.websocket.common.WebSocketRemoteEndpoint.lockMsg(WebSocketRemoteEndpoint.java:130)
+	at org.eclipse.jetty.websocket.common.WebSocketRemoteEndpoint.sendString(WebSocketRemoteEndpoint.java:385)
+	at org.eclipse.smarthome.binding.bosesoundtouch.internal.CommandExecutor.getInformations(CommandExecutor.java:123)
+	at org.eclipse.smarthome.binding.bosesoundtouch.handler.BoseSoundTouchHandler.handleCommand(BoseSoundTouchHandler.java:190)
+	at org.eclipse.smarthome.core.thing.binding.BaseThingHandler.channelLinked(BaseThingHandler.java:233)
+	at org.eclipse.smarthome.core.thing.link.ThingLinkManager.lambda$0(ThingLinkManager.java:300)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Unknown Source)
+	at java.util.concurrent.FutureTask.run(Unknown Source)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(Unknown Source)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(Unknown Source)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
+	at java.lang.Thread.run(Unknown Source)
+```
+Basically, the issue happens because multiple threads are trying to send commands to the same remote websocket endpoint. So, in order to prevent this, we excahge the usage of `void sendString(String text) throws IOException)` method to `Future<Void> sendStringByFuture(String text)` which initiates an asynchronous transmission of a text message. However, since all places where `sendStringByFuture(String text)` is called are void methods, we do not need to care of getting the future and checking the progress of the transmission.
+ [Hue] Add support for TransitionTime  #1722
+ Implemented fade time config for light things.
+Implemented fade time channel for dynamically changing the fade times of light things.
+
+Bug: https://github.com/eclipse/smarthome/issues/1722
+Signed-off-by: Jochen <jochen.leopold@model-view.com>
+ [Hue] Add support for TransitionTime  #1722
+ Implemented fade time config for light things.
+Implemented fade time channel for dynamically changing the fade times of light things.
+
+Bug: https://github.com/eclipse/smarthome/issues/1722
+Signed-off-by: Jochen <jochen.leopold@model-view.com>
+ Keep persisted disabled status when thing is removed
+ The disabled status was not persisted after a restart since it was
+removed on shutdown during the thing removal.
+Now it will be persisted, but the disabled status of permanently deleted
+disabled things will remain as orphan entry in the database.
+
+Fixes #6840
+
+Signed-off-by: Florian Stolte <fstolte@itemis.de>
+ [DMX] fix configuration parsing issues
+ Fixes #6861 
+
+Signed-off-by: Jan N. Klug <jan.n.klug@rub.de>
+ Update children of disabled bridge to UNINITIALIZED/BRIDGE_UNINITIALIZED
+ When a bridge is disabled, the child things have seen set to the status "UNINITIALIZED/HANDLER_MISSING_ERROR". Now, the status detail is changed to "BRIDGE_UNINITIALIZED" for such things, except if they were also already disabled.
+
+Fixes #6584
+
+Signed-off-by: Florian Stolte <fstolte@itemis.de>
+ Fixed possible stop of FW update execution if exception is present 
+ @kaikreuzer This pull request is a continuation of PR #6859.
+
+Basically, #6859 fixed a possible NPE, but didn't provide a fix for the issue that if an exception occurs the firmware transfer may never continue. Here's the reason why:
+
+ Extend usb serial discovery service to contain product ID …
+ For better differentiation between different USB devices `UsbSerialDiscoveryService` is extended to add `usb_vendor_id` and `usb_product_id` properties to every thing which represents USB device. 
+Signed-off-by: YordanDZhelev <zhelev.yordan@gmail.com>
+ [OneWire] consolidate thing types and internal refactoring
+ - cleanup handlers
+- automatic channel addition/removal based on sensor-type
+- reduce number of thing types ("digitalio", "digitalio2", "digitalio8", "counter2", "ibutton", "temperature" are now "basic")
+- better thing labels after discovery
+- better test coverage
+
+This is the second to last PR for refactoring of the OneWire binding (#6842 being the last). With this PR configuration will become a lot easier for the users (only five thing-types (`basic`, `ams`, `bms`, `ms-tx` and `edsenv` and one bridge remain). All other configuration will be done on-the-fly depending on the sensor type.
+ Fixed possible NPE in FirmwareUpdateService
+ Basically, the method `private synchronized void processFirmwareStatusInfo(FirmwareUpdateHandler firmwareUpdateHandler, FirmwareStatusInfo newFirmwareStatusInfo, @Nullable Firmware latestFirmware)` performs the following operation:
+
+```java
+FirmwareStatusInfo previousFirmwareStatusInfo = firmwareStatusInfoMap.put(newFirmwareStatusInfo.getThingUID(), newFirmwareStatusInfo);
+```
+
+However, since `put(...)` returns the previous value associated with key, during the first time we set the value for the exact thing UID `previousFirmwareStatusInfo` is effectively assigned `null`. 
+
+Further ahead,`processFirmwareStatusInfo(...)` calls `private void transferLatestFirmware(final FirmwareUpdateBackgroundTransferHandler fubtHandler, final Firmware latestFirmware, final FirmwareStatusInfo previousFirmwareStatusInfo)`, inside which the following operation is performed:
+
+```java
+firmwareStatusInfoMap.put(fubtHandler.getThing().getUID(), previousFirmwareStatusInfo);
+```
+
+This, in case `previousFirmwareStatusInfo` is `null` directly throws a NPE, since `null` values cannot go in a `ConcurrentHashMap`:
+
+```java
+java.lang.NullPointerException
+     at java.util.concurrent.ConcurrentHashMap.putVal(Unknown Source)
+     at java.util.concurrent.ConcurrentHashMap.put(Unknown Source)
+     at org.eclipse.smarthome.core.thing.internal.firmware.FirmwareUpdateServiceImpl$2.run(FirmwareUpdateServiceImpl.java:345)
+     at java.util.concurrent.Executors$RunnableAdapter.call(Unknown Source)
+     at java.util.concurrent.FutureTask.run(Unknown Source)
+     at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(Unknown Source)
+     at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(Unknown Source)
+     at java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)
+     at java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
+     at java.lang.Thread.run(Unknown Source)
+``` 
+
+In order to prevent this, a simple non-null check is added.
+ [hue] Changed polling strategy
+ - Changed polling strategy, skip polling for lights or sensors if no things were defined
+
+Signed-off-by: Christoph Weitkamp <github@christophweitkamp.de>
+ Removed .project file
+ File has been forgotten in #6498.
+
+Signed-off-by: Christoph Weitkamp <github@christophweitkamp.de>
+ REST API: (Optionally) include hidden widgets in sitemap API response
+ Brings REST API response in line with SSE events, so that clients have a full view of all widgets which they can later update via SSE.
+
+See https://github.com/openhab/openhab-android/issues/1094 for the discussion which triggered this PR.
+ [hue][WIP] Added configuration for port and protocol
+ - Added configuration for port and protocol
+
+// CC @davidgraeff for discussion and testing
+
+Signed-off-by: Christoph Weitkamp <github@christophweitkamp.de>
+ Updated README for Hue binding with fixed example and some clarifications
+ Corrected the error in the example item definitions (missing bridge ID on some items) and added a little clarification on sensors and switches, and the handling of switch events. There seemed to be some confusing, judging by the comments in the community forum. ;o)
+ [OneWire] add better runtime checks
+ This adds some checks if sensor type and thing type are compüatible and simplfies initialization code. Except from better error handling this is fully transparent to the user.
+
+I have left my individual commits in place for easier review.
+ Improved docs and fixed typos
+ Replaces https://github.com/eclipse/smarthome/pull/6850, https://github.com/eclipse/smarthome/pull/6804, https://github.com/eclipse/smarthome/pull/6799 and https://github.com/eclipse/smarthome/pull/6797.
+
+Signed-off-by: Kai Kreuzer <kai@openhab.org>
+ Removed confusing quotes " in incoming tranformation examples
+ 
+ Added postCommand Thing parameter
+ 
+ [WIP][OneWire] refactor bridge
+ Removes the possibility of several bridges as there is so much complexity now that it would require a nearly co,plete reqrite of the owfs/owserver. Reduces complexity of internal device configuration.
+ [OneWire] simplify multisensor configuration and improve thing discovery
+ This PR improves the adnvanced (BMS/AMS) multisensor discovery as requested e.g. [here](https://github.com/eclipse/smarthome/issues/6751#issuecomment-450505734).  From now on you only have to set the sensor id of the main sensor, additional sensors are auto-discovered. Also includes code improvements for the discovery service which will make future additions a lot simpler.
+
+Signed-off-by: Jan N. Klug <jan.n.klug@rub.de>

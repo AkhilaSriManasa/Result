@@ -1,0 +1,1514 @@
+﻿ Procedure for lavagna in eclipse 
+ Hello help me out with the entire procedure on how to configure and run lavagna in eclipse. Thank you. 
+ UI Bug: Dialog content not visible
+ Hi,
+
+I have noticed one small bug in dialogs.
+If dialog is larger (taller) there is no vertical scrollbar. You just can't see all of the content.
+You can zoom out the page and then see it all.
+
+Example on roles page.
+Without zoom:
+![image](https://user-images.githubusercontent.com/481077/78229288-13a7b900-74d0-11ea-83dd-5d38e8e6b4a1.png)
+
+Zoomed out:
+![image](https://user-images.githubusercontent.com/481077/78229365-31751e00-74d0-11ea-8578-1f9cac397528.png)
+
+ Bug/Enhancements: Setup - Import configuration
+ Hi,
+
+i have noticed few things while importing configuration.
+
+1. You can click on import button when file is not selected. The UI just refreshes without showing any message. It would be good to disable the import button if no file was selected or to show the message that you must select the file first. In the server console you get the following warning:
+```
+[qtp985655350-13] WARN  io.lavagna.web.helper.GeneralHandlerExceptionResolver - Required request part 'file' is not present
+org.springframework.web.multipart.support.MissingServletRequestPartException: Required request part 'file' is not present
+        at org.springframework.web.method.annotation.RequestParamMethodArgumentResolver.handleMissingValue(RequestParamMethodArgumentResolver.java:199) ~[spring-web-5.2.5.RELEASE.jar!/:5.2.5.RELEASE]
+        at org.springframework.web.method.annotation.AbstractNamedValueMethodArgumentResolver.resolveArgument(AbstractNamedValueMethodArgumentResolver.java:114) ~[spring-web-5.2.5.RELEASE.jar!/:5.2.5.RELEASE]
+        at org.springframework.web.method.support.HandlerMethodArgumentResolverComposite.resolveArgument(HandlerMethodArgumentResolverComposite.java:121) ~[spring-web-5.2.5.RELEASE.jar!/:5.2.5.RELEASE]
+        at org.springframework.web.method.support.InvocableHandlerMethod.getMethodArgumentValues(InvocableHandlerMethod.java:167) ~[spring-web-5.2.5.RELEASE.jar!/:5.2.5.RELEASE]
+        at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:134) ~[spring-web-5.2.5.RELEASE.jar!/:5.2.5.RELEASE]
+        at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:105) ~[spring-webmvc-5.2.5.RELEASE.jar!/:5.2.5.RELEASE]
+        at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:879) ~[spring-webmvc-5.2.5.RELEASE.jar!/:5.2.5.RELEASE]
+        at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:793) ~[spring-webmvc-5.2.5.RELEASE.jar!/:5.2.5.RELEASE]
+        at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87) ~[spring-webmvc-5.2.5.RELEASE.jar!/:5.2.5.RELEASE]
+        at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1040) ~[spring-webmvc-5.2.5.RELEASE.jar!/:5.2.5.RELEASE]
+        at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:943) ~[spring-webmvc-5.2.5.RELEASE.jar!/:5.2.5.RELEASE]
+        at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006) ~[spring-webmvc-5.2.5.RELEASE.jar!/:5.2.5.RELEASE]
+        at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:909) ~[spring-webmvc-5.2.5.RELEASE.jar!/:5.2.5.RELEASE]
+        at javax.servlet.http.HttpServlet.service(HttpServlet.java:665) ~[javax.servlet-api-4.0.1.jar!/:4.0.1]
+        at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883) ~[spring-webmvc-5.2.5.RELEASE.jar!/:5.2.5.RELEASE]
+        at javax.servlet.http.HttpServlet.service(HttpServlet.java:750) ~[javax.servlet-api-4.0.1.jar!/:4.0.1]
+        at org.eclipse.jetty.servlet.ServletHolder.handle(ServletHolder.java:755) ~[jetty-servlet-9.4.27.v20200227.jar!/:9.4.27.v20200227]
+        at org.eclipse.jetty.servlet.ServletHandler$CachedChain.doFilter(ServletHandler.java:1617) ~[jetty-servlet-9.4.27.v20200227.jar!/:9.4.27.v20200227]
+        at io.lavagna.web.security.SecurityFilter.handleWith(SecurityFilter.java:95) ~[classes!/:?]
+        at io.lavagna.web.security.SecurityFilter.doFilterInternal(SecurityFilter.java:69) ~[classes!/:?]
+        at io.lavagna.web.security.AbstractBaseFilter.doFilter(AbstractBaseFilter.java:46) ~[classes!/:?]
+        at org.eclipse.jetty.servlet.ServletHandler$CachedChain.doFilter(ServletHandler.java:1604) ~[jetty-servlet-9.4.27.v20200227.jar!/:9.4.27.v20200227]
+        at io.lavagna.web.security.AnonymousUserFilter.doFilterInternal(AnonymousUserFilter.java:59) ~[classes!/:?]
+        at io.lavagna.web.security.AbstractBaseFilter.doFilter(AbstractBaseFilter.java:46) ~[classes!/:?]
+        at org.eclipse.jetty.servlet.ServletHandler$CachedChain.doFilter(ServletHandler.java:1604) ~[jetty-servlet-9.4.27.v20200227.jar!/:9.4.27.v20200227]
+        at io.lavagna.web.security.RememberMeFilter.doFilterInternal(RememberMeFilter.java:55) ~[classes!/:?]
+        at io.lavagna.web.security.AbstractBaseFilter.doFilter(AbstractBaseFilter.java:46) ~[classes!/:?]
+        at org.eclipse.jetty.servlet.ServletHandler$CachedChain.doFilter(ServletHandler.java:1604) ~[jetty-servlet-9.4.27.v20200227.jar!/:9.4.27.v20200227]
+        at io.lavagna.web.security.CSFRFilter.doFilterInternal(CSFRFilter.java:62) ~[classes!/:?]
+        at io.lavagna.web.security.AbstractBaseFilter.doFilter(AbstractBaseFilter.java:46) ~[classes!/:?]
+        at org.eclipse.jetty.servlet.ServletHandler$CachedChain.doFilter(ServletHandler.java:1604) ~[jetty-servlet-9.4.27.v20200227.jar!/:9.4.27.v20200227]
+        at org.eclipse.jetty.servlet.ServletHandler.doHandle(ServletHandler.java:545) ~[jetty-servlet-9.4.27.v20200227.jar!/:9.4.27.v20200227]
+        at org.eclipse.jetty.server.handler.ScopedHandler.handle(ScopedHandler.java:143) ~[jetty-server-9.4.27.v20200227.jar!/:9.4.27.v20200227]
+        at org.eclipse.jetty.security.SecurityHandler.handle(SecurityHandler.java:590) ~[jetty-security-9.4.27.v20200227.jar!/:9.4.27.v20200227]
+        at org.eclipse.jetty.server.handler.HandlerWrapper.handle(HandlerWrapper.java:127) ~[jetty-server-9.4.27.v20200227.jar!/:9.4.27.v20200227]
+        at org.eclipse.jetty.server.handler.ScopedHandler.nextHandle(ScopedHandler.java:235) ~[jetty-server-9.4.27.v20200227.jar!/:9.4.27.v20200227]
+        at org.eclipse.jetty.server.session.SessionHandler.doHandle(SessionHandler.java:1610) ~[jetty-server-9.4.27.v20200227.jar!/:9.4.27.v20200227]
+        at org.eclipse.jetty.server.handler.ScopedHandler.nextHandle(ScopedHandler.java:233) ~[jetty-server-9.4.27.v20200227.jar!/:9.4.27.v20200227]
+        at org.eclipse.jetty.server.handler.ContextHandler.doHandle(ContextHandler.java:1300) ~[jetty-server-9.4.27.v20200227.jar!/:9.4.27.v20200227]
+        at org.eclipse.jetty.server.handler.ScopedHandler.nextScope(ScopedHandler.java:188) ~[jetty-server-9.4.27.v20200227.jar!/:9.4.27.v20200227]
+        at org.eclipse.jetty.servlet.ServletHandler.doScope(ServletHandler.java:485) ~[jetty-servlet-9.4.27.v20200227.jar!/:9.4.27.v20200227]
+        at org.eclipse.jetty.server.session.SessionHandler.doScope(SessionHandler.java:1580) ~[jetty-server-9.4.27.v20200227.jar!/:9.4.27.v20200227]
+        at org.eclipse.jetty.server.handler.ScopedHandler.nextScope(ScopedHandler.java:186) ~[jetty-server-9.4.27.v20200227.jar!/:9.4.27.v20200227]
+        at org.eclipse.jetty.server.handler.ContextHandler.doScope(ContextHandler.java:1215) ~[jetty-server-9.4.27.v20200227.jar!/:9.4.27.v20200227]
+        at org.eclipse.jetty.server.handler.ScopedHandler.handle(ScopedHandler.java:141) ~[jetty-server-9.4.27.v20200227.jar!/:9.4.27.v20200227]
+        at org.eclipse.jetty.server.handler.HandlerWrapper.handle(HandlerWrapper.java:127) ~[jetty-server-9.4.27.v20200227.jar!/:9.4.27.v20200227]
+        at org.eclipse.jetty.server.Server.handle(Server.java:500) ~[jetty-server-9.4.27.v20200227.jar!/:9.4.27.v20200227]
+        at org.eclipse.jetty.server.HttpChannel.lambda$handle$1(HttpChannel.java:383) ~[jetty-server-9.4.27.v20200227.jar!/:9.4.27.v20200227]
+        at org.eclipse.jetty.server.HttpChannel.dispatch(HttpChannel.java:547) [jetty-server-9.4.27.v20200227.jar!/:9.4.27.v20200227]
+        at org.eclipse.jetty.server.HttpChannel.handle(HttpChannel.java:375) [jetty-server-9.4.27.v20200227.jar!/:9.4.27.v20200227]
+        at org.eclipse.jetty.server.HttpConnection.onFillable(HttpConnection.java:273) [jetty-server-9.4.27.v20200227.jar!/:9.4.27.v20200227]
+        at org.eclipse.jetty.io.AbstractConnection$ReadCallback.succeeded(AbstractConnection.java:311) [jetty-io-9.4.27.v20200227.jar!/:9.4.27.v20200227]
+        at org.eclipse.jetty.io.FillInterest.fillable(FillInterest.java:103) [jetty-io-9.4.27.v20200227.jar!/:9.4.27.v20200227]
+        at org.eclipse.jetty.io.ChannelEndPoint$2.run(ChannelEndPoint.java:117) [jetty-io-9.4.27.v20200227.jar!/:9.4.27.v20200227]
+        at org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.runTask(EatWhatYouKill.java:336) [jetty-util-9.4.27.v20200227.jar!/:9.4.27.v20200227]
+        at org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.doProduce(EatWhatYouKill.java:313) [jetty-util-9.4.27.v20200227.jar!/:9.4.27.v20200227]
+        at org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.tryProduce(EatWhatYouKill.java:171) [jetty-util-9.4.27.v20200227.jar!/:9.4.27.v20200227]
+        at org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.run(EatWhatYouKill.java:129) [jetty-util-9.4.27.v20200227.jar!/:9.4.27.v20200227]
+        at org.eclipse.jetty.util.thread.ReservedThreadExecutor$ReservedThread.run(ReservedThreadExecutor.java:375) [jetty-util-9.4.27.v20200227.jar!/:9.4.27.v20200227]
+        at org.eclipse.jetty.util.thread.QueuedThreadPool.runJob(QueuedThreadPool.java:806) [jetty-util-9.4.27.v20200227.jar!/:9.4.27.v20200227]
+        at org.eclipse.jetty.util.thread.QueuedThreadPool$Runner.run(QueuedThreadPool.java:938) [jetty-util-9.4.27.v20200227.jar!/:9.4.27.v20200227]
+        at java.lang.Thread.run(Thread.java:748) [?:1.8.0_242]
+```
+
+2. When I select the file there is no indication in the UI that file was actually selected. The page remains the same. Import button is working correctly. It is little confusing at first because you don't know if file was accepted or not.
+
+**EDIT:**
+I have just noticed that in admin panel you also have import configuration which is behaving correctly. It would be good to add similar functionality to setup's import configuration.
+![image](https://user-images.githubusercontent.com/481077/78228539-1f46b000-74cf-11ea-8fef-515a65f15b43.png)
+
+ Bug: File upload 0B
+ Hi,
+
+I have found this previous issue: https://github.com/digitalfondue/lavagna/issues/92
+
+I believe this bug is still present.
+
+If I add any file while while creating the card the file becomes 0B.
+If I add the file to previously created card it is working fine.
+
+Once the file becomes 0B I need to rename it and change it's content in order to get it to work.
+hi @majugurci  I'll have a look, thank you for opening the bug.
+
+Thank you for this wonderful app :)
+
+Here is a suggestion: if it is too much work to investigate/fix this bug maybe it's easier to just disable the file upload when inserting the card and enable it when updating the card.
+
+@majugurci I think I have pinpointed and fixed the issue, I'll do a release asap :)
+
+@majugurci , I did the release 1.1.6 (https://github.com/digitalfondue/lavagna/releases/tag/lavagna-1.1.6) , the docker image will be done asap (if you are using it)
+
+@syjer Thank you very much for fast work. I have tested the new version and it is working all right :)
+
+@majugurci thank you for opening the issue and testing :+1: :)
+
+ Deployment failed on Wildfly 14 / OpenJDK 11
+ Hi guys,
+I have an issue when deploying Lavagna 1.1.4 prebuild WAR on Wildfly 14 / OpenJDK 11.
+Using OpenJDK8 works fine.
+
+Thanks for investigating, fix would be very much appreciated!
+
+Best,
+mbcon
+
+
+09:36:40,145 INFO  [stdout] (ServerService Thread Pool -- 83) 09:36:40.135 [ServerService Thread Pool -- 83] ERROR org.springframework.web.context.ContextLoader - Context initialization failed
+09:36:40,151 INFO  [stdout] (ServerService Thread Pool -- 83) org.springframework.beans.factory.BeanExpressionException: Expression parsing failed; nested exception is org.springframework.expression.spel.SpelEvaluationException: EL1021E: A problem occurred whilst attempting to access the property 'lavagnaEnvironment': 'Error creating bean with name 'lavagnaEnvironment' defined in io.lavagna.config.DataSourceConfig: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [io.lavagna.common.LavagnaEnvironment]: Factory method 'lavagnaEnvironment' threw exception; nested exception is java.lang.ExceptionInInitializerError'
+09:36:40,152 INFO  [stdout] (ServerService Thread Pool -- 83)   at org.springframework.context.expression.StandardBeanExpressionResolver.evaluate(StandardBeanExpressionResolver.java:164) ~[spring-context-5.2.2.RELEASE.jar:5.2.2.RELEASE]
+09:36:40,153 INFO  [stdout] (ServerService Thread Pool -- 83)   at ch.digitalfondue.npjt.RepositoriesDefinitionRegistrar.registerBeanDefinitions(RepositoriesDefinitionRegistrar.java:54) ~[npjt-extra-2.0.2.jar:?]
+09:36:40,153 INFO  [stdout] (ServerService Thread Pool -- 83)   at org.springframework.context.annotation.ImportBeanDefinitionRegistrar.registerBeanDefinitions(ImportBeanDefinitionRegistrar.java:86) ~[spring-context-5.2.2.RELEASE.jar:5.2.2.RELEASE]
+09:36:40,154 INFO  [stdout] (ServerService Thread Pool -- 83)   at org.springframework.context.annotation.ConfigurationClassBeanDefinitionReader.lambda$loadBeanDefinitionsFromRegistrars$1(ConfigurationClassBeanDefinitionReader.java:385) ~[spring-context-5.2.2.RELEASE.jar:5.2.2.RELEASE]
+09:36:40,155 INFO  [stdout] (ServerService Thread Pool -- 83)   at java.util.LinkedHashMap.forEach(LinkedHashMap.java:684) ~[?:?]
+09:36:40,156 INFO  [stdout] (ServerService Thread Pool -- 83)   at org.springframework.context.annotation.ConfigurationClassBeanDefinitionReader.loadBeanDefinitionsFromRegistrars(ConfigurationClassBeanDefinitionReader.java:384) ~[spring-context-5.2.2.RELEASE.jar:5.2.2.RELEASE]
+09:36:40,157 INFO  [stdout] (ServerService Thread Pool -- 83)   at org.springframework.context.annotation.ConfigurationClassBeanDefinitionReader.loadBeanDefinitionsForConfigurationClass(ConfigurationClassBeanDefinitionReader.java:148) ~[spring-context-5.2.2.RELEASE.jar:5.2.2.RELEASE]
+09:36:40,157 INFO  [stdout] (ServerService Thread Pool -- 83)   at org.springframework.context.annotation.ConfigurationClassBeanDefinitionReader.loadBeanDefinitions(ConfigurationClassBeanDefinitionReader.java:120) ~[spring-context-5.2.2.RELEASE.jar:5.2.2.RELEASE]
+09:36:40,158 INFO  [stdout] (ServerService Thread Pool -- 83)   at org.springframework.context.annotation.ConfigurationClassPostProcessor.processConfigBeanDefinitions(ConfigurationClassPostProcessor.java:337) ~[spring-context-5.2.2.RELEASE.jar:5.2.2.RELEASE]
+09:36:40,159 INFO  [stdout] (ServerService Thread Pool -- 83)   at org.springframework.context.annotation.ConfigurationClassPostProcessor.postProcessBeanDefinitionRegistry(ConfigurationClassPostProcessor.java:242) ~[spring-context-5.2.2.RELEASE.jar:5.2.2.RELEASE]
+09:36:40,159 INFO  [stdout] (ServerService Thread Pool -- 83)   at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanDefinitionRegistryPostProcessors(PostProcessorRegistrationDelegate.java:275) ~[spring-context-5.2.2.RELEASE.jar:5.2.2.RELEASE]
+09:36:40,166 INFO  [stdout] (ServerService Thread Pool -- 83)   at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(PostProcessorRegistrationDelegate.java:95) ~[spring-context-5.2.2.RELEASE.jar:5.2.2.RELEASE]
+09:36:40,167 INFO  [stdout] (ServerService Thread Pool -- 83)   at org.springframework.context.support.AbstractApplicationContext.invokeBeanFactoryPostProcessors(AbstractApplicationContext.java:706) ~[spring-context-5.2.2.RELEASE.jar:5.2.2.RELEASE]
+09:36:40,167 INFO  [stdout] (ServerService Thread Pool -- 83)   at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:532) ~[spring-context-5.2.2.RELEASE.jar:5.2.2.RELEASE]
+09:36:40,168 INFO  [stdout] (ServerService Thread Pool -- 83)   at org.springframework.web.context.ContextLoader.configureAndRefreshWebApplicationContext(ContextLoader.java:401) ~[spring-web-5.2.2.RELEASE.jar:5.2.2.RELEASE]
+09:36:40,169 INFO  [stdout] (ServerService Thread Pool -- 83)   at org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:292) ~[spring-web-5.2.2.RELEASE.jar:5.2.2.RELEASE]
+09:36:40,169 INFO  [stdout] (ServerService Thread Pool -- 83)   at org.springframework.web.context.ContextLoaderListener.contextInitialized(ContextLoaderListener.java:103) ~[spring-web-5.2.2.RELEASE.jar:5.2.2.RELEASE]
+09:36:40,170 INFO  [stdout] (ServerService Thread Pool -- 83)   at io.undertow.servlet.core.ApplicationListeners.contextInitialized(ApplicationListeners.java:187) ~[undertow-servlet-2.0.13.Final.jar!/:2.0.13.Final]
+09:36:40,171 INFO  [stdout] (ServerService Thread Pool -- 83)   at io.undertow.servlet.core.DeploymentManagerImpl$1.call(DeploymentManagerImpl.java:216) ~[undertow-servlet-2.0.13.Final.jar!/:2.0.13.Final]
+09:36:40,171 INFO  [stdout] (ServerService Thread Pool -- 83)   at io.undertow.servlet.core.DeploymentManagerImpl$1.call(DeploymentManagerImpl.java:185) ~[undertow-servlet-2.0.13.Final.jar!/:2.0.13.Final]
+09:36:40,172 INFO  [stdout] (ServerService Thread Pool -- 83)   at io.undertow.servlet.core.ServletRequestContextThreadSetupAction$1.call(ServletRequestContextThreadSetupAction.java:42) ~[undertow-servlet-2.0.13.Final.jar!/:2.0.13.Final]
+09:36:40,173 INFO  [stdout] (ServerService Thread Pool -- 83)   at io.undertow.servlet.core.ContextClassLoaderSetupAction$1.call(ContextClassLoaderSetupAction.java:43) ~[undertow-servlet-2.0.13.Final.jar!/:2.0.13.Final]
+09:36:40,173 INFO  [stdout] (ServerService Thread Pool -- 83)   at org.wildfly.extension.undertow.security.SecurityContextThreadSetupAction.lambda$create$0(SecurityContextThreadSetupAction.java:105) ~[?:?]
+09:36:40,181 INFO  [stdout] (ServerService Thread Pool -- 83)   at org.wildfly.extension.undertow.deployment.UndertowDeploymentInfoService$UndertowThreadSetupAction.lambda$create$0(UndertowDeploymentInfoService.java:1502) ~[?:?]
+09:36:40,181 INFO  [stdout] (ServerService Thread Pool -- 83)   at org.wildfly.extension.undertow.deployment.UndertowDeploymentInfoService$UndertowThreadSetupAction.lambda$create$0(UndertowDeploymentInfoService.java:1502) ~[?:?]
+09:36:40,183 INFO  [stdout] (ServerService Thread Pool -- 83)   at org.wildfly.extension.undertow.deployment.UndertowDeploymentInfoService$UndertowThreadSetupAction.lambda$create$0(UndertowDeploymentInfoService.java:1502) ~[?:?]
+09:36:40,188 INFO  [stdout] (ServerService Thread Pool -- 83)   at org.wildfly.extension.undertow.deployment.UndertowDeploymentInfoService$UndertowThreadSetupAction.lambda$create$0(UndertowDeploymentInfoService.java:1502) ~[?:?]
+09:36:40,189 INFO  [stdout] (ServerService Thread Pool -- 83)   at io.undertow.servlet.core.DeploymentManagerImpl.deploy(DeploymentManagerImpl.java:250) [undertow-servlet-2.0.13.Final.jar!/:2.0.13.Final]
+09:36:40,192 INFO  [stdout] (ServerService Thread Pool -- 83)   at org.wildfly.extension.undertow.deployment.UndertowDeploymentService.startContext(UndertowDeploymentService.java:96) [wildfly-undertow-14.0.1.Final.jar!/:14.0.1.Final]
+09:36:40,193 INFO  [stdout] (ServerService Thread Pool -- 83)   at org.wildfly.extension.undertow.deployment.UndertowDeploymentService$1.run(UndertowDeploymentService.java:78) [wildfly-undertow-14.0.1.Final.jar!/:14.0.1.Final]
+09:36:40,193 INFO  [stdout] (ServerService Thread Pool -- 83)   at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:515) [?:?]
+09:36:40,196 INFO  [stdout] (ServerService Thread Pool -- 83)   at java.util.concurrent.FutureTask.run(FutureTask.java:264) [?:?]
+09:36:40,197 INFO  [stdout] (ServerService Thread Pool -- 83)   at org.jboss.threads.ContextClassLoaderSavingRunnable.run(ContextClassLoaderSavingRunnable.java:35) [jboss-threads-2.3.2.Final.jar!/:2.3.2.Final]
+09:36:40,198 INFO  [stdout] (ServerService Thread Pool -- 83)   at org.jboss.threads.EnhancedQueueExecutor.safeRun(EnhancedQueueExecutor.java:1985) [jboss-threads-2.3.2.Final.jar!/:2.3.2.Final]
+09:36:40,198 INFO  [stdout] (ServerService Thread Pool -- 83)   at org.jboss.threads.EnhancedQueueExecutor$ThreadBody.doRunTask(EnhancedQueueExecutor.java:1487) [jboss-threads-2.3.2.Final.jar!/:2.3.2.Final]
+09:36:40,199 INFO  [stdout] (ServerService Thread Pool -- 83)   at org.jboss.threads.EnhancedQueueExecutor$ThreadBody.run(EnhancedQueueExecutor.java:1378) [jboss-threads-2.3.2.Final.jar!/:2.3.2.Final]
+09:36:40,200 INFO  [stdout] (ServerService Thread Pool -- 83)   at java.lang.Thread.run(Thread.java:834) [?:?]
+09:36:40,200 INFO  [stdout] (ServerService Thread Pool -- 83)   at org.jboss.threads.JBossThread.run(JBossThread.java:485) [jboss-threads-2.3.2.Final.jar!/:2.3.2.Final]
+09:36:40,205 INFO  [stdout] (ServerService Thread Pool -- 83) Caused by: org.springframework.expression.spel.SpelEvaluationException: EL1021E: A problem occurred whilst attempting to access the property 'lavagnaEnvironment': 'Error creating bean with name 'lavagnaEnvironment' defined in io.lavagna.config.DataSourceConfig: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [io.lavagna.common.LavagnaEnvironment]: Factory method 'lavagnaEnvironment' threw exception; nested exception is java.lang.ExceptionInInitializerError'
+So, it seems that https://github.com/digitalfondue/lavagna/blob/master/src/main/java/io/lavagna/common/LavagnaEnvironment.java#L40 has some issue while reading the properties. Have you set them? 
+
+Do you have the full stacktrace as it seems to lack the part where it fails inside `LavagnaEnvironment` ?
+
+Yes, I have set the relevant properties when starting Wildfly.
+./bin/standalone.bat -Ddatasource.dialect=HSQLDB -Ddatasource.url=jdbc:hsqldb:mem:lavagna -Ddatasource.username=sa -Ddatasource.password= -Dspring.profiles.active=prod
+
+Using OpenJDK8, the same setup just works fine.
+[wildfly-server.log](https://github.com/digitalfondue/lavagna/files/4380373/wildfly-server.log)
+
+
+
+
+ok, seems a log4j/classpath issue:
+
+```
+Caused by: java.lang.UnsupportedOperationException: No class provided, and an appropriate one cannot be found.
+	at deployment.lavagna.war//org.apache.logging.log4j.LogManager.callerClass(LogManager.java:576)
+...
+```
+
+I'll have a look
+
+@mbcon , I was able to push a fix for the latest wildfly (19.0.0).
+
+Now the combination java11+widlfly 19.0.0 (Servlet-Only Distribution) is working.
+
+Your specific issue seems related to multi release jar used by log4j2 ( https://issues.redhat.com/browse/WFCORE-4266  ) which has been fixed in wildfly 16.0.0.Final. (I tried 14, 15 and both failed, 16.0.0 and + work as expected).
+
+I'll do a release tomorrow for the specific "workaround" for  wildfly 16.0.0 and later.
+
+But the combination java11+wildfly14.0.0 is not possible with lavagna, as it has a multi release jar dependency.
+
+Hello @syjer,
+Thanks for looking into my issue and the proposed solution. Unfortunately I am currently tied to WF14 for reasons. But your link on the WFCORE issue made smarter. 
+I am now trying to build a specific JBoss module for Lavagna jars that cause issues (log4j, Spring). 
+Now I have Lavagna running with java11/WF14 by just a new module and an entry in standalone.xml. First tests look promising.
+If this solution is interesting for others, I could share the docs if tests go well.
+
+Best,
+mbcon
+
+Hi again,
+Lavagna works like a charm on WF14/JDK11. I have attached the description of the WF module necessary to get this done.
+
+Don't forget to reference the module in your standalone.xml config under <subsystem xmlns="urn:jboss:domain:ee:4.0"><global-modules> ...
+
+standalone.xml is also a good place to configure Lavagna database config: 
+		<system-properties>
+		        <property name="datasource.dialect" value="HSQLDB"/>.....
+
+Thanks for providing this handy, compact tool! I will open a new topic for the questions on Lavagna I now have ...
+
+Best,
+mbcon
+
+
+[module.xml.txt](https://github.com/digitalfondue/lavagna/files/4420413/module.xml.txt)
+
+
+ Compiling with current JDK throws error
+ Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.5.1:compile (java-compile) on project lavagna: Compilation failure
+[ERROR] X:\Workspace\GitHub-Systeme\lavagna\src\main\java\io\lavagna\service\ProjectService.java:[37,8] cannot access java.lang.Object
+[ERROR]   bad class file: /modules/java.base/java/lang/Object.class
+[ERROR]     class file has wrong version 58.0, should be 53.0
+[ERROR]     Please remove or make sure it appears in the correct subdirectory of the classpath.
+
+So the question is exactly which JDK version was used to compile the project?
+
+hi @nickbe , 
+
+using sdkman, I'm using the following version:
+> $ sdk list java
+...
+>8.0.242      | open    | installed  | 8.0.242-open
+
+Seems that this version for windows is not available for download anymore.
+Also from the Oracle site: https://www.oracle.com/java/technologies/javase/javase8-archive-downloads.html, i cannot locate any version number that seems to be the same.
+
+@nickbe , you can download from: 
+
+ - https://adoptopenjdk.net/releases.html
+ - https://developers.redhat.com/products/openjdk/download
+ - https://www.azul.com/downloads/zulu-community/?architecture=x86-64-bit&package=jdk-fx
+
+Success 😁  Thanks a lot !
+
+
+ How can I move projects to the trashcan
+ ... and empty the trash to delete projects and old cards for good?
+hi @nickbe , at the moment you can only archive projects.
+
+Additionally, deleting for good a card or projects is not supported as it has some not simple to handle implications (for example: linked issues).
+
+I don't think we will ever support the total deletion of cards and projects.
+
+I think that this implies privacy issues. A user should be able to delete his own comments and also delete his own cards if he wants to. Otherwise we're bound to have a lot of trash accumulating over time.
+
+ update mysql connector, fix #131
+ update mysql connector, fix #131
+
+[![Coverage Status](https://coveralls.io/builds/28997788/badge)](https://coveralls.io/builds/28997788)
+
+Coverage remained the same at 65.472% when pulling **e3f3ec339681467adbcbb956de38a350ca608e2a on update-mysql-connector** into **d95ea9a5197ca9ca1550a445c660d614ef2e76d5 on master**.
+
+
+
+[![Coverage Status](https://coveralls.io/builds/28997788/badge)](https://coveralls.io/builds/28997788)
+
+Coverage remained the same at 65.472% when pulling **e3f3ec339681467adbcbb956de38a350ca608e2a on update-mysql-connector** into **d95ea9a5197ca9ca1550a445c660d614ef2e76d5 on master**.
+
+
+ Milestones export to excell return 500
+ log
+
+```
+14:01:08.017 [qtp370988149-19572] WARN  io.lavagna.web.helper.GeneralHandlerExceptionResolver - null
+java.lang.NullPointerException: null
+	at sun.awt.FontConfiguration.getVersion(FontConfiguration.java:1264) ~[?:1.8.0_212]
+	at sun.awt.FontConfiguration.readFontConfigFile(FontConfiguration.java:219) ~[?:1.8.0_212]
+	at sun.awt.FontConfiguration.init(FontConfiguration.java:107) ~[?:1.8.0_212]
+	at sun.awt.X11FontManager.createFontConfiguration(X11FontManager.java:774) ~[?:1.8.0_212]
+	at sun.font.SunFontManager$2.run(SunFontManager.java:431) ~[?:1.8.0_212]
+	at java.security.AccessController.doPrivileged(Native Method) ~[?:1.8.0_212]
+	at sun.font.SunFontManager.<init>(SunFontManager.java:376) ~[?:1.8.0_212]
+	at sun.awt.FcFontManager.<init>(FcFontManager.java:35) ~[?:1.8.0_212]
+	at sun.awt.X11FontManager.<init>(X11FontManager.java:57) ~[?:1.8.0_212]
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method) ~[?:1.8.0_212]
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62) ~[?:1.8.0_212]
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45) ~[?:1.8.0_212]
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:423) ~[?:1.8.0_212]
+	at java.lang.Class.newInstance(Class.java:442) ~[?:1.8.0_212]
+	at sun.font.FontManagerFactory$1.run(FontManagerFactory.java:83) ~[?:1.8.0_212]
+	at java.security.AccessController.doPrivileged(Native Method) ~[?:1.8.0_212]
+	at sun.font.FontManagerFactory.getInstance(FontManagerFactory.java:74) ~[?:1.8.0_212]
+	at java.awt.Font.getFont2D(Font.java:491) ~[?:1.8.0_212]
+	at java.awt.Font.canDisplayUpTo(Font.java:2060) ~[?:1.8.0_212]
+	at java.awt.font.TextLayout.singleFont(TextLayout.java:470) ~[?:1.8.0_212]
+	at java.awt.font.TextLayout.<init>(TextLayout.java:531) ~[?:1.8.0_212]
+	at org.apache.poi.ss.util.SheetUtil.getDefaultCharWidth(SheetUtil.java:275) ~[poi-3.17.jar:3.17]
+	at org.apache.poi.ss.util.SheetUtil.getColumnWidth(SheetUtil.java:250) ~[poi-3.17.jar:3.17]
+	at org.apache.poi.ss.util.SheetUtil.getColumnWidth(SheetUtil.java:235) ~[poi-3.17.jar:3.17]
+	at org.apache.poi.hssf.usermodel.HSSFSheet.autoSizeColumn(HSSFSheet.java:2165) ~[poi-3.17.jar:3.17]
+	at org.apache.poi.hssf.usermodel.HSSFSheet.autoSizeColumn(HSSFSheet.java:2147) ~[poi-3.17.jar:3.17]
+	at io.lavagna.service.ExcelExportService.getWorkbookFromSearchFilters(ExcelExportService.java:229) ~[classes/:?]
+	at io.lavagna.service.ExcelExportService.exportMilestoneToExcel(ExcelExportService.java:250) ~[classes/:?]
+	at io.lavagna.service.ExcelExportService$$FastClassBySpringCGLIB$$2306099f.invoke(<generated>) ~[classes/:?]
+	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:218) ~[spring-core-5.2.2.RELEASE.jar:5.2.2.RELEASE]
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:769) ~[spring-aop-5.2.2.RELEASE.jar:5.2.2.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163) ~[spring-aop-5.2.2.RELEASE.jar:5.2.2.RELEASE]
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:747) ~[spring-aop-5.2.2.RELEASE.jar:5.2.2.RELEASE]
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:366) ~[spring-tx-5.2.2.RELEASE.jar:5.2.2.RELEASE]
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:99) ~[spring-tx-5.2.2.RELEASE.jar:5.2.2.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186) ~[spring-aop-5.2.2.RELEASE.jar:5.2.2.RELEASE]
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:747) ~[spring-aop-5.2.2.RELEASE.jar:5.2.2.RELEASE]
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:689) ~[spring-aop-5.2.2.RELEASE.jar:5.2.2.RELEASE]
+	at io.lavagna.service.ExcelExportService$$EnhancerBySpringCGLIB$$ad80ce32.exportMilestoneToExcel(<generated>) ~[classes/:?]
+	at io.lavagna.web.api.MilestoneController.exportMilestoneToExcel(MilestoneController.java:143) ~[classes!/:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_212]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_212]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_212]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_212]
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:190) ~[spring-web-5.2.2.RELEASE.jar!/:5.2.2.RELEASE]
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:138) ~[spring-web-5.2.2.RELEASE.jar!/:5.2.2.RELEASE]
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:106) ~[spring-webmvc-5.2.2.RELEASE.jar!/:5.2.2.RELEASE]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:888) ~[spring-webmvc-5.2.2.RELEASE.jar!/:5.2.2.RELEASE]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:793) ~[spring-webmvc-5.2.2.RELEASE.jar!/:5.2.2.RELEASE]
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87) ~[spring-webmvc-5.2.2.RELEASE.jar!/:5.2.2.RELEASE]
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1040) ~[spring-webmvc-5.2.2.RELEASE.jar!/:5.2.2.RELEASE]
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:943) ~[spring-webmvc-5.2.2.RELEASE.jar!/:5.2.2.RELEASE]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006) ~[spring-webmvc-5.2.2.RELEASE.jar!/:5.2.2.RELEASE]
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:898) ~[spring-webmvc-5.2.2.RELEASE.jar!/:5.2.2.RELEASE]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:645) ~[javax.servlet-api-4.0.1.jar!/:4.0.1]
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883) ~[spring-webmvc-5.2.2.RELEASE.jar!/:5.2.2.RELEASE]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:750) ~[javax.servlet-api-4.0.1.jar!/:4.0.1]
+	at org.eclipse.jetty.servlet.ServletHolder.handle(ServletHolder.java:760) ~[jetty-servlet-9.4.24.v20191120.jar!/:9.4.24.v20191120]
+	at org.eclipse.jetty.servlet.ServletHandler$CachedChain.doFilter(ServletHandler.java:1617) ~[jetty-servlet-9.4.24.v20191120.jar!/:9.4.24.v20191120]
+	at org.tuckey.web.filters.urlrewrite.gzip.GzipFilter.doFilter(GzipFilter.java:85) ~[urlrewritefilter-4.0.4.jar!/:4.0.4]
+	at org.eclipse.jetty.servlet.ServletHandler$CachedChain.doFilter(ServletHandler.java:1604) ~[jetty-servlet-9.4.24.v20191120.jar!/:9.4.24.v20191120]
+	at io.lavagna.web.security.SecurityFilter.handleWith(SecurityFilter.java:95) ~[classes!/:?]
+	at io.lavagna.web.security.SecurityFilter.doFilterInternal(SecurityFilter.java:69) ~[classes!/:?]
+	at io.lavagna.web.security.AbstractBaseFilter.doFilter(AbstractBaseFilter.java:46) ~[classes!/:?]
+	at org.eclipse.jetty.servlet.ServletHandler$CachedChain.doFilter(ServletHandler.java:1604) ~[jetty-servlet-9.4.24.v20191120.jar!/:9.4.24.v20191120]
+	at io.lavagna.web.security.AnonymousUserFilter.doFilterInternal(AnonymousUserFilter.java:59) ~[classes!/:?]
+	at io.lavagna.web.security.AbstractBaseFilter.doFilter(AbstractBaseFilter.java:46) ~[classes!/:?]
+	at org.eclipse.jetty.servlet.ServletHandler$CachedChain.doFilter(ServletHandler.java:1604) ~[jetty-servlet-9.4.24.v20191120.jar!/:9.4.24.v20191120]
+	at io.lavagna.web.security.RememberMeFilter.doFilterInternal(RememberMeFilter.java:55) ~[classes!/:?]
+	at io.lavagna.web.security.AbstractBaseFilter.doFilter(AbstractBaseFilter.java:46) ~[classes!/:?]
+	at org.eclipse.jetty.servlet.ServletHandler$CachedChain.doFilter(ServletHandler.java:1604) ~[jetty-servlet-9.4.24.v20191120.jar!/:9.4.24.v20191120]
+	at io.lavagna.web.security.CSFRFilter.doFilterInternal(CSFRFilter.java:62) ~[classes!/:?]
+	at io.lavagna.web.security.AbstractBaseFilter.doFilter(AbstractBaseFilter.java:46) ~[classes!/:?]
+	at org.eclipse.jetty.servlet.ServletHandler$CachedChain.doFilter(ServletHandler.java:1604) ~[jetty-servlet-9.4.24.v20191120.jar!/:9.4.24.v20191120]
+	at org.eclipse.jetty.servlet.ServletHandler.doHandle(ServletHandler.java:545) ~[jetty-servlet-9.4.24.v20191120.jar!/:9.4.24.v20191120]
+	at org.eclipse.jetty.server.handler.ScopedHandler.handle(ScopedHandler.java:143) ~[jetty-server-9.4.24.v20191120.jar!/:9.4.24.v20191120]
+	at org.eclipse.jetty.security.SecurityHandler.handle(SecurityHandler.java:590) ~[jetty-security-9.4.24.v20191120.jar!/:9.4.24.v20191120]
+	at org.eclipse.jetty.server.handler.HandlerWrapper.handle(HandlerWrapper.java:127) ~[jetty-server-9.4.24.v20191120.jar!/:9.4.24.v20191120]
+	at org.eclipse.jetty.server.handler.ScopedHandler.nextHandle(ScopedHandler.java:235) ~[jetty-server-9.4.24.v20191120.jar!/:9.4.24.v20191120]
+	at org.eclipse.jetty.server.session.SessionHandler.doHandle(SessionHandler.java:1607) ~[jetty-server-9.4.24.v20191120.jar!/:9.4.24.v20191120]
+	at org.eclipse.jetty.server.handler.ScopedHandler.nextHandle(ScopedHandler.java:233) ~[jetty-server-9.4.24.v20191120.jar!/:9.4.24.v20191120]
+	at org.eclipse.jetty.server.handler.ContextHandler.doHandle(ContextHandler.java:1297) ~[jetty-server-9.4.24.v20191120.jar!/:9.4.24.v20191120]
+	at org.eclipse.jetty.server.handler.ScopedHandler.nextScope(ScopedHandler.java:188) ~[jetty-server-9.4.24.v20191120.jar!/:9.4.24.v20191120]
+	at org.eclipse.jetty.servlet.ServletHandler.doScope(ServletHandler.java:485) ~[jetty-servlet-9.4.24.v20191120.jar!/:9.4.24.v20191120]
+	at org.eclipse.jetty.server.session.SessionHandler.doScope(SessionHandler.java:1577) ~[jetty-server-9.4.24.v20191120.jar!/:9.4.24.v20191120]
+	at org.eclipse.jetty.server.handler.ScopedHandler.nextScope(ScopedHandler.java:186) ~[jetty-server-9.4.24.v20191120.jar!/:9.4.24.v20191120]
+	at org.eclipse.jetty.server.handler.ContextHandler.doScope(ContextHandler.java:1212) ~[jetty-server-9.4.24.v20191120.jar!/:9.4.24.v20191120]
+	at org.eclipse.jetty.server.handler.ScopedHandler.handle(ScopedHandler.java:141) ~[jetty-server-9.4.24.v20191120.jar!/:9.4.24.v20191120]
+	at org.eclipse.jetty.server.handler.HandlerWrapper.handle(HandlerWrapper.java:127) ~[jetty-server-9.4.24.v20191120.jar!/:9.4.24.v20191120]
+	at org.eclipse.jetty.server.Server.handle(Server.java:500) ~[jetty-server-9.4.24.v20191120.jar!/:9.4.24.v20191120]
+	at org.eclipse.jetty.server.HttpChannel.lambda$handle$1(HttpChannel.java:383) ~[jetty-server-9.4.24.v20191120.jar!/:9.4.24.v20191120]
+	at org.eclipse.jetty.server.HttpChannel.dispatch(HttpChannel.java:547) [jetty-server-9.4.24.v20191120.jar!/:9.4.24.v20191120]
+	at org.eclipse.jetty.server.HttpChannel.handle(HttpChannel.java:375) [jetty-server-9.4.24.v20191120.jar!/:9.4.24.v20191120]
+	at org.eclipse.jetty.server.HttpConnection.onFillable(HttpConnection.java:270) [jetty-server-9.4.24.v20191120.jar!/:9.4.24.v20191120]
+	at org.eclipse.jetty.io.AbstractConnection$ReadCallback.succeeded(AbstractConnection.java:311) [jetty-io-9.4.24.v20191120.jar!/:9.4.24.v20191120]
+	at org.eclipse.jetty.io.FillInterest.fillable(FillInterest.java:103) [jetty-io-9.4.24.v20191120.jar!/:9.4.24.v20191120]
+	at org.eclipse.jetty.io.ChannelEndPoint$2.run(ChannelEndPoint.java:117) [jetty-io-9.4.24.v20191120.jar!/:9.4.24.v20191120]
+	at org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.runTask(EatWhatYouKill.java:336) [jetty-util-9.4.24.v20191120.jar!/:9.4.24.v20191120]
+	at org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.doProduce(EatWhatYouKill.java:313) [jetty-util-9.4.24.v20191120.jar!/:9.4.24.v20191120]
+	at org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.tryProduce(EatWhatYouKill.java:171) [jetty-util-9.4.24.v20191120.jar!/:9.4.24.v20191120]
+	at org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.run(EatWhatYouKill.java:129) [jetty-util-9.4.24.v20191120.jar!/:9.4.24.v20191120]
+	at org.eclipse.jetty.util.thread.ReservedThreadExecutor$ReservedThread.run(ReservedThreadExecutor.java:388) [jetty-util-9.4.24.v20191120.jar!/:9.4.24.v20191120]
+	at org.eclipse.jetty.util.thread.QueuedThreadPool.runJob(QueuedThreadPool.java:806) [jetty-util-9.4.24.v20191120.jar!/:9.4.24.v20191120]
+	at org.eclipse.jetty.util.thread.QueuedThreadPool$Runner.run(QueuedThreadPool.java:938) [jetty-util-9.4.24.v20191120.jar!/:9.4.24.v20191120]
+	at java.lang.Thread.run(Thread.java:748) [?:1.8.0_212]
+
+```
+hi @hdhog , looks like this issue: https://github.com/AdoptOpenJDK/openjdk-build/issues/693 .
+
+I'll add a check so it will not fail if fontconfig is not installed
+
+i use lavagna docker image https://github.com/digitalfondue/lavagna-docker. Installing package fontconfig inside container not resolve this problem
+
+@hdhog good to know, we will have a look at the default docker image too, thank you for opening this issue :+1: 
+
+i installed ttf-dejavu package inside image. export it's working. But generated file is corrupted
+
+> But generated file is corrupted
+
+I'll try to reproduce the error, with what program are you trying to open the generated file?
+
+hm. If i export file from Microsoft Edge, file is correct. If i export from Firefox on linux file is corrupted.
+
+from linux file size 2585
+from windows file size 10752
+
+well, that's quite strange :D. Thank you for the hint, I'll have a look 
+
+> > But generated file is corrupted
+> 
+> I'll try to reproduce the error, with what program are you trying to open the generated file?
+
+File exported on windows is open all (ms office 2019 on windows and libreoffice on linux)
+
+Firefox on windows Google chrome on windows => good file
+
+
+[PERSON-base(1).xlsx](https://github.com/digitalfondue/lavagna/files/4256341/PERSON-base.1.xlsx)
+
+Corrupted file in attachment
+
+In firefox server responce size 2.5Kb
+
+![image](https://user-images.githubusercontent.com/386666/75356148-f6783d00-58c8-11ea-878e-c3c045920449.png)
+
+request header
+```
+Host: example.com
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:73.0) Gecko/20100101 Firefox/73.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Cookie: LAVAGNA_SESSION_ID=node01635b1fnjgi1p1f6qsaln7mj3g6.node0
+Upgrade-Insecure-Requests: 1
+TE: Trailers
+```
+
+response header
+```
+HTTP/2 200 OK
+cache-control: no-cache, no-store, max-age=0, must-revalidate
+content-disposition: attachment; filename=PERSON-base.xls
+content-encoding: gzip
+date: Wed, 26 Feb 2020 14:49:25 GMT
+expires: 0
+pragma: no-cache
+server: nginx/1.17.8
+x-body-type-options: nosniff
+x-csrf-token: 3b05e75e-0f06-4c01-b9f4-37d70ad14b69
+x-frame-options: SAMEORIGIN
+x-xss-protection: 1; mode=block
+content-type: application/x-gzip
+content-length: 2585
+X-Firefox-Spdy: h2
+```
+
+the corrupted file seems to be the gzipped excel (but truncated), quite strange.
+
+I tried locally with firefox but it works on my side. 
+
+The CI build should have updated the Docker image, can you try it?
+
+New image is working! 
+
+Perfect, thank you very much again.
+
+ Use of images throughout lavagna
+ It seems that image handling is not completely implemented yet.
+Most of all I miss...
+
+- cards that directly show a preview of the first attached image on the board
+- viewing images as thumbnails in card details
+- user profile images
+
+Nice to have features would be...
+
+- having a background image/color for each project
+- and showing the project image like a header on the project card and
+as a background image in the boards.
+
+Are there any plans to implement this yet?
+
+Thoroughly impressed by the project btw. 🥇 
+Also when uploading an image it cannot be displayed sometimes.  Also I think images should be opened in a popup rather than in a new browser tab.
+
+hi @nickbe , you are right, this part is lacking.
+
+>Are there any plans to implement this yet?
+
+I'm currently focusing on others projecst, but when I'll have time I'll do it :)
+
+I'm really looking forward to having this some day. It's really something missing. :)
+Thanks
+
+This will be done for sure: 
+
+ - viewing images as thumbnails in card details
+ - images will be opened in a lightbox instead of a new tab
+
+
+This ones will require some additional check as they may have a bigger impact:
+
+ - cards that directly show a preview of the first attached image on the board
+ - user profile images
+ - having a background image/color for each project and showing the project image like a header on the project card and as a background image in the boards.
+
+
+About: 
+
+> Also when uploading an image it cannot be displayed sometimes
+
+Do you have any examples?
+
+I'll try to give you an example of an image that is not displayed. 
+
+ websocket 403 if use caddy for reverse proxy
+ 
+
+Caddy config
+
+```
+kb kb.example.com {
+    tls admin@example.com {
+        ca https://ca.example.com/acme/acme/directory
+    }
+
+    proxy / http://127.0.0.1:8080 {
+        insecure_skip_verify
+        websocket
+        transparent
+    }
+
+
+    log /var/log/caddy/access.kb.log {
+        rotate_size 10
+        rotate_age 10
+        rotate_keep 10
+        rotate_compress
+    }
+
+    errors /var/log/caddy/errors.kb.log {
+        rotate_size 10
+        rotate_age 10
+        rotate_keep 10
+        rotate_compress
+    }
+}
+```
+
+Lavagna running in official docker container.
+
+Browser console 
+![image](https://user-images.githubusercontent.com/386666/72711889-69ccb780-3b83-11ea-8439-9a0325200563.png)
+
+traffic info
+
+![image](https://user-images.githubusercontent.com/386666/72711949-8963e000-3b83-11ea-8e1e-2585a2473172.png)
+
+Response headers
+```
+HTTP/1.1 403 Forbidden
+Access-Control-Allow-Headers: x-requested-with, Content-Type, origin, authorization, accept, client-security-token
+Access-Control-Allow-Origin: *
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Date: Mon, 20 Jan 2020 08:49:30 GMT
+Expires: 0
+Host: localhost
+Pragma: no-cache
+Server: Jetty(9.4.24.v20191120)
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Body-Type-Options: nosniff
+X-Csrf-Token: b7ed263d-2010-4538-90a3-10ed5dd8a44f
+X-Frame-Options: SAMEORIGIN
+X-Xss-Protection: 1; mode=block
+Content-Length: 20
+Content-Type: text/plain; charset=utf-8
+```
+
+Request headers
+
+```
+Host: kb.example.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:72.0) Gecko/20100101 Firefox/72.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Sec-WebSocket-Version: 13
+Origin: https://kb.example.com
+Sec-WebSocket-Extensions: permessage-deflate
+Sec-WebSocket-Key: v0LLYSAvZ3IaWrBDH82Fxw==
+DNT: 1
+Connection: keep-alive, Upgrade
+Cookie: LAVAGNA_SESSION_ID=node0cbqy9r5dhff91927w9tl69qo81.node0
+Pragma: no-cache
+Cache-Control: no-cache
+Upgrade: websocket
+```
+Unfortunately we don't know much about Caddy, you can search other issues for the configuration of Apache or NGINX, maybe it'll hep you.
+
+I had the same problem with apache. It took several days of fiddling. I had an open issue right before yours even. Here is what I remember adding to my apache config.
+
+```
+    RequestHeader set X-Forwarded-Proto "https"
+    RequestHeader set X-Forwarded-Port "443"
+    RequestHeader set  Origin "http://project.<domain>"
+    RequestHeader set Access-Control-Allow-Origin: "https://project.<domain>"
+    Header always set Access-Control-Allow-Origin "*"
+```
+
+Lavagna does a CORS like check and then denies the connection.  
+
+ EDIT: I included my full apache config in my closed issue. 
+
+  problem with Proxypass and SSL with websocket
+ How do I put Lavagna behind Apache's Proxypass? I am having problems with wss to ws. Here is my site configuration for Apache.
+
+```
+<VirtualHost *:443>
+    SSLEngine On
+    SSLCertificateFile    /etc/ssl/mycerts/cert.crt
+    SSLCertificateKeyFile /etc/ssl/mycerts/public.key
+    SSLCertificateChainFile /etc/ssl/mycerts/gd_bundle
+SSLProxyEngine on
+ RewriteEngine on
+    RewriteCond %{HTTP:Upgrade} websocket [NC]
+    RewriteCond %{HTTP:Connection} upgrade [NC]
+    RewriteRule .* "wss://127.0.0.1:8080%{REQUEST_URI}" [P]
+ProxyRequests On
+    ProxyPass / http://localhost:8080/
+    ProxyPassReverse / http://localhost:8080/
+</VirtualHost>
+```
+
+When my client connects with the websocket, it gets the error-- Error during WebSocket handshake: Invalid status line
+Closing ticket. I ended up using this Apache config
+```
+<VirtualHost *:443>
+    ServerName project.<domain>
+
+    LogLevel warn
+    ErrorLog ${APACHE_LOG_DIR}/lavagna_ssl_error.log
+    CustomLog ${APACHE_LOG_DIR}/lavagna_ssl_access.log combined
+
+    SSLProtocol all -SSLv2 -SSLv3
+    SSLCipherSuite HIGH:!RC4:!MD5:!aNULL:!eNULL:!NULL:!DH:!EDH:!EXP:+MEDIUM
+    SSLEngine On
+    SSLCertificateFile    /etc/ssl/mycerts/<domain>.crt
+    SSLCertificateKeyFile /etc/ssl/mycerts/<domain>.public.key
+    SSLCertificateChainFile /etc/ssl/mycerts/gd_bundle-g2-g1.crt
+
+
+    RewriteEngine On
+    RewriteCond %{HTTP:Upgrade} =websocket [NC]
+    RewriteRule /(.*)            ws://localhost:8080/$1 [P,L]
+
+    SSLProxyEngine on
+    ProxyPreserveHost On
+    ProxyRequests Off
+
+       ## Not sure if I needed this 
+    ProxyPass /.well-known !
+    ProxyPassReverse /.well-known !
+    ProxyPass /robots.txt !
+    ProxyPassReverse /robots.txt !
+
+    ProxyPass / http://localhost:8080/
+    ProxyPassReverse / http://localhost:8080/
+
+    #AddOutputFilterByType INFLATE;SUBSTITUTE;DEFLATE text/html
+    #Substitute "s|<base href=\"/lavagna/\">|<base href=\"/\">|n"
+    RequestHeader set X-Forwarded-Proto "https"
+    RequestHeader set X-Forwarded-Port "443"
+    RequestHeader set  Origin "http://project.<domain>"
+    RequestHeader set Access-Control-Allow-Origin: "https://project.<domain>"
+    Header always set Access-Control-Allow-Origin "*"
+    Header always set Access-Control-Max-Age "1000"
+    Header always set Access-Control-Allow-Headers "x-requested-with, Content-Type, origin, authorization, accept, client-security-token"
+</VirtualHost>
+```
+
+ Update mysql driver version
+ Change from 5.1.41 to 5.1.48 to make it works with MySql >
+[![Coverage Status](https://coveralls.io/builds/27841828/badge)](https://coveralls.io/builds/27841828)
+
+Coverage decreased (-0.03%) to 65.362% when pulling **be48066a26cb76f3e97e28175ebd0d4fad9c303a on ejouvin:master** into **ed5855eb1de8d18788f0f49a6bf4236f5e95687c on digitalfondue:master**.
+
+
+
+[![Coverage Status](https://coveralls.io/builds/27841828/badge)](https://coveralls.io/builds/27841828)
+
+Coverage decreased (-0.02%) to 65.368% when pulling **be48066a26cb76f3e97e28175ebd0d4fad9c303a on ejouvin:master** into **ed5855eb1de8d18788f0f49a6bf4236f5e95687c on digitalfondue:master**.
+
+
+thank you 👍 , I'll do a release as soon as possible :)
+
+ BASE_APPLICATION_URL   ignores  subfolder
+ when setting up a reverse apache proxy on  (https://MYDOMAIN.DOM/lavagna/  to point to the localhost:8081  instance,  lavanga ignores the  directory part of the URI.
+
+Even forcing the first access into the setup screen and setting the baseurl  correctly, after applying it is still redirecting to the '/'  instead of  '/lavagna'
+
+There are multiple instances in the code that look like:
+`url: '/search/?q&page',`
+which completely ignores the baseurl directive, and anchors the url incorrectly.
+
+
+Hi,
+from what I remember it should work but we don't test that configuration. I read that you're using a reverse proxy, can you configure it to https://lavagna.MYDOMAIN.DOM ? This is our standard solution and it works fine.
+
+I don't have the ability to add subdomains, which is why i added it as a reverse via directory re-write.
+
+A clean-up of all the URLs, so that they follow the baseurl directive, solves the issue moving forward, and keeps testing in the future much cleaner, as things will always behave as expected.
+
+ internationalization
+ It support i18n?
+Hi,
+at the moment we use only English  but internationalization is supported, have a look at this file:
+
+https://github.com/digitalfondue/lavagna/blob/master/src/main/resources/io/lavagna/i18n/messages_en.properties
+
+think you very much,i already see it.
+
+ [HELP] Connection Failure.
+ Whenever logging in, Lavagna notifies 'Connection failure. Please reload the page.'
+But even reloading, the same notification shows. It seems that this happens in stomp_client.js.
+Additionally, I can't log out.
+I tried on 4 browsers, but the result is same. How can I fix this issue?
+
+- Browsers
+  - Chrome: 78.0.3904.108
+  - Safari: 13.0.3
+  - Firefox: 70.0.1
+  - Vivaldi: 2.9.1705.41
+
+- apache conf
+```apache
+<IfModule mod_ssl.c>
+<VirtualHost *:443>
+
+        ServerName www.procissue.com
+        ServerAlias procissue.com
+        ServerAdmin webmaster@procissue.com
+
+        Include /etc/letsencrypt/options-ssl-apache.conf
+        SSLCertificateFile /etc/letsencrypt/live/procissue.com/fullchain.pem
+        SSLCertificateKeyFile /etc/letsencrypt/live/procissue.com/privkey.pem
+
+        RewriteEngine On
+        RewriteCond %{HTTP:UPGRADE} ^WebSocket$ [NC]
+        RewriteCond %{HTTP:CONNECTION} Upgrade$ [NC]
+        RewriteRule .* ws://127.0.0.1:8081%{REQUEST_URI} [P,L]
+
+        RequestHeader set X-Forwarded-Proto "https"
+        ProxyPreserveHost On
+        ProxyRequests off
+        ProxyPass / http://127.0.0.1:8081/
+        ProxyPassReverse / http://127.0.0.1:8081/
+
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+</VirtualHost>
+</IfModule>
+```
+
+Hi,
+unfortunately I use NGINX so I don't know how Apache works, did you check issue #46?
+This reply is likely to fix your issue: https://github.com/digitalfondue/lavagna/issues/46#issuecomment-368781249
+
+Yes, but not fixed.
+<img width="1273" alt="ScreenShot 2019-11-24 3 12 21" src="https://user-images.githubusercontent.com/621178/69483349-8e4d3180-0e69-11ea-9521-665dbe34aa15.png">
+
+and I tried nginx, but the result is same.
+<img width="1273" alt="ScreenShot 2019-11-24 3 20 34" src="https://user-images.githubusercontent.com/621178/69483353-9907c680-0e69-11ea-8b4e-b97d06b3b179.png">
+
+- nginx.conf
+```nginx
+map $http_x_forwarded_proto $proxy_x_forwarded_proto {
+  default $http_x_forwarded_proto;
+  ''      $scheme;
+}
+
+map $http_upgrade $proxy_connection {
+  default upgrade;
+  '' close;
+}
+
+upstream lavagna.address {
+	server 127.0.0.1:8081;
+}
+
+server {
+	listen 80;
+	listen [::]:80;
+	server_name procissue.com www.procissue.com;
+	if ($host = www.procissue.com) {
+		return 301 https://$host$request_uri;
+	} # managed by Certbot
+	if ($host = procissue.com) {
+		return 301 https://$host$request_uri;
+	} # managed by Certbot
+	return 404; # managed by Certbot
+}
+
+server {
+
+	listen [::]:443 ssl http2; # managed by Certbot
+	listen 443 ssl http2; # managed by Certbot
+	server_name procissue.com www.procissue.com;
+
+	ssl_certificate /etc/letsencrypt/live/procissue.com/fullchain.pem; # managed by Certbot
+	ssl_certificate_key /etc/letsencrypt/live/procissue.com/privkey.pem; # managed by Certbot
+	include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+	ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+	if ($host = www.procissue.com) {
+		return 301 http://procissue.com$request_uri;
+	}
+
+	location / {
+		proxy_http_version 1.1;
+		proxy_buffering off;
+		proxy_set_header Host $http_host;
+		proxy_set_header Upgrade $http_upgrade;
+		proxy_set_header Connection $proxy_connection;
+		proxy_set_header X-Real-IP $remote_addr;
+		proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+		proxy_set_header X-Forwarded-Proto $proxy_x_forwarded_proto;
+		# Mitigate httpoxy attack (see README for details)
+		proxy_set_header Proxy "";
+		proxy_pass http://lavagna.address;
+	}
+}
+```
+
+I placed back 1.1.2, then this issue never happened. Is this a bug in 1.1.3?
+
+I'm using version 1.1.3 without issues, there may be a bug but I find it a bit unlikely. Looking at your NGINX configuration it seems that you are missing this:
+
+```
+underscores_in_headers on;
+proxy_set_header Origin '';
+proxy_pass_header X-XSRF-TOKEN;
+```
+
+Can you add this elements and check if it works?
+
+Great! Resolved. Thanks @SitoCH ! I still wonder what directives are put in Apache...
+
+I'm glad I could help
+
+ problem trying building the lavanga
+ hi.
+i got those errors when i try to build lavanga with maven.
+
+"Some problems were encountered while building the effective model for io.lavagna:lavagna:war:1.1.3-SNAPSHOT "
+"'parent.relativePath' of POM io.lavagna:lavagna:1.1.3-SNAPSHOT (/pom.xml) points at io.lavagna:lavagna instead of org.sonatype.oss:oss-parent, please verify your project structure @ line 4, column 13"
+
+"The project io.lavagna:lavagna:war:1.1.3-SNAPSHOT uses prerequisites which is only intended for maven-plugin projects but not for non maven-plugin projects. For such purposes you should use the maven-enforcer-plugin. See https://maven.apache.org/enforcer/enforcer-rules/requireMavenVersion.html"
+
+hi @ofiramit , which version of maven are you using?
+
+hi.
+i tried with maven 3.6-jdk-8
+
+@ofiramit , ok, I guess that's the main issue. I'll try to update it on my side and check what is wrong.
+
+You can try with a 3.2.5 version like travis as a workaround.
+
+hi.
+maybe you have a recommend maven imgae to use?
+
+thx
+
+On Mon, Sep 9, 2019 at 12:39 AM Sylvain Jermini <notifications@github.com>
+wrote:
+
+> @ofiramit <https://github.com/ofiramit> , ok, I guess that's the main
+> issue. I'll try to update it on my side and check what is wrong.
+>
+> —
+> You are receiving this because you were mentioned.
+> Reply to this email directly, view it on GitHub
+> <https://github.com/digitalfondue/lavagna/issues/122?email_source=notifications&email_token=AFRU2HWHCWOEQO3GKPSQFPDQIVWIXA5CNFSM4IUU4JFKYY3PNVWWK3TUL52HS4DFVREXG43VMVBW63LNMVXHJKTDN5WW2ZLOORPWSZGOD6FZ72I#issuecomment-529244137>,
+> or mute the thread
+> <https://github.com/notifications/unsubscribe-auth/AFRU2HR6LWQBYIZRW65GWJ3QIVWIXANCNFSM4IUU4JFA>
+> .
+>
+
+
+Hi @ofiramit , I did a test with maven 3.6.2, the build work correctly.
+
+I got the warning:
+
+```
+[WARNING] The project io.lavagna:lavagna:war:1.1.3-SNAPSHOT uses prerequisites which is only intended for maven-plugin projects but not for non maven-plugin projects. For such purposes you should use the maven-enforcer-plugin. See https://maven.apache.org/enforcer/enforcer-rules/requireMavenVersion.html
+```
+
+Which I will fix later.
+
+But the build worked as expected:
+
+```
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  55.179 s
+[INFO] Finished at: 2019-09-09T00:00:22+02:00
+[INFO] ------------------------------------------------------------------------
+```
+
+Tested with:
+
+```
+mvn -version
+Apache Maven 3.6.2 (40f52333136460af0dc0d7232c0dc0bcf0d9e117; 2019-08-27T17:06:16+02:00)
+Maven home: /home/xyz/programs/apache-maven-3.6.2
+Java version: 1.8.0_222, vendor: Oracle Corporation, runtime: /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.222.b10-0.fc30.x86_64/jre
+Default locale: en_US, platform encoding: UTF-8
+OS name: "linux", version: "5.2.11-200.fc30.x86_64", arch: "amd64", family: "unix"
+```
+
+
+
+@ofiramit , I've removed the problematic entry in the pom.xml, now it build without that warning with the latest version of maven.
+
+Closed due to inactivity
+
+ [Security] Bump com.fasterxml.jackson.version from 2.9.9 to 2.10.0.pr1
+ Bumps `com.fasterxml.jackson.version` from 2.9.9 to 2.10.0.pr1.
+
+Updates `jackson-core` from 2.9.9 to 2.10.0.pr1
+<details>
+<summary>Commits</summary>
+
+- [`01a392d`](https://github.com/FasterXML/jackson-core/commit/01a392d7b5f2894bf70baac2941ee3374b4feec9) [maven-release-plugin] prepare release jackson-core-2.10.0.pr1
+- [`cfd0e0a`](https://github.com/FasterXML/jackson-core/commit/cfd0e0a09781e8f690c007df528e9eb25a54e453) uh, try that again
+- [`317acaa`](https://github.com/FasterXML/jackson-core/commit/317acaa5a3cfb160a33b9ab29c50018ee3b95c84) [maven-release-plugin] prepare for next development iteration
+- [`03c16b5`](https://github.com/FasterXML/jackson-core/commit/03c16b53eb17e3407de01a790d5afc619baaabb1) [maven-release-plugin] prepare release jackson-core-2.10.0.pr1
+- [`26d6c0d`](https://github.com/FasterXML/jackson-core/commit/26d6c0deb752938a04bc2007c6cd64b024fd645b) prepare for 2.10.0.pr1
+- [`155d1db`](https://github.com/FasterXML/jackson-core/commit/155d1dba958b471351f9f6a10834247c5c67aece) Merge branch '2.9' into 2.10
+- [`e473e99`](https://github.com/FasterXML/jackson-core/commit/e473e9987e2cfe438e80002d2d1da86fade3c6d8) Fix [#540](https://github-redirect.dependabot.com/FasterXML/jackson-core/issues/540)
+- [`d88d8f0`](https://github.com/FasterXML/jackson-core/commit/d88d8f07f18b2f1cc8965eec2af2137000757bb0) javadoc improvements
+- [`9e57cbf`](https://github.com/FasterXML/jackson-core/commit/9e57cbf487b94f02eab9a4743da6a47bf9aeddd1) Minor naming improvement for internal buffer
+- [`ef8f95d`](https://github.com/FasterXML/jackson-core/commit/ef8f95d47710eaaae714b2b01f48d3db72fe2c7e) Merge branch '2.10' of https://github.com/FasterXML/jackson-core into 2.10
+- Additional commits viewable in [compare view](https://github.com/FasterXML/jackson-core/compare/jackson-core-2.9.9...jackson-core-2.10.0.pr1)
+</details>
+<br />
+
+Updates `jackson-databind` from 2.9.9 to 2.10.0.pr1 **This update includes a security fix.**
+<details>
+<summary>Vulnerabilities fixed</summary>
+
+*Sourced from The GitHub Security Advisory Database.*
+
+> **Low severity vulnerability that affects com.fasterxml.jackson.core:jackson-databind**
+> FasterXML jackson-databind 2.x before 2.9.9.1 might allow attackers to have a variety of impacts by leveraging failure to block the logback-core class from polymorphic deserialization. Depending on the classpath content, remote code execution may be possible.
+> 
+> Affected versions: < 2.9.9.1
+
+</details>
+<details>
+<summary>Commits</summary>
+
+- See full diff in [compare view](https://github.com/FasterXML/jackson/commits)
+</details>
+<br />
+
+Updates `jackson-annotations` from 2.9.9 to 2.10.0.pr1
+<details>
+<summary>Commits</summary>
+
+- See full diff in [compare view](https://github.com/FasterXML/jackson/commits)
+</details>
+<br />
+
+Dependabot will resolve any conflicts with this PR as long as you don't alter it yourself. You can also trigger a rebase manually by commenting `@dependabot rebase`.
+
+[//]: # (dependabot-automerge-start)
+[//]: # (dependabot-automerge-end)
+
+---
+
+<details>
+<summary>Dependabot commands and options</summary>
+<br />
+
+You can trigger Dependabot actions by commenting on this PR:
+- `@dependabot rebase` will rebase this PR
+- `@dependabot recreate` will recreate this PR, overwriting any edits that have been made to it
+- `@dependabot merge` will merge this PR after your CI passes on it
+- `@dependabot squash and merge` will squash and merge this PR after your CI passes on it
+- `@dependabot cancel merge` will cancel a previously requested merge and block automerging
+- `@dependabot reopen` will reopen this PR if it is closed
+- `@dependabot ignore this [patch|minor|major] version` will close this PR and stop Dependabot creating any more for this minor/major version (unless you reopen the PR or upgrade to it). To ignore the version in this PR you can just close it
+- `@dependabot ignore this dependency` will close this PR and stop Dependabot creating any more for this dependency (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot use these labels` will set the current labels as the default for future PRs for this repo and language
+- `@dependabot use these reviewers` will set the current reviewers as the default for future PRs for this repo and language
+- `@dependabot use these assignees` will set the current assignees as the default for future PRs for this repo and language
+- `@dependabot use this milestone` will set the current milestone as the default for future PRs for this repo and language
+- `@dependabot badge me` will comment on this PR with code to add a "Dependabot enabled" badge to your readme
+
+Additionally, you can set the following in your Dependabot [dashboard](https://app.dependabot.com):
+- Update frequency (including time of day and day of week)
+- Automerge options (never/patch/minor, and dev/runtime dependencies)
+- Pull request limits (per update run and/or open at any time)
+- Out-of-range updates (receive only lockfile updates, if desired)
+- Security updates (receive only security updates, if desired)
+
+Finally, you can contact us by mentioning @dependabot.
+
+</details>
+
+[![Coverage Status](https://coveralls.io/builds/24771406/badge)](https://coveralls.io/builds/24771406)
+
+Coverage remained the same at 65.38% when pulling **0cf670daea285df3de7ef959af9d59d3b90d512a on dependabot/maven/com.fasterxml.jackson.version-2.10.0.pr1** into **54208abba10629c65110fdf55ab0d552bbebedb3 on master**.
+
+
+ Add URL type to Labels
+ I would appreciate it if you could add a kind of URL to the Labels. This way you could relate a ticket to a bug tracking or any other external system. It must be cklickable of course in the task lane overview!
+
+Of course it must have a name field and an URL field separately! That way you could create a Label likes this:
+
+Name: Bug1234 
+URL: http://192.168.0.100/bugzilla/show_bug.cgi?id=1234
+
+You just see "Bug1234" but you can click on it an follow the URL to the other system, Might be also good to have a tooltip by hovering with the URL.
+
+If you omit the name, the url could probably be shortened?
+Hi @Lysander , good idea :)
+
+ full-text search
+ Hi,
+
+I am facing another issue which most likely will turn out to be a configuration problem most likely by myself.
+
+Lavagna.io highlights "Power search: metadata and full-text search are available." as feature of the software. Having created a board and currently having xy cards we tried out full-text-search but found out that we do not get the expected results: Only the label is ever queried. Not the full issue-description.
+
+I am using Zulu JVM (thanks again), PostgreSQL and Lavagna. What information would be helpful to find the cause of this behaviour?
+
+Because I know that the internal DB does not support searching, I installed Postgres and use it with the lavagna table created during setup. There are no apparent error messages regarding db usage. Postgres runs on the server. ... So yeah, any log or config I can scrutinize (and post) would be a helpful answer :)
+hi @corbet-consulting , could you provide a screenshot of your query? In theory you don't need to do anything special.
+
+Closed due to inactivity
+
+ Multicore support/Is Lavagna only singlethreaded?
+ Hi @syjer,
+
+I have noticed some lags when using Lavagna. I am not sure why ... so I digged system utilization using top (Linux) and found out that most of the server's resources remain unused. I am running an Octacore ARM (!) processor, yet I often saw only 10-12% utilization while there is plenty of free RAM. I can also assume storage IO is not the bottleneck (Samsung 860 EVO SSD).
+
+I am not sure whether this implies that Lavagna is singlethreaded, so I might as well post this as a ticket, so you can close it and handle all future requests.
+
+If however Lavagna is singlethreaded I would really like to receive recommendations about the performance of the setup (What CPU should one use for which amount of users/what kind of usage?).
+hi @corbet-consulting , I can confirm that Lavagna is multi threaded.
+
+But as most java applications, you still need a "beefy" cpu, additionally, the jvm as far as I know, it's not really optimized for ARM. (You should check if it even has the JIT compiler enabled).
+
+Thanks for your answers. They are really helpful. 
+
+How can one check whether "the JIT compiler is enabled"? I guess a lot of people run software on ARM these days, so it might be helpful to more people than myself to know :)
+
+hi @corbet-consulting , unfortunately I'm not sure how you can check. In theory, if you have a recent jvm (java 9+) you can be sure that the JIT should be present.
+
+If you write in the console: `java -version` what's your output?
+
+Usually on ARM the JIT is disabled, that's why on our test Docker image for Raspberry we use the Zulu JVM:
+
+https://github.com/digitalfondue/lavagna-docker/blob/raspberry-pi/Dockerfile
+
+Thank you for your comment. I have now installed Zulu JVM and indeed I see much higher performance which resolves my performance problem. It might be a good idea to add some information on your install page so newcomers can more easily find this information :)
+
+Glad to help you, it's really strange that in 2019 the JIT is still disabled and we have to switch to another JVM...
+
+ Delete Projects/Boards/...
+ Hi @syjer,
+
+thank you for contributing this beautiful project management software. 
+
+I would like to ask whether it is likely that we see the feature to remove projects/boards and the such. Is it possible to remove them easily with a database query or should one abstain from it on a production instance?
+
+Best 
+
+Julian, Corbet Consulting
+Hi @corbet-consulting , we generally advise to simply archive them, because removing them may cause problems when you are referencing them from others tasks that are not removed.
+
+I do understand this. But can there be any option as sometimes you create projects and boards and you might still have typos in them or do some other silly things that you want to undo. :)
+
+Archiving them feels "false" and also clutters and maybe is also an embarassment in front of your colleagues. So yeah ... I do get your point, but there should be some deleting in these (and countless other) situations, I assume.
+
+Anyway: Thank you for providing this software. It is very helpful.
+
+hi @corbet-consulting , you are absolutely right about having the possibility to remove them at the early stage in case of a typo. I'll have a look how to implement that functionality in a safe way. Thank you for your feedback.
+
+ Squash Integration
+ This is a patch to integrate Squash.io with Lavagna. I believe this is going to be handy to the project so any project maintainers and developers can quickly check the branch changes deployed on its own isolated VM.
+
+Example of Lavagna working with Squash (credentials: user/user): https://squash-setup-cagmw.squash.io
+
+Squash is free for Open Source, maintainers just need to [signup](https://squash.io/signup/) and reach out to the support through the chat window and we will enable a forever free Open Source account. Once this is done, Squash will post a comment on each Pull Request like this:
+
+![squash-pr-comment](https://user-images.githubusercontent.com/98694/50752537-de98b200-120b-11e9-9d8f-264eddc4ca3f.png)
+
+When you click on the Squash link in a new PR it will deploy the branch of code into a brand new VM, **this process takes about 2 minutes**.  
+
+Let me know what you think please. Thanks.
+
+
+
+[![Coverage Status](https://coveralls.io/builds/22030052/badge)](https://coveralls.io/builds/22030052)
+
+Coverage remained the same at 65.402% when pulling **d293f79c1308f145db5ccf38fda901507a2de8d2 on emiquelito:squash-setup** into **fdc7ab25690d7be2583a5f16e85bfd085613decc on digitalfondue:master**.
+
+
+@syjer wondering if you have any feedback on this PR, please let me know.
+
+ Ldap injection
+ HI！
+This is Qihoo360 CodeSafe Team, we found ldap injection vulnerability in lavagna in our open source code detection project.
+The details are as follows:
+In the checkLdap() in the ApplicationConfigurationController.java file, accept the parameters in the request and pass in authenticateWithParams() in Ldap.java
+![default](https://user-images.githubusercontent.com/39950310/52782852-03920780-308b-11e9-823f-f54cc2a5d87f.png)
+
+
+![default](https://user-images.githubusercontent.com/39950310/52782978-62578100-308b-11e9-9c28-4e25ab7a5bf1.png)
+
+Finally, DirContext's search() is called. Since the filter parameter is controllable, the attacker can perform ldap injection by constructing parameters such as filter and username.
+
+hi @360CodeSafe , actually the behavior is correct (or at least, it should be).
+
+The controller `ApplicationConfigurationController` accept only users with the ADMINISTRATION role (https://github.com/digitalfondue/lavagna/blob/master/src/main/java/io/lavagna/web/api/ApplicationConfigurationController.java#L31).
+
+The method that you have highlighted `checkLdap()` is called when the administrator is doing a setup of the ldap configuration, so it _must_ be able to pass both the filter and the username.
+
+In the normal login process, when `authenticateWithParams()` is called, the filter is the one configured by the administrator (at setup time OR during a later configuration), so it cannot modified by the user doing the login. Additionally the username is escaped using the `Ldap.escapeLDAPSearchFilter` (https://github.com/digitalfondue/lavagna/blob/master/src/main/java/io/lavagna/service/Ldap.java#L188) which has been imported from the OWASP page marked in the comment.
+
+If you think that I've missed something, please feel free :)
+
+Closing due to inactivity, feel free to reopen it if there's something new.
+
+ csrf token not equal to expected, while confirm and submit User
+ ![screenshot from 2018-11-24 10-56-12](https://user-images.githubusercontent.com/25399465/48964914-4d150e00-efd8-11e8-956a-a4dbafbed9f0.png)
+
+Getting this error by clicking on the **activate** button, values are not getting saved in to database.
+
+hi @Bertinmendonsa , I'll have a look, thank you for the report.
+
+@Bertinmendonsa , I'm trying to reproduce the error, it seems to be a timing/session issue, as I'm not able to reproduce it easily (at the moment 1 out of 10~). If you do a reload of the page and you redo the setup, does it work?
+
+Hi,
+
+I tried to reload the page and redo the setup, No it did't  work for me.
+
+when I click that activate button, I am getting the error
+
+Thank you for the support.
+
+On Sat, Nov 24, 2018 at 6:40 PM Sylvain Jermini <notifications@github.com>
+wrote:
+
+> @Bertinmendonsa <https://github.com/Bertinmendonsa> , I'm trying to
+> reproduce the error, it seems to be a timing/session issue, as I'm not able
+> to reproduce it easily (at the moment 1 out of 10~). If you do a reload of
+> the page and you redo the setup, does it work?
+>
+> —
+> You are receiving this because you were mentioned.
+> Reply to this email directly, view it on GitHub
+> <https://github.com/digitalfondue/lavagna/issues/113#issuecomment-441366913>,
+> or mute the thread
+> <https://github.com/notifications/unsubscribe-auth/AYOQqbWcBlBgN1uJCkUHqUljxE-s21_Gks5uyUVVgaJpZM4YxSF2>
+> .
+>
+
+
+hi @Bertinmendonsa , could you try to use https://oss.sonatype.org/content/repositories/snapshots/io/lavagna/lavagna/1.1.3-SNAPSHOT/lavagna-1.1.3-20181124.140151-1-distribution.zip ? I've updated/changed some code, it may help you. Thank you.
+
+Closed due to inactivity
+
+ Bump org.springframework.version from 5.0.10.RELEASE to 5.1.1.RELEASE
+ Bumps `org.springframework.version` from 5.0.10.RELEASE to 5.1.1.RELEASE.
+
+Updates `spring-webmvc` from 5.0.10.RELEASE to 5.1.1.RELEASE
+<details>
+<summary>Commits</summary>
+
+- [`601fb6f`](https://github.com/spring-projects/spring-framework/commit/601fb6fb226d7e257de6c3b50fe556a987542ede) Release version 5.1.1.RELEASE
+- [`423aa28`](https://github.com/spring-projects/spring-framework/commit/423aa28ed584b4ff6e5bad218c09beef5e91951e) HttpRange validates requested ranges
+- [`5094941`](https://github.com/spring-projects/spring-framework/commit/50949415d71dea9ff07d4f5d2ad85732e46918a0) Upgrade spring-test to Hibernate ORM 5.3.6 (for JDK 11 compatibility)
+- [`608fd76`](https://github.com/spring-projects/spring-framework/commit/608fd766cb0ba461992101579ecc3223a23ace86) Upgrade to Checkstyle 8.13, Groovy 2.5.3, Aalto XML 1.1.1
+- [`58b3af9`](https://github.com/spring-projects/spring-framework/commit/58b3af94758ea8e6f5521dfecfcf3ab9d3610456) Nullability fine-tuning and related polishing
+- [`5f2d47a`](https://github.com/spring-projects/spring-framework/commit/5f2d47a17eaba88a19e011e600f4f09f262e88bf) MethodValidationInterceptor excludes FactoryBean metadata methods
+- [`2255d22`](https://github.com/spring-projects/spring-framework/commit/2255d222e311ade8813308626ea2da954c7825c0) Fix punctuation in reference manual ([#1992](https://github-redirect.dependabot.com/spring-projects/spring-framework/issues/1992))
+- [`ecd0d7f`](https://github.com/spring-projects/spring-framework/commit/ecd0d7f0f6bc26c12f7bc1ed85aad4618bc726e2) Complete initialization with bindToRouterFunction
+- [`309e70a`](https://github.com/spring-projects/spring-framework/commit/309e70a48e6c8ce5e3199d31a753f08d82f60020) Separate factory method cache for introspection purposes
+- [`658c7f9`](https://github.com/spring-projects/spring-framework/commit/658c7f99d7a2ce6a931bf6b0c61d662ca6f57afb) Lenient date parsing in HeadersResultMatchers
+- Additional commits viewable in [compare view](https://github.com/spring-projects/spring-framework/compare/v5.0.10.RELEASE...v5.1.1.RELEASE)
+</details>
+<br />
+
+Updates `spring-websocket` from 5.0.10.RELEASE to 5.1.1.RELEASE
+<details>
+<summary>Commits</summary>
+
+- [`601fb6f`](https://github.com/spring-projects/spring-framework/commit/601fb6fb226d7e257de6c3b50fe556a987542ede) Release version 5.1.1.RELEASE
+- [`423aa28`](https://github.com/spring-projects/spring-framework/commit/423aa28ed584b4ff6e5bad218c09beef5e91951e) HttpRange validates requested ranges
+- [`5094941`](https://github.com/spring-projects/spring-framework/commit/50949415d71dea9ff07d4f5d2ad85732e46918a0) Upgrade spring-test to Hibernate ORM 5.3.6 (for JDK 11 compatibility)
+- [`608fd76`](https://github.com/spring-projects/spring-framework/commit/608fd766cb0ba461992101579ecc3223a23ace86) Upgrade to Checkstyle 8.13, Groovy 2.5.3, Aalto XML 1.1.1
+- [`58b3af9`](https://github.com/spring-projects/spring-framework/commit/58b3af94758ea8e6f5521dfecfcf3ab9d3610456) Nullability fine-tuning and related polishing
+- [`5f2d47a`](https://github.com/spring-projects/spring-framework/commit/5f2d47a17eaba88a19e011e600f4f09f262e88bf) MethodValidationInterceptor excludes FactoryBean metadata methods
+- [`2255d22`](https://github.com/spring-projects/spring-framework/commit/2255d222e311ade8813308626ea2da954c7825c0) Fix punctuation in reference manual ([#1992](https://github-redirect.dependabot.com/spring-projects/spring-framework/issues/1992))
+- [`ecd0d7f`](https://github.com/spring-projects/spring-framework/commit/ecd0d7f0f6bc26c12f7bc1ed85aad4618bc726e2) Complete initialization with bindToRouterFunction
+- [`309e70a`](https://github.com/spring-projects/spring-framework/commit/309e70a48e6c8ce5e3199d31a753f08d82f60020) Separate factory method cache for introspection purposes
+- [`658c7f9`](https://github.com/spring-projects/spring-framework/commit/658c7f99d7a2ce6a931bf6b0c61d662ca6f57afb) Lenient date parsing in HeadersResultMatchers
+- Additional commits viewable in [compare view](https://github.com/spring-projects/spring-framework/compare/v5.0.10.RELEASE...v5.1.1.RELEASE)
+</details>
+<br />
+
+Updates `spring-messaging` from 5.0.10.RELEASE to 5.1.1.RELEASE
+<details>
+<summary>Commits</summary>
+
+- [`601fb6f`](https://github.com/spring-projects/spring-framework/commit/601fb6fb226d7e257de6c3b50fe556a987542ede) Release version 5.1.1.RELEASE
+- [`423aa28`](https://github.com/spring-projects/spring-framework/commit/423aa28ed584b4ff6e5bad218c09beef5e91951e) HttpRange validates requested ranges
+- [`5094941`](https://github.com/spring-projects/spring-framework/commit/50949415d71dea9ff07d4f5d2ad85732e46918a0) Upgrade spring-test to Hibernate ORM 5.3.6 (for JDK 11 compatibility)
+- [`608fd76`](https://github.com/spring-projects/spring-framework/commit/608fd766cb0ba461992101579ecc3223a23ace86) Upgrade to Checkstyle 8.13, Groovy 2.5.3, Aalto XML 1.1.1
+- [`58b3af9`](https://github.com/spring-projects/spring-framework/commit/58b3af94758ea8e6f5521dfecfcf3ab9d3610456) Nullability fine-tuning and related polishing
+- [`5f2d47a`](https://github.com/spring-projects/spring-framework/commit/5f2d47a17eaba88a19e011e600f4f09f262e88bf) MethodValidationInterceptor excludes FactoryBean metadata methods
+- [`2255d22`](https://github.com/spring-projects/spring-framework/commit/2255d222e311ade8813308626ea2da954c7825c0) Fix punctuation in reference manual ([#1992](https://github-redirect.dependabot.com/spring-projects/spring-framework/issues/1992))
+- [`ecd0d7f`](https://github.com/spring-projects/spring-framework/commit/ecd0d7f0f6bc26c12f7bc1ed85aad4618bc726e2) Complete initialization with bindToRouterFunction
+- [`309e70a`](https://github.com/spring-projects/spring-framework/commit/309e70a48e6c8ce5e3199d31a753f08d82f60020) Separate factory method cache for introspection purposes
+- [`658c7f9`](https://github.com/spring-projects/spring-framework/commit/658c7f99d7a2ce6a931bf6b0c61d662ca6f57afb) Lenient date parsing in HeadersResultMatchers
+- Additional commits viewable in [compare view](https://github.com/spring-projects/spring-framework/compare/v5.0.10.RELEASE...v5.1.1.RELEASE)
+</details>
+<br />
+
+Updates `spring-jdbc` from 5.0.10.RELEASE to 5.1.1.RELEASE
+<details>
+<summary>Commits</summary>
+
+- [`601fb6f`](https://github.com/spring-projects/spring-framework/commit/601fb6fb226d7e257de6c3b50fe556a987542ede) Release version 5.1.1.RELEASE
+- [`423aa28`](https://github.com/spring-projects/spring-framework/commit/423aa28ed584b4ff6e5bad218c09beef5e91951e) HttpRange validates requested ranges
+- [`5094941`](https://github.com/spring-projects/spring-framework/commit/50949415d71dea9ff07d4f5d2ad85732e46918a0) Upgrade spring-test to Hibernate ORM 5.3.6 (for JDK 11 compatibility)
+- [`608fd76`](https://github.com/spring-projects/spring-framework/commit/608fd766cb0ba461992101579ecc3223a23ace86) Upgrade to Checkstyle 8.13, Groovy 2.5.3, Aalto XML 1.1.1
+- [`58b3af9`](https://github.com/spring-projects/spring-framework/commit/58b3af94758ea8e6f5521dfecfcf3ab9d3610456) Nullability fine-tuning and related polishing
+- [`5f2d47a`](https://github.com/spring-projects/spring-framework/commit/5f2d47a17eaba88a19e011e600f4f09f262e88bf) MethodValidationInterceptor excludes FactoryBean metadata methods
+- [`2255d22`](https://github.com/spring-projects/spring-framework/commit/2255d222e311ade8813308626ea2da954c7825c0) Fix punctuation in reference manual ([#1992](https://github-redirect.dependabot.com/spring-projects/spring-framework/issues/1992))
+- [`ecd0d7f`](https://github.com/spring-projects/spring-framework/commit/ecd0d7f0f6bc26c12f7bc1ed85aad4618bc726e2) Complete initialization with bindToRouterFunction
+- [`309e70a`](https://github.com/spring-projects/spring-framework/commit/309e70a48e6c8ce5e3199d31a753f08d82f60020) Separate factory method cache for introspection purposes
+- [`658c7f9`](https://github.com/spring-projects/spring-framework/commit/658c7f99d7a2ce6a931bf6b0c61d662ca6f57afb) Lenient date parsing in HeadersResultMatchers
+- Additional commits viewable in [compare view](https://github.com/spring-projects/spring-framework/compare/v5.0.10.RELEASE...v5.1.1.RELEASE)
+</details>
+<br />
+
+Updates `spring-context-support` from 5.0.10.RELEASE to 5.1.1.RELEASE
+<details>
+<summary>Commits</summary>
+
+- [`601fb6f`](https://github.com/spring-projects/spring-framework/commit/601fb6fb226d7e257de6c3b50fe556a987542ede) Release version 5.1.1.RELEASE
+- [`423aa28`](https://github.com/spring-projects/spring-framework/commit/423aa28ed584b4ff6e5bad218c09beef5e91951e) HttpRange validates requested ranges
+- [`5094941`](https://github.com/spring-projects/spring-framework/commit/50949415d71dea9ff07d4f5d2ad85732e46918a0) Upgrade spring-test to Hibernate ORM 5.3.6 (for JDK 11 compatibility)
+- [`608fd76`](https://github.com/spring-projects/spring-framework/commit/608fd766cb0ba461992101579ecc3223a23ace86) Upgrade to Checkstyle 8.13, Groovy 2.5.3, Aalto XML 1.1.1
+- [`58b3af9`](https://github.com/spring-projects/spring-framework/commit/58b3af94758ea8e6f5521dfecfcf3ab9d3610456) Nullability fine-tuning and related polishing
+- [`5f2d47a`](https://github.com/spring-projects/spring-framework/commit/5f2d47a17eaba88a19e011e600f4f09f262e88bf) MethodValidationInterceptor excludes FactoryBean metadata methods
+- [`2255d22`](https://github.com/spring-projects/spring-framework/commit/2255d222e311ade8813308626ea2da954c7825c0) Fix punctuation in reference manual ([#1992](https://github-redirect.dependabot.com/spring-projects/spring-framework/issues/1992))
+- [`ecd0d7f`](https://github.com/spring-projects/spring-framework/commit/ecd0d7f0f6bc26c12f7bc1ed85aad4618bc726e2) Complete initialization with bindToRouterFunction
+- [`309e70a`](https://github.com/spring-projects/spring-framework/commit/309e70a48e6c8ce5e3199d31a753f08d82f60020) Separate factory method cache for introspection purposes
+- [`658c7f9`](https://github.com/spring-projects/spring-framework/commit/658c7f99d7a2ce6a931bf6b0c61d662ca6f57afb) Lenient date parsing in HeadersResultMatchers
+- Additional commits viewable in [compare view](https://github.com/spring-projects/spring-framework/compare/v5.0.10.RELEASE...v5.1.1.RELEASE)
+</details>
+<br />
+
+Updates `spring-test` from 5.0.10.RELEASE to 5.1.1.RELEASE
+<details>
+<summary>Commits</summary>
+
+- [`601fb6f`](https://github.com/spring-projects/spring-framework/commit/601fb6fb226d7e257de6c3b50fe556a987542ede) Release version 5.1.1.RELEASE
+- [`423aa28`](https://github.com/spring-projects/spring-framework/commit/423aa28ed584b4ff6e5bad218c09beef5e91951e) HttpRange validates requested ranges
+- [`5094941`](https://github.com/spring-projects/spring-framework/commit/50949415d71dea9ff07d4f5d2ad85732e46918a0) Upgrade spring-test to Hibernate ORM 5.3.6 (for JDK 11 compatibility)
+- [`608fd76`](https://github.com/spring-projects/spring-framework/commit/608fd766cb0ba461992101579ecc3223a23ace86) Upgrade to Checkstyle 8.13, Groovy 2.5.3, Aalto XML 1.1.1
+- [`58b3af9`](https://github.com/spring-projects/spring-framework/commit/58b3af94758ea8e6f5521dfecfcf3ab9d3610456) Nullability fine-tuning and related polishing
+- [`5f2d47a`](https://github.com/spring-projects/spring-framework/commit/5f2d47a17eaba88a19e011e600f4f09f262e88bf) MethodValidationInterceptor excludes FactoryBean metadata methods
+- [`2255d22`](https://github.com/spring-projects/spring-framework/commit/2255d222e311ade8813308626ea2da954c7825c0) Fix punctuation in reference manual ([#1992](https://github-redirect.dependabot.com/spring-projects/spring-framework/issues/1992))
+- [`ecd0d7f`](https://github.com/spring-projects/spring-framework/commit/ecd0d7f0f6bc26c12f7bc1ed85aad4618bc726e2) Complete initialization with bindToRouterFunction
+- [`309e70a`](https://github.com/spring-projects/spring-framework/commit/309e70a48e6c8ce5e3199d31a753f08d82f60020) Separate factory method cache for introspection purposes
+- [`658c7f9`](https://github.com/spring-projects/spring-framework/commit/658c7f99d7a2ce6a931bf6b0c61d662ca6f57afb) Lenient date parsing in HeadersResultMatchers
+- Additional commits viewable in [compare view](https://github.com/spring-projects/spring-framework/compare/v5.0.10.RELEASE...v5.1.1.RELEASE)
+</details>
+<br />
+
+Dependabot will resolve any conflicts with this PR as long as you don't alter it yourself. You can also trigger a rebase manually by commenting `@dependabot rebase`.
+
+---
+
+**Note:** This repo was added to Dependabot recently, so you'll receive a maximum of 5 PRs for your first few update runs. Once an update run creates fewer than 5 PRs we'll remove that limit.
+
+You can always request more updates by clicking `Bump now` in your [Dependabot dashboard](https://app.dependabot.com).
+
+<details>
+<summary>Dependabot commands and options</summary>
+<br />
+
+You can trigger Dependabot actions by commenting on this PR:
+- `@dependabot rebase` will rebase this PR
+- `@dependabot recreate` will recreate this PR, overwriting any edits that have been made to it
+- `@dependabot merge` will merge this PR after your CI passes on it
+- `@dependabot cancel merge` will cancel a previously requested merge
+- `@dependabot reopen` will reopen this PR if it is closed
+- `@dependabot ignore this [patch|minor|major] version` will close this PR and stop Dependabot creating any more for this minor/major version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this dependency` will close this PR and stop Dependabot creating any more for this dependency (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot use these labels` will set the current labels as the default for future PRs for this repo and language
+- `@dependabot use these reviewers` will set the current reviewers as the default for future PRs for this repo and language
+- `@dependabot use these assignees` will set the current assignees as the default for future PRs for this repo and language
+- `@dependabot use this milestone` will set the current milestone as the default for future PRs for this repo and language
+- `@dependabot badge me` will comment on this PR with code to add a "Dependabot enabled" badge to your readme
+
+Additionally, you can set the following in your Dependabot [dashboard](https://app.dependabot.com):
+- Update frequency (including time of day and day of week)
+- Automerge options (never/patch/minor, and dev/runtime dependencies)
+- Pull request limits (per update run and/or open at any time)
+- Out-of-range updates (receive only lockfile updates, if desired)
+- Security updates (receive only security updates, if desired)
+
+Finally, you can contact us by mentioning @dependabot.
+
+</details>
+
+[![Coverage Status](https://coveralls.io/builds/19687625/badge)](https://coveralls.io/builds/19687625)
+
+Coverage remained the same at 65.402% when pulling **99f3423619760509b7524b24a8e1380125a3d13f on dependabot/maven/org.springframework.version** into **1630575df1932d7fa9eff527cd45969d2b5b7179 on master**.
+
+
+Looks like these dependencies are up-to-date now, so this is no longer needed.
+
+ Bump license-maven-plugin from 1.14 to 1.16
+ Bumps [license-maven-plugin](https://github.com/mojohaus/license-maven-plugin) from 1.14 to 1.16.
+<details>
+<summary>Commits</summary>
+
+- [`92a7c75`](https://github.com/mojohaus/license-maven-plugin/commit/92a7c75cd096b15d3064ac7bcda5388584303dc2) [maven-release-plugin] prepare release license-maven-plugin-1.16
+- [`d4ec205`](https://github.com/mojohaus/license-maven-plugin/commit/d4ec205dba5dbfcc9c76d2cc1bc3a2b1ba32f2da) Let's use ResolutionScope.TEST in mojos Closes [#127](https://github-redirect.dependabot.com/mojohaus/license-maven-plugin/issues/127)
+- [`b9b88e8`](https://github.com/mojohaus/license-maven-plugin/commit/b9b88e8f95a447cba1da7fbdb3d450f6083c2d05) Add lineSeparator parameter to configuration Close [#106](https://github-redirect.dependabot.com/mojohaus/license-maven-plugin/issues/106)
+- [`210a416`](https://github.com/mojohaus/license-maven-plugin/commit/210a416d12e17b5bcbb4561e27a9a2bb18ed92e8) aggregate-add-third-party for version 1.14 and 1.15 not working Closes [#126](https://github-redirect.dependabot.com/mojohaus/license-maven-plugin/issues/126)
+- [`0143fb0`](https://github.com/mojohaus/license-maven-plugin/commit/0143fb01046036b35370d05e99b755f277519425) [maven-release-plugin] prepare for next development iteration
+- [`a5d3473`](https://github.com/mojohaus/license-maven-plugin/commit/a5d3473dfe873fe6cd3c9fb1c83ba3c2eb0004b2) [maven-release-plugin] prepare release license-maven-plugin-1.15
+- [`b8f9cb6`](https://github.com/mojohaus/license-maven-plugin/commit/b8f9cb6fc50a7a5f2c7f4c0855e0f1ea488beacb) update some dependencies and my identity
+- [`b1d058e`](https://github.com/mojohaus/license-maven-plugin/commit/b1d058edfdf6997ec1e706f1e7ce051d3769a738) Fix [#117](https://github-redirect.dependabot.com/mojohaus/license-maven-plugin/issues/117) Add possibility to include/exclude types ([#118](https://github-redirect.dependabot.com/mojohaus/license-maven-plugin/issues/118))
+- [`7e54e9a`](https://github.com/mojohaus/license-maven-plugin/commit/7e54e9a8a88d78a34e34961c55d66bb881246564) Add trimHeaderLine option ([#99](https://github-redirect.dependabot.com/mojohaus/license-maven-plugin/issues/99))
+- [`a02726c`](https://github.com/mojohaus/license-maven-plugin/commit/a02726c780c074dd7f3a18dc7abb2a0bbd4ef81f) Multi license aggregate third-party ([#116](https://github-redirect.dependabot.com/mojohaus/license-maven-plugin/issues/116))
+- Additional commits viewable in [compare view](https://github.com/mojohaus/license-maven-plugin/compare/license-maven-plugin-1.14...license-maven-plugin-1.16)
+</details>
+<br />
+
+[![Dependabot compatibility score](https://api.dependabot.com/badges/compatibility_score?dependency-name=org.codehaus.mojo:license-maven-plugin&package-manager=maven&previous-version=1.14&new-version=1.16)](https://dependabot.com/compatibility-score.html?dependency-name=org.codehaus.mojo:license-maven-plugin&package-manager=maven&previous-version=1.14&new-version=1.16)
+
+Dependabot will resolve any conflicts with this PR as long as you don't alter it yourself. You can also trigger a rebase manually by commenting `@dependabot rebase`.
+
+---
+
+**Note:** This repo was added to Dependabot recently, so you'll receive a maximum of 5 PRs for your first few update runs. Once an update run creates fewer than 5 PRs we'll remove that limit.
+
+You can always request more updates by clicking `Bump now` in your [Dependabot dashboard](https://app.dependabot.com).
+
+<details>
+<summary>Dependabot commands and options</summary>
+<br />
+
+You can trigger Dependabot actions by commenting on this PR:
+- `@dependabot rebase` will rebase this PR
+- `@dependabot recreate` will recreate this PR, overwriting any edits that have been made to it
+- `@dependabot merge` will merge this PR after your CI passes on it
+- `@dependabot cancel merge` will cancel a previously requested merge
+- `@dependabot reopen` will reopen this PR if it is closed
+- `@dependabot ignore this [patch|minor|major] version` will close this PR and stop Dependabot creating any more for this minor/major version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this dependency` will close this PR and stop Dependabot creating any more for this dependency (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot use these labels` will set the current labels as the default for future PRs for this repo and language
+- `@dependabot use these reviewers` will set the current reviewers as the default for future PRs for this repo and language
+- `@dependabot use these assignees` will set the current assignees as the default for future PRs for this repo and language
+- `@dependabot use this milestone` will set the current milestone as the default for future PRs for this repo and language
+- `@dependabot badge me` will comment on this PR with code to add a "Dependabot enabled" badge to your readme
+
+Additionally, you can set the following in your Dependabot [dashboard](https://app.dependabot.com):
+- Update frequency (including time of day and day of week)
+- Automerge options (never/patch/minor, and dev/runtime dependencies)
+- Pull request limits (per update run and/or open at any time)
+- Out-of-range updates (receive only lockfile updates, if desired)
+- Security updates (receive only security updates, if desired)
+
+Finally, you can contact us by mentioning @dependabot.
+
+</details>
+
+[![Coverage Status](https://coveralls.io/builds/19687514/badge)](https://coveralls.io/builds/19687514)
+
+Coverage remained the same at 65.402% when pulling **940ad0cb429f0622574ced0d5e449b611ee14593 on dependabot/maven/org.codehaus.mojo-license-maven-plugin-1.16** into **1630575df1932d7fa9eff527cd45969d2b5b7179 on master**.
+
+
+
+[![Coverage Status](https://coveralls.io/builds/19687514/badge)](https://coveralls.io/builds/19687514)
+
+Coverage remained the same at 65.402% when pulling **940ad0cb429f0622574ced0d5e449b611ee14593 on dependabot/maven/org.codehaus.mojo-license-maven-plugin-1.16** into **1630575df1932d7fa9eff527cd45969d2b5b7179 on master**.
+
+
+This issue has been automatically marked as stale because it has not had recent activity. It will be closed if no further activity occurs. Thank you for your contributions.
+
+
+OK, I won't notify you again about this release, but will get in touch when a new version is available. If you'd rather skip all updates until the next major or minor version, let me know by commenting `@dependabot ignore this major version` or `@dependabot ignore this minor version`.
+
+If you change your mind, just re-open this PR and I'll resolve any conflicts on it.
+
+ Bump plexus-compiler-javac-errorprone from 2.5 to 2.8.5
+ Bumps plexus-compiler-javac-errorprone from 2.5 to 2.8.5.
+
+[![Dependabot compatibility score](https://api.dependabot.com/badges/compatibility_score?dependency-name=org.codehaus.plexus:plexus-compiler-javac-errorprone&package-manager=maven&previous-version=2.5&new-version=2.8.5)](https://dependabot.com/compatibility-score.html?dependency-name=org.codehaus.plexus:plexus-compiler-javac-errorprone&package-manager=maven&previous-version=2.5&new-version=2.8.5)
+
+Dependabot will resolve any conflicts with this PR as long as you don't alter it yourself. You can also trigger a rebase manually by commenting `@dependabot rebase`.
+
+---
+
+**Note:** This repo was added to Dependabot recently, so you'll receive a maximum of 5 PRs for your first few update runs. Once an update run creates fewer than 5 PRs we'll remove that limit.
+
+You can always request more updates by clicking `Bump now` in your [Dependabot dashboard](https://app.dependabot.com).
+
+<details>
+<summary>Dependabot commands and options</summary>
+<br />
+
+You can trigger Dependabot actions by commenting on this PR:
+- `@dependabot rebase` will rebase this PR
+- `@dependabot recreate` will recreate this PR, overwriting any edits that have been made to it
+- `@dependabot merge` will merge this PR after your CI passes on it
+- `@dependabot cancel merge` will cancel a previously requested merge
+- `@dependabot reopen` will reopen this PR if it is closed
+- `@dependabot ignore this [patch|minor|major] version` will close this PR and stop Dependabot creating any more for this minor/major version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this dependency` will close this PR and stop Dependabot creating any more for this dependency (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot use these labels` will set the current labels as the default for future PRs for this repo and language
+- `@dependabot use these reviewers` will set the current reviewers as the default for future PRs for this repo and language
+- `@dependabot use these assignees` will set the current assignees as the default for future PRs for this repo and language
+- `@dependabot use this milestone` will set the current milestone as the default for future PRs for this repo and language
+- `@dependabot badge me` will comment on this PR with code to add a "Dependabot enabled" badge to your readme
+
+Additionally, you can set the following in your Dependabot [dashboard](https://app.dependabot.com):
+- Update frequency (including time of day and day of week)
+- Automerge options (never/patch/minor, and dev/runtime dependencies)
+- Pull request limits (per update run and/or open at any time)
+- Out-of-range updates (receive only lockfile updates, if desired)
+- Security updates (receive only security updates, if desired)
+
+Finally, you can contact us by mentioning @dependabot.
+
+</details>
+This issue has been automatically marked as stale because it has not had recent activity. It will be closed if no further activity occurs. Thank you for your contributions.
+
+
+OK, I won't notify you again about this release, but will get in touch when a new version is available. If you'd rather skip all updates until the next major or minor version, let me know by commenting `@dependabot ignore this major version` or `@dependabot ignore this minor version`.
+
+If you change your mind, just re-open this PR and I'll resolve any conflicts on it.
+
+ RESTful API?
+ Hi there,
+
+Is a RESTful API in the works? Being able to control lavagna from other applications would be a great addition.
+
+Thanks.
+Hi @NextDesign1 , what kind of API would you need? 
+
+As technically we already have an undocumented REST api for the angular application that we could expose/cleanup.
+
+something similar to net.rcarz.jiraclient.JiraClient
+
+ Read configuration keys from file, if present 
+ This is an enhancement proposal.
+
+Would you consider adding an option to configure "keys" (auth provider details, admin user uid and so on)  to an external file? First run of Lavagna would look whether the file exists, and if so, use values from the file rather than ask for setup process.
+
+This would allow for versioned configuration, and repetitive deployment of testing instances with cleared database wouldn't require the setup step. 
+
+I see two sorts of people benefiting from this: Admins who maintain production instance, and developers who wipe the db often. 
+
+I originally wanted to create a PR with this feature, but I'm noobish in Java and I couldn't figure out where the data is being loaded
+
+
+Hi @SlytherinCz , yes, it should be easy. As we already can configure the database configuration in a configuration file (https://help.lavagna.io/02-install/02-02-configuration.html#configuration) , I guess we can read some additional keys.
+
+
+
+
+Should be done.
+
+Implementation note:
+
+In the environment (could be the external configuration or a system property (see for an example https://github.com/digitalfondue/lavagna/commit/8bf1b2a4fdf20125c2bcbf5c3d58c98b43295eca#diff-600376dffeb79835ede4a0b285078036R721 )) some key must be present:
+
+ - setup.fromData=true
+ - setup.AUTHENTICATION_METHOD=demo|password|ldap|oauth
+ - setup.BASE_APPLICATION_URL=YOUR_BASE_URL
+ - setup.admin.user.provider
+ - setup.admin.user.name
+ - setup.admin.user.password (if applicable)
+
+Additionally, for oauth and ldap, some additional key must be provided (see https://github.com/digitalfondue/lavagna/commit/8bf1b2a4fdf20125c2bcbf5c3d58c98b43295eca#diff-8e2b6021e19120a5e16c4c60e36777d8R56 ).
+
+Note: for oauth it's a json, the format is not documented at the moment. You could extract it from the database though.
+

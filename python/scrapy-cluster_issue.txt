@@ -1,0 +1,851 @@
+﻿ Fixed an error with MarkupSafe installation
+ MarkupSafe tries to import setuptools.Feature which results in an error as it's deprecated.
+Details:
+https://github.com/pallets/markupsafe/issues/116
+https://github.com/pypa/setuptools/issues/2017
+ Fixed an error with MarkupSafe installation
+ MarkupSafe tries to import setuptools.Feature which results in an error as it's deprecated.
+Details:
+pallets/markupsafe#116
+pypa/setuptools#2017
+ Any suggestion on the best way to get the crawled data out to a file?
+ Thanks
+- Alim
+ How to submit a POST request through crawler REST API
+ From Scrapy cluster official [documentation](https://scrapy-cluster.readthedocs.io/en/latest/topics/kafka-monitor/api.html#crawl-api), it tells you the required properties and optional properties when submitting request. It seems like I cannot specify what type of request (**GET** or **POST**) I can submit. Any submitted request will, by default, be seen as **GET**. 
+
+I've gone trough the documentation many times and yet to find the answer to it. In the end, I've came up with a very hacky solution. 
+1. First submit the task as normal GET request and use **attrs** to pass the payload
+```
+curl -X POST http://crawler-api/feed \
+-H 'Content-Type: application/json' \
+Are you trying to submit the POST request on the very first request out of the spider? If so, you are correct as the distributed scheduler assumes you are trying to make a GET in [this method](https://github.com/istresearch/scrapy-cluster/blob/dev/crawler/crawling/distributed_scheduler.py#L557). You are more than welcome to modify anything in that method to fit your needs, just return a request in the end. You covered most of this in step 3.
+
+In step 2, your spider can yield any kind of request you want, since the scheduler uses the Scrapy serializer to store the request in redis. When it is read back out, it calls [this method](https://github.com/istresearch/scrapy-cluster/blob/dev/crawler/crawling/distributed_scheduler.py#L539) to parse it back into a normal request and move on.
+
+This project is simply assuming you are trying to crawl a web page straight from the start, but then you can do whatever you want afterwards. I think your could improve your implementation by altering the kafka monitor [crawl api](https://github.com/istresearch/scrapy-cluster/blob/dev/kafka-monitor/plugins/scraper_schema.json) to the params you require for your POST, then parse them in that method I linked above to form your initial post request and let the spider handle the rest.
+
+
+
+> Are you trying to submit the POST request on the very first request out of the spider? If so, you are correct as the distributed scheduler assumes you are trying to make a GET in [this method](https://github.com/istresearch/scrapy-cluster/blob/dev/crawler/crawling/distributed_scheduler.py#L557). You are more than welcome to modify anything in that method to fit your needs, just return a request in the end. You covered most of this in step 3.
+> 
+> In step 2, your spider can yield any kind of request you want, since the scheduler uses the Scrapy serializer to store the request in redis. When it is read back out, it calls [this method](https://github.com/istresearch/scrapy-cluster/blob/dev/crawler/crawling/distributed_scheduler.py#L539) to parse it back into a normal request and move on.
+> 
+> This project is simply assuming you are trying to crawl a web page straight from the start, but then you can do whatever you want afterwards. I think your could improve your implementation by altering the kafka monitor [crawl api](https://github.com/istresearch/scrapy-cluster/blob/dev/kafka-monitor/plugins/scraper_schema.json) to the params you require for your POST, then parse them in that method I linked above to form your initial post request and let the spider handle the rest.
+
+Thank you for the answer. I think I know what to do next. 
+
+ Python 3
+ Issue to register the request to migrate fully to Python 3.
+@deed02392 Does the python 3 containers not work for you right now? The `master` branch is not up to date, but the project on the `dev` branch is fully python 3 compatible. I agree we should migrate all the way over but that might just mean that we drop support for python 2 setups/containers/installs.
+
+Hey @madisonb, well, they were not working well with the latest Alpine Linux based Python 3 container. I basically had to update a lot of packages to get things working on the Scrapy container. I only got as far as making that run again after updating all the dependencies, but I think I will need to do the same for the other Docker components.
+
+Hi @madisonb what is the current status with running the master branch with python 3? I also noticed the requirements.txt file is depreciated, what specifically should I alter/add to ensure all requirements are met? Thanks.
+
+All of the unit and integration tests for the python3 docker container continue to pass, here is the build from lasst week. 
+
+https://travis-ci.org/github/istresearch/scrapy-cluster/jobs/664497952
+
+I'm not sure there is much more to be done for the base version of this project if you are using the `dev` branch. 
+
+ Why encoding byted body
+ In **pipelines.py**,  why the body first needs to be converted to bytes and then use base64 encoding? 
+
+Can we not store the body(by default it is ) itself directly? what happens if we just leave as it is?
+My understanding is if we transmit the body itself, the data might be corrupted during transmission. 
+
+```
+if self.use_base64:
+    datum['body'] = base64.b64encode(bytes(datum['body'], 'utf-8'))
+    message = ujson.dumps(datum, sort_keys=True)
+```
+The python 3 docs have the following:
+https://docs.python.org/3/library/base64.html#base64.b64encode
+
+>  base64.b64encode(s, altchars=None)
+    Encode the bytes-like object s using Base64 and return the encoded bytes.
+
+A bytes-like object is
+https://docs.python.org/3/glossary.html#term-bytes-like-object
+
+> bytes-like object 
+> An object that supports the Buffer Protocol and can export a C-contiguous buffer. This includes all bytes, bytearray, and array.array objects, as well as many common memoryview objects. 
+
+I think from the docs it makes sense as to why we encode the value into bytes before passing it into the function. This may also have been crossover between python2 and python3 string compatibility and it is just easier to say "everything is always bytes."
+
+If this answers your question please close the ticket
+
+@madisonb Thank you for your answer.
+
+ Bump werkzeug from 0.12.1 to 0.15.3
+ Bumps [werkzeug](https://github.com/pallets/werkzeug) from 0.12.1 to 0.15.3.
+<details>
+<summary>Release notes</summary>
+
+*Sourced from [werkzeug's releases](https://github.com/pallets/werkzeug/releases).*
+
+> ## 0.15.3
+> * Blog: https://palletsprojects.com/blog/werkzeug-0-15-3-released/
+> * Changes: https://werkzeug.palletsprojects.com/en/0.15.x/changes/#version-0-15-3
+> 
+> 
+> ## 0.15.2
+> * Blog: https://palletsprojects.com/blog/werkzeug-0-15-2-released/
+> * Changes: https://werkzeug.palletsprojects.com/en/0.15.x/changes/#version-0-15-2
+> 
+> ## 0.15.1
+> * Blog: https://palletsprojects.com/blog/werkzeug-0-15-1-released/
+> * Changes: https://werkzeug.palletsprojects.com/en/0.15.x/changes/
+> 
+> ## 0.15.0
+> * Blog: https://palletsprojects.com/blog/werkzeug-0-15-0-released/
+> * Changes: https://werkzeug.palletsprojects.com/en/0.15.x/changes/
+> 
+> ## 0.13
+> [Read the announcement here.](https://www.palletsprojects.com/blog/werkzeug-013-released/)
+> 
+> [Read the full changelog.](http://werkzeug.pocoo.org/docs/latest/changes/#version-0-13)
+> 
+> Install from [PyPI](https://pypi.org/Werkzeug/0.13) with pip:
+> 
+> ```
+> pip install -U Werkzeug
+> ```
+> 
+</details>
+<details>
+<summary>Changelog</summary>
+
+*Sourced from [werkzeug's changelog](https://github.com/pallets/werkzeug/blob/master/CHANGES.rst).*
+
+> Version 0.15.3
+> --------------
+> 
+> Released 2019-05-14
+> 
+> -   Properly handle multi-line header folding in development server in
+>     Python 2.7. (:issue:`1080`)
+> -   Restore the ``response`` argument to :exc:`~exceptions.Unauthorized`.
+>     (:pr:`1527`)
+> -   :exc:`~exceptions.Unauthorized` doesn't add the ``WWW-Authenticate``
+>     header if ``www_authenticate`` is not given. (:issue:`1516`)
+> -   The default URL converter correctly encodes bytes to string rather
+>     than representing them with ``b''``. (:issue:`1502`)
+> -   Fix the filename format string in
+>     :class:`~middleware.profiler.ProfilerMiddleware` to correctly handle
+>     float values. (:issue:`1511`)
+> -   Update :class:`~middleware.lint.LintMiddleware` to work on Python 3.
+>     (:issue:`1510`)
+> -   The debugger detects cycles in chained exceptions and does not time
+>     out in that case. (:issue:`1536`)
+> -   When running the development server in Docker, the debugger security
+>     pin is now unique per container.
+> 
+> 
+> Version 0.15.2
+> --------------
+> 
+> Released 2019-04-02
+> 
+> -   ``Rule`` code generation uses a filename that coverage will ignore.
+>     The previous value, "generated", was causing coverage to fail.
+>     (:issue:`1487`)
+> -   The test client removes the cookie header if there are no persisted
+>     cookies. This fixes an issue introduced in 0.15.0 where the cookies
+>     from the original request were used for redirects, causing functions
+>     such as logout to fail. (:issue:`1491`)
+> -   The test client copies the environ before passing it to the app, to
+>     prevent in-place modifications from affecting redirect requests.
+>     (:issue:`1498`)
+> -   The ``"werkzeug"`` logger only adds a handler if there is no handler
+>     configured for its level in the logging chain. This avoids double
+>     logging if other code configures logging first. (:issue:`1492`)
+> 
+> 
+> Version 0.15.1
+> --------------
+> 
+> Released 2019-03-21
+> 
+> -   :exc:`~exceptions.Unauthorized` takes ``description`` as the first
+></tr></table> ... (truncated)
+</details>
+<details>
+<summary>Commits</summary>
+
+- [`9b1123a`](https://github.com/pallets/werkzeug/commit/9b1123a779e95b5c38ca911ce1329e87a3348a92) release version 0.15.3
+- [`00bc43b`](https://github.com/pallets/werkzeug/commit/00bc43b1672e662e5e3b8cecd79e67fc968fa246) unique debugger pin in Docker containers
+- [`2cbdf2b`](https://github.com/pallets/werkzeug/commit/2cbdf2b02273daccf85845b1e1569096e65ffe58) Merge pull request [#1542](https://github-redirect.dependabot.com/pallets/werkzeug/issues/1542) from asottile/exceptions_arent_always_hashable
+- [`0e669f6`](https://github.com/pallets/werkzeug/commit/0e669f6be532801267d35de23c5f5237b8406d8a) Fix unhashable exception types
+- [`bdc17e4`](https://github.com/pallets/werkzeug/commit/bdc17e4cd10bbb17449006cef385ec953a11fc36) Merge pull request [#1540](https://github-redirect.dependabot.com/pallets/werkzeug/issues/1540) from pallets/break-tb-cycle
+- [`44e38c2`](https://github.com/pallets/werkzeug/commit/44e38c2985bcd3a7c17467bead901b8f36528f5f) break cycle in chained exceptions
+- [`777500b`](https://github.com/pallets/werkzeug/commit/777500b64647ea47b21e52e5e113ba1d86014c05) Merge pull request [#1518](https://github-redirect.dependabot.com/pallets/werkzeug/issues/1518) from NiklasMM/fix/1510_lint-middleware-python3-compa...
+- [`e00c7c2`](https://github.com/pallets/werkzeug/commit/e00c7c2cedcbcad3772e4522813c78bc9a860fbe) Make LintMiddleware Python 3 compatible and add tests
+- [`d590cc7`](https://github.com/pallets/werkzeug/commit/d590cc7cf2fcb34ebc0783eb3c2913e8ce016ed8) Merge pull request [#1539](https://github-redirect.dependabot.com/pallets/werkzeug/issues/1539) from pallets/profiler-format
+- [`0388fc9`](https://github.com/pallets/werkzeug/commit/0388fc95e696513bbefbde293f3f76cc482df8fa) update filename_format for ProfilerMiddleware.
+- Additional commits viewable in [compare view](https://github.com/pallets/werkzeug/compare/0.12.1...0.15.3)
+</details>
+<br />
+
+[![Dependabot compatibility score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=werkzeug&package-manager=pip&previous-version=0.12.1&new-version=0.15.3)](https://help.github.com/articles/configuring-automated-security-fixes)
+
+Dependabot will resolve any conflicts with this PR as long as you don't alter it yourself. You can also trigger a rebase manually by commenting `@dependabot rebase`.
+
+[//]: # (dependabot-automerge-start)
+[//]: # (dependabot-automerge-end)
+
+---
+
+<details>
+<summary>Dependabot commands and options</summary>
+<br />
+
+You can trigger Dependabot actions by commenting on this PR:
+- `@dependabot rebase` will rebase this PR
+- `@dependabot recreate` will recreate this PR, overwriting any edits that have been made to it
+- `@dependabot merge` will merge this PR after your CI passes on it
+- `@dependabot squash and merge` will squash and merge this PR after your CI passes on it
+- `@dependabot cancel merge` will cancel a previously requested merge and block automerging
+- `@dependabot reopen` will reopen this PR if it is closed
+- `@dependabot ignore this [patch|minor|major] version` will close this PR and stop Dependabot creating any more for this minor/major version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this dependency` will close this PR and stop Dependabot creating any more for this dependency (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot use these labels` will set the current labels as the default for future PRs for this repo and language
+- `@dependabot use these reviewers` will set the current reviewers as the default for future PRs for this repo and language
+- `@dependabot use these assignees` will set the current assignees as the default for future PRs for this repo and language
+- `@dependabot use this milestone` will set the current milestone as the default for future PRs for this repo and language
+
+You can disable automated security fix PRs for this repo from the [Security Alerts page](https://github.com/istresearch/scrapy-cluster/network/alerts).
+
+</details>
+ Can't up cluster from master branch
+ After executing docker-compose up I've faced with several errors.
+Kafka container logs:
+```
+2019-09-19T13:58:04.022988200Z ERROR: No listener or advertised hostname configuration provided in environment.
+2019-09-19T13:58:04.023037600Z        Please define KAFKA_LISTENERS / (deprecated) KAFKA_ADVERTISED_HOST_NAME
+```
+If I modify docker-compose.yml (add KAFKA_ADVERTISED_HOST_NAME):
+` 49       KAFKA_ADVERTISED_HOST_NAME: localhost`
+Kafka looks ok, but crawler is still unable to connect to it, logs from crawler container:
+```
+019-09-19T14:14:07.409019000Z 2019-09-19 14:14:07,408 [sc-crawler] INFO: Changed Public IP: None -> b'156.67.51.8'
+2019-09-19T14:14:07.439196700Z 2019-09-19 14:14:07,438 [sc-crawler] ERROR: Could not ping Zookeeper
+2019-09-19T14:14:07.439868500Z Unhandled error in Deferred:
+2019-09-19T14:14:07.440134200Z 
+2019-09-19T14:14:11.012381900Z 2019-09-19 14:14:11,012 [sc-crawler] ERROR: Unable to connect to Kafka in Pipeline, raising exit flag.
+2019-09-19T14:14:11.012991200Z Unhandled error in Deferred:
+```
+
+**And the most interesting part - everything is ok if up from dev branch!**
+Hello - yes I would highly recommend the `dev` branch, the master branch contains the latest official release but all the new work/maintenance on this repo is done on the `dev` branch.
+
+ supervisord install error while vagrant up
+ hi i'm trying to start scrapy cluster with vagrant and i get this error while i excute "vagrant up":
+![Screenshot (67)](https://user-images.githubusercontent.com/54885172/64905661-f86e8b00-d6f0-11e9-8873-3a71d2a7f472.png)
+
+and when i excute this command next time i got this error:
+
+ scdev: Running provisioner: shell...
+    scdev: Running: inline script
+    scdev: supervisord: unrecognized service
+The SSH command responded with a non-zero exit status. Vagrant
+assumes that this means the command failed. The output for this command
+should be in the log above. Please read the output to determine what
+went wrong.
+
+
+i installed supervisor manually on my ubuntu/trusty64 but nothing changed.
+
+i am running vagrant on cmd windows 10.
+
+Can you try again from the `dev` branch? I would highly recommend the docker approach instead of the virtualbox approach. In the future only docker will be supported by this repo since it is so portable
+
+Closing due to inactivity.
+
+ A mistake in parameter deliver through two method!
+ Hey,madisonb:
+        I found a problem  in parameter delivering! I  instantiate an item object in method A,and then deliver it through meta.but I got a list object in method B,not the same item object ! 
+
+```
+def parse(self,response):
+    item = item_object()
+    item["xx"] = "xxx"
+    yield scrapy.Request(url, meta={"item": item}, callback=self.parse_images)
+
+def parse_image(self,response):
+    item = response.meta["item"]
+```
+The type of item will be  list,not a item object!
+
+
+ However ,when I used a dict object as parameter to deliver through different method,I could get the same dict like this:
+```
+def parse(self,response):
+    item = item_object()
+    item["xx"] = "xxx"
+    yield scrapy.Request(url, meta={"item": dict(item)}, callback=self.parse_images)
+
+def parse_image(self,response):
+    item = dict(response.meta["item"][0])
+```
+
+And I can get a dict object!
+Is this a bug or just a mistake?
+Thanks for help!
+What branch are you on? Can you replicate this behavior in the `dev` branch too? We changed how the request serialization works and now use the internal Scrapy serializer, so I would be curious if you can replicate it there.
+
+@madisonb    I was on dev branch,I used python3.6, but the code was cloned half year ago,So I'm curious when you solve the problem ,All I need do is just need update the code? And it will be nice to show me the git version about this problem?
+
+Did you ever figure this out? Otherwise I am going to close the issue due to inactivity
+
+Closing.
+
+ online integration test error
+ I'm trying to run the online integration test , i get this error : 
+test_feed (__main__.TestKafkaMonitor) ... 2019-07-17 17:14:45,413 [kafka-monitor] ERROR: Failed to connect to Redis in ActionHandler
+ERROR
+test_run (__main__.TestKafkaMonitor) ... 2019-07-17 17:14:45,536 [kafka-monitor] ERROR: Failed to connect to Redis in ActionHandler
+ERROR
+
+======================================================================
+ERROR: test_feed (__main__.TestKafkaMonitor)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tests/online.py", line 56, in setUp
+    self.kafka_monitor._load_plugins()
+  File "/home/databiz40/scrapy-cluster/kafka-monitor/kafka_monitor.py", line 79, in _load_plugins
+    instance.setup(self.settings)
+  File "/home/databiz40/scrapy-cluster/kafka-monitor/plugins/action_handler.py", line 28, in setup
+    sys.exit(1)
+SystemExit: 1
+
+======================================================================
+ERROR: test_run (__main__.TestKafkaMonitor)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tests/online.py", line 56, in setUp
+    self.kafka_monitor._load_plugins()
+  File "/home/databiz40/scrapy-cluster/kafka-monitor/kafka_monitor.py", line 79, in _load_plugins
+    instance.setup(self.settings)
+  File "/home/databiz40/scrapy-cluster/kafka-monitor/plugins/action_handler.py", line 28, in setup
+    sys.exit(1)
+SystemExit: 1
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.242s
+
+FAILED (errors=2)
+ 
+I would double check you have your redis settings correct, and your redis instance cli is accessible if you try to connect to it.
+
+Closing due to inactivity.
+
+ Cannot turn off DEBUG level log
+ In Scrapy cluster, I have the following log settings: `SC_LOG_LEVEL
+But for some reason, I still get DEBUG level log being printed out in the console. Here is the sample log
+`[scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.google.com>`
+`[sc-crawler] INFO: crawled processed successfully`
+`[scrapy.core.scraper] DEBUG: Scraped from <200 https://www.google.com>`
+
+Does anyone how to turn it off?
+Scrapy Cluster's logger is not the same as Scrapy's logger, they are two different things. If you would like to change Scrapy's logger, use the setting `LOG_LEVEL` as outlined [here](http://doc.scrapy.org/en/latest/topics/logging.html#logging-settings). 
+
+If you would like you adjust the Scrapy Cluster project's logger, you can do that with the log prefixes that are `SC_*` (so they do not conflict) as found [here](https://scrapy-cluster.readthedocs.io/en/latest/topics/crawler/settings.html#logging).
+
+If this resolves your issue please close the ticket.
+
+Thank you @madisonb . It worked. 
+
+ Coveralls fix
+ Fixes the version pinning issue inside of coveralls to get tests back to green.
+
+[![Coverage Status](https://coveralls.io/builds/24428111/badge)](https://coveralls.io/builds/24428111)
+
+Coverage remained the same at 70.992% when pulling **956b8e80f2a42dce861cb7d12b6179f167b18ac4 on coveralls-fix** into **e75057c4d011f8a2fe4f1d17838d01104b404239 on dev**.
+
+
+ `Demo.incoming` topic keeps piling up
+ The original question was posted in [Stackoverflow](https://stackoverflow.com/questions/56916284/kafka-topic-jammed-up-despite-having-more-than-30-kafka-monitor-replicas)
+`demo.incoming` topic in Kafka keeps piling up. 
+
+I am using [scrapy cluster](https://scrapy-cluster.readthedocs.io/en/latest/topics/introduction/overview.html). About 70 requests per second are submitted to Kafka via Scrapy Cluster REST api (Producer). The spiders can finish the crawl pretty fast because the queue in redis remains at a very low number, less than 10 most of the time. But the number of messages in `demo.incoming` keep piling up every second. This is the command I used to check the number of messages in `demo.incoming` topic in Kafka
+
+```sh
+kafka-run-class.sh kafka.tools.GetOffsetShell \
+It seems to me like you don't have enough partitions in your topic to keep up with your inbound messages. What you are saying is that you scale the kafka monitor up to 30, yet are still falling behind. To me, this indicates poor kafka topic performance, and one of the remedies is to increase the partition count on your topic so something like 5-10.
+
+In kafka, only 1 consumer can consume from a partition at any given time. Lets assume by default you have 1 partition in your topic, so at max you can have 1 consumer at any given time reading from it, no matter how much you scale your consumers. Setting the partition count to say, 8-10 would allow you 8-10 simultaneous consumers each reading from their 1 partition.
+
+To me it seems like you have your cluster tuned very well to keep your redis count low, (great!) but you need to increase your partition count on your incoming topic so you can utilize your replica consumers.
+
+1 partition = 1 simultaneous consumer
+10 partitions = 10 simultaneous consumers
+
+etc. You want to tune the kafka-monitor count to be roughly equal to the number of partitions on your topic.
+
+Check out the first couple of paragraphs and pictures at [this link](https://www.oreilly.com/library/view/kafka-the-definitive/9781491936153/ch04.html) for more info
+
+Thank you so much @madisonb  You answer solved my question. You saved my day. I re-partitioned the topic to 8 partitions. It worked as expected right now. 
+
+One thing confuses me is that the number of messages still keeps increasing. I was told on Stackoverflow that the command I used above to check the number of messages in Kafka is not correct and was suggested to use **kafka-consumer-groups** tool instead. I have yet to found the correct command. 
+
+
+
+The main thing you should care about is consumer lag, not consumer offset numbers. The numeric offset will continue to climb, since each message will get its own numeric offset number. What you want instead is lag, which is how far behind the consumer group is from real time. Ideally this stays at 0 or perhaps in production <1000, but if it continues to grow you need to continue to scale to meet your throughput demands.
+
+I personally use a tool like [Klag](https://github.com/andrewkcarter/klag) to view kafka lag for the consumers in my cluster.
+
+```
+# klag_conf.json
+# key is group, value is topic name
+{
+  "sc-kafka-monitor":["demo.incoming"]
+}
+```
+
+```
+$ klag --groups-file klag_conf.json
+Group     Topic                                                        Remaining
+================================================================================
+sc-kafka-monitor                                                       [STABLE]
+          demo.incoming                                                     164
+```
+
+As you can see from the screenshot below, in my case, the group is called **demo-group**, under it, there is no topic for some reason.
+
+![image](https://user-images.githubusercontent.com/22637390/60832375-a4589f00-a1b3-11e9-85b7-7abf88774aa3.png)
+
+
+I would double check you have a list of topic names as your value for your key, and that everything is spelled correctly. I don't typically run the latest version of kafka, so perhaps that library is out dated.
+
+Regardless, you can try this command to get the current lag of your consumer group.
+
+```
+$ docker-compose exec kafka /opt/kafka/bin/kafka-consumer-groups.sh --describe --group demo-group --bootstrap-server kafka:9092
+
+# when I run it on my local docker-compose cluster, I get something like the following
+TOPIC           PARTITION  CURRENT-OFFSET  LOG-END-OFFSET  LAG             CONSUMER-ID                                             HOST            CLIENT-ID
+demo.incoming   0          0               0               0               kafka-python-1.3.3-ab7452ff-107e-46ff-be4d-850ac318c342 /172.23.0.5     kafka-python-1.3.3
+```
+
+@madisonb Cheers, this worked. 
+
+ Docker ERROR: Could not ping Zookeeper
+ There seems to be an issue both on the `dev` and `master` branches - the crawler container keeps failing and restarting with the following message:
+
+> ERROR: Could not ping Zookeeper
+
+I've tried this with a fresh copy of the crawler on both Windows and MacOS with the same result.
+
+To replicate - download either branch and issue the command:
+```bash
+docker-compose up -d
+```
+@Shique Try image `wurstmeister/zookeeper` instead of `zookeeper`. it's works for me
+
+The wurstmeister image is definitely preferred, not sure why I had it at the default dockerhub zookeeper image, but will change both branches to fix that.
+
+Fixed on both branches, `docker-compose up -d` is working.
+
+zookeeper:3.4 works, zookeeper:3.5+ fails.
+
+zookeeper:3.5+ returns
+`envi is not executed because it is not in the whitelist.`
+
+`-e ZOO_4LW_COMMANDS_WHITELIST
+
+ how to process different type of item in Processor?
+ So,here is the case:
+     I have 4 Pipelines,called pA,pB,pC,pD and two types of item called Item1,Item2. Item1 should be processed by pA,pB,pC,pD. Item2 should only be processed by pA and pC.
+     Of cause I have to set the ITEM_PIPELINES={'pA':1,'pB':2,'pC':98,'pD':99} but in this way the Item2 will be processed by pB and pD,and this is wrong.
+    So in the method "process_item" in pB,pD,I will check the type of item(type(item).__name__
+),if it is Item1,it will be processed,if it is Item2,it will not.
+
+
+    But I think this may not the best way,what if there is 10 pipelines and 5 types of the Item? the code must be messy,is there any good way to solve this problem?
+Maybe we can simplified this problem by using a dict,like {'pA':['Item1','Item2'],'pB':['Item1'],'pC':['Item1','Item2'],'pD':['Item1']} in file settings.py,and check this dict in all pipelines from pA to pD.But this is still a question when using scrapy cluster.
+
+Any help will be appreciate:)
+
+This is mostly a Scrapy issue, not a scrapy cluster issue (since you will face the same problem using both projects). I am not a heavy user of Scrapy's Item Pipeline, as we mostly use it for transforming into json and moving it out of Scrapy and into a different pipeline framework (like Storm, Heron, NiFi, Flink, etc).
+
+The way you are doing it would be what I would probably do, but in reality I would move my more complex item processing logic out of Scrapy.
+
+Closing
+
+ what's the purpose of item_copy in pipelines.py?
+ hi,In crawler/crawling/pipelines.py in the "LoggingBeforePipeline" class,there is a variable called "item_copy" in function process_item,it just simple turn item into a dict,and delete some keys like "body","links" and after that it does nothing except for logging.
+So what is the purpose for the "item_copy"?
+And I also have another question here,if the item is not RawResponseItem,maybe like a user defined Item,it will return None,and the following Pipeline will not recive the item,and those will do nothing.
+ I'm so confused about this function here.?
+1.  The item copy is just that, it creates a new copy in memory so when we delete the keys it does not modify the original dictionary. Otherwise you risk deleting keys from your original dictionary if you delete them inside the function
+```
+# example where a python function modifies the original dictionary
+$ python
+Python 3.7.3 (default, Mar 27 2019, 09:23:15)
+[Clang 10.0.1 (clang-1001.0.46.3)] on darwin
+Type "help", "copyright", "credits" or "license" for more information.
+>>> d = {'key':'value'}
+>>> def f(d):
+...   del d['key']
+...
+>>> f(d)
+>>> d
+{}
+>>>
+```
+vs
+```
+# non-modifying version
+$ python
+Python 3.7.3 (default, Mar 27 2019, 09:23:15)
+[Clang 10.0.1 (clang-1001.0.46.3)] on darwin
+Type "help", "copyright", "credits" or "license" for more information.
+>>> d = {'key':'value2'}
+>>> def f(d):
+...   d2 = dict(d)
+...   del d2['key']
+...   print(d2)
+...
+>>> d
+{'key': 'value2'}
+>>> f(d)
+{}
+>>> d
+{'key': 'value2'}
+>>>
+```
+2. Correct, you can do whatever item logic you want here, but this project assumes you are utilizing the RawResponseItem class. If you want to make your own modifications for your own items you certainly are welcome to fork this project.
+
+> modifies
+
+Thanks for reply!I understand know:)
+
+ Plans to support latest version of Kafka, ELK & Scrapy?
+ Any plans to support the latest version of Kafka, ELK & Scrapy?
+I bump things most of the time when it is needed or I get a PR for it.
+
+Current versions in this project under the `dev` branch
+`Scrapy==1.5.0`
+
+[Tested](https://travis-ci.org/istresearch/scrapy-cluster/builds/536397186) against [containers](https://github.com/istresearch/scrapy-cluster/blob/master/travis/docker-compose.test.yml#L31-L42)
+`wurstmeister/kafka` (latest)
+`wurstmeister/zookeeper` (latest)
+`redis` (latest)
+
+In terms of ELK - this project is not meant to be bleeding edge against the ELK stack, the example in the documentation and located within this codebase is meant to be just an example. However, the logstash config I know works up through the 6.x series, and I am sure would be easy enough to get working against the latest 7.x series. That primary logging interface within Logstash doesn't change much.
+
+If this answers your question, please close this ticket
+
+
+ add timeout to urlopen. For some reason urlopen may block for a while.
+ It is often blocked for quiet a while that requests are from China to 'http://ip.42.pl/raw'.
+When `update_ipaddress` was blocked the spider hangs.
+
+[![Coverage Status](https://coveralls.io/builds/23640225/badge)](https://coveralls.io/builds/23640225)
+
+Coverage decreased (-0.02%) to 65.728% when pulling **909c6ec98f5d0f1617b358ce788712dfcbf635f8 on mooosu:master** into **13aaed2349af5d792d6bcbfcadc5563158aeb599 on istresearch:master**.
+
+
+Please scrap these changes and remake them against the `dev` branch. Also please add documentation for `IP_ADDR_REQUEST_TIMEOUT` setting (and what it does) [here](https://github.com/istresearch/scrapy-cluster/blob/dev/docs/topics/crawler/settings.rst)
+
+bump
+
+ Replace Kafka with another pub/sub service?
+ I'm just curious how hard it would be to replace kafka with another messaging service, say RabbitMQ, google pub sub, or something else.
+Are there plans to do this?
+There are no plans to do this at this time, however I have certainly thought about adding additional support for other queue frameworks.
+
+You would need to touch every major component, however you would simply need to swap out the code for "reading data from the queue" and "pushing data to the queue".
+
+I am not super familiar with the best practices with RabbitMQ or Redis/Google PubSub, so for now I think I am going to leave it as is. 
+
+Closing this ticket
+
+sounds good thanks for the info
+
+ Website did't  response for a long time,how to solve the problem
+ Hi，@madisonb
+	I used scrapy-cluster recently,It's really useful for huge amount data,but at the same time,I got some problem,that's the issue:
+	It's caused in a situation that target website did't response for a long time,I know that if status_code of response is 404 or 5xx for several times,scrapy-cluster will reput the url in end of redis queue. Well,it seems doesn't work when the problem(did't get response for long time ) came out.
+	I did set DOWNLOAD_TIMEOUT to 30 seconds,it doesn't work sometimes. You got some good solution to solve the issue? should I use errback function or ......
+	Thanks for help! 
+
+
+
+	`Traceback (most recent call last):
+  File "/home/kevin/.virtualenvs/scrapy_cluster/lib/python3.6/site-packages/twisted/internet/defer.py", line 1384, in _inlineCallbacks
+    result = result.throwExceptionIntoGenerator(g)
+  File "/home/kevin/.virtualenvs/scrapy_cluster/lib/python3.6/site-packages/twisted/python/failure.py", line 422, in throwExceptionIntoGenerator
+    return g.throw(self.type, self.value, self.tb)
+  File "/home/kevin/.virtualenvs/scrapy_cluster/lib/python3.6/site-packages/scrapy/core/downloader/middleware.py", line 43, in process_request
+    defer.returnValue((yield download_func(request=request,spider=spider)))
+  File "/home/kevin/.virtualenvs/scrapy_cluster/lib/python3.6/site-packages/twisted/internet/defer.py", line 653, in _runCallbacks
+    current.result = callback(current.result, *args, **kw)
+  File "/home/kevin/.virtualenvs/scrapy_cluster/lib/python3.6/site-packages/scrapy/core/downloader/handlers/http11.py", line 351, in _cb_timeout
+    raise TimeoutError("Getting %s took longer than %s seconds." % (url, timeout))
+twisted.internet.error.TimeoutError: User timeout caused connection failure: Getting https://xxxxxxxxxxxxxxxxxxxxxxxxx.com/ took longer than 30.0 seconds..
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/kevin/.virtualenvs/scrapy_cluster/lib/python3.6/site-packages/twisted/internet/defer.py", line 1386, in _inlineCallbacks
+    result = g.send(result)
+  File "/home/kevin/.virtualenvs/scrapy_cluster/lib/python3.6/site-packages/scrapy/core/downloader/middleware.py", line 66, in process_exception
+    spider=spider)
+  File "/home/kevin/project/scrapy-cluster/crawler/crawling/log_retry_middleware.py", line 93, in process_exception
+    self._log_retry(request, exception, spider)
+  File "/home/kevin/project/scrapy-cluster/crawler/crawling/log_retry_middleware.py", line 107, in _log_retry
+    self.logger.error('Scraper Retry', extra=extras)
+  File "/home/kevin/.virtualenvs/scrapy_cluster/lib/python3.6/site-packages/scutils/log_factory.py", line 254, in error
+    extras = self.add_extras(extra, "ERROR")
+  File "/home/kevin/.virtualenvs/scrapy_cluster/lib/python3.6/site-packages/scutils/log_factory.py", line 329, in add_extras
+    my_copy = copy.deepcopy(dict)
+  File "/home/kevin/.virtualenvs/scrapy_cluster/lib/python3.6/copy.py", line 150, in deepcopy
+    y = copier(x, memo)
+  File "/home/kevin/.virtualenvs/scrapy_cluster/lib/python3.6/copy.py", line 240, in _deepcopy_dict
+    y[deepcopy(key, memo)] = deepcopy(value, memo)
+  File "/home/kevin/.virtualenvs/scrapy_cluster/lib/python3.6/copy.py", line 180, in deepcopy
+    y = _reconstruct(x, memo, *rv)
+  File "/home/kevin/.virtualenvs/scrapy_cluster/lib/python3.6/copy.py", line 280, in _reconstruct
+We are at the mercy of Scrapy's internal process to ensure that the website returns in a reasonable time frame. I agree that the `DOWNLOAD_TIMEOUT` doesn't always work correctly, but to help solve this initially my suggestion is to use a lot of spiders in your cluster.
+
+For example, if you have 10 spiders, and only 1 out of every 10 times your get a really long download timeout, at least your other 9 spiders would be working normally. 
+
+This project mainly focuses on a distributed scheduler mechanism to enable the spiders to get their tasking from the redis server. It does not do much to control how the spider itself downloads the html from the website.
+
+I am going to close this issue since this seems to be more of a custom use case than a bug in the project, feel free to hop over to Gitter if you would like to chat more.
+
+ cluster mode online test hangs
+ HI 
+Im trying the DIY cluster mode, and Im running into some issues running the online test.
+I set info to `debug` and this is where it hangs without throwing an error or response:
+```
+2019-01-22 10:51:40,520 [kafka-monitor] DEBUG: Successfully connected to Kafka
+2019-01-22 10:51:40,520 [kafka-monitor] DEBUG: Trying to load plugin tests.online.CustomHandler
+2019-01-22 10:51:40,522 [kafka-monitor] DEBUG: Connected to Redis in ActionHandler
+2019-01-22 10:51:40,522 [kafka-monitor] DEBUG: Successfully loaded plugin tests.online.CustomHandler
+2019-01-22 10:51:40,524 [kafka-monitor] DEBUG: Connected to Redis in StatsCollector Setup
+```
+I've manually checked both redis and kafka connections and know that they are able to communicate...
+I also see the topic created - but nothing passed to it (I created another consumer)
+I've also seen that a `Consumer` object is created....
+Any ideas?
+
+Are you using containers to run your setup or just the scripts themselves? Perhaps the `kafka-monitor` cannot connect to Zookeeper on port 2181. If you can give me steps to reproduce via docker-compose (from the `dev` branch as the latest code is there) I can assist further, otherwise I am going to close this issue.
+
+Just the scripts, I also tested zookeeper via telnet and was able to
+communicate, I'll see if I can docker it
+
+On Tue, Jan 22, 2019, 4:50 PM Madison Bahmer <notifications@github.com
+wrote:
+
+> Are you using containers to run your setup or just the scripts themselves?
+> Perhaps the kafka-monitor cannot connect to Zookeeper on port 2181. If
+> you can give me steps to reproduce via docker-compose (from the dev
+> branch as the latest code is there) I can assist further
+>
+> —
+> You are receiving this because you authored the thread.
+> Reply to this email directly, view it on GitHub
+> <https://github.com/istresearch/scrapy-cluster/issues/213#issuecomment-456426607>,
+> or mute the thread
+> <https://github.com/notifications/unsubscribe-auth/ASwvtMlwiCYUHmvX1KUmHPbBo5Zb6FbQks5vFyUggaJpZM4aMgeE>
+> .
+>
+
+
+Closing due to inactivity
+
+ How does it work with CrawlSpider?
+     I did write some code of scrapy ,but with Crawlspider,not spider. So is it necessary to write a base class like RedisSpider in crawler/crawling/spiders/redis_spider.py or you had already done the work?
+    Appreciate for the answer!
+There is an example of how to create your own spider in the [docs](https://scrapy-cluster.readthedocs.io/en/latest/topics/crawler/extension.html). I think the `CrawlSpider` is a more simplistic approach to the regular `Spider` class, so you may want to look at how the logic is different inside of each class, but otherwise the high level goal should be the same.
+
+You should be able to add some primitive logic to the spiders of this project to get the same behavior the `CrawlSpider` gives you, but following the guide above.
+
+ Does it support python3?
+ 
+Yes, please see https://github.com/istresearch/scrapy-cluster/pull/126. It's on the `dev` branch.
+
+ Fill a single item from many requests / "can't pickle thread.lock objects"
+ Hello ,I have a working scrapper in regular scrapy that  I'm trying to migrate to scrapy-cluster with some problems.
+
+Think on this object : 
+
+object = {'name':'test', 'color':'green', 'books':[{'name': 'book1', 'pages':[{'name':'page1', 'annexed':[{'name':'annexed1'}...]...
+
+Object has books, each books has pages , and each page can have annexeds and I need many requests inside the same object to fill the data.
+
+Error im getting is : "can't pickle thread.lock objects"
+
+Will try to reproduce the error in a simple way and attach it here but basically I loop requests inside a method and after  that method continues, maybe that is the problem, will check.
+
+Thanks
+
+If you try to pass unserializable objects inside of the meta results, or are trying to log data with unserializable results, I think you will get the error above.
+
+Given that this is a custom spider problem, instead of a problem with the core project, I am closing this based on the [guidelines](https://scrapy-cluster.readthedocs.io/en/latest/topics/contributing.html#raising-issues) on rtd. I try to reserve the issue tracker for problems appearing within the open source project instead of a custom setup.
+
+it's probably because they passed something like 'request.errback' into the 'extras', my solution is to change 'extras['error_request'] 
+Yes, on the surface that seems like a valid solution, that way the request is a `dict` and can be written into json.
+
+ Adding support of shared cookies for requests having the same crawlid
+ Adding a custom download middleware distributed_cookies.DistributedCookiesMiddleware that uses Redis to set and get the serialized cookie.
+Adding a custom spider middleware distributed_cookies.ClearCookiesMiddleware that delete cookie if an item with the same crawlid is yield.
+It's also possible to set a cookie with automatic expiration (time in ms in settings).
+
+[![Coverage Status](https://coveralls.io/builds/20246502/badge)](https://coveralls.io/builds/20246502)
+
+Coverage decreased (-1.7%) to 69.212% when pulling **65602317475076dfdc99a5bd9141a762e62a4cbe on MohamedMb:dev** into **55b784d1220927ef628be9b1cb0452b1cb4e247c on istresearch:dev**.
+
+
+
+[![Coverage Status](https://coveralls.io/builds/20246502/badge)](https://coveralls.io/builds/20246502)
+
+Coverage decreased (-1.7%) to 69.212% when pulling **65602317475076dfdc99a5bd9141a762e62a4cbe on MohamedMb:dev** into **55b784d1220927ef628be9b1cb0452b1cb4e247c on istresearch:dev**.
+
+
+
+[![Coverage Status](https://coveralls.io/builds/20309487/badge)](https://coveralls.io/builds/20309487)
+
+Coverage decreased (-0.2%) to 70.804% when pulling **e42fb8f049cecbc27122ff01beda9deb94c30cda on MohamedMb:dev** into **55b784d1220927ef628be9b1cb0452b1cb4e247c on istresearch:dev**.
+
+
+ Adding support of shared cookies for requests having the same crawlid
+ Adding a custom download middleware **distributed_cookies.DistributedCookiesMiddleware** that use Redis to set and get the serialized cookie.
+Adding a custom spider middleware **distributed_cookies.ClearCookiesMiddleware** that delete cookie if an item with the same crawlid is yield.
+It's also possible to set a cookie with automatic expiration (time in ms in **settings**).
+Do not take it into account.
+See #208 
+
+ adding connection timeouts for redis clients
+ Adding socket connect and connection timeouts to the Redis client to prevent connections from hanging indefinitely.
+
+[![Coverage Status](https://coveralls.io/builds/20228745/badge)](https://coveralls.io/builds/20228745)
+
+Coverage increased (+0.03%) to 70.992% when pulling **5db88cbb55e330a53c451c54b3796e1d7fbf40bc on add-redis-socket-timeout** into **55b784d1220927ef628be9b1cb0452b1cb4e247c on dev**.
+
+
+@madisonb I updated the changelog  to reflect the changes to the rest module as well.
+
+ Docker compose : kafka and crawler containers restarting forever
+ Hello,  I'm trying to make quickstart work but after pulling containers wurstmeister/kafka and scrapy-cluster:crawler containers keep status restarting.
+
+From error logs : 
+
+kafka:
+```
+ ERROR: No listener or advertised hostname configuration provided in environment.
+2018-11-19T22:46:22.884011669Z        Please define KAFKA_LISTENERS / (deprecated) KAFKA_ADVERTISED_HOST_NAME
+```
+
+crawler:
+```
+ERROR: Unable to connect to Kafka in Pipeline, raising exit flag.
+2018-11-19T22:47:41.710214263Z Unhandled error in Deferred:
+```
+Testing pass OK on the other containers but after passing start throwing kafka related errors.
+
+Thanks
+
+
+
+Solved :) 
+
+Step 1 : 
+
+Modify docker-compose.yml file inside scrapy-cluster folder, add some enviroment variables : 
+
+```
+environment:
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_ADVERTISED_HOST_NAME: "kafka"
+      KAFKA_ADVERTISED_PORT: "9092"
+```
+KAFKA_ADVERTISED_HOST_NAME and KAFKA_ADVERTISED_PORT were missing
+
+run docker-compose up -d
+
+now tests are passing
+
+
+Not so easy... getting this error from rest service : 
+
+```
+Traceback (most recent call last):
+  File "rest_service.py", line 727, in <module>
+    rest_service.run()
+  File "rest_service.py", line 449, in run
+    self.app.run(host='0.0.0.0', port=self.settings['FLASK_PORT'])
+  File "/usr/local/lib/python2.7/site-packages/flask/app.py", line 841, in run
+    run_simple(host, port, self, **options)
+  File "/usr/local/lib/python2.7/site-packages/werkzeug/serving.py", line 736, in run_simple
+    inner()
+  File "/usr/local/lib/python2.7/site-packages/werkzeug/serving.py", line 696, in inner
+    fd=fd)
+  File "/usr/local/lib/python2.7/site-packages/werkzeug/serving.py", line 590, in make_server
+    passthrough_errors, ssl_context, fd=fd)
+  File "/usr/local/lib/python2.7/site-packages/werkzeug/serving.py", line 501, in __init__
+    HTTPServer.__init__(self, (host, int(port)), handler)
+  File "/usr/local/lib/python2.7/SocketServer.py", line 417, in __init__
+    self.server_bind()
+  File "/usr/local/lib/python2.7/BaseHTTPServer.py", line 108, in server_bind
+    SocketServer.TCPServer.server_bind(self)
+  File "/usr/local/lib/python2.7/SocketServer.py", line 431, in server_bind
+    self.socket.bind(self.server_address)
+  File "/usr/local/lib/python2.7/socket.py", line 228, in meth
+    return getattr(self._sock,name)(*args)
+socket.error: [Errno 98] Address already in use
+```
+
+Found this :
+
+```
+root@7ed8a515ded0:/usr/src/app# lsof -i:5343
+COMMAND PID USER   FD   TYPE DEVICE SIZE/OFF NODE NAME
+python    1 root    8u  IPv4 846730      0t0  TCP *:5343 (LISTEN)
+```
+
+Solved :) 
+
+Go to localsettings.py in rest cluster and change FLASK port 5344
+Go to docker-composer.yml and change rest port to ie 5344
+
+Not sure if this could cause future problems,  hope not.
+
+regards
+
+I am not sure what docker-compose file you were using, but https://github.com/istresearch/scrapy-cluster/blob/master/docker-compose.yml#L49 has the `KAFKA_ADVERTISED_HOST_NAME` already there.
+
+As to your second comment, it looks like you already have something running on that port or there is some other issue. A port conflict within the container shouldn't be happening as there is only one process running.
+
+This project is mostly maintained on the `dev` branch, so if you can give me steps to reproduce the above on that branch I would be happy to look into it.
+
+Otherwise, I am closing this for now.
+
+I downloaded and unzipped from here as tutorial says : 
+
+https://github.com/istresearch/scrapy-cluster/releases 
+https://github.com/istresearch/scrapy-cluster/archive/v1.2.1.zip
+
+And KAFKA_ADVERTISED_HOST_NAME is not there 
+
+regarding second issue I'm not running anything before launching rest in docker, so probably im using the wrong docker containers.
+
+Thanks!
+
+
+Ah gotcha, in looking at the diff between master and that release it indeed has the hostname fix https://github.com/istresearch/scrapy-cluster/compare/v1.2.1...master but I didn't deem it worthy of a release. Feel free to move over to the Gitter chat for more informal questions not directly related to bugs.
+
+ Pass cookies through the distributed scheduler
+ Allow cookies to be passed between requests of the same domain.
+This was originally possible when using the master branch.
+
+[![Coverage Status](https://coveralls.io/builds/20083569/badge)](https://coveralls.io/builds/20083569)
+
+Coverage increased (+0.08%) to 70.941% when pulling **ee85bc754c2412ebff73c295ff7592a9b6b02cae on devspyrosv:patch-1** into **7e1e4971e9716f18836ea34d5c363d5fb6d6c3d0 on istresearch:dev**.
+
+

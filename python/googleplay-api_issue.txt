@@ -1,0 +1,983 @@
+﻿ BAD Authendication Error
+ ```
+/usr/local/lib/python2.7/dist-packages/urllib3/connectionpool.py:847: InsecureRequestWarning: Unverified HTTPS request is being made. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#ssl-warnings
+  InsecureRequestWarning)
+Traceback (most recent call last):
+  File "download.py", line 28, in <module>
+    api.login(GOOGLE_LOGIN, GOOGLE_PASSWORD, AUTH_TOKEN)
+  File "/home/malavan/googleplay-api/googleplay.py", line 135, in login
+    raise LoginError("server says: " + params["error"])
+googleplay.LoginError: u'server says: BadAuthentication'
+
+```
+ Download.py ERROR !!! HELPME 
+ D:\googleplay-api-master\googleplay-api-master>python download.py com.google.android.gm
+C:\Python27\lib\site-packages\urllib3\connectionpool.py:847: InsecureRequestWarning: Unverified HTTPS request is being made. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#ssl-warnings
+  InsecureRequestWarning)
+Traceback (most recent call last):
+  File "download.py", line 35, in <module>
+    ot = doc.offer[0].offerType
+  File "C:\Python27\lib\site-packages\google\protobuf\internal\containers.py", line 204, in __getitem__
+    return self._values[key]
+IndexError: list index out of range
+ Updated googleplay-api
+ Hi,
+
+I forked your code in this repo [0], and updated it with the following features:
+* password encryption for ac2dm login
+* ac2dm login workflow (checkin and device info upload)
+* updated API for search() and download() (the old one was causing problems and it wasn't able to find all the applications)
+* updated device information using data from a Nexus 6P. It is possible to add a custom device by adding it to the `device.properties`
+* added a setup.py for easy setup
+* both python2 and python3 compatible
+
+Since your project is no longer mantained, maybe you could provide a link to the new one, so people may contribute to it :)
+
+And of course, many thanks for you work.
+
+[0] https://github.com/NoMore201/googleplay-api
+ Error while downloading APK: HTTPSConnectionPool
+ Hi All,
+
+I am facing an error while downloading an apk:
+
+HTTPSConnectionPool(host='android.clients.google.com', port=443): Max retries exceeded with url: /fdfe/details?doc=com.facebook.lite (Caused by NewConnectionError('<requests.packages.urllib3.connection.VerifiedHTTPSConnection object at 0x108174950>: Failed to establish a new connection: [Errno 8] nodename nor servname provided, or not known',))
+
+Does anyone has got this error before or know how to fix it? Your response is highly appreciated.
+ Problem running search.py
+ Hello,
+after downloading and installing the project and configuring the properties in config.py, running 'python search.py earth' results in
+```
+Traceback (most recent call last):
+  File "search.py", line 45, in <module>
+    doc = message.doc[0]
+IndexError: list index out of range
+```
+
+What can I do to run the project properly?
+i same problem too.
+
+ Some apps are not downloading- IndexError: list index out of range
+ Package Name: com.philips.lighting.hue2
+Downloading 0.0bytes... commands {
+  displayErrorMessage: "Your device is not compatible with this item."
+}
+
+Traceback (most recent call last):
+  File "download.py", line 47, in <module>
+    data = api.download(packagename, vc, ot)
+  File "/Users/avinash.af.kumar/googleplay_client/googleplay.py", line 279, in download
+    cookie = message.payload.buyResponse.purchaseStatusResponse.appDeliveryData.downloadAuthCookie[0]
+  File "/Users/avinash.af.kumar/DSTENV/lib/python2.7/site-packages/google/protobuf/internal/containers.py", line 204, in __getitem__
+    return self._values[key]
+IndexError: list index out of range
+
+
+> Although my device is compatible with the app, I am having trouble downloading some apps?
+Can anyone tell me the reason?
+"Your device is not compatible with this item."
+
+Your list is probably empty?
+
+Experincing same problem, help.
+
+Well other than adding a check to see if the returned list is empty, try changing your device UA in `googleplay.py` to something more recent. E.g.:
+
+```
+
+            headers = { "Accept-Language": self.lang,
+                                    "Authorization": "GoogleLogin auth=%s" % self.authSubToken,
+                                    "X-DFE-Enabled-Experiments": "cl:billing.select_add_instrument_by_default",
+                                    "X-DFE-Unsupported-Experiments": "nocache:billing.use_charging_poller,market_emails,buyer_currency,prod_baseline,checkin.set_asset_paid_app_field,shekel_test,content_ratings,buyer_currency_in_app,nocache:encrypted_apk,recent_changes",
+                                    "X-DFE-Device-Id": self.androidId,
+                                    "X-DFE-Client-Id": "am-android-google",
+                                    #"X-DFE-Logging-Id": self.loggingId2, # Deprecated?
+                                    # "User-Agent": "Android-Finsky/4.4.3 (api=3,versionCode=8016014,sdk=22,device=GT-I9300,hardware=aries,product=GT-I9300)",
+                                    "User-Agent": "Android-Finsky/4.4.3 (api=3,versionCode=8016014,sdk=22,device=hammerhead,hardware=hammerhead,product=hammerhead)",
+                                    # "User-Agent": "Android-Finsky/3.7.13 (api=3,versionCode=8013013,sdk=22,device=crespo,hardware=herring,product=soju)",
+                                    "X-DFE-SmallestScreenWidthDp": "335",
+                                    "X-DFE-Filter-Level": "3",
+                                    "Accept-Encoding": "",
+                                    "Host": "android.clients.google.com"}
+```
+
+@4knahs : Thanks. It actually worked.
+
+ No request will be sent if the Token value is used
+ The file googleplay.py has a coding issue starting from line 109 
+
+```
+if (authSubToken is not None):
+            self.setAuthSubToken(authSubToken)
+        else:
+            if (email is None or password is None):
+                raise Exception("You should provide at least authSubToken or (email and password)")
+            params = {"Email": email,
+                                "Passwd": password,
+                                "service": self.SERVICE,
+                                "accountType": self.ACCOUNT_TYPE_HOSTED_OR_GOOGLE,
+                                "has_permission": "1",
+                                "source": "android",
+                                "androidId": self.androidId,
+                                "app": "com.android.vending",
+                                #"client_sig": self.client_sig,
+                                "device_country": "fr",
+                                "operatorCountry": "fr",
+                                "lang": "fr",
+                                "sdk_version": "16"}
+            headers = {
+                "Accept-Encoding": "",
+            }
+            response = requests.post(self.URL_LOGIN, data=params, headers=headers, verify=False)
+         
+```  
+
+ Error retrieving information from server. [RH-02]
+ I performed the following steps:
+Step 1: Use the email and password to generate token.
+Input: Email and password
+Result: Token and Auth parameters. I used the Token parameter as a Token.
+
+Step 2: Authenticate using the generated Token:
+Input: Token parameter with the value returned from Step1. And Email and password are NOT Submitted.
+Result: Login success with Auth parameter.
+
+Step 3: Get app data using https://android.clients.google.com/fdfe/details?doc={Package_Name}
+and auth= Returned authentication value from step 2.
+Result:
+Error 400 with the following details:
+
+HTTP/1.1 400 Bad Request [Content-Type: application/protobuf,  ...
+
+The error message:
+===============
+"31Error retrieving information from server. [RH-02]J"
+
+
+Does anyone see this issue before!
+
+Your quick help is highly appreciated.
+
+By the way, people recommend that error [RH-01] could be fixed by restarting the device but our error code is [RH-02] also we do not have a device to restart!
+
+Thanks,
+
+Sorry for the disturbance, but did anyone face this error before:
+"31Error retrieving information from server. [RH-02]J" 
+
+Same problem here, have you found a fix?
+
+ get details for excepted platform?
+ Can i get details only for x86 or arm? For now i get last version code. For example if application have different apk for different platforms i will get details for apk with last version code. But o need version code for excepted platform(for example arm)
+Hi, @d954mas ,
+If you see a branch of this project: 
+https://github.com/paolocalciati/googleplay-api
+You can see a new call that should obtain the reviews.
+I hope it helps you.
+Regards.
+
+ server says: BadAuthentication
+ hello,
+
+i get this issue, do you have solution for this issue? thanks
+I'm getting this same error but only when logging in with a phone
+
+I also have the same problem. I have just noticed that for some reason if I try to run the query over and over again it actually works (partially). Still have the problem in advance but the API actually shows signs of life.
+
+Same problem. It used to work, has the google API changed?
+
+same problem here :(
+
+Same problem 
+
+So, after a bit of experimenting, I couldn't get it to work via the username / password authentication - but I was able to get it working again with token authentication. 
+
+I used this repo to help generate a token - not sure yet how long the token lasts for, but I suspect I'll need to spin something up to generate tokens and store them in case it fails again.
+
+But at least it all works again :) 
+
+https://github.com/yeriomin/token-dispenser
+
+@louiscremen how to setting the token in googleplay-api? i have token-dispenser server
+
+Change AUTH_TOKEN to your token in config.py 
+
+```
+  | ANDROID_ID      = None # "xxxxxxxxxxxxxxxx"
+  | GOOGLE_LOGIN    = None # "username@gmail.com"
+  | GOOGLE_PASSWORD = None
+  | AUTH_TOKEN      = None # "yyyyyyyyy"
+
+```
+
+Or if you're using the googleplay object, just pass in the authSubToken as a parameter. Depends on how you're using the project.
+
+`def login(self, email=None, password=None, authSubToken=None):
+`
+
+@louiscremen 
+ ok, thanks, it works now :D
+
+@louiscremen Great! It works! Many thanks!
+
+@louiscremen how can us get the auth_token? 
+
+Hi @feng13314 ,
+
+I recommend following the instructions in the below project. You can set it up to generate static tokens in a text file, or a running server to generate tokens on demand. Depends on your needs.
+
+https://github.com/yeriomin/token-dispenser
+
+
+
+Hi @louiscremen ,
+
+     How long the auth_token's validity? Do you test it?
+
+
+I fixed this two days ago and the token is still valid. 
+
+I guess.. I won't know properly until it stops working. I'll post when that happens, I run this daily and  get daily emails based on the results of this script. 
+
+@louiscremen : I am trying the same method as you have guided earlier, but when I am configuring the MVN, It is generating an error relating some build error. Can you please help in configuring the token-dispenser project.
+
+@louiscremen : 
+avinash.af.kumar@AMAC02Q4JZ5G8WP ~/Desktop/apache-maven-3.2.2/bin $ mvn install
+[INFO] Scanning for projects...
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 0.072 s
+[INFO] Finished at: 2017-07-14T17:56:21+05:30
+[INFO] Final Memory: 6M/309M
+[INFO] ------------------------------------------------------------------------
+[ERROR] The goal you specified requires a project to execute but there is no POM in this directory (/Users/user1/Desktop/apache-maven-3.2.2/bin). Please verify you invoked Maven from the correct directory. -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MissingProjectExcept
+
+If you're having issues with building the token project, I recommend filing an issue in the token project. 
+
+Thanks a lot for your help you are very supportive. I had the same issue few days ago and I am using Akdeniz/google-play-crawler. 
+I applied your solution and I could generate token ID.
+Now I am trying to modify the Akdeniz's code to send the token ID. So I read the code for the googleplay.py (the login method).
+The login method as you said mandates either using user email and password or a token. 
+But the strange thing that the googleplay.py login just sets the token in the googleplay object and does not send it as a parameter to Google. So I am wondering what should be the parameter name and value for sending the token.
+
+I find this article useful https://sbktech.blogspot.ca/2014/01/inside-android-play-services-magic.html
+
+So I simulated the code by just calling the login method with 1) the email and password as null and 2) added Token parameter and 3) set the Android ID with my device Android ID but then I got error Forbidden which is mapped to BadAuthentication error!
+
+So can you please tell me the list of submitted parameters may be I missed a parameter.
+
+One last thing, I read the python files (download ...) they just call the login method then get the data.
+So we do not need to checkin we just call the authentication step with the token an Android ID correct?
+
+Your help is really appreciated !
+
+[Updated]:
+Now I could login I changed in the method that returns the Token instead of reading the auth parameter it reads the Token parameter.
+
+Now when I run the method to get the details I gt the following error:
+
+HTTP/1.1 400 Bad Request 
+Error retrieving information from server. [RH-02]
+
+Did anyone see this error before?
+
+People on the internet recommend that error [RH-01] could be fixed by restarting the device but our error code is [RH-02] also we do not have device to restart!
+
+
+well, this problem has been solved by using token, for the other problem please open new issue
+
+Thanks everyone for the effort.
+I used the recommended approach to get the Token.
+Then, I checked out the python code and run the download function and I get the Bad authentication error.
+
+The solution does not work at all!
+
+In addition, the googleplay.py script has a bug in line 109 (i.e., params ... ) . 
+This line should be on the same level as the if and else statements. I will open this coding bug in another issue.
+
+
+
+Thanks, everyone. The solution is working for me now. I am able to use token to search and download the apps.
+
+@avinashkmr632 So how it works for you. Can you please help. I have the following questions:
+
+1) The login method in the googleplay.py  does not send the Token parameter in the HTTP request so did you modified the code and added the Token parameter to the submitted parameters?
+2) The googleplay.py  does not send any request at all if the Token value is set, so did you fixed this bug in the googleplay.py  init method?
+3) Can you provide sample of the working code and working configuration (i.e, token)
+
+@louiscremen:
+Can you please tell me what is the problem in my code.
+
+Here is the detail error 
+
+```
+$ python download.py com.bfs.ninjump
+/lib/python2.7/site-packages/urllib3/connectionpool.py:852: InsecureRequestWarning: Unverified HTTPS request is being made. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#ssl-warnings
+  InsecureRequestWarning)
+Response for login is <Response [403]>
+Traceback (most recent call last):
+  File "download.py", line 29, in <module>
+    api.login(GOOGLE_LOGIN, GOOGLE_PASSWORD, AUTH_TOKEN)
+  File "/PythonCrawler/googleplay-api/googleplay.py", line 140, in login
+    raise LoginError("server says: " + params["error"])
+googleplay.LoginError: u'server says: BadAuthentication'
+
+```
+I logged all the sent parameters and I removed the android ID from the logging
+
+
+Here is also the modified code:
+
+```
+
+    def login(self, email=None, password=None, authSubToken=None):
+        """Login to your Google Account. You must provide either:
+        - an email and password
+        - a valid Google authSubToken"""
+        print "Login with parameters authSubToken [%s] " % authSubToken
+        if (authSubToken is not None):
+            self.setAuthSubToken(authSubToken)
+        else:
+            if (email is None or password is None):
+                raise Exception("You should provide at least authSubToken or (email and password)")
+        params = {
+                "Tocken": self.authSubToken,
+                "service": self.SERVICE,
+                  "accountType": self.ACCOUNT_TYPE_HOSTED_OR_GOOGLE,
+                  "has_permission": "1",
+               "source": "android",
+               "androidId": self.androidId,
+                "app": "com.android.vending",
+                    #"client_sig": self.client_sig,
+                "device_country": "fr",
+                "operatorCountry": "fr",
+                "lang": "fr",
+                "sdk_version": "16"}
+        headers = {
+                "Accept-Encoding": "",
+            }
+        print "Login with parameters params [%s] " % params
+
+        response = requests.post(self.URL_LOGIN, data=params, headers=headers, verify=False)
+        print "Response for login is %s" % response
+        data = response.text.split()
+        params = {}
+        for d in data:
+            if not "=" in d: 
+                continue
+            k, v = d.split("=")
+            params[k.strip().lower()] = v.strip()
+            if "auth" in params:
+               self.setAuthSubToken(params["auth"])
+            elif "error" in params:
+               raise LoginError("server says: " + params["error"])
+            else:
+               raise LoginError("Auth token not found.")
+
+```
+
+When I revert back to the old code I get the following error:
+
+```
+(ENV) Safwats-MacBook-Pro: ~/Desktop/Learn/Scrapy/ENV/PythonCrawler/googleplay-api2 $ python download.py com.facebook.katana
+/lib/python2.7/site-packages/urllib3/connectionpool.py:852: InsecureRequestWarning: Unverified HTTPS request is being made. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#ssl-warnings
+  InsecureRequestWarning)
+Traceback (most recent call last):
+  File "download.py", line 34, in <module>
+    ot = doc.offer[0].offerType
+  File "/lib/python2.7/site-packages/google/protobuf/internal/containers.py", line 204, in __getitem__
+    return self._values[key]
+IndexError: list index out of range
+
+```
+
+Actually, I did not change much in the code. I just added the Auth Token in config.py file and everything worked smoothly.  Just try generating the Auth Token from https://github.com/yeriomin/token-dispenser 
+
+Just download the fresh code. Edit all the field in config.py and also add the Auth Token generated. And try running the code. I hope you will get the result. 
+
+@SafwatHassan :IndexError might be coming because of this issue.
+https://github.com/egirault/googleplay-api/issues/73.
+Check this once.
+
+![screen shot 2017-07-19 at 1 08 20 pm](https://user-images.githubusercontent.com/22906073/28356708-a2619c6a-6c86-11e7-9b33-b6cd344223d1.png)
+
+
+@avinashkmr632 So I did as you recommended:
+1) Checked out the latest googleplay-api code.
+2) Used the project token-dispenser to generate token
+
+I tried both running the Spark server or using a simple java code that calls the token generation:
+
+```
+
+package com.github.yeriomin.tokendispenser;
+
+import java.io.IOException;
+
+public class TokenGenerator
+{
+	public static String generateAc2dmToken(String email, String password) throws IOException 
+	{
+		TokenAc2dmResource ac2dmResource = new TokenAc2dmResource();
+		String tokenValue = ac2dmResource.getToken(email, password);
+		return tokenValue;
+	}
+
+	public static String generateGeneralToken(String email, String password) throws IOException 
+	{
+		TokenResource tokenResource = new TokenResource();
+		String tokenValue = tokenResource.getToken(email, password);
+		return tokenValue;
+	}
+
+	
+	public static void main(String[] args) throws Exception
+	{
+		String generalToken = generateGeneralToken("NewCrawler20@gmail.com","Crawler_PW_20");
+		System.out.println("The general token is [" + generalToken +"]");
+		
+		String ac2dmToken = generateAc2dmToken("NewCrawler20@gmail.com","Crawler_PW_20");
+		System.out.println("The AC2DM token is [" + ac2dmToken +"]");
+	}
+}
+
+```
+
+3) Added the configuration for my device, email, password, and Token.
+**I used the General token (not the AC2DM one).**
+
+4) Changed the googleplay.py file as recommended in the issue #73 
+
+```
+/PythonCrawler $ diff googleplay-api3/googleplay.py googleplay-api2/googleplay.py
+130c130,132
+<                 k, v = d.split("=")
+---
+>                 matchObj  = re.match("([^=]+)=(.*)",d)
+>                 k=matchObj.group(1)
+>                 v=matchObj.group(2)
+
+```
+
+
+5) Run the code and I still get the error:
+
+```
+
+/PythonCrawler/googleplay-api2 $ python download.py com.facebook.katana
+/lib/python2.7/site-packages/urllib3/connectionpool.py:852: InsecureRequestWarning: Unverified HTTPS request is being made. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#ssl-warnings
+  InsecureRequestWarning)
+Traceback (most recent call last):
+  File "download.py", line 34, in <module>
+    ot = doc.offer[0].offerType
+  File "/lib/python2.7/site-packages/google/protobuf/internal/containers.py", line 204, in __getitem__
+    return self._values[key]
+IndexError: list index out of range
+
+```
+
+
+
+
+
+@avinashkmr632 
+1) I used both general token and the ac2dm tokens and does not work.
+2) Can you print one value for valid token so i test with it.
+3) Is the InsecureRequestWarning is an issue (see my logs).
+4) I do not expect that the googleplay.py sends any request at all when the Token value is set.
+So could you please make diff between the googleplay.py on git hub and your local file.
+I just need to see the changed lines.
+
+The issue is solved, I was using my actual device ID and when I used the testing Device ID it works.
+Thanks @avinashkmr632 for your help! 
+
+@SafwatHassan : Great Work.
+
+@avinashkmr632 
+
+Can you please tell me how you generate the Auth token ? I followed  [https://github.com/yeriomin/token-dispenser](url) for generating Auth token but iam getting the error when i did the step 4 mvn install 
+
+sarath@agaze-dev-001:~/Desktop/GooglePlay/token-dispenser-master$ mvn install
+[INFO] Scanning for projects...
+[INFO]                                                                         
+[INFO] ------------------------------------------------------------------------
+[INFO] Building token-dispenser 0.2
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ token-dispenser ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 2 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.6.1:compile (default-compile) @ token-dispenser ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 9 source files to /home/sarath/Desktop/GooglePlay/token-dispenser-master/target/classes
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 4.827 s
+[INFO] Finished at: 2017-07-31T21:23:57+05:30
+[INFO] Final Memory: 10M/211M
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.6.1:compile (default-compile) on project token-dispenser: Fatal error compiling: invalid target release: 1.8 -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoExecutionException
+
+
+
+
+
+ ValueError: too many values to unpack, how to fix it?
+ Start this month i got this error in many times, sometimes the api works great, but sometimes i got this.
+`Traceback (most recent call last):
+api.login(GOOGLE_LOGIN, GOOGLE_PASSWORD, AUTH_TOKEN)
+k, v = d.split("=")
+ValueError: too many values to unpack`
+
+
+Please help, how to fix it?
+
+Check googleplay.py somewhere around line 130 there is a split, replace it with this:
+
+```
+matchObj  = re.match("([^=]+)=(.*)",d)
+k=matchObj.group(1)
+v=matchObj.group(2)
+```
+
+Problem is that tokens can have the char '=' in them, so the split would return more than two values.
+
+so, i have to replace this
+`k, v = d.split("=")`
+with
+`matchObj  = re.match("([^=]+)=(.*)",d)
+k=matchObj.group(1)
+v=matchObj.group(2)`
+
+?
+
+Yes, except you need some new lines there...
+
+Replace the line:
+
+```
+k, v = d.split("=")
+```
+
+With these 3 lines:
+
+```
+matchObj  = re.match("([^=]+)=(.*)",d)
+k=matchObj.group(1)
+v=matchObj.group(2)
+```
+
+If you are not familiar with python note that code should be aligned. 
+
+it works thanks
+
+I have the same problem and I tryed with your suggest but I'm receiving the following error:
+  matchObj  = re.match("([^=]+)=(.*)",d)
+NameError: global name 're' is not defined
+
+The code is the following:
+            for d in data:
+                if not "=" in d: continue
+                #raise LoginError("El valor de la variable antes de hacer el split es: " + d)
+                #k, v = d.split("=")
+                matchObj  = re.match("([^=]+)=(.*)",d)
+                k=matchObj.group(1)
+                v=matchObj.group(2)
+                params[k.strip().lower()] = v.strip()
+            if "auth" in params:
+                #print("Auth-Token found: %s" % params["auth"])
+                self.setAuthSubToken(params["auth"])
+            elif "error" in params:
+                raise LoginError("server says: " + params["error"])
+            else:
+                raise LoginError("Auth token not found.")
+
+Could you help me please? how I can fix it?
+
+Hola Pedro! :)
+
+The error is explicit, there is no 're'. 
+
+It is the python regex library so you just need to import it on the top of the file : `import re`
+
+
+
+Hola Mario, 
+
+Muchas gracias por tu rápida respuesta.
+
+Veras, soy un estudiante de la Universidad de Baleares que esta haciendo un trabajo de fin de grado con la ayuda de esta herramienta.
+
+El tema es que he implementado varios scripts usando las llamadas que proporciona este "crawler" y durante estos meses nunca había tenido ningún problema.
+
+El problema es que como comenta el anterior usuario desde hace unos días recibo múltiples errores. 
+
+Es verdad que con lo que has comentados se ha solventado (disculpa mi anterior comentario) lo solvente rápidamente (me precipite preguntando). 
+
+El tema es que ahora, en la respuesta de la llamada, recibo mucha información (no necesaria) que antes no recibía. Por ejemplo, para la llamada de los permisos (véase el fichero .txt adjunto - (las primeras líneas no las tengas en cuenta son el resultado de intentar debuggear el código). 
+
+Como podrás ver recibo mucha información no necesaria y al final de la respuesta lo que si interesa (que era lo que devolvía antes).
+
+¿Tienes alguna idea de que puede pasar? ¿O de como podría arreglarlo?
+
+Muchas gracias por tu amabilidad.
+[prueba.txt](https://github.com/egirault/googleplay-api/files/1026332/prueba.txt)
+
+
+
+
+Hi Pedro,
+
+The APIs from google play (server side) are constantly changing and so is their return. Since the project maintainer is not around anymore either look for forks or alternative projects.
+
+I only use this project for downloading apps so i cant comment on the data it retrieves. For retrieval i use the following: https://github.com/facundoolano/google-play-scraper 
+
+Look at this example: http://www.marioalmeida.eu/2017/03/01/700/
+
+
+Hi Mario,
+
+I'm sorry for my last spanish post, I thought that you was Spanish.
+
+Many thanks for your help. But, I'm receiving (also) the following error : 
+'server says: BadAuthentication' 
+I'm confused about this, because usually the response is correct but sometimes I receive this error. Do you have this problem sometimes?
+
+On the other hand, I could see your blog and I think that it's fantastic. 
+
+Would you mind if I ask you a few things about this? If you prefer I can to contact you for email.
+
+Many thanks.
+
+Regards,
+Pedro
+
+
+The bad authentication is a recurring problem atm with this tool (1-2 out 3).
+
+Perhaps try reusing the token you get via authentication, I havent debugged this yet.
+
+You can use the blog message system, stackoverflow (and send link somehow) or (worst case scenario :P ) email...
+
+ya is also got this issue, bad auth problem but sometimes.. 
+maybe there is new login method from google service?
+
+I got same error 
+
+usr/lib/python2.7/dist-packages/urllib3/connectionpool.py:845: InsecureRequestWarning: Unverified HTTPS request is being made. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#ssl-warnings
+  InsecureRequestWarning)
+Traceback (most recent call last):
+  File "download.py", line 28, in <module>
+    api.login(GOOGLE_LOGIN, GOOGLE_PASSWORD, AUTH_TOKEN)
+  File "/root/Desktop/googleplay-api/googleplay.py", line 138, in login
+    raise LoginError("server says: " + params["error"])
+googleplay.LoginError: u'server says: BadAuthentication'
+
+
+badauthentication is the current issue,, i also have this issue
+
+@PedroGalindo @Murthysagi 
+BadAuthentication is solved #74 
+
+ API is dead by now !
+ Important: ClientLogin has been officially deprecated since April 20, 2012 and is now no longer available. Requests to ClientLogin will fail with a HTTP 404 response. We encourage you to migrate to OAuth 2.0 as soon as possible.
+Google hint: https://developers.google.com/identity/protocols/AuthForInstalledApps
+https://github.com/egirault/googleplay-api/blob/master/googleplay.py#L41
+Regarding the ClientLogin, the last time I checked, on Jan as I remember, it still worked, but now it is not working anymore
+Do you have any idea why Google left  it last for about 5 years before officially terminating it?
+
+@nguyenvulong
+Don't know exactly the google strategies AND also don't know why there is no official API from google until 2017 !!
+If you know how we should send an API request to google i'm glad to begin
+
+@IMAN4K  
+I found this project, which is derived (indirectly) from  egirault's work
+Seems like it's working with the new APIs of Google Play Store
+
+See here: https://github.com/yeriomin/YalpStore
+
+ Any known limitation of amount of downloads in given time ?
+ Anyone knows what actual limitations are placed by Google to prevent too many downloads ? 
+(What amount in what given time).
+Thank you.
+ ERRER
+ ![Uploading 1.JPG…]()
+
+ < Working >
+ 
+ Tracking installs
+ Hi guys, I want to know does Play Store counts downloads made with `googleplay-api`?
+
+I want to keep my stats clean, so, please tell me if you know for sure.
+
+ Download error on some apps error 104
+ I got error
+`requests.exceptions.ConnectionError: ('Connection aborted.', error(104, 'Connection reset by peer'))`
+on some apps like com.reddit.frontpage , se.feomedia.pixduel.us.lite and more
+but some can download some apps.
+
+I don't know what is the problem, i tried it on 1st vps i cannot download reddit, but if i try in 2nd vps i can download it.
+
+full error trackback
+Traceback (most recent call last):
+  File "/home/download.py", line 38, in <module>
+    data = api.download(packagename, vc, ot)
+  File "/home/googleplay.py", line 281, in download
+    response = requests.get(url, headers=headers, cookies=cookies, verify=False)
+  File "/usr/local/lib/python2.7/dist-packages/requests/api.py", line 71, in get
+    return request('get', url, params=params, *_kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/requests/api.py", line 57, in request
+    return session.request(method=method, url=url, *_kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/requests/sessions.py", line 475, in request
+    resp = self.send(prep, *_send_kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/requests/sessions.py", line 606, in send
+    history = [resp for resp in gen] if allow_redirects else []
+  File "/usr/local/lib/python2.7/dist-packages/requests/sessions.py", line 179, in resolve_redirects
+    *_adapter_kwargs
+  File "/usr/local/lib/python2.7/dist-packages/requests/sessions.py", line 585, in send
+    r = adapter.send(request, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/requests/adapters.py", line 453, in send
+    raise ConnectionError(err, request=request)
+requests.exceptions.ConnectionError: ('Connection aborted.', error(104, 'Connection reset by peer'))
+
+ versionString is missing in search results
+ can we have versionString value which is present in single appDetails result but not in search result? it has only versionCode 
+
+```
+ [details] => stdClass Object
+                        (
+                            [appDetails] => stdClass Object
+                                (
+                                    [packageName] => com.skype.raider
+                                    [installationSize] => 40188184
+                                    [uploadDate] => 25-Apr-2016
+                                    [file] => Array
+                                        (
+                                            [0] => stdClass Object
+                                                (
+                                                    [versionCode] => 102695621
+                                                    [fileType] => 0
+                                                    [size] => 40188184
+                                                )
+
+                                        )
+
+                                    [versionCode] => 102695621
+                                    [numDownloads] => 50,00,00,000+ downloads
+                                )
+
+                        )
+```
+
+ya, i got this problem too, btw did you got the way to get versionString?
+
+
+no
+On 27-May-2016 5:50 PM, "jr3074" notifications@github.com wrote:
+
+> ya, i got this problem too, btw did you got the way to get versionString?
+> 
+> —
+> You are receiving this because you authored the thread.
+> Reply to this email directly, view it on GitHub
+> https://github.com/egirault/googleplay-api/issues/66#issuecomment-222132401,
+> or mute the thread
+> https://github.com/notifications/unsubscribe/ACiO-B8o35IqRLOmnNiPFWSxUaF5wsHwks5qFuGegaJpZM4IRo4w
+> .
+
+
+did you have another way to get version of apps?
+
+
+no bruh, i had to get it from app details results not from search results :(
+
+On 27/05/2016, jr3074 notifications@github.com wrote:
+
+> did you have another way to get version of apps?
+> 
+> ---
+> 
+> You are receiving this because you authored the thread.
+> Reply to this email directly or view it on GitHub:
+> https://github.com/egirault/googleplay-api/issues/66#issuecomment-222133168
+
+
+Yes the search results don't provide much data.
+This api can't go beyond what the actual play store provides.
+If you take a look at the play store search it will list the apps and let you install them.
+To install the app you need the versionCode only, the versionString being useless is not returned in the data.
+
+
+ This item cannot be installed in your country.
+ I got an error "This item cannot be installed in your country.". Is there any parameter to set the country?
+
+I'm also interested in this one.
+
+
+@GoyfAscetic You should use corresponding proxy to download apps belongs to specific country. For example.
+
+
+ download obb file associated with the apk file
+ Hello,
+
+Thank you for the great app.
+
+How can I download OBB files associated with the apk file? e.g. in the com.ppsgandroid.clashofgods application, the apk file is 19MB while the OBB file is around 160MB.
+
+Thanks
+
+ A new page of downloading and analysing  googleplay apk
+ Hello everyone :smile:
+
+Me and my friends forked this repo and continue to work on.
+Now we have web interface to view the scan results of Virustotal.
+
+And we'll continue to work on some other issues.
+
+Here's the new repo:  https://github.com/APK-insight/gplay-apk-analysis
+Any question or PR is welcomed.
+
+Thank you. :fireworks: 
+
+aha, good news for me.
+
+
+ Google App Engine?
+ Anybody else had trouble running this library on the GAE?  I've got it working great locally, but once I deploy the same code is giving me a ConnectionError: ('Connection aborted.', error(13, 'Permission denied')) when I attempt api.login().
+I'm thinking maybe this api is being blocked on the GAE, just wondering if others are getting the same result.
+
+ Unauthorized - Error 401
+ I am trying to use this api for a day now.
+1. First i encountered a problem when trying to call categories.py, I got this as response: 
+information from server. [RH-01]
+1. Iv'e noticed that that the library used     SERVICE = "androidmarket"  when trying to login. which was weird because android market is dead. changed it to     SERVICE = "googleplay" and the problem was gone.
+2. now im getting: 
+   `
+   HTML>
+   HEAD>
+   TITLE>Unauthorized</TITLE>
+   /HEAD>
+   BODY BGCOLOR="#FFFFFF" TEXT="#000000">
+   H1>Unauthorized</H1>
+   H2>Error 401</H2>
+   /BODY>
+   HTML>
+   `
+   as a response to categories.py call.
+
+please help :) 
+
+P.S for all stages I got OK from the login call (got back auth and a token)
+
+ MessageMicro is now MessageNano
+ The previous androproto.py relied on the parent class that implemented protobuf fields to be of type MessageMicro. I changed the strings "MessageMicro" to "MessageNano". I got some output for some fields, but most of the object definitions were blank. I think the script needs to be relooked at, otherwise we will have to look at smali code to find fields.
+
+ Login Error: googleplay.LoginError: u'server says: ServerError'
+ Login Error: googleplay.LoginError: u'server says: ServerError'
+
+Is the login url down?
+https://android.clients.google.com/auth
+
+How to fix it? Thanks.
+
+Same problem here. Google's servers are responding with error code 500.. This Hasn't happened before December 2015. 
+
+
+ Getting error as 'Need Browser' while sign in to google play.
+ Hi,
+
+I am getting issue while trying to sign in into google account. I have automated script to download the apk file from Google Play store. The script was running fine till last week. But, recently getting error as Need Browser. Bellow is the error - 
+
+Exception in thread "main" com.akdeniz.googleplaycrawler.GooglePlayException: Error=NeedsBrowser
+Url=https://accounts.google.com/ContinueSignIn?sarp=1&scc=1&continue=https%3A%2F%2Faccounts.google.com%2Fo%2Fandroid%2Fauth%3Fhl%3Den_us%26xoauth_display_name%3DAndroid%2BLogin%2BService%26source%3DAndroid%2BLogin&plt=AKgnsbvpYOFQNYD02v2gawgW73Qa_H9ymB1OhI6mqifo1tfMndMaVWA6wyfuVSN94w4003Kc6lz9gJ51fjnAY97fXoMvEHTlV0AqVIwRpHNwcNMS50dFsO7e7dveFv-8HhJRvfDHHruJy7MJH-Gq808p3U_LANxN0g0irHHDcf3o4TjFQC1GHpg2abYrIkPYuea4qVhzHgN2gI7tduYeFF7VTSLhQ-SQIHWLmgMhnfrTGMBsgWUPN7w
+ErrorDetail=To access your account, you must sign in on the web. Touch Next to start browser sign-in.
+at com.akdeniz.googleplaycrawler.GooglePlayAPI.executeHttpRequest(GooglePlayAPI.java:522)
+at com.akdeniz.googleplaycrawler.GooglePlayAPI.executePost(GooglePlayAPI.java:482)
+at com.akdeniz.googleplaycrawler.GooglePlayAPI.executePost(GooglePlayAPI.java:462)
+at com.akdeniz.googleplaycrawler.GooglePlayAPI.loginAC2DM(GooglePlayAPI.java:180)
+at com.akdeniz.googleplaycrawler.GooglePlayAPI.checkin(GooglePlayAPI.java:160)
+at com.info.playservice.GooglePlayService.createService(GooglePlayService.scala:49)
+at com.info.playservice.GooglePlayService.loginToPlayService(GooglePlayService.scala:79)
+at com.info.playservice.GooglePlayService.<init>(GooglePlayService.scala:36)
+at com.info.boot.free.BootFreeApps$delayedInit$body.apply(BootFreeAppsSelenium.scala:24)
+at scala.Function0$class.apply$mcV$sp(Function0.scala:40)
+at scala.runtime.AbstractFunction0.apply$mcV$sp(AbstractFunction0.scala:12)
+at scala.App$$anonfun$main$1.apply(App.scala:71)
+at scala.App$$anonfun$main$1.apply(App.scala:71)
+at scala.collection.immutable.List.foreach(List.scala:318)
+at scala.collection.generic.TraversableForwarder$class.foreach(TraversableForwarder.scala:32)
+at scala.App$class.main(App.scala:71)
+at com.info.boot.free.BootFreeApps$.main(BootFreeAppsSelenium.scala:20)
+at com.info.boot.free.BootFreeApps.main(BootFreeAppsSelenium.scala)
+
+Currently, I am using googleplaycrawler-0.3.jar to download apk files from play store. Can you please help me to resolve this issue.
+
+Thanks,
+Sayali
+
+ VersionCode is empty?
+ when I call detail method get the details.appDetails.versionCode value always is 0,versionstring isemtpy?
+
++1
+
+
+No versionCode key for Application -> com.clearchannel.iheartradio.tv
+
+
+Same thing happen to me, while for some situation it works. Most time there's no versionCode,  versionString or installationSize.
+
+ Fix typographical error(s)
+ @egirault, I've corrected a typographical error in the documentation of the [googleplay-api](https://github.com/egirault/googleplay-api) project. Specifically, I've changed catagories to categories. You should be able to merge this pull request automatically. However, if this was intentional or if you enjoy living in linguistic squalor, please let me know and [create an issue](https://github.com/thoppe/orthographic-pedant/issues/new) on my home repository.
+
+ How to get promotionalDescription?
+ Is there a way to retrieve the short promotional text? For example, visiting the play store app on an Android phone, and search for Skype. The app detail page contain the promotional text "Skype video and voice calls, instant messaging and cheap international calls". Note that it's not the first sentence of the app description.
+Looking at the .proto file, [ExtendedInfo.promotionalDescription](https://github.com/egirault/googleplay-api/blob/master/googleplay.proto#L1211) seems to contain this information. However, I don't know how to construct a valid request.
+
+Thanks
+
+After some digging, I found out that the raw response already contain this information. It didn't show up in the parsed object because the proto file's DocV2 type didn't include this particular tag. I was able to find the correct tag number and update the proto file using the following steps:
+- save the raw response body to a file (e.g. raw_response.bin)
+- use protoc to parse it and manually examine the output `protoc --decode_raw < raw_response.bin
+- append line `optional string promoText = 27;` to `message DocV2` in googleplay.proto
+- recompile: `protoc --python_out=./ googleplay.proto`
+  As you can see, the proto file in the master branch is slightly outdated. The above method can help others to find and add other fields.
+
+
+ Changing Architecture
+ Is it possible to set the architecture when downloading an apk? I used an emulator to get an android device id and therefor my downloaded apks are for x86, not arm. Is there a way to fix this?
+
+Hello,
+I have no idea if the architecture depends on one of the HTTP headers (such
+as the User-Agent) or if it is bound to the device id; in that case one
+would have to reverse the device id generation (and somehow spoof the
+architecture) or use a physical ARM device.
+
+2015-09-02 21:07 GMT+02:00 Peter Burkert notifications@github.com:
+
+> Is it possible to set the architecture when downloading an apk? I used an
+> emulator to get an android device id and therefor my downloaded apks are
+> for x86, not arm. Is there a way to fix this?
+> 
+> —
+> Reply to this email directly or view it on GitHub
+> https://github.com/egirault/googleplay-api/issues/54.
+
+
+As far as I know, in general there is the same APK file for arm and x86. In the subfolders of the resources, you can find x86, ARM and MIPS binarys compiled for the different architecture.
+
+

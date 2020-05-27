@@ -1,0 +1,110 @@
+﻿ Adds HasValue
+ Resolves #140 by adding `HasValue` that supports value types and reference types.
+ Updates external NuGet dependencies
+ 
+ Removes members marked as obsolete
+ 
+ Solves #135 by adding netstandard2.0 support back in
+ 
+ Add Flags support to Enum.IsDefined
+ @ndrwrbgs Instead of opening an issue, I though it would be nicer to submit this as PR. 😃 
+ Implement enum validation
+ Fixes #117
+ Readonly structs
+ https://devblogs.microsoft.com/premier-developer/the-in-modifier-and-the-readonly-structs-in-c/
+
+ IsPositive, IsNegative, IsNotNegative, IsApproximately
+ In regards to Issue #71:
+
+- Added IsPositive, IsNegative, IsNotNegative, IsApproximately methods and extensions
+- Added 16 new unit tests to cover the new methods
+ Azd
+ 
+ Fixes status badge link
+ 
+ Replaces Cake with Azure Pipeline YAML and tests for multiple targets
+ 
+ Replace IEnumerable.Count() with .Any()
+ Using `.Any()` may be slightly faster then `.Count()`. Because `Count()` method have to iterate through all elements of `IEnumerable` while for `Any()` iterating first element is enough.
+
+Also there was suspicious `#if` directive with same code in both branches.
+ Fix inconsistent WhiteSpace naming
+ There's an inconsistent usage of the keyword _whitespace_. While for the `IsNotNullOrWhiteSpace` validation it's used with an upper S, for the `IsNotEmptyOrWhitespace` doesn't, so I just replaced all the occurrences of _Whitespace_ for _WhiteSpace_, even though I'd rather use the former.
+ Added default message and param to OptsFn
+ I'd like to offer this change.
+The idea of this is to have default message as well as param name in the OptsFn. 
+In our case, we want to override the thrown exceptions by our ones, so we could easily handle them. However, we don't want to lose the message (which contains all provided values to the ensure). 
+For instance, if we have:
+`Ensure.String.HasLengthBetween(name, 0, 10, nameof(Name));`
+The default exception and message would "ArgumentException" and "The string is too long. Must be between '0' and '10'.
+But we want to catch only validation errors, so we could show the administrator what the issue is. That means that "ArgumentException" is a bit too risky for us.
+So the desired outcome would be exception of our type, let's say, "DomainValidationException" and message to remain the same. With ".WithException" we would need to duplicate the given arguments as well as the message, for example:
+`Ensure.String.HasLengthBetween(name, 0, 10, nameof(Name), o => o.WithException(new DomainValidationException("The string is too long. Must be between '0' and '10'.", nameof(Name))));`
+Which means that if range changes, it might be that developer wouldn't change the message.
+Also, the code looks abit noisy.
+The solution with given changes would be:
+`Ensure.String.HasLengthBetween(name, 0, 10, nameof(Name), EnsureHelper.WithValidationException);`
+Where EnsureHelper would have such property:
+`public static OptsFn WithValidationException => (options, defaultMessage, paramName) => options.WithException(new DomainValidationException(defaultMessage, paramName));`
+Way cleaner, isn't it? 
+However, current solution means breaking changes, because it requires to change the OptsFn delegate. I could offer another solution: pass the default message and param name to EnsureOptions' constructor. Then such change would not be a breaking one. I could make such change if needed. 
+ Azure devops
+ 
+ Fix broken String.IsNotEmptyOrWhitespace
+ The code and tests related to #102 miss the case where a string has content.
+
+This PR adds an extra case for that scenario and alters the current implementation accordingly.
+ v8.1.0
+ - Adds `IsEmptyOrWhiteSpace`
+- Makes use of `ContractAnnotationAttribute`
+ Add ContractAnnotations to ValidatedNotNull arguments for R# support
+ Fixes #106 
+ Fixes #86 - implement allowing subclasses for IsOfType
+ Fixes #86 - implement allowing subclasses for IsOfType
+ Starting template for benchmark based unit tests
+ 
+ Add feature and Tests for #102
+ Add 
+```
+Ensure.That(string value).IsEmptyOrWhitespace()
+Ensure.String.IsEmptyOrWhitespace(string)
+```
+
+and Tests
+ [INCOMPLETE] Use the concrete type instead of the interface to avoid CallVirt
+ As-is this breaks on/off functionality. Was that still planning to be removed in v8?
+
+As a side note, I realized that nuget packages have props/targets files. With these, it's possible for us to use `[ConditionalAttribute]` with a constant we define in the nuget-imported targets file (unless consumer specifies some `PropertyGroup` item that tells us not to. This would give us the 'Not' version we wanted for that.
+
+If you're interested in that approach, I will do a proof of concept. If you're just getting rid of On/Off altogether I'm fine with that since no one seems to need it yet, and we can investigate the option later if/when someone asks.
+ Convert Param.DefaultName to static readonly for inlining purposes
+ 
+ Avoid having to allocate a null StingComparer just to not use it
+ 
+ Add Benchmark project and setup with initial test
+ 
+ StartsWith validation for Ensure.That
+ #71 StartsWith for string
+ Simplify tests by using a common interface for all ensure types
+ Use a common interface (even if we don't expose this interface later for perf, still able to use one for the tests) to simplify the test implementation.
+
+If we do this, I'll
+ - [ ] look into the ability to remove the RunTest from the methods
+ - [ ] convert existing tests
+ - [ ] simplify the calls to ShouldThrow() that were there to simplify calling FluentAssertion's AssertionExtensions.ShouldThrow() on multiple targets, now that each test will only be written against 1 target but run against all 3
+
+This approach has the side benefit of helping to ensure all 3 APIs are kept in sync by accessing them for test via a common interface.
+ Test group-by-method proposal
+ Motivation: my largest hindrance to adding code has been trying to figure out the test patterns (specifically organization & naming). I'd like to suggest the following to reduce duplication.
+
+Suggestion is to group test methods as follows:
+
+ClassName: <ClassUnderTest>Tests
+Nested class name: <MethodUnderTest>
+Test name: for now I keep existing
+
+If you like this change I will apply it more broadly.
+ Feature v8
+ 
+ Resolves bug with optsFn not being passed down
+ 

@@ -1,0 +1,97 @@
+﻿ Fix ietf link
+ - Fix ietf link 🛫
+ Made some grammar and block indentation changes
+ 
+ Properly handle missing fields
+ CocoaPods 1.6 is writing a new PBXAggregateTarget section which contains node without `productName` key. As a result running xUnique against the Pods.xcodeproj resulted in the following error:
+
+``` 
+  File "build/bdist.macosx-10.12-intel/egg/xUnique.py", line 140, in __set_to_result
+KeyError: u'productName'
+```
+
+The fix modifies the `__set_to_result` method making it (naively) resilient to the missing key.
+ Added solution to remove blocks correctly
+ Try to addressing #38 by detecting '{\n' in line end if this line wou…ld be removed. and delete all lines when meeting corresponding '};\n'. Matches done by the same count of leading whitespaces.
+
+assuming this to be removed line would start with a UUID with leading whitespaces
+ sort sections
+ as #17, I rewrote sort to support sorting sections. This will ease the pain of Xcode reordering sections and causing huge modifications.
+
+ Fixes pip install
+ 
+ add python3 compatibility
+ 
+ Add podspec + shell script, update README
+ This PR:
+- Adds a podspec which only preserves paths (allowing CocoaPods to download files without having them included in your actual project) and a shell script to facilitate running xUnique when installed via CocoaPods
+- Adds instructions for use of the podspec and shell script
+- Does a bit of grammatical cleanup on the rest of the README
+
+Would love to hear any questions or thoughts you have. Thank you!
+
+ Jwight/pep8
+ 
+ Provides a console script for xunique.
+ Adds a console script entry point to setup.py
+Adds a new `cli` function to xUnique.py that takes zero parameters and
+calls straight into main() with sys argue.
+
+(The purpose of this is to allow easy installation and execution of xunique for people not too familiar with python, or who don't want to track down where xUnique.py was called from)
+
+ add `cocoapods support` document
+ [Cocoapods](http://cocoapods.org/) is a common tool for iOS development stuff,  adding "cocoapods support document" makes sense of convenience for preventing being confused to many developers I think.
+
+ Change threaded client test to test ssl socket
+ This change tests the bug that was fixed in pull request #212 . The call to `self.assertTrue(c._th.is_alive())` would fail before the changes in that pull request.
+
+I decided to just modify the existing test. Let me know if you'd prefer a new separate test instead.
+ Block on receiving from SSL socket
+ This fixes a bug where not receiving any bytes immediately from an SSL socket would be considered a socket error and the connection would be closed. This changes the code to block and wait for bytes from the SSL socket.
+
+To test, I used the example DummyClient script in the [tutorial](https://ws4py.readthedocs.io/en/latest/sources/clienttutorial/#built-in) and pointed it to "wss://echo.websocket.org". Without this change, the example script closes the connection without receiving any messages. With the change, the expected behavior occurs.
+ fixes parsed hostname
+ This will also fix lxdock/lxdock#52
+ change cherrypy.wsgiserver to cheroot.server
+ change cherrypy.wsigiserver because delete cherrypy.wsgiserver in cherrypy. 
+see https://github.com/cherrypy/cherrypy/commit/929695cd3efedcb3e416b84d3369b33f1ee96f4f.
+ This change is to address the issue with run_forever() terminating too early.
+ https://github.com/Lawouach/WebSocket-for-Python/issues/152
+ Don't crash with broken pipe when trying to close a connection
+ I am still encountering this issue with the latest version of ws4py. ( #150 )
+
+My error was:
+
+```
+INFO:ws4py:Managing websocket [Local => 127.0.0.1:8080 | Remote => 127.0.0.1:53699]
+Exception in thread Thread-1:
+Traceback (most recent call last):
+  File "/usr/lib/python2.7/threading.py", line 810, in __bootstrap_inner
+    self.run()
+  File "build/bdist.linux-x86_64/egg/ws4py/manager.py", line 310, in run
+    if not ws.once():
+  File "build/bdist.linux-x86_64/egg/ws4py/websocket.py", line 391, in once
+    if not self.process(b):
+  File "build/bdist.linux-x86_64/egg/ws4py/websocket.py", line 448, in process
+    self.close(s.closing.code, s.closing.reason)
+  File "build/bdist.linux-x86_64/egg/ws4py/websocket.py", line 190, in close
+    self._write(self.stream.close(code=code, reason=reason).single(mask=self.stream.always_mask))
+  File "build/bdist.linux-x86_64/egg/ws4py/websocket.py", line 282, in _write
+    self.sock.sendall(b)
+  File "/usr/lib/python2.7/socket.py", line 224, in meth
+    return getattr(self._sock,name)(*args)
+error: [Errno 32] Broken pipe
+```
+
+The error was reproduced 100%.
+I have a CherryPy application that sends a lot of data to clients (continuous chunks of text, around 200KB each)
+I have a webpage open in the browser, with some JavaScript code for receiving data.
+When I closed the webpage in the browser, my server became unresponsive after the error mentioned above.
+
+What do you think about ignoring the error (and not crashing the server) when the server can't send the closing frame to a client?
+
+I don't want to use ws4py in production if a user that closes a webpage crashes my backend.
+
+ adding heartbeat for gevent_client
+ small fix needed to maintain a client connection open using gevents
+

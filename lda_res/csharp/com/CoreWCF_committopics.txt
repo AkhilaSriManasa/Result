@@ -1,0 +1,68 @@
+﻿NUMTopics = 2
+(0, '0.053*"add" + 0.048*"fix" + 0.033*"test" + 0.028*"package" + 0.018*"exception" + 0.018*"ssm" + 0.018*"attribute" + 0.013*"contract" + 0.013*"coverage" + 0.013*"small"')
+(1, '0.058*"fix" + 0.046*"test" + 0.034*"support" + 0.034*"contract" + 0.028*"add" + 0.027*"message" + 0.021*"bind" + 0.015*"service" + 0.015*"net" + 0.015*"websocket"')
+
+------------------------
+NUMTopics = 3
+(0, '0.008*"test" + 0.008*"fix" + 0.008*"add" + 0.008*"package" + 0.008*"contract" + 0.008*"attribute" + 0.008*"ssm" + 0.008*"exception" + 0.008*"code" + 0.008*"support"')
+(1, '0.066*"fix" + 0.052*"test" + 0.038*"contract" + 0.038*"support" + 0.031*"add" + 0.031*"message" + 0.024*"bind" + 0.016*"servicemodel" + 0.016*"websocket" + 0.016*"service"')
+(2, '0.058*"add" + 0.053*"fix" + 0.036*"test" + 0.030*"package" + 0.019*"exception" + 0.019*"ssm" + 0.019*"attribute" + 0.013*"support" + 0.013*"contract" + 0.013*"small"')
+
+------------------------
+NUMTopics = 4
+(0, '0.008*"test" + 0.008*"fix" + 0.008*"add" + 0.008*"contract" + 0.008*"package" + 0.008*"support" + 0.008*"code" + 0.008*"attribute" + 0.008*"exception" + 0.008*"bind"')
+(1, '0.071*"fix" + 0.055*"test" + 0.040*"contract" + 0.040*"support" + 0.032*"message" + 0.032*"add" + 0.025*"bind" + 0.017*"servicemodel" + 0.017*"websocket" + 0.017*"quota"')
+(2, '0.061*"add" + 0.056*"fix" + 0.038*"test" + 0.031*"package" + 0.019*"exception" + 0.019*"attribute" + 0.019*"ssm" + 0.014*"support" + 0.014*"contract" + 0.013*"small"')
+(3, '0.008*"add" + 0.008*"fix" + 0.008*"package" + 0.008*"test" + 0.008*"ssm" + 0.008*"attribute" + 0.008*"exception" + 0.008*"support" + 0.008*"unit" + 0.008*"reference"')
+
+------------------------
+NUMTopics = 5
+(0, '0.008*"test" + 0.008*"fix" + 0.008*"add" + 0.008*"contract" + 0.008*"support" + 0.008*"package" + 0.008*"bind" + 0.008*"code" + 0.008*"exception" + 0.008*"attribute"')
+(1, '0.074*"fix" + 0.058*"test" + 0.042*"support" + 0.042*"contract" + 0.034*"message" + 0.034*"add" + 0.026*"bind" + 0.018*"servicemodel" + 0.018*"websocket" + 0.018*"increase"')
+(2, '0.009*"fix" + 0.009*"add" + 0.008*"test" + 0.008*"package" + 0.008*"support" + 0.008*"contract" + 0.008*"exception" + 0.008*"ssm" + 0.008*"small" + 0.008*"attribute"')
+(3, '0.009*"add" + 0.008*"fix" + 0.008*"package" + 0.008*"test" + 0.008*"ssm" + 0.008*"attribute" + 0.008*"exception" + 0.008*"coverage" + 0.008*"unit" + 0.008*"support"')
+(4, '0.064*"add" + 0.057*"fix" + 0.039*"test" + 0.032*"package" + 0.020*"attribute" + 0.020*"exception" + 0.020*"ssm" + 0.014*"contract" + 0.014*"support" + 0.014*"reference"')
+
+------------------------
+NUMTopics = 6
+(0, '0.008*"test" + 0.008*"fix" + 0.008*"add" + 0.008*"contract" + 0.008*"package" + 0.008*"exception" + 0.008*"attribute" + 0.008*"code" + 0.008*"support" + 0.008*"ssm"')
+(1, '0.076*"fix" + 0.060*"test" + 0.043*"support" + 0.043*"contract" + 0.035*"message" + 0.035*"add" + 0.026*"bind" + 0.018*"servicemodel" + 0.018*"websocket" + 0.018*"increase"')
+(2, '0.065*"add" + 0.059*"fix" + 0.040*"test" + 0.033*"package" + 0.020*"exception" + 0.020*"attribute" + 0.020*"ssm" + 0.014*"support" + 0.014*"contract" + 0.014*"small"')
+(3, '0.008*"add" + 0.008*"fix" + 0.008*"package" + 0.008*"test" + 0.008*"ssm" + 0.008*"attribute" + 0.008*"exception" + 0.008*"support" + 0.008*"coverage" + 0.008*"contract"')
+(4, '0.009*"fix" + 0.009*"add" + 0.008*"test" + 0.008*"contract" + 0.008*"support" + 0.008*"package" + 0.008*"message" + 0.008*"service" + 0.008*"net" + 0.008*"bind"')
+(5, '0.009*"fix" + 0.008*"add" + 0.008*"test" + 0.008*"package" + 0.008*"ssm" + 0.008*"attribute" + 0.008*"unit" + 0.008*"exception" + 0.008*"merge" + 0.008*"code"')
+
+------------------------
+NUMTopics = 7
+(0, '0.008*"test" + 0.008*"fix" + 0.008*"contract" + 0.008*"support" + 0.008*"message" + 0.008*"bind" + 0.008*"add" + 0.008*"behavior" + 0.008*"auth" + 0.008*"service"')
+(1, '0.078*"fix" + 0.061*"test" + 0.044*"support" + 0.044*"contract" + 0.035*"message" + 0.035*"add" + 0.027*"bind" + 0.018*"websocket" + 0.018*"servicemodel" + 0.018*"quota"')
+(2, '0.009*"fix" + 0.009*"add" + 0.009*"test" + 0.008*"package" + 0.008*"support" + 0.008*"contract" + 0.008*"exception" + 0.008*"small" + 0.008*"attribute" + 0.008*"ssm"')
+(3, '0.008*"add" + 0.008*"fix" + 0.008*"package" + 0.008*"test" + 0.008*"ssm" + 0.008*"attribute" + 0.008*"exception" + 0.008*"support" + 0.008*"request" + 0.008*"release"')
+(4, '0.009*"fix" + 0.008*"add" + 0.008*"test" + 0.008*"package" + 0.008*"contract" + 0.008*"support" + 0.008*"attribute" + 0.008*"exception" + 0.008*"ssm" + 0.008*"reference"')
+(5, '0.010*"fix" + 0.010*"add" + 0.009*"package" + 0.008*"ssm" + 0.008*"test" + 0.008*"request" + 0.008*"attribute" + 0.008*"version" + 0.008*"merge" + 0.008*"exception"')
+(6, '0.066*"add" + 0.060*"fix" + 0.040*"test" + 0.034*"package" + 0.021*"exception" + 0.021*"attribute" + 0.021*"ssm" + 0.014*"contract" + 0.014*"support" + 0.014*"small"')
+
+------------------------
+NUMTopics = 8
+(0, '0.008*"test" + 0.008*"add" + 0.008*"fix" + 0.008*"package" + 0.008*"exception" + 0.008*"attribute" + 0.008*"ssm" + 0.008*"code" + 0.008*"corewcf" + 0.008*"contract"')
+(1, '0.080*"fix" + 0.062*"test" + 0.045*"contract" + 0.045*"support" + 0.036*"message" + 0.036*"add" + 0.027*"bind" + 0.019*"websocket" + 0.019*"quota" + 0.019*"servicemodel"')
+(2, '0.009*"fix" + 0.009*"add" + 0.009*"test" + 0.008*"package" + 0.008*"support" + 0.008*"exception" + 0.008*"contract" + 0.008*"attribute" + 0.008*"ssm" + 0.008*"small"')
+(3, '0.008*"add" + 0.008*"fix" + 0.008*"package" + 0.008*"test" + 0.008*"ssm" + 0.008*"attribute" + 0.008*"exception" + 0.008*"request" + 0.008*"support" + 0.008*"release"')
+(4, '0.009*"fix" + 0.009*"add" + 0.008*"test" + 0.008*"package" + 0.008*"attribute" + 0.008*"contract" + 0.008*"exception" + 0.008*"support" + 0.008*"ssm" + 0.008*"reference"')
+(5, '0.009*"fix" + 0.008*"add" + 0.008*"test" + 0.008*"package" + 0.008*"ssm" + 0.008*"attribute" + 0.008*"merge" + 0.008*"request" + 0.008*"exception" + 0.008*"version"')
+(6, '0.067*"add" + 0.061*"fix" + 0.041*"test" + 0.034*"package" + 0.021*"exception" + 0.021*"attribute" + 0.021*"ssm" + 0.014*"contract" + 0.014*"support" + 0.014*"unit"')
+(7, '0.008*"test" + 0.008*"fix" + 0.008*"support" + 0.008*"contract" + 0.008*"add" + 0.008*"message" + 0.008*"bind" + 0.008*"behavior" + 0.008*"auth" + 0.008*"net"')
+
+------------------------
+NUMTopics = 9
+(0, '0.008*"test" + 0.008*"fix" + 0.008*"contract" + 0.008*"add" + 0.008*"support" + 0.008*"package" + 0.008*"bind" + 0.008*"exception" + 0.008*"service" + 0.008*"message"')
+(1, '0.081*"fix" + 0.063*"test" + 0.045*"support" + 0.045*"contract" + 0.037*"message" + 0.036*"add" + 0.028*"bind" + 0.019*"websocket" + 0.019*"servicemodel" + 0.019*"quota"')
+(2, '0.068*"add" + 0.061*"fix" + 0.041*"test" + 0.034*"package" + 0.021*"exception" + 0.021*"attribute" + 0.021*"ssm" + 0.014*"support" + 0.014*"contract" + 0.014*"small"')
+(3, '0.011*"add" + 0.010*"fix" + 0.010*"package" + 0.009*"test" + 0.009*"ssm" + 0.009*"attribute" + 0.008*"exception" + 0.008*"reference" + 0.008*"merge" + 0.008*"request"')
+(4, '0.008*"add" + 0.008*"fix" + 0.008*"test" + 0.008*"package" + 0.008*"exception" + 0.008*"attribute" + 0.008*"reference" + 0.008*"ssm" + 0.008*"request" + 0.008*"code"')
+(5, '0.009*"fix" + 0.008*"add" + 0.008*"test" + 0.008*"package" + 0.008*"ssm" + 0.008*"attribute" + 0.008*"exception" + 0.008*"merge" + 0.008*"unit" + 0.008*"code"')
+(6, '0.009*"fix" + 0.009*"add" + 0.008*"test" + 0.008*"contract" + 0.008*"support" + 0.008*"package" + 0.008*"exception" + 0.008*"service" + 0.008*"net" + 0.008*"attribute"')
+(7, '0.008*"test" + 0.008*"fix" + 0.008*"add" + 0.008*"support" + 0.008*"contract" + 0.008*"message" + 0.008*"bind" + 0.008*"behavior" + 0.008*"auth" + 0.008*"net"')
+(8, '0.009*"fix" + 0.008*"test" + 0.008*"add" + 0.008*"contract" + 0.008*"support" + 0.008*"message" + 0.008*"bind" + 0.008*"service" + 0.008*"net" + 0.008*"behavior"')
+
+------------------------

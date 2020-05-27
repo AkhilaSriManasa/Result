@@ -1,0 +1,1182 @@
+﻿ Jailbreak does not find methods that have generic types or arrays as arguments
+ **Describe the bug**
+When jailbreaking a class, calling a method that have a generic type or an array as argument results in the method not being found.
+
+**To Reproduce**
+Steps to reproduce the behavior:
+1. Minimal project to experience the issue is here https://github.com/kevin-belellou/minimal-jailbreak-project-not-working
+2. Just launch the main class
+
+**Expected behavior**
+Should output
+> Hello World
+> Hello World Foo:Bar
+
+**Actual behavior**
+> Hello World
+> java.lang.RuntimeException: Method 'helloWorld' not found
+> 	at manifold.util.ReflectUtil.method(ReflectUtil.java:161)
+> 	at manifold.ext.ReflectionRuntimeMethods.invoke_Object(ReflectionRuntimeMethods.java:26)
+> 	at stuff.Main.main(Main.java:14)
+> java.lang.RuntimeException: Method 'helloWorld' not found
+> 	at manifold.util.ReflectUtil.method(ReflectUtil.java:161)
+> 	at manifold.ext.ReflectionRuntimeMethods.invoke_Object(ReflectionRuntimeMethods.java:26)
+> 	at stuff.Main.main(Main.java:20)
+
+**Desktop (please complete the following information):**
+- OS Type & Version: Windows 10, 1909
+- Java/JDK version: 11.0.7.10
+- IntelliJ IDEA version: CE 2020.1.1
+- Manifold version: 2020.1.12
+- Manifold IntelliJ plugin version: 2020.1.12
+
+@kevin-belellou Thanks for reporting this!  By the way, the issue with the Map.Entry example has to do with inner classes, not generics. A fix will be included in the next release coming early next week.
+
+ run error use jre
+ **Describe the bug**
+run normal use jdk11 .run error use jre11
+
+**To Reproduce**
+run use jre11
+
+**Expected behavior**
+**Screenshots**
+![QQ图片20200520181654](https://user-images.githubusercontent.com/10300594/82434950-31ec6700-9ac6-11ea-887d-8021ab21a3b9.png)
+
+**Desktop (please complete the following information):**
+- OS Type & Version: win 10
+- Java/JRE version: 11
+- IntelliJ IDEA version: 2020.1
+- Manifold version: 2020.1.9
+- Manifold IntelliJ plugin version: 2020.1.9
+
+**Additional context**
+Add any other context about the problem here.
+
+**Stack trace**
+Exception in thread "main" java.lang.ExceptionInInitializerError
+        at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+        at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+        at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+        at java.base/java.lang.reflect.Method.invoke(Unknown Source)
+        at org.springframework.boot.loader.MainMethodRunner.run(MainMethodRunner.java:48)
+        at org.springframework.boot.loader.Launcher.launch(Launcher.java:87)
+        at org.springframework.boot.loader.Launcher.launch(Launcher.java:51)
+        at org.springframework.boot.loader.JarLauncher.main(JarLauncher.java:52)
+Caused by: java.lang.RuntimeException: Error initializing Manifold
+        at manifold.util.NecessaryEvilUtil.openJavaBase(NecessaryEvilUtil.java:176)
+        at manifold.util.NecessaryEvilUtil.bypassJava9Security(NecessaryEvilUtil.java:78)
+        at manifold.api.host.IRuntimeManifoldHost.preBootstrap(IRuntimeManifoldHost.java:40)
+        at manifold.internal.host.RuntimeManifoldHost.bootstrap(RuntimeManifoldHost.java:115)
+        at manifold.internal.host.RuntimeManifoldHost.bootstrap(RuntimeManifoldHost.java:99)
+        at manifold.internal.runtime.Bootstrap.init(Bootstrap.java:220)
+        at com.pax.palis.Application.<clinit>(Application.java:23)
+        ... 8 more
+Caused by: java.lang.NullPointerException
+        at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+        at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+        at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+        at java.base/java.lang.reflect.Method.invoke(Unknown Source)
+        at manifold.util.ReflectUtil$MethodRef.invoke(ReflectUtil.java:595)
+        at manifold.util.NecessaryEvilUtil.openJavaBase(NecessaryEvilUtil.java:140)
+        ... 14 more
+
+@wxq1990 With Java 11 there is no JDK/JRE divide as there was with Java 8.  Java 11 only has an SDK, so I'm a bit confused as to what you're using for your "JRE".  Please clarify.  Thanks!
+
+i deploy my project with docker,to reduce memory consumption, I use  base image"openjdk:11.0.7-jre-slim"
+
+@wxq1990 Perhaps use the full openjdk image, not the "slim" one?  Note, if you are concerned about jdk size, you can use jlink to tailor a runtime specifically for your app.
+
+ok
+
+ [Feature] Call-site extension method
+ Hello @rsmckinney , 
+
+Currently Manifold supports extension methods which effectively is "injected" into extension class. However I found myself seldom use this feature except for some basic utility classes, since "injecting" method into a class is global and isn't appropriate if the to-be-extension-method is just used locally.
+
+Thus I wish another form of extension method, which is based on method invocation transformation, I've seen other languages support it, but don't know what it's named, so I'll just call it call-site extension method. 
+
+The idea is: For any method invocation e.g. `subject.callMethod(argList)`, if it is semantically illegal, then transform it into `callMethod(subject, argList)` and try to resolve in the same context again , if this time it is legal, then that's its real invocation.
+The transformation is simply move invocation target to first argument. Anything that is legal after transformation is also legal before transformation. This allows very flexible extension method definition and usage, 
+
+Some example: 
+
+```
+import static com.google.common.base.Preconditions.checkNotNull;
+
+class Foo {
+    private int add(int val1, int val2) {
+        return val1 + val2;
+    }
+
+    public <T, R> void map(List<T> list, Function<T, R> func) {
+        return ...
+    }
+
+    public int size(Object obj) {
+        if (obj instanceof String)
+            return ((String) obj).length();
+        else if (obj instanceof Collection)
+            return ((Collection) obj).size();
+        else
+            throw new IllegalArgumentException(obj);
+    }
+
+    public void extensionMethodTest() {
+        Integer subject1 = 100;
+        int result1 = subject1.add(200); // illegal, so transforms into: add(subject1, 200)
+        subject1.checkNotNull(); // illegal, so transforms into: checkNotNull(subject1), 
+                                   // which is actually Preconditions.checkNotNull(subject1), 
+                                  // simplified by static import
+
+        List<Integer> list = arrayListOf(1, 2, 3);
+        list = list.map(it -> it * 2); // illegal, so transforms into: map(list, it -> it * 2)
+
+        i = "abc".size(); // illegal, so transform into: size("abc")
+        int i = list.size(); // legal, so it doesn't transform to size(list)
+    }
+}
+```
+As above example shows, call-site extension method is on-demand, lightweight, flexible and limited scope. It can be defined in the same compilation unit where it's used, and even if the extension method is in common library, it's scope is still under control by whether or not to import the library. I don't know how hard it is or even whether possible to implement it though. Please consider if this is worth implementing, thanks!
+@WilliamStone Interesting idea. This is closer to C#-style extension methods where you must import them explicitly in a source file. Perhaps C#-style would be more practical too, since you don't have to define the methods inside the source that uses them. I've considered providing something similar to this, but haven't gotten around to implementing it.
+
+In my own experience I've found module scoped extensions such as Manifold's to be more practical in most situations. The module is typically the right granularity and you can prevent sharing extensions e.g., using Maven's 'optional' or exclude it going the other direction.  But, yeah, having file scoping can't hurt. :)
+
+ Repeated Trial Expired popups in IntelliJ CE
+ When using the manifold plugin in IntelliJ CE there are occasional popups notifying that the trial is expired. But the plugin continues to work. I originally assumed this was due to the updates that IJ made to their marketplace.
+
+However after updating the Manifold plugin to 2020.1.12 the frequency of these popups as greatly increased to one about every 20-30 min which gets annoying really fast.
+
+IntelliJ CE 2020.1.1
+Manifold Plugin : 2020.1.12
+@cyroxis I can't reproduce this locally, can you attach a screenshot of the popup you're receiving? 
+
+This is the popup window.
+<img width="912" alt="Screen Shot 2020-05-20 at 2 14 40 PM" src="https://user-images.githubusercontent.com/1709029/82482288-a3b3b900-9aa4-11ea-89f5-e2cd94bf207e.png">
+It looks the same as the popup that showed up in 2019 that actually disabled the plugin but the plugin is not disabled. 
+
+ Divide manifold modules into manifold-xxx and manifold-xxx-rt
+ **Divide manifold modules into `manifold-xxx` and `manifold-xxx-rt`**
+* This division is based on pure static use of manifold especially to support use cases such as **Android** where dynamic manifold features will not work. As such a `manifold-xxx` module defines compile-time-only classes and, therefore, has a dependency on `manifold-xxx-rt`, where the rt module defines classes necessary for runtime execution. These classes are void of type manifold compilation etc.  Only classes executed from manifold-generated code during a project's compilation shall reside in an rt module.
+
+* This change also enables support for **Kotlin** and other JVM languages. For instance, Manifold resources such as GraphQL and JSON can be placed in a separate Java module where the types are provided statically to a Kotlin module. Using this technique, the development experience advantages of the Manifold plugin for IntelliJ also apply to Kotlin projects.
+
+Accordingly, a module using manifold statically, such as with an Android or Kotlin project, should declare a _compile-only_ dependency on `manifold-xxx` and a normal dependency on `manifold-xxx-rt`.
+
+Note several manifold modules will not have to be split this way, only the core module and modules having type manifolds such as `manifold-json`, `manifold-graphql`, etc. will be split. Still, some modules having a type manifold don't have any runtime specific to the type manifold -- the code they generate is self sufficient, thus you declare a compile-only dependency on them.
+
+In all, the static runtime footprint of Manifold will be significantly reduced, at least **10x** smaller given most of manifold core is specific to compilation. Additionally, many submodules, such as manifold-graphql, use libraries for parsing etc.  Some of these libraries will be excluded from runtime.
+
+Startup performance will also be significantly improved. Since Manifold's on-demand dynamic compilation is not needed for a static project; all the initialization necessary to bootstrap Manifold is no longer required. Thus, initialization time will be reduced to **ZERO**.
+This issue is related to https://github.com/manifold-systems/manifold/issues/77
+
+work in progress...
+
+ Make GraphQL query interfaces more receptive to building higher level APIs
+ Make GraphQL query interfaces more receptive to building higher level APIs
+
+- make GraphQL query interfaces non-structural; make runtime instance of a query a concrete type that implements the query interface, facilitates `instanceof`, which currently does not work since the runtime instance is a bindings object
+- define queryDefinition() and fragmentDefinitions() methods to expose the corresponding GraphQL def and fragment defs referenced in the query
+- add a root interface, GqlQuery, to enable applications to build higher level APIs
+
+The larger change, to remove the structural aspect of the interfaces, is appropriate in the case of _query_ interfaces as opposed to other graphql types because queries are not structured; they don't reflect a tree-like structure of binding values. Instead they are flat query variable assignments. Additionally, the query interfaces are unsuitable as structural interface because they contain static information such as the graphql query definition that is not bound to the instance information in the binding object.
+
+These changes were inspired by thread: https://app.slack.com/client/T01385BBDLH/C012UD98MC5/thread/C012UD98MC5-1589284066.011200
+
+Fixed with https://github.com/manifold-systems/manifold/commit/5e40b18279a13aae0072c77fb82481c107f47943
+
+ Can I disable the string template by default?
+ As the title, can I disable the string template by default?
+Because I want to use manifold in an existing project, and I only use it in new code. So I don't want to affect the legacy codes.
+@moonfruit Hi. I am going to make dependencies on `manifold-strings` "optional" in Maven terms, which hides it from dependent modules. Of course, this change will only work if you are using select manifold dependencies such as `manifold-graphql` as opposed the `manifold-all` _Fat_ Jar.  This way, if your project uses `manifold-strings`, it must declare an explicit dependency on it. Does that make sense?
+
+**Update**
+
+In the meantime, I forgot about [ITemplateProcessorGate](https://github.com/manifold-systems/manifold/blob/master/manifold-deps-parent/manifold-strings/src/main/java/manifold/strings/api/ITemplateProcessorGate.java).  You can implement this service to block string template processing by type name. You basically implement the `exclude` method and return true/false to allow the specified type to compile with string template processing. Let me know if you need help with it.
+
+Again, I am changing manifold's modules so that you won't have to do this; you'll have to opt in for  string templates.  But you can go ahead with ITemplateProcessorGate if you can't wait for the next Manifold release, probably a day.
+
+Thank @rsmckinney very much, this is exactly what I need.
+And I am very interested in the new version, looking forward to its release.
+
+ IntelliJ support custom Type Manifolds
+ Hi, I have been attempting to generate classes using a custom type manifold. I have placed the TypeManifold in a separate maven module with a dependency as seemed to be indicated by [issue 158](https://github.com/manifold-systems/manifold/issues/158). This got the code generation working but I am having issues that seem to be related.
+
+1. IJ is only able to run the project after `mvn compile` is ran from the command line. Otherwise I get the following error in IJ
+```
+Error:(16, 9) java: cannot find symbol
+  symbol:   class RunnerWinner
+  location: class com.mt.Runner
+```
+
+2. Even after successfully running the application IJ does not recognize the generated symbols 
+![image](https://user-images.githubusercontent.com/1709029/81604150-7462c500-939d-11ea-872b-e45925a8dbec.png)
+
+[Sample Project](https://github.com/cyroxis/manifold_test)
+IntelliJ 2020.1.1 CE
+Manifold Plugin 2020.1.9
+
+
+@cyroxis Hi. Even though you have separate module dependencies, which is good, the IntelliJ plugin can't apply a type manifold project to itself. Essentially, the plugin can only apply a type manifold that is a _binary_ dependency of a project. As a consequence, you need to extract your sample module "consume" as a separate project with a dependency on your type manifold.
+
+Make sense?
+
+That does make sense and I was able to test it by generating a .jar of the generate module and using that as the dependency in IJ. 
+
+That greatly complicates my use case. I was wanting to generate has a lot of domain dependencies that would be difficult to abstract out of the main project. Looks like I will have to either create some sort of template language (like mantl for Java files) or use a different solution to generate the code. 
+
+Thank you for your help
+
+@cyroxis Ah, I see.  I wonder if you could keep your type manifold local by adding an additional _runtime_ dependency of a binary version of your project to itself? It's a hack, but it would let IJ see your type manifold. 
+
+Thanks @rsmckinney I will look into that to see if it helps.
+
+What I have been currently working on is loading a type generator from the consuming project.
+
+```
+// Manifold Project
+public interface TypeCreator {
+  String getTypeName(String fqn);
+  SrcClass generateClass(String fqn, Class<?> sourceType);
+}
+public @interface TemplateWith {
+  Class<? extends TypeCreator> value();
+}
+
+// Using Project
+@TemplateWith(Bar.class)
+public class Foo {
+  //...
+}
+public class BarCreator implements TypeCreator {
+  public String getTypeName(String fqn) { return fqn + "Bar");
+  //...
+}
+```
+
+I am able to dynamically load the `TypeCreator` from source and execute it as long as I hard code the `FooBar` type in my `ITypeManifold`. What I am trying to solve now is reliably parsing the fully qualified name of the template (e.g `BarCreator`). 
+
+The issue with that is using the tools Manifold provides to dynamically load the annotated class (e.g. `Foo`) creates a recursive call back to my manifold since the lazy loading in `JavaTypeManifold` is not yet complete.
+
+Is there a way to implement `ITypeManifold` to avoid that recursion since I know that I am not modifying the annotated class (e.g. `Foo`)?
+
+If not I will have to look using different tools to parse the annotation from the file. 
+
+@cyroxis can you privately share this project via github or similar?
+
+@rsmckinney  The code is available in [manifold_test](https://github.com/cyroxis/manifold_test).
+
+The current version loads 'Bar.java' but because there is still a recursive call to the loading (that is handled by `TypeTemplateManifold.java:110`) the type name is not correctly registered.
+
+If you comment out `TypeTemplateManifold.java:110` it results in a stack overflow when loading `Bar.java`
+If generated type name is hard coded in then `InMemoryClassLoader` will load `WinnerMaker.java` and generate the class
+
+
+@cyroxis Ok, I'll carve out a bit of time for this tomorrow. Thanks for supplying the project on github!
+
+@cyroxis  Ok I've had a decent look at your project. What I gather is, using the @TemplateWith annotation you declare a Java "template" class and, via the annotation's class argument, the "maker" dynamically produces a new type having a name consisting of the template's class name and whatever the maker chooses as a suffix.
+
+First, to use the scheme as you have it, you should also break out the "maker" classes into a separate module and have the consumer module depend on that. This way you can make new instances of a maker because it will have been compiled through the dependency. Additionally, you should parse the text of the template classes instead of compiling them to find and use the annotation. But, honestly, this is getting complicated and will get more complicated as newer problems arise.
+
+Perhaps a better approach is to look at the [DarkJ](https://github.com/manifold-systems/manifold/tree/master/manifold-deps-parent/manifold-darkj) manifold and follow its example. For instance, the template classes could be Java _resources_ having their own special file extension. Similar to the darkj manifold, yours can create a Java class utilizing the maker classes.
+
+Just my thoughts.
+
+ Support a javac command line argument to specify Manifold types/files to compile
+ While the `@Precompile` feature is nice, it lacks support through conventional build tooling. It's better to specify types/files to build in the build script as opposed to within a source file as with `@Precompile`. Thus a command line argument to javac would be a nice improvement.
+
+https://github.com/manifold-systems/manifold/commit/0ec1f070371d6a6812f64313050203eb7f878905
+
+Deprecate `@Precompile` in favor of the new javac command line argument:
+```
+-Amanifold.source.<file-ext>=<type-name-regex>
+```
+While this change is a nice improvement over `@Precompile`, its primary purpose facilitates using javac as a polyglot compiler for other programming languages providing type manifolds as adaptors, which results in comprehensive interop between all participating languages. For instance, the Gosu programming language is fixin' to use javac as its compiler via Manifold (https://github.com/gosu-lang/gosu-lang/tree/gosu_as_a_type_manifold).
+
+Implemented with https://github.com/manifold-systems/manifold/commit/0ec1f070371d6a6812f64313050203eb7f878905
+
+ Improve support for Programming Languages as type manifolds
+ >Note, this is a parent feature request to organize the work contributing to the general request
+
+Provide better accommodation for a type manifold that acts as an adapter to:
+
+1. utilize `javac` as the language's compiler
+2. provide the means for comprehensive interop between the language and Java
+3. improve performance by exposing/sharing javac's type system
+4. provide a javac command line argument to specify the language's set of source files
+
+The Gosu programming language branch, [gosu_as_a_type_manifold](https://github.com/gosu-lang/gosu-lang/tree/gosu_as_a_type_manifold), serves as the proving ground for this work.
+Provide a javac command line arguments to specify the language's set of source files
+* https://github.com/manifold-systems/manifold/commit/0ec1f070371d6a6812f64313050203eb7f878905
+* https://github.com/manifold-systems/manifold/commit/1ad7e3ad496612270c9a1a9d7eee37b7da348c6d
+
+Additional support for self-compiled type manifolds, particularly programming languages. These changes are the result of making a type manifold for the Gosu programming language.
+
+https://github.com/manifold-systems/manifold/commit/d70cd0d97619468c699a7511d12193ef1e381587
+
+* Add ISelfCompiled#parse(fqn) to signal a type manifold to fully parse fqn and attach errors/warnings
+* Note javac parses the normal Java source list first then parses the list of "other" sources provided by Manifold. Therefore, the timing of parse() is necessary when javac is still compiling the Java source list where there is a reference from Java to a self-compiled Manifold type (directly or indirectly).
+* As such the protocol for a self-compiled type involves calls in order: contribute(), parse(), compile(), where contribute() produces a Java stub and should minimally parse the type, parse() fully parses the type and provides compilation error and warning messages, and compile() transforms the type's AST and returns bytecode (using the language's compiler).
+
+https://github.com/manifold-systems/manifold/commit/0ec1f070371d6a6812f64313050203eb7f878905
+
+Deprecate `@Precompile` in favor of the new javac command line argument:
+```
+-Amanifold.source.<file-ext>=<type-name-regex>
+```
+While this change is a nice improvement over `@Precompile`, its primary purpose facilitates using javac as a polyglot compiler for other programming languages providing type manifolds as adaptors, which results in comprehensive interop between all participating languages. For instance, the Gosu programming language is fixin' to use javac as its compiler via Manifold (https://github.com/gosu-lang/gosu-lang/tree/gosu_as_a_type_manifold).
+
+ [Question] GraphQL requests using proxy
+ Hello all, 
+
+I have a question regarding the usage of a proxy on any `graphQL` request.
+Unfortunately, I found no information on the wiki page.
+
+Can you explain briefly how it could be achieved?
+
+Thank you very much in advance. 
+Stay safe. 🍀
+
+Regards,
+Veronika
+
+
+Hi @VeronikaVakadinova. Support for proxies will be released in the next version (2020.1.8) coming later this week, just a few days away. The basic API looks like this:
+```java
+  private static String URL = "http://my.server.com:4567/graphql";
+  private static Endpoint ENDPOINT_NO_PROXY = new Endpoint(URL);
+  private static Endpoint ENDPOINT_PROXIED = new Endpoint(URL, "my.proxy.com");
+. . .
+  var result = query.request(ENDPOINT_PROXIED).post();
+```
+Make sense?
+
+Proxy support is now available in release 2020.1.8.  Please see the updated [Configuring Proxies](https://github.com/manifold-systems/manifold/tree/master/manifold-deps-parent/manifold-graphql#configuring-proxies) section in the GraphQL docs.
+
+I will try it out now. 
+Working with your code is a real pleasure.
+
+Thank you for your quick response and release. 
+
+@VeronikaVakadinova no problem. Thank you for reporting this!
+
+ Graphql - additional GET parameters
+ At the moment there is no simple way to add additional GET parameter to request. The only solution I found is to use reflections and add data to _reqArgs in Executor class.
+
+It would be nice to have possibility to write code like this:
+```java
+query.request("http://localhost?foo=bar").get() // at the moment it generates malformed URL
+```
+or:
+```java
+query.request("http://localhost").withParam("foo", "bar")
+```
+
+Possible solition (withParam implementation in Executor class):
+```java
+public Executor<T> withParam(String param, String value) {
+  _reqArgs.getBindings().put(param, value);
+  return this;
+}
+```
+
+I like your solution! It will be implemented in the next release, coming soon.
+
+@tasior I'm interested to know the use-case where the name/value pair is not already included in your GraphQL payload. Knowing more will help me to focus the implementation where it is best suited.
+
+@rsmckinney It's not about GraphQL payload. I'm using GraphQL API that is protected by api key and this key need to be send as GET parameter. So request looks similar to this one:
+
+```
+http://localhost?query=query UsersQuery {users {id firstName}}&variables={}&api_key=secretApiKey
+```
+
+
+@tasior Gotcha.  Thanks
+
+Added in release 2020.1.7
+
+ Race condition in JavacPlugin
+ [`JavacPlugin.loadJavacParserClass()`](https://github.com/manifold-systems/manifold/blob/v2020.1.4/manifold-core-parent/manifold/src/main/java/manifold/internal/javac/JavacPlugin.java#L1098) checks if the classloader contains `ManJavacParser`, and if not, adds it.
+
+When building with [SBT](https://www.scala-sbt.org/), this method is invoked multiple times, sometimes concurrently, which can result in an "attempted duplicate class definition" error:
+```
+java.lang.LinkageError: loader 'app' (instance of jdk.internal.loader.ClassLoaders$AppClassLoader) attempted duplicate class definition for com.sun.tools.javac.parser.ManJavacParser.
+    at java.base/java.lang.ClassLoader.defineClass1(Native Method)
+    ...
+```
+
+It looks like `loadJavacParserClass()` should be acquiring a lock first. Adding a `synchronized(classLoader) {...}` around the body of this method appears to prevent the error.
+@iadcode Thanks for reporting this! Fix will be available in next release coming soon.
+
+Great, thanks @rsmckinney !
+
+Fixed in release 2020.1.7
+
+ Error when compiling using using manifold 2020.1.4 (does not occur with 2019.1.32) and Gradle
+ **Describe the bug**
+A clear and concise description of what the bug is.
+
+Setup:
+
+- Gradle 6.2
+- Eclipse OpenJ9 VM AdoptOpenJDK (build openj9-0.18.0, JRE 11 Linux amd64-64-Bit Compressed References 20200116_433 (JIT enabled, AOT enabled)
+- systems.manifold:manifold-all:2020.1.4"
+
+The issue does not occur with version 2019.1.32
+
+**To Reproduce**
+Performing gradle build in command line
+
+**Expected behaviour**
+No error
+
+**Stack trace**
+```
+compiler message file broken: key=compiler.misc.msg.bug arguments=11.0.6, {1}, {2}, {3}, {4}, {5}, {6}, {7}
+java.lang.IndexOutOfBoundsException: Index 0 out of bounds for length 0
+	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
+	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
+	at java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:248)
+	at java.base/java.util.Objects.checkIndex(Objects.java:372)
+	at java.base/java.util.ArrayList.get(ArrayList.java:458)
+	at manifold.ext.ExtCodeGen.makeStubFromSource(ExtCodeGen.java:101)
+	at manifold.ext.ExtCodeGen.make(ExtCodeGen.java:87)
+	at manifold.ext.ExtensionManifold.contribute(ExtensionManifold.java:245)
+	at manifold.ext.ExtensionManifold.contribute(ExtensionManifold.java:52)
+	at manifold.api.type.ResourceFileTypeManifold.contribute(ResourceFileTypeManifold.java:396)
+	at manifold.api.gen.AbstractSrcClass.supplementInner(AbstractSrcClass.java:426)
+	at manifold.api.gen.AbstractSrcClass.render(AbstractSrcClass.java:404)
+	at manifold.api.gen.AbstractSrcClass.renderInnerClasses(AbstractSrcClass.java:648)
+	at manifold.api.gen.AbstractSrcClass.renderClassFeatures(AbstractSrcClass.java:520)
+	at manifold.api.gen.AbstractSrcClass.renderClassOrInterface(AbstractSrcClass.java:508)
+	at manifold.api.gen.AbstractSrcClass.render(AbstractSrcClass.java:398)
+	at manifold.api.gen.AbstractSrcClass.render(AbstractSrcClass.java:376)
+	at manifold.ext.ExtCodeGen.addExtensions(ExtCodeGen.java:161)
+	at manifold.ext.ExtCodeGen.make(ExtCodeGen.java:94)
+	at manifold.ext.ExtensionManifold.contribute(ExtensionManifold.java:245)
+	at manifold.ext.ExtensionManifold.contribute(ExtensionManifold.java:52)
+	at manifold.api.type.ResourceFileTypeManifold.contribute(ResourceFileTypeManifold.java:396)
+	at manifold.internal.host.SimpleModule.compoundProduce(SimpleModule.java:174)
+	at manifold.internal.host.SimpleModule.lambda$produceFile$0(SimpleModule.java:139)
+	at manifold.internal.host.SimpleModule$$Lambda$665/0000000000000000.get(Unknown Source)
+	at manifold.internal.javac.SourceSupplier.getSource(SourceSupplier.java:50)
+	at manifold.internal.javac.GeneratedJavaStubFileObject.lambda$new$0(GeneratedJavaStubFileObject.java:40)
+	at manifold.internal.javac.GeneratedJavaStubFileObject$$Lambda$666/0000000000000000.init(Unknown Source)
+	at manifold.util.concurrent.LocklessLazyVar$1.init(LocklessLazyVar.java:90)
+	at manifold.util.concurrent.LocklessLazyVar.get(LocklessLazyVar.java:40)
+	at manifold.internal.javac.GeneratedJavaStubFileObject.getCharContent(GeneratedJavaStubFileObject.java:96)
+	at jdk.compiler/com.sun.tools.javac.main.JavaCompiler.readSourceFile(JavaCompiler.java:817)
+	at jdk.compiler/com.sun.tools.javac.main.JavaCompiler.readSourceFile(JavaCompiler.java:797)
+	at jdk.compiler/com.sun.tools.javac.main.JavaCompiler.lambda$new$0(JavaCompiler.java:356)
+	at com.sun.tools.javac.main.JavaCompiler$$Lambda$548/0000000000000000.complete(Unknown Source)
+	at jdk.compiler/com.sun.tools.javac.code.ClassFinder.fillIn(ClassFinder.java:363)
+	at jdk.compiler/com.sun.tools.javac.code.ClassFinder.complete(ClassFinder.java:291)
+	at jdk.compiler/com.sun.tools.javac.code.ClassFinder$$Lambda$549/0000000000000000.complete(Unknown Source)
+	at jdk.compiler/com.sun.tools.javac.code.Symbol.complete(Symbol.java:642)
+	at jdk.compiler/com.sun.tools.javac.code.Symbol$ClassSymbol.complete(Symbol.java:1326)
+	at jdk.compiler/com.sun.tools.javac.code.Symbol$ClassSymbol.flags(Symbol.java:1259)
+	at jdk.compiler/com.sun.tools.javac.comp.Check.importAccessible(Check.java:3687)
+	at jdk.compiler/com.sun.tools.javac.comp.TypeEnter$ImportsPhase.lambda$resolveImports$2(TypeEnter.java:349)
+	at com.sun.tools.javac.comp.TypeEnter$ImportsPhase$$Lambda$661/0000000000000000.accepts(Unknown Source)
+	at jdk.compiler/com.sun.tools.javac.code.Scope$FilterImportScope.lambda$getSymbolsByName$2(Scope.java:963)
+	at com.sun.tools.javac.code.Scope$FilterImportScope$$Lambda$700/0000000000000000.test(Unknown Source)
+	at jdk.compiler/com.sun.tools.javac.util.Iterators$2.update(Iterators.java:103)
+	at jdk.compiler/com.sun.tools.javac.util.Iterators$2.<init>(Iterators.java:99)
+	at jdk.compiler/com.sun.tools.javac.util.Iterators.createFilterIterator(Iterators.java:98)
+	at jdk.compiler/com.sun.tools.javac.code.Scope$FilterImportScope.lambda$getSymbolsByName$3(Scope.java:961)
+	at com.sun.tools.javac.code.Scope$FilterImportScope$$Lambda$698/0000000000000000.iterator(Unknown Source)
+	at jdk.compiler/com.sun.tools.javac.code.Scope$CompoundScope.lambda$getSymbolsByName$2(Scope.java:1088)
+	at com.sun.tools.javac.code.Scope$CompoundScope$$Lambda$688/0000000000000000.apply(Unknown Source)
+	at jdk.compiler/com.sun.tools.javac.util.Iterators$CompoundIterator.update(Iterators.java:78)
+	at jdk.compiler/com.sun.tools.javac.util.Iterators$CompoundIterator.hasNext(Iterators.java:60)
+	at jdk.compiler/com.sun.tools.javac.comp.Resolve.findGlobalType(Resolve.java:2242)
+	at jdk.compiler/com.sun.tools.javac.comp.Resolve.findType(Resolve.java:2326)
+	at jdk.compiler/com.sun.tools.javac.comp.Resolve.findIdentInternal(Resolve.java:2355)
+	at jdk.compiler/com.sun.tools.javac.comp.Resolve.findIdent(Resolve.java:2341)
+	at jdk.compiler/com.sun.tools.javac.comp.Resolve.resolveIdent(Resolve.java:2602)
+	at jdk.compiler/com.sun.tools.javac.comp.Attr.visitIdent(Attr.java:3488)
+	at jdk.compiler/com.sun.tools.javac.tree.JCTree$JCIdent.accept(JCTree.java:2248)
+	at jdk.compiler/com.sun.tools.javac.comp.Attr.attribTree(Attr.java:655)
+	at jdk.compiler/com.sun.tools.javac.comp.Attr.attribType(Attr.java:715)
+	at jdk.compiler/com.sun.tools.javac.comp.Attr.attribType(Attr.java:708)
+	at jdk.compiler/com.sun.tools.javac.comp.MemberEnter.visitVarDef(MemberEnter.java:264)
+	at jdk.compiler/com.sun.tools.javac.tree.JCTree$JCVariableDecl.accept(JCTree.java:956)
+	at jdk.compiler/com.sun.tools.javac.comp.MemberEnter.memberEnter(MemberEnter.java:163)
+	at jdk.compiler/com.sun.tools.javac.comp.MemberEnter.memberEnter(MemberEnter.java:175)
+	at jdk.compiler/com.sun.tools.javac.comp.TypeEnter$MembersPhase.finishClass(TypeEnter.java:958)
+	at jdk.compiler/com.sun.tools.javac.comp.TypeEnter$MembersPhase.runPhase(TypeEnter.java:942)
+	at jdk.compiler/com.sun.tools.javac.comp.TypeEnter$Phase.doCompleteEnvs(TypeEnter.java:282)
+	at jdk.compiler/com.sun.tools.javac.comp.TypeEnter$MembersPhase.doCompleteEnvs(TypeEnter.java:877)
+	at jdk.compiler/com.sun.tools.javac.comp.TypeEnter$Phase.completeEnvs(TypeEnter.java:251)
+	at jdk.compiler/com.sun.tools.javac.comp.TypeEnter$Phase.completeEnvs(TypeEnter.java:266)
+	at jdk.compiler/com.sun.tools.javac.comp.TypeEnter$Phase.completeEnvs(TypeEnter.java:266)
+	at jdk.compiler/com.sun.tools.javac.comp.TypeEnter$Phase.completeEnvs(TypeEnter.java:266)
+	at jdk.compiler/com.sun.tools.javac.comp.TypeEnter.complete(TypeEnter.java:198)
+	at jdk.compiler/com.sun.tools.javac.code.Symbol.complete(Symbol.java:642)
+	at jdk.compiler/com.sun.tools.javac.code.Symbol$ClassSymbol.complete(Symbol.java:1326)
+	at jdk.compiler/com.sun.tools.javac.comp.Enter.complete(Enter.java:583)
+	at jdk.compiler/com.sun.tools.javac.comp.Enter.main(Enter.java:560)
+	at jdk.compiler/com.sun.tools.javac.main.JavaCompiler.enterTrees(JavaCompiler.java:1066)
+	at jdk.compiler/com.sun.tools.javac.main.JavaCompiler.compile(JavaCompiler.java:937)
+	at jdk.compiler/com.sun.tools.javac.api.JavacTaskImpl.lambda$doCall$0(JavacTaskImpl.java:104)
+	at com.sun.tools.javac.api.JavacTaskImpl$$Lambda$541/0000000000000000.call(Unknown Source)
+	at jdk.compiler/com.sun.tools.javac.api.JavacTaskImpl.handleExceptions(JavacTaskImpl.java:147)
+	at jdk.compiler/com.sun.tools.javac.api.JavacTaskImpl.doCall(JavacTaskImpl.java:100)
+	at jdk.compiler/com.sun.tools.javac.api.JavacTaskImpl.call(JavacTaskImpl.java:94)
+	at org.gradle.api.internal.tasks.compile.AnnotationProcessingCompileTask.call(AnnotationProcessingCompileTask.java:93)
+	at org.gradle.api.internal.tasks.compile.ResourceCleaningCompilationTask.call(ResourceCleaningCompilationTask.java:57)
+	at org.gradle.api.internal.tasks.compile.JdkJavaCompiler.execute(JdkJavaCompiler.java:54)
+	at org.gradle.api.internal.tasks.compile.JdkJavaCompiler.execute(JdkJavaCompiler.java:39)
+	at org.gradle.api.internal.tasks.compile.NormalizingJavaCompiler.delegateAndHandleErrors(NormalizingJavaCompiler.java:100)
+	at org.gradle.api.internal.tasks.compile.NormalizingJavaCompiler.execute(NormalizingJavaCompiler.java:52)
+	at org.gradle.api.internal.tasks.compile.NormalizingJavaCompiler.execute(NormalizingJavaCompiler.java:38)
+	at org.gradle.api.internal.tasks.compile.AnnotationProcessorDiscoveringCompiler.execute(AnnotationProcessorDiscoveringCompiler.java:51)
+	at org.gradle.api.internal.tasks.compile.AnnotationProcessorDiscoveringCompiler.execute(AnnotationProcessorDiscoveringCompiler.java:37)
+	at org.gradle.api.internal.tasks.compile.CleaningJavaCompiler.execute(CleaningJavaCompiler.java:53)
+	at org.gradle.api.internal.tasks.compile.incremental.IncrementalCompilerFactory.lambda$createRebuildAllCompiler$0(IncrementalCompilerFactory.java:98)
+	at org.gradle.api.internal.tasks.compile.incremental.IncrementalCompilerFactory$$Lambda$511/0000000000000000.execute(Unknown Source)
+	at org.gradle.api.internal.tasks.compile.incremental.IncrementalResultStoringCompiler.execute(IncrementalResultStoringCompiler.java:60)
+	at org.gradle.api.internal.tasks.compile.incremental.IncrementalResultStoringCompiler.execute(IncrementalResultStoringCompiler.java:44)
+	at org.gradle.api.internal.tasks.compile.CompileJavaBuildOperationReportingCompiler$2.call(CompileJavaBuildOperationReportingCompiler.java:59)
+	at org.gradle.api.internal.tasks.compile.CompileJavaBuildOperationReportingCompiler$2.call(CompileJavaBuildOperationReportingCompiler.java:51)
+	at org.gradle.internal.operations.DefaultBuildOperationExecutor$CallableBuildOperationWorker.execute(DefaultBuildOperationExecutor.java:416)
+	at org.gradle.internal.operations.DefaultBuildOperationExecutor$CallableBuildOperationWorker.execute(DefaultBuildOperationExecutor.java:406)
+	at org.gradle.internal.operations.DefaultBuildOperationExecutor$1.execute(DefaultBuildOperationExecutor.java:165)
+	at org.gradle.internal.operations.DefaultBuildOperationExecutor.execute(DefaultBuildOperationExecutor.java:250)
+	at org.gradle.internal.operations.DefaultBuildOperationExecutor.execute(DefaultBuildOperationExecutor.java:158)
+	at org.gradle.internal.operations.DefaultBuildOperationExecutor.call(DefaultBuildOperationExecutor.java:102)
+	at org.gradle.internal.operations.DelegatingBuildOperationExecutor.call(DelegatingBuildOperationExecutor.java:36)
+	at org.gradle.api.internal.tasks.compile.CompileJavaBuildOperationReportingCompiler.execute(CompileJavaBuildOperationReportingCompiler.java:51)
+	at org.gradle.api.tasks.compile.JavaCompile.performCompilation(JavaCompile.java:211)
+	at org.gradle.api.tasks.compile.JavaCompile.compile(JavaCompile.java:182)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.gradle.internal.reflect.JavaMethod.invoke(JavaMethod.java:104)
+	at org.gradle.api.internal.project.taskfactory.IncrementalInputsTaskAction.doExecute(IncrementalInputsTaskAction.java:32)
+	at org.gradle.api.internal.project.taskfactory.StandardTaskAction.execute(StandardTaskAction.java:42)
+	at org.gradle.api.internal.project.taskfactory.AbstractIncrementalTaskAction.execute(AbstractIncrementalTaskAction.java:25)
+	at org.gradle.api.internal.project.taskfactory.StandardTaskAction.execute(StandardTaskAction.java:28)
+	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter$3.run(ExecuteActionsTaskExecuter.java:568)
+	at org.gradle.internal.operations.DefaultBuildOperationExecutor$RunnableBuildOperationWorker.execute(DefaultBuildOperationExecutor.java:402)
+	at org.gradle.internal.operations.DefaultBuildOperationExecutor$RunnableBuildOperationWorker.execute(DefaultBuildOperationExecutor.java:394)
+	at org.gradle.internal.operations.DefaultBuildOperationExecutor$1.execute(DefaultBuildOperationExecutor.java:165)
+	at org.gradle.internal.operations.DefaultBuildOperationExecutor.execute(DefaultBuildOperationExecutor.java:250)
+	at org.gradle.internal.operations.DefaultBuildOperationExecutor.execute(DefaultBuildOperationExecutor.java:158)
+	at org.gradle.internal.operations.DefaultBuildOperationExecutor.run(DefaultBuildOperationExecutor.java:92)
+	at org.gradle.internal.operations.DelegatingBuildOperationExecutor.run(DelegatingBuildOperationExecutor.java:31)
+	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.executeAction(ExecuteActionsTaskExecuter.java:553)
+	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.executeActions(ExecuteActionsTaskExecuter.java:536)
+	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.access$300(ExecuteActionsTaskExecuter.java:109)
+	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter$TaskExecution.executeWithPreviousOutputFiles(ExecuteActionsTaskExecuter.java:276)
+	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter$TaskExecution.execute(ExecuteActionsTaskExecuter.java:265)
+	at org.gradle.internal.execution.steps.ExecuteStep.lambda$execute$0(ExecuteStep.java:32)
+	at org.gradle.internal.execution.steps.ExecuteStep$$Lambda$507/0000000000000000.apply(Unknown Source)
+	at java.base/java.util.Optional.map(Optional.java:265)
+	at org.gradle.internal.execution.steps.ExecuteStep.execute(ExecuteStep.java:32)
+	at org.gradle.internal.execution.steps.ExecuteStep.execute(ExecuteStep.java:26)
+	at org.gradle.internal.execution.steps.CleanupOutputsStep.execute(CleanupOutputsStep.java:67)
+	at org.gradle.internal.execution.steps.CleanupOutputsStep.execute(CleanupOutputsStep.java:36)
+	at org.gradle.internal.execution.steps.ResolveInputChangesStep.execute(ResolveInputChangesStep.java:49)
+	at org.gradle.internal.execution.steps.ResolveInputChangesStep.execute(ResolveInputChangesStep.java:34)
+	at org.gradle.internal.execution.steps.CancelExecutionStep.execute(CancelExecutionStep.java:43)
+	at org.gradle.internal.execution.steps.TimeoutStep.executeWithoutTimeout(TimeoutStep.java:73)
+	at org.gradle.internal.execution.steps.TimeoutStep.execute(TimeoutStep.java:54)
+	at org.gradle.internal.execution.steps.CatchExceptionStep.execute(CatchExceptionStep.java:34)
+	at org.gradle.internal.execution.steps.CreateOutputsStep.execute(CreateOutputsStep.java:44)
+	at org.gradle.internal.execution.steps.SnapshotOutputsStep.execute(SnapshotOutputsStep.java:54)
+	at org.gradle.internal.execution.steps.SnapshotOutputsStep.execute(SnapshotOutputsStep.java:38)
+	at org.gradle.internal.execution.steps.BroadcastChangingOutputsStep.execute(BroadcastChangingOutputsStep.java:49)
+	at org.gradle.internal.execution.steps.CacheStep.executeWithoutCache(CacheStep.java:159)
+	at org.gradle.internal.execution.steps.CacheStep.executeAndStoreInCache(CacheStep.java:135)
+	at org.gradle.internal.execution.steps.CacheStep.lambda$executeWithCache$2(CacheStep.java:112)
+	at org.gradle.internal.execution.steps.CacheStep$$Lambda$500/0000000000000000.get(Unknown Source)
+	at java.base/java.util.Optional.orElseGet(Optional.java:369)
+	at org.gradle.internal.execution.steps.CacheStep.lambda$executeWithCache$3(CacheStep.java:112)
+	at org.gradle.internal.execution.steps.CacheStep$$Lambda$498/0000000000000000.apply(Unknown Source)
+	at org.gradle.internal.Try$Success.map(Try.java:162)
+	at org.gradle.internal.execution.steps.CacheStep.executeWithCache(CacheStep.java:81)
+	at org.gradle.internal.execution.steps.CacheStep.execute(CacheStep.java:71)
+	at org.gradle.internal.execution.steps.CacheStep.execute(CacheStep.java:43)
+	at org.gradle.internal.execution.steps.StoreExecutionStateStep.execute(StoreExecutionStateStep.java:44)
+	at org.gradle.internal.execution.steps.StoreExecutionStateStep.execute(StoreExecutionStateStep.java:33)
+	at org.gradle.internal.execution.steps.RecordOutputsStep.execute(RecordOutputsStep.java:38)
+	at org.gradle.internal.execution.steps.RecordOutputsStep.execute(RecordOutputsStep.java:24)
+	at org.gradle.internal.execution.steps.SkipUpToDateStep.executeBecause(SkipUpToDateStep.java:92)
+	at org.gradle.internal.execution.steps.SkipUpToDateStep.lambda$execute$0(SkipUpToDateStep.java:85)
+	at org.gradle.internal.execution.steps.SkipUpToDateStep$$Lambda$448/0000000000000000.apply(Unknown Source)
+	at java.base/java.util.Optional.map(Optional.java:265)
+	at org.gradle.internal.execution.steps.SkipUpToDateStep.execute(SkipUpToDateStep.java:55)
+	at org.gradle.internal.execution.steps.SkipUpToDateStep.execute(SkipUpToDateStep.java:39)
+	at org.gradle.internal.execution.steps.ResolveChangesStep.execute(ResolveChangesStep.java:76)
+	at org.gradle.internal.execution.steps.ResolveChangesStep.execute(ResolveChangesStep.java:37)
+	at org.gradle.internal.execution.steps.legacy.MarkSnapshottingInputsFinishedStep.execute(MarkSnapshottingInputsFinishedStep.java:36)
+	at org.gradle.internal.execution.steps.legacy.MarkSnapshottingInputsFinishedStep.execute(MarkSnapshottingInputsFinishedStep.java:26)
+	at org.gradle.internal.execution.steps.ResolveCachingStateStep.execute(ResolveCachingStateStep.java:94)
+	at org.gradle.internal.execution.steps.ResolveCachingStateStep.execute(ResolveCachingStateStep.java:49)
+	at org.gradle.internal.execution.steps.CaptureStateBeforeExecutionStep.execute(CaptureStateBeforeExecutionStep.java:79)
+	at org.gradle.internal.execution.steps.CaptureStateBeforeExecutionStep.execute(CaptureStateBeforeExecutionStep.java:53)
+	at org.gradle.internal.execution.steps.ValidateStep.execute(ValidateStep.java:74)
+	at org.gradle.internal.execution.steps.SkipEmptyWorkStep.lambda$execute$2(SkipEmptyWorkStep.java:78)
+	at org.gradle.internal.execution.steps.SkipEmptyWorkStep$$Lambda$425/0000000000000000.get(Unknown Source)
+	at java.base/java.util.Optional.orElseGet(Optional.java:369)
+	at org.gradle.internal.execution.steps.SkipEmptyWorkStep.execute(SkipEmptyWorkStep.java:78)
+	at org.gradle.internal.execution.steps.SkipEmptyWorkStep.execute(SkipEmptyWorkStep.java:34)
+	at org.gradle.internal.execution.steps.legacy.MarkSnapshottingInputsStartedStep.execute(MarkSnapshottingInputsStartedStep.java:39)
+	at org.gradle.internal.execution.steps.LoadExecutionStateStep.execute(LoadExecutionStateStep.java:40)
+	at org.gradle.internal.execution.steps.LoadExecutionStateStep.execute(LoadExecutionStateStep.java:28)
+	at org.gradle.internal.execution.impl.DefaultWorkExecutor.execute(DefaultWorkExecutor.java:33)
+	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.executeIfValid(ExecuteActionsTaskExecuter.java:192)
+	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.execute(ExecuteActionsTaskExecuter.java:184)
+	at org.gradle.api.internal.tasks.execution.CleanupStaleOutputsExecuter.execute(CleanupStaleOutputsExecuter.java:114)
+	at org.gradle.api.internal.tasks.execution.FinalizePropertiesTaskExecuter.execute(FinalizePropertiesTaskExecuter.java:46)
+	at org.gradle.api.internal.tasks.execution.ResolveTaskExecutionModeExecuter.execute(ResolveTaskExecutionModeExecuter.java:62)
+	at org.gradle.api.internal.tasks.execution.SkipTaskWithNoActionsExecuter.execute(SkipTaskWithNoActionsExecuter.java:57)
+	at org.gradle.api.internal.tasks.execution.SkipOnlyIfTaskExecuter.execute(SkipOnlyIfTaskExecuter.java:56)
+	at org.gradle.api.internal.tasks.execution.CatchExceptionTaskExecuter.execute(CatchExceptionTaskExecuter.java:36)
+	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.executeTask(EventFiringTaskExecuter.java:77)
+	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.call(EventFiringTaskExecuter.java:55)
+	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.call(EventFiringTaskExecuter.java:52)
+	at org.gradle.internal.operations.DefaultBuildOperationExecutor$CallableBuildOperationWorker.execute(DefaultBuildOperationExecutor.java:416)
+	at org.gradle.internal.operations.DefaultBuildOperationExecutor$CallableBuildOperationWorker.execute(DefaultBuildOperationExecutor.java:406)
+	at org.gradle.internal.operations.DefaultBuildOperationExecutor$1.execute(DefaultBuildOperationExecutor.java:165)
+	at org.gradle.internal.operations.DefaultBuildOperationExecutor.execute(DefaultBuildOperationExecutor.java:250)
+	at org.gradle.internal.operations.DefaultBuildOperationExecutor.execute(DefaultBuildOperationExecutor.java:158)
+	at org.gradle.internal.operations.DefaultBuildOperationExecutor.call(DefaultBuildOperationExecutor.java:102)
+	at org.gradle.internal.operations.DelegatingBuildOperationExecutor.call(DelegatingBuildOperationExecutor.java:36)
+	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter.execute(EventFiringTaskExecuter.java:52)
+	at org.gradle.execution.plan.LocalTaskNodeExecutor.execute(LocalTaskNodeExecutor.java:41)
+	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$InvokeNodeExecutorsAction.execute(DefaultTaskExecutionGraph.java:372)
+	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$InvokeNodeExecutorsAction.execute(DefaultTaskExecutionGraph.java:359)
+	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$BuildOperationAwareExecutionAction.execute(DefaultTaskExecutionGraph.java:352)
+	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$BuildOperationAwareExecutionAction.execute(DefaultTaskExecutionGraph.java:338)
+	at org.gradle.execution.plan.DefaultPlanExecutor$ExecutorWorker.lambda$run$0(DefaultPlanExecutor.java:127)
+	at org.gradle.execution.plan.DefaultPlanExecutor$ExecutorWorker$$Lambda$410/0000000000000000.execute(Unknown Source)
+	at org.gradle.execution.plan.DefaultPlanExecutor$ExecutorWorker.execute(DefaultPlanExecutor.java:191)
+	at org.gradle.execution.plan.DefaultPlanExecutor$ExecutorWorker.executeNextNode(DefaultPlanExecutor.java:182)
+	at org.gradle.execution.plan.DefaultPlanExecutor$ExecutorWorker.run(DefaultPlanExecutor.java:124)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.internal.concurrent.ManagedExecutorImpl$1.run(ManagedExecutorImpl.java:48)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at org.gradle.internal.concurrent.ThreadFactoryImpl$ManagedThreadRunnable.run(ThreadFactoryImpl.java:56)
+	at java.base/java.lang.Thread.run(Thread.java:834)
+```
+
+
+Hi @ghilainm. Can you provide some context for this?  Any steps to reproduce would be a great help.  Thanks!
+
+Note, there is a [sample Gradle application](https://github.com/manifold-systems/manifold-simple-gradle-project) you can clone and use as a baseline. It is working with 2020.1.4.
+
+I have the same problem. 
+
+i think it ocurrs when using extendsion method
+
+@rsmckinney I have used it as a starting point. I am only using @Structural annotation once, nothing fancy.
+
+I can't indicate you any step unfortunately because I do nothing special :(. If you want we can have a quick call so that I show you my project so that you can see if you spot anything suspicious.
+
+@ghilainm @wxq1990 Thanks for the info!  I'll investigate today.
+
+Update:
+
+The sample Gradle project uses Gradle version 5.2.1, which works fine. However, changing the project to Gradle version 6.2 breaks as described in this issue.  I'm debugging that now. 
+
+Update:
+
+The issue appears to be a fault of Gradle using an incorrect ClientCodeWrapper, it should be using a WrappedStandardJavaFileManager for Java 9+, instead it uses a WrappedJavaFileManager.  I have a fix ready to work around the issue. Will include this in the next release (2020.1.5), coming soon.
+
+Fixed in release 2020.1.7
+
+ Extension methods don't appear to exist when using a jar
+ Hello, another newbie question again. This appears to be very similar (possibly identical) to the issue raised in #25, except that I only have one project, not two.
+
+tl;dr: is it required that any extension methods are defined in a standalone project, then included as a dependency of another project if I want to use them from a compiled jar?
+
+The scenario I have is that I have some project which defines some extension class (i.e. TestProject.extensions.java.lang.String.StringExt). I was able to compile and run everything manually with no issue, but eventually the manual dependency management became cumbersome, so I decided to try to switch to Maven.
+
+Using Maven I can compile everything with no issue, but when I try to execute the jar I produce, it fails with a "method [...] is undefined for the type String" error.
+
+I followed all the steps in the docs, including those mentioned in #25, and my pom.xml appears to look exactly how it is supposed to (annotationProcessorPaths, manifestEntries Contains-Sources, etc.), but I still get this error.
+
+I have attached my pom.xml for reference.
+
+[pom.xml.txt](https://github.com/manifold-systems/manifold/files/4457039/pom.xml.txt)
+
+
+Okay, once again I am a victim of inexperience and insufficient Java/Maven documentation.
+
+tl;dr: I'm using JDK 13, but the `maven.compiler.release` property in my pom.xml was set to 11. This caused many things to fail in non-obvious ways.
+
+Changing that to 13 caused everything to work as advertised.
+
+ IntelliJ: Debugger expression evaluation is broken
+ **Describe the bug**
+IntelliJ: Debugger expression evaluation is broken
+
+**To Reproduce**
+Steps to reproduce the behavior:
+1. Debug a project in IJ with the manifold plugin enabled
+2. At a breakpoint try to evaluate an expression
+3. Notice none of the symbols resolve
+
+**Desktop (please complete the following information):**
+- Manifold version: 2020.1.3
+- Manifold IntelliJ plugin version: 2020.1.2
+
+**Additional context**
+Using manifold-all in project
+
+Fixed in ij plugin (f371689)
+
+ Strange break to label behaviour with Manifold
+ I can't find any mentions about Manifold changing break to label, but when I try to use break to label in IntelliJ with Manifold plugin, it doesn't recognize the label:
+![image](https://user-images.githubusercontent.com/50185755/78062594-9547fb80-7397-11ea-9b81-9a4b013b9553.png)
+and suggests me to create a variable
+![image](https://user-images.githubusercontent.com/50185755/78062645-a7c23500-7397-11ea-851e-15529efc185f.png)
+If I create the variable, error notification goes away and everything works perfectly in dev environment, but once I build a shadow jar, it doesn't work, and then works again once I remove Manifold from the shadow jar.
+Is there something that I'm missing or is it a bug?
+
+I was using the following artifact and used build.gradle setup from github guide:
+systems.manifold:manifold-ext:2020.1.3
+
+@Afarion1 Hi.  Looks like an IntelliJ plugin bug. You can safely ignore the error the editor reports, it will compile just fine. I'll have a fix ready in the next plugin release, coming soon.  Thanks for reporting this!
+
+Fixed in ij plugin (2bfb0bb)
+
+ Calling methods on a sub-type
+ Hello, another newbie question here. My problem has to do with the interaction between an extension method on a base class, a regular method on the extension class with the same name, and an extension method OR regular method on a subclass.
+
+An example:
+
+```
+package MyProject.extensions.java.lang.Object;
+import manifold.ext.api.Extension;
+import manifold.ext.api.This;
+
+@Extension
+public class ObjectExt {
+	public static void One(@This Object self){
+		self.Two();
+	}
+	public static void Two(@This Object self){
+		system.out.println("Base ext");
+	}
+	public void Two(){
+		system.out.println("Base regular");
+	}
+}
+
+... another file
+
+package MyProject.extensions.java.lang.String;
+import manifold.ext.api.Extension;
+import manifold.ext.api.This;
+
+@Extension
+public class StringExt {
+	public static void Two(@This Object self){
+		system.out.println("Sub class");
+	}
+	public void Two(){
+		system.out.println("Sub regular");
+	}
+}
+
+... another file
+
+Package MyProject;
+import MyProject.extensions.java.lang.Object.ObjectExt;
+import MyProject.extensions.java.lang.String.StringExt;
+
+public class Test {
+	public static void main(String[] args){
+		"test".One();
+	}
+}
+```
+
+What will be printed? I would expect that it would
+1) try to execute `String.One`,
+2) find the definition on `Object` (by extension), call `Object.One` which calls `Two` on the instance, which causes `String.Two` to be called,
+3) resolves to the extension method (since this is a String and not an instance of StringExt) and
+4) we get `Sub Class` printed out.
+
+In practice, this seems to do (1), but then it calls `Object.Two` which results in `Base ext`.
+
+I tried using `@Self` instead of `@This`, but that just causes it to fail to compile with `cannot find symbol self.Two();` and `@This @Self` will compile, but I don't appear to be able to get it to access the methods on the subclass by referencing `self`.
+@markyys Hi. As you've discovered extension methods dispatch *statically* where the compile-time type determines the method that is called, hence the `Object#Two()` call. To get a better handle on extension methods I recommend reading the entire section on [Extension Methods](https://github.com/manifold-systems/manifold/tree/master/manifold-deps-parent/manifold-ext#extension-classes-via-extension). The part explaining [static dispatching](https://github.com/manifold-systems/manifold/tree/master/manifold-deps-parent/manifold-ext#static-dispatching) is particularly relevant. It's worth noting other languages with extension methods, such as C#, also use static dispatching for the same reasons.
+
+ Calling an extension method from within an extension method defined on the same class
+ I'm very new to using Manifold, and new to java in general, but it seems to me this kind of thing should be possible:
+
+```
+MyModule.extensions.java.lang.Object;
+
+@extension
+public class Foo {
+	public String SomeFunction(@This Object self){
+		return "a string";
+	}
+
+	public void AnotherFunction(@this Object self){
+		return self.SomeFunction();
+	}
+
+	public static void main(String[] args){
+		"".AnotherFunction();
+	}
+}
+```
+
+but it fails at compile time saying that `The method SomeFunction() is undefined for the type Object`.
+
+Is it not possible to call an extension method from within an extension method for some reason, or am I just doing something wrong here?
+
+I should note that if I call `".SomeFunction()`' directly that works as expected (assuming that I remove `AnotherFunction` entirely, of course).
+@markyys Hi. This does indeed work -- Manifold supports self referencing extensions.  Maybe you forgot to make the extension methods static? [See the docs for more info](https://github.com/manifold-systems/manifold/tree/master/manifold-deps-parent/manifold-ext#extension-classes-via-extension).
+
+Here's a working example:
+```java
+package MyModule.extensions.java.lang.Object;
+
+import manifold.ext.api.Extension;
+import manifold.ext.api.This;
+
+@Extension
+public class Foo {
+    public static String SomeFunction(@This Object self) {
+        return "a string";
+    }
+
+    public static String AnotherFunction(@This Object self) {
+        return self.SomeFunction();
+    }
+
+    public static void main(String[] args) {
+        "".AnotherFunction();
+    }
+}
+```
+
+I typed that example from memory; I should have copy and pasted.
+
+Interestingly, this does work:
+```
+package MyModule.extensions.java.lang.Object;
+
+import manifold.ext.api.Extension;
+import manifold.ext.api.This;
+
+@Extension
+public class TestObject {
+	public static void new_function(@This Object self){
+		System.out.println(self.another_function());
+	}
+	public static String another_function(@This Object self){
+		return "new string";
+	}
+	public static void main(String[] args){
+		"test".new_function();
+	}
+}
+```
+
+but if I add another file:
+```
+package MyModule;
+
+public class ExtensionTest {
+	public static void main(String[] args){
+		ExtensionTest.ObjectTest();
+	}
+
+	private static void ObjectTest(){
+		"test %s".new_function();
+	}
+}
+```
+
+that fails with the aforementioned error.
+If the class is defined in the same package I shouldn't have to do anything special to apply it, right?
+Normally I would say `import MyModule.extensions.java.lang.Object;` but that has no effect.
+
+Again, this might be a matter of me just not being familiar with basic java principles.
+
+Okay, I figured it out. The problem is, indeed, lack of basic java knowledge.
+
+tl;dr: I was not actually recompiling all source files, so things got wonky.
+
+ Use method reference operator (::) throws ClassCastException
+ **Describe the bug**
+Use method reference operator (::) throws ClassCastException
+
+**To Reproduce**
+This code works fine:
+
+MyQuery query = MyQuery.builder().build();
+MyQuery.Result result = query.request(ENDPOINT).post();
+List<MyDomainObject> resultList =  result.getGeneratedObjects().stream()
+                .map(**obj->MyDomainObjectMapper.map(obj)**)
+                .collect(Collectors.toList());
+
+However code below fails and throws java.lang.ClassCastException: manifold.api.json.DataBindings cannot be cast to queries$MyQuery$Result$generatedObject
+
+MyQuery query = MyQuery.builder().build();
+MyQuery.Result result = query.request(ENDPOINT).post();
+List<MyDomainObject> resultList =  result.getGeneratedObjects().stream()
+                .map(**MyDomainObjectMapper::map**)
+                .collect(Collectors.toList());
+
+
+
+
+As you've discovered method refs are not yet supported with extension methods, instead please use lambda expressions for this use-case. Thanks.
+
+similar: https://github.com/manifold-systems/manifold/issues/64
+
+Thanks for the quick responses. Looking forward to see it supported soon :)
+
+ Manifold plugin in Community Edition shows Trial Expiration
+ Hi
+
+I have IntelliJ Community Edition 2019.3.1 and Manifold plugin installed version is 2019.3.10. Everything works but in the IJ plugins it shows "Trial expires in xx days". Thought it is free for the IJ Community Edition?
+
+Regards
+@johnnychow1  Hi. The JetBrains Marketplace is still a work in progress. At one point early in development the Manifold plugin could load for free in Community Edition, but as you've discovered that no longer works. JetBrains is fixing this with [MP-2910](https://youtrack.jetbrains.com/issue/MP-2910), free plugin support for CE is coming soon in a 2020 IJ release. In the meantime please [contact JetBrains](https://www.jetbrains.com/support/sales/#email-sales) and let them know you need free Manifold plugin support for Community Edition.
+
+Thanks for the update
+
+Hi, I just installed IJ2020.1 CE and then installed Manifold plugin, it still shows Trial with 30 days expiry date. No free Manifold plugin support. Any way to get around it?
+
+Fixed in Manifold IJ Plugin release 2020.1.9, currently awaiting JetBrains repo approval (usually takes up to two business days)
+
+ conflicting library with com.graphql-java-kickstart:graphql-spring-boot-starter:5.2
+ in my project I want my service to provide as well as consume graphql
+Therefore, the spring boot starter graphql dependency is present 
+in my build.gradle file:
+compile 'com.graphql-java-kickstart:graphql-spring-boot-starter:5.2'
+	compile 'com.graphql-java-kickstart:graphiql-spring-boot-starter:5.2'
+	compile 'com.graphql-java-kickstart:voyager-spring-boot-starter:5.2'
+
+as soon as I add 
+compile group: 'systems.manifold', name: 'manifold-all', version: '2020.1.3'
+
+I am getting a compile error of a conflicting jar
+(I am using intellij, openjdk13.0.1, and build my app without module)
+
+2020-03-17T17:15:08,146 ERROR [main] o.s.b.w.e.t.TomcatStarter: Error starting Tomcat context. Exception: org.springframework.beans.factory.UnsatisfiedDependencyException. Message: Error creating bean with name 'graphQLServletRegistrationBean' defined in class path resource [com/oembedler/moon/graphql/boot/GraphQLWebAutoConfiguration.class]: Unsatisfied dependency expressed through method 'graphQLServletRegistrationBean' parameter 0; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'graphQLHttpServlet' defined in class path resource [com/oembedler/moon/graphql/boot/GraphQLWebAutoConfiguration.class]: Unsatisfied dependency expressed through method 'graphQLHttpServlet' parameter 0; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'invocationInputFactory' defined in class path resource [com/oembedler/moon/graphql/boot/GraphQLWebAutoConfiguration.class]: Unsatisfied dependency expressed through method 'invocationInputFactory' parameter 0; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'graphQLSchemaProvider' defined in class path resource [com/oembedler/moon/graphql/boot/GraphQLWebAutoConfiguration.class]: Unsatisfied dependency expressed through method 'graphQLSchemaProvider' parameter 0; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'graphQLSchema' defined in class path resource [com/oembedler/moon/graphql/boot/GraphQLJavaToolsAutoConfiguration.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [graphql.schema.GraphQLSchema]: Factory method 'graphQLSchema' threw exception; nested exception is java.lang.NoSuchMethodError: 'void graphql.schema.idl.SchemaGeneratorDirectiveHelper$Parameters.<init>(graphql.schema.idl.TypeDefinitionRegistry, graphql.schema.idl.RuntimeWiring, graphql.language.NodeParentTree, java.util.Map)'
+2020-03-17T17:15:08,208 INFO  [main] o.a.j.l.DirectJDKLog: Stopping service [Tomcat]
+2020-03-17T17:15:08,233 WARN  [main] o.a.j.l.DirectJDKLog: The web application [ROOT] appears to have started a thread named [master-db-pool housekeeper] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base@13.0.1/jdk.internal.misc.Unsafe.park(Native Method)
+ java.base@13.0.1/java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:235)
+ java.base@13.0.1/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:2123)
+ java.base@13.0.1/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1182)
+ java.base@13.0.1/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:899)
+ java.base@13.0.1/java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1054)
+ java.base@13.0.1/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1114)
+ java.base@13.0.1/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+ java.base@13.0.1/java.lang.Thread.run(Thread.java:830)
+2020-03-17T17:15:08,236 WARN  [main] o.s.c.s.AbstractApplicationContext: Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Unable to start web server; nested exception is org.springframework.boot.web.server.WebServerException: Unable to start embedded Tomcat
+2020-03-17T17:15:08,237 INFO  [main] o.s.o.j.AbstractEntityManagerFactoryBean: Closing JPA EntityManagerFactory for persistence unit 'default'
+2020-03-17T17:15:08,243 INFO  [main] c.z.h.HikariDataSource: master-db-pool - Shutdown initiated...
+2020-03-17T17:15:08,347 INFO  [main] c.z.h.HikariDataSource: master-db-pool - Shutdown completed.
+2020-03-17T17:15:08,435 INFO  [main] o.s.b.a.l.ConditionEvaluationReportLoggingListener: 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2020-03-17T17:15:08,449 ERROR [main] o.s.b.d.LoggingFailureAnalysisReporter: 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+An attempt was made to call a method that does not exist. The attempt was made from the following location:
+
+    graphql.schema.idl.DirectiveBehavior$Params.toParameters$graphql_java_tools(DirectiveBehavior.kt:51)
+
+The following method did not exist:
+
+    'void graphql.schema.idl.SchemaGeneratorDirectiveHelper$Parameters.<init>(graphql.schema.idl.TypeDefinitionRegistry, graphql.schema.idl.RuntimeWiring, graphql.language.NodeParentTree, java.util.Map)'
+
+The method's class, graphql.schema.idl.SchemaGeneratorDirectiveHelper$Parameters, is available from the following locations:
+
+    jar:file:/Users/tanner/.gradle/caches/modules-2/files-2.1/systems.manifold/manifold-all/2020.1.3/53b062f69c67ca998a47f9ae54ed2538a7f151cc/manifold-all-2020.1.3.jar!/graphql/schema/idl/SchemaGeneratorDirectiveHelper$Parameters.class
+    jar:file:/Users/tanner/.gradle/caches/modules-2/files-2.1/com.graphql-java/graphql-java/11.0/1f670532643686b9816a871e2c9b9e5dce205eb6/graphql-java-11.0.jar!/graphql/schema/idl/SchemaGeneratorDirectiveHelper$Parameters.class
+
+It was loaded from the following location:
+
+    file:/Users/tanner/.gradle/caches/modules-2/files-2.1/systems.manifold/manifold-all/2020.1.3/53b062f69c67ca998a47f9ae54ed2538a7f151cc/manifold-all-2020.1.3.jar
+
+
+Action:
+
+Correct the classpath of your application so that it contains a single, compatible version of graphql.schema.idl.SchemaGeneratorDirectiveHelper$Parameters
+
+
+Process finished with exit code 1
+
+@achieva Hi. It looks like your app depends on graphql-java version 11.0. The manifold-all uber jar incorporates all manifold dependencies, including manifold-graphql, which depends on graphql-java version 13.0. If your application doesn't need to use manifold's graphql support, you can change your app to depend on individual manifold dependencies as needed instead of using manifold-all. You could also build an identical version of manifold-all minus the manifold-graphql dependency, if that is more suitable.
+
+ Trace current stream chain is disabled
+ **Describe the bug**
+I am using android studio 3.5.3 and enabled java stream debugger plugin. After enabling the plugin, I can see the trace current stream option but its not enabled, its grayed out.
+
+**To Reproduce**
+Steps to reproduce the behavior:
+1. Enable Java debugger plugin
+2. restart android studio
+3. You can see the trace current stream chain option but that's grayed out
+
+**Expected behavior**
+Stream debugger option should be enable.
+
+**Screenshots**
+If applicable, add screenshots to help explain your problem (drag/drop them here).
+
+**Desktop (please complete the following information):**
+- OS Type & Version:  Mac 10.14.6 
+- Java/JDK version:java8
+- IntelliJ IDEA version:3.5.3 (android studio)
+- Manifold version:
+- Manifold IntelliJ plugin version: 
+
+**Additional context**
+Add any other context about the problem here.
+
+**Stack trace**
+Please include a stack trace if applicable
+
+@arvindnagar15 Hi.  Maybe you meant to report this for a different plugin?  I don't see a Manifold related issue here.
+
+ Manifold plugin may fail if Manifold jar is located on a different drive than IJ working dir
+ I've described the details in my other comment https://github.com/manifold-systems/manifold/issues/121#issuecomment-582567063 but I'm reposting it here since #121 was closed some time ago and the comment could have gone overlooked.
+I've reopened your original issue where you have a nice explanation of the problem. Work in progress.
+
+ Refactor union type name in graphql file will cause wrong name in the java file.
+ **Describe the bug**
+When refactoring union type name in graphql file, the union type name will change to ProxyFactory in java file.
+
+**To Reproduce**
+Steps to reproduce the behavior:
+1. Declare a union type in graphql file (movies.graphql)
+2. Refer to the union type in java file
+3. Refactor the union type name with the idea's refactor functions (refactor CastMember to CastMember2)
+4. The refactor error will make in java file
+
+**Expected behavior**
+It should get the correct union type name in java file.
+
+**Screenshots**
+The error union type name.
+![image](https://user-images.githubusercontent.com/1107708/75547793-b353d080-5a66-11ea-9d6c-ac9d34165452.png)
+
+**Desktop (please complete the following information):**
+- OS Type & Version: macOS Catalina (10.15.3)
+- Java/JDK version: jdk1.8_192
+- IntelliJ IDEA version: 2019.3.3 Ultimate Edition
+- Manifold version: 2020.1.3
+- Manifold IntelliJ plugin version: 2019.3.10
+
+**Additional context**
+Refactor the snippet
+`union CastMember = Person | Animal`
+to
+`union CastMember2 = Person | Animal`
+
+Fixed with https://github.com/manifold-systems/manifold-ij/commit/1aec41b40d90b163dc08b10a1ad436dbb106bb71 (ij plugin codebase)
+
+Fix will be available in next plugin release which is pending Jetbrains approval, usually two business days.
+
+Thanks for reporting this issue!
+
+ Executor helper methods
+ Added method in Executor to get whole graphql response. Today it's only possible to get the data part of the graphql response if you use the Executor as a graphql client. Now it will be possible to get the whole response (data and error),
+@axner001 Hi.  Thanks for raising the issue and providing a pull request. There's a new release available ([2020.1.3](https://github.com/manifold-systems/manifold/releases/tag/v2020.1.3)) that incorporates error handling into existing post & get graphql requests via `GqlRequestException`. So I'm closing this pull request in favor of the changes in this latest release.  Thanks again!
+
+@rsmckinney I'm glad to here, that's really good. Should have checked that before my pull request
+
+ Support extensions on inner classes
+ Currently only top-level Java types can be extended with @Extension. It would be nice to support extensions on inner types as well.
+ Question about Manifold plugin for IntelliJ IDEA Community edition
+ Hi,
+
+First of all I'd like to say that Manifold is a great idea!
+
+I wanted to explore the Manifold plugin in the IntelliJ IDEA Community edition 2019.3.3. In various documents it was written that the plugin is free for the Community edition, but I noticed it is marked as `Paid` in the Marketplace inside IntelliJ. Is it still free or the documentations is getting a bit outdated?
+
+Thank you in advance and keep up the good work!
+@grudir Hi. Sorry about the confusion regarding licensing. It confuses me as well! It used to be that Marketplace plugins could still function without a license. That changed where IntelliJ now requires a license at startup, without one a plugin will not load thereby denying it the opportunity to override the license with customized access e.g., the Manifold plugin provides access if the user is running Community Edition.
+
+There's good news. After some recent discussion JetBrains has decided to address this and once again grant paid plugins customized access.  See issue [MP-2910](https://youtrack.jetbrains.com/issue/MP-2910). It's fixed, but I'm not sure which versions will support it. In the meantime you can use the 30 day trial. Let me know if you need more time,
+
+Thank you @rsmckinney for detailed and lightning fast reply!
+
+ Usage of GraphQL fragments
+ Hello all,
+
+Lately, I have implemented several GraphQL queries and I have the following question:
+
+Due to the fact that three or four queries have the same output that is desired for further processing, I considered using *fragments* for cleaner code.
+
+The fragment itself is "understood" correctly inside the queries.graphql file (meaning no syntax errors occur) but inside the Java method, the query result is no longer available.
+
+**Should I reference somehow the fragment from inside the Java logic?**
+
+Example: 
+```
+query MovieQuery($id: ID!) {
+    movie(id: $id) {
+        ... movieData
+    }
+}
+
+fragment movieData on Movie{
+     id
+}
+```
+
+N.B. If I remove the fragment logic and leave the query as following, the result is retrieved fine:
+
+```
+query MovieQuery($id: ID!) {
+    movie(id: $id) {
+         id
+    }
+}
+```
+
+The Java logic for retrieving the data:
+
+```
+MovieQuery query = MovieQuery.builder(id).build();
+MovieQuery.Result result = query.request(URL).post();
+```
+
+So when using fragments **result** is null, otherwise, the data is retrieved properly.
+
+Is there something else that I should add?
+
+Thanks in advance.
+
+@VeronikaVakadinova Hi.  Looks like a regression in the GraphQL manifold -- the fragment is missing from the request, it should be sent alongside the query.  Fix coming soon.  Thanks for reporting this!
+
+@rsmckinney Thank you for the quick response. 
+
+Fixed in 2020.1.2 via https://github.com/manifold-systems/manifold/commit/896f5b3aecb4a40109dcb4f769076ec64993f650.
+
+>Note, a new version of the manifold IntelliJ plugin is awaiting JetBrains approval, usually within 48 hours of submission.  Please wait to use Manifold ver 2020.1.2 with the pending plugin release.
+
+ Incremental compilation can be slow when dealing with a large GraphQL schema
+ **Is your feature request related to a problem? Please describe.**
+A GraphQL schema file unnecessarily recompiles when only a query file changes. This is a problem with very large graphql schema files such as the Github v4 API, it slows down progress when modifying queries.
+
+**Describe the solution you'd like**
+Don't recompile the schema file when only a query file changes.
+
+in progress
+
+Fixed in 2020.1.1 with https://github.com/manifold-systems/manifold/commit/0a5f8d2e611afc230823c85a6d90a86793841b0b
+

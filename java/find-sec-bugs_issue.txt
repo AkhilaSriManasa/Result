@@ -1,0 +1,1380 @@
+﻿ java.lang.OutOfMemoryError: GC overhead limit exceeded
+ $ wc -l ../listJars.txt
+    1401 ../listJars.txt
+
+$ cat ../listJars.txt|./findsecbugs.sh -xargs -progress -html -output report.htm
+.....
+```
+Exception in thread "main" java.lang.OutOfMemoryError: GC overhead limit exceeded
+        at java.util.IdentityHashMap.resize(IdentityHashMap.java:472)
+        at java.util.IdentityHashMap.put(IdentityHashMap.java:441)
+        at edu.umd.cs.findbugs.ba.BasicAbstractDataflowAnalysis.lookupOrCreateFact(BasicAbstractDataflowAnalysis.java:186)
+        at edu.umd.cs.findbugs.ba.BasicAbstractDataflowAnalysis.getStartFact(BasicAbstractDataflowAnalysis.java:70)
+        at edu.umd.cs.findbugs.ba.Dataflow.execute(Dataflow.java:234)
+        at edu.umd.cs.findbugs.classfile.engine.bcel.ValueNumberDataflowFactory.analyze(ValueNumberDataflowFactory.java:76)
+        at edu.umd.cs.findbugs.classfile.engine.bcel.ValueNumberDataflowFactory.analyze(ValueNumberDataflowFactory.java:46)
+        at edu.umd.cs.findbugs.classfile.impl.AnalysisCache.analyzeMethod(AnalysisCache.java:369)
+        at edu.umd.cs.findbugs.classfile.impl.AnalysisCache.getMethodAnalysis(AnalysisCache.java:322)
+        at edu.umd.cs.findbugs.ba.ClassContext.getMethodAnalysis(ClassContext.java:1005)
+        at edu.umd.cs.findbugs.ba.ClassContext.getValueNumberDataflow(ClassContext.java:336)
+        at edu.umd.cs.findbugs.detect.FindSelfComparison2.analyzeMethod(FindSelfComparison2.java:99)
+        at edu.umd.cs.findbugs.detect.FindSelfComparison2.visitClassContext(FindSelfComparison2.java:74)
+        at edu.umd.cs.findbugs.DetectorToDetector2Adapter.visitClass(DetectorToDetector2Adapter.java:76)
+        at edu.umd.cs.findbugs.FindBugs2.analyzeApplication(FindBugs2.java:1080)
+        at edu.umd.cs.findbugs.FindBugs2.execute(FindBugs2.java:281)
+        at edu.umd.cs.findbugs.FindBugs.runMain(FindBugs.java:401)
+        at edu.umd.cs.findbugs.FindBugs2.main(FindBugs2.java:1185)
+        at edu.umd.cs.findbugs.LaunchAppropriateUI.launch(LaunchAppropriateUI.java:106)
+        at edu.umd.cs.findbugs.LaunchAppropriateUI.main(LaunchAppropriateUI.java:198)
+```
+
+I change 
+vi findsecbugs.sh
+
+java **-Xmx2000m -XX:+UseParallelGC** -cp "$LIBS" edu.umd.cs.findbugs.LaunchAppropriateUI -quiet -pluginList "$FINDBUGS_PLUGIN" -include "$DIR"/include.xml $@
+
+see:
+https://www.educative.io/edpresso/how-to-resolve-the-gc-overhead-limit-exceeded-error-in-java
+
+ XML Output explanation?
+ ```xml
+	<BugInstance instanceOccurrenceNum="0" instanceHash="c9a9805824bc24c7418f92ce7d886aa8" rank="15" abbrev="SECCU" category="SECURITY" priority="3" type="COOKIE_USAGE" instanceOccurrenceMax="1">
+		<ShortMessage>Potentially sensitive data in a cookie</ShortMessage>
+		<LongMessage>Sensitive data may be stored by the application in a cookie</LongMessage>
+		<Class classname="org.owasp.benchmark.testcode.BenchmarkTest00001" primary="true">
+			<SourceLine classname="org.owasp.benchmark.testcode.BenchmarkTest00001" start="30" end="88" sourcepath="org/owasp/benchmark/testcode/BenchmarkTest00001.java" sourcefile="BenchmarkTest00001.java">
+				<Message>At BenchmarkTest00001.java:[lines 30-88]</Message>
+			</SourceLine>
+			<Message>In class org.owasp.benchmark.testcode.BenchmarkTest00001</Message>
+		</Class>
+		<Method isStatic="false" classname="org.owasp.benchmark.testcode.BenchmarkTest00001" signature="(Ljavax/servlet/http/HttpServletRequest;Ljavax/servlet/http/HttpServletResponse;)V" name="doPost" primary="true">
+			<SourceLine endBytecode="852" classname="org.owasp.benchmark.testcode.BenchmarkTest00001" start="42" end="88" sourcepath="org/owasp/benchmark/testcode/BenchmarkTest00001.java" sourcefile="BenchmarkTest00001.java" startBytecode="0" />
+			<Message>In method org.owasp.benchmark.testcode.BenchmarkTest00001.doPost(HttpServletRequest, HttpServletResponse)</Message>
+		</Method>
+		<SourceLine endBytecode="50" classname="org.owasp.benchmark.testcode.BenchmarkTest00001" start="50" end="50" sourcepath="org/owasp/benchmark/testcode/BenchmarkTest00001.java" sourcefile="BenchmarkTest00001.java" startBytecode="50" primary="true">
+			<Message>At BenchmarkTest00001.java:[line 50]</Message>
+		</SourceLine>
+	</BugInstance>
+	<BugInstance instanceOccurrenceNum="1" instanceHash="c9a9805824bc24c7418f92ce7d886aa8" rank="15" abbrev="SECCU" category="SECURITY" priority="3" type="COOKIE_USAGE" instanceOccurrenceMax="1">
+		<ShortMessage>Potentially sensitive data in a cookie</ShortMessage>
+		<LongMessage>Sensitive data may be stored by the application in a cookie</LongMessage>
+		<Class classname="org.owasp.benchmark.testcode.BenchmarkTest00001" primary="true">
+			<SourceLine classname="org.owasp.benchmark.testcode.BenchmarkTest00001" start="30" end="88" sourcepath="org/owasp/benchmark/testcode/BenchmarkTest00001.java" sourcefile="BenchmarkTest00001.java">
+				<Message>At BenchmarkTest00001.java:[lines 30-88]</Message>
+			</SourceLine>
+			<Message>In class org.owasp.benchmark.testcode.BenchmarkTest00001</Message>
+		</Class>
+		<Method isStatic="false" classname="org.owasp.benchmark.testcode.BenchmarkTest00001" signature="(Ljavax/servlet/http/HttpServletRequest;Ljavax/servlet/http/HttpServletResponse;)V" name="doPost" primary="true">
+			<SourceLine endBytecode="852" classname="org.owasp.benchmark.testcode.BenchmarkTest00001" start="42" end="88" sourcepath="org/owasp/benchmark/testcode/BenchmarkTest00001.java" sourcefile="BenchmarkTest00001.java" startBytecode="0" />
+			<Message>In method org.owasp.benchmark.testcode.BenchmarkTest00001.doPost(HttpServletRequest, HttpServletResponse)</Message>
+		</Method>
+		<SourceLine endBytecode="63" classname="org.owasp.benchmark.testcode.BenchmarkTest00001" start="51" end="51" sourcepath="org/owasp/benchmark/testcode/BenchmarkTest00001.java" sourcefile="BenchmarkTest00001.java" startBytecode="63" primary="true">
+			<Message>At BenchmarkTest00001.java:[line 51]</Message>
+		</SourceLine>
+	</BugInstance>
+	<BugInstance instanceOccurrenceNum="0" instanceHash="9469ba70e4ee241cb8233d72a9a8b652" cweid="22" rank="10" abbrev="SECPTI" category="SECURITY" priority="1" type="PATH_TRAVERSAL_IN" instanceOccurrenceMax="0">
+		<ShortMessage>Potential Path Traversal (file read)</ShortMessage>
+		<LongMessage>File(...) reads a file whose location might be specified by user input</LongMessage>
+		<Class classname="org.owasp.benchmark.testcode.BenchmarkTest00001" primary="true">
+			<SourceLine classname="org.owasp.benchmark.testcode.BenchmarkTest00001" start="30" end="88" sourcepath="org/owasp/benchmark/testcode/BenchmarkTest00001.java" sourcefile="BenchmarkTest00001.java">
+				<Message>At BenchmarkTest00001.java:[lines 30-88]</Message>
+			</SourceLine>
+			<Message>In class org.owasp.benchmark.testcode.BenchmarkTest00001</Message>
+		</Class>
+		<Method isStatic="false" classname="org.owasp.benchmark.testcode.BenchmarkTest00001" signature="(Ljavax/servlet/http/HttpServletRequest;Ljavax/servlet/http/HttpServletResponse;)V" name="doPost" primary="true">
+			<SourceLine endBytecode="852" classname="org.owasp.benchmark.testcode.BenchmarkTest00001" start="42" end="88" sourcepath="org/owasp/benchmark/testcode/BenchmarkTest00001.java" sourcefile="BenchmarkTest00001.java" startBytecode="0" />
+			<Message>In method org.owasp.benchmark.testcode.BenchmarkTest00001.doPost(HttpServletRequest, HttpServletResponse)</Message>
+		</Method>
+		<SourceLine endBytecode="121" classname="org.owasp.benchmark.testcode.BenchmarkTest00001" start="63" end="63" sourcepath="org/owasp/benchmark/testcode/BenchmarkTest00001.java" sourcefile="BenchmarkTest00001.java" startBytecode="121" primary="true">
+			<Message>At BenchmarkTest00001.java:[line 63]</Message>
+		</SourceLine>
+		<String role="Sink method" value="File(...)">
+			<Message>Sink method File(...)</Message>
+		</String>
+		<SourceLine endBytecode="63" classname="org.owasp.benchmark.testcode.BenchmarkTest00001" start="51" end="51" sourcepath="org/owasp/benchmark/testcode/BenchmarkTest00001.java" sourcefile="BenchmarkTest00001.java" startBytecode="63">
+			<Message>At BenchmarkTest00001.java:[line 51]</Message>
+		</SourceLine>
+		<SourceLine endBytecode="106" classname="org.owasp.benchmark.testcode.BenchmarkTest00001" start="62" end="62" sourcepath="org/owasp/benchmark/testcode/BenchmarkTest00001.java" sourcefile="BenchmarkTest00001.java" startBytecode="106">
+			<Message>At BenchmarkTest00001.java:[line 62]</Message>
+		</SourceLine>
+	</BugInstance>
+```
+
+I wanted to know how I could go about interpreting the XML?
+I got the xml file using the OWASP vulnerability dataset.
+I did not find an official documentation on the XML format.
+
+A similar question was asked on spotbugs discussion forum: https://github.com/spotbugs/discuss/issues/66
+
+What information are you trying to extract?
+
+I am trying to extract the information as to which files(and line numbers) contain the vulnerability.
+
+I have done some code to implement the mapping in the SonarQube plugin. The `sourcepath` attribute found in the XML report is not a good indicator for non-java code (JSP, Groovy, Kotlin). 
+
+Here is the implementation : 
+https://github.com/spotbugs/sonar-findbugs/blob/e8bbf66fb9ba2c506cf8ed0141ba1db12deaa02c/src/main/java/org/sonar/plugins/findbugs/FindbugsSensor.java#L134-L197
+
+The first 4 line extract the properties. The next lines are guessing the location of the original source. Spotbugs could do a better job by extracting the source file from the SMAP section.
+
+ 541  RuntimeException when processing static method
+ Fixing #541 - RuntimeException when processing static method
+
+Thanks.
+ Add example for sql_injection_spring_jdbc with annotation
+ This is an open discussion as the description can be also given for @Value without additional information.
+
+It still can be vulnerable if the annotation use some SpEL voodoo but I'm not sure if how exactly.
+
+Example of a "vulnerable" application : 
+```java
+public class ClientRepository {
+    @Value("${jdbc.query.create.client}")
+    private String reqCreateClient;  // INSERT INTO client (no_client, name, mail, date_inscrit) VALUES (?, ?, ?, ?);
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+     
+    public int createClient(Client client) {
+        Assert.notNull(client, "entity cannot be null");
+        try {
+            return jdbcTemplate.update(reqCreateClient, ps -> {
+                Assert.notNull(client.getId(), "embedded id clientId cannot be null");
+                ps.setInt(1, client.getId());
+                ps.setString(2, client.getName());
+                ps.setString(3, client.getMail());
+                ps.setTimestamp(4, client.getDateInscription());
+            });
+        } catch (DuplicateKeyException e) {
+            return update(e);
+        }
+    }
+}
+```
+The example above should be safe because "reqCreateClient" is loaded from a properties.
+
+### (This is a false positive)
+At the moment, we don't do extra analysis `@Value` from Spring. It would be nice I guess to add some heuristic to avoid common false positive.
+
+### Generalizing the payload
+From my basic research the values stored in `@Value` will not change at runtime once loaded. They seem to be scoped specifically to system properties and properties files. (https://www.baeldung.com/spring-value-annotation)
+
+I guess we could consider those properties as safe without even analyzing the expression.
+
+ Hello,will you continue developing the FindBugs plugin?
+ <!--
+
+If you have a question regarding existing features or if you need support,
+please ask the question on StackOverflow :
+https://stackoverflow.com/questions/ask?tags=find-sec-bugs,spotbugs,java
+
+-->
+I am now using the latest version of idea(2020.1), which cannot be compatible with the plug-in. This plug-in is too good to use to give up
+I did an attempt to ported it last year.. Unfortunately, I don't have the time.
+
+ FORMAT_STRING_MANIPULATION false positive
+ ## Environment
+
+<!-- The versions used: Gradle 4.5/4.6, Maven 3.5.X, Java 7/8/9, SpotBugs 3.1.6/..., FindSecBugs 1.8.0/.. -->
+
+| Component          | Version |
+| ------------------ | ------- |
+| Maven              | 3.6.3   |
+| Java               | 11 - target 8 |
+| SpotBugs           | 4.0.1   |
+| SpotBugs-Plugin   | 4.0.0   |
+| FindSecBugs        | 1.10.1   |
+
+## Problem
+
+<!-- Include the elements that applied:
+     - Description of the expected behavior and the actual result.
+     - Stacktrace
+     - Maven/Gradle/Ant output
+-->
+
+Using Optional.ifPresent triggers this false-positive:
+```
+[ERROR] Format string argument allowing user controlled parameters [test.validator.Application] At Application.java:[line 28] FORMAT_STRING_MANIPULATION
+[ERROR] Format string argument allowing user controlled parameters [test.validator.Application] At Application.java:[line 29] FORMAT_STRING_MANIPULATION
+```
+There is no user controlled parameter here.
+
+## Code (If needed)
+
+<!-- Include the Java code samples or ZIP files of a sample project that reproduce the given bug. -->
+getError() and getHint() returns an Optional<String>
+```java
+25        String format = "%-10s %s%n";
+26        System.out.format(format, "Name:", param.getName());
+27        System.out.format(format, "Setting:", param.getSetting());
+28        param.getError().ifPresent(c -> System.out.format(format, "Error:", c));
+29        param.getHint().ifPresent(c -> System.out.format(format, "Hint:", c));
+```
+
+ Maintain different versions of the page: https://find-sec-bugs.github.io/bugs.htm
+ # Environment
+FindSecBugs: 1.10.1
+
+# Problem
+The bugs pattern page(https://find-sec-bugs.github.io/bugs.htm) does not contain any section for 
+SQL_NONCONSTANT_STRING_PASSED_TO_EXECUTE. In the old version of FindSecBugs, we were able to go to 
+https://find-sec-bugs.github.io/bugs.htm#SQL_NONCONSTANT_STRING_PASSED_TO_EXECUTE
+
+This provides inconsistent URL information about vulnerability in the report generated by old version of FindSecBugs.
+
+# Solution
+It would be great if we can provide versioning of bugs pattern page. Then, we can refer to the page depending on the version of FindSecBugs.
+SQL_NONCONSTANT_STRING_PASSED_TO_EXECUTE is associated with a bug pattern that is part of SpotBugs core rules.
+
+https://spotbugs.readthedocs.io/en/latest/bugDescriptions.html#sql-nonconstant-string-passed-to-execute-or-addbatch-method-on-an-sql-statement-sql-nonconstant-string-passed-to-execute
+
+In early versions, the SQL INJECTION bug patterns were divided in JDBC, Hibernate, JDO and JPA to have specialized descriptions.
+Other than that, we are only adding Bug pattern descriptions so far.
+
+ How to extract the sourceInfo from sourcecode?
+ I noticed there is a parameter called `-sourceInfo`, but how do i use this feature. 
+`Line numbers` in scan report deviates from the other decompiler like idea's decompiler.
+How to extract the sourceInfo from sourcecode to fix offsets?
+I am not fully aware of how `-sourceInfo` parameter is working but here is what I know..
+
+By default Spotbugs will report line numbers based on the information provided in class files. This is only available if the code was compiled with debug information. (Usually the default for most build systems.) The location of fields and code segments other than methods are not included by the Java compiler.
+SpotBugs give you the option to define custom mapping to map findings to more precise line of code. This is useful if you have lots of findings associated to fields. It is also be a good option for JVM languages.
+
+You can find a description of the format here:
+https://github.com/spotbugs/spotbugs/blob/3883a7b750fb339577be073bc45e36b6f268777b/spotbugs/src/doc/sourceInfo.html
+
+Your answer is very useful, thanks for your reply!
+
+ EmptyStackException error
+ ## Environment
+
+<!-- The versions used: Gradle 4.5/4.6, Maven 3.5.X, Java 7/8/9, SpotBugs 3.1.6/..., FindSecBugs 1.8.0/.. -->
+
+| Component          | Version |
+| ------------------ | ------- |
+| Gradle             | 5.6.4  |
+| Java               | jdk1.8.0_201  |
+| SpotBugs           | 4.0.0   |
+| FindSecBugs        | 1.10.1  |
+
+## Problem
+
+<!-- Include the elements that applied:
+     - Description of the expected behavior and the actual result.
+     - Stacktrace
+     - Maven/Gradle/Ant output
+-->
+
+The scan runs for around 7 minutes, then stops with exception `java.util.EmptyStackException`. There are also other missing classes, how should I include them?
+
+Logs:
+```log
+> Task :spotbugsMain
+Deleting stale output file: C:\gitlab-runner-poc\builds\_dDSEeHS\0\user\portal-mr-linter-poc\DMS\build\reports\spotbugs\main.xml
+Caching disabled for task ':spotbugsMain' because:
+  Build cache is disabled
+Task ':spotbugsMain' is not up-to-date because:
+  No history is available.
+Starting process 'Gradle SpotBugs Worker 1'. Working directory: C:\gitlab-runner-poc\builds\_dDSEeHS\0\user\portal-mr-linter-poc\DMS Command: C:\Program Files\Java\jdk1.8.0_201\bin\java.exe -Djava.security.manager=worker.org.gradle.process.internal.worker.child.BootstrapSecurityManager -Xmx512m -Dfile.encoding=UTF-8 -Duser.country=PH -Duser.language=en -Duser.variant -cp C:\Windows\System32\config\systemprofile\.gradle\caches\5.6.4\workerMain\gradle-worker.jar worker.org.gradle.process.internal.worker.GradleWorkerMain 'Gradle SpotBugs Worker 1'
+Successfully started process 'Gradle SpotBugs Worker 1'
+SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+The following errors occurred during analysis:
+  Exception while analyzing com.aaaa.bbbb.cccc.dddd.refreshSequence(Ljava/sql/Connection;)V
+    java.lang.RuntimeException: Unable to call com/aaaa/proj/cache/JCacheManager.getManager()Ljavax/cache/CacheManager;
+      At com.h3xstream.findsecbugs.taintanalysis.TaintFrameModelingVisitor.visitInvoke(TaintFrameModelingVisitor.java:599)
+      At com.h3xstream.findsecbugs.taintanalysis.TaintFrameModelingVisitor.visitINVOKESTATIC(TaintFrameModelingVisitor.java:385)
+      At org.apache.bcel.generic.INVOKESTATIC.accept(INVOKESTATIC.java:86)
+      At edu.umd.cs.findbugs.ba.AbstractFrameModelingVisitor.analyzeInstruction(AbstractFrameModelingVisitor.java:84)
+      At com.h3xstream.findsecbugs.taintanalysis.TaintFrameModelingVisitor.analyzeInstruction(TaintFrameModelingVisitor.java:129)
+      At com.h3xstream.findsecbugs.taintanalysis.TaintAnalysis.transferInstruction(TaintAnalysis.java:90)
+      At com.h3xstream.findsecbugs.taintanalysis.TaintAnalysis.transferInstruction(TaintAnalysis.java:51)
+      At edu.umd.cs.findbugs.ba.AbstractDataflowAnalysis.transfer(AbstractDataflowAnalysis.java:136)
+      At edu.umd.cs.findbugs.ba.Dataflow.execute(Dataflow.java:378)
+      At com.h3xstream.findsecbugs.taintanalysis.TaintDataflowEngine.analyze(TaintDataflowEngine.java:183)
+      At com.h3xstream.findsecbugs.taintanalysis.TaintDataflowEngine.analyze(TaintDataflowEngine.java:56)
+      At edu.umd.cs.findbugs.classfile.impl.AnalysisCache.analyzeMethod(AnalysisCache.java:368)
+      At edu.umd.cs.findbugs.classfile.impl.AnalysisCache.getMethodAnalysis(AnalysisCache.java:321)
+      At com.h3xstream.findsecbugs.injection.AbstractTaintDetector.getTaintDataFlow(AbstractTaintDetector.java:142)
+      At com.h3xstream.findsecbugs.injection.AbstractTaintDetector.analyzeMethod(AbstractTaintDetector.java:109)
+      At com.h3xstream.findsecbugs.injection.AbstractTaintDetector.visitClassContext(AbstractTaintDetector.java:94)
+      At edu.umd.cs.findbugs.DetectorToDetector2Adapter.visitClass(DetectorToDetector2Adapter.java:76)
+      At edu.umd.cs.findbugs.FindBugs2.lambda$null$1(FindBugs2.java:1108)
+      At java.util.concurrent.FutureTask.run(FutureTask.java:266)
+      At edu.umd.cs.findbugs.CurrentThreadExecutorService.execute(CurrentThreadExecutorService.java:86)
+      At java.util.concurrent.AbstractExecutorService.invokeAll(AbstractExecutorService.java:238)
+      At edu.umd.cs.findbugs.FindBugs2.analyzeApplication(FindBugs2.java:1118)
+      At edu.umd.cs.findbugs.FindBugs2.execute(FindBugs2.java:309)
+      At com.github.spotbugs.internal.spotbugs.SpotBugsExecutor.runSpotbugs(SpotBugsExecutor.java:23)
+      At sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+      At sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+      At sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+      At java.lang.reflect.Method.invoke(Method.java:498)
+      At org.gradle.process.internal.worker.request.WorkerAction.run(WorkerAction.java:118)
+      At org.gradle.process.internal.worker.request.WorkerAction.runThenStop(WorkerAction.java:101)
+      At sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+      At sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+      At sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+      At java.lang.reflect.Method.invoke(Method.java:498)
+      At org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:36)
+      At org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
+      At org.gradle.internal.remote.internal.hub.MessageHubBackedObjectConnection$DispatchWrapper.dispatch(MessageHubBackedObjectConnection.java:182)
+      At org.gradle.internal.remote.internal.hub.MessageHubBackedObjectConnection$DispatchWrapper.dispatch(MessageHubBackedObjectConnection.java:164)
+      At org.gradle.internal.remote.internal.hub.MessageHub$Handler.run(MessageHub.java:412)
+      At org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+      At org.gradle.internal.concurrent.ManagedExecutorImpl$1.run(ManagedExecutorImpl.java:48)
+      At java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+      At java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+      At org.gradle.internal.concurrent.ThreadFactoryImpl$ManagedThreadRunnable.run(ThreadFactoryImpl.java:56)
+      At java.lang.Thread.run(Thread.java:748)
+  Exception while analyzing com.aaaa.bbbb.cccc.dddd.eeee.ffff.schedule()V
+    java.lang.RuntimeException: Unable to call com/aaaa/bbbb/cccc/dddd/eeee/ffff.get()Ljava/util/concurrent/ExecutorService;
+      At com.h3xstream.findsecbugs.taintanalysis.TaintFrameModelingVisitor.visitInvoke(TaintFrameModelingVisitor.java:599)
+      At com.h3xstream.findsecbugs.taintanalysis.TaintFrameModelingVisitor.visitINVOKESTATIC(TaintFrameModelingVisitor.java:385)
+      At org.apache.bcel.generic.INVOKESTATIC.accept(INVOKESTATIC.java:86)
+      At edu.umd.cs.findbugs.ba.AbstractFrameModelingVisitor.analyzeInstruction(AbstractFrameModelingVisitor.java:84)
+      At com.h3xstream.findsecbugs.taintanalysis.TaintFrameModelingVisitor.analyzeInstruction(TaintFrameModelingVisitor.java:129)
+      At com.h3xstream.findsecbugs.taintanalysis.TaintAnalysis.transferInstruction(TaintAnalysis.java:90)
+      At com.h3xstream.findsecbugs.taintanalysis.TaintAnalysis.transferInstruction(TaintAnalysis.java:51)
+      At edu.umd.cs.findbugs.ba.AbstractDataflowAnalysis.transfer(AbstractDataflowAnalysis.java:136)
+      At edu.umd.cs.findbugs.ba.Dataflow.execute(Dataflow.java:378)
+      At com.h3xstream.findsecbugs.taintanalysis.TaintDataflowEngine.analyze(TaintDataflowEngine.java:183)
+      At com.h3xstream.findsecbugs.taintanalysis.TaintDataflowEngine.analyze(TaintDataflowEngine.java:56)
+      At edu.umd.cs.findbugs.classfile.impl.AnalysisCache.analyzeMethod(AnalysisCache.java:368)
+      At edu.umd.cs.findbugs.classfile.impl.AnalysisCache.getMethodAnalysis(AnalysisCache.java:321)
+      At com.h3xstream.findsecbugs.injection.AbstractTaintDetector.getTaintDataFlow(AbstractTaintDetector.java:142)
+      At com.h3xstream.findsecbugs.injection.AbstractTaintDetector.analyzeMethod(AbstractTaintDetector.java:109)
+      At com.h3xstream.findsecbugs.injection.AbstractTaintDetector.visitClassContext(AbstractTaintDetector.java:94)
+      At edu.umd.cs.findbugs.DetectorToDetector2Adapter.visitClass(DetectorToDetector2Adapter.java:76)
+      At edu.umd.cs.findbugs.FindBugs2.lambda$null$1(FindBugs2.java:1108)
+      At java.util.concurrent.FutureTask.run(FutureTask.java:266)
+      At edu.umd.cs.findbugs.CurrentThreadExecutorService.execute(CurrentThreadExecutorService.java:86)
+      At java.util.concurrent.AbstractExecutorService.invokeAll(AbstractExecutorService.java:238)
+      At edu.umd.cs.findbugs.FindBugs2.analyzeApplication(FindBugs2.java:1118)
+      At edu.umd.cs.findbugs.FindBugs2.execute(FindBugs2.java:309)
+      At com.github.spotbugs.internal.spotbugs.SpotBugsExecutor.runSpotbugs(SpotBugsExecutor.java:23)
+      At sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+      At sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+      At sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+      At java.lang.reflect.Method.invoke(Method.java:498)
+      At org.gradle.process.internal.worker.request.WorkerAction.run(WorkerAction.java:118)
+      At org.gradle.process.internal.worker.request.WorkerAction.runThenStop(WorkerAction.java:101)
+      At sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+      At sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+      At sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+      At java.lang.reflect.Method.invoke(Method.java:498)
+      At org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:36)
+      At org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
+      At org.gradle.internal.remote.internal.hub.MessageHubBackedObjectConnection$DispatchWrapper.dispatch(MessageHubBackedObjectConnection.java:182)
+      At org.gradle.internal.remote.internal.hub.MessageHubBackedObjectConnection$DispatchWrapper.dispatch(MessageHubBackedObjectConnection.java:164)
+      At org.gradle.internal.remote.internal.hub.MessageHub$Handler.run(MessageHub.java:412)
+      At org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+      At org.gradle.internal.concurrent.ManagedExecutorImpl$1.run(ManagedExecutorImpl.java:48)
+      At java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+      At java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+      At org.gradle.internal.concurrent.ThreadFactoryImpl$ManagedThreadRunnable.run(ThreadFactoryImpl.java:56)
+      At java.lang.Thread.run(Thread.java:748)
+The following classes needed for analysis were missing:
+  get
+  test
+  apply
+  accept
+  processRow
+  run
+  evaluate
+  getObject
+  consume
+  compare
+  check
+  call
+  getExpandedDates
+  getAsLong
+  applyAsInt
+  onRemoval
+  afterConnectionCommit
+  processEvent
+  getLabel
+  setEntity
+
+
+> Task :spotbugsMain FAILED
+:spotbugsMain (Thread[Execution worker for ':' Thread 4,5,main]) completed. Took 4 mins 46.227 secs.
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':spotbugsMain'.
+> java.util.EmptyStackException (no error message)
+
+* Try:
+Run with --debug option to get more log output. Run with --scan to get full insights.
+
+* Exception is:
+org.gradle.api.tasks.TaskExecutionException: Execution failed for task ':spotbugsMain'.
+	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter$3.accept(ExecuteActionsTaskExecuter.java:166)
+	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter$3.accept(ExecuteActionsTaskExecuter.java:163)
+	at org.gradle.internal.Try$Failure.ifSuccessfulOrElse(Try.java:191)
+	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.execute(ExecuteActionsTaskExecuter.java:156)
+	at org.gradle.api.internal.tasks.execution.ValidatingTaskExecuter.execute(ValidatingTaskExecuter.java:62)
+	at org.gradle.api.internal.tasks.execution.SkipEmptySourceFilesTaskExecuter.execute(SkipEmptySourceFilesTaskExecuter.java:108)
+	at org.gradle.api.internal.tasks.execution.ResolveBeforeExecutionOutputsTaskExecuter.execute(ResolveBeforeExecutionOutputsTaskExecuter.java:67)
+	at org.gradle.api.internal.tasks.execution.ResolveAfterPreviousExecutionStateTaskExecuter.execute(ResolveAfterPreviousExecutionStateTaskExecuter.java:46)
+	at org.gradle.api.internal.tasks.execution.CleanupStaleOutputsExecuter.execute(CleanupStaleOutputsExecuter.java:94)
+	at org.gradle.api.internal.tasks.execution.FinalizePropertiesTaskExecuter.execute(FinalizePropertiesTaskExecuter.java:46)
+	at org.gradle.api.internal.tasks.execution.ResolveTaskExecutionModeExecuter.execute(ResolveTaskExecutionModeExecuter.java:95)
+	at org.gradle.api.internal.tasks.execution.SkipTaskWithNoActionsExecuter.execute(SkipTaskWithNoActionsExecuter.java:57)
+	at org.gradle.api.internal.tasks.execution.SkipOnlyIfTaskExecuter.execute(SkipOnlyIfTaskExecuter.java:56)
+	at org.gradle.api.internal.tasks.execution.CatchExceptionTaskExecuter.execute(CatchExceptionTaskExecuter.java:36)
+	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.executeTask(EventFiringTaskExecuter.java:77)
+	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.call(EventFiringTaskExecuter.java:55)
+	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.call(EventFiringTaskExecuter.java:52)
+	at org.gradle.internal.operations.DefaultBuildOperationExecutor$CallableBuildOperationWorker.execute(DefaultBuildOperationExecutor.java:416)
+	at org.gradle.internal.operations.DefaultBuildOperationExecutor$CallableBuildOperationWorker.execute(DefaultBuildOperationExecutor.java:406)
+	at org.gradle.internal.operations.DefaultBuildOperationExecutor$1.execute(DefaultBuildOperationExecutor.java:165)
+	at org.gradle.internal.operations.DefaultBuildOperationExecutor.execute(DefaultBuildOperationExecutor.java:250)
+	at org.gradle.internal.operations.DefaultBuildOperationExecutor.execute(DefaultBuildOperationExecutor.java:158)
+	at org.gradle.internal.operations.DefaultBuildOperationExecutor.call(DefaultBuildOperationExecutor.java:102)
+	at org.gradle.internal.operations.DelegatingBuildOperationExecutor.call(DelegatingBuildOperationExecutor.java:36)
+	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter.execute(EventFiringTaskExecuter.java:52)
+	at org.gradle.execution.plan.LocalTaskNodeExecutor.execute(LocalTaskNodeExecutor.java:43)
+	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$InvokeNodeExecutorsAction.execute(DefaultTaskExecutionGraph.java:355)
+	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$InvokeNodeExecutorsAction.execute(DefaultTaskExecutionGraph.java:343)
+	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$BuildOperationAwareExecutionAction.execute(DefaultTaskExecutionGraph.java:336)
+	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$BuildOperationAwareExecutionAction.execute(DefaultTaskExecutionGraph.java:322)
+	at org.gradle.execution.plan.DefaultPlanExecutor$ExecutorWorker$1.execute(DefaultPlanExecutor.java:134)
+	at org.gradle.execution.plan.DefaultPlanExecutor$ExecutorWorker$1.execute(DefaultPlanExecutor.java:129)
+	at org.gradle.execution.plan.DefaultPlanExecutor$ExecutorWorker.execute(DefaultPlanExecutor.java:202)
+	at org.gradle.execution.plan.DefaultPlanExecutor$ExecutorWorker.executeNextNode(DefaultPlanExecutor.java:193)
+	at org.gradle.execution.plan.DefaultPlanExecutor$ExecutorWorker.run(DefaultPlanExecutor.java:129)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.internal.concurrent.ManagedExecutorImpl$1.run(ManagedExecutorImpl.java:48)
+	at org.gradle.internal.concurrent.ThreadFactoryImpl$ManagedThreadRunnable.run(ThreadFactoryImpl.java:56)
+Caused by: java.util.EmptyStackException
+	at edu.umd.cs.findbugs.log.Profiler.end(Profiler.java:272)
+	at edu.umd.cs.findbugs.FindBugs2.execute(FindBugs2.java:328)
+	at com.github.spotbugs.internal.spotbugs.SpotBugsExecutor.runSpotbugs(SpotBugsExecutor.java:23)
+	at org.gradle.process.internal.worker.request.WorkerAction.run(WorkerAction.java:118)
+	at org.gradle.process.internal.worker.request.WorkerAction.runThenStop(WorkerAction.java:101)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:36)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
+	at org.gradle.internal.remote.internal.hub.MessageHubBackedObjectConnection$DispatchWrapper.dispatch(MessageHubBackedObjectConnection.java:182)
+	at org.gradle.internal.remote.internal.hub.MessageHubBackedObjectConnection$DispatchWrapper.dispatch(MessageHubBackedObjectConnection.java:164)
+	at org.gradle.internal.remote.internal.hub.MessageHub$Handler.run(MessageHub.java:412)
+	... 3 more
+
+
+* Get more help at https://help.gradle.org
+
+```
+I didn't find anything obvious from the stacktrace.
+
+The important part from the stack seems to be:
+```java
+  Exception while analyzing com.aaaa.bbbb.cccc.dddd.eeee.ffff.schedule()V
+    java.lang.RuntimeException: Unable to call com/aaaa/bbbb/cccc/dddd/eeee/ffff.get()Ljava/util/concurrent/ExecutorService;
+      At com.h3xstream.findsecbugs.taintanalysis.TaintFrameModelingVisitor.visitInvoke(TaintFrameModelingVisitor.java:599)
+      At com.h3xstream.findsecbugs.taintanalysis.TaintFrameModelingVisitor.visitINVOKESTATIC(TaintFrameModelingVisitor.java:385)
+      At org.apache.bcel.generic.INVOKESTATIC.accept(INVOKESTATIC.java:86)
+      At edu.umd.cs.findbugs.ba.AbstractFrameModelingVisitor.analyzeInstruction(AbstractFrameModelingVisitor.java:84)
+      At com.h3xstream.findsecbugs.taintanalysis.TaintFrameModelingVisitor.analyzeInstruction(TaintFrameModelingVisitor.java:129)
+      At com.h3xstream.findsecbugs.taintanalysis.TaintAnalysis.transferInstruction(TaintAnalysis.java:90)
+```
+
+If you can anonymize the `com.aaaa.bbbb.cccc.dddd.refreshSequence(Ljava/sql/Connection;)V` in a sample, this would be helpful to troubleshoot.
+My guess is that it include a bytecode pattern that we didn't expected.
+
+ Plugin Not Available on IntellJ Marketplace for current version
+ FindBugs-IDEA does not show up in the IntelliJ Plugin Marketplace for the current version of IntelliJ Community Edition (2019.3.3).
+![image](https://user-images.githubusercontent.com/13340170/74375339-1f1f1380-4dae-11ea-9d58-f23f0840224a.png)
+
+It looks like the plugin was only supported until 2018.1.8
+https://plugins.jetbrains.com/plugin/3847-findbugs-idea/versions
+![image](https://user-images.githubusercontent.com/13340170/74375408-3eb63c00-4dae-11ea-93ce-8405d4b438bb.png)
+
+After downloading the latest version available (1.0.1), manually installing it, and installing the Find Security Bugs plugin (UI is different than the tutorial) it found no issues with the source code for WebGoat 8.0.0.M26:
+![image](https://user-images.githubusercontent.com/13340170/74375691-c8fea000-4dae-11ea-80b5-d00ab5d38b44.png)
+
+![image](https://user-images.githubusercontent.com/13340170/74375575-8fc63000-4dae-11ea-896b-9dbab88564aa.png)
+
+This is an issue I've also been facing. I personally have been using mvn commands to open up a nice UI
+#mvn spotbugs:spotbugs -Dspotbugs.fork=false -Dspotbugs.xmlOutput=true
+#mvn spotbugs:gui
+
+#550 .. The IntelliJ integration was my favorite integration. Obviously, it need to be fix ASAP.
+
+Personally, I don't have the time to do it at the moment.
+
+ Enable 'Require HTTPS' on find-sec-bugs.github.io/
+ Might be a good thing to require HTTPS (you can change this setting in the settings under the repository that is hosting the GH pages for this site)
+
+Example: This doesn't automatically redirect
+http://find-sec-bugs.github.io/
+Thanks
+I have enable this setting.
+
+ XPATH_INJECTION false positive 
+ ## Environment
+
+| Component          | Version |
+| ------------------ | ------- |
+| Maven              | 3.6.3   |
+| Java               | 8   |
+| SpotBugs           | 3.1.12  |
+| FindSecBugs        | 1.10.1   |
+
+## Problem
+
+The rule XPATH_INJECTION does not evaluate parameters of an enclosing method. I have a method that is invoked with String constants. These parameters are then inserted into an xpath expression. They are incorrectly flagged as variables. It would be an enhancement, if the rule would follow the byte code to check if these values are actually a variable or not. For my understanding, other SpotBugs rules do such an analysis (e.g., the Null checkers). 
+
+## Code (If needed)
+
+https://ci.jenkins.io/job/Plugins/job/analysis-model/job/master/817/spotbugs/source.dd1d4cf5-2942-42b0-84ec-83f454581ba7/#113
+
+I guess this pattern would be sufficiently common that we could do an additional check when the method is private (not protected and public). The check would involve looking at all the calls inside the same class.
+
+# Current Taint Analysis Strategy
+At the moment, the strategy is to do only taint analysis inside method. For performance and for simplicity.
+
+# Workaround
+You could use a encoding function that is known to be safe for (XPath https://github.com/find-sec-bugs/find-sec-bugs/search?l=Text&q=XPATH_INJECTION_SAFE). The major issue is the performance impact of going through the encoding every time.
+
+# Spotbugs Null check detector
+@uhafner I did not find the Null Checker detector in SpotBugs. Do you know what [bug pattern or bug id](github.com/spotbugs/spotbugs/blob/master/spotbugs/etc/findbugs.xml) is implementing this?
+
+Actually no. I think this has been brought up in an old talk about FindBugs where they claimed that they are able to detect those bugs across multiple methods. I newer verified it in code. 
+
+ how to debug find-sec-bug-cli
+ is there a way to debug for printf taint process?  like a option for finsecbugs.sh?
+
+i tried
+```
+findsecbugs_taint_debugtaintstate=true ./findsecbugs.sh
+```
+but its not work
+
+1. step  set config
+
+```java
+///root/find-sec-bugs/findsecbugs-plugin/src/main/java/com/h3xstream/findsecbugs/FindSecBugsGlobalConfig.java 
+ private boolean debugPrintInstructionVisited = true;
+ private boolean debugPrintInvocationVisited = true;
+```
+2. add debug print
+```diff
+///root/find-sec-bugs/findsecbugs-plugin/src/main/java/com/h3xstream/findsecbugs/taintanalysis/TaintFrameModelingVisitor.java 
+    public void analyzeInstruction(Instruction ins) throws DataflowAnalysisException {
+        //Print the bytecode instruction if it is globally configured
+        if (FindSecBugsGlobalConfig.getInstance().isDebugPrintInvocationVisited()
+                && ins instanceof InvokeInstruction) {
++            System.out.println(getFrame().toString());
+            ByteCode.printOpCode(ins, cpg);
+        } else if (FindSecBugsGlobalConfig.getInstance().isDebugPrintInstructionVisited()) {
++          System.out.println(getFrame().toString());
+            ByteCode.printOpCode(ins, cpg);
+        }
+        super.analyzeInstruction(ins);
+    }
+```
+3. step recompile project and make package 
+4. step replace ./cli/lib/findsecbugs-plugin-verison.jar  to the new one   
+
+These options are used when running unit test. TDD is the preferred approach for developing new bug pattern detector.
+
+You will see that it is commented as it is used temporarily:
+https://github.com/find-sec-bugs/find-sec-bugs/blob/2340b90bc3993a595011e1cce20982533799cc0d/findsecbugs-plugin/src/test/java/com/h3xstream/findsecbugs/PotentialValueDetectorTest.java#L34-L37
+
+The easiest option is to create a simple test case.
+
+ RuntimeException when processing static method
+ ## Environment
+
+SpotBugs: 3.1.12
+FindSecBugs: 1.10.1
+
+Using SpotBugs GUI
+
+## Problem
+
+Analysis fails with this exception:
+The following errors occurred during analysis:
+```
+  Exception while analyzing ThingUser.<init>()V
+    java.lang.RuntimeException: Unable to call ThingProvider.get()LThingProvider;
+      At com.h3xstream.findsecbugs.taintanalysis.TaintFrameModelingVisitor.visitInvoke(TaintFrameModelingVisitor.java:599)
+      At com.h3xstream.findsecbugs.taintanalysis.TaintFrameModelingVisitor.visitINVOKESTATIC(TaintFrameModelingVisitor.java:385)
+      At org.apache.bcel.generic.INVOKESTATIC.accept(INVOKESTATIC.java:87)
+      At edu.umd.cs.findbugs.ba.AbstractFrameModelingVisitor.analyzeInstruction(AbstractFrameModelingVisitor.java:84)
+      At com.h3xstream.findsecbugs.taintanalysis.TaintFrameModelingVisitor.analyzeInstruction(TaintFrameModelingVisitor.java:129)
+      At com.h3xstream.findsecbugs.taintanalysis.TaintAnalysis.transferInstruction(TaintAnalysis.java:90)
+      At com.h3xstream.findsecbugs.taintanalysis.TaintAnalysis.transferInstruction(TaintAnalysis.java:51)
+      At edu.umd.cs.findbugs.ba.AbstractDataflowAnalysis.transfer(AbstractDataflowAnalysis.java:135)
+      At edu.umd.cs.findbugs.ba.Dataflow.execute(Dataflow.java:376)
+      At com.h3xstream.findsecbugs.taintanalysis.TaintDataflowEngine.analyze(TaintDataflowEngine.java:183)
+      At com.h3xstream.findsecbugs.taintanalysis.TaintDataflowEngine.analyze(TaintDataflowEngine.java:56)
+      At edu.umd.cs.findbugs.classfile.impl.AnalysisCache.analyzeMethod(AnalysisCache.java:369)
+      At edu.umd.cs.findbugs.classfile.impl.AnalysisCache.getMethodAnalysis(AnalysisCache.java:322)
+      At com.h3xstream.findsecbugs.injection.AbstractTaintDetector.getTaintDataFlow(AbstractTaintDetector.java:142)
+      At com.h3xstream.findsecbugs.injection.AbstractTaintDetector.analyzeMethod(AbstractTaintDetector.java:109)
+      At com.h3xstream.findsecbugs.injection.AbstractTaintDetector.visitClassContext(AbstractTaintDetector.java:94)
+      At edu.umd.cs.findbugs.DetectorToDetector2Adapter.visitClass(DetectorToDetector2Adapter.java:76)
+      At edu.umd.cs.findbugs.FindBugs2.analyzeApplication(FindBugs2.java:1080)
+      At edu.umd.cs.findbugs.FindBugs2.execute(FindBugs2.java:281)
+      At edu.umd.cs.findbugs.gui2.BugLoader.doAnalysis(BugLoader.java:100)
+      At edu.umd.cs.findbugs.gui2.AnalyzingDialog$AnalysisThread.run(AnalyzingDialog.java:258)
+```
+
+
+## Code (If needed)
+
+The following two simple classes replicate the issue:
+
+```java
+public class ThingProvider {
+    private static ThingProvider INSTANCE;
+
+    public static ThingProvider get() {
+        return INSTANCE;
+    }
+
+    public static void set(ThingProvider provider) {
+        INSTANCE = provider;
+    }
+
+    public String dummyMethod() {
+        return "test";
+    }
+}
+```
+
+and
+
+```java
+public class ThingUser {
+    public ThingUser() {
+        ThingProvider provider = ThingProvider.get();
+        System.out.println(provider.dummyMethod());
+    }
+}
+```
+
+When can the problem be fixed
+
+Hi @simon-greatrix, @hengren108, sent a fix. Please let me know if it doesn't work for you.
+
+Thanks.
+
+Full stacktrace for the record:
+
+```
+java.lang.RuntimeException: Bad transfer parameter specification
+	at com.h3xstream.findsecbugs.taintanalysis.TaintFrameModelingVisitor.mergeTransferParameters(TaintFrameModelingVisitor.java:850)
+	at com.h3xstream.findsecbugs.taintanalysis.TaintFrameModelingVisitor.mergeTaintWithStack(TaintFrameModelingVisitor.java:747)
+	at com.h3xstream.findsecbugs.taintanalysis.TaintFrameModelingVisitor.getMethodTaint(TaintFrameModelingVisitor.java:730)
+	at com.h3xstream.findsecbugs.taintanalysis.TaintFrameModelingVisitor.visitInvoke(TaintFrameModelingVisitor.java:561)
+	at com.h3xstream.findsecbugs.taintanalysis.TaintFrameModelingVisitor.visitINVOKESTATIC(TaintFrameModelingVisitor.java:385)
+	at org.apache.bcel.generic.INVOKESTATIC.accept(INVOKESTATIC.java:87)
+	at edu.umd.cs.findbugs.ba.AbstractFrameModelingVisitor.analyzeInstruction(AbstractFrameModelingVisitor.java:84)
+	at com.h3xstream.findsecbugs.taintanalysis.TaintFrameModelingVisitor.analyzeInstruction(TaintFrameModelingVisitor.java:129)
+	at com.h3xstream.findsecbugs.taintanalysis.TaintAnalysis.transferInstruction(TaintAnalysis.java:90)
+	at com.h3xstream.findsecbugs.taintanalysis.TaintAnalysis.transferInstruction(TaintAnalysis.java:51)
+	at edu.umd.cs.findbugs.ba.AbstractDataflowAnalysis.transfer(AbstractDataflowAnalysis.java:135)
+	at edu.umd.cs.findbugs.ba.Dataflow.execute(Dataflow.java:376)
+	at com.h3xstream.findsecbugs.taintanalysis.TaintDataflowEngine.analyze(TaintDataflowEngine.java:183)
+	at com.h3xstream.findsecbugs.taintanalysis.TaintDataflowEngine.analyze(TaintDataflowEngine.java:56)
+	at edu.umd.cs.findbugs.classfile.impl.AnalysisCache.analyzeMethod(AnalysisCache.java:369)
+	at edu.umd.cs.findbugs.classfile.impl.AnalysisCache.getMethodAnalysis(AnalysisCache.java:322)
+	at com.h3xstream.findsecbugs.injection.AbstractTaintDetector.getTaintDataFlow(AbstractTaintDetector.java:142)
+	at com.h3xstream.findsecbugs.injection.AbstractTaintDetector.analyzeMethod(AbstractTaintDetector.java:109)
+	at com.h3xstream.findsecbugs.injection.AbstractTaintDetector.visitClassContext(AbstractTaintDetector.java:94)
+	at edu.umd.cs.findbugs.DetectorToDetector2Adapter.visitClass(DetectorToDetector2Adapter.java:76)
+	at edu.umd.cs.findbugs.FindBugs2.analyzeApplication(FindBugs2.java:1080)
+	at edu.umd.cs.findbugs.FindBugs2.execute(FindBugs2.java:281)
+	at edu.umd.cs.findbugs.FindBugs.runMain(FindBugs.java:401)
+	at edu.umd.cs.findbugs.FindBugs2.main(FindBugs2.java:1185)
+	at edu.umd.cs.findbugs.LaunchAppropriateUI.launch(LaunchAppropriateUI.java:106)
+	at edu.umd.cs.findbugs.LaunchAppropriateUI.main(LaunchAppropriateUI.java:198)
+Caused by: edu.umd.cs.findbugs.ba.DataflowAnalysisException: not enough values on stack: access=0, avail=0
+	at edu.umd.cs.findbugs.ba.Frame.getStackValue(Frame.java:247)
+	at com.h3xstream.findsecbugs.taintanalysis.TaintFrameModelingVisitor.mergeTransferParameters(TaintFrameModelingVisitor.java:843)
+	... 25 more
+The following errors occurred during analysis:
+  Exception while analyzing ThingUser.<init>()V
+    java.lang.RuntimeException: Unable to call ThingProvider.get()LThingProvider;
+      At com.h3xstream.findsecbugs.taintanalysis.TaintFrameModelingVisitor.visitInvoke(TaintFrameModelingVisitor.java:599)
+      At com.h3xstream.findsecbugs.taintanalysis.TaintFrameModelingVisitor.visitINVOKESTATIC(TaintFrameModelingVisitor.java:385)
+      At org.apache.bcel.generic.INVOKESTATIC.accept(INVOKESTATIC.java:87)
+      At edu.umd.cs.findbugs.ba.AbstractFrameModelingVisitor.analyzeInstruction(AbstractFrameModelingVisitor.java:84)
+      At com.h3xstream.findsecbugs.taintanalysis.TaintFrameModelingVisitor.analyzeInstruction(TaintFrameModelingVisitor.java:129)
+      At com.h3xstream.findsecbugs.taintanalysis.TaintAnalysis.transferInstruction(TaintAnalysis.java:90)
+      At com.h3xstream.findsecbugs.taintanalysis.TaintAnalysis.transferInstruction(TaintAnalysis.java:51)
+      At edu.umd.cs.findbugs.ba.AbstractDataflowAnalysis.transfer(AbstractDataflowAnalysis.java:135)
+      At edu.umd.cs.findbugs.ba.Dataflow.execute(Dataflow.java:376)
+      At com.h3xstream.findsecbugs.taintanalysis.TaintDataflowEngine.analyze(TaintDataflowEngine.java:183)
+      At com.h3xstream.findsecbugs.taintanalysis.TaintDataflowEngine.analyze(TaintDataflowEngine.java:56)
+      At edu.umd.cs.findbugs.classfile.impl.AnalysisCache.analyzeMethod(AnalysisCache.java:369)
+      At edu.umd.cs.findbugs.classfile.impl.AnalysisCache.getMethodAnalysis(AnalysisCache.java:322)
+      At com.h3xstream.findsecbugs.injection.AbstractTaintDetector.getTaintDataFlow(AbstractTaintDetector.java:142)
+      At com.h3xstream.findsecbugs.injection.AbstractTaintDetector.analyzeMethod(AbstractTaintDetector.java:109)
+      At com.h3xstream.findsecbugs.injection.AbstractTaintDetector.visitClassContext(AbstractTaintDetector.java:94)
+      At edu.umd.cs.findbugs.DetectorToDetector2Adapter.visitClass(DetectorToDetector2Adapter.java:76)
+      At edu.umd.cs.findbugs.FindBugs2.analyzeApplication(FindBugs2.java:1080)
+      At edu.umd.cs.findbugs.FindBugs2.execute(FindBugs2.java:281)
+      At edu.umd.cs.findbugs.FindBugs.runMain(FindBugs.java:401)
+      At edu.umd.cs.findbugs.FindBugs2.main(FindBugs2.java:1185)
+      At edu.umd.cs.findbugs.LaunchAppropriateUI.launch(LaunchAppropriateUI.java:106)
+      At edu.umd.cs.findbugs.LaunchAppropriateUI.main(LaunchAppropriateUI.java:198)
+
+```
+
+Thanks to @topolik for the fix.
+
+ CorsRegistryCORSDetector crashes with NullPointerException
+ ## Environment
+
+Gradle: 5.2.1
+Spotbugs: 2.0.0
+FindSecBugs: 1.10.1
+
+## Problem
+
+Error thrown during analysis:
+
+    java.lang.NullPointerException
+      At com.h3xstream.findsecbugs.spring.CorsRegistryCORSDetector.getStringArray(CorsRegistryCORSDetector.java:62)
+      At com.h3xstream.findsecbugs.spring.CorsRegistryCORSDetector.sawOpcode(CorsRegistryCORSDetector.java:47)
+      At edu.umd.cs.findbugs.visitclass.DismantleBytecode.visit(DismantleBytecode.java:882)
+      At edu.umd.cs.findbugs.visitclass.BetterVisitor.visitCode(BetterVisitor.java:218)
+      At edu.umd.cs.findbugs.visitclass.PreorderVisitor.visitCode(PreorderVisitor.java:243)
+      At edu.umd.cs.findbugs.bcel.OpcodeStackDetector.visitCode(OpcodeStackDetector.java:65)
+      At org.apache.bcel.classfile.Code.accept(Code.java:132)
+
+## Code (If needed)
+
+This code causes the bug:
+
+```java
+      CorsRegistration reg = registry.addMapping("/**");
+      String[] origins = allowedOrigins.trim().split("\\s*,\\s*");
+      if (logger.isInfoEnabled()) {
+        for (String s : origins) {
+          logger.info("Enabling CORS for origin '{}'", s);
+        }
+      }
+
+      reg.allowedOrigins(origins);
+```
+
+The code assumes too many things https://github.com/find-sec-bugs/find-sec-bugs/blob/3589b6e004ca78695b19d6890924a02216b8b206/findsecbugs-plugin/src/main/java/com/h3xstream/findsecbugs/spring/CorsRegistryCORSDetector.java#L64-L65
+
+It works only with the test code, doing a small changes to the test code also changes the generated bytecode and the `idx` assumptions fail. It works only in case the `reg.allowedOrigins(...)` method parameter is constructed in-line. The code fails when the parameter is a field/constant/variable/... 
+
+To fail the test https://github.com/find-sec-bugs/find-sec-bugs/blob/6d81699320085e6f1cd111a0b5571aed0dbcddba/findsecbugs-samples-java/src/test/java/testcode/cors/SpringPermissiveCORSSecure.java#L11 just extract the const into a variable...
+```java
+        String safe = "safe.com";
+
+        registry.addMapping("/**")
+                .allowedOrigins(safe) //specific domain
+...
+```
+I guess there's only a little use of this detector in a real world scenarios /cc @h3xstream 
+
+ about PREDICTABLE_RANDOM_SCALA 
+ [question](https://stackoverflow.com/questions/59748958/scala-innerclass-find-sec-bugs-predictable-random-scala)
+
+help me!
+After a few days of effort, I solved
+
+
+ False positive spring jdbctemplate SQL Injection
+ ## Environment
+
+<!-- The versions used: Gradle 6.0.1, SpotBugs 3.1.12/ FindSecBugs 1.8.0/.. -->
+
+| Component          | Version |
+| ------------------ | ------- |
+| Maven              | ?????   |
+| Gradle             | 6.0.1   |
+| Java               | 8   |
+| SpotBugs           | 3.1.12  |
+| FindSecBugs        | 1.8.0   |
+
+## Problem
+
+[Find Security Bugs | Security | SQL_INJECTION_SPRING_JDBC] when using PreparedStatementSetter our BatchPreparedStatementSetter. Due to the use of PreparedStatement it's a false positive error.
+
+## Code (If needed)
+
+<!-- Include the Java code samples or ZIP files of a sample project that reproduce the given bug. -->
+
+```java
+public class BugSample1 {
+ private JdbcTemplate jdbcTemplate;
+  
+  public void someSqlCode(Object o){
+     this.jdbcTemplate.update(substitutor.replace(DELETE_PERMISSION), ps -> {
+            ps.setString(1, o.getType());
+            ps.setLong(2, o.getIdentifier());
+        });
+}
+}
+```
+
+Is the value DELETE_PERMISSION a constant string (final static) ?
+
+Yes it is
+
+Any update on this?
+
+ JAXB support
+ ## Description
+
+It might already be supported ... but I'm not sure.
+
+Detect XXE when using JAXB context class.
+
+https://stackoverflow.com/a/12978808/89769
+
+## Code
+
+```java
+package xxe;
+
+import javax.xml.bind.*;
+import javax.xml.stream.*;
+import javax.xml.transform.stream.StreamSource;
+
+public class Demo {
+
+    public static void main(String[] args) throws Exception {
+        JAXBContext jc = JAXBContext.newInstance(Customer.class);
+
+        XMLInputFactory xif = XMLInputFactory.newFactory();
+        //xif.setProperty(XMLInputFactory.IS_SUPPORTING_EXTERNAL_ENTITIES, false);
+        //xif.setProperty(XMLInputFactory.SUPPORT_DTD, false);
+        XMLStreamReader xsr = xif.createXMLStreamReader(new StreamSource("src/xxe/input.xml"));
+
+        Unmarshaller unmarshaller = jc.createUnmarshaller();
+        Customer customer = (Customer) unmarshaller.unmarshal(xsr);
+
+        Marshaller marshaller = jc.createMarshaller();
+        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+        marshaller.marshal(customer, System.out);
+    }
+
+}
+```
+
+The case above will be catch because it used `XMLInputFactory` and `createXMLStreamReader`'s line will be flagged.
+
+However JAXB can be use stand alone from what I can see in the doc.
+https://docs.oracle.com/javase/7/docs/api/javax/xml/bind/Unmarshaller.html
+
+```java
+JAXBContext jc = JAXBContext.newInstance( "com.acme.foo" );
+Unmarshaller u = jc.createUnmarshaller();
+Object o = u.unmarshal( new File( "user-input.xml" ) );
+```
+
+
+ Detect hardcoded password for SSH private key
+ ## Description
+
+Detect if a constant password is used to load an SSH key.
+
+API to covered: (The last argument "passphrase" is the parameter to analyze)
+```java
+    public void addIdentity(String prvkey, String passphrase) throws JSchException {}
+    public void addIdentity(String prvkey, byte[] passphrase) throws JSchException {}
+    public void addIdentity(String prvkey, String pubkey, byte[] passphrase) throws JSchException {}
+    public void addIdentity(String name, byte[] prvkey, byte[] pubkey, byte[] passphrase) throws JSchException {}
+    public void addIdentity(Identity identity, byte[] passphrase) throws JSchException {}
+```
+
+## Code
+
+```java
+final JSch defaultJSch = new JSch();
+//...
+defaultJSch.addIdentity("some/private_key", "this_password_is_hardcoded");
+```
+Hi Philippe, 
+
+I would like to pick this up.
+
+Regards,
+Karan Bansal
+
+ custom report files
+ Q1:
+How i generate my own report in chinese? 
+Q2:
+Is there any custom way to modify my report files?
+Q1:
+Please provide the tool integration you are using.
+
+Q2:
+SpotBugs HTML report can be customized with an XSLT stylesheet.
+https://spotbugs.readthedocs.io/en/stable/running.html
+
+thanks in advance
+
+ There are numerous flags in the cli that do not work
+ ## Environment
+
+Findsecbugs cli 1.10
+
+## Problem
+
+There seems to be several flags that do not work - or only work in a certain position. Either the documentation or the cli is wrong
+
+## Code (If needed)
+Example of position problem
+
+Works:
+```shell
+./findsecbugs.sh -medium -effort:min -progress -html -output sast-findsecbugs-report.html  myjar.jar
+```
+Does not work:
+```shell
+./findsecbugs.sh -html -medium -effort:min -progress  -output sast-findsecbugs-report.html  myjar.jar
+```
+Example of flag that doesnt work
+```shell
+./findsecbugs.sh -maxHeap 1024 -html -medium -effort:min -progress  -output sast-findsecbugs-report.html  myjar.jar
+```
+
+```
+Picked up JAVA_TOOL_OPTIONS: -XX:+UseContainerSupport
+SLF4J: No SLF4J providers were found.
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#noProviders for further details.
+Exception in thread "main" java.lang.IllegalArgumentException: Unknown option: -maxHeap
+```
+
+ Update Japanese messages
+ Update Japanese messages.
+ MALICIOUS_XSLT false positive
+ ## Environment
+
+- FindSecBugs 1.9.0
+- SpotBugs 3.1.12
+- sbt-findsecbugs 0.13
+- JDK 11
+- SBT 1.3.3
+
+## Problem
+
+I have a `MALICIOUS_XSLT` false positive with this code below, which is unexpected, since it is a copy&paste from the solution in the report.
+
+I've skimmed the code, and it looks like the detector [doesn't actually check](https://github.com/find-sec-bugs/find-sec-bugs/blob/2340b90bc3993a595011e1cce20982533799cc0d/findsecbugs-plugin/src/main/java/com/h3xstream/findsecbugs/xml/StdXmlTransformDetector.java#L31) for `FEATURE_SECURE_PROCESSING`. It doesn't help that the tests [don't check that it does](https://github.com/find-sec-bugs/find-sec-bugs/blob/2340b90bc3993a595011e1cce20982533799cc0d/findsecbugs-plugin/src/test/java/com/h3xstream/findsecbugs/xml/StdXmlTransformDetectorTest.java#L60).
+
+## Code (If needed)
+
+```java
+public static void foo(java.io.File inputUserFile) throws Exception {
+  TransformerFactory factory = TransformerFactory.newInstance();
+  factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+  Source xslt  = new StreamSource(new FileInputStream(inputUserFile));
+  Transformer transformer = factory.newTransformer(xslt);
+}
+```
+
+ Introduce a properties file to avoid repeating the versions
+ Build script used to package 1.10.1
+# [Codecov](https://codecov.io/gh/find-sec-bugs/find-sec-bugs/pull/530?src> Merging [#530](https://codecov.io/gh/find-sec-bugs/find-sec-bugs/pull/530?src=pr&el=desc) into [master](https://codecov.io/gh/find-sec-bugs/find-sec-bugs/commit/ba7d4f1a2144e5ef331f14561e093bbeeb4bd4e9?src=pr&el=desc) will **not change** coverage.
+> The diff coverage is `n/a`.
+
+[![Impacted file tree graph](https://codecov.io/gh/find-sec-bugs/find-sec-bugs/pull/530/graphs/tree.svg?width=650&token=3MwcBR4iYB&height=150&src=pr)](https://codecov.io/gh/find-sec-bugs/find-sec-bugs/pull/530?src=pr&el=tree)
+
+```diff
+@@           Coverage Diff            @@
+##             master    #530   +/-   ##
+========================================
+  Coverage      84.7%   84.7%           
+  Complexity     1822    1822           
+========================================
+  Files           151     151           
+  Lines          4942    4942           
+  Branches       1095    1095           
+========================================
+  Hits           4186    4186           
+  Misses          339     339           
+  Partials        417     417
+```
+
+
+
+------
+
+[Continue to review full report at Codecov](https://codecov.io/gh/find-sec-bugs/find-sec-bugs/pull/530?src=pr&el=continue).
+> **Legend** - [Click here to learn more](https://docs.codecov.io/docs/codecov-delta)
+> `Δ = absolute <relative> (impact)`, `ø = not affected`, `? = missing data`
+> Powered by [Codecov](https://codecov.io/gh/find-sec-bugs/find-sec-bugs/pull/530?src=pr&el=footer). Last update [ba7d4f1...fda21c4](https://codecov.io/gh/find-sec-bugs/find-sec-bugs/pull/530?src=pr&el=lastupdated). Read the [comment docs](https://docs.codecov.io/docs/pull-request-comments).
+
+
+fda21c40ed285670db4a19987f0a44ae960647c8 The second commit remove the unnecessary step of rerunning the tests in the `after_success` phase.
+
+ SQL injection false positive when the source is an array.
+ ## Environment
+
+| Component          | Version |
+| ------------------ | ------- |
+| Maven              |  3.6.0   |
+| Java               |  11  |
+| SpotBugs           | 3.1.12 |
+| FindSecBugs        |  1.10.1   |
+
+## Problem
+
+When the source is an array, it seems to trigger a false positive. The following code snippet was found in the latest version of WebGoat.
+
+## Code
+
+```java
+        String[] data = new String[]{
+                "'dave', 0, '238-4723-4024', '324-7635-9867', '2008-02-06 21:40:00', 'Mortgage', '150'",
+                "'dave', 1, '238-4723-4024', '324-7635-9867', '2008-02-12 21:41:00', 'Car', '150'",
+                "'dave', 2, '238-4723-4024', '324-7635-9867', '2008-02-20 21:42:00', 'School fees', '150'",
+                "'CEO', 3, '348-6324-9872', '345-3490-8345', '2008-02-15 21:40:00', 'Rolls Royce', '-150000'",
+                "'CEO', 4, '348-6324-9872', '342-5893-4503', '2008-02-25 21:41:00', 'Mansion', '-150000'",
+                "'CEO', 5, '348-6324-9872', '980-2344-5492', '2008-02-27 21:42:00', 'Vacation', '-150000'",
+                "'jeff', 6, '934-2002-3485', '783-2409-8234', '2008-02-01 21:40:00', 'Vet', '250'",
+                "'jeff', 7, '934-2002-3485', '634-5879-0345', '2008-02-19 21:41:00', 'Doctor', '800'",
+                "'jeff', 8, '934-2002-3485', '435-4325-3358', '2008-02-20 21:42:00', 'X-rays', '200'",};
+        try {
+            for (int i = 0; i < data.length; i++) {
+ Fix links in the messages
+ Links update.
+ - Many deprecated link were update.
+ - http to https when possible
+ - Fix description for Pebble injection
+# [Codecov](https://codecov.io/gh/find-sec-bugs/find-sec-bugs/pull/528?src> Merging [#528](https://codecov.io/gh/find-sec-bugs/find-sec-bugs/pull/528?src=pr&el=desc) into [master](https://codecov.io/gh/find-sec-bugs/find-sec-bugs/commit/2e4850572bafdd9a64a862e9817b95908a88edb6?src=pr&el=desc) will **not change** coverage.
+> The diff coverage is `n/a`.
+
+[![Impacted file tree graph](https://codecov.io/gh/find-sec-bugs/find-sec-bugs/pull/528/graphs/tree.svg?width=650&token=3MwcBR4iYB&height=150&src=pr)](https://codecov.io/gh/find-sec-bugs/find-sec-bugs/pull/528?src=pr&el=tree)
+
+```diff
+@@           Coverage Diff            @@
+##             master    #528   +/-   ##
+========================================
+  Coverage      84.7%   84.7%           
+  Complexity     1822    1822           
+========================================
+  Files           151     151           
+  Lines          4942    4942           
+  Branches       1095    1095           
+========================================
+  Hits           4186    4186           
+  Misses          339     339           
+  Partials        417     417
+```
+
+
+
+------
+
+[Continue to review full report at Codecov](https://codecov.io/gh/find-sec-bugs/find-sec-bugs/pull/528?src=pr&el=continue).
+> **Legend** - [Click here to learn more](https://docs.codecov.io/docs/codecov-delta)
+> `Δ = absolute <relative> (impact)`, `ø = not affected`, `? = missing data`
+> Powered by [Codecov](https://codecov.io/gh/find-sec-bugs/find-sec-bugs/pull/528?src=pr&el=footer). Last update [2e48505...7f7e491](https://codecov.io/gh/find-sec-bugs/find-sec-bugs/pull/528?src=pr&el=lastupdated). Read the [comment docs](https://docs.codecov.io/docs/pull-request-comments).
+
+
+ Fix key misspell #526
+ This should fix "Error: missing bug code for key SECEMA"
+# [Codecov](https://codecov.io/gh/find-sec-bugs/find-sec-bugs/pull/527?src> Merging [#527](https://codecov.io/gh/find-sec-bugs/find-sec-bugs/pull/527?src=pr&el=desc) into [master](https://codecov.io/gh/find-sec-bugs/find-sec-bugs/commit/5b8c68acdb9ffbd265d3fdb9bafe09da3fb3f5d2?src=pr&el=desc) will **not change** coverage.
+> The diff coverage is `n/a`.
+
+[![Impacted file tree graph](https://codecov.io/gh/find-sec-bugs/find-sec-bugs/pull/527/graphs/tree.svg?width=650&token=3MwcBR4iYB&height=150&src=pr)](https://codecov.io/gh/find-sec-bugs/find-sec-bugs/pull/527?src=pr&el=tree)
+
+```diff
+@@           Coverage Diff            @@
+##             master    #527   +/-   ##
+========================================
+  Coverage      84.7%   84.7%           
+- Complexity     1822    1830    +8     
+========================================
+  Files           151     151           
+  Lines          4942    4942           
+  Branches       1095    1094    -1     
+========================================
+  Hits           4186    4186           
+  Misses          339     339           
+  Partials        417     417
+```
+
+
+
+------
+
+[Continue to review full report at Codecov](https://codecov.io/gh/find-sec-bugs/find-sec-bugs/pull/527?src=pr&el=continue).
+> **Legend** - [Click here to learn more](https://docs.codecov.io/docs/codecov-delta)
+> `Δ = absolute <relative> (impact)`, `ø = not affected`, `? = missing data`
+> Powered by [Codecov](https://codecov.io/gh/find-sec-bugs/find-sec-bugs/pull/527?src=pr&el=footer). Last update [5b8c68a...baa812d](https://codecov.io/gh/find-sec-bugs/find-sec-bugs/pull/527?src=pr&el=lastupdated). Read the [comment docs](https://docs.codecov.io/docs/pull-request-comments).
+
+
+ "Error: missing bug code for keySECEMA " in FindSecBugs 1.10.0
+ ## Environment
+
+<!-- The versions used: Gradle 4.5/4.6, Maven 3.5.X, Java 7/8/9, SpotBugs 3.1.6/..., FindSecBugs 1.8.0/.. -->
+
+| Component          | Version |
+| ------------------ | ------- |
+| Maven              | 3.6.0   |
+| Java               | 1.8.0_111   |
+| SpotBugs           |   3.1.12.2  |
+| FindSecBugs        | 1.10.0 |
+
+## Problem
+
+Since the last find security bug update on October 17th, 2019, the spotbugs analyze fails with the following error:
+
+````
+[INFO] --- spotbugs-maven-plugin:3.1.12.2:spotbugs (spotbugs) @ quipux-web ---
+[INFO] Fork Value is true
+     [java] Exception in thread "main" java.lang.IllegalArgumentException: Error: missing bug code for keySECEMA
+     [java] 	at edu.umd.cs.findbugs.DetectorFactoryCollection.getBugCode(DetectorFactoryCollection.java:506)
+     [java] 	at edu.umd.cs.findbugs.SortedBugCollection.writeBugCodes(SortedBugCollection.java:665)
+     [java] 	at edu.umd.cs.findbugs.SortedBugCollection.writeEpilogue(SortedBugCollection.java:569)
+     [java] 	at edu.umd.cs.findbugs.SortedBugCollection.writeXML(SortedBugCollection.java:548)
+     [java] 	at edu.umd.cs.findbugs.SortedBugCollection.writeXML(SortedBugCollection.java:457)
+     [java] 	at edu.umd.cs.findbugs.XMLBugReporter.finish(XMLBugReporter.java:47)
+     [java] 	at edu.umd.cs.findbugs.DelegatingBugReporter.finish(DelegatingBugReporter.java:89)
+     [java] 	at edu.umd.cs.findbugs.DelegatingBugReporter.finish(DelegatingBugReporter.java:89)
+     [java] 	at edu.umd.cs.findbugs.DelegatingBugReporter.finish(DelegatingBugReporter.java:89)
+     [java] 	at edu.umd.cs.findbugs.DelegatingBugReporter.finish(DelegatingBugReporter.java:89)
+     [java] 	at edu.umd.cs.findbugs.FindBugs2.analyzeApplication(FindBugs2.java:1126)
+     [java] 	at edu.umd.cs.findbugs.FindBugs2.execute(FindBugs2.java:281)
+     [java] 	at edu.umd.cs.findbugs.FindBugs.runMain(FindBugs.java:401)
+     [java] 	at edu.umd.cs.findbugs.FindBugs2.main(FindBugs2.java:1185)
+[INFO] ------------------------------------------------------------------------
+````
+
+It's fixed (while waiting the bug fix) by forcing the ` finsecbugs-plugin` version to 1.9.0:
+
+```
+				<groupId>com.github.spotbugs</groupId>
+				<artifactId>spotbugs-maven-plugin</artifactId>
+				<configuration>
+					<effort>Max</effort>
+					<threshold>Low</threshold>
+					<failOnError>false</failOnError>
+					<htmlOutput>true</htmlOutput>
+					<xmlOutput>false</xmlOutput>
+					<includeFilterFile>${parent.asset}/security-assets/spotbugs-security-include.xml</includeFilterFile>
+					<excludeFilterFile>${parent.asset}/security-assets/spotbugs-security-exclude.xml</excludeFilterFile>
+					<plugins>
+						<plugin>
+							<groupId>com.h3xstream.findsecbugs</groupId>
+							<artifactId>findsecbugs-plugin</artifactId>
+							<version>1.9.0</version> 
+						</plugin>
+					</plugins>
+				</configuration>
+```
+
+I have release a new version on maven central. I will test it when it become available.
+
+I have test the fix on WebGoat. It should work well on Maven.
+
+Let me know if it work on your side.
+
+```xml
+<groupId>com.github.spotbugs</groupId>
+<artifactId>spotbugs-maven-plugin</artifactId>
+<version>3.1.12.2</version> 
+<configuration>
+    <effort>Max</effort>
+    <threshold>Low</threshold>
+    <failOnError>false</failOnError>
+    <htmlOutput>true</htmlOutput>
+    <xmlOutput>false</xmlOutput>
+    <includeFilterFile>${parent.asset}/security-assets/spotbugs-security-include.xml</includeFilterFile>
+    <excludeFilterFile>${parent.asset}/security-assets/spotbugs-security- 
+    <plugins>
+        <plugin>
+            <groupId>com.h3xstream.findsecbugs</groupId>
+            <artifactId>findsecbugs-plugin</artifactId>
+            <version>1.10.1</version> 
+        </plugin>
+    </plugins>
+</configuration>
+```
+
+FIXED for me :)
+
+Thanks
+
+ Incompatibility with SpotBugs 4.0.0
+ ## Environment
+
+Gradle 5.6.2, Java 12, SpotBugs 4.0.0-beta4, FindSecBugs 1.10.0.
+
+Running SpotBugs via Gradle causes a million errors like this one:
+
+```
+Exception while analyzing com.company.SomeClass.foo(Lorg/apache/shiro/subject/Subject;)Lio/reactivex/Single;
+    java.lang.RuntimeException: Unable to call com/company/SomeOtherClass.staticMethod()Lcom/company/ThirdClass;
+      At com.h3xstream.findsecbugs.taintanalysis.TaintFrameModelingVisitor.visitInvoke(TaintFrameModelingVisitor.java:599)
+      At com.h3xstream.findsecbugs.taintanalysis.TaintFrameModelingVisitor.visitINVOKESTATIC(TaintFrameModelingVisitor.java:385)
+      At org.apache.bcel.generic.INVOKESTATIC.accept(INVOKESTATIC.java:87)
+      At edu.umd.cs.findbugs.ba.AbstractFrameModelingVisitor.analyzeInstruction(AbstractFrameModelingVisitor.java:84)
+      At com.h3xstream.findsecbugs.taintanalysis.TaintFrameModelingVisitor.analyzeInstruction(TaintFrameModelingVisitor.java:129)
+      At com.h3xstream.findsecbugs.taintanalysis.TaintAnalysis.transferInstruction(TaintAnalysis.java:90)
+      At com.h3xstream.findsecbugs.taintanalysis.TaintAnalysis.transferInstruction(TaintAnalysis.java:51)
+      At edu.umd.cs.findbugs.ba.AbstractDataflowAnalysis.transfer(AbstractDataflowAnalysis.java:136)
+      At edu.umd.cs.findbugs.ba.Dataflow.execute(Dataflow.java:378)
+      At com.h3xstream.findsecbugs.taintanalysis.TaintDataflowEngine.analyze(TaintDataflowEngine.java:183)
+      At com.h3xstream.findsecbugs.taintanalysis.TaintDataflowEngine.analyze(TaintDataflowEngine.java:56)
+      At edu.umd.cs.findbugs.classfile.impl.AnalysisCache.analyzeMethod(AnalysisCache.java:368)
+      At edu.umd.cs.findbugs.classfile.impl.AnalysisCache.getMethodAnalysis(AnalysisCache.java:321)
+      At com.h3xstream.findsecbugs.injection.AbstractTaintDetector.getTaintDataFlow(AbstractTaintDetector.java:142)
+      At com.h3xstream.findsecbugs.injection.AbstractTaintDetector.analyzeMethod(AbstractTaintDetector.java:109)
+      At com.h3xstream.findsecbugs.injection.AbstractTaintDetector.visitClassContext(AbstractTaintDetector.java:94)
+      At edu.umd.cs.findbugs.DetectorToDetector2Adapter.visitClass(DetectorToDetector2Adapter.java:76)
+      At edu.umd.cs.findbugs.FindBugs2.lambda$null$1(FindBugs2.java:1108)
+      At java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+      At edu.umd.cs.findbugs.CurrentThreadExecutorService.execute(CurrentThreadExecutorService.java:86)
+      At java.base/java.util.concurrent.AbstractExecutorService.invokeAll(AbstractExecutorService.java:242)
+      At edu.umd.cs.findbugs.FindBugs2.analyzeApplication(FindBugs2.java:1118)
+      At edu.umd.cs.findbugs.FindBugs2.execute(FindBugs2.java:309)
+      At com.github.spotbugs.internal.spotbugs.SpotBugsExecutor.runSpotbugs(SpotBugsExecutor.java:23)
+      At java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+      At java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+      At java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+      At java.base/java.lang.reflect.Method.invoke(Method.java:567)
+      At org.gradle.process.internal.worker.request.WorkerAction.run(WorkerAction.java:118)
+      At org.gradle.process.internal.worker.request.WorkerAction.runThenStop(WorkerAction.java:101)
+      At java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+      At java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+      At java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+      At java.base/java.lang.reflect.Method.invoke(Method.java:567)
+      At org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:36)
+      At org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
+      At org.gradle.internal.remote.internal.hub.MessageHubBackedObjectConnection$DispatchWrapper.dispatch(MessageHubBackedObjectConnection.java:182)
+      At org.gradle.internal.remote.internal.hub.MessageHubBackedObjectConnection$DispatchWrapper.dispatch(MessageHubBackedObjectConnection.java:164)
+      At org.gradle.internal.remote.internal.hub.MessageHub$Handler.run(MessageHub.java:412)
+      At org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+      At org.gradle.internal.concurrent.ManagedExecutorImpl$1.run(ManagedExecutorImpl.java:48)
+      At java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+      At java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+      At org.gradle.internal.concurrent.ThreadFactoryImpl$ManagedThreadRunnable.run(ThreadFactoryImpl.java:56)
+      At java.base/java.lang.Thread.run(Thread.java:835)
+```
+Can you provide the full stacktrace? This runtime exception will encapsulate the cause of the error.
+
+https://github.com/find-sec-bugs/find-sec-bugs/blob/master/findsecbugs-plugin/src/main/java/com/h3xstream/findsecbugs/taintanalysis/TaintFrameModelingVisitor.java#L594-L600
+
+@h3xstream - I edited the first post and added the rest of the stacktrace. Sorry I didn't do that in the beginning.
+
+But I don't see a `Caused by` in it... not sure it will be helpful.
+
+The issue is not related to SpotBugs 4.x and "works" with SpotBugs 3.1.12 as well (so the title of this issue is confusing and should be changed). 
+Here is some sample code that works with version 1.9.0 and fails with 1.10.0 and 1.10.1!
+
+```
+package sample;
+
+public class Main {
+
+	public static void main(final String[] args) {
+		OtherClass.value().clear();
+	}
+
+}
+```
+```
+package sample;
+
+import java.util.Map;
+
+public class OtherClass {
+
+	private static Map<String, String> value;
+
+	public static Map<String, String> value() {
+		return value;
+	}
+
+	public static void setValue(final Map<String, String> value) {
+		OtherClass.value = value;
+	}
+
+}
+```
+Shows this error (running with ant):
+```
+ [spotbugs] The following errors occurred during analysis:
+ [spotbugs]   Exception while analyzing sample.Main.main([Ljava/lang/String;)V
+ [spotbugs]     java.lang.RuntimeException: Unable to call sample/OtherClass.value()Ljava/util/Map;
+ [spotbugs]       At com.h3xstream.findsecbugs.taintanalysis.TaintFrameModelingVisitor.visitInvoke(TaintFrameModelingVisitor.java:599)
+ [spotbugs]       At com.h3xstream.findsecbugs.taintanalysis.TaintFrameModelingVisitor.visitINVOKESTATIC(TaintFrameModelingVisitor.java:385)
+ [spotbugs]       At org.apache.bcel.generic.INVOKESTATIC.accept(INVOKESTATIC.java:87)
+ [spotbugs]       At edu.umd.cs.findbugs.ba.AbstractFrameModelingVisitor.analyzeInstruction(AbstractFrameModelingVisitor.java:84)
+ [spotbugs]       At com.h3xstream.findsecbugs.taintanalysis.TaintFrameModelingVisitor.analyzeInstruction(TaintFrameModelingVisitor.java:129)
+ [spotbugs]       At com.h3xstream.findsecbugs.taintanalysis.TaintAnalysis.transferInstruction(TaintAnalysis.java:90)
+ [spotbugs]       At com.h3xstream.findsecbugs.taintanalysis.TaintAnalysis.transferInstruction(TaintAnalysis.java:51)
+ [spotbugs]       At edu.umd.cs.findbugs.ba.AbstractDataflowAnalysis.transfer(AbstractDataflowAnalysis.java:135)
+ [spotbugs]       At edu.umd.cs.findbugs.ba.Dataflow.execute(Dataflow.java:376)
+ [spotbugs]       At com.h3xstream.findsecbugs.taintanalysis.TaintDataflowEngine.analyze(TaintDataflowEngine.java:183)
+ [spotbugs]       At com.h3xstream.findsecbugs.taintanalysis.TaintDataflowEngine.analyze(TaintDataflowEngine.java:56)
+ [spotbugs]       At edu.umd.cs.findbugs.classfile.impl.AnalysisCache.analyzeMethod(AnalysisCache.java:369)
+ [spotbugs]       At edu.umd.cs.findbugs.classfile.impl.AnalysisCache.getMethodAnalysis(AnalysisCache.java:322)
+ [spotbugs]       At com.h3xstream.findsecbugs.injection.AbstractTaintDetector.getTaintDataFlow(AbstractTaintDetector.java:142)
+ [spotbugs]       At com.h3xstream.findsecbugs.injection.AbstractTaintDetector.analyzeMethod(AbstractTaintDetector.java:109)
+ [spotbugs]       At com.h3xstream.findsecbugs.injection.AbstractTaintDetector.visitClassContext(AbstractTaintDetector.java:79)
+ [spotbugs]       At edu.umd.cs.findbugs.DetectorToDetector2Adapter.visitClass(DetectorToDetector2Adapter.java:76)
+ [spotbugs]       At edu.umd.cs.findbugs.FindBugs2.analyzeApplication(FindBugs2.java:1080)
+ [spotbugs]       At edu.umd.cs.findbugs.FindBugs2.execute(FindBugs2.java:281)
+ [spotbugs]       At edu.umd.cs.findbugs.FindBugs.runMain(FindBugs.java:401)
+ [spotbugs]       At edu.umd.cs.findbugs.FindBugs2.main(FindBugs2.java:1185)
+```
+The hidden cause is:
+```
+ [spotbugs] java.lang.RuntimeException: Bad transfer parameter specification
+ [spotbugs] 	at com.h3xstream.findsecbugs.taintanalysis.TaintFrameModelingVisitor.mergeTransferParameters(TaintFrameModelingVisitor.java:850)
+ [spotbugs] 	at com.h3xstream.findsecbugs.taintanalysis.TaintFrameModelingVisitor.mergeTaintWithStack(TaintFrameModelingVisitor.java:747)
+ [spotbugs] 	at com.h3xstream.findsecbugs.taintanalysis.TaintFrameModelingVisitor.getMethodTaint(TaintFrameModelingVisitor.java:730)
+ [spotbugs] 	at com.h3xstream.findsecbugs.taintanalysis.TaintFrameModelingVisitor.visitInvoke(TaintFrameModelingVisitor.java:561)
+ [spotbugs] 	at com.h3xstream.findsecbugs.taintanalysis.TaintFrameModelingVisitor.visitINVOKESTATIC(TaintFrameModelingVisitor.java:385)
+ [spotbugs] 	at org.apache.bcel.generic.INVOKESTATIC.accept(INVOKESTATIC.java:87)
+ [spotbugs] 	at edu.umd.cs.findbugs.ba.AbstractFrameModelingVisitor.analyzeInstruction(AbstractFrameModelingVisitor.java:84)
+ [spotbugs] 	at com.h3xstream.findsecbugs.taintanalysis.TaintFrameModelingVisitor.analyzeInstruction(TaintFrameModelingVisitor.java:129)
+ [spotbugs] 	at com.h3xstream.findsecbugs.taintanalysis.TaintAnalysis.transferInstruction(TaintAnalysis.java:90)
+ [spotbugs] 	at com.h3xstream.findsecbugs.taintanalysis.TaintAnalysis.transferInstruction(TaintAnalysis.java:51)
+ [spotbugs] 	at edu.umd.cs.findbugs.ba.AbstractDataflowAnalysis.transfer(AbstractDataflowAnalysis.java:135)
+ [spotbugs] 	at edu.umd.cs.findbugs.ba.Dataflow.execute(Dataflow.java:376)
+ [spotbugs] 	at com.h3xstream.findsecbugs.taintanalysis.TaintDataflowEngine.analyze(TaintDataflowEngine.java:183)
+ [spotbugs] 	at com.h3xstream.findsecbugs.taintanalysis.TaintDataflowEngine.analyze(TaintDataflowEngine.java:56)
+ [spotbugs] 	at edu.umd.cs.findbugs.classfile.impl.AnalysisCache.analyzeMethod(AnalysisCache.java:369)
+ [spotbugs] 	at edu.umd.cs.findbugs.classfile.impl.AnalysisCache.getMethodAnalysis(AnalysisCache.java:322)
+ [spotbugs] 	at com.h3xstream.findsecbugs.injection.AbstractTaintDetector.getTaintDataFlow(AbstractTaintDetector.java:142)
+ [spotbugs] 	at com.h3xstream.findsecbugs.injection.AbstractTaintDetector.analyzeMethod(AbstractTaintDetector.java:109)
+ [spotbugs] 	at com.h3xstream.findsecbugs.injection.AbstractTaintDetector.visitClassContext(AbstractTaintDetector.java:79)
+ [spotbugs] 	at edu.umd.cs.findbugs.DetectorToDetector2Adapter.visitClass(DetectorToDetector2Adapter.java:76)
+ [spotbugs] 	at edu.umd.cs.findbugs.FindBugs2.analyzeApplication(FindBugs2.java:1080)
+ [spotbugs] 	at edu.umd.cs.findbugs.FindBugs2.execute(FindBugs2.java:281)
+ [spotbugs] 	at edu.umd.cs.findbugs.FindBugs.runMain(FindBugs.java:401)
+ [spotbugs] 	at edu.umd.cs.findbugs.FindBugs2.main(FindBugs2.java:1185)
+ [spotbugs] Caused by: edu.umd.cs.findbugs.ba.DataflowAnalysisException: not enough values on stack: access=0, avail=0
+ [spotbugs] 	at edu.umd.cs.findbugs.ba.Frame.getStackValue(Frame.java:247)
+ [spotbugs] 	at com.h3xstream.findsecbugs.taintanalysis.TaintFrameModelingVisitor.mergeTransferParameters(TaintFrameModelingVisitor.java:843)
+ [spotbugs] 	... 23 more
+```
+It looks like we expect a stack value for a static field... 
+
+ filter for cli to only scan project related stuff when WAR supplied
+ Hi,
+
+it's awesome that the project scans WAR files, thank you! However it would be great if I could skip external classes and supply a pattern for the project.
+
+The current output contains too many findings which aren't useful like
+
+```
+a href="#WEAK_MESSAGE_DIGEST_MD5">Bug type WEAK_MESSAGE_DIGEST_MD5 (click for details)</a>
+<br/>In class org.apache.commons.codec.digest.DigestUtils<br/>In method org.apache.commons.codec.digest.DigestUtils.getMd2Digest()<br/>At DigestUtils.java:[line 176]<br/>Value MD2</p>
+```
+
+Cheers, Dirk
+A switch like ``--only-classes <mytld.myorg.myproject>`` would be great
+

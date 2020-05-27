@@ -1,0 +1,244 @@
+﻿ Fix typo in README.md
+ Hey,
+
+This tiny PR will fix : 
+
+- 1 typo in `README.md`
+
+
+
+Bye! :robot:
+ Remove buck
+ Removing buck files. Keeping the open source project to only one build system. If we fully move to BUCK we should remove gradle. But for now it is gradle compatible.
+ Adding Code of Conduct file
+ This is pull request was created automatically because we noticed your project was missing a Code of Conduct file.
+
+Code of Conduct files facilitate respectful and constructive communities by establishing expected behaviors for project contributors.
+
+This PR was crafted with love by Facebook's Open Source Team.
+ Adding Contributing file
+ This is pull request was created automatically because we noticed your project was missing a Contributing file.
+
+CONTRIBUTING files explain how a developer can contribute to the project - which you should actively encourage.
+
+This PR was crafted with love by Facebook's Open Source Team.
+ Replacement of "compile" with "implementation"
+ As "compile" is going to be deprecated end-2018, this PR replaces with "implementation" that is the new usage.
+ Filter token expansion for serializeCodeFormatter
+ This PR prevents `JsonType.serializeCodeFormatter` from expanding collection- or field-specific tokens supported by `JsonField.serializeCodeFormatter`, and prevents `JsonField.serializeCodeFormatter` from expanding the generic `${subobject}` token.
+
+This is a big semantic change for code formatters. Previously, code formatters did not need to be opinionated about which tokens they would accept. Now, they do. So a simple `String` no longer works: an object is required to keep track of which tokens are valid. Therefore, all code formatter strings have been changed into `CodeFormatter` instances.
+ Add subobject name serializer param
+ Adds a `${subobject}` parameter for `serializeCodeFormatter`. For objects, this parameter is equivalent to `${object_varname}.${field_varname}` in a field context, or `${iterator}` in a collection context.
+
+This is much needed by the interface PR; without a feature like this, it's impossible to write one `serializeCodeFormatter` that can be used in both collections and field references.
+
+If a better name is possible for this parameter, it can easily be extended to scalars, since the idea is the same. But with the name `${subobject}`, those did not seem to be appropriate semantics.
+
+This PR also includes a fix in import generation in `JsonParserClassData.getJsonCode` that was breaking list references in the test code.
+ Add annotation imports
+ Another small feature addition while i'm ramped up on this codebase.
+
+This adds two parameters to `@JsonType`: `imports`, and `calleeImports`.
+
+`imports` is straightforward: anything in `imports` goes into the imports section in generated code. This helps clean up custom code specified in `@JsonField`:
+
+```
+@JsonType(imports = "java.util.Formatter")
+public class ImportsUUT {
+
+    @JsonField(fieldName = "string_field",
+            valueExtractFormatter =
+                "new Formatter().format(\":%%s\", ${parser_object}.getText()).toString()")
+    public String mStringField;
+}
+```
+
+`calleeImports` is the same thing, but for custom code specified on `@JsonType`. The usage is clearer than the mechanism, so here's a usage example:
+
+```
+@JsonType(
+    valueExtractFormatter = "CalleeImportsCompanionUUT__JsonHelper.parseFromJson(${parser_object})",
+    calleeImports = {
+        "com.instagram.common.json.annotation.processor.parent.CalleeImportsCompanionUUT__JsonHelper"
+    })
+public class CalleeImportsUUT {
+  @JsonField(fieldName = "string_field")
+  public String mString;
+}
+```
+
+These imports are needed whenever the `valueExtractFormatter` is used, so they are added in generated classes that refer to this class.
+ Add the ability for serializers/parsers to refer to interfaces
+ Per discussion on #50, here is a dramatically stripped down implementation. 
+
+This adds support for `serializeCodeFormatter` on `JsonType` for all types, and allows `JsonType` to annotate interfaces. Interfaces will not generate a JsonHelper implementation, but they can be referred to by other parsers.
+ Add support for serializing/deserializing interfaces
+ This PR adds support for serializing objects from an interface reference. Using this, you can serialize out e.g. a list of heterogenous object types.
+
+## Using the Public API
+
+Say you have a field that refers to an instance of `MyInterface`. 
+
+```
+@JsonType
+public class MySerializableObject {
+  @JsonField(fieldName = "my_interface")
+  MyInterface mMyInterface;
+}
+```
+
+First step is to add a method to the interface to return the type name:
+
+```
+@JsonType
+public interface MyInterface {
+  @JsonTypeName
+  String getTypeName();
+}
+```
+
+Then in your implementation of that interface, you yield the type name:
+
+```
+@JsonType
+public class MyImplementation implements MyInterface {
+  public static final String TYPE_NAME = "MyImplementation";
+  @Override
+  public String getTypeName() {
+    return TYPE_NAME;
+  }
+}
+```
+
+Then before you serialize, you register a serialization handler with the generated code:
+
+```
+MyInterface__JsonHelper.registerHandler(
+  MyImplementation.TYPE_NAME,
+  new JsonSerializationHandler<MyInterface>() {
+    @Override
+    public void serializeToJson(JsonGenerator generator, MyInterface object)
+                      throws IOException {
+      MyImplementation__JsonHelper
+          .serializeToJson(generator, (MyImplementation)object, true);
+    }
+    public MyInterface parseFromJson(JsonParser parser) throws IOException {
+      return MyImplementation__JsonHelper.parseFromJson(parser);
+    }
+  });
+```
+
+With that, `MySerializableObject` can successfully serialize and deserialize:
+
+```
+String json = MySerializableObject__JsonHelper.serializeToJson(object);
+MySerializableObject deserialized = MySerializableObject__JsonHelper.parseFromJson(json);
+```
+
+## Under the Hood
+
+Not seen above is the JSON representation. For this to work, the type has to be represented in the serialized JSON. Not only that, but some ordering must be guaranteed if we want to go with the existing single-pass parse style. This is because we must read in the type first before we dispatch to that specific type's parser.
+
+The only JSON aggregate that guarantees ordering is the list. So interfaces are represented as lists, where the first entry is the type information, and the second entry is the object data:
+
+```
+[
+  "InterfaceImplementationUUT",
+  {
+    "stringField":"testValue"
+  }
+]
+```
+ list jackson as dep of the annotation processor
+ to fix the dependency issue caused by gradle 4.0 upgrade
+
+tested with https://gist.github.com/kangzhang/ad2b99d5ea2e492370efc09707fa40f0
+ upgrade the demo project to Android studio 3
+ 
+ Update README.md
+ include jitpack instructions
+ add jitpack support
+ Switch from maven to jitpack, which is easier to manage. 
+ Update README.md to include build status
+ 
+ Update the CI config to switch to jdk 8
+ Looks like jdk7 is no longer supported, let's switch to jdk8. travis-ci/travis-ci#7884
+ Support upcoming "source abi" feature of Buck
+ 
+ Make processor output deterministic
+ The processor was creating a HashMap of classes and then iterating over
+it in order to generate output. This means that the order that output
+classes were generated is non-deterministic (because Element.hashCode
+is just Object.hashCode). This then determines the order that the files
+end up in the jar.
+
+Use a LinkedHashMap instead to get deterministic iteration order.
+ Added code syntax highlighting to Readme
+ 
+ Change retention policy for JsonField from class to source
+ Changes the retention from source to class. Source retention is being kept at jar compilation time, but android dx is not smart enough and keeps it in final apk, where we don't need one. This can impact apk size. 
+
+ Switch the demo project to use android-apt
+ Summary:
+
+Right now the demo app declares the annotation processor as a direct dependency. This pulls guava and all other unnecessary dependencies to the demo app.
+
+This diff switches the demo app to use https://bitbucket.org/hvisser/android-apt, which makes sure the annotation processors are not pulled in as dependencies.
+
+We should have a runtime artifact in maven() later and update our readme file.
+
+Test Plan:
+
+1) ./gradlew :demo:installDebug
+2) use the demo app and everything works.
+
+ Add enclosing import support and writing nulls
+ Add support for importing inner classes in other packages and writing nulls.
+
+ Add JsonHelper interface
+ Summary:
+
+We run into this issue recently that we can't make a strong typed API to enforce type checking on the generated helper class.
+
+In the following API:
+
+  new AutoJsonParser<Foo>(Foo__JsonHelper.class)
+
+We can't avoid people passing in Bar__JsonHelper.class instead of Foo__JsonHelper.class
+
+Test Plan:
+
+1) unittest
+
+ Add support for optional serializer generation.
+ This will allow the user to enable or disable the generation of serializer code on a per-class or global basis, saving on code size and method count.
+
+ Add optional support for using getters in serialization
+ Adding a getter support at @JsonField class-level annotation for serialization, updating SerializerTest to include new functionality.
+
+ Add config for travis ci
+ Summary:
+
+This diff adds the travis ci config, so that we can enable continuous integration.
+
+Test Plan:
+
+1) I tested this remotely at https://travis-ci.org/kangzhang/ig-json-parser/builds/61893009
+
+ Upgrade the project to gradle 2.2
+ Summary:
+
+The latest Android Plugin is not compatible with the gradle 1.1 we use in the project. This diff upgrades the project to the latest gradle and android build tool.
+
+Test Plan:
+
+1) import the project in intellij, see it opens successfully.
+
+ Add classpath to Javadoc tasks
+ I had to add these classpaths to Javadoc tasks to get assemble to run
+
+ Added some notes regarding Proguard compatability to README.md
+ 
+ testing jdk17 compatibility
+ 

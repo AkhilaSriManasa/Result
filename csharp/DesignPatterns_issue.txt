@@ -1,0 +1,66 @@
+﻿ Refactor examples with Readme and more real-world cases
+ A strategy pattern that makes ducks quack is less useful than that which uses an actual strategy to help the developer (like say, a sorting function that changes implementation based on number of elements). The readme should also be there as an introduction to the need for the pattern itself, as well as maybe some good quality (subjective) external references and links
+ mediatorPatternAdded
+ 
+ Implemented Builder Pattern with regards to issue #8
+ Sorry for the miss-spelled "issue" on the commit message.
+
+Check out my implementation of the builder creational design pattern. It makes the client code very simple. And the usage is quite intuitive. 
+Looks good, I will test it once tonight. Can you modify the structure so that it is not BuilderPattern/BuilderPattern but only BuilderPattern
+
+Okay... I will modify the directory structure
+
+I have changed the folder structure
+
+I have also implemented the Chain of Responsibility design pattern
+
+ Add Prototype pattern
+ 
+@dimOk00 can you resolve the conflicts? just need to rebuild the solution
+
+will try it out soon. busy with work now. Thanks for the work
+
+ Add builder pattern
+ Add builder pattern #8 
+ Removed Factory out of the README.md
+ Factory directory does not exist.
+I will add factory pattern back to the repo in a few days. Closing it for now
+
+ Visitor and Flyweight Patterns
+ 
+Will check it out tomorrow. Thanks for your help @rickywo 
+
+ FlyweightPattern
+ 
+ Bridge Pattern
+ Added Bridge Pattern into repo
+ add DotnetCore support and delete old files
+ 
+any reason why you created a new folder? I don't think there is anything except the project itself that changes between framework and core. If there are, can you please tell me and I will accommodate those changes
+
+Will check it out 
+
+ Implement Builder pattern
+ 
+ Implement Bridge pattern
+ 
+This pattern has been added.
+
+yayyy. Thanks @rickywo
+
+ Implement Flyweight pattern
+ 
+ Implement Visitor pattern
+ 
+ Upgrade Coffe Grounds from 5 centuries ago to 21st century Coffee Grounds 
+ 
+ Fix java-like brace
+ 
+ Simplified implementation with the use of Lazy<T>.
+ 
+I will merge it once I run it in VS
+
+@aloisdeniel you seem to be missing the brackets at the end of your _singleton assignment at line 7. Correcting that and merging the changes in a while
+
+ I fixed markdown links in README.md 
+ Any markdown link had typo.Fixed it.

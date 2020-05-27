@@ -1,0 +1,534 @@
+﻿ Adjust reload keystore test to pass in FIPS (#57050)
+
+In KeystoreWrapper class we determine if the error to decrypt a
+given keystore is caused by a wrong password based on the exception
+that the SunJCE implementation of AES is throwing
+(AEADBadTagException). Other implementations from other Security
+Providers might cause decryption to fail in a different way and cause
+us to throw a generic error message.
+We handle this in this test by matching both possible
+exception messages.
+
+Relates: #56889
+ Adjust reload keystore test to pass in FIPS (#57050)
+
+In KeystoreWrapper class we determine if the error to decrypt a
+given keystore is caused by a wrong password based on the exception
+that the SunJCE implementation of AES is throwing
+(AEADBadTagException). Other implementations from other Security
+Providers might cause decryption to fail in a different way and cause
+us to throw a generic error message.
+We handle this in this test by matching both possible
+exception messages.
+
+Relates: #56889
+We handle this in this test by matching both possible
+exception messages.
+
+Relates: #56889
+ Adjust reload keystore test to pass in FIPS (#57050)
+
+In KeystoreWrapper class we determine if the error to decrypt a
+given keystore is caused by a wrong password based on the exception
+that the SunJCE implementation of AES is throwing
+(AEADBadTagException). Other implementations from other Security
+Providers might cause decryption to fail in a different way and cause
+us to throw a generic error message.
+We handle this in this test by matching both possible
+exception messages.
+
+Relates: #56889
+We handle this in this test by matching both possible
+exception messages.
+
+Relates: #56889
+
+Relates: #56889
+ Fix key usage in SamlAuthenticatorTests (#57124)
+
+In #51089 where SamlAuthenticatorTests were refactored, we missed
+to update one test case which meant that a single key would be
+used both for signing and encryption in the same run. As explained
+in #51089, and due to FIPS 140 requirements, BouncyCastle FIPS
+provider will block RSA keys that have been used for signing from
+being used for encryption and vice versa
+
+This commit changes testNoAttributesReturnedWhenTheyCannotBeDecrypted
+to always use the specific keys we have added for encryption.
+ Remove Unused TransportActionNodeProxy (#57087)
+
+This was only used by the transport client so we can remove it in master.
+ Fix Snapshot Javadoc Issues (#57083)
+
+Fixing some incorrect JavaDoc and a typo.
+ Fix testTrackingChannelTask (#57061)
+
+A task might not be canceled on disconnection if it is completed before the cancellation
+is started. We need to relax the assertion in this test.
+
+Closes #56746
+ Fix Confusing Exception on Shard Snapshot Abort (#57116)
+
+If a partial snapshot has some of its shards aborted because an index got deleted, this can lead to confusing `IllegalStateExceptions` when trying to increment the ref count of the already closed `Store`.
+Refactored this a little to throw the same exception for aborted shards no matter the timing of the store close and assert that the concurrent store close can in fact only happen when the shard snapshot has already been aborted.
+ Mute failing test (#57112)
+ Track PUT/PUT_BLOCK operations on AzureBlobStore. (#56936)
+ Release HTTP Request Body Earlier (#57094)
+
+We don't need to hold on to the request body past the beginning of sending
+the response. There is no need to keep a reference to it until after the response
+has been sent fully and we can eagerly release it here.
+Note, this can be optimized further to release the contents even earlier but for now
+this is an easy increment to saving some memory on the IO pool.
+ Flatten ReleaseableBytesReference Object Trees (#57092)
+
+When slicing a releasable bytes reference we would create a new counter
+every time and pass the original reference chain to the new slice on every
+slice invocation. This would lead to extremely deep reference chains and
+needlessly uses a dedicated counter for every slice when all the slices
+eventually just refer to the same underlying bytes and `Releasable`.
+This commit tracks the ref count wrapper with its releasable in a separate
+object that can be passed around on every slicing, making the slices' tree
+as flat as the original releasable bytes reference.
+
+Also, we were needlessly creating a redundant releasable bytes reference from
+a releasable bytes-stream-output that we never actually used for releasing (all code
+that uses it just releases the stream itself instead).
+ Remove Needless Context Switches on Loading RepositoryData (#56935)
+
+We don't need to switch to the generic or snapshot pool for loading
+cached repository data (i.e. most of the time in normal operation).
+
+This makes `executeConsistentStateUpdate` less heavy if it has to retry
+and lowers the chance of having to retry in the first place.
+Also, this change allowed simplifying a few other spots in the codebase
+where we would fork off to another pool just to load repository data.
+ Refactor SamlAuthenticatorTests  (#51089)
+
+- Use opensaml to sign and encrypt responses/assertions/attributes
+instead of doing this manually
+- Use opensaml to build response and assertion objects instead of
+parsing xml strings
+- Always use different keys for signing and encryption. Due to FIPS 
+140 requirements, BouncyCastle FIPS provider will block
+RSA keys that have been used for signing from being used for 
+encryption and vice versa. This change adds new encryption specific
+ keys to be used throughout the tests.
+ Add History UUID Index Setting (#56930)
+
+Pre-requesite for #50278 to be able to uniquely identify index metadata by
+its version fields and UUIDs when restoring into closed indices.
+ Fix GCS Repository YAML Test Build (#57073)
+
+A few relatively obvious issues here:
+
+* We cannot run the different IT runs (large blob setting one and normal integ run) concurrently
+* We need to set the dependency tasks up correctly for the large blob run so that it works in isolation
+* We can't use the `localAddress` for the location header of the resumable upload
+(this breaks in YAML tests because GCS is using a loopback port forward for the initial request and the
+local address will be chosen as the actual Docker container host)
+
+Closes #57026
+ Don't run IDP tests in FIPS 140 mode (#57048)
+
+We don't support this for now so there is no need to handle all
+the test logic/exceptions to run this in FIPS 140 mode.
+ [DOCS] Improves navigation between forecast APIs and adds short description. (#57035)
+ Fix Test Failure from Incorrect Mapping Conflict Assertion (#57085)
+
+I think this is a left-over from #56915 where a change in assertion
+message didn't make it to this very rare-case assertion.
+ Fix Test Failure from Incorrect Mapping Conflict Assertion (#57085)
+
+I think this is a left-over from #56915 where a change in assertion
+message didn't make it to this very rare-case assertion.
+ Serialize Outbound Messages on IO Threads (#56961)
+
+Almost every outbound message is serialized to buffers of 16k pagesize.
+We were serializing these messages off the IO loop (and retaining the concrete message
+instance as well) and would then enqueue it on the IO loop to be dealt with as soon as the
+channel is ready.
+1. This would cause buffers to be held onto for longer than necessary, causing less reuse on average.
+2. If a channel was slow for some reason, not only would concrete message instances queue up for it, but also 16k of buffers would be reserved for each message until it would be written+flushed physically.
+
+With this change, the serialization happens on the event loop which effectively limits the number of buffers that `N` IO-threads will ever use so long as messages are small and channels writable.
+Also, this change dereferences the reference to the concrete outbound message as soon as it has been serialized to save some more on GC.
+
+This reduces the GC time for a default PMC run by about 50% in experiments (3 nodes, 2G heap each, loopback ... obvious caveat is that GC isn't that heavy in the first place with recent changes but still a measurable gain).
+I also expect it to be helpful for master node stability by causing less of a spike if master is e.g. hit by a large number of requests that are processed batched (e.g. shard snapshot status updates) and responded to in a short time frame all at once.
+
+Obviously, the downside to this change is that it introduces more latency on the IO loop for the serialization. But since we read all of these messages on the IO loop as well I don't see it as much of a qualitative change really and the more predictable buffer use seems much more valuable relatively.
+ Serialize Outbound Messages on IO Threads (#56961)
+
+Almost every outbound message is serialized to buffers of 16k pagesize.
+We were serializing these messages off the IO loop (and retaining the concrete message
+instance as well) and would then enqueue it on the IO loop to be dealt with as soon as the
+channel is ready.
+1. This would cause buffers to be held onto for longer than necessary, causing less reuse on average.
+2. If a channel was slow for some reason, not only would concrete message instances queue up for it, but also 16k of buffers would be reserved for each message until it would be written+flushed physically.
+
+With this change, the serialization happens on the event loop which effectively limits the number of buffers that `N` IO-threads will ever use so long as messages are small and channels writable.
+Also, this change dereferences the reference to the concrete outbound message as soon as it has been serialized to save some more on GC.
+
+This reduces the GC time for a default PMC run by about 50% in experiments (3 nodes, 2G heap each, loopback ... obvious caveat is that GC isn't that heavy in the first place with recent changes but still a measurable gain).
+I also expect it to be helpful for master node stability by causing less of a spike if master is e.g. hit by a large number of requests that are processed batched (e.g. shard snapshot status updates) and responded to in a short time frame all at once.
+
+Obviously, the downside to this change is that it introduces more latency on the IO loop for the serialization. But since we read all of these messages on the IO loop as well I don't see it as much of a qualitative change really and the more predictable buffer use seems much more valuable relatively.
+We were serializing these messages off the IO loop (and retaining the concrete message
+instance as well) and would then enqueue it on the IO loop to be dealt with as soon as the
+channel is ready.
+1. This would cause buffers to be held onto for longer than necessary, causing less reuse on average.
+2. If a channel was slow for some reason, not only would concrete message instances queue up for it, but also 16k of buffers would be reserved for each message until it would be written+flushed physically.
+
+With this change, the serialization happens on the event loop which effectively limits the number of buffers that `N` IO-threads will ever use so long as messages are small and channels writable.
+Also, this change dereferences the reference to the concrete outbound message as soon as it has been serialized to save some more on GC.
+
+This reduces the GC time for a default PMC run by about 50% in experiments (3 nodes, 2G heap each, loopback ... obvious caveat is that GC isn't that heavy in the first place with recent changes but still a measurable gain).
+I also expect it to be helpful for master node stability by causing less of a spike if master is e.g. hit by a large number of requests that are processed batched (e.g. shard snapshot status updates) and responded to in a short time frame all at once.
+
+Obviously, the downside to this change is that it introduces more latency on the IO loop for the serialization. But since we read all of these messages on the IO loop as well I don't see it as much of a qualitative change really and the more predictable buffer use seems much more valuable relatively.
+ Serialize Outbound Messages on IO Threads (#56961)
+
+Almost every outbound message is serialized to buffers of 16k pagesize.
+We were serializing these messages off the IO loop (and retaining the concrete message
+instance as well) and would then enqueue it on the IO loop to be dealt with as soon as the
+channel is ready.
+1. This would cause buffers to be held onto for longer than necessary, causing less reuse on average.
+2. If a channel was slow for some reason, not only would concrete message instances queue up for it, but also 16k of buffers would be reserved for each message until it would be written+flushed physically.
+
+With this change, the serialization happens on the event loop which effectively limits the number of buffers that `N` IO-threads will ever use so long as messages are small and channels writable.
+Also, this change dereferences the reference to the concrete outbound message as soon as it has been serialized to save some more on GC.
+
+This reduces the GC time for a default PMC run by about 50% in experiments (3 nodes, 2G heap each, loopback ... obvious caveat is that GC isn't that heavy in the first place with recent changes but still a measurable gain).
+I also expect it to be helpful for master node stability by causing less of a spike if master is e.g. hit by a large number of requests that are processed batched (e.g. shard snapshot status updates) and responded to in a short time frame all at once.
+
+Obviously, the downside to this change is that it introduces more latency on the IO loop for the serialization. But since we read all of these messages on the IO loop as well I don't see it as much of a qualitative change really and the more predictable buffer use seems much more valuable relatively.
+We were serializing these messages off the IO loop (and retaining the concrete message
+instance as well) and would then enqueue it on the IO loop to be dealt with as soon as the
+channel is ready.
+1. This would cause buffers to be held onto for longer than necessary, causing less reuse on average.
+2. If a channel was slow for some reason, not only would concrete message instances queue up for it, but also 16k of buffers would be reserved for each message until it would be written+flushed physically.
+
+With this change, the serialization happens on the event loop which effectively limits the number of buffers that `N` IO-threads will ever use so long as messages are small and channels writable.
+Also, this change dereferences the reference to the concrete outbound message as soon as it has been serialized to save some more on GC.
+
+This reduces the GC time for a default PMC run by about 50% in experiments (3 nodes, 2G heap each, loopback ... obvious caveat is that GC isn't that heavy in the first place with recent changes but still a measurable gain).
+I also expect it to be helpful for master node stability by causing less of a spike if master is e.g. hit by a large number of requests that are processed batched (e.g. shard snapshot status updates) and responded to in a short time frame all at once.
+
+Obviously, the downside to this change is that it introduces more latency on the IO loop for the serialization. But since we read all of these messages on the IO loop as well I don't see it as much of a qualitative change really and the more predictable buffer use seems much more valuable relatively.
+instance as well) and would then enqueue it on the IO loop to be dealt with as soon as the
+channel is ready.
+1. This would cause buffers to be held onto for longer than necessary, causing less reuse on average.
+2. If a channel was slow for some reason, not only would concrete message instances queue up for it, but also 16k of buffers would be reserved for each message until it would be written+flushed physically.
+
+With this change, the serialization happens on the event loop which effectively limits the number of buffers that `N` IO-threads will ever use so long as messages are small and channels writable.
+Also, this change dereferences the reference to the concrete outbound message as soon as it has been serialized to save some more on GC.
+
+This reduces the GC time for a default PMC run by about 50% in experiments (3 nodes, 2G heap each, loopback ... obvious caveat is that GC isn't that heavy in the first place with recent changes but still a measurable gain).
+I also expect it to be helpful for master node stability by causing less of a spike if master is e.g. hit by a large number of requests that are processed batched (e.g. shard snapshot status updates) and responded to in a short time frame all at once.
+
+Obviously, the downside to this change is that it introduces more latency on the IO loop for the serialization. But since we read all of these messages on the IO loop as well I don't see it as much of a qualitative change really and the more predictable buffer use seems much more valuable relatively.
+ Serialize Outbound Messages on IO Threads (#56961)
+
+Almost every outbound message is serialized to buffers of 16k pagesize.
+We were serializing these messages off the IO loop (and retaining the concrete message
+instance as well) and would then enqueue it on the IO loop to be dealt with as soon as the
+channel is ready.
+1. This would cause buffers to be held onto for longer than necessary, causing less reuse on average.
+2. If a channel was slow for some reason, not only would concrete message instances queue up for it, but also 16k of buffers would be reserved for each message until it would be written+flushed physically.
+
+With this change, the serialization happens on the event loop which effectively limits the number of buffers that `N` IO-threads will ever use so long as messages are small and channels writable.
+Also, this change dereferences the reference to the concrete outbound message as soon as it has been serialized to save some more on GC.
+
+This reduces the GC time for a default PMC run by about 50% in experiments (3 nodes, 2G heap each, loopback ... obvious caveat is that GC isn't that heavy in the first place with recent changes but still a measurable gain).
+I also expect it to be helpful for master node stability by causing less of a spike if master is e.g. hit by a large number of requests that are processed batched (e.g. shard snapshot status updates) and responded to in a short time frame all at once.
+
+Obviously, the downside to this change is that it introduces more latency on the IO loop for the serialization. But since we read all of these messages on the IO loop as well I don't see it as much of a qualitative change really and the more predictable buffer use seems much more valuable relatively.
+We were serializing these messages off the IO loop (and retaining the concrete message
+instance as well) and would then enqueue it on the IO loop to be dealt with as soon as the
+channel is ready.
+1. This would cause buffers to be held onto for longer than necessary, causing less reuse on average.
+2. If a channel was slow for some reason, not only would concrete message instances queue up for it, but also 16k of buffers would be reserved for each message until it would be written+flushed physically.
+
+With this change, the serialization happens on the event loop which effectively limits the number of buffers that `N` IO-threads will ever use so long as messages are small and channels writable.
+Also, this change dereferences the reference to the concrete outbound message as soon as it has been serialized to save some more on GC.
+
+This reduces the GC time for a default PMC run by about 50% in experiments (3 nodes, 2G heap each, loopback ... obvious caveat is that GC isn't that heavy in the first place with recent changes but still a measurable gain).
+I also expect it to be helpful for master node stability by causing less of a spike if master is e.g. hit by a large number of requests that are processed batched (e.g. shard snapshot status updates) and responded to in a short time frame all at once.
+
+Obviously, the downside to this change is that it introduces more latency on the IO loop for the serialization. But since we read all of these messages on the IO loop as well I don't see it as much of a qualitative change really and the more predictable buffer use seems much more valuable relatively.
+instance as well) and would then enqueue it on the IO loop to be dealt with as soon as the
+channel is ready.
+1. This would cause buffers to be held onto for longer than necessary, causing less reuse on average.
+2. If a channel was slow for some reason, not only would concrete message instances queue up for it, but also 16k of buffers would be reserved for each message until it would be written+flushed physically.
+
+With this change, the serialization happens on the event loop which effectively limits the number of buffers that `N` IO-threads will ever use so long as messages are small and channels writable.
+Also, this change dereferences the reference to the concrete outbound message as soon as it has been serialized to save some more on GC.
+
+This reduces the GC time for a default PMC run by about 50% in experiments (3 nodes, 2G heap each, loopback ... obvious caveat is that GC isn't that heavy in the first place with recent changes but still a measurable gain).
+I also expect it to be helpful for master node stability by causing less of a spike if master is e.g. hit by a large number of requests that are processed batched (e.g. shard snapshot status updates) and responded to in a short time frame all at once.
+
+Obviously, the downside to this change is that it introduces more latency on the IO loop for the serialization. But since we read all of these messages on the IO loop as well I don't see it as much of a qualitative change really and the more predictable buffer use seems much more valuable relatively.
+
+With this change, the serialization happens on the event loop which effectively limits the number of buffers that `N` IO-threads will ever use so long as messages are small and channels writable.
+Also, this change dereferences the reference to the concrete outbound message as soon as it has been serialized to save some more on GC.
+
+This reduces the GC time for a default PMC run by about 50% in experiments (3 nodes, 2G heap each, loopback ... obvious caveat is that GC isn't that heavy in the first place with recent changes but still a measurable gain).
+I also expect it to be helpful for master node stability by causing less of a spike if master is e.g. hit by a large number of requests that are processed batched (e.g. shard snapshot status updates) and responded to in a short time frame all at once.
+
+Obviously, the downside to this change is that it introduces more latency on the IO loop for the serialization. But since we read all of these messages on the IO loop as well I don't see it as much of a qualitative change really and the more predictable buffer use seems much more valuable relatively.
+ Serialize Outbound Messages on IO Threads (#56961)
+
+Almost every outbound message is serialized to buffers of 16k pagesize.
+We were serializing these messages off the IO loop (and retaining the concrete message
+instance as well) and would then enqueue it on the IO loop to be dealt with as soon as the
+channel is ready.
+1. This would cause buffers to be held onto for longer than necessary, causing less reuse on average.
+2. If a channel was slow for some reason, not only would concrete message instances queue up for it, but also 16k of buffers would be reserved for each message until it would be written+flushed physically.
+
+With this change, the serialization happens on the event loop which effectively limits the number of buffers that `N` IO-threads will ever use so long as messages are small and channels writable.
+Also, this change dereferences the reference to the concrete outbound message as soon as it has been serialized to save some more on GC.
+
+This reduces the GC time for a default PMC run by about 50% in experiments (3 nodes, 2G heap each, loopback ... obvious caveat is that GC isn't that heavy in the first place with recent changes but still a measurable gain).
+I also expect it to be helpful for master node stability by causing less of a spike if master is e.g. hit by a large number of requests that are processed batched (e.g. shard snapshot status updates) and responded to in a short time frame all at once.
+
+Obviously, the downside to this change is that it introduces more latency on the IO loop for the serialization. But since we read all of these messages on the IO loop as well I don't see it as much of a qualitative change really and the more predictable buffer use seems much more valuable relatively.
+We were serializing these messages off the IO loop (and retaining the concrete message
+instance as well) and would then enqueue it on the IO loop to be dealt with as soon as the
+channel is ready.
+1. This would cause buffers to be held onto for longer than necessary, causing less reuse on average.
+2. If a channel was slow for some reason, not only would concrete message instances queue up for it, but also 16k of buffers would be reserved for each message until it would be written+flushed physically.
+
+With this change, the serialization happens on the event loop which effectively limits the number of buffers that `N` IO-threads will ever use so long as messages are small and channels writable.
+Also, this change dereferences the reference to the concrete outbound message as soon as it has been serialized to save some more on GC.
+
+This reduces the GC time for a default PMC run by about 50% in experiments (3 nodes, 2G heap each, loopback ... obvious caveat is that GC isn't that heavy in the first place with recent changes but still a measurable gain).
+I also expect it to be helpful for master node stability by causing less of a spike if master is e.g. hit by a large number of requests that are processed batched (e.g. shard snapshot status updates) and responded to in a short time frame all at once.
+
+Obviously, the downside to this change is that it introduces more latency on the IO loop for the serialization. But since we read all of these messages on the IO loop as well I don't see it as much of a qualitative change really and the more predictable buffer use seems much more valuable relatively.
+instance as well) and would then enqueue it on the IO loop to be dealt with as soon as the
+channel is ready.
+1. This would cause buffers to be held onto for longer than necessary, causing less reuse on average.
+2. If a channel was slow for some reason, not only would concrete message instances queue up for it, but also 16k of buffers would be reserved for each message until it would be written+flushed physically.
+
+With this change, the serialization happens on the event loop which effectively limits the number of buffers that `N` IO-threads will ever use so long as messages are small and channels writable.
+Also, this change dereferences the reference to the concrete outbound message as soon as it has been serialized to save some more on GC.
+
+This reduces the GC time for a default PMC run by about 50% in experiments (3 nodes, 2G heap each, loopback ... obvious caveat is that GC isn't that heavy in the first place with recent changes but still a measurable gain).
+I also expect it to be helpful for master node stability by causing less of a spike if master is e.g. hit by a large number of requests that are processed batched (e.g. shard snapshot status updates) and responded to in a short time frame all at once.
+
+Obviously, the downside to this change is that it introduces more latency on the IO loop for the serialization. But since we read all of these messages on the IO loop as well I don't see it as much of a qualitative change really and the more predictable buffer use seems much more valuable relatively.
+
+With this change, the serialization happens on the event loop which effectively limits the number of buffers that `N` IO-threads will ever use so long as messages are small and channels writable.
+Also, this change dereferences the reference to the concrete outbound message as soon as it has been serialized to save some more on GC.
+
+This reduces the GC time for a default PMC run by about 50% in experiments (3 nodes, 2G heap each, loopback ... obvious caveat is that GC isn't that heavy in the first place with recent changes but still a measurable gain).
+I also expect it to be helpful for master node stability by causing less of a spike if master is e.g. hit by a large number of requests that are processed batched (e.g. shard snapshot status updates) and responded to in a short time frame all at once.
+
+Obviously, the downside to this change is that it introduces more latency on the IO loop for the serialization. But since we read all of these messages on the IO loop as well I don't see it as much of a qualitative change really and the more predictable buffer use seems much more valuable relatively.
+Also, this change dereferences the reference to the concrete outbound message as soon as it has been serialized to save some more on GC.
+
+This reduces the GC time for a default PMC run by about 50% in experiments (3 nodes, 2G heap each, loopback ... obvious caveat is that GC isn't that heavy in the first place with recent changes but still a measurable gain).
+I also expect it to be helpful for master node stability by causing less of a spike if master is e.g. hit by a large number of requests that are processed batched (e.g. shard snapshot status updates) and responded to in a short time frame all at once.
+
+Obviously, the downside to this change is that it introduces more latency on the IO loop for the serialization. But since we read all of these messages on the IO loop as well I don't see it as much of a qualitative change really and the more predictable buffer use seems much more valuable relatively.
+ Serialize Outbound Messages on IO Threads (#56961)
+
+Almost every outbound message is serialized to buffers of 16k pagesize.
+We were serializing these messages off the IO loop (and retaining the concrete message
+instance as well) and would then enqueue it on the IO loop to be dealt with as soon as the
+channel is ready.
+1. This would cause buffers to be held onto for longer than necessary, causing less reuse on average.
+2. If a channel was slow for some reason, not only would concrete message instances queue up for it, but also 16k of buffers would be reserved for each message until it would be written+flushed physically.
+
+With this change, the serialization happens on the event loop which effectively limits the number of buffers that `N` IO-threads will ever use so long as messages are small and channels writable.
+Also, this change dereferences the reference to the concrete outbound message as soon as it has been serialized to save some more on GC.
+
+This reduces the GC time for a default PMC run by about 50% in experiments (3 nodes, 2G heap each, loopback ... obvious caveat is that GC isn't that heavy in the first place with recent changes but still a measurable gain).
+I also expect it to be helpful for master node stability by causing less of a spike if master is e.g. hit by a large number of requests that are processed batched (e.g. shard snapshot status updates) and responded to in a short time frame all at once.
+
+Obviously, the downside to this change is that it introduces more latency on the IO loop for the serialization. But since we read all of these messages on the IO loop as well I don't see it as much of a qualitative change really and the more predictable buffer use seems much more valuable relatively.
+We were serializing these messages off the IO loop (and retaining the concrete message
+instance as well) and would then enqueue it on the IO loop to be dealt with as soon as the
+channel is ready.
+1. This would cause buffers to be held onto for longer than necessary, causing less reuse on average.
+2. If a channel was slow for some reason, not only would concrete message instances queue up for it, but also 16k of buffers would be reserved for each message until it would be written+flushed physically.
+
+With this change, the serialization happens on the event loop which effectively limits the number of buffers that `N` IO-threads will ever use so long as messages are small and channels writable.
+Also, this change dereferences the reference to the concrete outbound message as soon as it has been serialized to save some more on GC.
+
+This reduces the GC time for a default PMC run by about 50% in experiments (3 nodes, 2G heap each, loopback ... obvious caveat is that GC isn't that heavy in the first place with recent changes but still a measurable gain).
+I also expect it to be helpful for master node stability by causing less of a spike if master is e.g. hit by a large number of requests that are processed batched (e.g. shard snapshot status updates) and responded to in a short time frame all at once.
+
+Obviously, the downside to this change is that it introduces more latency on the IO loop for the serialization. But since we read all of these messages on the IO loop as well I don't see it as much of a qualitative change really and the more predictable buffer use seems much more valuable relatively.
+instance as well) and would then enqueue it on the IO loop to be dealt with as soon as the
+channel is ready.
+1. This would cause buffers to be held onto for longer than necessary, causing less reuse on average.
+2. If a channel was slow for some reason, not only would concrete message instances queue up for it, but also 16k of buffers would be reserved for each message until it would be written+flushed physically.
+
+With this change, the serialization happens on the event loop which effectively limits the number of buffers that `N` IO-threads will ever use so long as messages are small and channels writable.
+Also, this change dereferences the reference to the concrete outbound message as soon as it has been serialized to save some more on GC.
+
+This reduces the GC time for a default PMC run by about 50% in experiments (3 nodes, 2G heap each, loopback ... obvious caveat is that GC isn't that heavy in the first place with recent changes but still a measurable gain).
+I also expect it to be helpful for master node stability by causing less of a spike if master is e.g. hit by a large number of requests that are processed batched (e.g. shard snapshot status updates) and responded to in a short time frame all at once.
+
+Obviously, the downside to this change is that it introduces more latency on the IO loop for the serialization. But since we read all of these messages on the IO loop as well I don't see it as much of a qualitative change really and the more predictable buffer use seems much more valuable relatively.
+
+With this change, the serialization happens on the event loop which effectively limits the number of buffers that `N` IO-threads will ever use so long as messages are small and channels writable.
+Also, this change dereferences the reference to the concrete outbound message as soon as it has been serialized to save some more on GC.
+
+This reduces the GC time for a default PMC run by about 50% in experiments (3 nodes, 2G heap each, loopback ... obvious caveat is that GC isn't that heavy in the first place with recent changes but still a measurable gain).
+I also expect it to be helpful for master node stability by causing less of a spike if master is e.g. hit by a large number of requests that are processed batched (e.g. shard snapshot status updates) and responded to in a short time frame all at once.
+
+Obviously, the downside to this change is that it introduces more latency on the IO loop for the serialization. But since we read all of these messages on the IO loop as well I don't see it as much of a qualitative change really and the more predictable buffer use seems much more valuable relatively.
+Also, this change dereferences the reference to the concrete outbound message as soon as it has been serialized to save some more on GC.
+
+This reduces the GC time for a default PMC run by about 50% in experiments (3 nodes, 2G heap each, loopback ... obvious caveat is that GC isn't that heavy in the first place with recent changes but still a measurable gain).
+I also expect it to be helpful for master node stability by causing less of a spike if master is e.g. hit by a large number of requests that are processed batched (e.g. shard snapshot status updates) and responded to in a short time frame all at once.
+
+Obviously, the downside to this change is that it introduces more latency on the IO loop for the serialization. But since we read all of these messages on the IO loop as well I don't see it as much of a qualitative change really and the more predictable buffer use seems much more valuable relatively.
+
+This reduces the GC time for a default PMC run by about 50% in experiments (3 nodes, 2G heap each, loopback ... obvious caveat is that GC isn't that heavy in the first place with recent changes but still a measurable gain).
+I also expect it to be helpful for master node stability by causing less of a spike if master is e.g. hit by a large number of requests that are processed batched (e.g. shard snapshot status updates) and responded to in a short time frame all at once.
+
+Obviously, the downside to this change is that it introduces more latency on the IO loop for the serialization. But since we read all of these messages on the IO loop as well I don't see it as much of a qualitative change really and the more predictable buffer use seems much more valuable relatively.
+ Serialize Outbound Messages on IO Threads (#56961)
+
+Almost every outbound message is serialized to buffers of 16k pagesize.
+We were serializing these messages off the IO loop (and retaining the concrete message
+instance as well) and would then enqueue it on the IO loop to be dealt with as soon as the
+channel is ready.
+1. This would cause buffers to be held onto for longer than necessary, causing less reuse on average.
+2. If a channel was slow for some reason, not only would concrete message instances queue up for it, but also 16k of buffers would be reserved for each message until it would be written+flushed physically.
+
+With this change, the serialization happens on the event loop which effectively limits the number of buffers that `N` IO-threads will ever use so long as messages are small and channels writable.
+Also, this change dereferences the reference to the concrete outbound message as soon as it has been serialized to save some more on GC.
+
+This reduces the GC time for a default PMC run by about 50% in experiments (3 nodes, 2G heap each, loopback ... obvious caveat is that GC isn't that heavy in the first place with recent changes but still a measurable gain).
+I also expect it to be helpful for master node stability by causing less of a spike if master is e.g. hit by a large number of requests that are processed batched (e.g. shard snapshot status updates) and responded to in a short time frame all at once.
+
+Obviously, the downside to this change is that it introduces more latency on the IO loop for the serialization. But since we read all of these messages on the IO loop as well I don't see it as much of a qualitative change really and the more predictable buffer use seems much more valuable relatively.
+We were serializing these messages off the IO loop (and retaining the concrete message
+instance as well) and would then enqueue it on the IO loop to be dealt with as soon as the
+channel is ready.
+1. This would cause buffers to be held onto for longer than necessary, causing less reuse on average.
+2. If a channel was slow for some reason, not only would concrete message instances queue up for it, but also 16k of buffers would be reserved for each message until it would be written+flushed physically.
+
+With this change, the serialization happens on the event loop which effectively limits the number of buffers that `N` IO-threads will ever use so long as messages are small and channels writable.
+Also, this change dereferences the reference to the concrete outbound message as soon as it has been serialized to save some more on GC.
+
+This reduces the GC time for a default PMC run by about 50% in experiments (3 nodes, 2G heap each, loopback ... obvious caveat is that GC isn't that heavy in the first place with recent changes but still a measurable gain).
+I also expect it to be helpful for master node stability by causing less of a spike if master is e.g. hit by a large number of requests that are processed batched (e.g. shard snapshot status updates) and responded to in a short time frame all at once.
+
+Obviously, the downside to this change is that it introduces more latency on the IO loop for the serialization. But since we read all of these messages on the IO loop as well I don't see it as much of a qualitative change really and the more predictable buffer use seems much more valuable relatively.
+instance as well) and would then enqueue it on the IO loop to be dealt with as soon as the
+channel is ready.
+1. This would cause buffers to be held onto for longer than necessary, causing less reuse on average.
+2. If a channel was slow for some reason, not only would concrete message instances queue up for it, but also 16k of buffers would be reserved for each message until it would be written+flushed physically.
+
+With this change, the serialization happens on the event loop which effectively limits the number of buffers that `N` IO-threads will ever use so long as messages are small and channels writable.
+Also, this change dereferences the reference to the concrete outbound message as soon as it has been serialized to save some more on GC.
+
+This reduces the GC time for a default PMC run by about 50% in experiments (3 nodes, 2G heap each, loopback ... obvious caveat is that GC isn't that heavy in the first place with recent changes but still a measurable gain).
+I also expect it to be helpful for master node stability by causing less of a spike if master is e.g. hit by a large number of requests that are processed batched (e.g. shard snapshot status updates) and responded to in a short time frame all at once.
+
+Obviously, the downside to this change is that it introduces more latency on the IO loop for the serialization. But since we read all of these messages on the IO loop as well I don't see it as much of a qualitative change really and the more predictable buffer use seems much more valuable relatively.
+
+With this change, the serialization happens on the event loop which effectively limits the number of buffers that `N` IO-threads will ever use so long as messages are small and channels writable.
+Also, this change dereferences the reference to the concrete outbound message as soon as it has been serialized to save some more on GC.
+
+This reduces the GC time for a default PMC run by about 50% in experiments (3 nodes, 2G heap each, loopback ... obvious caveat is that GC isn't that heavy in the first place with recent changes but still a measurable gain).
+I also expect it to be helpful for master node stability by causing less of a spike if master is e.g. hit by a large number of requests that are processed batched (e.g. shard snapshot status updates) and responded to in a short time frame all at once.
+
+Obviously, the downside to this change is that it introduces more latency on the IO loop for the serialization. But since we read all of these messages on the IO loop as well I don't see it as much of a qualitative change really and the more predictable buffer use seems much more valuable relatively.
+Also, this change dereferences the reference to the concrete outbound message as soon as it has been serialized to save some more on GC.
+
+This reduces the GC time for a default PMC run by about 50% in experiments (3 nodes, 2G heap each, loopback ... obvious caveat is that GC isn't that heavy in the first place with recent changes but still a measurable gain).
+I also expect it to be helpful for master node stability by causing less of a spike if master is e.g. hit by a large number of requests that are processed batched (e.g. shard snapshot status updates) and responded to in a short time frame all at once.
+
+Obviously, the downside to this change is that it introduces more latency on the IO loop for the serialization. But since we read all of these messages on the IO loop as well I don't see it as much of a qualitative change really and the more predictable buffer use seems much more valuable relatively.
+
+This reduces the GC time for a default PMC run by about 50% in experiments (3 nodes, 2G heap each, loopback ... obvious caveat is that GC isn't that heavy in the first place with recent changes but still a measurable gain).
+I also expect it to be helpful for master node stability by causing less of a spike if master is e.g. hit by a large number of requests that are processed batched (e.g. shard snapshot status updates) and responded to in a short time frame all at once.
+
+Obviously, the downside to this change is that it introduces more latency on the IO loop for the serialization. But since we read all of these messages on the IO loop as well I don't see it as much of a qualitative change really and the more predictable buffer use seems much more valuable relatively.
+ SQL: [Tests] Move JDBC integration tests to new module (#56872)
+
+Move the JDBC functionality integration tests from `:sql:qa` to a separate
+module `:sql:qa:jdbc`. This way the tests are isolated from the rest of the 
+integration tests and they only depend to the `:sql:jdbc` module, thus 
+removing the danger of accidentally pulling in some dependency that may
+hide bugs.
+
+Moreover this is a preparation for #56722, so that we can run those tests
+between different JDBC and ES node versions and ensure forward
+compatibility.
+
+Move the rest of existing tests inside a new `:sql:qa:server` project, so that
+the `:sql:qa` becomes the parent project for both and one can run all the integration
+tests by using this parent project.
+ Add expand_wildcards to _cat/indices and _cat/aliases docs (#56964)
+
+This commit adds the `expand_wildcards` parameter documentation to the
+`_cat/indices` and `_cat/aliases` docs, as those APIs now support
+`expand_wildcards`. Additionally, clarifies the `expand_wildcards` docs with
+respect to hidden indices.
+ Fix Source Return Bug in Scripting (#56831)
+
+This change ensures that when a user returns _source directly no matter where 
+accessed within scripting, the value is a Map of the converted source as 
+opposed to a SourceLookup.
+
+Fixes #52103
+ Don't run sort optimization on size
+Sort optimization creates TopFieldCollector that errors
+when size=0. This ensures that sort optimization is not
+run when size=0.
+
+Closes #56923
+ [DOCS] Fix deep paging recommendations
+
+Corrects recommendation to reference the `search_after` parameter,
+not API.
+ [DOCS] Add delete snapshot repo API docs (#57043)
+
+Changes:
+
+* Adds API reference docs for the delete snapshot repo API.
+
+* Corrects an error in the delete snapshot repo API spec. Comma-separated
+repository names are not supported.
+
+* Relocates the existing delete snapshot repo API example docs.
+ [DOCS] Reformat `shingle` token filter (#57040)
+
+Changes:
+
+* Rewrites description and adds Lucene link
+* Adds analyze example
+* Rewrites parameter documentation
+* Updates custom analyzer and filter examples
+* Adds anchor to `index.max_shingle_diff` index-level setting
+ Update the wording for the feature request issue template (#57037)
+ [DOCS] Removes the Jobs section from the ML anomaly detection APIs page. (#57031)
+ [DOCS] Fix anchor in put snapshot repo API docs
+ [ML] adds WKT support in filestructurefinder (#57014)
+
+Field mapping detection is done via grok patterns. 
+This commit adds well-known text (WKT) formatted geometry detection.
+
+If everything is a `POINT`, then a `geo_point` mapping is preferred. 
+Otherwise, if all the fields are WKT geometries a `geo_shape` mapping is preferred.
+
+This does **NOT** detect other types of formatted geometries (geohash, comma delimited points, etc.)
+
+closes https://github.com/elastic/elasticsearch/issues/56967
+ Change "apply create index" log level to DEBUG (#56947)
+
+These log statements are also looged by every "simulate adding this index"
+functionality. One of them is the rollover action in ILM which executes
+rollover dry-runs until the conditions are met, when the actual rollover
+is executed.
+
+This changes the statements log level to DEBUG and changes the phrasing
+from V1/V2 to legacy/composable templates.

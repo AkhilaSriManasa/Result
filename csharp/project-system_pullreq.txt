@@ -1,0 +1,168 @@
+﻿ Use ?? 
+
+###### Microsoft Reviewers: [Open in CodeFlow](http://wpcp.azurewebsites.net/CodeFlowProtocolProxy2.php?pullrequest=https://github.com/dotnet/project-system/pull/6246)
+ Remove unused class RuleDataSourceTypes
+ 
+
+###### Microsoft Reviewers: [Open in CodeFlow](http://wpcp.azurewebsites.net/CodeFlowProtocolProxy2.php?pullrequest=https://github.com/dotnet/project-system/pull/6245)
+ Use CommandStatus member workaround
+ We now consume CPS packages that include `CommandStatus.InvisibleOnContextMenu`.
+
+###### Microsoft Reviewers: [Open in CodeFlow](http://wpcp.azurewebsites.net/CodeFlowProtocolProxy2.php?pullrequest=https://github.com/dotnet/project-system/pull/6244)
+ Use updated VSConstants values
+ #6228 updated the version of `Microsoft.VisualStudio.Shell.15.0` which brings in these new command IDs as constants. Replace our copies of those values.
+
+###### Microsoft Reviewers: [Open in CodeFlow](http://wpcp.azurewebsites.net/CodeFlowProtocolProxy2.php?pullrequest=https://github.com/dotnet/project-system/pull/6243)
+ Fix file name capitalisation
+ 
+
+###### Microsoft Reviewers: [Open in CodeFlow](http://wpcp.azurewebsites.net/CodeFlowProtocolProxy2.php?pullrequest=https://github.com/dotnet/project-system/pull/6242)
+ Typos
+ 
+
+###### Microsoft Reviewers: [Open in CodeFlow](http://wpcp.azurewebsites.net/CodeFlowProtocolProxy2.php?pullrequest=https://github.com/dotnet/project-system/pull/6241)
+ Move InternPool to PooledObjects namespace
+ 
+
+###### Microsoft Reviewers: [Open in CodeFlow](http://wpcp.azurewebsites.net/CodeFlowProtocolProxy2.php?pullrequest=https://github.com/dotnet/project-system/pull/6240)
+ Use langword for null in XML docs
+ 
+
+###### Microsoft Reviewers: [Open in CodeFlow](http://wpcp.azurewebsites.net/CodeFlowProtocolProxy2.php?pullrequest=https://github.com/dotnet/project-system/pull/6239)
+ Use named arguments
+ Searched with RegEx `/\*\s*\w+\s*\*/` and found these.
+
+###### Microsoft Reviewers: [Open in CodeFlow](http://wpcp.azurewebsites.net/CodeFlowProtocolProxy2.php?pullrequest=https://github.com/dotnet/project-system/pull/6238)
+ Remove redundant CanCopy override in DependenciesProjectTreeProvider
+ The base implementation does the same thing.
+
+###### Microsoft Reviewers: [Open in CodeFlow](http://wpcp.azurewebsites.net/CodeFlowProtocolProxy2.php?pullrequest=https://github.com/dotnet/project-system/pull/6237)
+ Remove TODO
+ `ContainsAny` is available now, but it requires allocating the composite `ProjectTreeFlags` somewhere in order to use it, either as a temporary or on the stack. The change is not justifiable.
+
+###### Microsoft Reviewers: [Open in CodeFlow](http://wpcp.azurewebsites.net/CodeFlowProtocolProxy2.php?pullrequest=https://github.com/dotnet/project-system/pull/6236)
+ Remove unused enum TaskSchedulerPriority
+ 
+
+###### Microsoft Reviewers: [Open in CodeFlow](http://wpcp.azurewebsites.net/CodeFlowProtocolProxy2.php?pullrequest=https://github.com/dotnet/project-system/pull/6235)
+ Fix reference to removed type
+ 
+
+###### Microsoft Reviewers: [Open in CodeFlow](http://wpcp.azurewebsites.net/CodeFlowProtocolProxy2.php?pullrequest=https://github.com/dotnet/project-system/pull/6234)
+ Bump analyzer package versions
+ 
+
+###### Microsoft Reviewers: [Open in CodeFlow](http://wpcp.azurewebsites.net/CodeFlowProtocolProxy2.php?pullrequest=https://github.com/dotnet/project-system/pull/6233)
+ Shorten dependency provider type strings
+ These strings identify the type of a dependency (eg. Package, Assembly, ...).
+
+Currently they're included in composite key strings for all top-level dependencies of a project. They are not displayed anywhere visible, and are not persisted beyond the lifetime of the host process (eg. devenv).
+
+Making them shorter can save a little memory.
+
+###### Microsoft Reviewers: [Open in CodeFlow](http://wpcp.azurewebsites.net/CodeFlowProtocolProxy2.php?pullrequest=https://github.com/dotnet/project-system/pull/6232)
+ Update depenendency node docs
+ - Fix typo
+- Fix broken URLs (from when code moved between assemblies)
+- Hyperlink new dependencies node types
+
+###### Microsoft Reviewers: [Open in CodeFlow](http://wpcp.azurewebsites.net/CodeFlowProtocolProxy2.php?pullrequest=https://github.com/dotnet/project-system/pull/6231)
+ DependenciesProjectTreeProvider tidy
+ 
+
+###### Microsoft Reviewers: [Open in CodeFlow](http://wpcp.azurewebsites.net/CodeFlowProtocolProxy2.php?pullrequest=https://github.com/dotnet/project-system/pull/6230)
+ Enforce consistent properties between resolved/unresolved dependeny pairs
+ For every dependency type, we have a resolved and unresolved rule.
+
+This PR ensures that both rules in every pair have the same visible properties, and that those properties have the same display name and description.
+
+Long term we should split this so we have a single rule for the browse object with all-visible properties, and other rules for internal processing with no visible properties. That work is tracked by #5076.
+
+Adds a unit test to ensure consistency.
+
+###### Microsoft Reviewers: [Open in CodeFlow](http://wpcp.azurewebsites.net/CodeFlowProtocolProxy2.php?pullrequest=https://github.com/dotnet/project-system/pull/6229)
+ Opt in for codespaces
+ Fixes #6217.
+Replaces #6219.
+
+Upgrading the CPS dependency, to be able to merge #6219, brought in a bunch of other packages that needed updating, which needed changes for `Obsolete` attributes and new code analysis warnings etc. so thought I'd do this as a new PR to make sure the changes were clear to all.
+
+###### Microsoft Reviewers: [Open in CodeFlow](http://wpcp.azurewebsites.net/CodeFlowProtocolProxy2.php?pullrequest=https://github.com/dotnet/project-system/pull/6228)
+ Enforce consistent display name/description across dependency rules
+ Fixes #5203.
+
+- Following legacy behaviour, description ends with "Properties".
+- All items must include the word "Reference".
+- Enforce the same values between resolved/unresolved rules.
+- Update existing rules and add unit tests to enforce these constraints.
+
+###### Microsoft Reviewers: [Open in CodeFlow](http://wpcp.azurewebsites.net/CodeFlowProtocolProxy2.php?pullrequest=https://github.com/dotnet/project-system/pull/6224)
+ Add PackageReference.Name property
+ This fixes a bug in the NuGet provisioning of transitive dependencies when the item it is being asked to attach to is an unresolved package. Without this change, the a blank name would be used and no library found in the assets file, so all children would be removed and never populated. This change gives parity between both the unresolved and resolved package reference items, so children appear correctly regardless of the resolved state at the time children are attached.
+
+###### Microsoft Reviewers: [Open in CodeFlow](http://wpcp.azurewebsites.net/CodeFlowProtocolProxy2.php?pullrequest=https://github.com/dotnet/project-system/pull/6223)
+ Base framework for In Product Acquisition (for review, but will not be merged)
+ This is still a work in progress, so won't be merged, but the "frameworky" bits of this are done enough for you all to review it and tell me where I went wrong. Ignore the actual scenario (I marked the files with comments), thats just for me to make this code actually do something. Also the `TargetDescriptionBase` and its subclasses will likely change over time, as individual scenarios are built out, but I prefer to do that from a consumption point of view rather than designing everything in theory up front.
+
+Part of #6080 and specifically fixes [AB#1124216](https://devdiv.visualstudio.com/0bdbc590-a062-4c3f-b0f6-9383f67865ee/_workitems/edit/1124216).
+
+The design is this:
+![image](https://user-images.githubusercontent.com/754264/82554466-54a37c00-9ba9-11ea-8a6c-c384533549b2.png)
+
+
+###### Microsoft Reviewers: [Open in CodeFlow](http://wpcp.azurewebsites.net/CodeFlowProtocolProxy2.php?pullrequest=https://github.com/dotnet/project-system/pull/6220)
+ Opt-in for VS Codespaces
+ Fixes #6217.
+
+The build will fail for a day until the CPS packaging changes get ingested.
+
+###### Microsoft Reviewers: [Open in CodeFlow](http://wpcp.azurewebsites.net/CodeFlowProtocolProxy2.php?pullrequest=https://github.com/dotnet/project-system/pull/6219)
+ Fix LaunchTargetPropertyPageValueProvider
+ Fix the LaunchTargetPropertyPageValueProvider to take into account the changes
+made in commit 888cb89.
+
+###### Microsoft Reviewers: [Open in CodeFlow](http://wpcp.azurewebsites.net/CodeFlowProtocolProxy2.php?pullrequest=https://github.com/dotnet/project-system/pull/6216)
+ Update descriptions of artifacts
+ - To be consistent
+- To be correct
+
+###### Microsoft Reviewers: [Open in CodeFlow](http://wpcp.azurewebsites.net/CodeFlowProtocolProxy2.php?pullrequest=https://github.com/dotnet/project-system/pull/6215)
+ Remove unused code
+ 
+
+###### Microsoft Reviewers: [Open in CodeFlow](http://wpcp.azurewebsites.net/CodeFlowProtocolProxy2.php?pullrequest=https://github.com/dotnet/project-system/pull/6214)
+ Reinstate package/project ID in flags
+ The intention was to have consumers source this data from the browse object, but that's non-trivial from an IProjectTree in a sync context.
+
+I will revisit this in preview 3. Right now this will unblock NuGet from merging, hopefully in time for P2.
+
+###### Microsoft Reviewers: [Open in CodeFlow](http://wpcp.azurewebsites.net/CodeFlowProtocolProxy2.php?pullrequest=https://github.com/dotnet/project-system/pull/6213)
+ Allow IInterceptingPropertyValueProvider to handle multiple properties
+ Related to #6210.
+
+The `IInterceptingPropertyValueProvider` interface allows an implementor to easily "intercept" get or set operations for a particular property and modify or redirect the value as it sees fit. For example, reading an writing the "ApplicationManifest" property through a property page actually involves two MSBuild properties: ApplicationManifest, and NoWin32Manifest. The `ApplicationManifestValueProvider` handles reading and writing the two in concert to produce the final value exposed through the property page. Similarly the `ExecutablePathValueProvider` redirects reads and writes of the path to the .exe to debug to the launchSettings.json file, instead of reading and writing that value from the project file.
+
+The name of the intercepted property is declared via the `ExportInterceptingPropertyValueProviderAttribute`. Currently, this only accepts a single property name, meaning that each implementation of `IInterceptingPropertyValueProvider` can handle a single property. This is very limiting when it comes to the various properties related to debugging as they all require more or less the same handling. We end up with an abstract base class with a bunch of implementations that basically do nothing other than expose their property name to the base.
+
+This change makes it possible for a single implementation to handle multiple properties. First, we update the attribute with a constructor that takes an array of strings rather than a single string, and update the consuming classes to deal with multiple values.
+
+Second, the `OnGetEvaluatedPropertyValueAsync`, `OnGetUnevaluatedPropertyValueAsync`, and `OnSetPropertyValueAsync` methods have been updated to take the property name as the first argument. Most of the changes in this commit deal with updating the existing implementations accordingly, though currently none of them use the parameter as they only handle one property. Future changes will consolidate some of the existing providers and add new ones that make use of this functionality.
+
+###### Microsoft Reviewers: [Open in CodeFlow](http://wpcp.azurewebsites.net/CodeFlowProtocolProxy2.php?pullrequest=https://github.com/dotnet/project-system/pull/6207)
+ Don't throw if unknown active framework is "Unsupported"
+ Fixes #6204
+Fixes [AB#1126588](https://devdiv.visualstudio.com/0bdbc590-a062-4c3f-b0f6-9383f67865ee/_workitems/edit/1126588)
+
+We are seeing some customer NFEs around this check. The validation is theoretically correct, but the consequences of continuing in such a scenario are minor-to-non-existant. Therefore I'm leaving it as an assert to assist during development of this code.
+
+This code would likely disappear as part of #6183.
+
+###### Microsoft Reviewers: [Open in CodeFlow](http://wpcp.azurewebsites.net/CodeFlowProtocolProxy2.php?pullrequest=https://github.com/dotnet/project-system/pull/6205)
+ Fix resx resource generation
+ Fixes [AB#1126853](https://devdiv.visualstudio.com/0bdbc590-a062-4c3f-b0f6-9383f67865ee/_workitems/edit/1126853) introduced in #6180 
+
+Bug #1058 is tracking work to stop this happening again in future.
+
+Note that #3741 discusses an alternative workaround to #1058 in which we would rename the file to include the prefix, so that it is not removed again in future.
+
+###### Microsoft Reviewers: [Open in CodeFlow](http://wpcp.azurewebsites.net/CodeFlowProtocolProxy2.php?pullrequest=https://github.com/dotnet/project-system/pull/6202)

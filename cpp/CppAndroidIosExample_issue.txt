@@ -1,0 +1,45 @@
+﻿ Android oct 2018 fix
+ Hi
+I have spent some time to update your very good cross platform example to work with never Android environments (Oct 2018 on Ubuntu 18.04). I think this would be helpful to others as well, so perhaps you want to merge in the changes?
+Best Jens
+hi, @jlundos thank you very much, your additions are great.
+I have only one doubt I would like to clarify before merging the PR, why did you turn off the shrinkResources?
+Best.
+
+This is a really good question, and exactly why I put the word 'Fix' in quotation marks like "Fix". When still having shrikResources true (and enabled in Debug, i.e. without the last changeset), which would seem natural, I do still get the error
+
+Circular dependency between the following tasks:
+:app:checkManifestChangesDebug
+\--- :app:instantRunMainApkResourcesDebug
+     \--- :app:transformClassesAndDexWithShrinkResForDebug
+          \--- :app:transformDexArchiveWithDexMergerForDebug
+               +--- :app:preColdswapDebug
+               |    \--- :app:incrementalDebugTasks
+               |         +--- :app:transformClassesAndClassesEnhancedWithInstantReloadDexForDebug
+               |         |    \--- :app:transformClassesWithInstantRunForDebug
+               |         |         \--- :app:checkManifestChangesDebug (*)
+               |         \--- :app:transformClassesWithInstantRunForDebug (*)
+               \--- :app:transformClassesWithDexBuilderForDebug
+                    +--- :app:preColdswapDebug (*)
+                    \--- :app:transformClassesWithInstantRunForDebug (*)
+
+(*) - details omitted (listed previously)
+
+at runtime. I can see at Stackoverflow, that I'm not alone with this problem (which does not seem related to this example). I have tried various combinations of minifyEnabled, useProguard, shrinkResources, both order and setting, and the one in the middle changeset (9b...) seem to be the only one working... Definitely has the smell of a workaround for some compiler or IDE bug...
+
+The last changeset (3b..., only shrink code size in release builds), is not strictly necessary, but is in line with recommendations I have seen, to make sure debug will work with single-stepping, etc. so code is not optimized away.
+
+Hi @ademar111190 , what are your thoughts?
+
+Hi again @ademar111190, I'm new to github, so I'm not quite familiar yet with what actions generate notifications in regards to pull requests. So I just wanted to make sure you had seen my response from 18th Nov, and of course offer to give further information if you have any questions.
+
+Hi @jlundos 
+sorry for the long time to answer you, it was my bad, not yours, you did everything correctly ;)
+I think everything looks great, I'm merging your PR, thank you very much for the contribution!! :)
+
+No problem, and thanks @ademar111190 !
+
+ README typo
+ fix readme typo
+Thank you @TeleginS 
+

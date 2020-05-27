@@ -1,0 +1,19 @@
+﻿ Support for enum constructor parameters
+ Fix for https://github.com/Haacked/CodeHaacks/issues/12#issuecomment-280168038
+ Add MvcHaack.Ajax.V2 fork for MVC4 - as a new project in the solution si...
+ ...nce it would possibly need to be maintained side by side with V1 (I haven't investigated possibility of simultaneous compatibility with MVC3 framework so I guessed they may need to be maintained side by side).
+
+ Changed the OnClosed event handler to OnClosing
+ Otherwise the window already closed and the WindowPlacement variables are all 0.
+
+ Using markdown extension on readme
+ Helps formatting when displayed on some websites
+
+ Error in SaveSecure, changed Issue to IssueNumber
+ 
+ Update src/MvcHaack.Ajax/JsonActionInvoker.cs
+ end of the style tag was missing
+
+ Show sample route path for each action
+ When inspecting some REST service, a very useful thing is to see what the REST path looks like for each action. Doing this requires involving routing. It's not 100% correct (see comment in code), but for the most part it does the right thing.
+

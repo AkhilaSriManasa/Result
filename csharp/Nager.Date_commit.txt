@@ -1,0 +1,47 @@
+﻿ Add Good Friday to Ireland
+
+https://github.com/nager/Nager.Date/issues/193
+ Bulgaria add Good Friday
+
+https://github.com/nager/Nager.Date/issues/198
+ Merge branch 'master' of https://github.com/nager/Nager.Date
+ Optimize Switzerland, fix St Stephen's Day
+
+https://github.com/nager/Nager.Date/issues/197
+Some small fixes on switzerland
+ Update README.md
+ Update README.md
+ Update README.md
+ Update dependencies, increase version
+ Update appveyor.yml
+ Update font-awesome
+ Update README.md
+ Update README.md
+ Merge pull request #199 from velykanov/patch-1
+
+Update UkraineProvider.cs
+ Update UkraineProvider.cs
+ Merge pull request #196 from CasperWSchmidt/master
+
+Add IsPublicHoliday(DateTime date, string countryCode) to DateSystem.cs
+ Implement enum checking to be case insensitive and add unit tests to prove correctness of changes
+ Change all Enum parsing to throw exceptions and also check Enum.IsDefined
+ Add IsPublicHoliday(DateTime date, string countryCode) to DateSystem.cs
+
+Closes #195
+ Merge branch 'master' of https://github.com/nager/Nager.Date
+ Merge branch 'master' of https://github.com/nager/Nager.Date
+ Update dockerimage.yml
+ Update README.md
+ update to .net core 3.1
+ Update README.md
+ update project urls
+ Update README.md
+ Fix package release note
+ Fix spain
+
+https://github.com/tinohager/Nager.Date/issues/192
+ Merge pull request #191 from miblazevic/master
+
+Croatia Statehood day date change
+ Croatia Statehood day date change

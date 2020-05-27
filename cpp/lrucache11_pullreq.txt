@@ -1,0 +1,30 @@
+﻿ move value on insert, fix comment typo
+ See #16 
+ fix some comment, set Contains() const
+ 
+ removed no copy base class
+ Fixes issue https://github.com/mohaps/lrucache11/issues/11
+ Added missing CMakeLists.txt for cmake support.
+ 
+ [WIP] add example for using vector<> as key in Cache
+ Fixes #8 
+
+An example of using the cache for storing/retrieving vectors. 
+
+ rewrote using std::list instead of custom linked list implementation
+ 
+ Add example
+ - rename the test to LRUCache11Test.cpp
+- add SampleMain.cpp + fix it
+
+Fixes #5 
+
+ Set prev link properly when adding to a 1-item list.
+ When there is only 1 item in the list, a newly appended `n` node didn't have the `prev` property set correctly.  This leads to segfaults when calling `get` on the second item, because we later try to de-reference a `nullptr` that should be pointing to `head`.
+
+ enable compilation on gcc 5.4 ubuntu
+ 
+ Avoid nesting on Cache::prune by early returning
+ 
+ Remove check for nullptr before deleting.
+ 

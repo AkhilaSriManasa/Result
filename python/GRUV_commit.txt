@@ -1,0 +1,30 @@
+﻿ Updating README to include compatible Keras version
+ Merge branch 'master' of github.com:MattVitelli/GRUV
+ Add configurable sampling rates
+ Merge pull request #2 from dufferzafar/master
+
+Ignore the intermediary *.npy files
+ Ignore the intermediary *.npy files
+ Merge pull request #1 from wtfrank/master
+
+fix escaping and support FLAC
+ add note about SoX (for FLAC) to README
+ FLAC files are always converted to 44.1 kHz
+ escape filenames properly and support FLAC
+ add datafiles in datasets to .gitignore
+ Update README.md
+ Update README.md
+ Update README.md
+ Update README.md
+ Merge branch 'master' of github.com:MattVitelli/GRUV
+ Add config code, add generation algorithms
+ Update README.md
+ Update README.md
+ Update network_utils.py
+
+Removed outdated y_dim_components = 2
+ Merge branch 'master' of github.com:MattVitelli/GRUV
+ Add example file
+ Update README.md
+ Create README.md
+ Add data utils, nn utils, and training code

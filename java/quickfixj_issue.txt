@@ -1,0 +1,911 @@
+﻿ While looping issue
+ Hi,
+As I know, the messages is processed in the block method.  If the application gets unexpected exception(nullpointer exception) or different exception in this method, the "while loop" can break and the messages can not process. I think, the "try catch" blocks should be cover whole "the while loop" block. So that when the application gets unexpected exception, "while loop" won't be broken and the messages is processed.   This method can be like below.
+
+	private void block() {
+		while (true) {
+			try {
+				synchronized (this) {
+					if (isStopped) {
+						if (!eventQueue.isEmpty()) {
+							final List<SessionMessageEvent> tempList = new ArrayList<>(eventQueue.size());
+							queueTracker.drainTo(tempList);
+							for (SessionMessageEvent event : tempList) {
+								event.processMessage();
+							}
+						}
+						if (stopTime == 0) {
+							stopTime = SystemTime.currentTimeMillis();
+						}
+						if (!sessionConnector.isLoggedOn() || SystemTime.currentTimeMillis() - stopTime > 5000L) {
+							sessionConnector.stopSessionTimer();
+							// reset the stoptime
+							stopTime = 0;
+						}
+						return;
+					}
+				}
+
+				SessionMessageEvent event = getMessage();
+				if (event != null) {
+					event.processMessage();
+				}
+				//Excepiton types can be seperate.
+			} catch (Exception e) {
+				Thread.currentThread().interrupt();
+			}
+		}
+	}
+
+
+
+https://github.com/quickfix-j/quickfixj/blob/5a31fcd730829841d35a34919b351f487f288347/quickfixj-core/src/main/java/quickfix/mina/SingleThreadedEventHandlingStrategy.java#L89
+
+In theory you are right, but in practice there is no place in this method that can cause an exception to be thrown that is unhandled (as far as I can see).
+
+You would have to pinpoint exact line and explain the circumstances under which this method can break the loop unexpectedly. If this is something that cannot be proven - we should not put try/catch blocks "just in case".
+
+
+ QFJ-684 - added charset support to BytesField
+ **Changes**
+- `quickfix.BytesField` uses `org.quickfixj.CharsetSupport`
+
+This is the last remaining item from QFJ-789, so possibly this could be closed as well.
+ QFJ-375 - configurable timeout multiplier
+ Fixes QFJ-375
+
+**Changes**
+
+- session timeout multiplier is configurable (default values retained)
+- documentation update
+Is it worth turning LGTM JavaScript off (if possible)?
+
+Hi @the-thing , thanks for the PR.
+Re LGTM: https://github.com/quickfix-j/quickfixj/pull/277#issuecomment-607183447
+I have asked them in their forum to disable JavaScript checking some weeks ago. But they did not reply.
+
+I see, thanks. Strange that they don't support it.
+
+ [Snyk] Upgrade org.dom4j:dom4j from 2.1.1 to 2.1.3
+ <h3>Snyk has created this PR to upgrade org.dom4j:dom4j from 2.1.1 to 2.1.3.</h3>
+:information_source: Keep your dependencies up-to-date. This makes it easier to fix existing vulnerabilities and to more quickly identify and fix newly disclosed vulnerabilities when they affect your project.
+<hr/>
+
+- The recommended version is **1 version** ahead of your current version.
+- The recommended version was released **23 days ago**, on 2020-04-12.
+
+The recommended version fixes:
+
+Severity                   | Issue                | Exploit Maturity 
+:-------------------------:|:-------------------------|:-------------------------
+<img src="https://res.cloudinary.com/snyk/image/upload/w_20,h_20/v1561977819/icon/h.png" width="20" height="20" title="high severity"/>  | XML External Entity (XXE) Injection<br/> [SNYK-JAVA-ORGDOM4J-565810](https://snyk.io/vuln/SNYK-JAVA-ORGDOM4J-565810) | No Known Exploit 
+
+<hr/>
+
+**Note:** *You are seeing this because you or someone else with access to this repository has authorized Snyk to open upgrade PRs.*
+
+For more information: 
+
+🧐 [View latest project report](https://app.snyk.io/org/quickfix-j/project/9e149855-1327-42e5-88ef-9c50fd6c3092?utm_source&#x3D;github&amp;utm_medium&#x3D;upgrade-pr)
+
+🛠 [Adjust upgrade PR settings](https://app.snyk.io/org/quickfix-j/project/9e149855-1327-42e5-88ef-9c50fd6c3092/settings/integration?utm_source&#x3D;github&amp;utm_medium&#x3D;upgrade-pr)
+
+🔕 [Ignore this dependency or unsubscribe from future upgrade PRs](https://app.snyk.io/org/quickfix-j/project/9e149855-1327-42e5-88ef-9c50fd6c3092/settings/integration?pkg&#x3D;org.dom4j:dom4j&amp;utm_source&#x3D;github&amp;utm_medium&#x3D;upgrade-pr#auto-dep-upgrades)
+
+<!--- (snyk:metadata:{"prId":"cf772aec-b782-4c66-9510-1aef6aa83860","dependencies":[{"name":"org.dom4j:dom4j","from":"2.1.1","to":"2.1.3"}],"packageManager":"maven","type":"auto","projectUrl":"https://app.snyk.io/org/quickfix-j/project/9e149855-1327-42e5-88ef-9c50fd6c3092?utm_source=github&utm_medium=upgrade-pr","projectPublicId":"9e149855-1327-42e5-88ef-9c50fd6c3092","env":"prod","prType":"upgrade","vulns":["SNYK-JAVA-ORGDOM4J-565810"],"issuesToFix":[{"issueId":"SNYK-JAVA-ORGDOM4J-565810","severity":"high","title":"XML External Entity (XXE) Injection","exploitMaturity":"no-known-exploit"}],"upgrade":["SNYK-JAVA-ORGDOM4J-565810"],"upgradeInfo":{"versionsDiff":1,"publishedDate":"2020-04-12T10:15:10.000Z"},"templateVariants":[],"hasFixes":true,"isMajorUpgrade":false,"isBreakingChange":false}) --->
+
+"https://res.cloudinary.com/snyk/image/upload/w_20,h_20/v1561977819/icon/h.png" width Support setting RefreshOnLogon for Initiators
+ Fixes #262 
+
+
+This is slightly confusing to review as the changes from other PR are here. https://github.com/quickfix-j/quickfixj/pull/285
+
+@the-thing , thanks, I have updated the PR.
+
+ Add custom tags to Logon message.
+ Adds possibility to specify tags via setting `LogonTag` or `LogonTag<n>`.
+Example:
+```
+LogonTag=553=user
+LogonTag1=554=password 
+```
+
+It is checked whether a data dictionary is present to determine whether the specified tag is a header field. Otherwise it is put into the body of the message.
+LGTM JavaScript analysis failing. This is somewhat expected and triggered by changing the configuration html page. See https://github.com/quickfix-j/quickfixj/pull/277#issuecomment-607183447
+
+@the-thing , thanks for the review.
+You are right, I feel like one of the most asked questions is "how do I set username and password on the Logon message". ;)
+
+@chrjohn 
+
+BTW. I think you can close QFJ-177.
+
+ Checkstyle configuration (WIP)
+ 
+Thanks for this! I have converted this PR to a draft since it is WIP. If this is a problem for you then please change it back (I hope you are allowed to do it. Otherwise let me know)
+
+
+ Optimise session reset to reduce Calendar creation
+ Attempts to improve Calendar-based memory churn seen in #282 by accessing original calendars and keeping a local cache of temporary ones.
+ There's considerable idle memory churn due to the construction of Calendar objects for reset calculations
+ **Describe the bug**
+An idle QuickFIXJ application produces a stream of garbage to be collected in the form of throwaway (Gregorian)Calendar objects
+
+**To Reproduce**
+* Create a QFJ application that has a Session attached
+* Observe the memory behaviour and see what objects are being allocated and garbage collected.
+
+**Expected behaviour**
+* Minimal (ideally 0) use of additional memory without traffic being passed
+
+**System information:**
+ - OS independent
+ - Java version 8
+ - QFJ Version - 2.2.0-SNAPSHOT
+
+**Additional context**
+The source of this is the DefaultSessionSchedule class which creates (and invokes creation of) Calendar objects every time it's called.
+
+For example, the `MessageStore` implementations all retain a `Calendar` object for the creationTime. However the API exposes a `getCreationTime()` method - and so the store constructs a `DateTime` from the calendar. But `DefaultSessionSchedule` uses a `Calendar,` so it then reconstructs a `Calendar` object from that date time to then do the comparison.
+
+This all happens every time `isSessionTime` is called - which (at least) is every time `Session.next()` is called - which is up to once a second.
+Thanks for opening this issue (and the related PR). Were there other objects (in significant numbers) created during idle times?
+
+I also found stuff in our internal app code to fix. Once I've landed both this change and that change, I'll re-test and have a look. Certainly the two collectively were the worst offenders based on the sampling data.
+
+Most likely however this is it for idle usage as it's basically the sum of what happens. When FIX traffic of some form is actually being passed there might be other tweaks.
+
+ Pluggable transport
+ **Is your feature request related to a problem? Please describe.**
+Quite a long time ago, I've been working to make the transport pluggable and to provide one based on Netty. The code is still available [here](https://github.com/lburgazzoli/lb-quickfixj) but as I was experimenting against a number of things, it contains more that just the pluggable transport work.
+
+**Describe the solution you'd like**
+If it does make sense I can work on the pluggable transport layer over the following months.
+
+
+I think this would be a sensible enhancement. But I guess this is no easy task since in my opinion MINA is somewhat intertwined into QFJ. :)
+
+Yes it was a challenge back in time :)
+
+ Add method to DataDictionary to get the value for a given enum value name
+  - this is useful for mapping from/to the XML representation obtained
+from `Message.toXML()`
+ - since the DataDictionary is kind of a memory hog we do not store the
+values in yet another HashMap (which would cause Node objects to be created) but iterate over the entries on each call to `getValue(int, String)`
+  -- it is up to the user's application to cache the returned values if desired
+@the-thing , thanks for the review.
+
+ i have add quickfixj class SessionNotFound but i got error class not found
+ **Describe the bug**
+A clear and concise description of what the bug is.
+I have create java application for fix protocol using quickfixj engine for main class i using this code
+```
+package com.dxtr.marketdatarequest.fastmatchmarketdata;
+
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.util.UUID;
+
+import quickfix.Initiator;
+import quickfix.*;
+import quickfix.fix42.*;
+import quickfix.LogFactory;
+import quickfix.Application;
+import quickfix.ConfigError;
+import quickfix.DefaultMessageFactory;
+import quickfix.FileLogFactory;
+import quickfix.FileStoreFactory;
+import quickfix.Message.Header;
+import quickfix.MessageFactory;
+import quickfix.Session;
+import quickfix.SessionID;
+import quickfix.SessionNotFound;
+import quickfix.SessionSettings;
+import quickfix.SocketInitiator;
+import quickfix.field.BeginString;
+import quickfix.field.HeartBtInt;
+import quickfix.field.MDEntryType;
+import quickfix.field.MDReqID;
+import quickfix.field.MarketDepth;
+import quickfix.field.MsgType;
+import quickfix.field.NoMDEntryTypes;
+import quickfix.field.ResetSeqNumFlag;
+import quickfix.field.SenderCompID;
+import quickfix.field.SubscriptionRequestType;
+import quickfix.field.Symbol;
+import quickfix.field.TargetCompID;
+import quickfix.fix42.Message;
+
+public class FastmatchMDRequest {
+    public static void main(String[] args) {
+        SocketInitiator socketInitiator = null;
+        try {
+            SessionSettings sessionSettings = new SessionSettings("/home/ec2-user/fastmatch_server_new/FIXQuote2.cfg");
+            Application application = new TestMarketdataRequest();
+            FileStoreFactory fileStoreFactory = new FileStoreFactory(sessionSettings);
+            FileLogFactory logFactory = new FileLogFactory(sessionSettings);
+            MessageFactory messageFactory = new DefaultMessageFactory();
+            socketInitiator = new SocketInitiator(application,
+                    fileStoreFactory, sessionSettings, logFactory,
+                    messageFactory);
+            socketInitiator.start();
+            SessionID sessionId = socketInitiator.getSessions().get(0);
+            sendMarkeDataRequest(sessionId);
+            int i = 0;
+            do {
+                try {
+                    Thread.sleep(1000);
+                    System.out.println(socketInitiator.isLoggedOn());
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                i++;
+            } while ((!socketInitiator.isLoggedOn()) && (i < 30));
+        } catch (ConfigError e) {
+            e.printStackTrace();
+        } catch (SessionNotFound e) {
+            e.printStackTrace();
+        } catch (Exception exp) {
+            exp.printStackTrace();
+        } finally {
+            if (socketInitiator != null) {
+                socketInitiator.stop(true);
+            }
+        }
+    }
+    private static void sendMarkeDataRequest(SessionID sessionId)
+            throws SessionNotFound {
+    	UUID uuid = UUID.randomUUID();
+        String randomUUIDString = uuid.toString();
+		Message message = new Message();
+		quickfix.fix42.MarketDataRequest.NoMDEntryTypes group =
+				  new quickfix.fix42.MarketDataRequest.NoMDEntryTypes();
+		quickfix.fix42.MarketDataRequest.NoRelatedSym group1 =
+				  new quickfix.fix42.MarketDataRequest.NoRelatedSym();
+		MarketDataRequest marketdatarequest = new MarketDataRequest();
+		Header header = marketdatarequest.getHeader();
+		header.setField(new BeginString("FIX.4.2"));
+		  header.setField(new SenderCompID("MDValueTrade2UAT1"));
+		  header.setField(new TargetCompID("Fastmatch1"));
+		  header.setField(new MsgType("V"));
+		  message.setField(new MDReqID(randomUUIDString));
+		  message.setField(new SubscriptionRequestType((char) 1));
+		  message.setField(new MarketDepth(1));
+		  message.setField(new NoMDEntryTypes(1));
+		  group.setField(new MDEntryType((char) 1));
+		  message.addGroup(group);
+		  group1.setField(new Symbol("ALL"));
+		  message.addGroup(group1);
+		  try
+		  {
+		  Session.sendToTarget(message);
+		  System.out.println("message" + message);
+		  }catch (Exception ex)
+		  {
+			  System.out.println("error" + ex);
+			  }
+    }
+}
+```
+
+
+**To Reproduce**
+Steps to reproduce the behavior.
+Or even better, a unit test or reproducer.
+when i run my java application i got an error like
+```
+[ec2-user fastmatch_server_new]$ java -jar fastmatchmarketdata-0.0.1-SNAPSHOT.jar 
+Error: A JNI error has occurred, please check your installation and try again
+Exception in thread "main" java.lang.NoClassDefFoundError: quickfix/SessionNotFound
+        at java.lang.Class.getDeclaredMethods0(Native Method)
+        at java.lang.Class.privateGetDeclaredMethods(Class.java:2701)
+        at java.lang.Class.privateGetMethodRecursive(Class.java:3048)
+        at java.lang.Class.getMethod0(Class.java:3018)
+        at java.lang.Class.getMethod(Class.java:1784)
+        at sun.launcher.LauncherHelper.validateMainClass(LauncherHelper.java:544)
+        at sun.launcher.LauncherHelper.checkAndLoadMain(LauncherHelper.java:526)
+Caused by: java.lang.ClassNotFoundException: quickfix.SessionNotFound
+        at java.net.URLClassLoader.findClass(URLClassLoader.java:382)
+        at java.lang.ClassLoader.loadClass(ClassLoader.java:418)
+        at sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:355)
+        at java.lang.ClassLoader.loadClass(ClassLoader.java:351)
+        ... 7 more
+```
+it is like cannot found java class of quickfixj/SessionNotFound
+**Expected behavior**
+A clear and concise description of what you expected to happen.
+
+**system information:**
+ - OS: linux
+ - Java version JDK8
+ - QFJ Version 2.1.1
+
+**Additional context**
+Add any other context about the problem here.
+
+how to fix my problem. i have search using google but i cannot get the fix how to solve it
+
+your help very appreciate
+
+This is not a bug but rather a problem with your local developmenr setup. I saw you already cross-posted this to the mailing list and Stack Overflow. Those two should be used for help requests.
+
+ Remove unit test obsoleted by change in the order of 'persist' and 'send'
+ The unit test was obsoleted due to this PR: https://github.com/quickfix-j/quickfixj/pull/242
+
+The condition described in the test is no longer possible:
+>The purpose of this test is to simulate the situation where a logon response is received before a logon request can be successfully persisted to the MessageStore.
+
+Thanks for the PR! Good catch :+1: 
+
+ Add optional TLS SNI initiator support
+ Fixes #276. 
+Is there a chance to wring unit test for it? I guess doing end to end unit test is not possible without setting up virtual hosts, isn't it?
+
+I am not familiar with this, but adding a flag to disable SNI is not necessary because it will be ignored by counterparties not supporting it?? Really really sure? ;)
+
+> @chrjohn I am not familiar with this, but adding a flag to disable SNI is not necessary because it will be ignored by counterparties not supporting it?? Really really sure? ;)
+
+I'm pretty sure, but yeah, still. Will make it opt-in then?
+
+Not sure what to do with the failing LGTM for JavaScript, the [log](https://lgtm.com/projects/g/quickfix-j/quickfixj/logs/rev/pr-f01d2ad0e71cb551a5e4932c72dacee7db2e21a5/lang:javascript/stage:Build%20merge_1d307fde52f335f95c3137443d19df75ec01a887) says:
+
+![image](https://user-images.githubusercontent.com/588573/77968266-99204300-72ef-11ea-946f-650c3eb377cd.png)
+
+I assume this is because `configuration.html` was edited, and LGTM cannot extract any JavaScript from it to perform checks on.
+
+One way to solve this would be to add a `./lgtm.yaml` and `exclude` the `doc`  dir, since no files there use any JavaScript:
+```yaml
+extraction:
+  javascript:
+    index:
+      exclude:
+        - quickfixj-core/scr/main/doc
+      filters:
+        - exclude: "**/*.html"
+```
+as per https://lgtm.com/help/lgtm/javascript-extraction.
+
+Not sure if that should be part of this PR, let me know pls.
+
+
+Please add the LGTM config. IMHO you could also disable JavaScript checking altogether, but don't know if that is possible.
+
+Edit: you got a typo in the `exclude` section. Should be `src` directory.
+
+JavaScript analysis failed again. But for me this should not block the PR from merging. If you don't have any idea how to fix it let me know.
+
+@chrjohn I'm in the process of trying to figure it out -- don't want to be guessing so I'm reading their docs now. There's lot of `.js` files under `/dist/tools/..` (they seem correctly ignored), so I think simply excluding all *.html won't do it. I'll try to commit a fix soon.
+
+It seems that the LGTM JavaScript extractor will always complain if it fails to extract at least one file: https://github.com/Semmle/ql/blob/master/javascript/extractor/src/com/semmle/js/extractor/AutoBuild.java#L1088
+
+We don't have any lgtm.yml in place yet so it seems that by default JavaScript is tested. Could we only specify Java to skip JS extraction? Cf here: https://github.com/elastic/apm-agent-java/blob/master/.lgtm.yml
+
+Dang..
+
+Okay, giving up.
+
+Somebody should check if it's possible to turn off the LGTM JavaScript integration in the repo settings.
+
+Alternatively, the `lgtm.yml` could perhaps be tweaked using the `path_classifiers:` section, but this change will not be applied from a PR, must be applied on the repo directly:
+![image](https://user-images.githubusercontent.com/588573/78056727-447fd500-738e-11ea-8029-aca9b9875ec7.png)
+
+
+The last `lgtm.yml` I tried was:
+```yaml
+extraction:
+  javascript:
+    before_index:
+      - export LGTM_TRAP_CACHE=
+    index:
+      exclude:
+        - quickfixj-core
+        - quickfixj-codegenerator
+      filters:
+        - exclude: "*.html"
+        - exclude: "*.js"
+        - exclude: "*.yml"
+        - exclude: "**/*.html"
+        - exclude: "**/*.js"
+        - exclude: "**/*.yml"
+      typescript: none
+```
+(the `LGTM_TRAP_CACHE` var reset was an attempt to [disable the externs extraction](https://github.com/Semmle/ql/blob/master/javascript/extractor/src/com/semmle/js/extractor/AutoBuild.java#L499))
+
+What was weird, the extraction was failing even when a phony `<script>..</script>` block was inserted into one of the files which were 100% processed by the extractor.
+
+
+I'll check with LGTM to disable the JavaScript support since I cannot disable it in the project settings. Seems to be a known problem or missing feature: https://discuss.lgtm.com/t/how-to-turn-off-language-python-support-for-the-c-project/1388 and https://discuss.lgtm.com/t/disable-javascript-analysis/2150/15
+
+Apart from that I think we are ready to merge this. Thanks for the contribution @youurayy :+1: 
+Thank you @the-thing for your review and comments here and on #276 :+1: 
+
+ Add TLS SNI support
+ **Is your feature request related to a problem? Please describe.**
+Quickfix/J now supports SSL, which is great, but to fully leverage this when running a mutli-client server in a managed (Kuberenetes/Traefik2) environment (and many others), one can't always allocate a new port for each new session, and instread 3rd+ level hostnames are used to distinguish. For this to work, a SNI header should be added to the initiator connection (JDK fully supports this since version 7 I think).
+https://en.wikipedia.org/wiki/Server_Name_Indication
+
+**Describe the solution you'd like**
+A SNI header should be added to the initiator connection (JDK fully supports this since version 7 I think).
+
+**Describe alternatives you've considered**
+Alternative is to use something like stunnel, or allocate ports per connection, neither of which is nice, given that we have the differentiating mechanism already available.
+
+**Additional context**
+SNI shoul be enabled by default when using TLS -- servers which don't support it simply ignore it.
+
+As for implementation tip, I've found this: https://stackoverflow.com/questions/20432233/apache-mina-sni-implementation
+
+Thanks for the tip, sounds pretty straight forward and sensible. 
+
+Did I mention that we welcome pull requests? ;)
+At the moment I'm struggling to tick off my to do list...
+
+
+
+I will have a look at this, but no promises. 
+
+Thanks Marcin. :+1: Just let us know when you don't find the time.
+
+Cheers,
+Chris.
+
+Thanks guys! Yeah let me know if work is needed.
+
+I don't have a deep understanding of SNI, but I did some reading and I was able to prototype the change and I can see that the extension is populated in ClientHello message. The information you provided was correct.
+
+Handshake log
+`Extension server_name, server_name: [type=host_name (0), value=kubernetes.docker.internal]`
+
+My etc/hosts entry
+
+`127.0.0.1 kubernetes.docker.internal`
+
+@youurayy
+There are some issues that I encountered and you might be able to help. I read in  https://tools.ietf.org/html/rfc6066#section-3
+
+> A server that receives a client hello containing the "server_name"
+> extension MAY use the information contained in the extension to guide
+> its selection of an appropriate certificate to return to the client,
+> and/or other aspects of security policy.  In this event, the server
+> SHALL include an extension of type "server_name" in the (extended)
+> server hello.  The "extension_data" field of this extension SHALL be
+> empty.
+> 
+
+As far as I can see this is not supported in Java in current key manager implementation. When server chooses which certificate to send to the client it chooses "randomly" (usually first certificate inside the keystore)
+
+`sun.security.ssl.SunX509KeyManagerImpl#chooseServerAlias`
+
+Imagine a following scenario. Server keystore contains 3 key-pairs with aliases "a", "b", "c" and client truststore contains single trusted certificate - "b". Client will fail server authentication as it will most likely recieve "a" and providing SNI will not help much. To support this custom key manager must be implemented.
+
+So the following questions are.
+
+1) Is there much value providing SNI for initiators without implementing custom key manager that appropriate certificate would be returned? (I assume provided SNI would have to match CN of the certificate or maybe even certificate SAN extensions - I don't really know as these are separate extensions)
+
+2) Do we want to add acceptor server name validation via `javax.net.ssl.SNIMatcher`? (probably we would to have to add new config to FIX settings to provide a list of hosts that are supported or take them from available certificates in the server keystore)
+
+Hi Marcin (@the-thing) -- before seeing your last message -- I have created and tested a PR which enables the SNI. I see you mention you already have done the same work, sorry about that.
+
+Regarding multiple certificates, we use a wildcard SSL certificate, which I think is common in a multiple virtual-hosts scenario, where one would be providing FIX sessions to their clients.
+
+So 1., for us this definitely makes sense as is, and 2. this would cover multiple-certs scenario, but perhaps this could be added once people actually request it?
+
+If this brings value I guess this might make sense without either 1 or 2. I was expecting that 1 would be actual requirement by the RFC, but it is not.
+
+There are a few things that I would add to this pull request (not related to stuff that we already discussed)
+
+1) Add new SSL initiator session settings parameter "EndpointIdentificationAlgorithm" (with no default value), which would be provided in `javax.net.ssl.SSLParameters#setEndpointIdentificationAlgorithm`. If provided, this would trigger client side identity check (seems like wildcards are supported out of box). **The problem - I don't see MINA supporting this.**
+
+2) This would allow to write more end to end tests cases in `quickfix.mina.ssl.SSLCertificateTest` e.g.
+	
+	- scenario where SNI does not match certificate CN (no QuickFIX session created)
+	- scenario where SNI matches exactly certificate CN
+	- scenario where SNI matches wildcard certificate CN
+	
+3) Update QuickFIX SSL documentation page with new parameter description. (seems like HTTPS, LDAP, LDAPS values are supported, but I think only HTTPS is relevant).
+
+@the-thing yes, unfortunately the `javax.net.ssl.SSLContext.createSSLEngine()` methods are `final`, so we can't subclass `SSLContext` to perform the `setEndpointIdentificationAlgorithm()` call on the newly created engine. Likewise the `SSLContextSpi` class is a private Sun implementation.
+Then Mina guards this in `SslHandler.init()`, so that is the place we would have to submit a PR to Mina to add support for this.
+
+Given the above, and given that the SNI support is now opt-in, what would you see as the next course of action? I'm assuming, given the above, it makes no sense to write SNI-specific tests.
+
+Endpoint identification algorithm is not supported so can't be done at the moment. SNI server matcher and server keystore picking appropriate certificate maybe can be done in the future if there is a need for it.
+
+If the current PR brings value, possibly could be merged.
+
+@the-thing great, thanks. For us, it would allow us to get rid of VPN (IpSec, libreswan) which is a pain to setup, maintain and some partners have trouble reconnecting with it. TLS/SNI will solve this.
+
+I just need to unblock the PR due to the LGTM config, not sure if I can commit that LGTM yaml config file to do so, would be great if someone could review my latest comment on the PR.
+
+Sorry, a little busy at the moment. Will comment on the PR.
+
+@chrjohn I wasn't able to fix the LGTM integration from within the PR, as it's something that need to be fixed on a higher level (I've left a comment on the PR).
+
+So I'll leave it here, and pls let me know if there's anything more I should do to get this PR merged.
+
+Thanks!
+
+ [Snyk] Upgrade jaxen:jaxen from 1.1.6 to 1.2.0
+ <h3>Snyk has created this PR to upgrade jaxen:jaxen from 1.1.6 to 1.2.0.</h3>
+:information_source: Keep your dependencies up-to-date. This makes it easier to fix existing vulnerabilities and to more quickly identify and fix newly disclosed vulnerabilities when they affect your project.
+<hr/>
+
+- The recommended version is **1 version** ahead of your current version.
+- The recommended version was released **a year ago**, on 2019-04-14.
+
+
+<hr/>
+
+**Note:** *You are seeing this because you or someone else with access to this repository has authorized Snyk to open upgrade PRs.*
+
+For more information:
+
+🧐 [View latest project report](https://app.snyk.io/org/quickfix-j/project/9e149855-1327-42e5-88ef-9c50fd6c3092?utm_source&#x3D;github&amp;utm_medium&#x3D;upgrade-pr)
+
+🛠 [Adjust upgrade PR settings](https://app.snyk.io/org/quickfix-j/project/9e149855-1327-42e5-88ef-9c50fd6c3092/settings/integration?utm_source&#x3D;github&amp;utm_medium&#x3D;upgrade-pr)
+
+🔕 [Ignore this dependency or unsubscribe from future upgrade PRs](https://app.snyk.io/org/quickfix-j/project/9e149855-1327-42e5-88ef-9c50fd6c3092/settings/integration?pkg&#x3D;jaxen:jaxen&amp;utm_source&#x3D;github&amp;utm_medium&#x3D;upgrade-pr#auto-dep-upgrades)
+
+<!--- (snyk:metadata:{"dependencies":[{"name":"jaxen:jaxen","from":"1.1.6","to":"1.2.0"}],"packageManager":"maven","type":"auto","projectUrl":"https://app.snyk.io/org/quickfix-j/project/9e149855-1327-42e5-88ef-9c50fd6c3092?utm_source=github&utm_medium=upgrade-pr","projectPublicId":"9e149855-1327-42e5-88ef-9c50fd6c3092","env":"prod","prType":"upgrade","vulns":[],"issuesToFix":[],"upgrade":[],"upgradeInfo":{"versionsDiff":1,"publishedDate":"2019-04-14T23:48:00.000Z"},"templateVariants":[],"hasFixes":false,"isMajorUpgrade":false,"isBreakingChange":false}) --->
+
+ [Snyk] Upgrade org.apache.maven:maven-plugin-api from 3.5.0 to 3.6.3
+ <h3>Snyk has created this PR to upgrade org.apache.maven:maven-plugin-api from 3.5.0 to 3.6.3.</h3>
+:information_source: Keep your dependencies up-to-date. This makes it easier to fix existing vulnerabilities and to more quickly identify and fix newly disclosed vulnerabilities when they affect your project.
+<hr/>
+
+- The recommended version is **7 versions** ahead of your current version.
+- The recommended version was released **4 months ago**, on 2019-11-19.
+
+The recommended version fixes:
+
+Severity                   | Issue                | Exploit Maturity 
+:-------------------------:|:-------------------------|:-------------------------
+<img src="https://res.cloudinary.com/snyk/image/upload/w_20,h_20/v1561977819/icon/h.png" width="20" height="20" title="high severity"/>  | Shell Command Injection<br/> [SNYK-JAVA-ORGCODEHAUSPLEXUS-31522](https://snyk.io/vuln/SNYK-JAVA-ORGCODEHAUSPLEXUS-31522) | No Known Exploit 
+<img src="https://res.cloudinary.com/snyk/image/upload/w_20,h_20/v1561977819/icon/m.png" width="20" height="20" title="medium severity"/>  | Directory Traversal<br/> [SNYK-JAVA-ORGCODEHAUSPLEXUS-31521](https://snyk.io/vuln/SNYK-JAVA-ORGCODEHAUSPLEXUS-31521) | No Known Exploit 
+<img src="https://res.cloudinary.com/snyk/image/upload/w_20,h_20/v1561977819/icon/l.png" width="20" height="20" title="low severity"/>  | XML External Entity (XXE) Injection<br/> [SNYK-JAVA-ORGCODEHAUSPLEXUS-461102](https://snyk.io/vuln/SNYK-JAVA-ORGCODEHAUSPLEXUS-461102) | No Known Exploit 
+
+<hr/>
+
+**Note:** *You are seeing this because you or someone else with access to this repository has authorized Snyk to open upgrade PRs.*
+
+For more information:
+
+🧐 [View latest project report](https://app.snyk.io/org/quickfix-j/project/50fe797e-f509-4fbc-8918-986f7f344a52?utm_source&#x3D;github&amp;utm_medium&#x3D;upgrade-pr)
+
+🛠 [Adjust upgrade PR settings](https://app.snyk.io/org/quickfix-j/project/50fe797e-f509-4fbc-8918-986f7f344a52/settings/integration?utm_source&#x3D;github&amp;utm_medium&#x3D;upgrade-pr)
+
+🔕 [Ignore this dependency or unsubscribe from future upgrade PRs](https://app.snyk.io/org/quickfix-j/project/50fe797e-f509-4fbc-8918-986f7f344a52/settings/integration?pkg&#x3D;org.apache.maven:maven-plugin-api&amp;utm_source&#x3D;github&amp;utm_medium&#x3D;upgrade-pr#auto-dep-upgrades)
+
+<!--- (snyk:metadata:{"dependencies":[{"name":"org.apache.maven:maven-plugin-api","from":"3.5.0","to":"3.6.3"}],"packageManager":"maven","type":"auto","projectUrl":"https://app.snyk.io/org/quickfix-j/project/50fe797e-f509-4fbc-8918-986f7f344a52?utm_source=github&utm_medium=upgrade-pr","projectPublicId":"50fe797e-f509-4fbc-8918-986f7f344a52","env":"prod","prType":"upgrade","vulns":["SNYK-JAVA-ORGCODEHAUSPLEXUS-31522","SNYK-JAVA-ORGCODEHAUSPLEXUS-31521","SNYK-JAVA-ORGCODEHAUSPLEXUS-461102"],"issuesToFix":[{"issueId":"SNYK-JAVA-ORGCODEHAUSPLEXUS-31522","severity":"high","title":"Shell Command Injection","exploitMaturity":"no-known-exploit"},{"issueId":"SNYK-JAVA-ORGCODEHAUSPLEXUS-31521","severity":"medium","title":"Directory Traversal","exploitMaturity":"no-known-exploit"},{"issueId":"SNYK-JAVA-ORGCODEHAUSPLEXUS-461102","severity":"low","title":"XML External Entity (XXE) Injection","exploitMaturity":"no-known-exploit"}],"upgrade":["SNYK-JAVA-ORGCODEHAUSPLEXUS-31522","SNYK-JAVA-ORGCODEHAUSPLEXUS-31521","SNYK-JAVA-ORGCODEHAUSPLEXUS-461102"],"upgradeInfo":{"versionsDiff":7,"publishedDate":"2019-11-19T19:30:02.000Z"},"templateVariants":[],"hasFixes":true,"isMajorUpgrade":false,"isBreakingChange":false}) --->
+
+"https://res.cloudinary.com/snyk/image/upload/w_20,h_20/v1561977819/icon/h.png" width"https://res.cloudinary.com/snyk/image/upload/w_20,h_20/v1561977819/icon/m.png" width"https://res.cloudinary.com/snyk/image/upload/w_20,h_20/v1561977819/icon/l.png" width [Snyk] Upgrade net.sf.saxon:Saxon-HE from 9.8.0-4 to 9.9.1-6
+ <h3>Snyk has created this PR to upgrade net.sf.saxon:Saxon-HE from 9.8.0-4 to 9.9.1-6.</h3>
+:information_source: Keep your dependencies up-to-date. This makes it easier to fix existing vulnerabilities and to more quickly identify and fix newly disclosed vulnerabilities when they affect your project.
+<hr/>
+
+- The recommended version is **12 versions** ahead of your current version.
+- The recommended version was released **3 months ago**, on 2019-12-06.
+
+
+<hr/>
+
+**Note:** *You are seeing this because you or someone else with access to this repository has authorized Snyk to open upgrade PRs.*
+
+For more information:
+
+🧐 [View latest project report](https://app.snyk.io/org/quickfix-j/project/50fe797e-f509-4fbc-8918-986f7f344a52?utm_source&#x3D;github&amp;utm_medium&#x3D;upgrade-pr)
+
+🛠 [Adjust upgrade PR settings](https://app.snyk.io/org/quickfix-j/project/50fe797e-f509-4fbc-8918-986f7f344a52/settings/integration?utm_source&#x3D;github&amp;utm_medium&#x3D;upgrade-pr)
+
+🔕 [Ignore this dependency or unsubscribe from future upgrade PRs](https://app.snyk.io/org/quickfix-j/project/50fe797e-f509-4fbc-8918-986f7f344a52/settings/integration?pkg&#x3D;net.sf.saxon:Saxon-HE&amp;utm_source&#x3D;github&amp;utm_medium&#x3D;upgrade-pr#auto-dep-upgrades)
+
+<!--- (snyk:metadata:{"dependencies":[{"name":"net.sf.saxon:Saxon-HE","from":"9.8.0-4","to":"9.9.1-6"}],"packageManager":"maven","type":"auto","projectUrl":"https://app.snyk.io/org/quickfix-j/project/50fe797e-f509-4fbc-8918-986f7f344a52?utm_source=github&utm_medium=upgrade-pr","projectPublicId":"50fe797e-f509-4fbc-8918-986f7f344a52","env":"prod","prType":"upgrade","vulns":[],"issuesToFix":[],"upgrade":[],"upgradeInfo":{"versionsDiff":12,"publishedDate":"2019-12-06T15:41:59.000Z"},"templateVariants":[],"hasFixes":false,"isMajorUpgrade":false,"isBreakingChange":false}) --->
+
+ [Snyk] Upgrade org.slf4j:slf4j-api from 1.7.25 to 1.7.30
+ <h3>Snyk has created this PR to upgrade org.slf4j:slf4j-api from 1.7.25 to 1.7.30.</h3>
+:information_source: Keep your dependencies up-to-date. This makes it easier to fix existing vulnerabilities and to more quickly identify and fix newly disclosed vulnerabilities when they affect your project.
+<hr/>
+
+- The recommended version is **5 versions** ahead of your current version.
+- The recommended version was released **3 months ago**, on 2019-12-16.
+
+
+<hr/>
+
+**Note:** *You are seeing this because you or someone else with access to this repository has authorized Snyk to open upgrade PRs.*
+
+For more information:
+
+🧐 [View latest project report](https://app.snyk.io/org/quickfix-j/project/a2ba7698-887e-4fdb-b1ae-1da9d52abae3?utm_source&#x3D;github&amp;utm_medium&#x3D;upgrade-pr)
+
+🛠 [Adjust upgrade PR settings](https://app.snyk.io/org/quickfix-j/project/a2ba7698-887e-4fdb-b1ae-1da9d52abae3/settings/integration?utm_source&#x3D;github&amp;utm_medium&#x3D;upgrade-pr)
+
+🔕 [Ignore this dependency or unsubscribe from future upgrade PRs](https://app.snyk.io/org/quickfix-j/project/a2ba7698-887e-4fdb-b1ae-1da9d52abae3/settings/integration?pkg&#x3D;org.slf4j:slf4j-api&amp;utm_source&#x3D;github&amp;utm_medium&#x3D;upgrade-pr#auto-dep-upgrades)
+
+<!--- (snyk:metadata:{"dependencies":[{"name":"org.slf4j:slf4j-api","from":"1.7.25","to":"1.7.30"}],"packageManager":"maven","type":"auto","projectUrl":"https://app.snyk.io/org/quickfix-j/project/a2ba7698-887e-4fdb-b1ae-1da9d52abae3?utm_source=github&utm_medium=upgrade-pr","projectPublicId":"a2ba7698-887e-4fdb-b1ae-1da9d52abae3","env":"prod","prType":"upgrade","vulns":[],"issuesToFix":[],"upgrade":[],"upgradeInfo":{"versionsDiff":5,"publishedDate":"2019-12-16T21:03:36.000Z"},"templateVariants":[],"hasFixes":false,"isMajorUpgrade":false,"isBreakingChange":false}) --->
+
+ Rate-limiting for resend request responses
+ When a session reconnects mid-session it's possible for it to miss a high volume of messages.
+
+At the application level it's possible for the application to self-throttle the release of messages.
+
+It would be useful if resend-request responses could be optionally-throttled to only release messages at a given rate.
+
+This would ideally take the form of a per-session configuration parameter e.g. `ResendRequestMaxMessagesPerSecond`.
+
+An alternative is to implement it in the form of MINA filters, however this solution can lead to high memory usage because MINA will be forced to store in memory all the resend response messages while they are dequeued.
+
+I think there can be problems with this approach because of the following reasons:
+ - When there is a high volume of messages and you throttle resends I assume it can take a long time until all resent messages have been received.
+ - Moreover, the receiving side needs to cache all messages until the ResendRequest has been satisfied which also could lead to an out-of-memory situation.
+ - Also you are probably going to generate even more messages while the resend is still running. So will the resend ever be satisfied?
+
+So I am asking myself if this won't cause more problems than it will solve. But probably depends on the number of messages you are wanting to resend. What could possibly cause such a high volume of messages?
+
+My approach would be to increase the socket receive buffer on the receiving side. ;)
+
+So we’re already throttling the standard flow in our app code and caching messages. That’s not an issue.
+
+The problem is that while this works fine in the connected case, when they lose connection we send something like `HeartbeatInterval*2*ThrottleRate` messages before we disconnect them.
+
+Then when we reconnect QFJ unleashes the whole flow in a fraction of a second which often causes another disconnect.
+
+As for messages sent while pending resend - I think we handle that in app code (or could do). Anyway twice throttle isn’t much of a problem vs  `100*Throttle`.
+
+And yeah if I could fix the other side I would!
+
+Yes, the rate I’m looking at is not high here - I’m talking about < 100 msgs as a throttle.
+
+This might well be a custom one off use case. I just try to upstream as much as I can.
+
+On a very related note - is there any good documentation of the threading model in QFJ?
+
+ Restyle QFJ-905 - adding support for MULTIPLECHARVALUE
+ 
+A duplicate of #264 with additional commits that automatically address
+incorrect style, created by [Restyled][].
+
+Since the original Pull Request was opened as a fork in a contributor's
+repository, we are unable to create a Pull Request branching from it with only
+the style fixes.
+
+The following Restylers [made fixes](https://restyled.io/gh/quickfix-j/repos/quickfixj/jobs/224100):
+
+- clang-format
+
+
+To incorporate these changes, you can either:
+
+1. Merge this Pull Request *instead of* the original, or
+
+1. Ask your contributor to locally incorporate these commits and push them to
+   the original Pull Request
+
+   <details>
+       <summary>Expand for example instructions</summary>
+
+       ```console
+       git remote add upstream https://github.com/quickfix-j/quickfixj.git
+       git fetch upstream pull/<this PR number>/head
+       git merge --ff-only FETCH_HEAD
+       git push
+       ```
+
+   </details>
+
+
+**NOTE**: As work continues on the original Pull Request, this process will
+re-run and update (force-push) this Pull Request with updated style fixes as
+necessary. If the style is fixed manually at any point (i.e. this process finds
+no fixes to make), this Pull Request will be closed automatically.
+
+Sorry if this was unexpected. To disable it, see our [documentation][].
+
+[restyled]: https://restyled.io
+[documentation]: https://github.com/restyled-io/restyled.io/wiki/Disabling-Restyled
+
+
+ the ESTAB tcp connection remains even after closed initiator
+ **Describe the bug**
+the acceptor written in java is running on redhat vm, and the initiator written in c# is running in local win10 pc;
+
+after suceesfully exchange messages, I left the initiator there without any message exchange for about half an hour, then I closed the initiator, but the tcp connection remains ESTAB, as showing in below screenshot:
+![image](https://user-images.githubusercontent.com/1522513/76839813-25068980-6871-11ea-902a-ed0367a75af6.png)
+
+and when I try to run the initiator again, it just cannot logon, toadmin cannot get a response,
+and the acceptor keep printing:
+"2020-03-17 16:25:15.617  INFO 13057 --- [ NioProcessor-9] q.mina.acceptor.AcceptorIoHandler        : MINA session created: local=/xxxxxxx:9870, class org.apache.mina.transport.socket.nio.NioSocketSession, remote=/xxxxxx:30986"
+generated a lot TIME_WAIT tcp connections
+![image](https://user-images.githubusercontent.com/1522513/76841028-22a52f00-6873-11ea-8072-98f53efd0253.png)
+
+it looks like something has blocked the new connection, obviously the ESTAB Tcp connection must have onhold some resources I guess
+
+**To Reproduce**
+as described above
+
+**Expected behavior**
+the tcp connection should disconnected after closing the initiator
+
+**system information:**
+ - OS: [e.g. Linux]: Red Hat Enterprise Linux Server 7.2 (Maipo)
+ - Java version: openjdk version "1.8.0_232"
+ - QFJ Version: quickfix-core 2.1.0 (quickfixj-spring-boot-starter 2.4.1)
+
+
+
+`"2020-03-17 16:25:15.617 INFO 13057 --- [ NioProcessor-9] q.mina.acceptor.AcceptorIoHandler : MINA session created: local
+This message is printed each time a connection is opened against the acceptor. When there is no `Logon` message coming in afterwards then the Initiator most likely does not send one. What does the log on the initiator look like?
+
+@chrjohn the client initiator tried to logon but no reponse
+![image](https://user-images.githubusercontent.com/1522513/76853401-255e4f00-6888-11ea-94b5-d53f09aa63bc.png)
+
+
+is it possible that its something related to the network settings, because I'm testing in my company domain, the remote acceptor running on a vm, I have to logon vpn on my local pc,
+
+I mean the initiator doesn't directly connect to the acceptor but go through some vpn gateway( my network knowledge is limited, but I can see that the Peer Address Port showing in the first screenshot 54833 is not the port that my local initiator listened), 
+
+I'm thinking may be because the gateway port in between remains open even when I closed the initiator, so the acceptor still keep the tcp connection alive(ESTAB),
+but here comes a question that I've already enabled "HeartBtInt=200000 " for initiator, after closing, by right, the acceptor should know it's disconnected and close the tcp connection
+
+so, to summarize, there is two questions:
+
+1. why the tcp conneciton remains open after I closed initiator ( HeartBtInt seems not working)
+
+2. in this remaining open tcp connection, which resource is occupied that blocks the upcoming new connections(all the connections except the first one become TIME_WAIT), I mean blocks the logon attempt
+
+Your heartbeat interval is 200.000 seconds. That's 55 days!
+It might very well be network related. I have never seen such a behaviour.
+
+Could you please post the acceptor and the initiator config?
+
+oh, s, I mistook it for microseconds, thanks, I'm doing another round of testing, and here is the config:
+
+acceptor:
+```
+[DEFAULT]
+ConnectionType=acceptor
+ReconnectInterval=60
+SenderCompID=TEST2
+ResetOnDisconnect=Y
+ResetOnLogout=Y
+ResetOnLogon=Y
+UseDataDictionary=Y
+
+[SESSION]
+BeginString=FIX.4.4
+TargetCompID=TEST1
+StartTime=00:00:00
+EndTime=23:59:59
+HeartBtInt=30
+SocketAcceptHost=127.0.0.1
+SocketAcceptPort=9870
+DataDictionary=FIX44_CFT.xml
+Password=fffffff0
+EncryptKey=9732EFDD8496F4D091CDA7D12055E0CB3E0A65E3AEA8FEA553349979A4527A33
+SocketLinger=100
+```
+
+initiator
+```
+[DEFAULT]
+ConnectionType=initiator
+ReconnectInterval=10
+FileStorePath=store
+FileLogPath=log
+StartTime=00:00:00
+EndTime=00:00:00
+UseDataDictionary=Y
+DataDictionary=config/FIX44_CFT.xml
+SocketConnectHost=12.13.14.48
+SocketConnectPort=9870
+LogoutTimeout=5
+ResetOnLogon=Y
+ResetOnDisconnect=Y
+CheckLatency=N
+
+[SESSION]
+# inherit ConnectionType, ReconnectInterval and SenderCompID from default
+BeginString=FIX.4.4
+SenderCompID=TEST1
+TargetCompID=TEST2
+HeartBtInt=20
+UserName=TEST1
+Password=fffffff0
+EncryptKey=9732EFDD8496F4D091CDA7D12055E0CB3E0A65E3AEA8FEA553349979A4527A33
+
+```
+
+@chrjohn 
+thanks, the first question tested and resolved, 
+~~1.why the tcp conneciton remains open after I closed initiator ( HeartBtInt seems not working)~~
+now left the second one, pls check the screenshot below for the tcp packets captured by wireshark, these two initiators using excatly the same code, the same config, when the first initiator running successfully and exchange heartbeat info with the acceptor, then I started the second initiator, you can see that the logon attempt ignored by acceptor, and the acceptor response with a [FIN, ACK] to finish the talk with the second initiator
+
+**2.in this remaining open tcp connection, which resource is occupied that blocks the upcoming new connections(all the connections except the first one become TIME_WAIT), I mean blocks the logon attempt**
+
+![image](https://user-images.githubusercontent.com/1522513/76920822-69dcff80-6907-11ea-848c-7c679c9871d1.png)
+
+
+When two initiators have exactly the same config, then this also means they have the same SenderCompID/TargetCompID pair? That won't work.
+A FIX session can only be established between two counterparties. If you want multiple initiators to connect to the same acceptor, then each needs to have a separate Session, i.e. distinct SenderCompID/TargetCompID pairs.
+
+The log of the acceptor should show a message "Multiple logons/connections for this session are not allowed" when an initiator tries to connect to an already established session.
+
+understood, I'll close the ticket, although I didn't see "Multiple logons/connections for this session are not allowed", but I guess that's because I'm using quickfixj-spring-boot-starter instead of'pure' quickfixj, will check on this, thanks again
+
+ Add ShortSaleRestriction
+ Add ShortSaleRestriction please see : https://github.com/quickfix-j/quickfixj/issues/267, also ended up correcting whitespace.
+
+Fixes #267 
+Also see https://github.com/quickfix-j/quickfixj/issues/267#issuecomment-599541620
+
+ Add ShortSaleRestriction to QuickFix/J dictionary 
+ Tag 1687 ShortSaleRestriction  was added added in  FIX.5.0SP2  EP120
+
+https://fiximate.fixtrading.org/en/FIX.5.0SP2_EP254/tag1687.html
+
+We would like to use it so will add to :
+quickfixj-messages/quickfixj-messages-fix50sp2/src/main/resources/FIX50SP2.modified.xml
+Hmm, I don't know how to go about this. Actually the dictionaries packaged with QFJ are FIX5.0SP2. That's why there are no changes of the EPs incorporated.
+We have two possibilities:
+* let users handle the EPs by themselves and have them edit the DDs and generate the code by themselves.
+* or provide the latest EP dictionary with QFJ. But I would rather have this separate from the SP2 dictionary since it is confusing otherwise.
+
+Thoughts? Maybe we should have a poll on the mailing list.
+
+In future I think the way to do this is to use the FIX Orrchestra project tools to generate the QFJ dictionary from an "orchestration" and to change the QFJ build to accept the QFC dictionary as a dependency. For now my suggestion is that ,since any official EP, as documented in Fiximate is additive and non-conflicting, we be free to add them on top of the baseline. I think that adding the EPs in derived projects isn't ideal. FTC are talking about moving to "latest" but I don't understand how this will work. Perhaps 50SP2-latest is a good workaround for now ?
+
+ QFJ-951 - test case covering JIRA description
+ I'm going through open JIRAs to see what still needs fixing.
+
+Just added a unit test case suggested in the JIRA. The issue was fixed by https://github.com/quickfix-j/quickfixj/pull/148.
+
+I think the JIRA ticket should be marked as fixed in QFJ 2.1.0
+Thanks. :+1: 
+
+ LGTM alert fix
+ Fixed last LGTM alert - unnecessary null check.
+Thank you! :)
+
+ QFJ-905 - adding support for MULTIPLECHARVALUE
+ **Changes**
+
+- added support for MULTIPLECHARVALUE
+
+Thanks for the PR! Could you please change to use specific imports instead of wildcard imports. Sorry to bug you about this. Will look at Checkstyle or some other tool to automate it.
+
+As far as I see this change is backward compatible (as in it would be OK to go to QFJ 2.2.0)?
+
+Cheers,
+Chris.
+
+Changed the imports to what they were before. Yes, this is a new feature so existing code should not be affected. 
+
+I don't think there is a need to cherry pick it into older branches unless somebody specifically needs  it.
+
+Thanks,
+Marcin
+
+Hi Marcin, many thanks for your efforts and the additional test coverage!
+
+ QFJ-636 - custom fields in component blocks are not added to parent
+ **Changes**
+
+- Custom FIX tags are copied to "parent" components.
+
+Unfortunately it is not possible to do a reverse operation as the custom fields copied to "parent" would pollute every child component when retrieving it via "get*" methods. This is something that we don't want, especially when is an existing test case `quickfix.MessageTest#testComponent`.
+
+Arguably we could change the class generation and add extra "get*" methods with additional arguments indicating that all (or selected ones) fields from "parent" components should be copied, but I think it might be a little overhead. The first attempt was done in https://github.com/quickfix-j/quickfixj/pull/210, but I think this is unnecessary clutter.
+
+I updated the javadoc for `quickfix.MessageComponent#copyFrom` and `quickfix.MessageComponent#copyTo` to point out the difference in behaviour.
+ Setting RefreshOnLogon should also work for Initiators
+ Up to now, the setting RefreshOnLogon will only refresh the message store for Acceptors.
+
+The .NET and C++ implementations do not have this restriction.
+
+Use case: when adding a dynamic session and changing the sequence number via JMX this apparently works but when Logon is initiated it is done with sequence number 1 again.
+
+NB: probably documentation needs to be adapted also.
+ Only check for ApplVerID on Logon and application messages
+ Fixes #260 
+Hi @philipwhiuk, I have added one commit. If it is OK with you I am going to merge this.
+

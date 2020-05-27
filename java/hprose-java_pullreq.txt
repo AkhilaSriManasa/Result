@@ -1,0 +1,31 @@
+﻿ Fixed HproseTcpClient may miss sending the first request
+ Fix #32
+ Fixed wait until timeout for invalid ip and fixed finishConnect() exception
+ 1. Fixed wait until timeout for invalid ip. This commit close the Connection immediately and call errorClose.
+2. Fixed finishConnect() exception will lead to key.cancel() uncalled which makes select() = 0 and make the connector thread call too much.
+ optimize shell bat script file
+ add window batch script，verify already
+ add professional gitignore patterns
+ 
+ Nio client
+ 
+ Add a Gitter chat badge to README.md
+ ### hprose/hprose-java now has a Chat Room on Gitter
+
+@andot has just created a chat room. You can visit it here: [https://gitter.im/hprose/hprose-java](https://gitter.im/hprose/hprose-java?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&content=body_link).
+
+This pull-request adds this badge to your README.md:
+
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/hprose/hprose-java?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=body_badge)
+
+If my aim is a little off, please [let me know](https://github.com/gitterHQ/readme-badger/issues).
+
+Happy chatting.
+
+PS: [Click here](https://gitter.im/settings/badger/opt-out) if you would prefer not to receive automatic pull-requests from Gitter in future.
+
+ Improved returnType detection in HproseClient.
+ 
+ 持续集成环境配置
+ 免费的持续集成云
+

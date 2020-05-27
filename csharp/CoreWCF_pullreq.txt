@@ -1,0 +1,81 @@
+﻿ Fault on different contract and ops test
+ Porting from .NetFramework WCF Test.  
+@mconnew  @honggit
+ Port Contract test cases from .NET Framework tests
+ @mconnew  @HongGit
+ added fix for net tcp binding linux
+ 
+ Adding support to enable Https usage
+ Fixes #32 
+ update to core 3.1 and fix nettcpbinding for linux
+ initial PR for making nettcpbinding  work in linux(using kerbos) and added support for core 3.1.
+ HttpBindingBase contructor
+ Summary of the changes
+ - The HttpsTransportBindingElement was never initialized which causes exceptions when using BasicHttpSecurityMode.Transport.
+ Allow Kestrel to listen on a random port by delaying CoreWCF initialization
+ This implements option 2 of https://github.com/CoreWCF/CoreWCF/issues/119
+
+There is one big downside: If there is a configuration error in CoreWCF, then it no longer fails at startup time, but when the first request is made.
+
+So I opened this Pull Request more for a discussion ...
+ fix for service auth behavior
+ 
+ Fixed Complex data type sample
+ Fixes #109
+ Support for message contract attribute
+ Support for message contract attribute
+Fixes #104
+ Fix small test race condition
+ 
+ pass through quotas for the NetHttpBinding
+ ref https://github.com/CoreWCF/CoreWCF/issues/113
+
+This is what I changed locally to get it to work. Not quite sure what to do about the BasicHttpBinding.
+
+ Make IOperationInvoker simpler with ValueTask and expose
+ Fixes #106
+ Fix exception handling when an exception happens after an await in async service
+ Fixes #107 
+ NetHttp binding with WebSockets support
+ I need to add a few more tests, but the single test I've written so far is working.
+ Fixed FaultException implementation
+ FaultException and FaultException<TDetail> were just stubs. This fixes that and adds tests.
+ Fixed exception handling
+ Plus tests
+ Adding HttpRequestMessageProperty tests
+ Also fixing the API for `HttpRequestMessageProperty` to match .NET Framework better. I had switched the headers to use `System.Net.Http.Headers.HttpHeaders` to migrate away from `WebHeaderCollection` and use the newer way of doing things. Turns out ASP.NET Core decided to invent a new way of doing headers and invented an interface called `IHeaderDictionary`. Reverting back to WebHeaderCollection and will consider what's a better way to do this moving forward as there are multiple options.
+ Fix issue where RequestInfo was being reused before the prior request completed
+ This is a stop-gap fix. This will have a small performance degradation so should be
+revisited to add pooling.
+ Fix AttributeUsage on Attribute classes
+ Also renamed ServiceModelAttributeTargets to CoreWCFAttributeTargets
+Fixes #82
+ Add compatibility for using S.SM contract attributes
+ Runtime conversion of S.SM.[Service|Operation]ContractAttribute applied to contract interface to the CoreWCF conterparts to enable compat.
+ Adding code coverage to windows release test runs
+ 
+ Add nuget package source instructions
+ 
+ Create packages and publish to CoreWCF feed
+ Enable package creation in Azure Devops feed.
+ Add S.SM Binding which dispatches to CoreWCF to make unit testing easier
+ 
+ Fix for "Why is XmlSerializerFormatAttribute internal?" #43
+ As discussed in issue #43.
+Finally got approval to support open source projects.
+Fixes #43 
+ Fix async services
+ Also should fix running on Linux as were using some Windows only api's
+Fixes #67 
+ Make the ParameterInspectors collection on DispatchOperation public
+ In order for developers writing WCF services to actually hook up their own custom parameter inspectors, the ParameterInspectors collection on DispatchOperation needs to be changed from internal to public.
+
+This change also fixes the default version specified in the Directory.Build.props to apply to the assembly as well as the NuGet package when, for instance, running `dotnet pack`. Previously the version was applying to the NuGet package but the assembly version was always 1.0.0.
+ Initial azure-pipelines config
+ 
+ Fix connection reuse problems
+ * Streamed transfer mode for NetTcp wasn't using our own RawStream implementation which can safely and cleanly unwrap an upgraded stream. This was preventing the socket from being reused for multiple requests as NegotiateStream still had a pending read on the raw connection.
+* Fixed an issue when the socket is closed while trying to read the framing mode.
+* Fixed tests to correctly close the channel factory which results in pooled connections being correctly closed. Added a helper to ensure the channel and factory are fully closed even if there's an exception.
+* Added logger when building tests in Debug mode which outputs AspNetCore logs to ITestOutputHelper (xunit class) for capturing any error logging from AspNetCore.
+* Added binding helper to configure the client bindings to have a 20 minute timeout for all timeouts when a debugger is attached. This is to help when stepping through code while debugging a test without having the connection aborted due to a timeout.

@@ -1,0 +1,66 @@
+﻿ Merge pull request #271 from paper-pauper/master
+
+Added key shortcuts to Desktop build for quit and forceQuit commands
+ Added key shortcuts to Desktop build for quit and forceQuit commands
+ Merge pull request #242 from sa2ajj/refs-for-not-copying
+
+use references for a possible performance gain
+ use references for a possible performance gain
+ no.pattern -> nb.pattern
+ Merge pull request #227 from kaloyan-raev/master
+
+Bulgarian hyphenation patterns
+ Bulgarian hyphenation patterns.
+ publish_i18n_archives script is not public now
+ new item
+ Merge pull request #2 from t3d/pl
+
+updated Polish translation
+ Merge branch 'master' of github.com:geometer/FBReader
+ Chenges to FormatPlugin to be compliant with Java code
+May be that makes a sense to do these changes in a separate branch?
+
+
+Ok. Next changes will be done in a separate branch.
+
+
+ More changes to .gitignore
+ some typos and other corrections in Polish translation
+ fixed polish resources
+ updated Polish translation
+ changelog update
+ cosmetic changes in hyphenation patterns
+ Polish hyphenation patterns added
+ ignore built artefacts
+Ой, а у нас там есть *.pyc -- файлы? Или ты с прицелом на будущее?
+
+
+с небольшим прицелом: там есть тулзы по обработке переводов, вот я их чуть переработал. еще причешу и положу в отдельный бранч (туда, на самом деле, надо было и изменения .gitignore положить)
+
+
+ ignore target specification
+ ignore .d and .o files
+ ZLFile bugfix
+(cherry picked from commit 0b34f0367d8dcc6c70dc9f79dacf4192055a0bc1)
+ .gitignore file has been added
+ Resources changes
+
+Bulgarian resources have been added;
+Russian help for win32 has been fixed;
+Some resources cleanup.
+ UserAgent string has been moved from zlibrary/core to fbreader code
+(cherry picked from commit 55263e018e1c438a2ffe1fdf774d94c267d227f7)
+ Language code cleanup
+
+(cherry picked from commit 6c3d595e58291eedb0049a35e626bdd0a8425979)
+ RtfReaderStream fixes
+
+cherry-picked from:
+    3aeff9aaabba114c4439e54ca8060c81ea290281
+    ef4e6985f080e2c6f8789ee6526d72c795e4ce6b
+ LZXDecompressor fix
+
+Iterators in win32 STL can't be out of range [first, last]
+(cherry picked from commit d9512586fe685fa4611df2c319f27e7682c88fc4)
+ ZLCharSequence bug has been fixed
+(cherry picked from commit 4fd559552851069cf4a01d74fb15a5895473398f)

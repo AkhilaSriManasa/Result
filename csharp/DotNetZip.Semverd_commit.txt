@@ -1,0 +1,70 @@
+﻿ Merge pull request #203 from darkms/release-1.13.8
+
+Release 1.13.8 to nuget
+ Release 1.13.8 to nuget
+ Merge pull request #202 from TPHandford/tph-fix201-crc-check
+
+Issue #201 AES decryption crc-check 16kB block boundary bug
+ Issue #201 AES decryption crc-check 16kB block boundary bug
+ Merge pull request #195 from darkms/fix-194
+
+Added parsing of Disk Start Number from Zip64 header if available
+ Bumped to 1.13.7
+ Added parsing of Disk Start Number from Zip64 header if available
+ Merge pull request #193 from mj1856/master
+
+Repair leap year bugs in unit test
+ Repair leap year bugs in unit test
+ Merge pull request #192 from darkms/bump-to-1-13-6
+
+bumped version to 1.13.6
+ bumped version to 1.13.6
+ Merge pull request #184 from darkms/fix-zip64-headers
+
+Fix central directory headers when Zip64 extension is applied
+ Merge pull request #191 from haf/dependabot/bundler/nokogiri-1.10.8
+
+Bump nokogiri from 1.10.5 to 1.10.8
+ Bump nokogiri from 1.10.5 to 1.10.8
+
+Bumps [nokogiri](https://github.com/sparklemotion/nokogiri) from 1.10.5 to 1.10.8.
+- [Release notes](https://github.com/sparklemotion/nokogiri/releases)
+- [Changelog](https://github.com/sparklemotion/nokogiri/blob/master/CHANGELOG.md)
+- [Commits](https://github.com/sparklemotion/nokogiri/compare/v1.10.5...v1.10.8)
+
+Signed-off-by: dependabot[bot] <support@github.com>
+ Merge pull request #187 from haf/darkms-bump-version
+
+Bump version
+ Bump version
+ Bump version
+ Merge pull request #181 from zolibatan/sfx40
+
+SFX: Enable CompilerVersion to be specified in SelfExtractorSaveOptions
+ Merge pull request #186 from SpocWeb/master
+
+fixed O(N²) Performance Bug
+ Adjusted Indent with Spaces
+ Merge pull request #1 from SpocWeb/SpocWeb-patch-Fix_O(N²)_Bug
+
+fixed O(N²) Performance Bug
+ fixed O(N²) Performance Bug
+
+Dictionary Lookup is O(1)
+ Merge pull request #185 from haf/dependabot/bundler/nokogiri-1.10.5
+
+Bump nokogiri from 1.8.5 to 1.10.5
+ Bump nokogiri from 1.8.5 to 1.10.5
+
+Bumps [nokogiri](https://github.com/sparklemotion/nokogiri) from 1.8.5 to 1.10.5.
+- [Release notes](https://github.com/sparklemotion/nokogiri/releases)
+- [Changelog](https://github.com/sparklemotion/nokogiri/blob/master/CHANGELOG.md)
+- [Commits](https://github.com/sparklemotion/nokogiri/compare/v1.8.5...v1.10.5)
+
+Signed-off-by: dependabot[bot] <support@github.com>
+ Added more tests for other Zip64 Options to make sure other modes don't break
+ Bumped version
+ Fixed Zip64 logic to set -1 to 'Relative Header' and 'Disk Start' in central directory when Zip64 extra is appended, also fixed disk number in Zip64 extra always being 0
+ Added error output to test message
+ Added tests for smaller files
+ Bigger source files and span size

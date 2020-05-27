@@ -1,0 +1,17 @@
+﻿ Update README.md
+ Merge pull request #12 from Syex90/master
+
+Made views inside the FlipViewPager clickable and updated to API 23
+ Updated Readme
+ - Made clickable views inside the ViewPager clickable.
+- Added support for programmatically closing if the merge page.
+- Use RecyclerView.
+- Updated to API 23.
+ Update README.md
+ Update README.md
+ Merge pull request #1 from johnjohndoe/patch-1
+
+Enable syntax highlighting for code snippets. Improve formatting.
+ Enable syntax highlighting for code snippet. Improve formatting.
+ initial commit
+ readme

@@ -1,0 +1,32 @@
+﻿ Merge pull request #6 from nearwood/master
+ Update README.md
+ Updating README, build script, and Travis
+ Merge pull request #4 from GoldenBug/patch-1
+ Update README.md
+
+In the current version of Clion build project and install are both contained under the Build menu.
+ Simplify by using % modulo
+ Fix installation of lib-bash
+ Fix C++ example in the README
+ Adding more CLion integration tips and XML files
+ Adding git submodule instructions
+ Updating README
+ Using lib-bash for prettifying the build
+ Trying build without run script
+ Hoping to fix the build
+ Including CLion Project files
+ Updating README
+ Remove clang-3.9 and 3.8
+ Hoping to build it on 3.8/9
+ Switching to C++11 for backwards compat
+ Hoping to fix tests
+ Updating Travis.yml
+ Use public URL for submodules
+ More updates to READMEgp
+ Adding a badge
+ Updating documentation
+ Fixing build
+ Merge pull request #1 from votrungchi/master
+ Fix unit test compile error
+ Adding googletest unit test
+ Restructure project to have sources in src

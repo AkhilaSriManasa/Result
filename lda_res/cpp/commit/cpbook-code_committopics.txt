@@ -1,0 +1,68 @@
+﻿NUMTopics = 2
+(0, '0.069*"uvapy" + 0.069*"introduce" + 0.069*"fix" + 0.069*"bit" + 0.069*"master" + 0.069*"add" + 0.069*"request" + 0.069*"readmemd" + 0.069*"plty" + 0.024*"file"')
+(1, '0.093*"file" + 0.067*"add" + 0.067*"fix" + 0.067*"minor" + 0.067*"rename" + 0.067*"edit" + 0.040*"format" + 0.040*"variant" + 0.040*"liscpp" + 0.040*"large"')
+
+------------------------
+NUMTopics = 3
+(0, '0.041*"file" + 0.040*"fix" + 0.040*"add" + 0.040*"edit" + 0.040*"rename" + 0.040*"minor" + 0.040*"name" + 0.040*"bug" + 0.040*"indentation" + 0.040*"extend"')
+(1, '0.100*"file" + 0.070*"fix" + 0.070*"add" + 0.070*"minor" + 0.070*"rename" + 0.070*"edit" + 0.040*"format" + 0.040*"liscpp" + 0.040*"large" + 0.040*"variant"')
+(2, '0.077*"request" + 0.077*"plty" + 0.077*"readmemd" + 0.077*"bit" + 0.077*"master" + 0.077*"introduce" + 0.077*"uvapy" + 0.077*"add" + 0.077*"fix" + 0.019*"file"')
+
+------------------------
+NUMTopics = 4
+(0, '0.041*"file" + 0.040*"edit" + 0.040*"fix" + 0.040*"rename" + 0.040*"add" + 0.040*"minor" + 0.040*"bug" + 0.040*"move" + 0.040*"name" + 0.040*"heliocentric"')
+(1, '0.041*"file" + 0.041*"rename" + 0.041*"minor" + 0.041*"edit" + 0.040*"fix" + 0.040*"add" + 0.040*"format" + 0.040*"move" + 0.040*"remove" + 0.040*"liscpp"')
+(2, '0.082*"readmemd" + 0.082*"request" + 0.082*"plty" + 0.082*"bit" + 0.082*"master" + 0.082*"introduce" + 0.082*"uvapy" + 0.082*"add" + 0.082*"fix" + 0.016*"file"')
+(3, '0.104*"file" + 0.072*"add" + 0.072*"fix" + 0.072*"minor" + 0.072*"edit" + 0.072*"rename" + 0.040*"large" + 0.040*"name" + 0.040*"extend" + 0.040*"indentation"')
+
+------------------------
+NUMTopics = 5
+(0, '0.040*"fix" + 0.040*"add" + 0.040*"uvapy" + 0.040*"introduce" + 0.040*"master" + 0.040*"bit" + 0.040*"request" + 0.040*"readmemd" + 0.040*"plty" + 0.040*"file"')
+(1, '0.041*"rename" + 0.041*"file" + 0.040*"edit" + 0.040*"minor" + 0.040*"fix" + 0.040*"add" + 0.040*"move" + 0.040*"format" + 0.040*"heliocentric" + 0.040*"remove"')
+(2, '0.086*"readmemd" + 0.086*"plty" + 0.086*"request" + 0.086*"bit" + 0.086*"master" + 0.086*"introduce" + 0.086*"uvapy" + 0.086*"add" + 0.086*"fix" + 0.014*"rename"')
+(3, '0.107*"file" + 0.073*"add" + 0.073*"fix" + 0.073*"edit" + 0.073*"minor" + 0.073*"rename" + 0.040*"name" + 0.040*"large" + 0.040*"extend" + 0.040*"indentation"')
+(4, '0.040*"file" + 0.040*"minor" + 0.040*"add" + 0.040*"rename" + 0.040*"edit" + 0.040*"fix" + 0.040*"update" + 0.040*"indentation" + 0.040*"name" + 0.040*"remove"')
+
+------------------------
+NUMTopics = 6
+(0, '0.109*"file" + 0.074*"edit" + 0.074*"fix" + 0.074*"rename" + 0.074*"minor" + 0.074*"add" + 0.040*"large" + 0.040*"move" + 0.040*"indentation" + 0.040*"bug"')
+(1, '0.040*"file" + 0.040*"minor" + 0.040*"rename" + 0.040*"edit" + 0.040*"fix" + 0.040*"add" + 0.040*"format" + 0.040*"large" + 0.040*"liscpp" + 0.040*"variant"')
+(2, '0.089*"readmemd" + 0.089*"plty" + 0.089*"request" + 0.089*"master" + 0.089*"bit" + 0.089*"uvapy" + 0.089*"introduce" + 0.089*"add" + 0.089*"fix" + 0.013*"file"')
+(3, '0.040*"file" + 0.040*"fix" + 0.040*"minor" + 0.040*"add" + 0.040*"edit" + 0.040*"rename" + 0.040*"large" + 0.040*"variant" + 0.040*"indentation" + 0.040*"liscpp"')
+(4, '0.040*"fix" + 0.040*"add" + 0.040*"introduce" + 0.040*"bit" + 0.040*"uvapy" + 0.040*"master" + 0.040*"file" + 0.040*"readmemd" + 0.040*"request" + 0.040*"minor"')
+(5, '0.041*"add" + 0.041*"file" + 0.040*"rename" + 0.040*"minor" + 0.040*"fix" + 0.040*"edit" + 0.040*"variant" + 0.040*"remove" + 0.040*"extend" + 0.040*"update"')
+
+------------------------
+NUMTopics = 7
+(0, '0.040*"fix" + 0.040*"add" + 0.040*"uvapy" + 0.040*"request" + 0.040*"master" + 0.040*"file" + 0.040*"readmemd" + 0.040*"introduce" + 0.040*"plty" + 0.040*"bit"')
+(1, '0.110*"file" + 0.075*"rename" + 0.075*"edit" + 0.075*"minor" + 0.075*"fix" + 0.075*"add" + 0.040*"move" + 0.040*"format" + 0.040*"remove" + 0.040*"heliocentric"')
+(2, '0.040*"add" + 0.040*"fix" + 0.040*"request" + 0.040*"readmemd" + 0.040*"plty" + 0.040*"master" + 0.040*"uvapy" + 0.040*"file" + 0.040*"bit" + 0.040*"introduce"')
+(3, '0.041*"file" + 0.041*"add" + 0.040*"fix" + 0.040*"minor" + 0.040*"edit" + 0.040*"rename" + 0.040*"name" + 0.040*"large" + 0.040*"extend" + 0.040*"indentation"')
+(4, '0.040*"add" + 0.040*"fix" + 0.040*"request" + 0.040*"file" + 0.040*"readmemd" + 0.040*"master" + 0.040*"uvapy" + 0.040*"bit" + 0.040*"plty" + 0.040*"minor"')
+(5, '0.040*"add" + 0.040*"fix" + 0.040*"request" + 0.040*"plty" + 0.040*"introduce" + 0.040*"uvapy" + 0.040*"file" + 0.040*"master" + 0.040*"bit" + 0.040*"readmemd"')
+(6, '0.091*"bit" + 0.091*"introduce" + 0.091*"plty" + 0.091*"master" + 0.091*"readmemd" + 0.091*"uvapy" + 0.091*"request" + 0.091*"fix" + 0.091*"add" + 0.011*"file"')
+
+------------------------
+NUMTopics = 8
+(0, '0.040*"fix" + 0.040*"add" + 0.040*"uvapy" + 0.040*"request" + 0.040*"master" + 0.040*"file" + 0.040*"readmemd" + 0.040*"minor" + 0.040*"introduce" + 0.040*"rename"')
+(1, '0.040*"fix" + 0.040*"add" + 0.040*"request" + 0.040*"minor" + 0.040*"readmemd" + 0.040*"master" + 0.040*"file" + 0.040*"plty" + 0.040*"rename" + 0.040*"uvapy"')
+(2, '0.040*"add" + 0.040*"request" + 0.040*"fix" + 0.040*"readmemd" + 0.040*"plty" + 0.040*"master" + 0.040*"uvapy" + 0.040*"minor" + 0.040*"file" + 0.040*"bit"')
+(3, '0.040*"file" + 0.040*"minor" + 0.040*"fix" + 0.040*"rename" + 0.040*"edit" + 0.040*"add" + 0.040*"large" + 0.040*"remove" + 0.040*"indentation" + 0.040*"variant"')
+(4, '0.040*"add" + 0.040*"fix" + 0.040*"request" + 0.040*"file" + 0.040*"readmemd" + 0.040*"minor" + 0.040*"master" + 0.040*"uvapy" + 0.040*"plty" + 0.040*"bit"')
+(5, '0.040*"add" + 0.040*"request" + 0.040*"fix" + 0.040*"plty" + 0.040*"introduce" + 0.040*"uvapy" + 0.040*"file" + 0.040*"minor" + 0.040*"readmemd" + 0.040*"master"')
+(6, '0.093*"bit" + 0.093*"introduce" + 0.093*"readmemd" + 0.093*"plty" + 0.093*"master" + 0.093*"uvapy" + 0.093*"request" + 0.093*"fix" + 0.093*"add" + 0.010*"file"')
+(7, '0.111*"file" + 0.076*"add" + 0.076*"edit" + 0.076*"rename" + 0.076*"fix" + 0.076*"minor" + 0.040*"update" + 0.040*"bug" + 0.040*"name" + 0.040*"heliocentric"')
+
+------------------------
+NUMTopics = 9
+(0, '0.040*"fix" + 0.040*"add" + 0.040*"request" + 0.040*"uvapy" + 0.040*"master" + 0.040*"file" + 0.040*"readmemd" + 0.040*"introduce" + 0.040*"minor" + 0.040*"edit"')
+(1, '0.040*"fix" + 0.040*"add" + 0.040*"request" + 0.040*"minor" + 0.040*"readmemd" + 0.040*"master" + 0.040*"file" + 0.040*"plty" + 0.040*"rename" + 0.040*"uvapy"')
+(2, '0.040*"add" + 0.040*"request" + 0.040*"fix" + 0.040*"readmemd" + 0.040*"plty" + 0.040*"master" + 0.040*"minor" + 0.040*"uvapy" + 0.040*"file" + 0.040*"remove"')
+(3, '0.040*"fix" + 0.040*"add" + 0.040*"uvapy" + 0.040*"request" + 0.040*"file" + 0.040*"master" + 0.040*"plty" + 0.040*"readmemd" + 0.040*"minor" + 0.040*"introduce"')
+(4, '0.040*"add" + 0.040*"request" + 0.040*"fix" + 0.040*"readmemd" + 0.040*"file" + 0.040*"minor" + 0.040*"master" + 0.040*"uvapy" + 0.040*"bit" + 0.040*"plty"')
+(5, '0.040*"add" + 0.040*"request" + 0.040*"fix" + 0.040*"plty" + 0.040*"file" + 0.040*"minor" + 0.040*"introduce" + 0.040*"rename" + 0.040*"uvapy" + 0.040*"master"')
+(6, '0.094*"bit" + 0.094*"uvapy" + 0.094*"readmemd" + 0.094*"plty" + 0.094*"master" + 0.094*"introduce" + 0.094*"request" + 0.094*"fix" + 0.094*"add" + 0.009*"file"')
+(7, '0.112*"file" + 0.076*"add" + 0.076*"fix" + 0.076*"edit" + 0.076*"minor" + 0.076*"rename" + 0.040*"update" + 0.040*"name" + 0.040*"bug" + 0.040*"variant"')
+(8, '0.040*"add" + 0.040*"fix" + 0.040*"request" + 0.040*"minor" + 0.040*"readmemd" + 0.040*"file" + 0.040*"plty" + 0.040*"master" + 0.040*"introduce" + 0.040*"rename"')
+
+------------------------

@@ -1,0 +1,68 @@
+﻿NUMTopics = 2
+(0, '0.022*"use" + 0.020*"cmake" + 0.015*"file" + 0.015*"configure" + 0.015*"change" + 0.014*"policy" + 0.012*"script" + 0.011*"build" + 0.010*"project" + 0.010*"find"')
+(1, '0.024*"cmake" + 0.024*"use" + 0.016*"option" + 0.014*"test" + 0.014*"file" + 0.013*"target" + 0.012*"source" + 0.012*"cppcheck" + 0.011*"project" + 0.010*"would"')
+
+------------------------
+NUMTopics = 3
+(0, '0.003*"use" + 0.003*"cmake" + 0.003*"file" + 0.002*"policy" + 0.002*"cppcheck" + 0.002*"target" + 0.002*"option" + 0.002*"test" + 0.002*"project" + 0.002*"find"')
+(1, '0.003*"use" + 0.003*"cmake" + 0.003*"test" + 0.002*"file" + 0.002*"source" + 0.002*"option" + 0.002*"project" + 0.002*"build" + 0.002*"policy" + 0.002*"add"')
+(2, '0.028*"use" + 0.027*"cmake" + 0.017*"file" + 0.014*"test" + 0.013*"policy" + 0.013*"source" + 0.013*"project" + 0.011*"option" + 0.011*"target" + 0.011*"cppcheck"')
+
+------------------------
+NUMTopics = 4
+(0, '0.003*"use" + 0.002*"file" + 0.002*"cmake" + 0.002*"policy" + 0.002*"cppcheck" + 0.002*"build" + 0.002*"find" + 0.002*"target" + 0.002*"test" + 0.002*"window"')
+(1, '0.003*"use" + 0.002*"cmake" + 0.002*"test" + 0.002*"file" + 0.002*"build" + 0.002*"source" + 0.002*"option" + 0.002*"policy" + 0.002*"project" + 0.002*"cppcheck"')
+(2, '0.025*"use" + 0.024*"cmake" + 0.017*"file" + 0.017*"change" + 0.017*"configure" + 0.016*"policy" + 0.014*"script" + 0.013*"build" + 0.011*"project" + 0.011*"find"')
+(3, '0.027*"use" + 0.027*"cmake" + 0.018*"option" + 0.016*"file" + 0.016*"test" + 0.015*"target" + 0.014*"source" + 0.014*"cppcheck" + 0.013*"project" + 0.012*"library"')
+
+------------------------
+NUMTopics = 5
+(0, '0.003*"use" + 0.003*"cmake" + 0.003*"file" + 0.002*"policy" + 0.002*"cppcheck" + 0.002*"build" + 0.002*"target" + 0.002*"test" + 0.002*"add" + 0.002*"window"')
+(1, '0.003*"use" + 0.003*"cmake" + 0.002*"test" + 0.002*"file" + 0.002*"source" + 0.002*"policy" + 0.002*"build" + 0.002*"option" + 0.002*"add" + 0.002*"project"')
+(2, '0.026*"use" + 0.024*"cmake" + 0.018*"file" + 0.018*"change" + 0.018*"configure" + 0.016*"policy" + 0.015*"script" + 0.013*"build" + 0.012*"project" + 0.012*"write"')
+(3, '0.028*"cmake" + 0.028*"use" + 0.019*"option" + 0.016*"file" + 0.016*"test" + 0.015*"target" + 0.014*"source" + 0.014*"cppcheck" + 0.013*"project" + 0.012*"library"')
+(4, '0.003*"use" + 0.003*"file" + 0.003*"option" + 0.002*"cmake" + 0.002*"test" + 0.002*"project" + 0.002*"cppcheck" + 0.002*"source" + 0.002*"target" + 0.002*"build"')
+
+------------------------
+NUMTopics = 6
+(0, '0.003*"use" + 0.003*"cmake" + 0.003*"file" + 0.002*"policy" + 0.002*"cppcheck" + 0.002*"build" + 0.002*"window" + 0.002*"test" + 0.002*"configure" + 0.002*"find"')
+(1, '0.003*"use" + 0.002*"cmake" + 0.002*"test" + 0.002*"file" + 0.002*"source" + 0.002*"option" + 0.002*"policy" + 0.002*"build" + 0.002*"add" + 0.002*"cppcheck"')
+(2, '0.027*"use" + 0.025*"cmake" + 0.018*"file" + 0.018*"change" + 0.018*"configure" + 0.017*"policy" + 0.015*"script" + 0.013*"build" + 0.012*"project" + 0.012*"write"')
+(3, '0.028*"cmake" + 0.028*"use" + 0.019*"option" + 0.017*"file" + 0.017*"test" + 0.015*"target" + 0.014*"source" + 0.014*"cppcheck" + 0.013*"project" + 0.012*"library"')
+(4, '0.003*"use" + 0.003*"file" + 0.003*"option" + 0.002*"test" + 0.002*"cmake" + 0.002*"project" + 0.002*"cppcheck" + 0.002*"source" + 0.002*"target" + 0.002*"build"')
+(5, '0.003*"cmake" + 0.002*"use" + 0.002*"file" + 0.002*"project" + 0.002*"test" + 0.002*"build" + 0.002*"policy" + 0.002*"source" + 0.002*"configure" + 0.002*"cppcheck"')
+
+------------------------
+NUMTopics = 7
+(0, '0.003*"use" + 0.003*"cmake" + 0.003*"file" + 0.002*"policy" + 0.002*"cppcheck" + 0.002*"test" + 0.002*"target" + 0.002*"build" + 0.002*"add" + 0.002*"find"')
+(1, '0.003*"use" + 0.003*"cmake" + 0.002*"test" + 0.002*"file" + 0.002*"source" + 0.002*"option" + 0.002*"policy" + 0.002*"add" + 0.002*"cppcheck" + 0.002*"build"')
+(2, '0.005*"cmake" + 0.004*"use" + 0.003*"policy" + 0.003*"change" + 0.003*"file" + 0.003*"source" + 0.003*"configure" + 0.003*"project" + 0.003*"test" + 0.003*"script"')
+(3, '0.029*"cmake" + 0.029*"use" + 0.019*"option" + 0.017*"file" + 0.017*"test" + 0.016*"target" + 0.014*"source" + 0.014*"cppcheck" + 0.013*"project" + 0.012*"library"')
+(4, '0.003*"use" + 0.003*"option" + 0.003*"file" + 0.003*"test" + 0.003*"cmake" + 0.003*"project" + 0.003*"cppcheck" + 0.002*"source" + 0.002*"target" + 0.002*"library"')
+(5, '0.002*"cmake" + 0.002*"use" + 0.002*"file" + 0.002*"project" + 0.002*"test" + 0.002*"source" + 0.002*"policy" + 0.002*"cppcheck" + 0.002*"build" + 0.002*"target"')
+(6, '0.027*"use" + 0.025*"cmake" + 0.019*"file" + 0.019*"configure" + 0.019*"change" + 0.017*"policy" + 0.015*"script" + 0.014*"build" + 0.012*"window" + 0.012*"write"')
+
+------------------------
+NUMTopics = 8
+(0, '0.003*"use" + 0.003*"cmake" + 0.003*"file" + 0.002*"policy" + 0.002*"cppcheck" + 0.002*"test" + 0.002*"target" + 0.002*"build" + 0.002*"option" + 0.002*"add"')
+(1, '0.003*"use" + 0.002*"cmake" + 0.002*"test" + 0.002*"file" + 0.002*"source" + 0.002*"option" + 0.002*"policy" + 0.002*"add" + 0.002*"cppcheck" + 0.002*"build"')
+(2, '0.027*"use" + 0.026*"cmake" + 0.019*"file" + 0.019*"change" + 0.019*"configure" + 0.017*"policy" + 0.015*"script" + 0.014*"build" + 0.012*"project" + 0.012*"write"')
+(3, '0.029*"cmake" + 0.029*"use" + 0.019*"option" + 0.017*"file" + 0.017*"test" + 0.016*"target" + 0.015*"source" + 0.015*"cppcheck" + 0.013*"project" + 0.012*"library"')
+(4, '0.003*"use" + 0.003*"file" + 0.003*"option" + 0.003*"test" + 0.003*"cmake" + 0.003*"project" + 0.003*"cppcheck" + 0.003*"source" + 0.002*"target" + 0.002*"library"')
+(5, '0.003*"cmake" + 0.002*"use" + 0.002*"file" + 0.002*"project" + 0.002*"test" + 0.002*"source" + 0.002*"policy" + 0.002*"build" + 0.002*"cppcheck" + 0.002*"library"')
+(6, '0.003*"use" + 0.003*"file" + 0.003*"cmake" + 0.003*"change" + 0.002*"configure" + 0.002*"policy" + 0.002*"build" + 0.002*"test" + 0.002*"project" + 0.002*"source"')
+(7, '0.002*"use" + 0.002*"cmake" + 0.002*"file" + 0.002*"policy" + 0.002*"project" + 0.002*"configure" + 0.002*"add" + 0.002*"source" + 0.002*"change" + 0.002*"test"')
+
+------------------------
+NUMTopics = 9
+(0, '0.003*"use" + 0.002*"cmake" + 0.002*"file" + 0.002*"policy" + 0.002*"cppcheck" + 0.002*"build" + 0.002*"find" + 0.002*"window" + 0.002*"add" + 0.002*"test"')
+(1, '0.003*"use" + 0.002*"cmake" + 0.002*"test" + 0.002*"file" + 0.002*"option" + 0.002*"source" + 0.002*"policy" + 0.002*"add" + 0.002*"would" + 0.002*"build"')
+(2, '0.028*"use" + 0.026*"cmake" + 0.019*"file" + 0.019*"change" + 0.019*"configure" + 0.017*"policy" + 0.016*"script" + 0.014*"build" + 0.012*"project" + 0.012*"write"')
+(3, '0.029*"cmake" + 0.029*"use" + 0.019*"option" + 0.017*"file" + 0.017*"test" + 0.016*"target" + 0.015*"source" + 0.015*"cppcheck" + 0.013*"project" + 0.012*"library"')
+(4, '0.003*"option" + 0.003*"use" + 0.003*"file" + 0.003*"test" + 0.002*"cmake" + 0.002*"cppcheck" + 0.002*"project" + 0.002*"source" + 0.002*"target" + 0.002*"library"')
+(5, '0.003*"cmake" + 0.002*"use" + 0.002*"file" + 0.002*"test" + 0.002*"project" + 0.002*"source" + 0.002*"policy" + 0.002*"cppcheck" + 0.002*"option" + 0.002*"build"')
+(6, '0.003*"use" + 0.003*"file" + 0.003*"cmake" + 0.002*"policy" + 0.002*"change" + 0.002*"configure" + 0.002*"build" + 0.002*"test" + 0.002*"target" + 0.002*"project"')
+(7, '0.002*"use" + 0.002*"cmake" + 0.002*"file" + 0.002*"policy" + 0.002*"project" + 0.002*"add" + 0.002*"target" + 0.002*"option" + 0.002*"source" + 0.002*"cppcheck"')
+(8, '0.003*"use" + 0.003*"cmake" + 0.003*"test" + 0.003*"project" + 0.003*"file" + 0.003*"source" + 0.003*"cppcheck" + 0.003*"policy" + 0.003*"build" + 0.003*"target"')
+
+------------------------

@@ -1,0 +1,495 @@
+﻿ prune method loss a lock
+ 
+ Thread-safety issues
+ Hi,
+I am reviewing the code to this header to evaluate if I can use it in my project. I like that the cache makes a design choice towards internal thread safety and that it offers an optional scheme for enabling locks to get/set values in the cache -- however I have found a bug making it not thread safe.
+
+The issue is here:
+
+https://github.com/mohaps/lrucache11/blob/fc0a9423e83443c8887fede6349c6fa2d3e145f6/LRUCache11.hpp#L142
+
+
+Both `get()` and `getCopy()` are not thread safe, even if you instantiate the template with a real mutex.
+
+While they guard access to the cache via a lock guard -- They release the lock when returning and `get()` returns a reference to internal cache data while the lock is released, while `getCopy` is just a wrapper around `get()` that does a copy-construct around the `const Value &` returned from `get()`. (This construction is done with the lock **released** while still pointing to internal data that can get deleted at any time).
+
+In a multithreaded environment with lots of threads accessing the cache -- this can lead to a situation where the `const Value &` is a dangling reference if another thread causes a `prune()` to occur before the first thread has a chance to construct a real `Value` object from the `const Value &`.
+
+I believe the real solution to this problem is to either:
+
+1. Use a recursive lock, and have `getCopy()` also hold the recursive lock as it calls `get`, or,
+2. Refactor `get()` into an intenral `get_nolock()` and have both `get()` and `getCopy()` call into it while holding the lock.  `getCopy()` can read like this:
+
+```
+  Value getCopy(const Key& k) {
+   Guard g(lock_);
+   return get_nolock(k);
+  }
+  // note we renamed get() -> getRef() to make it clear that it's a reference to internal data and to make callers explicitly have to choose between getCopy() and getRef()
+  const Value & getRef(const Key& k) {
+   Guard g(lock_);
+   return get_nolock(k);
+  }
+
+protected:
+  const Value& get_nolock(const Key& k) {
+    const auto iter = cache_.find(k);
+    if (iter == cache_.end()) {
+      throw KeyNotFound();
+    }
+    keys_.splice(keys_.begin(), keys_, iter->second);
+    return iter->second->value;
+  }
+```
+
+^ The above should fix this issue.
+
+ double free or corruption (fasttop)
+ hi，i use you source code , but when i test many times, it will case a bug like this:
+
+*** Error in `./../../build64_release/cplusutils/lrucache/lrucache_test': corrupted double-linked list: 0x00007f03c80008d0 ***
+======= Backtrace: =========
+/lib64/libc.so.6(+0x7b9e3)[0x7f04bf1a69e3]
+/lib64/libc.so.6(+0x7c4fe)[0x7f04bf1a74fe]
+./../../build64_release/cplusutils/lrucache/lrucache_test[0x40d1a4]
+/lib64/libstdc++.so.6(+0xb52b0)[0x7f04bfabb2b0]
+/lib64/libpthread.so.0(+0x7e25)[0x7f04bfd15e25]
+/lib64/libc.so.6(clone+0x6d)[0x7f04bf22334d]
+
+I finnally find the two members define order is wrong:  
+Map cache_;
+list_type keys_;
+
+I think correct should be  like this:
+list_type keys_;
+Map cache_;
+Hi,
+
+Are you testing in a multithreaded app?
+
+I am reviewing the code to this header to evaluate if I can use it in my project. I think the issue is that both `get()` and `getCopy()`  are not thread safe, even if you instantiate the template with a real mutex.  
+
+While they guard access to the cache via a lock guard -- They release the lock when returning and `get()` returns a reference to internal cache data, while `getCopy` is just a wrapper around `get()` that does a copy-construct around the `const Value &` returned from `get()`.
+
+The real fix to all of this is to implement a `getCopy()` that holds the lock while it constructs the returned object, and only use `getCopy()` in multithreaded environments.
+
+@mohaps Thoughts on this?
+
+I am thinking of opening up an issue for thread-safety, 
+
+See #19 
+
+ move value on insert, fix comment typo
+ See #16 
+ Move value on insert
+ Hi.
+I was testing the performance on a few LRU cache implementations and noticed that there are a few unnecessary copies. I'll create a pull request to move keys/values where possible.
+Also, KeyValuePair can take constructor parameters by value and move them.
+
+@mohaps Any chance to merge this PR?
+
+ fix some comment, set Contains() const
+ 
+ method 'get' should return by value instead of reference
+ https://github.com/mohaps/lrucache11/blob/296b029305ea38da0c769666565e5fb197b0036b/LRUCache11.hpp#L138
+
+for example:
+Cache<int, type> cache(2);
+cache.insert(1, t1);
+type & rtn = cache.get(1);
+cache.insert(2, t2);
+cache.insert(3, t3);
+--------
+now, rtn will reffer to an object no longer exist.
+
+
+
+Added a getCopy() method and the current tryGet() method is also a safe alternative.
+
+Added a comment to get() indicating that the validity window of the reference is only till next insert/delete. This is similar to front() on STL containers
+
+the getCopy doesn't fix the problem in multi threading environment.
+
+ removed no copy base class
+ Fixes issue https://github.com/mohaps/lrucache11/issues/11
+ Added missing CMakeLists.txt for cmake support.
+ 
+ Remove NoCopy
+ Since in C++11, you can explicitly delete the copy constructor to make a class non-copyable, this is something that is now a deprecated hack I would say
+merged PR by @Quinny that addresses this
+
+ [WIP] add example for using vector<> as key in Cache
+ Fixes #8 
+
+An example of using the cache for storing/retrieving vectors. 
+
+this is currently failing
+
+```
+$ g++ -std=c++11 -o vect VectorKeyTest.cpp   
+In file included from VectorKeyTest.cpp:5:0:
+LRUCache11.hpp: In instantiation of ‘void lru11::Cache<Key, Value, Lock, Map>::insert(const Key&, const Value&) [with Key = std::vector<int>; Value = std::vector<unsigned int>; Lock = std::mutex; Map = std::map<std::vector<int>, std::vector<unsigned int> >]’:
+VectorKeyTest.cpp:21:26:   required from here
+LRUCache11.hpp:135:7: error: base operand of ‘->’ has non-pointer type ‘std::vector<unsigned int>’
+       iter->second->value = v;
+       ^
+LRUCache11.hpp:136:7: error: no matching function for call to ‘std::__cxx11::list<lru11::KeyValuePair<std::vector<int>, std::vector<unsigned int> >, std::allocator<lru11::KeyValuePair<std::vector<int>, std::vector<unsigned int> > > >::splice(std::__cxx11::list<lru11::KeyValuePair<std::vector<int>, std::vector<unsigned int> >, std::allocator<lru11::KeyValuePair<std::vector<int>, std::vector<unsigned int> > > >::iterator, lru11::Cache<std::vector<int>, std::vector<unsigned int>, std::mutex, std::map<std::vector<int>, std::vector<unsigned int> > >::list_type&, std::vector<unsigned int>&)’
+       keys_.splice(keys_.begin(), keys_, iter->second);
+       ^
+In file included from /usr/include/c++/5/list:63:0,
+                 from LRUCache11.hpp:34,
+                 from VectorKeyTest.cpp:5:
+/usr/include/c++/5/bits/stl_list.h:1386:7: note: candidate: void std::__cxx11::list<_Tp, _Alloc>::splice(std::__cxx11::list<_Tp, _Alloc>::const_iterator, std::__cxx11::list<_Tp, _Alloc>&&) [with _Tp = lru11::KeyValuePair<std::vector<int>, std::vector<unsigned int> >; _Alloc = std::allocator<lru11::KeyValuePair<std::vector<int>, std::vector<unsigned int> > >; std::__cxx11::list<_Tp, _Alloc>::const_iterator = std::_List_const_iterator<lru11::KeyValuePair<std::vector<int>, std::vector<unsigned int> > >]
+       splice(const_iterator __position, list&& __x) noexcept
+       ^
+/usr/include/c++/5/bits/stl_list.h:1386:7: note:   candidate expects 2 arguments, 3 provided
+/usr/include/c++/5/bits/stl_list.h:1405:7: note: candidate: void std::__cxx11::list<_Tp, _Alloc>::splice(std::__cxx11::list<_Tp, _Alloc>::const_iterator, std::__cxx11::list<_Tp, _Alloc>&) [with _Tp = lru11::KeyValuePair<std::vector<int>, std::vector<unsigned int> >; _Alloc = std::allocator<lru11::KeyValuePair<std::vector<int>, std::vector<unsigned int> > >; std::__cxx11::list<_Tp, _Alloc>::const_iterator = std::_List_const_iterator<lru11::KeyValuePair<std::vector<int>, std::vector<unsigned int> > >]
+       splice(const_iterator __position, list& __x) noexcept
+       ^
+```
+
+Based on the conversation in #8 , can you please show me how to get this done @mohaps ? Currently I work-around it by computing the hash myself and storing the {hash, result vector}, but this would be a cleaner and faster solution. 
+
+
+Ping @mohaps , are you still here? 
+
+ rewrote using std::list instead of custom linked list implementation
+ 
+quinn
+
+thanks for the PR. just got back from vacation. will look at this in detail over the weekend
+
+sorry for the delay
+
+-- m
+
+
+ Add support for custom hash() callback, allowing "non-hashable" keys, eg. vector
+ the err is caused by the type I wish to use for a key:
+
+```
+lru11::Cache<int, double> cache(10,0); // works fine
+lru11::Cache<vector<int>, double> cache(10, 0); // reproduces the err above. 
+```
+
+Even though as I understand, the `operator==` is defined well for `vector<>`, so also hashing(?) should work? 
+
+Is there any way to use the vector/array type as a key for the cache? 
+
+I found a solution/workaround in: 
+- converting my vector to string
+- or providing custom hash for it: https://stackoverflow.com/questions/20511347/a-good-hash-function-for-a-vector
+
+Can we pass a `Hash=myHashFn` in the template header the same way a `Lock=` is used? That would attempt to call `myHashFn(key)` each time a key is used to address the cache, allowing to hash the so-far unsupported key types (vector, tuple, ...)  
+
+Below is report and "historical development" of my point of view on the issue: 
+
+Ok, so #3 enables the samples to compile and all code in #7 runs. 
+
+On a more complex program I'm however hitting a "template" problem:
+
+```
+In file included from /home/mmm/devel/HTM/nupic.core/src/test/unit/encoders/CachedEncoderTest.cpp:1:
+In file included from /home/mmm/devel/HTM/nupic.core/src/nupic/encoders/CachedEncoder.hpp:9:
+In file included from /home/mmm/devel/HTM/nupic.core/src/nupic/encoders/LRUCache11.hpp:31:
+In file included from /usr/bin/../lib/gcc/x86_64-linux-gnu/5.4.0/../../../../include/c++/5.4.0/unordered_map:47:
+In file included from /usr/bin/../lib/gcc/x86_64-linux-gnu/5.4.0/../../../../include/c++/5.4.0/bits/hashtable.h:35:
+/usr/bin/../lib/gcc/x86_64-linux-gnu/5.4.0/../../../../include/c++/5.4.0/bits/hashtable_policy.h:85:11: error: implicit instantiation of undefined template
+      'std::hash<std::tuple<std::vector<int, std::allocator<int> >, double> >'
+        noexcept(declval<const _Hash&>()(declval<const _Key&>()))>
+                 ^
+
+/usr/bin/../lib/gcc/x86_64-linux-gnu/5.4.0/../../../../include/c++/5.4.0/type_traits:138:14: note: in instantiation of template class
+      'std::__detail::__is_noexcept_hash<std::tuple<std::vector<int, std::allocator<int> >, double>, std::hash<std::tuple<std::vector<int, std::allocator<int> >, double> > >'
+      requested here
+    : public conditional<_B1::value, _B2, _B1>::type
+             ^
+/usr/bin/../lib/gcc/x86_64-linux-gnu/5.4.0/../../../../include/c++/5.4.0/type_traits:148:39: note: in instantiation of template class
+      'std::__and_<std::__is_fast_hash<std::hash<std::tuple<std::vector<int, std::allocator<int> >, double> > >, std::__detail::__is_noexcept_hash<std::tuple<std::vector<int,
+      std::allocator<int> >, double>, std::hash<std::tuple<std::vector<int, std::allocator<int> >, double> > > >' requested here
+    : public integral_constant<bool, !_Pp::value>
+                                      ^
+/usr/bin/../lib/gcc/x86_64-linux-gnu/5.4.0/../../../../include/c++/5.4.0/bits/unordered_map.h:46:34: note: in instantiation of template class
+      'std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<std::vector<int, std::allocator<int> >, double> > >,
+      std::__detail::__is_noexcept_hash<std::tuple<std::vector<int, std::allocator<int> >, double>, std::hash<std::tuple<std::vector<int, std::allocator<int> >, double> > > >
+      >' requested here
+           typename _Tr = __umap_traits<__cache_default<_Key, _Hash>::value>>
+                                        ^
+/usr/bin/../lib/gcc/x86_64-linux-gnu/5.4.0/../../../../include/c++/5.4.0/bits/unordered_map.h:100:15: note: in instantiation of default argument for
+      '__umap_hashtable<std::tuple<std::vector<int, std::allocator<int> >, double>, lru11::kv::Node<std::tuple<std::vector<int, std::allocator<int> >, double>,
+      std::vector<unsigned int, std::allocator<unsigned int> > > *, std::hash<std::tuple<std::vector<int, std::allocator<int> >, double> >,
+      std::equal_to<std::tuple<std::vector<int, std::allocator<int> >, double> >, std::allocator<std::pair<const std::tuple<std::vector<int, std::allocator<int> >, double>,
+      lru11::kv::Node<std::tuple<std::vector<int, std::allocator<int> >, double>, std::vector<unsigned int, std::allocator<unsigned int> > > *> > >' required here
+      typedef __umap_hashtable<_Key, _Tp, _Hash, _Pred, _Alloc>  _Hashtable;
+              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/mmm/devel/HTM/nupic.core/src/nupic/encoders/LRUCache11.hpp:356:6: note: in instantiation of template class 'std::unordered_map<std::tuple<std::vector<int,
+      std::allocator<int> >, double>, lru11::kv::Node<std::tuple<std::vector<int, std::allocator<int> >, double>, std::vector<unsigned int, std::allocator<unsigned int> > > *,
+      std::hash<std::tuple<std::vector<int, std::allocator<int> >, double> >, std::equal_to<std::tuple<std::vector<int, std::allocator<int> >, double> >,
+      std::allocator<std::pair<const std::tuple<std::vector<int, std::allocator<int> >, double>, lru11::kv::Node<std::tuple<std::vector<int, std::allocator<int> >, double>,
+      std::vector<unsigned int, std::allocator<unsigned int> > > *> > >' requested here
+        Map cache_;
+            ^
+/home/mmm/devel/HTM/nupic.core/src/nupic/encoders/CachedEncoder.hpp:56:35: note: in instantiation of template class 'lru11::Cache<std::tuple<std::vector<int,
+      std::allocator<int> >, double>, std::vector<unsigned int, std::allocator<unsigned int> >, lru11::NullLock, std::unordered_map<std::tuple<std::vector<int,
+      std::allocator<int> >, double>, lru11::kv::Node<std::tuple<std::vector<int, std::allocator<int> >, double>, std::vector<unsigned int, std::allocator<unsigned int> > > *,
+      std::hash<std::tuple<std::vector<int, std::allocator<int> >, double> >, std::equal_to<std::tuple<std::vector<int, std::allocator<int> >, double> >,
+      std::allocator<std::pair<const std::tuple<std::vector<int, std::allocator<int> >, double>, lru11::kv::Node<std::tuple<std::vector<int, std::allocator<int> >, double>,
+      std::vector<unsigned int, std::allocator<unsigned int> > > *> > > >' requested here
+    lru11::Cache<T, vector<UInt>> cache; 
+                                  ^
+
+/home/mmm/devel/HTM/nupic.core/src/test/unit/encoders/CachedEncoderTest.cpp:16:45: note: in instantiation of template class 'encoders::CachedEncoder<std::tuple<std::vector<int,
+      std::allocator<int> >, double> >' requested here
+  CachedEncoder<tuple<vector<int>, double>> dummy(sub);
+                                            ^
+/usr/bin/../lib/gcc/x86_64-linux-gnu/5.4.0/../../../../include/c++/5.4.0/system_error:134:12: note: template is declared here
+    struct hash;
+           ^
+In file included from /home/mmm/devel/HTM/nupic.core/src/test/unit/encoders/CachedEncoderTest.cpp:1:
+In file included from /home/mmm/devel/HTM/nupic.core/src/nupic/encoders/CachedEncoder.hpp:9:
+In file included from /home/mmm/devel/HTM/nupic.core/src/nupic/encoders/LRUCache11.hpp:31:
+In file included from /usr/bin/../lib/gcc/x86_64-linux-gnu/5.4.0/../../../../include/c++/5.4.0/unordered_map:48:
+/usr/bin/../lib/gcc/x86_64-linux-gnu/5.4.0/../../../../include/c++/5.4.0/bits/unordered_map.h:522:7: error: multiple overloads of 'erase' instantiate to the same signature
+      'iterator (iterator)' (aka 'int (int)')
+      erase(iterator __position)
+      ^
+/home/mmm/devel/HTM/nupic.core/src/nupic/encoders/LRUCache11.hpp:356:6: note: in instantiation of template class 'std::unordered_map<std::tuple<std::vector<int,
+      std::allocator<int> >, double>, lru11::kv::Node<std::tuple<std::vector<int, std::allocator<int> >, double>, std::vector<unsigned int, std::allocator<unsigned int> > > *,
+      std::hash<std::tuple<std::vector<int, std::allocator<int> >, double> >, std::equal_to<std::tuple<std::vector<int, std::allocator<int> >, double> >,
+      std::allocator<std::pair<const std::tuple<std::vector<int, std::allocator<int> >, double>, lru11::kv::Node<std::tuple<std::vector<int, std::allocator<int> >, double>,
+      std::vector<unsigned int, std::allocator<unsigned int> > > *> > >' requested here
+        Map cache_;
+            ^
+/home/mmm/devel/HTM/nupic.core/src/nupic/encoders/CachedEncoder.hpp:56:35: note: in instantiation of template class 'lru11::Cache<std::tuple<std::vector<int,
+      std::allocator<int> >, double>, std::vector<unsigned int, std::allocator<unsigned int> >, lru11::NullLock, std::unordered_map<std::tuple<std::vector<int,
+      std::allocator<int> >, double>, lru11::kv::Node<std::tuple<std::vector<int, std::allocator<int> >, double>, std::vector<unsigned int, std::allocator<unsigned int> > > *,
+      std::hash<std::tuple<std::vector<int, std::allocator<int> >, double> >, std::equal_to<std::tuple<std::vector<int, std::allocator<int> >, double> >,
+      std::allocator<std::pair<const std::tuple<std::vector<int, std::allocator<int> >, double>, lru11::kv::Node<std::tuple<std::vector<int, std::allocator<int> >, double>,
+      std::vector<unsigned int, std::allocator<unsigned int> > > *> > > >' requested here
+    lru11::Cache<T, vector<UInt>> cache; 
+                                  ^
+/home/mmm/devel/HTM/nupic.core/src/test/unit/encoders/CachedEncoderTest.cpp:16:45: note: in instantiation of template class 'encoders::CachedEncoder<std::tuple<std::vector<int,
+      std::allocator<int> >, double> >' requested here
+  CachedEncoder<tuple<vector<int>, double>> dummy(sub);
+                                            ^
+/usr/bin/../lib/gcc/x86_64-linux-gnu/5.4.0/../../../../include/c++/5.4.0/bits/unordered_map.h:517:7: note: previous declaration is here
+      erase(const_iterator __position)
+      ^
+```
+
+Can you help me with it please @mohaps ? 
+- it seems ubuntu (16.04) is picking the "v5.4" C++ headers, even if I use gcc-4.8 / clang-3.7 through configure. Is it occurring on other versions too? (How do I change the "C++ headers" version? )
+
+My `./configure` (cmake), if that helps:
+
+```
+$ CC=clang-3.8 CXX=clang++-3.8 cmake $NUPIC_CORE -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../release -DPY_EXTENSIONS_DIR=$NUPIC_CORE/bindings/py/nupic/bindings 
+-- NUPIC_BUILD_PYEXT_MODULES = ON
+-- PY_EXTENSIONS_DIR         = /home/mmm/devel/HTM/nupic.core/bindings/py/nupic/bindings
+Doing a local build
+-- CMAKE_CXX_COMPILER_ID = Clang
+-- CMAKE_C_COMPILER      = 
+-- CMAKE_CXX_COMPILER    = /usr/bin/clang++-3.8
+-- CMAKE_BUILD_TYPE      = Release
+-- CMAKE_INSTALL_PREFIX  = /home/mmm/devel/HTM/nupic.core/build/release
+-- CMAKE BITNESS=64
+-- CMAKE MEMORY=5672
+GNU gold (GNU Binutils for Ubuntu 2.26.1) 1.11
+Copyright (C) 2015 Free Software Foundation, Inc.
+This program is free software; you may redistribute it under the terms of
+the GNU General Public License version 3 or (at your option) a later version.
+This program has absolutely no warranty.
+Using ld.gold as LINKER.
+-- INTERNAL_CXX_FLAGS_OPTIMIZED=  -fvisibility=hidden  -fdiagnostics-show-option -m64 -fPIC -Wno-deprecated-register   -std=c++11 -fvisibility-inlines-hidden  -Werror -Wextra -Wreturn-type -Wunused -Wno-unused-variable -Wno-unused-parameter -Wno-missing-field-initializers -Wall -pipe  -O2 -mtune=generic
+-- INTERNAL_LINKER_FLAGS_OPTIMIZED=  -m64   -Wl,-undefined,error -O2 
+-- EXTERNAL_C_FLAGS_UNOPTIMIZED=  -fvisibility=hidden  -fdiagnostics-show-option -m64 -fPIC -Wno-deprecated-register  -Wno-unused-variable -Wno-unused-parameter -Wno-incompatible-pointer-types -Wno-deprecated-declarations
+-- EXTERNAL_C_FLAGS_OPTIMIZED=  -fvisibility=hidden  -fdiagnostics-show-option -m64 -fPIC -Wno-deprecated-register  -Wno-unused-variable -Wno-unused-parameter -Wno-incompatible-pointer-types -Wno-deprecated-declarations -pipe  -O2 -mtune=generic
+-- PYEXT_LINKER_FLAGS_OPTIMIZED=  -m64   -O2  -Wl,-undefined,dynamic_lookup
+-- EXTERNAL_CXX_FLAGS_UNOPTIMIZED=  -fvisibility=hidden  -fdiagnostics-show-option -m64 -fPIC -Wno-deprecated-register  -Wno-unused-variable -Wno-unused-parameter -Wno-incompatible-pointer-types -Wno-deprecated-declarations   -std=c++11 -fvisibility-inlines-hidden
+-- EXTERNAL_CXX_FLAGS_OPTIMIZED=  -fvisibility=hidden  -fdiagnostics-show-option -m64 -fPIC -Wno-deprecated-register  -Wno-unused-variable -Wno-unused-parameter -Wno-incompatible-pointer-types -Wno-deprecated-declarations   -std=c++11 -fvisibility-inlines-hidden -pipe  -O2 -mtune=generic
+-- EXTERNAL_LINKER_FLAGS_UNOPTIMIZED=  -m64   -Wl,-undefined,error
+-- EXTERNAL_LINKER_FLAGS_OPTIMIZED=  -m64   -Wl,-undefined,error -O2 
+-- COMMON_COMPILER_DEFINITIONS=-DHAVE_UNISTD_H
+-- COMMON_COMPILER_DEFINITIONS_STR= -DHAVE_UNISTD_H
+-- EXTERNAL_STATICLIB_CMAKE_DEFINITIONS_OPTIMIZED=
+-- EXTERNAL_STATICLIB_CONFIGURE_DEFINITIONS_OPTIMIZED=
+-- CapnProto CXX_FLAGS=  -fvisibility=hidden  -fdiagnostics-show-option -m64 -fPIC -Wno-deprecated-register  -Wno-unused-variable -Wno-unused-parameter -Wno-incompatible-pointer-types -Wno-deprecated-declarations   -std=c++11 -fvisibility-inlines-hidden  -DHAVE_UNISTD_H
+-- MERGE_STATIC_LIBRARIES LIB_TARGET=capnp-bundle, STATIC_LIBS = /home/mmm/devel/HTM/nupic.core/build/scripts/ThirdParty/Install/lib/libcapnpc.a;/home/mmm/devel/HTM/nupic.core/build/scripts/ThirdParty/Install/lib/libcapnp.a;/home/mmm/devel/HTM/nupic.core/build/scripts/ThirdParty/Install/lib/libkj.a
+-- MERGE_STATIC_LIBRARIES LIB_TARGET=apr-1-bundle, STATIC_LIBS = /home/mmm/devel/HTM/nupic.core/build/scripts/ThirdParty/Install/Apr1StaticLib/lib/libapr-1.a
+-- MERGE_STATIC_LIBRARIES LIB_TARGET=aprutil-1-bundle, STATIC_LIBS = /home/mmm/devel/HTM/nupic.core/build/scripts/ThirdParty/Install/AprUtil1StaticLib/lib/libaprutil-1.a
+-- MERGE_STATIC_LIBRARIES LIB_TARGET=yaml-bundle, STATIC_LIBS = /home/mmm/devel/HTM/nupic.core/build/scripts/ThirdParty/Build/YamlStaticLib/libyaml.a
+-- MERGE_STATIC_LIBRARIES LIB_TARGET=yaml-cpp-bundle, STATIC_LIBS = /home/mmm/devel/HTM/nupic.core/build/scripts/ThirdParty/Install/YamlCppStaticLib/lib/libyaml-cpp.a
+-- MERGE_STATIC_LIBRARIES LIB_TARGET=z-bundle, STATIC_LIBS = /home/mmm/devel/HTM/nupic.core/build/scripts/ThirdParty/Install/ZStaticLib/lib/libz.a
+-- CMAKE Found python interpreter /home/mmm/devel/HTM/env/bin/python2.7 version=2.7.11
+-- src_numpy_core   = /home/mmm/devel/HTM/env/local/lib/python2.7/site-packages/numpy/core
+-- CMAKE_PREFIX_PATH   = /home/mmm/devel/HTM/nupic.core/external/common/;/home/mmm/devel/HTM/nupic.core/external/linux64/;/home/mmm/devel/HTM/env/local/lib/python2.7/site-packages/numpy/core/
+-- PYTHON_EXECUTABLE   = /home/mmm/devel/HTM/env/bin/python2.7
+-- PYTHON_INCLUDE_DIRS = /home/mmm/devel/HTM/env/include/python2.7
+-- PYTHON_LIBRARIES    = /usr/lib/x86_64-linux-gnu/libpython2.7.so
+-- src_pycapnp_include_dir      = /home/mmm/devel/HTM/env/local/lib/python2.7/site-packages
+-- CAPNP_EXECUTABLE          = /home/mmm/devel/HTM/nupic.core/build/scripts/ThirdParty/Install/bin/capnp
+-- CAPNP_CMAKE_DEFINITIONS   = -DCAPNP_LITE=0
+-- CAPNP_INCLUDE_DIRS        = /home/mmm/devel/HTM/nupic.core/build/scripts/ThirdParty/Install/include
+-- CAPNP_STATIC_LIB_TARGET   = capnp-bundle
+-- src_common_os_libs        = pthread;dl
+-- src_compile_flags =   -fvisibility=hidden  -fdiagnostics-show-option -m64 -fPIC -Wno-deprecated-register   -std=c++11 -fvisibility-inlines-hidden  -Werror -Wextra -Wreturn-type -Wunused -Wno-unused-variable -Wno-unused-parameter -Wno-missing-field-initializers -Wall -pipe  -O2 -mtune=generic
+-- src_lib_static_nupiccore_compile_flags =   -fvisibility=hidden  -fdiagnostics-show-option -m64 -fPIC -Wno-deprecated-register   -std=c++11 -fvisibility-inlines-hidden  -Werror -Wextra -Wreturn-type -Wunused -Wno-unused-variable -Wno-unused-parameter -Wno-missing-field-initializers -Wall -pipe  -O2 -mtune=generic -I/home/mmm/devel/HTM/env/local/lib/python2.7/site-packages/numpy/core/include
+-- MERGE_STATIC_LIBRARIES LIB_TARGET=nupic_core, STATIC_LIBS = nupic_core_solo;yaml-cpp-bundle;yaml-bundle;apr-1-bundle;aprutil-1-bundle;z-bundle
+-- MERGE_STATIC_LIBRARIES: Link interface not specified in source lib nupic_core_solo.
+-- MERGE_STATIC_LIBRARIES: Link interface not specified in source lib yaml-cpp-bundle.
+-- MERGE_STATIC_LIBRARIES: Link interface not specified in source lib yaml-bundle.
+-- MERGE_STATIC_LIBRARIES: Link interface not specified in source lib apr-1-bundle.
+-- MERGE_STATIC_LIBRARIES: Link interface not specified in source lib aprutil-1-bundle.
+-- MERGE_STATIC_LIBRARIES: Link interface not specified in source lib z-bundle.
+-- src_common_test_exe_libs = nupic_core;/usr/lib/x86_64-linux-gnu/libpython2.7.so;pthread;dl;capnp-bundle
+-- src_swig_flags = -c++;-features;autodoc=0,directors=0;-noproxyimport;-keyword;-modern;-modernargs;-noproxydel;-fvirtual;-fastunpack;-nofastproxy;-fastquery;-outputtuple;-castmode;-nosafecstrings;-w402;-w503;-w511;-w302;-w362;-w312;-w389;-DSWIG_PYTHON_LEGACY_BOOL;-I/home/mmm/devel/HTM/nupic.core/build/scripts/ThirdParty/Install/share/swig/3.0.2/python;-I/home/mmm/devel/HTM/nupic.core/build/scripts/ThirdParty/Install/share/swig/3.0.2;-DHAVE_UNISTD_H;-DNTA_OS_LINUX;-DNTA_ARCH_64;-DHAVE_CONFIG_H;-DNTA_INTERNAL;-DBOOST_MATH_NO_LONG_DOUBLE_MATH_FUNCTIONS;-DBOOST_NO_WREGEX;-DNUPIC2;-DAPR_DECLARE_STATIC;-DAPU_DECLARE_STATIC;-DNTA_ASM;-DNTA_COMPILER_CLANG
+-- _SRC_SWIG_EXTRA_DEPS     = Swig
+-- _SRC_SWIG_LINK_LIBRARIES = nupic_core;pthread;dl
+-- _SRC_SWIG_EXTENSION_LINK_FLAGS=   -m64   -O2  -Wl,-undefined,dynamic_lookup
+-- CMAKE_SWIG_FLAGS        = -c++;-features;autodoc=0,directors=0;-noproxyimport;-keyword;-modern;-modernargs;-noproxydel;-fvirtual;-fastunpack;-nofastproxy;-fastquery;-outputtuple;-castmode;-nosafecstrings;-w402;-w503;-w511;-w302;-w362;-w312;-w389;-DSWIG_PYTHON_LEGACY_BOOL;-I/home/mmm/devel/HTM/nupic.core/build/scripts/ThirdParty/Install/share/swig/3.0.2/python;-I/home/mmm/devel/HTM/nupic.core/build/scripts/ThirdParty/Install/share/swig/3.0.2;-DHAVE_UNISTD_H;-DNTA_OS_LINUX;-DNTA_ARCH_64;-DHAVE_CONFIG_H;-DNTA_INTERNAL;-DBOOST_MATH_NO_LONG_DOUBLE_MATH_FUNCTIONS;-DBOOST_NO_WREGEX;-DNUPIC2;-DAPR_DECLARE_STATIC;-DAPU_DECLARE_STATIC;-DNTA_ASM;-DNTA_COMPILER_CLANG
+-- Writing export map file /home/mmm/devel/HTM/nupic.core/build/scripts/src/_algorithms_generated.expmap ({global: init_algorithms; local: *;};).
+-- Created Swig target _algorithms for swig module algorithms. extra_deps=Swig;/home/mmm/devel/HTM/nupic.core/build/scripts/src/_algorithms_generated.expmap, link_flags=  -m64   -O2  -Wl,-undefined,dynamic_lookup -Wl,--version-script=/home/mmm/devel/HTM/nupic.core/build/scripts/src/_algorithms_generated.expmap
+-- Writing export map file /home/mmm/devel/HTM/nupic.core/build/scripts/src/_engine_internal_generated.expmap ({global: init_engine_internal; local: *;};).
+-- Created Swig target _engine_internal for swig module engine_internal. extra_deps=Swig;/home/mmm/devel/HTM/nupic.core/build/scripts/src/_engine_internal_generated.expmap, link_flags=  -m64   -O2  -Wl,-undefined,dynamic_lookup -Wl,--version-script=/home/mmm/devel/HTM/nupic.core/build/scripts/src/_engine_internal_generated.expmap
+-- Writing export map file /home/mmm/devel/HTM/nupic.core/build/scripts/src/_experimental_generated.expmap ({global: init_experimental; local: *;};).
+-- Created Swig target _experimental for swig module experimental. extra_deps=Swig;/home/mmm/devel/HTM/nupic.core/build/scripts/src/_experimental_generated.expmap, link_flags=  -m64   -O2  -Wl,-undefined,dynamic_lookup -Wl,--version-script=/home/mmm/devel/HTM/nupic.core/build/scripts/src/_experimental_generated.expmap
+-- Writing export map file /home/mmm/devel/HTM/nupic.core/build/scripts/src/_math_generated.expmap ({global: init_math; local: *;};).
+-- Created Swig target _math for swig module math. extra_deps=Swig;/home/mmm/devel/HTM/nupic.core/build/scripts/src/_math_generated.expmap, link_flags=  -m64   -O2  -Wl,-undefined,dynamic_lookup -Wl,--version-script=/home/mmm/devel/HTM/nupic.core/build/scripts/src/_math_generated.expmap
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/mmm/devel/HTM/nupic.core/build/scripts
+```
+
+Thank you very much
+
+the easiest way is to define a std::hash<> for your vector object 
+
+for a vector<int> it might be worthwhile to look into boost::hash_combine()
+
+
+I know about the `boost::hash_combine()`, but I'm lost defining my custom class/hash function? to wrap vector and allow me using it in the Cache. Could you help me explain that please? This would be a nice doc/sample. 
+
+I found http://en.cppreference.com/w/cpp/utility/hash 
+
+
+you can specify the MapType in the template params
+
+have you tried with
+
+```
+using VMap = std::map< std::vector<int>,  double >;
+using MyCache = lru11::Cache< std::vector<int>, double, NullLock, VMap >;
+```
+
+you'll need to `#include <map>`
+as per this: http://stackoverflow.com/questions/8903737/stl-map-with-a-vector-for-the-key
+std::vector can be a key in a map. the default in lrucache11 is an unordered map.
+
+I'm currently away from my dev machine and will try this later.
+
+If that works, I will close this issue
+
+
+I'll test this approach, thank you very much :+1: 
+
+
+ Add example
+ - rename the test to LRUCache11Test.cpp
+- add SampleMain.cpp + fix it
+
+Fixes #5 
+
+I have been meaning to add some more comprehensive examples and tests to this codebase. :) Thanks for hurrying that up
+
+
+Something looks in conflict here. Mind resolving the conflict and pushing to your branch again? I think it will update the PR.
+
+
+@mohaps done. I had to rebase and force push, please verify the change from your last PR to SampleMain is now in LRU..Test (as that is the copy/rename of the file) Thank you
+
+
+Ping on the open PRs? This one is ready, on the other one I'd need help. 
+
+ [BUG] fails to compile
+ - on Ubuntu, g++ 4.8, clang++ 3.7, ... 
+
+the error I'm getting, 
+
+```
+In file included from SampleMain.cpp:1:
+./LRUCache11.hpp:246:21: error: no type named 'lock_guard' in namespace 'std'
+        using Guard = std::lock_guard<lock_type>;
+                      ~~~~~^
+./LRUCache11.hpp:246:31: error: expected ';' after alias declaration
+        using Guard = std::lock_guard<lock_type>;
+                                     ^
+                                     ;
+./LRUCache11.hpp:258:3: error: unknown type name 'Guard'
+                Guard g(lock_);
+                ^
+./LRUCache11.hpp:262:3: error: unknown type name 'Guard'
+                Guard g(lock_);
+                ^
+```
+
+Thank you very much for looking into it!
+
+what is the cmd line you're using to compile? std::lock_guard is a c++11 feature. -std
+
+> -std
+Yes, I do have that: 
+`$ clang++-3.7 -std=c++11 -o sample_main SampleMain.cpp  && ./sample_main`
+
+The #3 fixes that for me. 
+
+
+can you confirm with master if it still fails to compile?
+
+
+@mohaps yes, the recent update & `-lpthread` as per readme fixes the compilation. Thank you! 
+I'm closing this issue. 
+
+
+ Rename SampleMain.cpp to LRUCache11.cpp
+ as the comment there suggest, this is a more complex set of examples/tests. 
+Add (another) file `SampleMain.cpp` with the content from the section in Readme. 
+
+ Set prev link properly when adding to a 1-item list.
+ When there is only 1 item in the list, a newly appended `n` node didn't have the `prev` property set correctly.  This leads to segfaults when calling `get` on the second item, because we later try to de-reference a `nullptr` that should be pointing to `head`.
+
+ enable compilation on gcc 5.4 ubuntu
+ 
+@ekg - better still, make a Makefile. I was going to make one. But I think a Makefile for the sample is a better idea
+
+
+Sure can do.
+
+On Wed, Aug 31, 2016, 19:03 Saurav Mohapatra notifications@github.com
+wrote:
+
+> @ekg https://github.com/ekg - better still, make a Makefile. I was
+> going to make one. But I think a Makefile for the sample is a better idea
+> 
+> —
+> You are receiving this because you were mentioned.
+> Reply to this email directly, view it on GitHub
+> https://github.com/mohaps/lrucache11/pull/3#issuecomment-243849195, or mute
+> the thread
+> https://github.com/notifications/unsubscribe-auth/AAI4EYeXvvvewDDRVand996A09Iakt7bks5qlcIFgaJpZM4JxyqJ
+> .
+
+
+Thanks @ekg for the PR, not only needed for gcc 5.4, but for gcc 4.8, clang 3.7 etc too! 
+Fixes #6 for me :+1: 
+
+@mohaps could you please merge this urgently? 
+(and leave a Makefile to a separate PR? Personally, I don't see a reason for a Makefile, as the project's aim seems to be "being a single simple header file", so it is intended to be included into existing projects only as a header and using theirs (c)make files)
+
+
+Closing this as I updated the readme and the pull request for std::list implementation added the <mutex> include
+
+
+ Avoid nesting on Cache::prune by early returning
+ 
+ Remove check for nullptr before deleting.
+ 

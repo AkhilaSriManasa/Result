@@ -1,0 +1,714 @@
+﻿ SNI server_hostname not supported in ssl.wrap_socket
+ https://github.com/Lawouach/WebSocket-for-Python/blob/961c07ce16ce4eedc34ca1fdacd29442870feccc/ws4py/client/__init__.py#L214
+
+adding server_hostname in ssl_options returns an argument type error
+
+we have to switch to SSLContext.wrap_socket or ssl.SSLSocket
+ Python 3.7 and 3.8 compat
+ Fix #250 
+python 3.3 test is failing on
+```
+$ curl -sSf --retry 5 -o python-3.3.tar.bz2 ${archive_url}
+curl: (22) The requested URL returned error: 404 Not Found
+Unable to download 3.3 archive. The archive may not exist. Please consider a different version.
+```
+
+How to fix the CI ?
+
+ [win Error 10061] No connection could be made because the target machine actively refused it.
+ I'm running Windows 2008 virtual machine in my desktop and try running following python code to  get process details running in virtual windows server. however it end with connection refuse error message. I'm new to coding and need help in debugging the code. Tested connection using winrm and it worked, however using pypsrp module unable to establish connection with server.
+
+Server IP address : 192.168.0.5 UserName : Administrator 
+
+**Python Code:**
+
+from pypsrp.powershell import PowerShell, RunSpacePool
+from pypsrp.wsman import WSMan
+
+wsman - WSMan("192.168.0.5", username="Administrator", Password="******", auth="kerberos", cert_validation=False)
+
+with RunspacePool(wsman) as pool:
+        ps=PowerShell(pool)
+        ps.add_cmdlet("get-process".add_cmtlet("select-object").add_argument("Name")
+        output = ps.invoke()
+        print(output)
+
+
+**Output:**
+[win Error 10061] No connection could be made because the target machine actively refused it.
+
+any changes need to made in virtual windows machine ?
+ close_connection doesn't close() because sock.shutdown crashes first.
+ When using cherrypy and ssl, for reasons I don't understand, the sock.shutdown call throws this error occasionally(When the source is modified to print tracebacks instead of silently pass).
+```
+Traceback (most recent call last):
+  File "/home/daniel/Projects/KaithemAutomation/kaithem/src/thirdparty/ws4py/websocket.py", line 210, in close_connection
+    self.sock.shutdown(socket.SHUT_RDWR)
+  File "/usr/lib/python3.6/ssl.py", line 1050, in shutdown
+    socket.shutdown(self, how)
+OSError: [Errno 107] Transport endpoint is not connected
+```
+
+Seeing as how this is in the same try/except block as socket.close(), I presume that socket.close() is not always being called.  Because of circular refs it might or might not get GCed right away, and  if it does not, it may have something to do with some of the remaining bad behavior.
+
+I will be testing with giving shutdown it's own try/except block and seeing how that goes.
+ Socket circular reference in CherryPy server?
+ With the CherryPy server, if you repeatedly refresh a page with websockets, then iterate the gc module's list of objects for SSLSockets, you might find an extra object for every connection.
+
+These are collected at the next "full" sweep, but if that does not happen, eventually an OSError will occur from too many open files(On Linux).
+
+As a workaround, I patched my copy of cheroot to do GC when accept() raises OSError. 
+
+I have heard that in the past inspecting stack frames can do odd things on very old version of python. I wonder some remnant of that bug could be related to this?
+ Have class be normally accesable from other modules.
+ I want to use this like a library. The subclass is stupidly restrictive because the only thing it can do is websocket unless you move an entire project inside of it making this a pointless websocket library. I should be able to send messages with this library from another module normally. i should be able to recieve messages with a simple function from other modules. Make this an actual normal library. Cause else this is useless.
+ The websocket of zombie.
+ ```import json
+from ws4py.client.threadedclient import WebSocketClient
+
+class Client(WebSocketClient):
+
+    def opened(self):
+        print("Open")
+
+    def closed(self, code, reason=None):
+        print("Closed down:", code, reason)
+
+    def received_message(self, resp):
+        data = json.loads(str(resp))
+        print(data)
+
+if __name__ == '__main__':
+    ws = None
+    count = 0
+    while True:
+        try:
+            ws = Client('wss://xxxxxxxxx:xxxxxxxxx')
+            ws.connect()
+            ws.run_forever()
+        except KeyboardInterrupt:
+            ws.close()
+            break
+        except Exception as e:
+            continue
+```
+Like above of code.
+when i run the code,after a while,it wont't receive any messages,and it won't TimeoutError,as if the program has frozen.
+ fix #254 (Exclude installation of tronado-5.x)
+ I wrote patch fix to Travel CI test fail.
+Please merge this patch.
+
+This failed Travel CI test was installed tornado-5 series.
+
+But tornado-5 series is not support python3.3.
+
+The Travel CI test should use tornado-4 series in python3.3.
+ Travel CI test failed (tornadox-5.x require python-3.4+)
+ Travel CI test failed.
+https://travis-ci.org/Lawouach/WebSocket-for-Python/builds/409454320?utm_source=github_status&utm_medium=notification
+
+This test passed python2.7 and python3.5, failed python3.3.
+
+The Travel CI test use tornado-5.1.1, but not supported python-3.3. (tornado-5 require python3.4+)
+
+In my opinion, install to exclude tronado-5.x in py3kreqs.txt .
+
+-tornado>=4.2.3
++tornado>=4.2.3,<5.0.0
+Add tornado version info.
+
+https://pypi.org/project/tornado/5.1.1/
+Programming Language
+    Python :: 2 
+    Python :: 2.7 
+    Python :: 3 
+    Python :: 3.4 
+    Python :: 3.5 
+    Python :: 3.6 
+    Python :: 3.7 
+    Python :: Implementation :: CPython 
+    Python :: Implementation :: PyPy 
+
+https://pypi.org/project/tornado/4.5.3/
+Programming Language
+    Python :: 2 
+    Python :: 2.7 
+    Python :: 3 
+    Python :: 3.3   <---- notice !!
+    Python :: 3.4 
+    Python :: 3.5 
+    Python :: 3.6 
+    Python :: Implementation :: CPython 
+    Python :: Implementation :: PyPy 
+
+ Use print() function in both Python 2 and Python 3
+ __print()__ is a function in Python 3.
+ Fix Incorrect 'Sec-WebSocket-Accept' header value
+ For cherrypyserver on Python 3 and above (tested with Python 3.6)
+Same logic applied as in wsgiutils.py
+
+Screenshot of issue:
+![image](https://user-images.githubusercontent.com/1945295/47589479-891d6a80-d969-11e8-970c-1e1432bfcf99.png)
+
+As you can see, the value of the 'Sec-Websocket-Accept' header is in the wrong format. It must be decoded when running Py3.
+@Lawouach Can you review it, merge and release it if you agree?
+This issue is blocking my websockets on py3 in combination with cherrypy.
+Thanks!
+
+I think this as a bug in CherryPy that has been fixed and released in 18.0.1
+
+https://github.com/cherrypy/cherrypy/issues/1738#issuecomment-419641132
+
+Mind trying updating CherryPy just to see if that helps before we decide to merge this one?
+
+Thanks.
+
+@Lawouach I cannot upgrade to CherryPy 18.0.0 or above because it's Python3 only.
+I need support for both Python2 and Python3 and the latest version is 17.4.0.
+
+I find it a bit strange that you did the same decoding for the `wsgiutils.py`, so I would assume that you do it also for `cherrypyserver.py`. :wink: 
+
+Please reconcider merging this one because versions below 18.0.0 of cherrypy should be able to work also with this fix.
+
+Other solution is backporting the fix made in 18.0.1 to the 17.x maintenance branch.
+I tried it and this also works.
+![image](https://user-images.githubusercontent.com/1945295/47607881-42da1100-da26-11e8-889e-66238f85900b.png)
+
+@jaraco Any thoughts on that?
+
+I leave it up to you 2 guys to decide where it should be fixed. :wink: 
+
+@Lawouach, @jaraco, in which project do you think it should be fixed?
+If needed, I can also make the PR for CherryPy with the changes as described in my previous comment.
+
+I can merge it in this project but I'm away until next week. I'll try to cut a new release by Wednesday.
+
+I don't know if the CherryPy project will backport though.
+
+Happy to have bugfixes applied to 17.x. @h3llrais3r , would you make the PR? Just target the pr to the `maint/17.x` branch in CP and reference the bug/PR/commit that fixed it for 18.x? Thanks.
+
+@Lawouach, @jaraco 
+I've provided the PR for both libraries... 
+For which option will we go? Or perhaps for both?
+
+Since the change was made in the master branch of CherryPy (https://github.com/cherrypy/cherrypy/issues/1738#issuecomment-419641132) I feel there would be symmetry in using your PR you submitted over there.
+
+@Lawouach, I see that @jaraco has just merged it in the cherrypy:maint/17.x branch, so it should be fixed. 👍 
+
+ problem in connection,please some one help me...
+ i wrote a simple code to get into the telegram and then my code start to error like this:
+![photo_2018-10-07_20-43-07](https://user-images.githubusercontent.com/43934719/46584555-a0a3ba80-ca71-11e8-8c50-f362ce727b0b.jpg)
+
+ compat py3.7
+ `tulipserver.py`:
+asyncio.async -> asyncio.ensure_future
+ Travis CI: Upgrade to Python 3.7 and add flake8 tests
+ * Add Python 3.7 to Travis CI and tox in alignment with travis-ci/travis-ci#9069
+* Add [flake8](http://flake8.pycqa.org) tests to look for Python syntax errors and undefined names
+
+__E901,E999,F821,F822,F823__ are the "showstopper" flake8 issues that can halt the runtime with a SyntaxError, NameError, etc.  Most other flake8 issues are merely "style violations" -- useful for readability but they do not effect runtime safety.
+* F821: undefined name `name`
+* F822: undefined name `name` in `__all__`
+* F823: local variable `name` referenced before assignment
+* E901: SyntaxError or IndentationError
+* E999: SyntaxError -- failed to compile a file into an Abstract Syntax Tree
+Still, some compat issues should be fixed.
+
+ file() was removed in Python 3
+ __file()__ was removed in Python 3 in favor of __open()__.
+ Define unicode in Python 3
+ 
+ print() is a function in Python 3
+ 
+Closing in favor of #253
+
+ async is a reserved word in Python 3.7
+ https://docs.python.org/3.7/whatsnew/3.7.html#porting-to-python-37
++1, anything I can do to help get this merged?
+
++1 this is breaking our upgrade to python 3.7.  Can this get merged !?
+
+ CherryPy goes down after start
+ Hello.
+
+I've arranged test project to learn ws4py and it worked perfect. But when I moved code to development env CherryPy start to go down right after start:
+
+```
+[28/Jun/2018:14:50:39] ENGINE Bus STARTING
+[28/Jun/2018:14:50:39] ENGINE Starting WebSocket processing
+[28/Jun/2018:14:50:39] ENGINE SA plugin started
+[28/Jun/2018:14:50:39] ENGINE Setting up Mako resources
+[28/Jun/2018:14:50:39] ENGINE VideoGenerator plugin started.
+[28/Jun/2018:14:50:39] ENGINE Serving on http://192.168.51.74:8080
+[28/Jun/2018:14:50:39] ENGINE Bus STARTED
+Complete code of server.py, that starts CP:
+
+```
+import os
+import cherrypy
+from ws4py.server.cherrypyserver import WebSocketPlugin, WebSocketTool
+from webapp.libs.plugins.saplugin import SaPlugin
+from webapp.libs.plugins.makoplugin import MakoTemplatePlugin
+from webapp.libs.plugins.video_generator_plugin import VideoGeneratorPlugin
+from webapp.libs.tools.makotool import MakoTool
+from webapp.libs.tools.authtool import AuthTool
+from webapp.libs.tools.satool import SaTool
+from webapp.libs.ws_handler import WsHandler
+
+
+def error_page(status, message, traceback, version):
+    """ HTTP errors handler """
+    if cherrypy.response.status == 401:
+        s = open('webapp/templates/errors/401.html', 'r', encoding='UTF-8').read()
+        return_url = '%s?%s' % (cherrypy.request.path_info, cherrypy.request.query_string)
+        return s % return_url.replace('?', '%3F').replace('/', '%2F')
+    elif cherrypy.response.status == 404:
+        return open('webapp/templates/errors/404.html', 'rb')
+
+
+#########################################################
+# Tools
+#
+cherrypy.tools.sa = SaTool()
+cherrypy.tools.render = MakoTool()
+cherrypy.tools.auth = AuthTool()
+cherrypy.tools.websocket = WebSocketTool()
+
+#########################################################
+# Controllers
+#
+from webapp.controllers.app import App
+from webapp.controllers.calculation import Calculation
+from webapp.controllers.api import Api
+from webapp.controllers.ws import WsController
+
+app = App()
+app.calculation = Calculation()
+app.api = Api()
+app.ws = WsController()
+
+#########################################################
+# Config
+#
+curr_dir = os.path.abspath(os.path.dirname(__file__))
+conf_file = os.path.join(curr_dir, 'conf', 'server.conf')
+application = cherrypy.tree.mount(app, '/', conf_file)
+cherrypy.config.update(conf_file)
+cherrypy.config.update({
+    '/ws': {
+        'tools.websocket.on': True,
+        'tools.websocket.handler_cls': WsHandler
+    }
+})
+cherrypy.config.update({'error_page.401': error_page})
+cherrypy.config.update({'error_page.404': error_page})
+
+#########################################################
+# Plugins
+#
+MakoTemplatePlugin(cherrypy.engine,
+                   os.path.join(curr_dir, 'templates'),
+                   os.path.join(curr_dir, 'templates', '.cache')).subscribe()
+
+ce_config = application.config['CalculationsEngine']
+VideoGeneratorPlugin(cherrypy.engine,
+                     ce_config['ce.ticks_to_generate_movie'],
+                     ce_config['ce.movie_frame_rate']).subscribe()
+
+db_config = application.config['Database']
+mysql_connection_string = 'mysql://%s:%s@%s:%s/%s?charset=utf8' % (db_config['mysql.user'],
+                                                                   db_config['mysql.password'],
+                                                                   db_config['mysql.host'],
+                                                                   db_config['mysql.port'],
+                                                                   db_config['mysql.database'])
+SaPlugin(cherrypy.engine, mysql_connection_string).subscribe()
+WebSocketPlugin(cherrypy.engine).subscribe()
+
+if __name__ == '__main__':
+    # For dev purpose
+    cherrypy.engine.start()
+
+```
+
+ Remove SO_REUSEADDR
+ Reusing address for ephemeral ports is not a good idea and may cause
+"Address already in use" error.
+See https://gavv.github.io/blog/ephemeral-port-reuse/ for a more
+detailed explanation.
+ example from client tutorial doesn't work
+ When using geventclient from ws4py as shown in tutorial, it blocks and doesn't let other greenlets to run.
+Tutorial example: https://ws4py.readthedocs.io/en/latest/sources/clienttutorial/#gevent
+Test to reproduce issue: https://gist.github.com/fried-sausage/0c645be0677359d70f72024b1d7a3e9b
+`mad_printer` never gets a chance to run.
+The solution for me was to add `gevent.monkey.patch_all()`.
+It is never mentioned in tutorial that user should monkey patch, however.
+ Exception in ssl wrapper when used in Kodi - possible fix
+ Hi! I have used the ws4py in Kodi and works great without SSL.
+
+But it crash with SSL, like this:
+
+>                                               File "C:\Kodi\addons\script.motr\resources\lib\ws4py\client\__init__.py", line 214, in connect
+>                                                 self.sock = ssl.wrap_socket(self.sock, **self.ssl_options)
+>                                               File "C:\Kodi\system\python\Lib\ssl.py", line 943, in wrap_socket
+>                                                 ciphers=ciphers)
+>                                               File "C:\Kodi\system\python\Lib\ssl.py", line 590, in __init__
+>                                                 self.getpeername()
+>                                               File "C:\Kodi\system\python\Lib\socket.py", line 228, in meth
+>                                                 return getattr(self._sock,name)(*args)
+>                                             error: [Errno 10057] En foresp�rsel om � sende eller motta data ble forkastet fordi socketen ikke er tilkoblet og (ved sending p� en datagramsocket som bruker et sendto-kall) ingen adresse var angitt
+>                                             -->End of Python script error report<--
+> 
+
+After checking the error, I changed the ws4py\client\__init__.py line 207 in connect()
+
+As found:
+```
+    def connect(self):
+        """
+        Connects this websocket and starts the upgrade handshake
+        with the remote endpoint.
+        """
+        if self.scheme == "wss":
+            # default port is now 443; upgrade self.sender to send ssl
+            self.sock = ssl.wrap_socket(self.sock, **self.ssl_options)
+            self._is_secure = True
+        **self.sock.connect(self.bind_addr)**
+        self._write(self.handshake_request)
+(...)
+```
+
+As left:
+```
+    def connect(self):
+        """
+        Connects this websocket and starts the upgrade handshake
+        with the remote endpoint.
+        """
+        
+        #FIX? To make the WSS work, connect and then warp: 13.02.18 Lars Werner
+        **self.sock.connect(self.bind_addr)**
+        
+        if self.scheme == "wss":
+            # default port is now 443; upgrade self.sender to send ssl
+            self.sock = ssl.wrap_socket(self.sock, **self.ssl_options)
+            self._is_secure = True
+
+        self._write(self.handshake_request)
+(...)
+```
+
+I'm not a great Python coder (just used it for a couple of weeks) but it seems to work perfectly by doing so. And it upgrades the socket to SSL as it should.
+
+Any comments on this easy "fix"?
+ Frame parsing only returning first array and discarding the rest of socket message
+ Hi, I have a problem parsing the messages that the websocket of Bitfinex API sends (wss://api.bitfinex.com/ws/2) after connecting to it and sending the following payload 
+
+```
+{
+              "event": "subscribe",
+              "channel": "book",
+              "pair": "tBTCUSD",
+              "prec": "R0"
+            }
+```
+
+An example of a complete byte string returned by the websocket is the following:
+
+`b'\x81\x16[210,[7793198037,0,1]]\x81\x17[210,[7813472121,0,-1]]\x81\x17[210,[7813464771,0,-1]]\x81\x17[210,[7813472713,0,-1]]\x81"[210,[7813472969,8850,0.86764592]]\x81%[210,[7813472987,8850.1,-0.18178494]]\x81%[210,[7813473056,8850.1,-0.30526279]]\x81 [210,[7813473029,8851,-0.06004]]'`
+
+However, the parsing process happening in Frame class, is only returning the first array:
+
+`[210,[7793198037,0,1]]`
+
+and is discarding all the rest of the data.
+
+Am I doing something wrong? should I set some special configuration? Is the protocol implemented in the Frame Class incomplete to handle multiple data objects in the response? 
+
+Using public websocket services such as https://websocket.org/echo.html I get all the arrays back, which makes be suspicious about ws4py...
+
+
+ proper fix for #230: on secure, only pass the requested number of bytes to the parsers
+ The parsers only expect to get the requested number of bytes, so buffer everything on SSL and only pass down what was actually requested and remove only that from the buffer
+ Fix 230
+ Fix for https://github.com/Lawouach/WebSocket-for-Python/issues/230
+
+This script exposed the issue:
+
+```
+from ws4py.client.threadedclient import WebSocketClient
+import json, time, logging, threading
+
+class DummyClient(WebSocketClient):
+    def __init__(self, url):
+        super().__init__(url)
+
+    def opened(self):
+        print("Websocket opened")
+        self.send(json.dumps({'event': u'subscribe', 'channel': u'candles', 'key':'trade:5m:tBCHUSD'}))
+        self.send(json.dumps({'event': u'subscribe', 'channel': u'ticker', 'symbol': u'tBTCUSD'}))
+        self.send(json.dumps({'event': u'subscribe', 'channel': u'ticker', 'symbol': u'tBTGUSD'}))
+        self.send(json.dumps({'event': u'subscribe', 'channel': u'ticker', 'symbol': u'tBCHUSD'}))
+
+    def closed(self, code, reason=None):
+        print("Websocket Closed", code, reason)
+
+    def received_message(self, m):
+        print(m)
+        data = json.loads(str(m))
+        if isinstance(data, dict):
+            if data.get('event', None) == 'subscribed':
+                print('Subscribed with id ', data['chanId'])
+
+if __name__ == '__main__':
+    logging.basicConfig(level=logging.DEBUG)
+    try:
+        ws = DummyClient('wss://api.bitfinex.com/ws/2')
+        ws.connect()
+        ws.run_forever()
+    except KeyboardInterrupt:
+        ws.close()
+```
+
+It should produce this kind of output:
+for each 'suscribe', you should have a 'susbcribed' with a chanId
+then you should see data for each subscription as arrays with the chanId as first element.
+
+```Websocket opened
+{"event":"info","version":2}
+{"event":"subscribed","channel":"ticker","chanId":1,"symbol":"tBTCUSD","pair":"BTCUSD"}
+Subscribed with id  1
+[1,[11669,50.19305176,11670,27.40211685,19,0.0016,11669,64602.90194275,11904,10647]]
+{"event":"subscribed","channel":"ticker","chanId":49,"symbol":"tBTGUSD","pair":"BTGUSD"}
+Subscribed with id  49
+[49,[230.47,446.02458036,230.82,527.27514541,24,0.1168,229.5,71645.18196272,241.5,185]]
+{"event":"subscribed","channel":"ticker","chanId":31,"symbol":"tBCHUSD","pair":"BCHUSD"}
+Subscribed with id  31
+[31,[1816,80.75025412,1816.2,185.6989998,-23.5,-0.0128,1818.5,28538.79857777,1863.1,1656]]
+{"event":"subscribed","channel":"candles","chanId":76524,"key":"trade:5m:tBCHUSD"}
+Subscribed with id  76524
+[76524,[[1516304100000,1817.9,1829.8,1830,1810.9,80.06575253],[1516303800000,1798,1813.5,1820,1798,53.29618585],[1516303500000,1824.6,1798.1,1825,1798,170.83190693],[1516303200000,1824.4,1825,1832.1,1821.4,85.01132438],[1516302900000,1824.9,1824.4,1825,1823.1,77.16357855],[1516302600000,1827.9,1825,1834.9,1823.7,78.9139323],[1516302300000,1828.5,1825.4,1833.2,1823.3,38.58896115],[1516302000000,1830.6,1828.4,1836.5,1826.7,99.0569226],[1516301700000,1818.5,1830.5,1830.6,1818.5,39.46627181],[1516301400000,1816.8,1822.1,1830.4,1813,74.11415388],[1516301100000,1822.5,1816.7,1822.9,1805,97.3917624],[1516300800000,1819.3,1819.7,1822.9,1819.3,92.72934884],[1516300500000,1819,1819.3,1820,1814.2,57.18609166],[1516300200000,1810.8,1819,1820,1809.9,71.81453538],[1516299900000,1811.8,1811.4,1814.8,1795,125.18208723],[1516299600000,1815.2,1809.1,1819.4,1804.8,143.36985543],[1516299300000,1810.8,1815.5,1820,1800.4,69.44463075],[1516299000000,1806.8,1812.8,1820,1800.2,159.41801108],[1516298700000,1783.1,1809.3,1814,1775.4,389.83692787],[1516298400000,1771.3,1782.9,1787.2,1770,165.87814414],[1516298100000,1781.1,1774.4,1786.8,1770,107.03924811],[1516297800000,1780.6,1778.5,1795.4,1775.1,159.89096939],[1516297500000,1783.8,1780.5,1786.6,1776.2,83.35048525]]]
+[76524,[1516368900000,1817.2,1817.5,1822.6,1810.5,8.3972583]]
+[76524,[1516369200000,1817.3,1818.5,1818.5,1817,0.24530253]]
+[49,[230.47,446.02458036,230.48,468.5786241,24,0.1168,229.5,71645.18196272,241.5,185]]
+[76524,"hb"]
+[1,"hb"]
+[31,"hb"]
+```
+This wasn't the proper way to do it
+
+ 断线重连怎么做？
+ from ws4py.client.threadedclient import WebSocketClient
+from ws4py.exc import HandshakeError
+class DummyClient(WebSocketClient):
+    def opened(self):
+        self.send(input('请输入你想说的话:'))
+	
+    def closed(self, code, reason=None):
+        #print("Closed down", code, reason)
+	    print("Closed down")
+
+
+    def received_message(self, m):
+        print (m)
+
+if __name__ == '__main__':
+    try:
+        ws = DummyClient('ws://'+input('请输入ws地址连接：'), protocols=['chat'])
+        ws.connect()
+        ws.run_forever()
+    except KeyboardInterrupt:
+        ws.close()
+同求，我在配合爬虫使用的时候，运行几个小时后，会报1006going away的错误，然后关闭了
+
+```if name     count = 0
+    while True: 
+    try: 
+        ws = WSClient('xxx') 
+        print("Start contenting...") 
+        ws.connect() 
+        ws.run_forever() 
+    except KeyboardInterrupt: 
+        ws.close() 
+        break 
+    except Exception as e: 
+        count += 1 
+        print(e, "Try again %s times..." % count) 
+        continue
+```
+I hope it helps you
+
+ fix issue #235: change from type() to isinstance())
+ type() check for exact match, which failed to detect the subclass used by WS4PY
+Thanks for the report and fix proposal.
+
+That code was never nice but CherryPy isn't exposing its internals cleanly unfortunately (hence this hack).
+
+The failing build is for Python 3.4 which I'm not is worth supporting long run.
+
+I wonder if that fix is backward compatible with older CherryPy however.
+
+> I wonder if that fix is backward compatible with older CherryPy however.
+
+It should be. It looks, it implies equality check + takes into account subclass instances
+
+Alright, tried with older CherryPy versions and for some reason it only works from 9.0.0, up to 8.9.1, it fails  with the error (on Python 3.6.3):
+
+```
+Traceback (most recent call last):
+  File "/home/sylvain/dev/.venvs/throwaway/lib/python3.6/site-packages/cherrypy/wsgiserver/__init__.py", line 1398, in communicate
+    req.parse_request()
+  File "/home/sylvain/dev/.venvs/throwaway/lib/python3.6/site-packages/cherrypy/wsgiserver/__init__.py", line 601, in parse_request
+    success = self.read_request_line()
+  File "/home/sylvain/dev/.venvs/throwaway/lib/python3.6/site-packages/cherrypy/wsgiserver/__init__.py", line 634, in read_request_line
+    request_line = self.rfile.readline()
+  File "/home/sylvain/dev/.venvs/throwaway/lib/python3.6/site-packages/cherrypy/wsgiserver/__init__.py", line 303, in readline
+    data = self.rfile.readline(256)
+  File "/usr/lib/python3.6/_pyio.py", line 511, in readline
+    b = self.read(nreadahead())
+  File "/usr/lib/python3.6/_pyio.py", line 495, in nreadahead
+    readahead = self.peek(1)
+  File "/usr/lib/python3.6/_pyio.py", line 1063, in peek
+    return self._peek_unlocked(size)
+  File "/usr/lib/python3.6/_pyio.py", line 1070, in _peek_unlocked
+    current = self.raw.read(to_read)
+AttributeError: 'NoneType' object has no attribute 'read'
+```
+
+Scratch that.
+
+It only failed because I had cheroot still installed and that took over the import of the cherrypy classes (which broke with CherryPy 8.9.1- that was not yet relying on cheroot).
+
+All looks good.
+
+I've just tried the fix on my cherrypy 8.1.0 installation and this works (on Python 2.7.9)
+
+ ws4py broken using cherrypy> ws4py appears to be broken when using latest ws4py and cherrypy>
+- ws4py==0.4.2
+- cheroot==5.9.1
+
+I've tested with CherryPy==
+- Works: 10.2.1 | 10.2.2 | 11.0.0
+- Broken: 11.1.0 | 11.2.0 | 12.0.0 | 12.0.1
+
+When running the [simple server example](http://ws4py.readthedocs.io/en/latest/sources/servertutorial/#cherrypy) I get the following error when I make a websocket connection to this server:
+```
+127.0.0.1 - - [23/Nov/2017:14:58:23] "GET /ws HTTP/1.1" 101 - "" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:49.0) Gecko/20100101 Firefox/49.0"
+[23/Nov/2017:14:58:23] ENGINE AttributeError("'NoneType' object has no attribute 'recv'",)
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/cheroot/server.py", line 1112, in communicate
+    req.parse_request()
+  File "/usr/local/lib/python2.7/dist-packages/cheroot/server.py", line 638, in parse_request
+    success = self.read_request_line()
+  File "/usr/local/lib/python2.7/dist-packages/cheroot/server.py", line 676, in read_request_line
+    request_line = self.rfile.readline()
+  File "/usr/local/lib/python2.7/dist-packages/cheroot/server.py", line 233, in readline
+    data = self.rfile.readline(256)
+  File "/usr/local/lib/python2.7/dist-packages/cheroot/makefile.py", line 233, in readline
+    data = self.recv(self._rbufsize)
+  File "/usr/local/lib/python2.7/dist-packages/cheroot/makefile.py", line 87, in recv
+    data = self._sock.recv(size)
+AttributeError: 'NoneType' object has no attribute 'recv'
+```
+
+i have identified and fixed the problem... currently pending (pull request #236 ).
+
+
+@noam-graetz - many thanks. Have just verified that this does seem to fix the issue I was seeing.
+
+it should :) because we had the same problem... took me a while to find
+out, and i was amused on the actual problem when i found it.
+
+On Mon, Dec 11, 2017 at 1:06 PM, Matt Hammond <notifications@github.com>
+wrote:
+
+> @moan-graetz - many thanks. Have just verified that this does seem to fix
+> the issue I was seeing.
+>
+> —
+> You are receiving this because you commented.
+> Reply to this email directly, view it on GitHub
+> <https://github.com/Lawouach/WebSocket-for-Python/issues/235#issuecomment-350692983>,
+> or mute the thread
+> <https://github.com/notifications/unsubscribe-auth/AftuOR5r1Ku_OKBBNJcx7O4R3gq_Sj42ks5s_Qy3gaJpZM4Qo5Cd>
+> .
+>
+
+
+
+-- 
+*Noam Graetz*
+
+Chief Software Architect
+*Firmitas Cyber Solutions (Israel) Ltd.*
+
+*M.* +972 54 495 6898 <%2B972%2054%20593%207777>
+*T.* +972 72 215 1170 ext 204
+*E.* noam.graetz@firmitas- <rami.shaft@firmitas.solutions>cs.com
+
+<http://www.firmitas.solutions/>
+
+-- 
+
+
+------------------------------
+
+The information contained in this communication is intended solely for the 
+use of the individual or entity to whom it is addressed and others 
+authorized to receive it. It may contain confidential or legally privileged 
+information. If you are not the intended recipient you are hereby notified 
+that any disclosure, copying, distribution or taking any action in reliance 
+on the contents of this information is strictly prohibited and may be 
+unlawful. If you have received this communication in error, please notify 
+us at legal@firmitas-cs.com immediately and then delete it from your 
+system. Firmitas is neither liable for the proper and complete transmission 
+of the information contained in this communication nor for any delay in its 
+receipt.
+
+
+@Lawouach I've just tested version 0.4.3 with latest cherrypy version 13.1.0 and I confirm it's fixed.
+Thanks for the release.
+
+@Lawouach @noam-graetz  ... have also just tested with ws4py
+Many thanks. Closing this issue as it is now resolved.
+
+ When I cause an error inside received_message, it gets silenced and the socket gets closed
+ I have an error in one of my larger programs that occurs somewhere in received_message or in a function that is called inside of that function. The error is pretty hard to pin down because when it happens it just gets silenced so I can't figure out where it is, and also the socket gets closed. I wrote a smaller program to simulate this and got the same results. Here's the smaller program:
+
+```import cherrypy
+from ws4py.server.cherrypyserver import WebSocketPlugin, WebSocketTool
+from ws4py.websocket import WebSocket
+
+cherrypy.config.update({'server.socket_port': 80, 'server.socket_host': '0.0.0.0'})
+
+WebSocketPlugin(cherrypy.engine).subscribe()
+cherrypy.tools.websocket = WebSocketTool()
+
+def make_error():
+	this_makes_an_error()
+
+class EchoWebSocket(WebSocket):
+	def closed(self, code, reason=None):
+		print 'socket closed'
+	def received_message(self, msg):
+                make_error()
+		self.send(msg.data, msg.is_binary) # echo
+
+class Root(object):
+	@cherrypy.expose
+	def index(self):
+		return 'some HTML with a websocket javascript connection'
+
+	@cherrypy.expose
+	def ws(self):
+		# you can access the class instance through
+		handler = cherrypy.request.ws_handler
+
+if __name__ == '__main__':
+	cherrypy.quickstart(Root(), '/', config={'/ws': {'tools.websocket.on': True, 'tools.websocket.handler_cls': EchoWebSocket}})```
+
+
+When I send a message into the socket via JavaScript, I see no error in the console, just a "socket closed."
+Thanks for your help!
+ fixed runtime error: Set changed size during iteration
+ thanks to https://github.com/Lawouach/WebSocket-for-Python/issues/132
+when I stop the server in a proper way, e.g. server.stop(), it seems the mutable iteration object caused some inconsistent issue which is Set changed size during iteration

@@ -1,0 +1,317 @@
+﻿ [#10110] Updated CommentOutput to hide commentGiverName in JSON
+ Fixes #10110 
+
+**Outline of Solution**
+
+When the response is set to be anonymous, `showGiverNameTo` list in `FeedbackResponseCommentAttributes` should always be empty.
+
+Hence, an additional empty check is applied on `showGiverNameTo` in `CommentOutput` to set `commentGiverName` to **null**, which hide the corresponding field from JSON data.
+ [#10102] Add participant comment to student session result
+ Fixes #10102 
+
+![image](https://user-images.githubusercontent.com/32454748/82886083-99982b80-9f78-11ea-989a-e774d77cb1be.png)
+
+**Outline of Solution**
+
+Add `tm-comment-row` in `tm-student-view-responses`.
+
+**Questions**
+
+1. Not sure what visibility options to pass in for `questionShowResponsesTo`. Should the comment's visibility follow the question's visibility?
+
+2. Is it correct to use `CommentRowMode.EDIT` for the mode? There isn't a `VIEW` mode as far as I can tell.
+ [#10107] Append email after participants' name for GRQ/RGQ/GQR/RQG view
+ Fixes #10107
+
+**Outline of Solution**
+**GRQ**
+![image](https://user-images.githubusercontent.com/28994607/82886124-a9177480-9f78-11ea-900a-ccabaf1a3cbf.png)
+
+**RQG**
+![image](https://user-images.githubusercontent.com/28994607/82886216-cc422400-9f78-11ea-9c23-3a4fe9a926b4.png)
+
+- Add `recipientEmail` and `giverEmail` to backend output. The visibility is handled by the `getDisplayableEmailGiver/Recipient` method
+- Made a map from user to email in the group by views and display them accordingly
+ [#10105] "Expand all" does not expand all tabs for some result views when clicked
+ Fixes #10105
+
+**Question View:**
+![qn](https://user-images.githubusercontent.com/28994607/82860338-d13cae80-9f4b-11ea-9555-879fe16394a9.gif)
+
+**GRQ View:**
+![grq](https://user-images.githubusercontent.com/28994607/82860345-d7cb2600-9f4b-11ea-9529-74612a70d292.gif)
+
+**RGQ View:**
+![rgq](https://user-images.githubusercontent.com/28994607/82860351-da2d8000-9f4b-11ea-9d36-7c0bd126ce4f.gif)
+
+**GQR View:**
+![gqr](https://user-images.githubusercontent.com/28994607/82860355-dbf74380-9f4b-11ea-8a02-208020bc27fd.gif)
+
+**RQG View:**
+![rqg](https://user-images.githubusercontent.com/28994607/82860357-dd287080-9f4b-11ea-9a84-b271bc9662c0.gif)
+
+**Outline of Solution**
+- Add a `isExpandAll` input to the abstract base classes for the different group by views and
+- Propogate the `isExpandAll` attribute from the `instructor-session-result-page-component` to the child and grandchildren.
+ [#10104] Append team name to participants name
+ Resolves #10104
+
+**GRQ View**
+![GRQ](https://user-images.githubusercontent.com/42177597/82859647-e7e20600-9f49-11ea-975c-26f3490ff4a4.gif)
+
+**RGQ View**
+![RGQ](https://user-images.githubusercontent.com/42177597/82859659-ee707d80-9f49-11ea-8c5a-3c072fd4ced3.gif)
+
+ [#10114] Fix UI of disabled delete button in instructor courses page
+ Fixes #10114 
+
+**Before**:
+<img width="1059" alt="Screenshot 2020-05-25 at 21 26 49" src="https://user-images.githubusercontent.com/32880438/82817147-0d7df980-9ecf-11ea-80a6-df649b197e15.png">
+
+**After**:
+<img width="1049" alt="Screenshot 2020-05-25 at 21 26 17" src="https://user-images.githubusercontent.com/32880438/82817174-18388e80-9ecf-11ea-9b46-a6251d12b0e2.png">
+
+
+**Outline of Solution**
+- add missing `dropdown-item` attribute to corresponding HTML element.
+
+ [#10103] Add Remind All button for "Participants who have not responded to any question" tab
+ Fixes #10103 
+
+**Snapshot**:
+![remind-all-button](https://user-images.githubusercontent.com/32880438/82811377-339d9c80-9ec3-11ea-96e1-0abf218378ac.gif)
+
+**Outline of Solution**
+- add `Remind All` button in `instructor-session-no-response-panel`
+- add function `openSendReminderModal` to handle `send-reminders-to-student-modal` logic
+- add in-line CSS to position the button
+- improve UI spacing on `send-reminders-to-student-modal`
+- fix comment typo in .ts file of `send-reminders-to-student-modal`
+
+ [#9382] Remove unused items in Feedback*QuestionDetails and Feedback*ResponseDetails classes
+ Part of #9382
+
+This removes unused methods `extractQuestionDetails`, `extractResponseDetails` (the question/response construction logic is moved to the front-end and sent as request body), `isQuestionSkipped`, and `validateResponseAttributes` (not the right place), and adds a slight refactor to `FeedbackMsqQuestionDetails` such that it is no longer dependent to logic package. One more architecture violation is fixed.
+
+The `Feedback*QuestionDetailsTest` cases that involve only extraction are no longer meaningful and thus removed; those that involve validation are still meaningful and should be improved after this.
+
+ [#10111] Fix flaky tests
+ Fixes #10111 
+ [#10042] Add mobile compatibility to indivual question
+ Added 'md' to the respective divs so the label and content feel better on small widths.
+Updated the mi-width on the editor, this way the editor's placeholder will not overflow on smaller widths.
+
+Part of #10042 
+
+Before:
+
+![before](https://user-images.githubusercontent.com/65744119/82760805-550f6300-9db3-11ea-8388-29256d3ab0f1.jpeg)
+
+After:
+
+![7E4BCF8E-7072-47A1-A398-2454234B2505](https://user-images.githubusercontent.com/65744119/82760935-162ddd00-9db4-11ea-9752-7927473aa5a1.jpeg)
+
+
+ [#10042] Improve Mobile UI for Course Pages
+ Part of #10042 Instructor Pages: Course Details & Edit Pages
+have made some changes on buttons there was a problem with them on mobile devices, and also have made some changes on text structures(also was a problem on other devices.)
+ [#10081] Increase section font size
+ Fixes #10081 
+ [#10065] Lift up "Add New Course" and "Sort By" buttons from table
+ Fixes #10065
+
+Before vs After-
+
+Before:
+
+<img width="1552" alt="TEAMMATES - Online Peer FeedbackEvaluation System" src="https://user-images.githubusercontent.com/17513390/82690291-8d128b00-9c79-11ea-8141-d091a4b95281.png">
+
+After:
+<img width="1552" alt="teammatesprocess md at r" src="https://user-images.githubusercontent.com/17513390/82690304-956ac600-9c79-11ea-8402-51344fc0f9be.png">
+
+ [#10065] Lift up "Add New Course" and "Sort By" buttons from table
+ Fixes #10065
+
+Before vs After- 
+
+Before:
+<img width="1552" alt="TEAMMATES - Online Peer FeedbackEvaluation System" src="https://user-images.githubusercontent.com/17513390/82685916-98ae8380-9c72-11ea-99c3-d1d797bb0a7e.png">
+
+After:
+<img width="1552" alt="teammatesprocess md at r" src="https://user-images.githubusercontent.com/17513390/82686016-c3004100-9c72-11ea-84b8-1520d2f2dd56.png">
+
+
+ [#9989] Migrate GET /courses/enroll/students to RESTful API
+ Resolves #9989 
+ [#10079] Add a dropdown button for the "Action(s)" section in Courses page
+ Fixes #10079 
+
+**Outline of Solution**
+
+*This is how the Action(s) section in the Instructor-Courses-Page looked like:*
+![2020-05-16 (1)](https://user-images.githubusercontent.com/61196321/82577803-2a938f00-9b94-11ea-81b9-532f8cce28b2.png)
+
+*This is how it looks like now:*
+![bjbjb](https://user-images.githubusercontent.com/61196321/82577922-5adb2d80-9b94-11ea-8cc2-1d028a837ce2.png)
+
+I added in the HTML code "ngbDropdown" and "ngbDropdownMenu" classes and updated the SCSS code for the layout of the corresponding button and the menu. Also, updated its "__snapshots__" file.
+
+ [#10088] Add notification on no result for instructor search
+ Fixes #10088 
+
+![image](https://user-images.githubusercontent.com/32454748/82542185-2495b200-9b84-11ea-92d3-2bf9e4549da9.png)
+
+**Outline of Solution**
+
+Add check for empty array for early termination.
+
+The bug was caused by `forkJoin` not executing when given an empty array, so a check for empty array would solve the issue.
+
+ [#10087] Course Details page text should be aligned to the left
+ Fixes #10087 
+
+**Outline of Solution**
+![image](https://user-images.githubusercontent.com/28994607/82532849-b990af00-9b74-11ea-8f05-4a617e6ae365.png)
+ [#10084] Fix dropdown menu items cursor not changing to pointer on hover
+ Fixes #10084 
+
+**Outline of Solution**
+
+Add `cursor: pointer;` on relevant styles
+
+![image](https://user-images.githubusercontent.com/32454748/82526118-b7732400-9b65-11ea-9c5d-c9655feb9891.png)
+
+![image](https://user-images.githubusercontent.com/32454748/82525903-2bf99300-9b65-11ea-9411-1c2df5d5133c.png)
+
+![image](https://user-images.githubusercontent.com/32454748/82525967-49c6f800-9b65-11ea-946c-1315191884d9.png)
+
+ [#9382] Add example boxes for restoring deleted session section of instructor help page
+ Part of #9382
+
+**Outline of Solution**
+Added boxes for the relevant sections and fixed some indentation for template file. 
+Screenshots below
+
+**Viewing Sessions**
+![image](https://user-images.githubusercontent.com/28994607/82522019-c6080e00-9b5a-11ea-8865-8ae4a46f0c52.png)
+
+**Restoring a deleted session**
+![image](https://user-images.githubusercontent.com/28994607/82522067-e20baf80-9b5a-11ea-8898-ee0125ec138a.png)
+
+**Permanently delete a session**
+![image](https://user-images.githubusercontent.com/28994607/82522078-e932bd80-9b5a-11ea-9197-475fa4d27ec6.png)
+
+**Restore/Delete all sessions**
+![image](https://user-images.githubusercontent.com/28994607/82522093-f059cb80-9b5a-11ea-9615-cd14b83947a7.png)
+
+ [#9382] Add almost all comment features for result page
+ Part of #9382
+
+Continue from #10011 and close #10011 (also close #9778) when merged.
+
+**Features**
+
+Instructor Comment:
+
+![image](https://user-images.githubusercontent.com/13977235/82503012-512aca80-9aad-11ea-97f4-c759e673c1b0.png)
+![image](https://user-images.githubusercontent.com/13977235/82503059-6869b800-9aad-11ea-993a-be6c5d217ffb.png)
+
+![image](https://user-images.githubusercontent.com/13977235/82503085-77e90100-9aad-11ea-9b66-762789287146.png)
+
+Participant Comment:
+
+![image](https://user-images.githubusercontent.com/13977235/82503333-eaf27780-9aad-11ea-943b-6fa40ff98298.png)
+
+![image](https://user-images.githubusercontent.com/13977235/82503354-f5ad0c80-9aad-11ea-97fb-a3e93be21350.png)
+
+**Outline of Solution**
+
+The components of comment features have been highly modularized. Here is the hierarchy.
+
+- `CommentTableModalComponent`
+    - `CommentTableComponent`
+        - `CommentRowComponent`
+            - `CommentEditFormComponent`
+
+For several considerations, the instructor comments are **NOT** updated in `sectionsModel` and `questionsModel`:
+- There are two points of truth `sectionsModel` and `questionsModel`. It is hard to sync them
+- There are many data transformations in the result page. For performance consideration, we shall not update those two models (as every time the models change, the sub-components will recompute the transformation, we purposely design this as the page is read-only except for the instructor comment)
+
+Instead, we make a map at the root page from `responseId` to `CommentTableModel`.
+```typescript
+instructorCommentTableModel: Record<string, CommentTableModel> = {};
+```
+We make here as the single point of truth for instructor comments.
+
+All API requests are sent from the root page (so this would close #10010) and the coupling within components are minimized.
+
+ [#10085] Fix edit feedback question number not fitting into box
+ Fixes #10085 
+
+![image](https://user-images.githubusercontent.com/32454748/82424510-e0d57680-9ab7-11ea-8038-d72bb9e44163.png)
+
+
+ [#9382] Refactor instructor feedback session deleted table
+ Part of #9382
+
+**Outline of Solution**
+Refactored out the portion of template showing the recycle bin of sessions in the instructor session page into a new component placed in the component folder. Here's a screenshot to verify that the table has not changed in UI after refactoring.
+
+![image](https://user-images.githubusercontent.com/28994607/82415738-8e8e5880-9aab-11ea-99f2-eccc2ce82df6.png)
+
+
+**Rationale**
+The table itself warranted a separate component, similar to the sessions table in the same page, as it was getting long and the template itself is going to be used multiple times in the help page under the Restoring Deleted Sessions section in the instructor help page. Would be painful to copy-paste the whole chunk of `table` tags multiple times.
+ [#9382] Add example box for rubric responder's view of question
+ Part of #9382 
+
+![image](https://user-images.githubusercontent.com/32454748/82410019-977a2c80-9aa1-11ea-8928-23fab3e574d7.png)
+
+ [#9382] Add remaining question sections setup example boxes
+ Part of #9382 
+
+**Outline of Solution**
+
+- add distribute point (option) question
+<img width="805" alt="Screenshot 2020-05-20 at 11 44 32" src="https://user-images.githubusercontent.com/32880438/82402894-254d1c00-9a90-11ea-8ca3-cb24f7313811.png">
+
+- add distribute point (recipient) question
+<img width="860" alt="Screenshot 2020-05-20 at 11 44 16" src="https://user-images.githubusercontent.com/32880438/82403007-69402100-9a90-11ea-856c-27fbe4af83fe.png">
+
+- add team contribution question
+<img width="859" alt="Screenshot 2020-05-20 at 11 44 03" src="https://user-images.githubusercontent.com/32880438/82402798-e4550780-9a8f-11ea-9249-80c5ef0d78ae.png">
+
+- add rubric question
+<img width="698" alt="Screenshot 2020-05-20 at 12 22 01" src="https://user-images.githubusercontent.com/32880438/82404828-e372a480-9a94-11ea-8acb-2fae14b7cbfd.png">
+
+
+ [#9382] Add Rank Option question example box
+ Part of #9382 
+
+![ezgif-5-654943072c37](https://user-images.githubusercontent.com/32880438/82314354-46642d00-99fc-11ea-83ab-b2cd2008ae95.gif)
+
+
+ [#9382] Add example to preview session section of help
+ Part of #9382
+
+**Outline of Solution**
+Copied over the relevant section from the edit session template and disabled all the buttons.
+
+![image](https://user-images.githubusercontent.com/28994607/82320848-816b5e00-9a06-11ea-9251-0eda8a57e226.png)
+
+ [#10072] Session edit form UI is not ideal
+ Fixes #10072
+
+**Outline of Solution**
+Wrap `div` in rows so the words can occupy all the space and not overflow until screen size is small. Also added some margins around to give some space between elements
+
+![errrr](https://user-images.githubusercontent.com/28994607/82302842-b66ab700-99ec-11ea-8782-4866448b5573.gif)
+
+ [#9382] Add example component for adding questions to a session
+ Part of #9382
+
+Since the example in this section is not a stand-alone component, I copy pasted the relevant parts of the original code for this example. I feel that it doesn't make sense to refactor them to their own components because they are only ever used in 1 specific component. Need some opinions on this.
+ [#9382] Add Rank Recipient question example box
+ Part of #9382 
+
+![ezgif-5-2586b5a41d46](https://user-images.githubusercontent.com/32880438/82295555-7c94b300-99e2-11ea-823e-9ebdc578fddf.gif)

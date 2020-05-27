@@ -1,0 +1,54 @@
+﻿ Configure MassTransit to request a heartbeat
+ Update MassTransit from v2.7.1 to v2.8.0
+ Service bus configuration should handle situations when a username and password are not provided
+ Merge branch 'master' into appharbor
+
+# By Justin Rusbatch (78) and Khalid Abuhakmeh (1)
+* master: (79 commits)
+  Reverting previous commit
+  Update RavenDB connection string name
+  Deleting commented code
+  Stylize the resizing handle
+  Always post the root URL for saves
+  Do not explicitly specify the HTTP scheme in the redirect
+  Update README to reflect the migration to RavenDB
+  The text next to the brand name should say "beta" instead of "alpha"
+  Enable SSL in IIS Express
+  Minor formatting changes
+  A margin should be applied to the tab name instead of the drop down toggle to accommodate for the main tab's missing drop down
+  Font in the sidebar should be consistent with the rest of the application
+  The project should be validated when a document is removed
+  Remove dead code
+  The renameDocument and removeDocument methods should use the isPrimary method to check if a document is the primary document in the project
+  Fixes #61
+  Fixes #56
+  Fixes #59
+  Fixes #58
+  Add error highlighting
+  ...
+ Update MassTransit configuration to work with the latest version
+ Remove obselete call when configuring MassTransit
+ Remove obsolete test
+ Fix display issues when accessing posts saved with the old model structure.
+ Update MassTransit and MassTransit.RabbitMQ in the worker project to match the versions installed in the web project
+ Correct failing test
+ The browser's location should be updated after saving a post via an ajax post
+ The documents contained in a post should be persisted
+ Update MassTransit.RabbitMQ to 3.0.2
+ Update MassTransit to 2.7.1
+ The SavePostCommand should be registered with the dependency injector
+ Update mongocsharpdriver to 1.7
+ Reverting previous commit
+ Update RavenDB connection string name
+ Deleting commented code
+ Stylize the resizing handle
+ Always post the root URL for saves
+ Do not explicitly specify the HTTP scheme in the redirect
+ Update README to reflect the migration to RavenDB
+ Merging vNext into master
+ The text next to the brand name should say "beta" instead of "alpha"
+ Enable SSL in IIS Express
+ Minor formatting changes
+ A margin should be applied to the tab name instead of the drop down toggle to accommodate for the main tab's missing drop down
+ Font in the sidebar should be consistent with the rest of the application
+ The project should be validated when a document is removed

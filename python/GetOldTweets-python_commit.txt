@@ -1,0 +1,49 @@
+﻿ - Adjusment related to infinite loop when getting tweets
+ - Fixed issue to get new tweets (change in headers info)
+ Merge pull request #134 from bmjr/ignore-withheld-tweets
+
+Ignore withheld tweets
+ Merge pull request #116 from fernandoramacciotti/patch-1
+
+Urllib Python 3.x functions
+ cleanup: remove unnecessary semicolons
+ Ensure withheld tweets are removed from scraped tweets.
+ Urllib Python 3.x functions
+
+ Merge pull request #77 from mattiasostmar/update_type_param_f
+
+Update f-parameter to 'tweets' in got3 also
+ Update f-parameter to 'tweets' in got3 also
+ - Fixed username when there is an inline tweet
+ Update README.md
+ - Adjustments and improvements
+On lines 52-53 duplicate code was committed.
+
+ Merge pull request #62 from phaerus/master
+
+Update metadata and descriptors
+ Merge pull request #49 from RFVenter/master
+
+ Merge pull request #47 from dorfman/master
+
+Made compatible with Python3
+ Merge branch 'master' into master
+ - Removed unnecessary print
+ Merge pull request #41 from zer0-64/master
+
+Added functionality for location and distance from location
+ - Updated to correctly get the username
+ clarified role of requirements.txt in readme.md
+ Updated Readme.md to specify Python 2.x dependency and how to use Python 3.x got3 files
+ Changed "requirements.txt" filename to reflect PIP standards
+ added: ability to specify proxy for each query (using urllib2)
+ Made compatible with Python3. Checks Python version to determine which got module to use
+ Added functionality for distance
+ Added location and distance to query
+ - Fixed parse problems
+ Update README.md
+ - Fixed bug when username has quotes
+- Replaced AllTweets option for TopTweets
+ Merge pull request #19 from ddandur/master
+
+added option to collect "all tweets" or just "top tweets"

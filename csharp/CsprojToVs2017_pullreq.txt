@@ -1,0 +1,163 @@
+﻿ Fix #260: Crash when project contains NeutralResourcesLanguage attribute
+ Also updated ```TestFiles/Solutions/ClassLibrary/Properties/AssemblyInfo.cs```, however I did not find a test where this is used...
+ Transform assembly signing attributes
+ Siging of an assembly can also be done using assembly attributes in the assemblyinfo.cs
+
+[assembly: AssemblyDelaySign(true)]
+[assembly: AssemblyKeyFile(@"..\..\PublicKey.snk")]
+
+With this pull request these attributes get also transformed
+ In cases where AssemblyInfo is being preserved and there are multiple…
+ … AssemblyInfo files present (very common in GitVersion implementations where there is a single common AssemblyInfo file containing version info and an AssemblyInfo file containing library specific details), AssemblyDetails will be null (multiple files not currently supported) but there is no null check in NuGetPackageTransformation. Added null propagation on the assemblyAttributes object. If time allows I will add support for multiple assemblyinfo files but at a minimum this fixes the null reference exception when assembly info details are being preserved.
+ Create migrate-2019 for 4.1-RC
+ * Refactor `migrate-2017` to reduce code duplication
+* Split large files into multiple small ones
+* Move `Service` item filtering to separate transformation
+* `Service` is an item, not a property (bugfix)
+* Remove duplicates from input paths (e.g. when globbing like `**\*` a single project could be added twice: from actual glob search and from solution traverse)
+* Update MSBuild.Sdk.Extras versions for both .NET Core 2.x & 3.x
+* Update AppVeyor configuration (fix #254)
+
+@hvanbakel one more NuGet package is required for the new `dotnet migrate-2019` global tool. We can't reuse legacy `.Console` API key for obvious reasons.
+ #252 fix
+ 
+ Fixes #237
+ Looks like a simple fix to me, but I decided I won't be committing to master any more either 😄 
+ Apply standard formatting across solution
+ I hope this can be a step towards avoiding accidental formatting changes in future. Up to now there has been a legacy of inconsistent formatting which is a problem when then trying to format our own changes using ctrl+k+d or whatever other tool you like to use.
+
+I've manually done two things:
+- Run dotnet-format
+- Use ctrl+k+d on each .csproj file
+
+I'm not an expert at `editorconfig` files, nor am I hugely opinionated about which conventions we use (spaces or tabs etc., I don't really mind). But I think it would be great to get things standardised as part of a check-in hook or just a validation that dotnet-format doesn't caused any changed when run in the build script.
+ Create supported and documented NuGet package(s) 
+ Fixes #238 
+Fixes #185 
+
+ Don't crash if PackageReference had no Version information
+ Hi,
+
+Some of PackageReference references in our project don't have a Version specified so the conversion crashes with the following exception:
+
+> System.ArgumentNullException: Value cannot be null.
+> Parameter name: value
+>    at new System.Xml.Linq.XAttribute(XName name, object value)
+>    at XElement Project2015To2017.Writing.ProjectWriter.CreateXml(Project project) in CsprojToVs2017\Project2015To2017.Core\Writing\ProjectWriter.cs:line 252
+>    at bool Project2015To2017.Writing.ProjectWriter.WriteProjectFile(Project project) in CsprojToVs2017\Project2015To2017.Core\Writing\ProjectWriter.cs:line 75
+>    at bool Project2015To2017.Writing.ProjectWriter.TryWriteOrThrow(Project project, bool makeBackups) CsprojToVs2017\Project2015To2017.Core\Writing\ProjectWriter.cs:line 57
+>    at bool Project2015To2017.Writing.ProjectWriter.TryWrite(Project project, bool makeBackups) in CsprojToVs2017\Project2015To2017.Core\Writing\ProjectWriter.cs:line 40
+
+This PR allows converter not to crash, but to produce similar PackageReference with no version attribute instead. 
+
+ Added direct support for removing transitive package references
+ Hey,
+
+i've got another request. 
+
+After migration it would be great to use the new transitive way for nuget package references. So it would be nice to remove unnecessary references.
+
+I added another command line argument for migration to clean up the references.
+
+What do you think about it? I've got already a console application to get the output for removable references [AnalyzeDotnetProjects](https://github.com/MO2k4/AnalyzeDotNetProject)
+ Keep linked app.config
+ Hi, 
+
+first off thank you for this great tool. I stumpled upon a minor problem for my migrated projects.
+
+I am using linked app.configs in my test scenarios, so that i can reuse configuration, but after migrating them they are gone and i have to reconfigure them.
+
+Why are *.config-Files skipped? I found this issue #155 but i do not understand why this is a problem.
+ Merging from parent project to mine
+ 
+ Second 4.0 Changeset
+ * Improve **.Console** stub to guide user on the next steps
+* Drop "modern" cache for ConditionEvaluator
+* Use .NET Core 2.0+ [Path.GetRelativePath](https://docs.microsoft.com/en-us/dotnet/api/system.io.path.getrelativepath) routine (import CoreFX sources for .NET Standard 2.0, that is for .NET Framework)
+* Split Extensions into several files for maintainability
+* Add UpgradeUseComVisibleDefaultTransformation
+* Add UpgradeUseDefaultOutputPathTransformation
+* Fix CLI issues, improve help messages
+* Experimental Entity Framework detection (fix #220)
+* _Project.AppendTargetFrameworkToOutputPath_ is now bool? instead of bool
+
+P.S. It appears Unix support is now on par with Windows. Verified on a couple of open-source projects. 🎉
+ 4.0 RC
+ * Migration wizard (very advanced, try it out yourself!)
+* Modernization
+* Turn legacy Project2015To2017.Console into stub
+* Refactorings under the hood
+* Fix mistakes with handling assembly information files
+* Make output less noisy by default
+ A variety of fixes
+ * Add listing of already converted projects to evaluate CLI command
+* Use Guid as keys in Dictionary where possible (always correctly ignores casing, improves performance)
+* Replace IsWindowsFormsProject and IsWindowsPresentationFoundationProject fields with extension methods (preparation for .NET Core 3)
+* Refactor project SDK assignment method (no more hacks in ProjectWriter)
+* Add IterateProjectTypeGuids helper extension method
+* Refactor out HandleSpecialProjectTypes into FrameworkReferencesTransformation (more robust this way)
+* Add BrokenHookTargetsTransformation (fixes #172)
+* Improve FileTransformation to fix recently arisen issues (tested on Dopamine, fixes #210)
+* Fix ImportsTargetsFilterPackageReferencesTransformation to support multiple `<Error />` from different NuGet packages (like native libraries for sqlite for multiple platforms) in Visual Studio-generated NuGet property group
+* Other minor fixes
+ Import Microsoft.DotNet.Cli.CommandLine sources
+ dotnet team is reluctant to publish NuGet package to non-internal feed and MSBuild team is too busy with implementing new features rather than perfecting already existing ones.
+
+Fixes #221.
+ Add Antlr3 support
+ 
+ Update README.md
+ Updated package install parameters
+ Ignore 'Import'
+ 
+ [Issue #208] Add Antlr4 tag support
+ 
+ Move logic to respective places
+ 
+ Rename tests namespace
+ 
+ AppVeyor improvements
+ * Rewrite AppVeyor configuration related to actual build & test
+* Improve CI performance
+* Use SourceLink
+* Simplify project files
+* Don't generate nupkg during local development
+
+Note: I'd like to fix Project2015To2017Tests namespaces before 4.0 (API breaking changes) release.
+ Split Project2015To2017 into Core and Migrate2017
+ * Move almost everything to a new _Core_ project
+* Move VS15-related transformations to _Migrate2017.Library_
+* Make `ProjectConverter.Convert` an extension method (95% compatible, new optional/recommended `ILogger` parameter added)
+* Retain umbrella-project _Project2015To2017_ to preserve NuGet package
+* Move all common properties to `Directory.Build.props`
+* Give Project2015To2017Tests a proper name with a dot
+* Update external NuGet dependencies
+
+P.S. don't worry about 191 changed files - that's mainly moved files.
+ Minor slashes fix improvements for #193
+ 
+ Fixes #194
+ 
+ Attempt at fixing slashes
+ Attempted fix for #176. I've left places where we compare a path by doing `StartsWith(x)` untouched for now. I'm not entirely sure if I should be transforming both sides there though, it's either both or none.
+ Exclude files when previously excluded and no wildcards are in play
+ It's not pretty because of the wildcard support we currently have. But if the user is not using a wildcard include then we can generate the appropriate exclusions. Having a wildcard include is probably an exception anyway as it was never really supported in any UI and the current wildcard include is automatic.
+ Improve CLI, fix bugs
+ * Make specialized `ProjectConverter` methods public
+* Rewrite projects selection logic from scratch for modern CLI tool
+* Add globbing as a fallback to modern CLI tool
+* Reduce default log verbosity (mark common messages as _Debug_ instead of _Informational_)
+* Add Trace level logging to modern CLI tool
+* Make evaluate command use only _W00x_ and _W01x_ analyzer diagnostic sets
+* Print unsupported solution projects in evaluate command
+* Add `--force-transformations` CLI option
+* Make `ConditionEvaluator` much safer against unknown conditionals
+* Revert `<SolutionDir />` removal from `PropertySimplificationTransformation` (it is not the default in CPS, used when running MSBuild on single project instead of solution). Refer to #165.
+* Fix NuGet name case in log messages
+* Use `FileInfo` as argument in `SolutionReader`
+* Fix missing `<GenerateAssemblyInfo>false</GenerateAssemblyInfo>` after #177.
+* Save our private field naming convention for JetBrains products
+
+[Good attempt at creating normal changelog](https://github.com/hvanbakel/CsprojToVs2017/wiki/Changelog)
+ Fix for #173
+ 

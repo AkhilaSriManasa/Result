@@ -1,0 +1,68 @@
+﻿ Merge pull request #450 from vitaly-zdanevich/patch-1
+
+Update README.md
+ Merge pull request #454 from CSTR-Edinburgh/Fix-of-frame-number-in-binary_io
+
+Fixed frame number calculation to work for Python 2.x and 3.x (using floor division)
+ Update binary_io.py
+ Update binary_io.py
+ Update README.md
+ Merge pull request #338 from Loong1989/master
+
+Correct typo in mandarin_voice script
+ Merge pull request #366 from yweweler/patch-1
+
+Update INSTALL.md
+ Merge pull request #423 from matei-oltean/patch-1
+
+Fix typo in README
+ Merge pull request #435 from abylouw/master
+
+Update label_normalization.py
+ Update label_normalization.py
+
+Added end of string ('$') regex for last question in question set. This ensures that the last question only matches at the end of the HTS label string
+ Fix typo in README
+ Merge pull request #408 from candlewill/patch-7
+
+fix a small bug in `interpolate_f0`
+ fix a small bug in `interpolate_f0`
+
+fix a small bug in `interpolate_f0`
+ Merge pull request #397 from RasmusD/jp_questions
+
+Added japanese question set compatible with OpenJTalk produced labels.
+ Added japanese question set compatible with OpenJTalk produced labels.
+
+Works well with the Nitech-ATR speech database available with the HTS-demo (this is a conversion of the HTS-demo questions set to work with merlin).
+ Update README.md
+ Merge pull request #375 from aryals/master
+
+dropout bug fix
+ dropout bug fix
+ Update INSTALL.md
+
+Add `unzip` to the list of linux dependencies
+
+Not all distributions have `unzip` installed by default.
+ Merge pull request #349 from langmaninternet/master
+
+Add code : Support old HTS question file format
+ Merge pull request #354 from gillesdegottex/prblstm
+
+potential fix for #245
+ fix #245
+ Merge pull request #351 from felipeespic/master
+
+Fixing in slt_arctic/s2/run_demo.py to change architecture in full demo.
+ Fixing in slt_arctic/s2/run_demo.py to change architecture in full demo.
+ Merge branch 'magphase_update' of https://github.com/felipeespic/merlin into magphase_update
+ Small update for slt_arctic demos.
+ Uncommented lines in slt_arctic s1 run_full_voice.sh
+ Update run_full_voice.sh
+ Add code : Support old HTS question file format
+
+Some HTS question files use '\t' as the separator.
+ Merge pull request #348 from felipeespic/master
+
+Integration with MagPhase vocoder v2.0

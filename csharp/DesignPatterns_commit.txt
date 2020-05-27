@@ -1,0 +1,73 @@
+﻿ Fix builder pattern folder path
+ mediatorPatternAdded (#17)
+
+Co-authored-by: o.musin <o.musin@tinkoff.ru>
+Co-authored-by: Abishek Aditya <abishekaditya@outlook.com>
+ Merge Prototype Pattern
+ Implemented Builder Pattern with regards to issue #8 (#16)
+
+* Implemented Builder Pattern with regards to issure #8
+
+* Changed folder structure for BuilderPattern
+
+* Added new folder structure to solution
+
+* Added Chain of Responsibility design pattern
+ Merge branch 'master' into master
+ Add builder pattern (#14)
+
+* Add builder pattern
+
+* Revert VS2019 info from .sln file
+
+* Downgrade target framework to core 2.0
+
+* Fix GUID of BuildPattern project type
+ Add PrototypePattern
+ Added back factory pattern
+ Visitor and Flyweight Patterns (#12)
+
+* Bridge Pattern
+
+* Update README for Bridge Pattern
+
+* Update Flyweight Pattern
+
+* Update Visitor Pattern
+ Bridge Pattern (#10)
+
+* Bridge Pattern
+
+* Update README for Bridge Pattern
+ add DotnetCore support and delete old files (#9)
+
+* add DotnetCore support
+
+* Delete old project
+ Merge pull request #4 from saurabhmathur96/master
+
+Upgrade Coffe Grounds from 5 centuries ago to 21st century Coffee Grounds
+ Update Coffee.cs
+ added code of conduct
+ create Liscence
+ Merge pull request #3 from Steel5rat/master
+
+Fix java-like brace
+ Fix java-like brace
+ Merge pull request #2 from aloisdeniel/patch-1
+
+Simplified implementation with the use of Lazy<T>.
+ Corrected the object creation for _singleton
+ Merge pull request #1 from kokeiro001/master
+
+I fixed markdown links in README.md
+ Simplified implementation with the use of Lazy<T>.
+ Update README.md
+ Created a simple intro text
+ Resharper Refactoring
+ State Pattern
+ Composite Pattern
+ Iterator Pattern
+ Template Pattern
+ Refactoring Code to make it less verbose and cleaner
+ Adapter and Facade Patterns

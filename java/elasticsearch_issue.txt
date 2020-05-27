@@ -1,0 +1,704 @@
+﻿ [7.7] Adjust reload keystore test to pass in FIPS (#57050)
+ Backports the following commits to 7.7:
+ - Adjust reload keystore test to pass in FIPS (#57050)
+ [7.8] Adjust reload keystore test to pass in FIPS (#57050)
+ Backports the following commits to 7.8:
+ - Adjust reload keystore test to pass in FIPS (#57050)
+ [7.x] Adjust reload keystore test to pass in FIPS (#57050)
+ Backports the following commits to 7.x:
+ - Adjust reload keystore test to pass in FIPS (#57050)
+ Consistent errors for KeyStoreWrapper decryption with any security provider
+ As identified in https://github.com/elastic/elasticsearch/pull/57050#issuecomment-633257786 , when using the BouncyCastle FIPS security provider, the decryption with a wrong password fails in non predictable ways. Sometimes the `CipherInputStream` doesn't throw an `AEADBadTagException` as expected but `readFully` fails to read the stream fully and thus we fail because of these unconsumed stream contents: https://github.com/elastic/elasticsearch/blob/c117c0cf0a2e1a497c83278cebb7a2da57c2f599/server/src/main/java/org/elasticsearch/common/settings/KeyStoreWrapper.java#L379
+
+We should look at a) why this happens and b) figure out if there is a way to consistently catch Exceptions caused by invalid passwords for any security provider so that we can throw a relevant and useful error message for the users.
+Pinging @elastic/es-core-infra (:Core/Infra/Settings)
+
+Pinging @elastic/es-security (:Security/Security)
+
+ [7.7] Fix key usage in SamlAuthenticatorTests (#57124)
+ Backports the following commits to 7.7:
+ - Fix key usage in SamlAuthenticatorTests (#57124)
+ [7.8] Fix key usage in SamlAuthenticatorTests (#57124)
+ Backports the following commits to 7.8:
+ - Fix key usage in SamlAuthenticatorTests (#57124)
+ [7.x] Fix key usage in SamlAuthenticatorTests (#57124)
+ Backports the following commits to 7.x:
+ - Fix key usage in SamlAuthenticatorTests (#57124)
+ date_index_name pipeline week calc issue
+ ES: 7.6
+OS: Mac/Centos7
+
+issue describe:
+I need to auto-create indices weekly, so i take the date_index_name pipeline with index template to do that, but I found the week number calc seems to be different in [_ingest/pipeline/_simulate] with the data post directly. 
+
+the reproduce steps and related config as follow:
+1. post the pipelines to do set the timestamp and do index name calc
+2. post the template to do dynamic data indexing
+3. post some test data in [_ingest/pipeline/_simulate]
+4. post the same data in ES
+5. check the index ES created and test data
+
+1) timestamp setting pipeline, i did some date zone and format change 
+```
+POST _ingest/pipeline/base_pipeline
+{
+    "description" : "basic default pipeline, set timestamps and delflg",
+    "processors" : [
+      {
+        "set" : {
+          "if" : "'' == ctx.dataCreateTimestamp || null == ctx.dataCreateTimestamp",
+          "value" : "{{_ingest.timestamp}}",
+          "field" : "dataCreateTimestamp"
+        }
+      },
+      {
+        "set" : {
+          "value" : "{{_ingest.timestamp}}",
+          "field" : "dataUpdateTimestamp"
+        }
+      },
+      {
+        "set" : {
+          "if" : "'' == ctx.delFlg || null == ctx.delFlg",
+          "value" : 0,
+          "field" : "delFlg"
+        }
+      },
+      {
+        "script" : {
+          "lang" : "painless",
+          "source" : """String tmpTs = ctx.dataCreateTimestamp; if (0 > tmpTs.indexOf('.')) {return;} ZonedDateTime orgTime = ZonedDateTime.parse(tmpTs.substring(0, tmpTs.indexOf('.')), DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss").withZone(ZoneId.of("UTC")));ZonedDateTime shTime = orgTime.withZoneSameInstant(ZoneId.of("Asia/Shanghai"));ctx.dataCreateTimestamp = shTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));"""
+        }
+      },
+      {
+        "script" : {
+          "lang" : "painless",
+          "source" : """String tmpTs = ctx.dataUpdateTimestamp; ZonedDateTime orgTime = ZonedDateTime.parse(tmpTs.substring(0, tmpTs.indexOf('.')), DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss").withZone(ZoneId.of("UTC")));ZonedDateTime shTime = orgTime.withZoneSameInstant(ZoneId.of("Asia/Shanghai"));ctx.dataUpdateTimestamp = shTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));"""
+        }
+      }
+    ]
+  }
+```
+
+2) index name pipeline, i need to set the weekly index here
+```
+POST _ingest/pipeline/ms_ccy_weekly_details_pipeline
+{
+    "description" : "ms ccy daily pipeline",
+    "processors" : [
+      {
+        "pipeline" : {
+          "name" : "base_pipeline"
+        }
+      },
+      {
+        "date_index_name" : {
+          "date_rounding" : "w",
+          "date_formats" : [
+            "yyyy-MM-dd HH:mm:ss",
+            "yyyy-MM-dd'T'HH:mm:ss.SSSZ",
+            "yyyy-MM-dd'T'HH:mm:ss.SSSSSSZ",
+            "yyyy-MM-dd'T'HH:mm:ssZ",
+            "yyyy-MM-dd",
+            "epoch_second",
+            "date_time",
+            "basic_date_time",
+            "strict_date_time",
+            "epoch_millis"
+          ],
+          "field" : "dataCreateTimestamp",
+          "index_name_format" : "yyyy'w'ww",
+          "index_name_prefix" : "ms_ccy_weekly_details_",
+          "timezone" : "Asia/Shanghai"
+        }
+      }
+    ]
+  }
+```
+
+3) do some simulate for these pipelines
+```
+POST _ingest/pipeline/_simulate
+{
+  "pipeline": {
+    "processors": [
+      {
+        "pipeline": {
+          "name": "ms_ccy_weekly_details_pipeline"
+        }
+      }
+    ]
+  },
+  "docs": [
+    {
+      "_source": {
+        "source": "sina",
+        "volatility": 0,
+        "button": -999,
+        "lastClose": 7.1368,
+        "offer": 0,
+        "delFlg": 0,
+        "fluctuationValue": 0,
+        "amplitude": 0,
+        "top": 7.1368,
+        "ccy": "usdcny",
+        "bid": 0,
+        "fresh": 0,
+        "fluctuation": 0,
+        "thisOpen": 7.1368,
+        "timeRange": "20200525_20200525"
+      }
+    }
+  ]
+}
+```
+Response: looks ok 
+```
+{
+  "docs" : [
+    {
+      "doc" : {
+        "_index" : "<ms_ccy_weekly_details_{2020w22||/w{yyyy'w'ww|Asia/Shanghai}}>",
+        "_type" : "_doc",
+        "_id" : "_id",
+        "_source" : {
+          "dataCreateTimestamp" : "2020-05-26 11:39:52",
+          "dataUpdateTimestamp" : "2020-05-26 11:39:52",
+          "source" : "sina",
+          "volatility" : 0,
+          "button" : -999,
+          "lastClose" : 7.1368,
+          "offer" : 0,
+          "delFlg" : 0,
+          "fluctuationValue" : 0,
+          "amplitude" : 0,
+          "top" : 7.1368,
+          "ccy" : "usdcny",
+          "bid" : 0,
+          "fresh" : 0,
+          "fluctuation" : 0,
+          "thisOpen" : 7.1368,
+          "timeRange" : "20200525_20200525"
+        },
+        "_ingest" : {
+          "timestamp" : "2020-05-26T03:39:52.126647Z"
+        }
+      }
+    }
+  ]
+}
+```
+
+4) the index template to ensure the auto indexing
+```
+POST _template/ms_ccy_weekly_details_template
+{
+    "order" : 0,
+    "index_patterns" : [
+      "ms_ccy_weekly_details*"
+    ],
+    "settings" : {
+      "index" : {
+        "default_pipeline" : "ms_ccy_weekly_details_pipeline",
+        "refresh_interval" : "30s"
+      }
+    },
+    "mappings" : { 
+.....
+     },
+    "aliases" : {
+      "ms_ccy_weekly_details_current_reader" : { }
+    }
+  }
+}
+```
+
+5) POST the test data into ES directly and check
+```
+POST ms_ccy_weekly_details/_doc
+{
+  "source": "sina",
+  "volatility": 0,
+  "button": -999,
+  "lastClose": 7.1368,
+  "offer": 0,
+  "delFlg": 0,
+  "fluctuationValue": 0,
+  "amplitude": 0,
+  "top": 7.1368,
+  "ccy": "usdcny",
+  "bid": 0,
+  "fresh": 0,
+  "fluctuation": 0,
+  "thisOpen": 7.1368,
+  "timeRange": "20200525_20200525"
+}
+```
+Response:  OOPS, the index name is wrong
+```
+{
+  "_index" : "ms_ccy_weekly_details_2019w01",
+  "_type" : "_doc",
+  "_id" : "mhITT3IBsi-Nnk2HDR2i",
+  "_version" : 1,
+  "result" : "created",
+  "_shards" : {
+    "total" : 2,
+    "successful" : 1,
+    "failed" : 0
+  },
+  "_seq_no" : 20,
+  "_primary_term" : 1
+}
+```
+
+6) check the data we just post, the data is correct but index is incorrect
+```
+GET ms_ccy_weekly_details_2019w01/_doc/mhITT3IBsi-Nnk2HDR2i
+{
+  "_index" : "ms_ccy_weekly_details_2019w01",
+  "_type" : "_doc",
+  "_id" : "mhITT3IBsi-Nnk2HDR2i",
+  "_version" : 1,
+  "_seq_no" : 20,
+  "_primary_term" : 1,
+  "found" : true,
+  "_source" : {
+    "dataCreateTimestamp" : "2020-05-26 11:42:28",
+    "dataUpdateTimestamp" : "2020-05-26 11:42:28",
+    "source" : "sina",
+    "volatility" : 0,
+    "button" : -999,
+    "lastClose" : 7.1368,
+    "offer" : 0,
+    "delFlg" : 0,
+    "fluctuationValue" : 0,
+    "amplitude" : 0,
+    "top" : 7.1368,
+    "ccy" : "usdcny",
+    "bid" : 0,
+    "fresh" : 0,
+    "fluctuation" : 0,
+    "thisOpen" : 7.1368,
+    "timeRange" : "20200525_20200525"
+  }
+}
+
+```
+
+ Add snapshot/restore support for data streams
+ It should be possible to use snapshot and restore features for data streams. After team discussion we came to the following solution for this:
+- Names for both data stream and indices will be passed in indices fields (as in other APIs)
+- When user requests to snapshot data stream we save data stream metadata and all backing indices
+- When user requests to snapshot backing index we only save that index and no data stream metadata is stored
+- When user requests to restore backing index we don’t restore data stream metadata at all, restored index will not be added to any data stream
+- When user requests to restore data stream we restore its metadata as well as all backing indices
+- Renaming should be supported, we rename data stream and all backing indices, conflicts with existing indices will fail as always
+- We will add API to added index to data stream to support restoring only some backing indices
+
+Relates to #53100 
+Pinging @elastic/es-core-features (:Core/Features/Indices APIs)
+
+ SQL: change error message for comparison against fields in filtering
+ Change the error message wording for comparisons against fields in
+filtering (`s/variables/fields`).
+
+Fixes #57005.
+ SQL: use of agg function in HAVING with no grouping emits wrong error message
+ A(n incorrect) query like `SELECT salary FROM employees HAVING salary `"Found 1 problem\nline 2:46: Cannot use WHERE filtering on aggregate function [count(1)], use HAVING instead"`.
+Pinging @elastic/es-ql (:Query Languages/SQL)
+
+ Fix key usage in SamlAuthenticatorTests
+ In #51089 where SamlAuthenticatorTests were refactored, we missed
+to update one test case which meant that a single key would be
+used both for signing and encryption in the same run. As explained
+in #51089, and due to FIPS 140 requirements, BouncyCastle FIPS
+provider will block RSA keys that have been used for signing from
+being used for encryption and vice versa
+
+This commit changes testNoAttributesReturnedWhenTheyCannotBeDecrypted
+to always use the specific keys we have added for encryption.
+Pinging @elastic/es-security (:Security/Security)
+
+ Replace direct usage of compileOnly configuration for resolution
+ Removes direct access to compileOnly which is deprecated for direct resolution
+ Fix Snapshot Javadoc Issues (#57083)
+ Fixing some incorrect JavaDoc and a typo.
+
+backport of #57083 
+Pinging @elastic/es-distributed (:Distributed/Snapshot/Restore)
+
+ Track PUT/PUT_BLOCK operations on AzureBlobStore.
+ Backport of #56936
+Pinging @elastic/es-distributed (:Distributed/Snapshot/Restore)
+
+ [7.x] Handle exceptions when building _cat/indices response
+ The root cause of this bug was an unhandled exception in the `onResponse` method for the `_cat/indices` endpoint that resulted in completion of neither the response nor failure methods of the REST handler. Adding a try-catch around the code in the `onResponse` method resolves this specific problem.
+
+Backport of https://github.com/elastic/elasticsearch/pull/56993
+
+Fixes https://github.com/elastic/elasticsearch/issues/57119
+
+
+Pinging @elastic/es-core-features (:Core/Features/CAT APIs)
+
+ MixedClusterClientYamlTestSuiteIT "Test cat indices with invalid health parameter" failing
+ **Build scan**:
+
+Build | 20200525054934-C910E98C
+Log | https://elasticsearch-ci.elastic.co/job/elastic+elasticsearch+master+multijob-unix-compatibility/os=fedora-29&&immutable/775/console
+
+Build Scans
+[7.7.1] https://gradle-enterprise.elastic.co/s/h5kjsvvdjosue
+[7.9.0] https://gradle-enterprise.elastic.co/s/cxgh45dkzkqjo
+[7.8.0] https://gradle-enterprise.elastic.co/s/bouk5updx6j26
+[7.7.1] https://gradle-enterprise.elastic.co/s/rb3kfwbsan37y
+[7.8.0] https://gradle-enterprise.elastic.co/s/7jw3by7bhpkei
+[7.9.0] https://gradle-enterprise.elastic.co/s/nbl55ifh324so
+https://gradle-enterprise.elastic.co/s/vbqd3m7kkghsq
+
+
+
+**Repro line**:
+
+```
+REPRODUCE WITH: ./gradlew ':qa:mixed-cluster:v7.9.0#mixedClusterTest' --tests "org.elasticsearch.backwards.MixedClusterClientYamlTestSuiteIT" \
+  -Dtests.method="test {p0=cat.indices/10_basic/Test cat indices with invalid health parameter}" \
+  -Dtests.seed=6207F8AE9DD97C04 \
+  -Dtests.security.manager=true \
+  -Dtests.locale=fr-BE \
+  -Dtests.timezone=Australia/Currie \
+  -Dcompiler.java=14 \
+  -Druntime.java=11
+
+REPRODUCE WITH: ./gradlew ':qa:mixed-cluster:v7.9.0#mixedClusterTest' --tests "org.elasticsearch.backwards.MixedClusterClientYamlTestSuiteIT" \
+  -Dtests.method="test {p0=cat.indices/10_basic/Test cat indices with invalid health parameter}" \
+  -Dtests.seed=6207F8AE9DD97C04 \
+  -Dtests.security.manager=true \
+  -Dtests.locale=fr-BE \
+  -Dtests.timezone=Australia/Currie \
+  -Dcompiler.java=14 \
+  -Druntime.java=11
+```
+
+**Reproduces locally?**:
+
+No
+
+**Applicable branches**:
+
+master
+
+**Failure history**:
+
+https://build-stats.elastic.co/app/kibana#/dashboard/02b9d310-9513-11e8-a9c0-db5f285c257f?_g=(refreshInterval:(pause:!f,value:10000),time:(from:now-14d%2Fd,mode:relative,to:now-0d%2Fd))&_a=(description:'',filters:!(),fullScreenMode:!f,options:(darkTheme:!f,hidePanelTitles:!f,useMargins:!t),panels:!((embeddableConfig:(vis:(legendOpen:!t)),gridData:(h:15,i:'1',w:48,x:0,y:0),id:d471ae10-9512-11e8-a9c0-db5f285c257f,panelIndex:'1',type:visualization,version:'6.3.1'),(embeddableConfig:(spy:!n,vis:(legendOpen:!f)),gridData:(h:13,i:'4',w:7,x:21,y:28),id:'38f6aff0-977c-11e8-a9c0-db5f285c257f',panelIndex:'4',type:visualization,version:'6.3.1'),(embeddableConfig:(vis:(colors:('process.status:FAILURE':%23890F02,'process.status:SUCCESS':%23629E51),legendOpen:!f)),gridData:(h:13,i:'6',w:24,x:0,y:15),id:'65d72d70-f1b7-11e8-ba96-eb5c43ee553c',panelIndex:'6',type:visualization,version:'6.3.2'),(embeddableConfig:(vis:(colors:(FAILURE:%23890F02,SUCCESS:%23508642,'process.status:FAILURE':%23890F02,'process.status:SUCCESS':%23629E51),legendOpen:!f)),gridData:(h:13,i:'7',w:21,x:0,y:28),id:'2373fab0-f27c-11e8-ba96-eb5c43ee553c',panelIndex:'7',type:visualization,version:'6.3.2'),(embeddableConfig:(),gridData:(h:13,i:'8',w:24,x:24,y:15),id:a9ae1c00-83e9-11ea-a0b8-098e8b2ee137,panelIndex:'8',type:visualization,version:'6.8.3'),(embeddableConfig:(),gridData:(h:22,i:'9',w:20,x:28,y:28),id:'966886c0-83ea-11ea-a0b8-098e8b2ee137',panelIndex:'9',type:visualization,version:'6.8.3'),(embeddableConfig:(),gridData:(h:50,i:'10',w:28,x:0,y:41),id:f64870f0-83ea-11ea-a0b8-098e8b2ee137,panelIndex:'10',type:search,version:'6.8.3')),query:(language:lucene,query:MixedClusterClientYamlTestSuiteIT),timeRestore:!t,title:'%5Bkbn%5D%20Failing%20Tests',viewMode:view)
+
+**Failure excerpt**:
+
+```
+09:15:43 org.elasticsearch.backwards.MixedClusterClientYamlTestSuiteIT > test {p0=cat.indices/10_basic/Test cat indices with invalid health parameter} FAILED
+09:15:43     java.lang.RuntimeException: Failure at [cat.indices/10_basic:288]: 60.000 milliseconds timeout on connection http-outgoing-28 [ACTIVE]
+09:15:43         at __randomizedtesting.SeedInfo.seed([6207F8AE9DD97C04:EA53C774332511FC]:0)
+09:15:43         at org.elasticsearch.test.rest.yaml.ESClientYamlSuiteTestCase.executeSection(ESClientYamlSuiteTestCase.java:407)
+09:15:43         at org.elasticsearch.test.rest.yaml.ESClientYamlSuiteTestCase.test(ESClientYamlSuiteTestCase.java:382)
+09:15:43         at jdk.internal.reflect.GeneratedMethodAccessor17.invoke(Unknown Source)
+09:15:43         at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+09:15:43         at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+09:15:43         at com.carrotsearch.randomizedtesting.RandomizedRunner.invoke(RandomizedRunner.java:1758)
+09:15:43         at com.carrotsearch.randomizedtesting.RandomizedRunner$8.evaluate(RandomizedRunner.java:946)
+09:15:43         at com.carrotsearch.randomizedtesting.RandomizedRunner$9.evaluate(RandomizedRunner.java:982)
+09:15:43         at com.carrotsearch.randomizedtesting.RandomizedRunner$10.evaluate(RandomizedRunner.java:996)
+09:15:43         at com.carrotsearch.randomizedtesting.rules.StatementAdapter.evaluate(StatementAdapter.java:36)
+09:15:43         at org.apache.lucene.util.TestRuleSetupTeardownChained$1.evaluate(TestRuleSetupTeardownChained.java:49)
+09:15:43         at org.apache.lucene.util.AbstractBeforeAfterRule$1.evaluate(AbstractBeforeAfterRule.java:45)
+09:15:43         at org.apache.lucene.util.TestRuleThreadAndTestName$1.evaluate(TestRuleThreadAndTestName.java:48)
+09:15:43         at org.apache.lucene.util.TestRuleIgnoreAfterMaxFailures$1.evaluate(TestRuleIgnoreAfterMaxFailures.java:64)
+09:15:43         at org.apache.lucene.util.TestRuleMarkFailure$1.evaluate(TestRuleMarkFailure.java:47)
+09:15:43         at com.carrotsearch.randomizedtesting.rules.StatementAdapter.evaluate(StatementAdapter.java:36)
+09:15:43         at com.carrotsearch.randomizedtesting.ThreadLeakControl$StatementRunner.run(ThreadLeakControl.java:375)
+09:15:43         at com.carrotsearch.randomizedtesting.ThreadLeakControl.forkTimeoutingTask(ThreadLeakControl.java:824)
+09:15:43         at com.carrotsearch.randomizedtesting.ThreadLeakControl$3.evaluate(ThreadLeakControl.java:475)
+09:15:43         at com.carrotsearch.randomizedtesting.RandomizedRunner.runSingleTest(RandomizedRunner.java:955)
+09:15:43         at com.carrotsearch.randomizedtesting.RandomizedRunner$5.evaluate(RandomizedRunner.java:840)
+09:15:43         at com.carrotsearch.randomizedtesting.RandomizedRunner$6.evaluate(RandomizedRunner.java:891)
+09:15:43         at com.carrotsearch.randomizedtesting.RandomizedRunner$7.evaluate(RandomizedRunner.java:902)
+09:15:43         at org.apache.lucene.util.AbstractBeforeAfterRule$1.evaluate(AbstractBeforeAfterRule.java:45)
+09:15:43         at com.carrotsearch.randomizedtesting.rules.StatementAdapter.evaluate(StatementAdapter.java:36)
+09:15:43         at org.apache.lucene.util.TestRuleStoreClassName$1.evaluate(TestRuleStoreClassName.java:41)
+09:15:43         at com.carrotsearch.randomizedtesting.rules.NoShadowingOrOverridesOnMethodsRule$1.evaluate(NoShadowingOrOverridesOnMethodsRule.java:40)
+09:15:43         at com.carrotsearch.randomizedtesting.rules.NoShadowingOrOverridesOnMethodsRule$1.evaluate(NoShadowingOrOverridesOnMethodsRule.java:40)
+09:15:43         at com.carrotsearch.randomizedtesting.rules.StatementAdapter.evaluate(StatementAdapter.java:36)
+09:15:43         at com.carrotsearch.randomizedtesting.rules.StatementAdapter.evaluate(StatementAdapter.java:36)
+09:15:43         at org.apache.lucene.util.TestRuleAssertionsRequired$1.evaluate(TestRuleAssertionsRequired.java:53)
+09:15:43         at org.apache.lucene.util.TestRuleMarkFailure$1.evaluate(TestRuleMarkFailure.java:47)
+09:15:43         at org.apache.lucene.util.TestRuleIgnoreAfterMaxFailures$1.evaluate(TestRuleIgnoreAfterMaxFailures.java:64)
+09:15:43         at org.apache.lucene.util.TestRuleIgnoreTestSuites$1.evaluate(TestRuleIgnoreTestSuites.java:54)
+09:15:43         at com.carrotsearch.randomizedtesting.rules.StatementAdapter.evaluate(StatementAdapter.java:36)
+09:15:43         at com.carrotsearch.randomizedtesting.ThreadLeakControl$StatementRunner.run(ThreadLeakControl.java:375)
+09:15:43         at com.carrotsearch.randomizedtesting.ThreadLeakControl.lambda$forkTimeoutingTask$0(ThreadLeakControl.java:831)
+09:15:43         at java.base/java.lang.Thread.run(Thread.java:834)
+09:15:43 
+09:15:43         Caused by:
+09:15:43         java.net.SocketTimeoutException: 60.000 milliseconds timeout on connection http-outgoing-28 [ACTIVE]
+09:15:43             at org.elasticsearch.client.RestClient.extractAndWrapCause(RestClient.java:818)
+09:15:43             at org.elasticsearch.client.RestClient.performRequest(RestClient.java:250)
+09:15:43             at org.elasticsearch.client.RestClient.performRequest(RestClient.java:237)
+09:15:43             at org.elasticsearch.test.rest.yaml.ClientYamlTestClient.callApi(ClientYamlTestClient.java:186)
+09:15:43             at org.elasticsearch.test.rest.yaml.ClientYamlTestExecutionContext.callApiInternal(ClientYamlTestExecutionContext.java:169)
+09:15:43             at org.elasticsearch.test.rest.yaml.ClientYamlTestExecutionContext.callApi(ClientYamlTestExecutionContext.java:101)
+09:15:43             at org.elasticsearch.test.rest.yaml.section.DoSection.execute(DoSection.java:280)
+09:15:43             at org.elasticsearch.test.rest.yaml.ESClientYamlSuiteTestCase.executeSection(ESClientYamlSuiteTestCase.java:398)
+09:15:43             ... 37 more
+09:15:43 
+09:15:43             Caused by:
+09:15:43             java.net.SocketTimeoutException: 60.000 milliseconds timeout on connection http-outgoing-28 [ACTIVE]
+09:15:43                 at org.apache.http.nio.protocol.HttpAsyncRequestExecutor.timeout(HttpAsyncRequestExecutor.java:387)
+09:15:43                 at org.apache.http.impl.nio.client.InternalIODispatch.onTimeout(InternalIODispatch.java:92)
+09:15:43                 at org.apache.http.impl.nio.client.InternalIODispatch.onTimeout(InternalIODispatch.java:39)
+09:15:43                 at org.apache.http.impl.nio.reactor.AbstractIODispatch.timeout(AbstractIODispatch.java:175)
+09:15:43                 at org.apache.http.impl.nio.reactor.BaseIOReactor.sessionTimedOut(BaseIOReactor.java:261)
+09:15:43                 at org.apache.http.impl.nio.reactor.AbstractIOReactor.timeoutCheck(AbstractIOReactor.java:502)
+09:15:43                 at org.apache.http.impl.nio.reactor.BaseIOReactor.validate(BaseIOReactor.java:211)
+09:15:43                 at org.apache.http.impl.nio.reactor.AbstractIOReactor.execute(AbstractIOReactor.java:280)
+09:15:43                 at org.apache.http.impl.nio.reactor.BaseIOReactor.execute(BaseIOReactor.java:104)
+09:15:43                 at org.apache.http.impl.nio.reactor.AbstractMultiworkerIOReactor$Worker.run(AbstractMultiworkerIOReactor.java:591)
+09:15:43                 ... 1 more
+```
+
+
+I believe this should be resolved by the backport here: https://github.com/elastic/elasticsearch/pull/57120
+
+ Honor IndicesOptions in HLRC putMapping request
+ Currently, the IndicesOptions set on a High Level rest client PutMappingRequest
+are not correctly converted to request parameters. This change adds the missing
+conversion and tests.
+
+Closes #57045
+ Fix Confusing Exception on Shard Snapshot Abort (#57116)
+ If a partial snapshot has some of its shards aborted because an index got deleted, this can lead to confusing `IllegalStateExceptions` when trying to increment the ref count of the already closed `Store`.
+Refactored this a little to throw the same exception for aborted shards no matter the timing of the store close and assert that the concurrent store close can in fact only happen when the shard snapshot has already been aborted.
+
+backport of #57116 
+Pinging @elastic/es-distributed (:Distributed/Snapshot/Restore)
+
+ Fix Confusing Exception on Shard Snapshot Abort
+ If a partial snapshot has some of its shards aborted because an index got deleted, this can lead to
+confusing `IllegalStateExceptions` when trying to increment the ref count of the already closed `Store`.
+Refactored this a little to throw the same exception for aborted shards no matter the timing of the store close and assert that the concurrent store close can in fact only happen when the shard snapshot has already been aborted.
+
+Pinging @elastic/es-distributed (:Distributed/Snapshot/Restore)
+
+Thanks Francisco!
+
+ GoogleCloudStorageRepositoryClientYamlTestSuiteIT failing
+ **Build scan**:
+
+[6.8.10] https://gradle-enterprise.elastic.co/s/4rvjvn5vxbs2c
+https://gradle-enterprise.elastic.co/s/bp66r3rbnidcm
+
+**Repro line**:
+
+```
+REPRODUCE WITH: ./gradlew ':plugins:repository-gcs:qa:google-cloud-storage:largeBlobIntegTestRunner' --tests "org.elasticsearch.repositories.gcs.GoogleCloudStorageRepositoryClientYamlTestSuiteIT.test {yaml=repository_gcs/10_repository/Snapshot/Restore with repository-gcs}" \
+  -Dtests.seed=E87E0CDC9EE08B9D \
+  -Dtests.security.manager=true \
+  -Dtests.locale=es-GT \
+  -Dtests.timezone=PRC \
+  -Dcompiler.java=14 \
+  -Druntime.java=8
+
+REPRODUCE WITH: ./gradlew ':plugins:repository-gcs:qa:google-cloud-storage:largeBlobIntegTestRunner' --tests "org.elasticsearch.repositories.gcs.GoogleCloudStorageRepositoryClientYamlTestSuiteIT.test {yaml=repository_gcs/10_repository/Snapshot/Restore with repository-gcs}" \
+  -Dtests.seed=E87E0CDC9EE08B9D \
+  -Dtests.security.manager=true \
+  -Dtests.locale=es-GT \
+  -Dtests.timezone=PRC \
+  -Dcompiler.java=14 \
+  -Druntime.java=8
+```
+
+**Reproduces locally?**:
+
+No
+
+**Applicable branches**:
+
+7.7
+
+**Failure history**:
+
+Not sure if this is the exact same failure, but there were occasional failures of `GoogleCloudStorageRepositoryClientYamlTestSuiteIT` for at least a few months.
+
+**Failure excerpt**:
+
+```
+11:18:51 org.elasticsearch.repositories.gcs.GoogleCloudStorageRepositoryClientYamlTestSuiteIT > test {yaml=repository_gcs/10_repository/Snapshot/Restore with repository-gcs} FAILED
+Pinging @elastic/es-distributed (:Distributed/Snapshot/Restore)
+
+This should be fixed by #57073 ... will backport the fix further to fix this
+
+ [7.8] Mute failing test (#57112)
+ Backports the following commits to 7.8:
+ - Mute failing test  (#57112)
+Pinging @elastic/ml-core (:ml)
+
+ [7.x] Mute failing test (#57112)
+ Backports the following commits to 7.x:
+ - Mute failing test  (#57112)
+Pinging @elastic/ml-core (:ml)
+
+ Mute failing test
+ Relates https://github.com/elastic/elasticsearch/issues/57102
+Pinging @elastic/ml-core (:ml)
+
+ SQL: update the JLine dependency to 3.14.1
+ Update the JLine dependency from 3.10.0 to 3.14.1.
+
+Fixes #57076.
+Pinging @elastic/es-ql (:Query Languages/SQL)
+
+ Release HTTP Request Body Earlier (#57094)
+ We don't need to hold on to the request body past the beginning of sending
+the response. There is no need to keep a reference to it until after the response
+has been sent fully and we can eagerly release it here.
+Note, this can be optimized further to release the contents even earlier but for now
+this is an easy increment to saving some memory on the IO pool.
+
+backport of #57094 
+Pinging @elastic/es-distributed (:Distributed/Network)
+
+ Flatten ReleaseableBytesReference Object Trees (#57092)
+ When slicing a releasable bytes reference we would create a new counter
+every time and pass the original reference chain to the new slice on every
+slice invocation. This would lead to extremely deep reference chains and
+needlessly uses a dedicated counter for every slice when all the slices
+eventually just refer to the same underlying bytes and `Releasable`.
+This commit tracks the ref count wrapper with its releasable in a separate
+object that can be passed around on every slicing, making the slices' tree
+as flat as the original releasable bytes reference.
+
+Also, we were needlessly creating a redundant releasable bytes reference from
+a releasable bytes-stream-output that we never actually used for releasing (all code
+that uses it just releases the stream itself instead).
+
+backport of #57092 
+Pinging @elastic/es-distributed (:Distributed/Network)
+
+ [7.7] Refactor SamlAuthenticatorTests  (#51089)
+ Backports the following commits to 7.7:
+ - Refactor SamlAuthenticatorTests  (#51089)
+ [7.8] Refactor SamlAuthenticatorTests  (#51089)
+ Backports the following commits to 7.8:
+ - Refactor SamlAuthenticatorTests  (#51089)
+ How to filter nested object in Elasticsearch 7.5?
+ I have a mapping:
+```
+{
+  "ntol-2020-05" : {
+    "mappings" : {
+      {
+        "properties": {
+          "_createdAt": {
+            "type": "date"
+          },
+          "_logType": {
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "type": "keyword",
+                "ignore_above": 256
+              }
+            }
+          },
+          "device": {
+            "properties": {
+              ...
+            }
+          },
+          "resp": {
+            "type": "nested",
+            "properties": {
+              "data": {
+                "type": "nested",
+                "properties": {
+                  ...
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+I filter with three condition:
+ - "_logType" is "crawler".
+ - "_createdAt" on "2020-05-23".
+ - Size of "resp" = 0.
+
+I am trying to filter with query:
+```
+GET ntol-2020-*/_search
+    {
+      "query": {
+        "bool": {
+          "must": [
+            {
+              "term": {
+                "_logType": {
+                  "value": "crawler"
+                }
+              }
+            },
+            {
+              "range": {
+                "_createdAt": {
+                  "gte": "2020-05-23",
+                  "lte": "2020-05-23",
+                  "time_zone": "+07:00"
+                }
+              }
+            },
+            {
+              "nested": {
+                "path": "resp",
+                "query": {
+                  "script": {
+                    "script": {
+                      "source": "doc['resp'].size() > 0"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "from": 0,
+      "size": 10
+    }
+```
+It return error: 
+```
+{
+  "type": "script_exception",
+  "reason": "runtime error",
+  "script_stack": [
+    "org.elasticsearch.search.lookup.LeafDocLookup.get(LeafDocLookup.java:94)",
+    "org.elasticsearch.search.lookup.LeafDocLookup.get(LeafDocLookup.java:41)",
+    "doc['resp'].size() > 0",
+    "    ^---- HERE"
+  ],
+  "script": "doc['resp'].size() > 0",
+  "lang": "painless",
+  "caused_by": {
+    "type": "illegal_argument_exception",
+    "reason": "No field found for [resp] in mapping with types []"
+  }
+}
+```
+If I use script "doc.containsKey('resp') && doc['resp'].size() > 0" then It will return hits length = 0.
+Help me. Thanks!
+Hi @tanobi92! Your question is better suited to the support forums over at https://discuss.elastic.co. We prefer to use Github issues only for bug reports and feature requests, and we think it's more likely this is a question than a bug report. I'm closing this as an issue here, but encourage you to ask this question in the forum instead. Many thanks.
+

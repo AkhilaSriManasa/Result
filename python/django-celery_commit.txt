@@ -1,0 +1,120 @@
+﻿ Change DatabaseScheduler.max_interval to match Celery's default Scheduler behaviour (#591)
+ Adding Tidelift marketing text (#587)
+
+@auvipy as requested, here is the README marketing text
+ Fixed #585: 'NoneType' object is not iterable. (#586)
+
+You can see diff information.
+<--
+
+diff --git a/djcelery/management/commands/celery.py b/djcelery/management/commands/celery.py
+index 0ee878d..82cf303 100644
+--- a/djcelery/management/commands/celery.py
++++ b/djcelery/management/commands/celery.py
+@@ -13,7 +13,7 @@ class Command(CeleryCommand):
+     help = 'celery commands, see celery help'
+     options = (
+         tuple(CeleryCommand.options) +
+-        tuple(base.get_options()) +
++        tuple(base.get_options() or ()) +
+         tuple(getattr(base, 'preload_options', ()))
+     )
+
+-->
+ Fix typo in docs (#583)
+ issue #579. @@tx_isolation is deprecated since MYSQL 5.7.20, add mysq… (#581)
+
+* issue #579. @@tx_isolation is deprecated since MYSQL 5.7.20, add mysql version check
+
+* issue #579. @@tx_isolation is deprecated since MYSQL 5.7.20, add mysql version check & add decoding for python3
+ Merge pull request #580 from Sergei-Rudenkov/issue-579
+
+issue #579. @@tx_isolation is deprecated since MYSQL 5.7.20
+ issue #579. @@tx_isolation is deprecated since MYSQL 5.7.20
+ dropped EOL python3 versions (#577)
+ Foolproof prevention via strict tuples. Fix #573 (#576)
+ Update readme (#571)
+ README fixes (#570)
+
+* README fix
+
+* Update django celery image
+ Fix bug when run command `celery` (#569)
+
+* fix bug when run command `celery`
+
+* refactor get preload_options from base
+
+* fix failed by flask8
+
+* fix tests
+
+* remove redundant
+
+* fix typo
+ update needs of sponsor
+ updated versions for release 3.3.0
+ Update celery.py (#561)
+
+* Update celery.py
+
+fix TypeError: can only concatenate tuple (not "NoneType") to tuple #560
+
+* Update celery.py
+
+fix fix CeleryCommand has no attribute preload_options
+
+* Update setup.py
+
+update package name
+
+* Update setup.py
+
+fix package name mistake
+ Improve translation notes in the FAQ. (#565)
+
+Update FAQ to demonstrate `translation.override` instead of `translation.activate` for switching language inside a task. The override function is safer and simpler.
+ Add tox to test requirements file (#555)
+ drop python 3.3
+ Add natural key support to the PeriodicTask models. Needed for dumpdata/loaddata to work properly. (#552)
+
+Signed-off-by: Roberto Rosario <roberto.rosario.gonzalez@gmail.com>
+ Made it compatible > 1.9 (#557)
+
+* Made it compatible > 1.9
+
+See https://docs.djangoproject.com/en/1.9/releases/1.8/#deprecated-features-1-8
+
+* Update admin.py
+
+forgot imports
+ version in readme has not been updated (#554)
+ Mark safe for admin form's html content (#542)
+ Bump version.
+@thedrow what changed in v3.2.2 version? 
+
+See https://github.com/celery/django-celery/compare/v3.2.1...master
+I'll update the changelog later.
+
+ Importing DictAttribute for celery 4 (#536)
+ fixes test so that it passes on CentOS 7.x with celery v3.1.24 (#512)
+ Improves periodic tasks admin, tasks are better clickable. (#526)
+ update timeutils usage (#524)
+ Fix next id call in test_from_entry (#528)
+
+* Fix next id call in test_from_entry
+
+* Fix PEP8
+ fixes rst 'unkown target' error (#522)
+
+$ rst2html.py --version; rst2html.py README.rst > /dev/null
+....rst2html.py (Docutils 0.12 [release], Python 3.4.3, on linux)
+....README.rst:73: (ERROR/3) Unknown target name: "django-celery documentation".
+
+Based on my experience, this should also fix the formatting issue on the
+pypi.python.org site
+ Fix DatabaseScheduler behavior when schedule is changed from interval to crontab (#351)
+
+* add regression test for ModelEntry.from_entry
+
+* fix ModelEntry.from_entry and ModelEntry.__repr__ behavior

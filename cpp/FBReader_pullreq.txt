@@ -1,0 +1,152 @@
+﻿ nits for compatibility with Ubuntu Focal Fossa
+ I wanted to compile FBReader using a laptop with recent Ubuntu Focal Fossa. I found a new nits have to be fixed to compile FBReader from master:
+- in recent curllib
+./x86_64-linux-gnu/curl/curl.h:630:#define CURLE_SSL_CACERT CURLE_PEER_FAILED_VERIFICATION
+- gcc is a little bit more pedantic
+ Fix icon name
+ Often GTK icons packs will have a scalable (SVG) version of the icon installed in `/usr/share/icons/hicolor/scalable/apps/FBReader.svg` for example.
+
+See here: https://wiki.archlinux.org/index.php/Desktop_entries
+ Fix return type
+ GCC won't let you return a bool when the return type is `shared_ptr<Book>`. Closest we can get to an error condition is NULL.
+ Fix Curl constant
+ The compiler was throwing an error because these constants have the same
+value, and represent a duplicate case value.
+
+Seen when compiling against curl 7.68. using GCC 9.2.0 on Linux.
+ fix compatibility with curl-7.62
+ https://github.com/curl/curl/commit/3f3b26d6fe
+
+Fixes #310.
+ BooksDB.cpp:148:10: error: could not convert ‘false’ from ‘bool’ to ‘…
+ …shared_ptr<Book>’
+
+```
+Compiling BooksDB.o ...BooksDB.cpp: In member function ‘shared_ptr<Book> BooksDB::loadBook(const string&)’:
+BooksDB.cpp:148:10: error: could not convert ‘false’ from ‘bool’ to ‘shared_ptr<Book>’
+   return false;
+          ^~~~~
+```
+
+```
+$ gcc --version
+gcc (GCC) 6.3.0
+Copyright (C) 2016 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+```
+ Allow empty user in authentication dialog
+ 
+ sort linker input files
+ when building packages (e.g. for openSUSE Linux)
+(random) filesystem order of input files
+influences ordering of functions in the output,
+thus without the patch, builds (in disposable VMs) would usually differ.
+
+See https://reproducible-builds.org/ for why this matters.
+
+Setting LC_ALL is needed because locales influence how sorting happens.
+ Handle null values
+ Avoid segfaults on badly detected files.
+
+Currently inputstream returns null on directories, and probably in unreadable
+files.
+
+This small change skips those.
+
+ Don't allow setting invalid or unknown language
+ Let's see if this project is still alive.
+
+ Added key shortcuts to Desktop build for quit and forceQuit commands
+ I'm a bit puzzled as to why FBReader would not include default keyboard shortcuts for closing the program on GNU/Linux systems (among others). The ones I added are those most commonly found in modern applications (such as other document readers like Evince or web browsers) and apparently already available in the Mac OS build.
+
+ Make possible to go backward to the first TOC section
+ This commit removes code duplication, allows to go backwards in any case except if the new TOC section will be positioned after the current one (which means the navigation becomes circular). Didn't find the project tests to run.
+
+ Issue #264 / Remap left/right arrows to alt-arrow & use old keys for PgUp/PgDn
+ See issue #264
+
+ Issue #168 / Map Space key to pageForward action
+ Pull request for the issue #168 
+
+ API improvements
+ This changes are needed for upcoming SailfishOS support.
+
+ Bugfixing
+ Really, virtual destructors are good way to avoid memory leaks :)
+
+ API improvements
+ This changes are needed for upcoming SailfishOS support.
+
+ Fixed several errors provided by gcc warnings
+ Really, virtual destructors are good way to avoid memory leaks :)
+
+ use references for a possible performance gain
+ 
+ Fix for desktop file (Linux improvements)
+ This enhance the .desktop file to improve support in Linux. In particular, this should fix issue 183 (desktop entry could declare handled mime types).
+
+ Bulgarian hyphenation patterns
+ Converted to the FBReader format from the existing OpenOffice.org package. Details available in the comment of the bg.pattern file.
+
+ Various QA fixes
+ Hi,
+
+Included a whole bunch of QA and build fixes from downstream.
+
+Best regards,
+Michael
+
+ fix installations of icons on fbreader for desktops
+ When resolution is set, the following code(in fbreader/Makefile) is executed:
+  VARIANT = $(TARGET_ARCH)
+  ifneq "$(RESOLUTION)" ""
+    VARIANT = $(TARGET_ARCH)_$(RESOLUTION)
+  endif
+
+This fix is based on a patch from the openembedded project,
+  which can be found here:
+    http://cgit.openembedded.org/openembedded/tree/recipes/fbreader/fbreader-0.12.1/Makefile.patch
+
+Signed-off-by: Denis 'GNUtoo' Carikli GNUtoo@no-log.org
+
+ Improvements for Harmattan version
+ I have made a few changes to make FBReader work a bit better is Harmattan 1.2 MeeGo.
+
+I added an orientation lock and a button to toggle orientation between Portrait and Landscape. I believe this is useful, especially since I read in bed so locking orientation makes it easier to read lying down.
+
+I also made a couple of changes to make it look more native, with a Harmattan style icon and using single-instance to make it so only one application window can run (I think this is a requirement of Ovi store).
+
+Hopefully these changes are useful.
+
+ Meego 1.2 Harmattan (Maemo 6) support
+ Added two more dialgos at QML. Added needed for build debian packages with static libfribidi.
+
+ Added modular support of archives
+ Support of archives now modularized (zlibrary/core/src/filesystem/plugins/),
+and files like SomeBook.tar.bz2.gz.bz2 can be handled with ease.
+
+More important, we can now add support for new archives format. .7z, .rar, maybe .ha, or you have another suggestion?
+
+ Meego 1.2 Harmattan (Maemo 6) support
+ Hi again!
+I've fixed various issues connected with dialogs and added support for volume buttons.
+Also, as I know, to publish application at OVI store you need to present single package, so I've changed rules to merge zlibrary package into fbreader for Meego.
+
+P.S. I had no success to connect with you through Jabber (GTalk). Can you write me to JID euroelessar@qutim.org? (It's not an e-mail address)
+P.P.S. What do you think about using QNetworkAccessManager instead of curl? It's asynchronous one and so on.
+P.P.P.S. Is it safe to run ZLRunnable in separate thread? I have no ability to show nice wating widget otherwise, because I have to do all painting operations at main gui thread. The problem is that Meego's native waiting widget is animated.
+
+ Meego 1.2 Harmattan (Maemo 6) support
+ Hello!
+I've done initial port of FBReader to this nice platform, so it's usable now. There are only some parts of gui not implemented yet like specific widgets at toolbar (like text fields) and some of settings fields (Boolean3, Key, Order), but I've faced with some issues, which I don't know how to implement.
+
+ updated Polish translation
+ 
+ Polish hyphenation patterns
+ added 
+pl.pattern
+
+updated
+LICENSES
+

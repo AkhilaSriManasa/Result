@@ -1,0 +1,59 @@
+﻿ Merge pull request #46 from nsaphra/master
+
+Issue #45 (added missing submodule to setup).
+ Switched to find_packages
+ Issue #45 (added missing submodule to setup).
+ Merge pull request #41 from maciejkula/update_changelog
+
+Update changelog for 0.1.0 release.
+ Update changelog for 0.1.0 release.
+ Merge pull request #40 from maciejkula/pypi
+
+Update readme, add setup.cfg.
+ Update readme, add setup.cfg.
+ Merge pull request #39 from maciejkula/corpus_refactor
+
+Refactor co-occurrence matrix construction
+ Refactor corpus construction.
+
+Uses a different sparse matrix structure to improve speed and remove
+C++11 dependency. Some other changes to make the package pypi-ready.
+ Merge pull request #38 from maciejkula/fix_cythonize_bug
+
+Switch extensions for cythonize.
+ Switch extensions for cythonize.
+ Merge pull request #37 from maciejkula/fix_cythonize_bug
+
+Make sure c and cpp files are produced.
+ Make sure c and cpp files are produced.
+ Merge pull request #36 from maciejkula/fix_cythonize_bug
+
+Fix cythonize bug.
+ Fix cythonize bug.
+ Merge pull request #35 from maciejkula/additional_glove_tests
+
+Add tests for square error reproduction in the model fitting stage.
+ Add tests for square error reproduction in the model fitting stage.
+ Merge pull request #34 from maciejkula/additional_corpus_tests
+
+Add an additional corpus construction test.
+ Add an additional corpus construction test.
+ Merge pull request #33 from maciejkula/setup_reorg
+
+Remove dep on Cython. Use pytest.
+ Remove dep on Cython. Use pytest.
+ Merge pull request #32 from joshloyal/josh/set_random_state
+
+added a random state to glove class
+ added numbers import
+ added a random state to glove
+ Merge pull request #26 from maciejkula/clip_loss
+
+Clip loss at maximum value
+ Reduce default value of max_loss, update docstrings.
+ Add max_loss argument.
+ Add configurable loss clipping.
+ Merge pull request #24 from maciejkula/read_pretrained
+
+Read pre-trained word vectors
+ Add the test file.

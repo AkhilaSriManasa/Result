@@ -1,0 +1,68 @@
+﻿NUMTopics = 2
+(0, '0.129*"readmemd" + 0.129*"update" + 0.129*"none" + 0.045*"license" + 0.044*"replace" + 0.044*"txt" + 0.044*"header" + 0.044*"show" + 0.044*"wwwapacheorg" + 0.044*"bar"')
+(1, '0.176*"license" + 0.059*"auto" + 0.059*"take" + 0.059*"full" + 0.059*"text" + 0.059*"detect" + 0.059*"https" + 0.059*"help" + 0.059*"bar" + 0.059*"wwwapacheorg"')
+
+------------------------
+NUMTopics = 3
+(0, '0.153*"readmemd" + 0.153*"none" + 0.153*"update" + 0.040*"license" + 0.039*"replace" + 0.039*"txt" + 0.039*"header" + 0.039*"show" + 0.039*"wwwapacheorg" + 0.039*"bar"')
+(1, '0.191*"license" + 0.059*"auto" + 0.059*"take" + 0.059*"full" + 0.059*"text" + 0.059*"detect" + 0.059*"https" + 0.059*"help" + 0.059*"bar" + 0.059*"wwwapacheorg"')
+(2, '0.059*"update" + 0.059*"none" + 0.059*"readmemd" + 0.059*"license" + 0.059*"https" + 0.059*"replace" + 0.059*"text" + 0.059*"help" + 0.059*"bar" + 0.059*"txt"')
+
+------------------------
+NUMTopics = 4
+(0, '0.059*"readmemd" + 0.059*"none" + 0.059*"update" + 0.059*"license" + 0.059*"replace" + 0.059*"txt" + 0.059*"show" + 0.059*"header" + 0.059*"wwwapacheorg" + 0.059*"bar"')
+(1, '0.200*"license" + 0.059*"take" + 0.059*"full" + 0.059*"auto" + 0.059*"detect" + 0.059*"help" + 0.059*"header" + 0.059*"text" + 0.059*"bar" + 0.059*"wwwapacheorg"')
+(2, '0.059*"readmemd" + 0.059*"update" + 0.059*"none" + 0.059*"license" + 0.059*"https" + 0.059*"replace" + 0.059*"text" + 0.059*"txt" + 0.059*"help" + 0.059*"bar"')
+(3, '0.172*"update" + 0.172*"none" + 0.172*"readmemd" + 0.034*"license" + 0.034*"show" + 0.034*"replace" + 0.034*"wwwapacheorg" + 0.034*"bar" + 0.034*"header" + 0.034*"text"')
+
+------------------------
+NUMTopics = 5
+(0, '0.062*"license" + 0.059*"replace" + 0.059*"txt" + 0.059*"header" + 0.059*"show" + 0.059*"wwwapacheorg" + 0.059*"bar" + 0.059*"help" + 0.059*"https" + 0.059*"detect"')
+(1, '0.206*"license" + 0.059*"auto" + 0.059*"take" + 0.059*"full" + 0.059*"text" + 0.059*"detect" + 0.059*"https" + 0.059*"help" + 0.059*"bar" + 0.059*"wwwapacheorg"')
+(2, '0.059*"none" + 0.059*"update" + 0.059*"readmemd" + 0.059*"license" + 0.059*"https" + 0.059*"text" + 0.059*"replace" + 0.059*"auto" + 0.059*"help" + 0.059*"bar"')
+(3, '0.059*"none" + 0.059*"update" + 0.059*"readmemd" + 0.059*"license" + 0.059*"show" + 0.059*"replace" + 0.059*"wwwapacheorg" + 0.059*"text" + 0.059*"bar" + 0.059*"https"')
+(4, '0.187*"update" + 0.187*"readmemd" + 0.187*"none" + 0.031*"license" + 0.031*"header" + 0.031*"text" + 0.031*"show" + 0.031*"help" + 0.031*"txt" + 0.031*"auto"')
+
+------------------------
+NUMTopics = 6
+(0, '0.210*"license" + 0.059*"replace" + 0.059*"txt" + 0.059*"header" + 0.059*"show" + 0.059*"wwwapacheorg" + 0.059*"bar" + 0.059*"help" + 0.059*"https" + 0.059*"detect"')
+(1, '0.062*"license" + 0.059*"auto" + 0.059*"take" + 0.059*"full" + 0.059*"text" + 0.059*"detect" + 0.059*"https" + 0.059*"help" + 0.059*"bar" + 0.059*"wwwapacheorg"')
+(2, '0.059*"update" + 0.059*"readmemd" + 0.059*"none" + 0.059*"license" + 0.059*"https" + 0.059*"text" + 0.059*"auto" + 0.059*"replace" + 0.059*"help" + 0.059*"full"')
+(3, '0.059*"update" + 0.059*"none" + 0.059*"readmemd" + 0.059*"license" + 0.059*"auto" + 0.059*"show" + 0.059*"text" + 0.059*"wwwapacheorg" + 0.059*"https" + 0.059*"replace"')
+(4, '0.059*"update" + 0.059*"readmemd" + 0.059*"none" + 0.059*"license" + 0.059*"header" + 0.059*"text" + 0.059*"auto" + 0.059*"help" + 0.059*"take" + 0.059*"show"')
+(5, '0.200*"none" + 0.200*"readmemd" + 0.200*"update" + 0.029*"license" + 0.029*"text" + 0.029*"auto" + 0.029*"take" + 0.029*"show" + 0.029*"full" + 0.029*"header"')
+
+------------------------
+NUMTopics = 7
+(0, '0.059*"none" + 0.059*"readmemd" + 0.059*"update" + 0.059*"license" + 0.059*"wwwapacheorg" + 0.059*"txt" + 0.059*"replace" + 0.059*"full" + 0.059*"detect" + 0.059*"help"')
+(1, '0.059*"none" + 0.059*"readmemd" + 0.059*"update" + 0.059*"license" + 0.059*"full" + 0.059*"take" + 0.059*"detect" + 0.059*"wwwapacheorg" + 0.059*"auto" + 0.059*"help"')
+(2, '0.059*"none" + 0.059*"update" + 0.059*"readmemd" + 0.059*"license" + 0.059*"replace" + 0.059*"full" + 0.059*"help" + 0.059*"https" + 0.059*"detect" + 0.059*"auto"')
+(3, '0.059*"none" + 0.059*"update" + 0.059*"readmemd" + 0.059*"license" + 0.059*"wwwapacheorg" + 0.059*"replace" + 0.059*"bar" + 0.059*"help" + 0.059*"auto" + 0.059*"detect"')
+(4, '0.211*"update" + 0.211*"readmemd" + 0.211*"none" + 0.026*"license" + 0.026*"header" + 0.026*"help" + 0.026*"full" + 0.026*"take" + 0.026*"detect" + 0.026*"txt"')
+(5, '0.062*"license" + 0.059*"full" + 0.059*"take" + 0.059*"help" + 0.059*"header" + 0.059*"auto" + 0.059*"wwwapacheorg" + 0.059*"bar" + 0.059*"show" + 0.059*"text"')
+(6, '0.213*"license" + 0.059*"txt" + 0.059*"https" + 0.059*"detect" + 0.059*"replace" + 0.059*"text" + 0.059*"show" + 0.059*"bar" + 0.059*"wwwapacheorg" + 0.059*"auto"')
+
+------------------------
+NUMTopics = 8
+(0, '0.059*"none" + 0.059*"readmemd" + 0.059*"update" + 0.059*"license" + 0.059*"replace" + 0.059*"wwwapacheorg" + 0.059*"txt" + 0.059*"help" + 0.059*"show" + 0.059*"header"')
+(1, '0.216*"license" + 0.059*"full" + 0.059*"take" + 0.059*"auto" + 0.059*"wwwapacheorg" + 0.059*"detect" + 0.059*"help" + 0.059*"bar" + 0.059*"header" + 0.059*"replace"')
+(2, '0.059*"none" + 0.059*"update" + 0.059*"readmemd" + 0.059*"license" + 0.059*"replace" + 0.059*"https" + 0.059*"bar" + 0.059*"text" + 0.059*"help" + 0.059*"detect"')
+(3, '0.059*"none" + 0.059*"update" + 0.059*"readmemd" + 0.059*"license" + 0.059*"wwwapacheorg" + 0.059*"show" + 0.059*"replace" + 0.059*"bar" + 0.059*"header" + 0.059*"auto"')
+(4, '0.220*"update" + 0.220*"readmemd" + 0.220*"none" + 0.024*"license" + 0.024*"header" + 0.024*"help" + 0.024*"show" + 0.024*"txt" + 0.024*"detect" + 0.024*"full"')
+(5, '0.059*"none" + 0.059*"readmemd" + 0.059*"update" + 0.059*"license" + 0.059*"header" + 0.059*"full" + 0.059*"help" + 0.059*"show" + 0.059*"text" + 0.059*"wwwapacheorg"')
+(6, '0.063*"license" + 0.059*"text" + 0.059*"show" + 0.059*"https" + 0.059*"txt" + 0.059*"replace" + 0.059*"header" + 0.059*"bar" + 0.059*"help" + 0.059*"detect"')
+(7, '0.059*"none" + 0.059*"update" + 0.059*"readmemd" + 0.059*"license" + 0.059*"https" + 0.059*"show" + 0.059*"header" + 0.059*"bar" + 0.059*"wwwapacheorg" + 0.059*"auto"')
+
+------------------------
+NUMTopics = 9
+(0, '0.227*"readmemd" + 0.227*"none" + 0.227*"update" + 0.023*"license" + 0.023*"full" + 0.023*"wwwapacheorg" + 0.023*"txt" + 0.023*"replace" + 0.023*"bar" + 0.023*"header"')
+(1, '0.059*"none" + 0.059*"update" + 0.059*"readmemd" + 0.059*"license" + 0.059*"full" + 0.059*"take" + 0.059*"wwwapacheorg" + 0.059*"auto" + 0.059*"detect" + 0.059*"bar"')
+(2, '0.059*"update" + 0.059*"none" + 0.059*"readmemd" + 0.059*"license" + 0.059*"full" + 0.059*"auto" + 0.059*"replace" + 0.059*"help" + 0.059*"detect" + 0.059*"wwwapacheorg"')
+(3, '0.059*"update" + 0.059*"none" + 0.059*"readmemd" + 0.059*"license" + 0.059*"wwwapacheorg" + 0.059*"replace" + 0.059*"help" + 0.059*"take" + 0.059*"header" + 0.059*"detect"')
+(4, '0.059*"update" + 0.059*"readmemd" + 0.059*"none" + 0.059*"license" + 0.059*"full" + 0.059*"header" + 0.059*"help" + 0.059*"take" + 0.059*"wwwapacheorg" + 0.059*"txt"')
+(5, '0.059*"none" + 0.059*"update" + 0.059*"readmemd" + 0.059*"license" + 0.059*"full" + 0.059*"take" + 0.059*"header" + 0.059*"help" + 0.059*"wwwapacheorg" + 0.059*"auto"')
+(6, '0.218*"license" + 0.059*"text" + 0.059*"replace" + 0.059*"txt" + 0.059*"show" + 0.059*"bar" + 0.059*"auto" + 0.059*"https" + 0.059*"detect" + 0.059*"header"')
+(7, '0.059*"update" + 0.059*"none" + 0.059*"readmemd" + 0.059*"license" + 0.059*"full" + 0.059*"https" + 0.059*"wwwapacheorg" + 0.059*"header" + 0.059*"bar" + 0.059*"auto"')
+(8, '0.059*"update" + 0.059*"none" + 0.059*"readmemd" + 0.059*"license" + 0.059*"replace" + 0.059*"full" + 0.059*"header" + 0.059*"take" + 0.059*"detect" + 0.059*"txt"')
+
+------------------------

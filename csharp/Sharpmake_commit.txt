@@ -1,0 +1,57 @@
+﻿ Merge branch 'hotfix-0.13.3'
+ Fix win64 support for old vs versions.
+ Bump version to 0.13.3
+ Merge branch 'release-0.13.2'
+ Bump version number to 0.13.2
+ Revert "Fix conditional on the version, again..."
+
+This reverts commit 148d714101e82dea04156af2213f84af76224977.
+ Fix conditional on the version, again...
+ Fix versions marked as non-official when they shouldn't.
+ Fix versions marked as non-official when they shouldn't.
+ [Util] Added file copy readonly policy
+
+Users now have some control over the readonly state of the destination
+file when doing a file copy via `Util.ForceCopy`. Options are:
+  - Preserve (default)
+  - SetReadOnly
+  - UnsetReadOnly
+ Formatting
+ Changes the behavior of DependencySetting.OnlyBuildOrder to add the target as a vcxproj project reference, or a prebuild dependency in FastBuild.
+ - Fix hardcoded .dll extension, since it depends on the platform, we query it
+- Fix target depends path
+ Prevent writing empty sections in win64 vcxproj when toolchains are not overriden
+ [Vcxproj|Linux] Fix LocalRemoteCopySources tag, should write true/false instead of Yes/No
+ Create a base class for Apple platforms, and add iOS
+ Fix generation of vs2019 when additionalVCTargetsPath is null
+ Add a conf option to allow the generator to output full paths instead of relative paths.
+
+For now only used by the csproj generator, for output and int paths.
+ Adds support for whole archive in Linux.
+
+* Adds support for --whole-archive and --no-whole-archive.
+ Replace hard coded "REMOVE_LINE_TAG" by the FileGeneratorUtility one
+ Add new utility extension method `GetVisualStudioVCRedistVersion`
+ Add support for Windows SDK 10.0.19041.0
+ Fixed discrepancy in how Sharpmake determines which projects to build between single and multithreaded modes (#76)
+
+This led to cases where certain necessary projects were not being generated in multithreaded mode, leading to build failures
+
+_buildScheduledType now acts as an accumulator of all project types to be generated, the contents of which is then added to Arguments.TypesToGenerate at the end of BuildProjectAndSolution
+
+Co-authored-by: Colin Brady <colin.brady@ubisoft.com>
+ Add Compile Sharpmake script for MacOS
+- adapt Bootstrapper by calling CompileSharpmake script
+- make Compile script as executable
+- adapt CI with new script for MacOS
+ Suppress Pause in scripts for both Platforms (risky for CI)
+ Make sure JSON float serialization is culture invariant
+ - Add a HasPrecomp method in IPlatformVcxproj, since not all platforms need to have a PrecompSource to activate pch
+- Implement it on android so it doesn't check PrecompSource
+ [Android] Change default Stl lib to libc++_shared
+
+https://developer.android.com/ndk/guides/standalone_toolchain#c_stl_support
+ [Android] Add "Latest" to the AndroidAPILevel option, that will allow sharpmake to auto-detect and set the latest api level found
+
+Note that the SDK and/or NDK path must have been set for it to work. If none is found, it will reset to default.
+ [Android] Change the way we do the override of MSBuild files with vs2017, in some cases the files from the local VS install were still used

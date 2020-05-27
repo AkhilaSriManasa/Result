@@ -1,0 +1,30 @@
+﻿ Android textview copy paste added
+ Update README.md
+ Added MaterialComponents - Text Fields
+ Added MaterialComponents - MaterialBDialogs
+ Added MaterialComponents - MaterialButtonToggleGroup
+ Added Extended FAB tutorial
+ Android ARCore distance from camera added
+ Android CameraX OpenCV
+ Java SPI Examples, ServiceLoader Example
+ TinyLog Logging Framework Example
+ Android Motion Layout
+ Google Maps styling code updated
+ Google Maps styling code
+ CameraX added
+ Android JNI tutorial code
+ Android Wear OS Tutorial
+ Android Gesture Detector
+ Java 12 String Functions
+ Login With PHP MySQL latest code added
+ Login With PHP MySQL removed
+ Merge branch 'master' of github.com:journaldev/journaldev
+ Login With PHP MySQL Added
+ added comments on url.
+ Login With PHP MySQL Added
+ Removed login with php mysql since latest non-zipped folder would be added.
+ Android N Shortcuts
+ Android Q Bubbles
+ AndroidPNotifications updated AndroidX
+ AndroidPNotifications updated AndroidX
+ AndroidPNotifications

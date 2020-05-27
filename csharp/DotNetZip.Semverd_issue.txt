@@ -1,0 +1,651 @@
+﻿ Release 1.13.8 to nuget
+ 
+ Issue #201 AES decryption crc-check 16kB block boundary bug
+ Fix for bug #201 and test to confirm.
+Thx for PR
+
+ WinZipAES decryption error calculating CRC check
+ _Issue_
+
+- The files contained in the following WinZipAES encrypted zip-files cannot be extracted using DotNetZip: [DNZArchive.zip](https://github.com/haf/DotNetZip.Semverd/files/4508701/DNZArchive.zip) [SevZipArchive.zip](https://github.com/haf/DotNetZip.Semverd/files/4508702/SevZipArchive.zip). 
+  - These are files of pseudo-random binary characters compressed with DotNetZip and 7Zip respectively, 
+  - Both of these archives are encrypted with the password "a"
+  -  Zip.Extract throws BadStateException("The final hash has not been computed")
+- The behaviour depends on the file contained in the archive - if you extract the file (using a tool other than DotNetZip - e.g. 7Zip) and then recompress using the same tool as it was originally created with (again using Deflate+WinZipAES), you will create a new zip file that DotNetZip cannot extract from.
+- I have encountered several files which do this, but the set of such files is different when encrypting/compressing using 7zip rather than DotNetZip. 
+
+_What's Causes this?_
+
+- ZlibBaseStream extracts data from a WinZipAesCipherStream in 16kB blocks and inflates it to create the output stream. 
+- The final byte extracted from the WinZipAesCipherStream is sometimes (maybe always) redundant - i.e. the full inflated output stream is generated before the inflate algorithm has processed the final byte that came from WinZipAesCipherStream. 
+- If the final byte lies in its own block of 16kB (i.e. the WinZipAesCipherStream length is n*16384+1 bytes long for some positive integer n), then ZlibBaseStream will never read the final byte from WinZipAesCipherStream, because it terminates when it has the correct number of bytes in the inflated stream. 
+- However, the getter for the property WinZipAesCipherStream.FinalAuthentication (which is used to check the CRC after extraction) requires that the WinZipAesCipherStream has been fully read, and will throw the observed exception if it has not.
+- Note that the data in the WinZipAesCipherStream which must have length n*16384+1 for the bug to occur is the deflated data - the length of which depends on the contents of the file and the deflation algorithm - this is why the bug occurs for different files depending on the tool used to create the zip file.
+
+
+Hi, any idea when this will be available in nuget? or can I pull this version down.  We are seeing this in a few zip files.
+
+Hi, I've merged the changes and released a new version, you should be able to pick it from nuget now.
+
+Many thanks for prompt response and nuget build!! 
+Regards
+Grant
+
+ DeflateManager.SetDictionary() contains a suspicious check
+     DeflateManager.SetDictionary()
+
+https://github.com/haf/DotNetZip.Semverd/blob/f7e1c3547540bf43bc6819dac489e6b107b1c07a/src/Zlib.Shared/Deflate.cs#L1668
+
+starts like this:
+
+     int length = dictionary.Length;
+     int index = 0;
+
+     if (dictionary == null || status != INIT_STATE)
+           throw new ZlibException("Stream error.");
+
+when `dictionary==null` it would yield a `NullReferenceException` when accessing `dictionary.Length`. So the check is useless when placed like this. Perhaps it should be moved closer to the start of the function.
+
+This was found with static analysis.
+ Extraction can fail with 'wrong password' error if the file is modified after calculating the CRC for the 'encryption header'
+ This only applies to scenarios where a password is set (using default zip 'encryption') AND the file being compressed changes (for example, has additional content written to it) after the CRC is calculated for inclusion in the encryption header (via the FigureCrc32() method) and before the file content CRC is calculated.
+
+In this scenario, the file is compressed and encrypted just fine into the archive, but upon trying to extract it, the 'wrong password' error is thrown because the CRC does not match.  (This doesn't match because it's comparing the final content CRC to the CRC that was calculated from the content at the time that the encryption header was calculated.)
+
+I propose either:
+A.) opening the file stream in FigureCrc32 using FileShare permissions to prevent additional writes and keeping the file open until we've completed both passes of the file.
+or
+B.) Added a parameter flag to indicate to use the file timestamp in the encrypted CRC when creating the archive.
+ Invalid File or Directory attributes value. (Parameter 'Attributes')
+ When I use DotNetZip to extract a zip file with ***.csv** files，it threw "System.ArgumentException" . This issue is only happened in linux and macOS,in windows it worked
+ Exception extracting from ZipEntry
+         private static MemoryStream GetClientFile(string file)
+        {
+            MemoryStream ms = new MemoryStream();
+            using (ZipInputStream zip = new ZipInputStream(file))
+            {
+                ZipEntry ze = zip.GetNextEntry();
+                while (!(ze is null))
+                {
+                    if (ze.FileName.EndsWith("tag to locate entry"))
+                    {
+                        ze.ExtractWithPassword(ms, "password");
+                        return ms;
+                    }
+
+                    ze = zip.GetNextEntry();
+                }
+            }
+            return ms;
+        }
+
+When I run this I get:
+
+System.InvalidOperationException: Use Extract() only with ZipFile.
+
+I get no intellisense errors, and per the docs, I *think* I should be able to do this.
+Hi, have you tried using ZipFile.Read(file) instead of ZipInputStream?
+Here's an example: https://github.com/haf/DotNetZip.Semverd/blob/f7e1c3547540bf43bc6819dac489e6b107b1c07a/src/Help/Code%20Examples/Csharp.htm#L279
+
+ Not support Chinese file name in zip file
+ the Chinese file name display '????' in zip file
+I create zip file with specific encoding code:
+
+  using (ZipFile zip = new ZipFile(Encoding.GetEncoding("GB2312")))
+                        {
+                            zip.Save(zipPath);
+                        }
+
+update add file into zip file:
+
+using (ZipFile zip = ZipFile.Read(zipPath))
+                                        {                                            
+                                            zip.AddEntry(Path.Combine(directory, item.Title), s);
+                                            zip.Save();
+                                        }
+
+but, it doesn't working.
+Found AlternateEncoding Property to fix.
+
+but it's werid have to set before addAddEntry every time. 
+
+ Added parsing of Disk Start Number from Zip64 header if available
+ This PR fixes an issue reported in #194 - this was happening a the result of 2 problems:
+
+1. My recent PR #184 with a 'proper' (7-zip and WinZip friendly) way of writing Zip64 header, which have set Disk Start Number in Local & Central entry headers to 0xFFFF and populated the proper value to Zip64, have introduced an incompatibility of DotNetZip-generated zips with DotNetZip itself. 😄
+I've also tested the change with WinZip-created zip spanning files using Zip64 (4.5GB span zip and several huge files so that they are split between those .zXX files).
+
+This is more of a hotfix and generally a minor change, so I'm going to merge this now.
+
+@haf FYI, but please let me know if you have any comments or a better solution in mind.
+
+ Error with 1.13.6.0 Version - Decompression- C#
+ I create a zip File using "UseZip64WhenSaving" option as true. Once I try to extract it with "ExtractAll" method, an exception is thrown saying that the file **"nameOfMyFile.z65536" does not exist**. It does not happen with files created as normal zip (not zip64). 
+Downgrading **DotNetZip version from 1.13.6.0 to 1.13.5.0** does not generate the error, so it seems to be a bug introduced with latest version. 
+
+The code creating the file:
+
+```
+using (ZipFile zCompressor = new ZipFile(strNameOftheZipFile))
+ {
+     zCompressor.UseZip64WhenSaving = Zip64Option.Always;
+    FileInfo[] fiArrayFiles = dInfoBCP.GetFiles("*.bcp", SearchOption.TopDirectoryOnly);
+    foreach (FileInfo fileTemp in fiArrayFiles)
+    {
+        zCompressor.AddFile(fileTemp.FullName);
+    }
+     zCompressor.MaxOutputSegmentSize = (700 * 984540);
+     zCompressor.Save();
+ }
+```
+
+The code to extract (that generates the error):
+
+```
+ZipFile zip = ZipFile.Read(FullNameOfmyZipFile);
+zip.ExtractAll(strPathDest, ExtractExistingFileAction.OverwriteSilently);
+```
+Thank you for reporting this issue, let me take a look.
+
+@GBoAm could you please try with 1.13.7?
+
+ Repair leap year bugs in unit test
+ On `2020-02-29`, the `DateTime` constructor creating the `threeYearsAgo` variable will attempt to create `2017-02-29`, which doesn't exist since 2017 was not a leap year.  The result is an `ArgumentOutOfRangeException`.
+
+I also fixed a similar occurrence of this pattern in the `twentyYearsAgo` variable construction, though it won't throw since 2000 was indeed a leap year.
+
+See also https://aka.ms/leapday2020blog
+Thanks 👍 
+
+ bumped version to 1.13.6
+ 
+ Bump nokogiri from 1.10.5 to 1.10.8
+ Bumps [nokogiri](https://github.com/sparklemotion/nokogiri) from 1.10.5 to 1.10.8.
+<details>
+<summary>Release notes</summary>
+
+*Sourced from [nokogiri's releases](https://github.com/sparklemotion/nokogiri/releases).*
+
+> ## 1.10.8 / 2020-02-10
+> 
+> ### Security
+> 
+> [MRI] Pulled in upstream patch from libxml that addresses CVE-2020-7595. Full details are available in [#1992](https://github-redirect.dependabot.com/sparklemotion/nokogiri/issues/1992). Note that this patch is not yet (as of 2020-02-10) in an upstream release of libxml.
+> 
+> 
+> 
+> ## 1.10.7 / 2019-12-03
+> 
+> ### Bug
+> 
+> * [MRI] Ensure the patch applied in v1.10.6 works with GNU `patch`. [#1954](https://github-redirect.dependabot.com/sparklemotion/nokogiri/issues/1954)
+> 
+> 
+> 
+> ## 1.10.6 / 2019-12-03
+> 
+> ### Bug
+> 
+> * [MRI] Fix FreeBSD installation of vendored libxml2. [#1941, [#1953](https://github-redirect.dependabot.com/sparklemotion/nokogiri/issues/1953)] (Thanks, [@&#8203;nurse](https://github.com/nurse)!)
+> 
+> 
+</details>
+<details>
+<summary>Changelog</summary>
+
+*Sourced from [nokogiri's changelog](https://github.com/sparklemotion/nokogiri/blob/master/CHANGELOG.md).*
+
+> ## 1.10.8 / 2020-02-10
+> 
+> ### Security
+> 
+> [MRI] Pulled in upstream patch from libxml that addresses CVE-2020-7595. Full details are available in [#1992](https://github-redirect.dependabot.com/sparklemotion/nokogiri/issues/1992). Note that this patch is not yet (as of 2020-02-10) in an upstream release of libxml.
+> 
+> 
+> ## 1.10.7 / 2019-12-03
+> 
+> ### Fixed
+> 
+> * [MRI] Ensure the patch applied in v1.10.6 works with GNU `patch`. [[#1954](https://github-redirect.dependabot.com/sparklemotion/nokogiri/issues/1954)]
+> 
+> 
+> ## 1.10.6 / 2019-12-03
+> 
+> ### Fixed
+> 
+> * [MRI] Fix FreeBSD installation of vendored libxml2. [[#1941](https://github-redirect.dependabot.com/sparklemotion/nokogiri/issues/1941), [#1953](https://github-redirect.dependabot.com/sparklemotion/nokogiri/issues/1953)] (Thanks, [@&#8203;nurse](https://github.com/nurse)!)
+</details>
+<details>
+<summary>Commits</summary>
+
+- [`6ce10d1`](https://github.com/sparklemotion/nokogiri/commit/6ce10d15d7af6ad65813a495eaf168f73eba211c) version bump to v1.10.8
+- [`2320f5b`](https://github.com/sparklemotion/nokogiri/commit/2320f5bd6319dca9c68d85bbf41629bbf8052a49) update CHANGELOG for v1.10.8
+- [`4a77fdb`](https://github.com/sparklemotion/nokogiri/commit/4a77fdb789aefed7ca65c7c7f57ad4dca0d3b209) remove patches from the hoe Manifest
+- [`570b6cb`](https://github.com/sparklemotion/nokogiri/commit/570b6cbc5fbc5ee7ef969332c587b951ae35bcd0) update to use rake-compiler ~1.1.0
+- [`2cdb68e`](https://github.com/sparklemotion/nokogiri/commit/2cdb68e95aa075ac36a08d4d82d9b410a950a051) backport libxml2 patch for CVE-2020-7595
+- [`e6b3229`](https://github.com/sparklemotion/nokogiri/commit/e6b3229ec53ddf70f1d198bba0d3fc13fde842a8) version bump to v1.10.7
+- [`4f9d443`](https://github.com/sparklemotion/nokogiri/commit/4f9d443c2fddc40eefec3366000861433aff6179) update CHANGELOG
+- [`80e67ef`](https://github.com/sparklemotion/nokogiri/commit/80e67ef636ce0ddd55a4a7578d7bbdb186002560) Fix the patch from [#1953](https://github-redirect.dependabot.com/sparklemotion/nokogiri/issues/1953) to work with both `git` and `patch`
+- [`7cf1b85`](https://github.com/sparklemotion/nokogiri/commit/7cf1b85a5f8033252e55844ab2765e8f612d4d89) Fix typo in generated metadata
+- [`d76180d`](https://github.com/sparklemotion/nokogiri/commit/d76180d0d26a7afb76d84e0de2550ac3bb6abb15) add gem metadata
+- Additional commits viewable in [compare view](https://github.com/sparklemotion/nokogiri/compare/v1.10.5...v1.10.8)
+</details>
+<br />
+
+[![Dependabot compatibility score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=nokogiri&package-manager=bundler&previous-version=1.10.5&new-version=1.10.8)](https://help.github.com/articles/configuring-automated-security-fixes)
+
+Dependabot will resolve any conflicts with this PR as long as you don't alter it yourself. You can also trigger a rebase manually by commenting `@dependabot rebase`.
+
+[//]: # (dependabot-automerge-start)
+[//]: # (dependabot-automerge-end)
+
+---
+
+<details>
+<summary>Dependabot commands and options</summary>
+<br />
+
+You can trigger Dependabot actions by commenting on this PR:
+- `@dependabot rebase` will rebase this PR
+- `@dependabot recreate` will recreate this PR, overwriting any edits that have been made to it
+- `@dependabot merge` will merge this PR after your CI passes on it
+- `@dependabot squash and merge` will squash and merge this PR after your CI passes on it
+- `@dependabot cancel merge` will cancel a previously requested merge and block automerging
+- `@dependabot reopen` will reopen this PR if it is closed
+- `@dependabot close` will close this PR and stop Dependabot recreating it. You can achieve the same result by closing it manually
+- `@dependabot ignore this major version` will close this PR and stop Dependabot creating any more for this major version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this minor version` will close this PR and stop Dependabot creating any more for this minor version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this dependency` will close this PR and stop Dependabot creating any more for this dependency (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot use these labels` will set the current labels as the default for future PRs for this repo and language
+- `@dependabot use these reviewers` will set the current reviewers as the default for future PRs for this repo and language
+- `@dependabot use these assignees` will set the current assignees as the default for future PRs for this repo and language
+- `@dependabot use this milestone` will set the current milestone as the default for future PRs for this repo and language
+
+You can disable automated security fix PRs for this repo from the [Security Alerts page](https://github.com/haf/DotNetZip.Semverd/network/alerts).
+
+</details>
+Good bot!
+
+ ZipEntry.IsDirectory problem on some directories
+ Hi, 
+
+Got problem with this property on some directories, don't know exactly why. Zip files concerned can be extracted successfully with explorer, Winrar, 7Zip and Winzip, so they're not corrupted.
+
+For people who got problem, you could write that extension method as fix :
+
+public static bool IsDirectory(this ZipEntry zipEntry) =>zipEntry.IsDirectory || zipEntry.FileName.EndsWith("\\\\");
+
+ Bad state (invalid stored block lengths) 58 85 header
+ can somebody help me with uncompressing of this block?
+
+https://drive.google.com/file/d/1ElX5ZQH39-uTNhDrW-uL584FoJZSu28-
+
+I tried:
+
+```
+byte[] g = File.ReadAllBytes(path);
+Ionic.Zlib.ZlibStream.UncompressBuffer(g);
+```
+ 
+```
+using (MemoryStream ms = new MemoryStream())
+                {
+                    using (var str = new Ionic.Zlib.ZlibStream(ms, Ionic.Zlib.CompressionMode.Decompress, Ionic.Zlib.CompressionLevel.Level2))
+                    {
+                        str.Write(g, 0, g.Length);
+                      var  outData = ms.ToArray();
+                    }
+                }
+```
+ Error Handler for extracting (question/feature request)
+ When I try to extract a zip file it just throws exception instead of firing any event. Why isn't there a event like ZipError (which fires during Save()) for ExtractAll()? Or is there any other work around to look for failed extraction?
+ Bump version
+ 
+ fixed O(N²) Performance Bug 
+ Dictionary Lookup is faster: O(1)
+This Bug makes Operations really slow when the Number of Files exceeds 25000. 
+
+Hi, I changed the Indenting with Spaces and committed in my Fork. Can you pick up this Change or do I have to do something else?
+
+
+All good now, thanks
+
+ Bump nokogiri from 1.8.5 to 1.10.5
+ Bumps [nokogiri](https://github.com/sparklemotion/nokogiri) from 1.8.5 to 1.10.5.
+<details>
+<summary>Release notes</summary>
+
+*Sourced from [nokogiri's releases](https://github.com/sparklemotion/nokogiri/releases).*
+
+> ## 1.10.5 / 2019-10-31
+> 
+> ### Dependencies
+> 
+> * [MRI] vendored libxml2 is updated from 2.9.9 to 2.9.10
+> * [MRI] vendored libxslt is updated from 1.1.33 to 1.1.34
+> 
+> 
+> 
+> ## 1.10.4 / 2019-08-11
+> 
+> ### Security
+> 
+> #### Address CVE-2019-5477 ([#1915](https://github-redirect.dependabot.com/sparklemotion/nokogiri/issues/1915))
+> 
+> A command injection vulnerability in Nokogiri v1.10.3 and earlier allows commands to be executed in a subprocess by Ruby's `Kernel.open` method. Processes are vulnerable only if the undocumented method `Nokogiri::CSS::Tokenizer#load_file` is being passed untrusted user input.
+> 
+> This vulnerability appears in code generated by the Rexical gem versions v1.0.6 and earlier. Rexical is used by Nokogiri to generate lexical scanner code for parsing CSS queries. The underlying vulnerability was addressed in Rexical v1.0.7 and Nokogiri upgraded to this version of Rexical in Nokogiri v1.10.4.
+> 
+> This CVE's public notice is [sparklemotion/nokogiri#1915](https://github-redirect.dependabot.com/sparklemotion/nokogiri/issues/1915)
+> 
+> 
+> ## 1.10.3 / 2019-04-22
+> 
+> ### Security Notes
+> 
+> [MRI] Pulled in upstream patch from libxslt that addresses CVE-2019-11068. Full details are available in [#1892](https://github-redirect.dependabot.com/sparklemotion/nokogiri/issues/1892). Note that this patch is not yet (as of 2019-04-22) in an upstream release of libxslt.
+> 
+> ## 1.10.2 / 2019-03-24
+> 
+> ### Security
+> 
+> * [MRI] Remove support from vendored libxml2 for future script macros. [#1871](https://github-redirect.dependabot.com/sparklemotion/nokogiri/issues/1871)
+> * [MRI] Remove support from vendored libxml2 for server-side includes within attributes. [#1877](https://github-redirect.dependabot.com/sparklemotion/nokogiri/issues/1877)
+> 
+> 
+> ### Bug fixes
+> 
+> * [JRuby] Fix node ownership in duplicated documents. [#1060](https://github-redirect.dependabot.com/sparklemotion/nokogiri/issues/1060)
+> * [JRuby] Rethrow exceptions caught by Java SAX handler. [#1847, [#1872](https://github-redirect.dependabot.com/sparklemotion/nokogiri/issues/1872)] (Thanks, [@&#8203;adjam](https://github.com/adjam)!)
+> 
+> 
+> 
+> ## 1.10.1 / 2019-01-13
+> 
+> ### Features
+> 
+> * [MRI] During installation, handle Xcode 10's new library pathOS. [#1801, [#1851](https://github-redirect.dependabot.com/sparklemotion/nokogiri/issues/1851)] (Thanks, [@&#8203;mlj](https://github.com/mlj) and [@&#8203;deepj](https://github.com/deepj)!)
+> * Avoid unnecessary creation of `Proc`s in many methods. [#1776](https://github-redirect.dependabot.com/sparklemotion/nokogiri/issues/1776) (Thanks, [@&#8203;chopraanmol1](https://github.com/chopraanmol1)!)
+> 
+></tr></table> ... (truncated)
+</details>
+<details>
+<summary>Changelog</summary>
+
+*Sourced from [nokogiri's changelog](https://github.com/sparklemotion/nokogiri/blob/master/CHANGELOG.md).*
+
+> ## 1.10.5 / 2019-10-31
+> 
+> ### Dependencies
+> 
+> * [MRI] vendored libxml2 is updated from 2.9.9 to 2.9.10
+> * [MRI] vendored libxslt is updated from 1.1.33 to 1.1.34
+> 
+> 
+> ## 1.10.4 / 2019-08-11
+> 
+> ### Security
+> 
+> #### Address CVE-2019-5477 ([#1915](https://github-redirect.dependabot.com/sparklemotion/nokogiri/issues/1915))
+> 
+> A command injection vulnerability in Nokogiri v1.10.3 and earlier allows commands to be executed in a subprocess by Ruby's `Kernel.open` method. Processes are vulnerable only if the undocumented method `Nokogiri::CSS::Tokenizer#load_file` is being passed untrusted user input.
+> 
+> This vulnerability appears in code generated by the Rexical gem versions v1.0.6 and earlier. Rexical is used by Nokogiri to generate lexical scanner code for parsing CSS queries. The underlying vulnerability was addressed in Rexical v1.0.7 and Nokogiri upgraded to this version of Rexical in Nokogiri v1.10.4.
+> 
+> This CVE's public notice is [sparklemotion/nokogiri#1915](https://github-redirect.dependabot.com/sparklemotion/nokogiri/issues/1915)
+> 
+> 
+> ## 1.10.3 / 2019-04-22
+> 
+> ### Security Notes
+> 
+> [MRI] Pulled in upstream patch from libxslt that addresses CVE-2019-11068. Full details are available in [#1892](https://github-redirect.dependabot.com/sparklemotion/nokogiri/issues/1892). Note that this patch is not yet (as of 2019-04-22) in an upstream release of libxslt.
+> 
+> 
+> ## 1.10.2 / 2019-03-24
+> 
+> ### Security
+> 
+> * [MRI] Remove support from vendored libxml2 for future script macros. [#1871](https://github-redirect.dependabot.com/sparklemotion/nokogiri/issues/1871)
+> * [MRI] Remove support from vendored libxml2 for server-side includes within attributes. [#1877](https://github-redirect.dependabot.com/sparklemotion/nokogiri/issues/1877)
+> 
+> 
+> ### Bug fixes
+> 
+> * [JRuby] Fix node ownership in duplicated documents. [#1060](https://github-redirect.dependabot.com/sparklemotion/nokogiri/issues/1060)
+> * [JRuby] Rethrow exceptions caught by Java SAX handler. [#1847, [#1872](https://github-redirect.dependabot.com/sparklemotion/nokogiri/issues/1872)] (Thanks, [@&#8203;adjam](https://github.com/adjam)!)
+> 
+> 
+> ## 1.10.1 / 2019-01-13
+> 
+> ### Features
+> 
+> * [MRI] During installation, handle Xcode 10's new library path. [#1801, [#1851](https://github-redirect.dependabot.com/sparklemotion/nokogiri/issues/1851)] (Thanks, [@&#8203;mlj](https://github.com/mlj) and [@&#8203;deepj](https://github.com/deepj)!)
+> * Avoid unnecessary creation of `Proc`s in many methods. [#1776](https://github-redirect.dependabot.com/sparklemotion/nokogiri/issues/1776) (Thanks, [@&#8203;chopraanmol1](https://github.com/chopraanmol1)!)
+> 
+> 
+></tr></table> ... (truncated)
+</details>
+<details>
+<summary>Commits</summary>
+
+- [`1bc2ff9`](https://github.com/sparklemotion/nokogiri/commit/1bc2ff9f6218e1f814b18040e5bbb49b7b7bf60b) version bump to v1.10.5
+- [`383c1f8`](https://github.com/sparklemotion/nokogiri/commit/383c1f8ee833cb63ca93fe3ecfe8d93755a993b6) update CHANGELOG
+- [`43a1753`](https://github.com/sparklemotion/nokogiri/commit/43a175339b47b8c604508813fc75b83f13cd173e) dependency: update libxslt to 1.1.34 final
+- [`99d8a6b`](https://github.com/sparklemotion/nokogiri/commit/99d8a6b6ec83077652a06a333571e4705120f022) dependency: update libxml to 2.9.10 final
+- [`2a86496`](https://github.com/sparklemotion/nokogiri/commit/2a86496ca565aa283c4fd9cd247d21c6026d7b61) add suppressions for ruby 2.7
+- [`dca794a`](https://github.com/sparklemotion/nokogiri/commit/dca794a716fb285e2b19f8e028e61e4e3613ed14) update CHANGELOG with correct release date for v1.10.4
+- [`077e010`](https://github.com/sparklemotion/nokogiri/commit/077e010613cfb41f8cc03383c3e3b901a3985a49) update rake-compiler commands to install bundler
+- [`beb832e`](https://github.com/sparklemotion/nokogiri/commit/beb832e3a67ba9aef1b4e83640bc8fd08fbc6da5) version bump to v1.10.4
+- [`5d30128`](https://github.com/sparklemotion/nokogiri/commit/5d30128343573a9428c86efc758ba2c66e9f12dc) Merge branch '1915-css-tokenizer-load-file-vulnerability_v1.10.x' into v1.10.x
+- [`c86b5fc`](https://github.com/sparklemotion/nokogiri/commit/c86b5fc02e5b50308d8de08b9a194aa71b701081) update CHANGELOG
+- Additional commits viewable in [compare view](https://github.com/sparklemotion/nokogiri/compare/v1.8.5...v1.10.5)
+</details>
+<br />
+
+[![Dependabot compatibility score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=nokogiri&package-manager=bundler&previous-version=1.8.5&new-version=1.10.5)](https://help.github.com/articles/configuring-automated-security-fixes)
+
+Dependabot will resolve any conflicts with this PR as long as you don't alter it yourself. You can also trigger a rebase manually by commenting `@dependabot rebase`.
+
+[//]: # (dependabot-automerge-start)
+[//]: # (dependabot-automerge-end)
+
+---
+
+<details>
+<summary>Dependabot commands and options</summary>
+<br />
+
+You can trigger Dependabot actions by commenting on this PR:
+- `@dependabot rebase` will rebase this PR
+- `@dependabot recreate` will recreate this PR, overwriting any edits that have been made to it
+- `@dependabot merge` will merge this PR after your CI passes on it
+- `@dependabot squash and merge` will squash and merge this PR after your CI passes on it
+- `@dependabot cancel merge` will cancel a previously requested merge and block automerging
+- `@dependabot reopen` will reopen this PR if it is closed
+- `@dependabot ignore this [patch|minor|major] version` will close this PR and stop Dependabot creating any more for this minor/major version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this dependency` will close this PR and stop Dependabot creating any more for this dependency (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot use these labels` will set the current labels as the default for future PRs for this repo and language
+- `@dependabot use these reviewers` will set the current reviewers as the default for future PRs for this repo and language
+- `@dependabot use these assignees` will set the current assignees as the default for future PRs for this repo and language
+- `@dependabot use this milestone` will set the current milestone as the default for future PRs for this repo and language
+
+You can disable automated security fix PRs for this repo from the [Security Alerts page](https://github.com/haf/DotNetZip.Semverd/network/alerts).
+
+</details>
+ Fix central directory headers when Zip64 extension is applied
+ Hi all.
+
+I've recently encountered a problem related to how DotNetZip generates central directory records when Zip64 and spanning mode are used. This has happened when I extended the span size above 4GB (which seems to have triggered 'AsNecessary' to go into 'Zip64' mode):
+- WinZip was struggling to extract such spanning zips without errors after extracting a few files
+- 7-Zip was able to extract all files, but it has produced a warning message 'Headers Error' in process
+
+After inspecting the produced zips with HEX editor I found the following problems:
+1. 'starting disk number' in Zip64 extra field was hardcoded (accidentally I guess) to 0 - once I fixed it WinZip started working correctly, but 7-Zip still displayed its warning
+2. PKWare Zip spec (https://pkware.cachefly.net/webdocs/casestudies/APPNOTE.TXT) has a note in '4.5.3 -Zip64 Extended Information Extra Field (0x0001)':
+> the fields MUST only appear if the corresponding Local or Central directory record field is set to 0xFFFF or 0xFFFFFFFF.
+
+I've made a change to how we generate central directory entries so that when Zip64 is used, then 'Relative Header' and 'Disk Start' fields are set to 0xFFFFFFFF and 0xFFFF, same logic that we already have for Compressed & Uncompressed fields - this has fixed warning in 7-Zip and didn't produce any issues with WinZip
+I've included several new tests to the PR to verify compatibility of different Zip64 modes with 7-Zip & WinZip tools, here are a few results.
+Note: I don't have a paid license for WinZip, so I've used trial, which had forced me to verify some things manually.
+
+Before the change:
+![image](https://user-images.githubusercontent.com/5042377/67410407-432fcc80-f5e6-11e9-9c50-6bfc61c73750.png)
+7z error:
+![image](https://user-images.githubusercontent.com/5042377/67410456-55aa0600-f5e6-11e9-8f88-e4c0b7ccfd7c.png)
+also another screenshot from 7z UI (notice the errors in the Characteristics):
+![image](https://user-images.githubusercontent.com/5042377/67411516-f816b900-f5e7-11e9-8caf-42e042b4f986.png)
+WinZip error:
+![image](https://user-images.githubusercontent.com/5042377/67410481-5e9ad780-f5e6-11e9-98e1-3372673b2a73.png)
+
+After the change:
+![image](https://user-images.githubusercontent.com/5042377/67410517-6bb7c680-f5e6-11e9-9129-cf386d66c33f.png)
+(WinZip tests are also green after manual validation)
+7z has no errors now:
+![image](https://user-images.githubusercontent.com/5042377/67410794-d5d06b80-f5e6-11e9-9cf9-440918950a9d.png)
+and correctly locates both Local & Central Directory header records for each file:
+![image](https://user-images.githubusercontent.com/5042377/67410893-f7315780-f5e6-11e9-9eb2-cf6fc0763cde.png)
+WinZip is also fine:
+![image](https://user-images.githubusercontent.com/5042377/67410945-0ca68180-f5e7-11e9-95b2-9218b3e6f025.png)
+
+@haf could you please take a look at this PR when you have time?
+
+Alright, I'm going to take some risk here and merge my own changes, since it's really been a while. So far I'm using this in production for several months and it works perfectly, but if I accidentally break anything I'll do my best to resolve it.
+
+ Unable to create encrypted zip in FIPS mode enabled environment
+ I checked the source code and I found that for creating an encrypted ZIP file "RijndaelManaged" class is used. which is not FIPS supported algorithm.
+
+Could you please change it to "AesCryptoServiceProvider"?
+Which version of the source?
+I think it was changed from RijndaelManaged to AesManaged last year, and then I changed it to use Aes.Create() in https://github.com/haf/DotNetZip.Semverd/commit/131917f8b9e6838984ac6c5e82128da5641dc101 , one of the reasons for which was to work with the FIPS options enabled.
+
+Thank you for your reply.
+
+I was using 1.9.1.8 version. 
+Let me check using latest version.
+
+
+FIPS support is added in latest version
+
+ Extract zip file using Deflate64 compression
+ For resolve issue #136 
+
+It's only allow uncompress zip file with entry using deflate64.
+
+This pull request contains modified code from the .NET Core Libraries (CoreFX) [(System.IO.Compression/DeflateManaged)](https://github.com/dotnet/corefx/blob/master/src/System.IO.Compression/src/System/IO/Compression/DeflateManaged/DeflateManagedStream.cs) where deflate64 decompression is implemented.
+This code is under MIT licence.
+
+LGTM.
+@haf, this PR contains some code copied from corefx and seems to have a different distribution license than what was used in this repo previously, could you please take a look?
+
+ SFX: Enable CompilerVersion to be specified in SelfExtractorSaveOptions
+ We want to be able to create self-extracting archives on systems where .NET 2.0 is not installed. After this change we can specify what version of the csc.exe compiler will be used instead of the hardcoded v2.0. If not specified, the system default one will be used.
+Any comments / suggestions guys? We need something in place to modify the v2.0 compiler setting.
+
+Could you please merge this PR? We'd like to push this fix out quite soon.
+
+ Ignore duplicates 2
+ Fixes another case where duplicated files in externally-created zips could cause an exception on read.
+ Calling ZipFile.Save(Stream) twice throws ObjectDisposedException
+ To reproduce:
+
+```csharp
+using (var zipFile = new ZipFile())
+{
+	zipFile.AddEntry("entry1.txt", (name, stream) => {
+		var sw = new StreamWriter(stream);
+		sw.Write("some text");
+		sw.Close();
+	});
+	using (var ms1 = new MemoryStream())
+	{
+		zipFile.Save(ms1);
+		ms1.Position = 0;
+	}
+	using (var ms2 = new MemoryStream())
+	{
+		zipFile.Save(ms2);  // ObjectDisposedException
+		ms2.Position = 0;
+	}
+}
+```
+
+Stack trace:
+```txt
+at Ionic.Zip.ZipFile.ReadIntoInstance(ZipFile zf) in C:\projects\dotnetzip-semverd\src\Zip.Shared\ZipFile.Read.cs:line 660   at Ionic.Zip.ZipFile.Reset(Boolean whileSaving) in C:\projects\dotnetzip-semverd\src\Zip.Shared\ZipFile.cs:line 2483   at Ionic.Zip.ZipFile.Save() in C:\projects\dotnetzip-semverd\src\Zip.Shared\ZipFile.Save.cs:line 152   at Ionic.Zip.ZipFile.Save(Stream outputStream) in C:\projects\dotnetzip-semverd\src\Zip.Shared\ZipFile.Save.cs:line 571
+```
+
+Moving the `ms2` `using` block inside the `ms1` `using` block avoids the error, so it seems ZipFile is holding on to a reference to the disposed `ms1`.
+ Unable to unzip a password protected directory
+ A software I'm building requires to zip multiple files as a single zip, the zip is protected by password but some generated zip files are unable to unzip even though the password is correctly written. 
+
+To detect the problem, we tried reading just one file from the zip, and we were able to access the file using the password, but when trying to open another file inside the same zip, it request the password and using the same password, was unable to open it, claiming the password was incorrect.
+
+ Bump Version
+ Bumps version to push https://github.com/haf/DotNetZip.Semverd/pull/176 to Nuget
+ Change: Allow the ZLib dictionary state to be set unconditionally
+ In order to decode a MSZip file, it requires the ZLib dictionary to be unconditionally set to the previously decoded bytes at the end of each block.
+
+Unfortunately, there is *no* error checking whatsoever involved in this, and it'll quite happily decode garbage data if you do not do this.
+This makes it pretty much impossible to implement a sensible working unit test.
+
+Some background and a file in this issue, although this is a MSZip compressed binary X object:
+https://github.com/leezer3/OpenBVE/issues/289
+
+I suppose I could hash stream and hash the output if you want?
+
+### Implementation Notes:
+Hi @leezer3.
+LGTM with a small code style comment.
+@haf Could you please also take a look?
+
+Sure LGTM after @leezer3 fixes his whitespace.
+
+Sure, will force push when I get home from work to fix that :)
+
+Tabs fixed.
+
+Would appreciate a Nuget bump at some stage after this has been merged.
+
+
+@leezer3 They are auto-released based on what gets merged to master. If you want a bump, you watch the CI process.
+
+Ah, I see- It wants the two version files editing....
+Could have been clearer but still :)
+
+Will submit a new PR with that bumped in a second.
+
+ Formalize Support for ParallelGZipOutputStream
+ Hello!
+
+Is there any particular reason that ParallelGZipOutputStream has not been formalized over the years? I find it incredibly useful, and wouldn't mind trying to put together a PR for supporting it, but I wanted to check if there was a good reason it hasn't been rolled in before? 
+
+https://github.com/haf/DotNetZip.Semverd/blob/master/src/Examples/C%23/ZLIB/ParallelGZipOutputStream.cs
+@sstadick Feel free to PR if you're using it and you think it's needed.
+
+ Unable To Control Memory When Using AddEntry()
+ When using ZipFile.AddEntry(), memory usage continually increases. If one has a sufficient quantity/size of new entries, an out of memory exception occurs. This problem does not occur when AddFile() is used, nor is it solved by calling ZipFile.Save() after each AddEntry() call.
+
+Sample code:
+```
+Using zipFile = New ZipFile(exportFileName)
+    zipFile.Password = password
+    zipFile.Encryption = EncryptionAlgorithm.WinZipAes256
+
+    For Each entryName in dataToSave
+        Dim entryData = GetXmlFromSource(entryName)
+        zipFile.AddEntry(entryName, entryData)
+    Next
+
+    zipFile.Save()
+End Using
+```
+Some ability to flush the entry buffer into the zip file would solve the issue.
+I have found two workarounds:
+1) Write the data to disk, then call AddFile, or
+2) Finalize the file periodically, then re-open and add more entries
+
+Workaround 1 causes increased disk read/write and presents additional issues if one is trying to make a write-protected zip. Workaround 2 exponentially increases cpu and disk read/write as the zip gets larger.
+
+Thanks for reporting this bug/problem, and sorry about the delay in getting back to you. This is a self-service repository, where I merge PRs and where the merging of PRs causes nugets to be pushed automatically (if you bump the version number in your PR). I'll leave this issue open until someone (or yourself) fixes it.
+

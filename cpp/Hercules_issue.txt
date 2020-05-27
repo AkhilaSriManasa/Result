@@ -1,0 +1,795 @@
+﻿ Unable to trade or open chatroom when dead
+ **Describe the bug**
+Unable to trade or create chatroom when dead
+
+**To Reproduce**
+Steps to reproduce the behavior:
+1. Kill your self @die 
+2. Try to Open chat room or perform trade to other player
+
+**Expected behavior**
+Players should be able to trade or create chatroom even dead.
+
+**Screenshots**
+If applicable, add screenshots to help explain your problem.
+
+**System specs (please complete the following information):**
+ - OS: CentOS
+ - Hercules Version: Latest
+ - Mode: Pre-renewal (Did not test in renewal)
+ - Packet version: 20151029
+ - Client type: main
+
+Its a bug i think, player complain they cant ask trade drasil leaf or bluegem  to other player to resu them.
+
+Introduced in commit 6629dfd05f4ebef7862cd2d499b7330acc8d82ac
+
+```c
+static void clif_parse_TradeRequest(int fd, struct map_session_data *sd)
+{
+	struct map_session_data *t_sd;
+	if (sd->state.trading || pc_isdead(sd) || pc_isvending(sd))
+		return;
+```
+...
+
+_PS. I know Technically it does makes sense - the dead can't trade - but then..._
+
+ Update drop chances of Black and White Wing Suits
+ ### Pull Request Prelude
+
+- [x] I have followed [proper Hercules code styling][code].
+- [x] I have read and understood the [contribution guidelines][cont] before making this PR.
+- [x] I am aware that this PR may be closed if the above-mentioned criteria are not fulfilled.
+
+### Changes Proposed
+
+According to DivinePride and my Aegis data the drop chances are:
+- Anubis drops White Wing Suits with a chance of 0,5%.
+- Elusive Luciola Vespa drops Black Wing Suits with a chance of 0,25%.
+
+**Issues addressed:** #562
+
+
+<!-- You can safely ignore the links below:  -->
+
+[cont]: https://github.com/HerculesWS/Hercules/blob/master/CONTRIBUTING.md
+[code]: https://github.com/HerculesWS/Hercules/wiki/Coding-Style
+
+ exp_group_db max number error
+ Git revision (src): 'ec0584ac41434766e528b25730812da22ff31fc5'
+
+**Describe the bug**
+exp_group_db.conf set ThirdClasses MaxLevel to 185, but 182 exp is `2426009129`, map-server error is `mismatched element type in array`, then change 182 exp to `2147483647` is working.
+
+
+for very big numbers need add ``L`` at end.
+also if ``L`` added into one value in list, need add `L` value to all items in list.
+
+
+add `L` at end, is working, thank @4144 
+
+maybe exp_group_db.conf note add `for very big numbers need add L at end.`
+
+ Possible underflow (?) in battle criticals
+ **Describe the bug**
+In battle.c:4654 critical is defined as
+```c
+		short cri = sstatus->cri;
+```
+
+A few lines later, the following problematic calculation is done:
+```c
+#ifndef RENEWAL
+		//The official equation is *2, but that only applies when sd's do critical.
+		//Therefore, we use the old value 3 on cases when an sd gets attacked by a mob
+		cri -= tstatus->luk*(!sd&&tsd?3:2);
+#else
+		cri -= status->get_lv(target) / 15 + 2 * status_get_luk(target);
+#endif
+```
+
+Both are using "luck" stat, which is an uint16. See status.h:1059, when `struct status_data` is declared:
+```c
+	uint16 str, agi, vit, int_, dex, luk;
+```
+
+This means that critical can underflow (?) here.
+Because luck can go up to 65535, a monster could (in both modes) have at least 131070 crit def.
+So the critical must accept at least `-131070` (an `int32` should do the trick)
+
+**To Reproduce**
+1. Set an arbitrary monster luck to 65535 (it will be accepted - no errors)
+2. Fight with the monster.
+
+**Expected behavior**
+Modified monster should not receive crits, instead of always receiving crits.
+
+
+**System specs (please complete the following information):**
+ - OS: Linux 4.15.0-45-generic #48-Ubuntu
+ - Hercules Version: stable
+ - Mode: both
+ - Packet version: any
+ - Client type: any
+
+**Plugins used or source modifications**
+Evol Plugin (does not interfere)
+
+ Remove misleading debug code for nonexistent skill unit group when ending SC_DANCING
+ ### Pull Request Prelude
+
+- [x] I have followed [proper Hercules code styling][code].
+- [x] I have read and understood the [contribution guidelines][cont] before making this PR.
+- [x] I am aware that this PR may be closed if the above-mentioned criteria are not fulfilled.
+
+### Changes Proposed
+
+In 00be89f `skill_stop_dancing()` was removed and its code moved to `status_change_end_()`.
+When moving the code the `NULL` pointer check for the skill unit group was dropped which led to server crashes. ([Bug report.](https://herc.ws/oldboard/tracker/issue-3504-skill-delunitgroup-crashing-map-server-again/?gopid=3504#entry3504))
+To track down the issue some debug code was added in 590cab6 and f41e10d.
+Finally in 8aee60e the `NULL` pointer check was added back but the debug code wasn't removed which caused misleading debug messages until today.
+
+To "fix" this, the ancient debug code should be removed.
+
+**Issues addressed:** #2716
+
+
+<!-- You can safely ignore the links below:  -->
+
+[cont]: https://github.com/HerculesWS/Hercules/blob/master/CONTRIBUTING.md
+[code]: https://github.com/HerculesWS/Hercules/wiki/Coding-Style
+
+ Trans classes's skills update
+ ***Skills balance contents***
+1st classes
+- [ ] Lord Knight
+- [x] Mastersmith
+- [ ] Assassin Cross
+- [ ] High Wizard
+- [ ] High Priest
+- [ ] Sniper
+- [ ] Paladin
+- [ ] Scholar
+- [ ] Champion
+- [ ] Clown & Gypsy
+
+
+https://www.divine-pride.net/forum/index.php?/topic/3453-kro-mass-skills-balance-1st-2nd-and-transcendent-classes-skills/
+ Fix left shift of negative value for GN_CRAZYWEED_ATK
+ ### Pull Request Prelude
+
+- [x] I have followed [proper Hercules code styling][code].
+- [x] I have read and understood the [contribution guidelines][cont] before making this PR.
+- [x] I am aware that this PR may be closed if the above-mentioned criteria are not fulfilled.
+
+### Changes Proposed
+
+Pass `0` for `type` instead of `-1` when calling `skill_addtimerskill()` for `GN_CRAZYWEED`.
+This value is later used to retrieve the skill's unit ID at the given index so `0` is the correct value for `GN_CRAZYWEED` since it has only one unit ID.
+
+**Issues addressed:** #1151
+
+
+<!-- You can safely ignore the links below:  -->
+
+[cont]: https://github.com/HerculesWS/Hercules/blob/master/CONTRIBUTING.md
+[code]: https://github.com/HerculesWS/Hercules/wiki/Coding-Style
+
+ Add MSC_MAGICATTACKED cast condition for monster skills
+ ### Pull Request Prelude
+
+- [x] I have followed [proper Hercules code styling][code].
+- [x] I have read and understood the [contribution guidelines][cont] before making this PR.
+- [x] I am aware that this PR may be closed if the above-mentioned criteria are not fulfilled.
+
+### Changes Proposed
+
+Add MSC_MAGICATTACKED cast condition for monster skills to trigger when a monster has received magic damage.
+
+**Issues addressed:** #2578
+
+
+<!-- You can safely ignore the links below:  -->
+
+[cont]: https://github.com/HerculesWS/Hercules/blob/master/CONTRIBUTING.md
+[code]: https://github.com/HerculesWS/Hercules/wiki/Coding-Style
+
+ Update instancing window display and documentation of instance_create() script command
+ ### Pull Request Prelude
+
+- [x] I have followed [proper Hercules code styling][code].
+- [x] I have read and understood the [contribution guidelines][cont] before making this PR.
+- [x] I am aware that this PR may be closed if the above-mentioned criteria are not fulfilled.
+
+### Changes Proposed
+
+- Use account ID instead of character ID for `IOT_CHAR` in `instance_force_destroy()`.
+- Remove nonexistent return value `-3` from documentation of `instance_create()`.
+ Extend and clean up skill DB code
+ ### Pull Request Prelude
+
+- [x] I have followed [proper Hercules code styling][code].
+- [x] I have read and understood the [contribution guidelines][cont] before making this PR.
+- [x] I am aware that this PR may be closed if the above-mentioned criteria are not fulfilled.
+
+### Changes Proposed
+
+- Add defaults, bounds and validations when reading skill DB.
+- Change maximum length of skill descriptions to `50`.
+- Change maximum skill level to `20`.
+- Remove `FixedCastTime` settings from pre-RE skill DB.
+- Cap `SkillInstances` to `25` (`MAX_SKILLUNITGROUP`) in (pre-)RE skill DB.
+- Remove unused variable `nocast` from `struct s_skill_db`.
+- Make `Hit`, `AttackType`, `InterruptCast`, `CastDefRate`, `Requirements->State`, `Requirements->Items->Amount`, `Unit->Id`, `Unit->Interval` and `Unit->Target` can be grouped by levels.
+- Add missing types to `Unit->Target`.
+- Remove hard-coded required item amounts and update skill DBs accordingly.
+- Implement `Requirements->Items->Any` code.
+- Implement `Requirements->Equip` code.
+- Remove hard-coded required equipment and update skill DBs accordingly.
+- Fix `Requirements->MaxHPTrigger` code in `skill_check_condition_mercenary()`.
+- Implement `Requirements->MaxSPTrigger` code.
+- Update entry structure in skill DBs.
+
+
+
+**Issues addressed:** #1250
+
+
+<!-- You can safely ignore the links below:  -->
+
+[cont]: https://github.com/HerculesWS/Hercules/blob/master/CONTRIBUTING.md
+[code]: https://github.com/HerculesWS/Hercules/wiki/Coding-Style
+
+> also because was big changed in skill db,
+
+Actually the changes are not that big. It just gives the impression because I outsourced many things into new functions and because I applied code style to existing functions.
+
+> probably need add skill db dumper before this pr and after this pr (excluding db files changes). and compare output. output must be same
+
+This won't work because some skills or parts of a skill won't be loaded due to the validations I added to the code and thus the dumps will never be identical.
+
+ Coma status resistance
+ 
+ Add nicks and emails from all commits into AUTHORS file
+ ### Pull Request Prelude
+- [x] I have followed [proper Hercules code styling][code].
+- [x] I have read and understood the [contribution guidelines][cont] before making this PR.
+- [x] I am aware that this PR may be closed if the above-mentioned criteria are not fulfilled.
+
+### Changes Proposed
+Add nicks and emails from all commits into AUTHORS file.
+
+With duplicates because for some people exists more than one emails.
+there used to be discussion about it many years ago https://github.com/HerculesWS/Hercules/issues/245
+just post here in case you might wanna close the PR too
+
+well existing authors file without authors is bad.
+then better remove it completly.
+but normally in authors file should present all authors, but now it contains authors from long past only.
+
+ When langtype is set to 4, user_pass will be recorded as garbled!
+ Client 20200401, my test:
+When langtype is set to 4 and M F is used to create an account, user_pass record is garbled
+
+![註解 2020-05-19 072915](https://user-images.githubusercontent.com/54499336/82272308-cbbff100-99ac-11ea-8625-1e1ecb049806.png)
+
+![82161506-e2dce100-98cf-11ea-866d-5324d787d3c5](https://user-images.githubusercontent.com/54499336/82272296-c498e300-99ac-11ea-9713-2b20c4c43030.png)
+
+ 2nd classes's skills update
+ ***Skills balance contents***
+2nd classes
+- [x] Knight (still need to confirm some formulas)
+- [x] Blacksmith
+- [x] Assassin
+- [x] Wizard (i`m not sure about vermilion hits)
+- [x] Priest
+- [x] Hunter
+- [x] Crusader
+- [x] Alchemist
+- [x] Rogue
+- [x] Sage
+- [x] Monk (missing double damage on GF i dont know how to do it :[ )
+- [ ] Bard & Dancer
+
+https://www.divine-pride.net/forum/index.php?/topic/3453-kro-mass-skills-balance-1st-2nd-and-transcendent-classes-skills/
+ Update 1st classes
+ <!-- Before you continue, please change "base: stable" to "base: master" and
+     enable the setting "[√] Allow edits from maintainers." when creating your
+     pull request if you have not already enabled it. -->
+
+<!-- Note: Lines with this <!-- syntax are comments and will not be visible in
+     your pull request. You can safely ignore or remove them. -->
+
+### Pull Request Prelude
+
+<!-- Thank you for working on improving Hercules! -->
+<!-- Please complete these steps and check the following boxes by putting an `x`
+     inside the [brackets] before filing your Pull Request. -->
+
+- [x] I have followed [proper Hercules code styling][code].
+- [x] I have read and understood the [contribution guidelines][cont] before making this PR.
+- [x] I am aware that this PR may be closed if the above-mentioned criteria are not fulfilled.
+
+### Changes Proposed
+Change some skills behaviors to match kro
+
+<!-- Describe the changes that this pull request makes. -->
+
+**Issues addressed:** #2725 <!-- Write here the issue number, if any. -->
+
+
+<!-- You can safely ignore the links below:  -->
+
+[cont]: https://github.com/HerculesWS/Hercules/blob/master/CONTRIBUTING.md
+[code]: https://github.com/HerculesWS/Hercules/wiki/Coding-Style
+
+U mean pre-re will also take this? I hope not. 
+
+ 1st classes's skills update
+ ***Skills balance contents***
+1st classes
+- [x] Swordsman
+- [x] Merchant
+- [x] Magician
+- [x] Acolyte
+
+https://www.divine-pride.net/forum/index.php?/topic/3453-kro-mass-skills-balance-1st-2nd-and-transcendent-classes-skills/
+
+repo: https://github.com/haurenburu/Hercules/tree/update-1st-classes
+pr: #2726 
+ Hercules Ultimate Storage System
+ <!-- Before you continue, please change "base: stable" to "base: master" and
+     enable the setting "[√] Allow edits from maintainers." when creating your
+     pull request if you have not already enabled it. -->
+
+<!-- Note: Lines with this <!-- syntax are comments and will not be visible in
+     your pull request. You can safely ignore or remove them. -->
+
+### Pull Request Prelude
+
+<!-- Thank you for working on improving Hercules! -->
+<!-- Please complete these steps and check the following boxes by putting an `x`
+     inside the [brackets] before filing your Pull Request. -->
+
+- [x] I have followed [proper Hercules code styling][code].
+- [x] I have read and understood the [contribution guidelines][cont] before making this PR.
+- [x] I am aware that this PR may be closed if the above-mentioned criteria are not fulfilled.
+
+### Changes Proposed
+
+## Design
+
+Implementation of the Hercules Ultimate Storage System
+Storages can now be created through a configuration file that describes their attributes.
+Example storage configuration:
+    
+```
+{
+        Id: (int)                              (required|unique) Unique Identifier
+        Name: (string)                         (required) Name of the storage sent to the client.
+        Capacity: (int)                        (required) Maximum capacity of the storage.
+}
+```
+
+Additional storages are handled with dynamic arrays that will save a tonne of memory when created, as opposed to a design in which they were implemented using fixed length arrays. In simple terms, a storage of 600 items would approximately cost the same amount of memory as 600 storages with 1 item each.
+They are saved in the same storage database (SQL) as the original separating them by a storage identifier.
+An infinite number of storages can be created, there are no limits.
+The current design implementation only allow saving/loading of approximately 1600 items per storage due to packet size limits.
+    
+PS. Make sure you apply SQL upgrades for this patch!
+
+## Access Modes
+
+Storage access modes can be set through the `openstorage` builtin command.
+
+```
+	STORAGE_ACCESS_VIEW     // View storage only
+	STORAGE_ACCESS_GET      // Allow getting items from storage.
+	STORAGE_ACCESS_PUT      // Allow putting items to storage.
+	STORAGE_ACCESS_ALL      // Allow all actions.
+```
+
+Default storage mode : STORAGE_ACCESS_ALL
+
+## Script Commands
+
+Changed: `openstorage(<storage_id>{, <storage_mode>})`
+
+<!-- Describe the changes that this pull request makes. -->
+
+**Issues addressed:** <!-- Write here the issue number, if any. -->
+* [x] https://github.com/HerculesWS/Hercules/pull/1763
+
+
+<!-- You can safely ignore the links below:  -->
+
+[cont]: https://github.com/HerculesWS/Hercules/blob/master/CONTRIBUTING.md
+[code]: https://github.com/HerculesWS/Hercules/wiki/Coding-Style
+
+from ci, look like shadow variable ``i``
+
+Windows compile fine for now, will be checking linux warnings and errors soon.
+
+In my opinion the Xcode upgrade should not be part of this PR since it's not required.
+
+> In my opinion the Xcode upgrade should not be part of this PR since it's not required.
+
+Ok, will remove it, I had just migrated it from old code to new code
+
+@4144 @Kenpachi2k13 can you review again?
+
+ Replace NULL pointer report with returning error code in unit_steptimer()
+ ### Pull Request Prelude
+
+- [x] I have followed [proper Hercules code styling][code].
+- [x] I have read and understood the [contribution guidelines][cont] before making this PR.
+- [x] I am aware that this PR may be closed if the above-mentioned criteria are not fulfilled.
+
+### Changes Proposed
+
+Since it's kind of expectable to occasionally be unable to retrieve the target's `block_list` by its ID in `unit_steptimer()`, the `NULL` pointer report should be replaced with returning an error code.
+
+**Issues addressed:** #2707
+
+
+<!-- You can safely ignore the links below:  -->
+
+[cont]: https://github.com/HerculesWS/Hercules/blob/master/CONTRIBUTING.md
+[code]: https://github.com/HerculesWS/Hercules/wiki/Coding-Style
+
+ **CRITICAL BUG** Player consume ITMCHAIN_ORE when die in dungeon or fields.
+ **Describe the bug**
+Player consume ITMCHAIN_ORE when die in dungeon or fields.
+
+**To Reproduce**
+Go to dungeon or fields with any of ITMCHAIN_ORE's in your inventory. Type @die or get killed by mob and you lose 1 item.
+
+I discovered that at /db/pre-re/item_chain.conf 
+placing ITMCHAIN_SIEGFRIED on the top of the line will fix it.
+
+**System specs (please complete the following information):**
+ - OS: Centos7 x64
+ - Hercules Version LATEST
+ - Mode: PRE-RE
+ - Packet version: 20151029
+ - Client type :MAIN
+
+
+I tried this with 20 Coal in inventory as a level 1/1 Novice and could not reproduce the issue.
+I tried dungeons and fields, using `@die` and being killed by monster, pre-RE and RE mode. Always the same result: No item lost.
+
+@Kenpachi2k13  oh i forgot to include.
+remove this group and try again sir.
+```
+ITMCHAIN_NEO_INSURANCE: {
+	New_Insurance: 1
+}
+
+```
+
+ Enable receiving not NULL terminated whisper names with a length of 24 characters
+ ### Pull Request Prelude
+
+<!-- Thank you for working on improving Hercules! -->
+<!-- Please complete these steps and check the following boxes by putting an `x`
+     inside the [brackets] before filing your Pull Request. -->
+
+- [x] I have followed [proper Hercules code styling][code].
+- [x] I have read and understood the [contribution guidelines][cont] before making this PR.
+- [x] I am aware that this PR may be closed if the above-mentioned criteria are not fulfilled.
+
+### Changes Proposed
+
+This adds the benefit of gaining an additional character for NPC names when whispering NPCs and does not break anything...
+
+**Issues addressed:** #718
+
+
+<!-- You can safely ignore the links below:  -->
+
+[cont]: https://github.com/HerculesWS/Hercules/blob/master/CONTRIBUTING.md
+[code]: https://github.com/HerculesWS/Hercules/wiki/Coding-Style
+
+If I see #718, it was discussed to send NUL at 24th char, but I see that you increased the name length to 25 characters.
+There might be some side effects of this, as they won't receive null terminated strings (only 24 characters in packet), and they are known to be bad at this, (like some clients send nul terminated chats, some don't). Might need to check this with old clients as well.
+
+I checked this and there are no side effects.
+The name received in `clif_process_whisper_message()` is only used in `clif_parse_WisMessage()` and nowhere else.
+Within `clif_parse_WisMessage()` are three different functions called with that name:
+
+- `npc->name2id()`
+- `channel->search()`
+- `map->nick2sd()`
+
+None of these function will run into problems since the name is `NULL` terminated in any case.
+`safestrncpy(out_name, packet->name, NAME_LENGTH + 1);`
+
+The name just might be too long (24 characters), but this is handled everywhere.
+
+issue with name and without null termination can be if send packet from server to client, but here look like all only inside server
+
+ Split mapreg table and refactor mapreg code
+ ### Pull Request Prelude
+
+- [x] I have followed [proper Hercules code styling][code].
+- [x] I have read and understood the [contribution guidelines][cont] before making this PR.
+- [x] I am aware that this PR may be closed if the above-mentioned criteria are not fulfilled.
+
+### Changes Proposed
+
+Split `mapreg` SQL table into separate tables for integer and string variables as a first step for the planned script engine update.
+Additionally refactor code in *src/map/mapreg_sql.c* and *src/map/mapreg.h*.
+
+**Issues addressed:** None.
+
+
+<!-- You can safely ignore the links below:  -->
+
+[cont]: https://github.com/HerculesWS/Hercules/blob/master/CONTRIBUTING.md
+[code]: https://github.com/HerculesWS/Hercules/wiki/Coding-Style
+
+ Map-Server Crashing with GDB debug
+ **Describe the bug**
+- This map-server would crash randomly throughout the day and this was the debug of the first crash - https://pastebin.com/g8az1tTv  and afterwhich 4144 in the Discord suggested to try to update to this Pull Request (https://github.com/HerculesWS/Hercules/pull/2713) which I did and make clean and re-compiled.
+
+After few hours the map server is crashing again with the debug code - http://www.pastebin.com/AZXpWkZF
+
+Appreciate if anyone could provide a permanent fix to this crash.
+
+
+**Expected behavior**
+A clear and concise description of what you expected to happen.
+
+**Screenshots**
+If applicable, add screenshots to help explain your problem.
+
+**System specs (please complete the following information):**
+ - OS: [e.g. windows 10 version 1809, macOS 10.14] - Debian 10
+ - Hercules Version [e.g. v2018.09.22] - Latest
+ - Mode: [renewal or pre-renewal?] - Renewal
+ - Packet version: [e.g. 20101130] - 2018-4-18
+
+**Plugins used or source modifications**
+If you are using any plugins besides the ones that come bundled with Hercules,
+please enumerate them here.
+
+- No modifications on the source nor plugins were use
+
+**Additional context**
+Add any other context about the problem here. If the bug report is about a
+crash, please attach the core/stack-dump or crash-log, if any.
+
+any pattern to this crash? or you can't find info on it yet?
+
+Previously I had an issue where a malformed reg value caused map server crashes whenever a player with one of the malformed values logged out. This was caused by set(getvariableofpc()), but that bug was fixes years ago AFAIK.
+
+i think issue isolated. Soon in given pr should be fix.
+
+
+now it should be fixed in pr #2713
+
+
+I can confirmed this is fixed as I no longer experiencing crashing as of now.
+
+ Add/extend battle flags to enable item/skill usage while interacting with NPC
+ ### Pull Request Prelude
+
+- [x] I have followed [proper Hercules code styling][code].
+- [x] I have read and understood the [contribution guidelines][cont] before making this PR.
+- [x] I am aware that this PR may be closed if the above-mentioned criteria are not fulfilled.
+
+### Changes Proposed
+
+To enable consuming usable items and using skills while interacting with a NPC I did the following:
+ * Extend `item_enabled_npc` battle flag with option for usable items.
+ * Add `skill_enabled_npc` battle flag.
+
+**Issues addressed:** #862
+
+
+<!-- You can safely ignore the links below:  -->
+
+[cont]: https://github.com/HerculesWS/Hercules/blob/master/CONTRIBUTING.md
+[code]: https://github.com/HerculesWS/Hercules/wiki/Coding-Style
+
+Yes please make configuration to disable/enable :D
+
+ Server Crash
+ **Describe the bug**
+(05/09/2020 14:36:03) [ Error ] : --- failed assertion --------------------------------------------
+(05/09/2020 14:36:03) [ Error ] : socket.c:1320: 'fd >= 0' in function `wfifohead'
+(05/09/2020 14:36:03) [ Error ] : 0x6322b6 nullpo_backtrace_print
+(05/09/2020 14:36:03) [ Error ] : 	/home/rouser/hercules/src/common/nullpo.c:77
+(05/09/2020 14:36:03) [ Error ] : 0x6322b6 assert_report
+(05/09/2020 14:36:03) [ Error ] : 	/home/rouser/hercules/src/common/nullpo.c:147
+(05/09/2020 14:36:03) [ Error ] : 0x4970b3 clif_send
+(05/09/2020 14:36:03) [ Error ] : 	/home/rouser/hercules/src/map/clif.c:647
+(05/09/2020 14:36:03) [ Error ] : 0x47c5e6 clif_guild_memberlogin_notice
+(05/09/2020 14:36:03) [ Error ] : 	/home/rouser/hercules/src/map/clif.c:8028
+(05/09/2020 14:36:03) [ Error ] : 0x4ae7af guild_recv_memberinfoshort
+(05/09/2020 14:36:03) [ Error ] : 	/home/rouser/hercules/src/map/guild.c:1171
+(05/09/2020 14:36:03) [ Error ] : 0x4bcfd6 intif_parse_GuildMemberInfoShort
+(05/09/2020 14:36:03) [ Error ] : 	/home/rouser/hercules/src/map/intif.c:1217
+(05/09/2020 14:36:03) [ Error ] : 0x4beb3c intif_parse
+(05/09/2020 14:36:03) [ Error ] : 	/home/rouser/hercules/src/map/intif.c:2638
+(05/09/2020 14:36:03) [ Error ] : 0x45a80e chrif_parse
+(05/09/2020 14:36:03) [ Error ] : 	/home/rouser/hercules/src/map/chrif.c:1763
+(05/09/2020 14:36:03) [ Error ] : 0x644c6d do_sockets
+(05/09/2020 14:36:03) [ Error ] : 	/home/rouser/hercules/src/common/socket.c:1466
+(05/09/2020 14:36:03) [ Error ] : 0x408eb1 main
+(05/09/2020 14:36:03) [ Error ] : 	/home/rouser/hercules/src/common/core.c:539
+(05/09/2020 14:36:03) [ Error ] : 0x7faf5d7c4504 ???
+(05/09/2020 14:36:03) [ Error ] : 	???:0
+(05/09/2020 14:36:03) [ Error ] : 0x409072 ???
+(05/09/2020 14:36:03) [ Error ] : 	???:0
+(05/09/2020 14:36:03) [ Error ] : 0xffffffffffffffff ???
+(05/09/2020 14:36:03) [ Error ] : 	???:0
+(05/09/2020 14:36:03) [ Error ] : --- end failed assertion ----------------------------------------
+(05/09/2020 14:36:03) [ Error ] : Server received crash signal! Attempting to save all online characters!
+
+Version: Latest
+Pre-Renewal
+20151029 
+using gepard?
+
+
+or any other server modifications or plugins?
+
+@4144  yes gepard
+
+
+i can suspect gepard issue, because similar issue was at least on two servers with gepard.
+
+crash also may happened unrelated to reported stack. try run map server with ``gdb`` and at next crash show output from gdb command ``bt``
+
+
+can you show parts of code from each file reported in this stack?
+
+Yes i will post. And also i enable gdb to get better error report incase it crash again
+
+ SC_DANCING is missing skill unit group
+ **Describe the bug**
+(05/09/2020 14:39:22) [ Debug ] : status_change_end: SC_DANCING is missing skill unit group (val1=655681, val2=49623, val3=122, val4=0, timer=1143, tid=-1, char_id=14729, map=aldebaran, x=143, y=107, prev=<none>:0, from=unit.c:2581). Please report this! (#3504)
+
+(05/09/2020 14:39:24) [ Debug ] : status_change_end: SC_DANCING is missing skill unit group (val1=655681, val2=50005, val3=169, val4=0, timer=1330, tid=-1, char_id=14985, map=payon, x=72, y=102, prev=<none>:0, from=skill.c:7280). Please report this! (#3504)
+
+(05/09/2020 14:39:28) [ Debug ] : status_change_end: SC_DANCING is missing skill unit group (val1=655681, val2=49777, val3=121, val4=0, timer=502, tid=-1, char_id=12747, map=aldebaran, x=143, y=106, prev=<none>:0, from=unit.c:2581). Please report this! (#3504)
+
+
+**System specs (please complete the following information):**
+ - OS: Centos 7 x64
+ - Hercules Version Latest
+ - Mode: pre-re
+ - Packet version: 20151029
+ - Client type: main
+
+`char_id
+Did you intentionally enable character IDs lower than 150000?
+
+@Kenpachi2k13 not intentional , it happened when i empty the char table and player created started to 1. i did not rollback and leave as is but change starting char# at mmo.
+
+~~I had a look at this and I don't think this is an issue related to Hercules.~~
+~~In all 3 debug messages you posted the value of `val1` is `655681`. `val1` holds a skill ID and there is no such skill ID in Hercules.~~
+~~Furthermore `val3` looks weird, too. It holds a skill level and in all 3 debug messages it's much greater than 100...~~
+
+~~In my opinion this issue is caused by modifications.~~
+
+Okay, nevermind.
+I did some more searching and this issue exists since 2009.
+Only pre-RE server seem to be affected.
+It is expected to be related to crossing songs/dances.
+
+ Quest_Moscovia - Loop
+ Moscovia quests seems to go into a loop. Once you go to the Whale island the old man acts like if it was your first time and takes you back to moscovia.
+
+1. You get to the boat, kill the monsters, do the coordinates.
+2. You get to the island, you talk to the old man, the old man takes you to moscovia.
+3. You talk to the sailor again. Sailor tells you to go to talk to the King.
+4. King tells you to go back to the Island.
+5. You get into the boat again, kill the monsters, do the coordinates.
+6. Talk to the old man. The old man should ask you for materials to build the Gunsli. But instead he takes you back to moscovia.
+3. You talk to the sailor again. Sailor tells you to go to talk to the King.
+4. King tells you to go back to the Island.
+5. You get into the boat again, kill the monsters, do the coordinates.
+6. Talk to the old man. The old man should ask you for materials to build the Gunsli. But instead he takes you back to moscovia.
+3. You talk to the sailor again. Sailor tells you to go to talk to the King.
+4. King tells you to go back to the Island.
+5. You get into the boat again, kill the monsters, do the coordinates.
+6. Talk to the old man. The old man should ask you for materials to build the Gunsli. But instead he takes you back to moscovia.
+And so on...
+https://github.com/HerculesWS/Hercules/blob/stable/npc/quests/quests_moscovia.txt
+
+ Secure gender changing
+ ### Pull Request Prelude
+
+- [x] I have followed [proper Hercules code styling][code].
+- [x] I have read and understood the [contribution guidelines][cont] before making this PR.
+- [x] I am aware that this PR may be closed if the above-mentioned criteria are not fulfilled.
+
+### Changes Proposed
+
+Save character data to the database before changing account/character gender to prevent data corruption through job class mismatch.
+
+**Issues addressed:** #985
+
+
+<!-- You can safely ignore the links below:  -->
+
+[cont]: https://github.com/HerculesWS/Hercules/blob/master/CONTRIBUTING.md
+[code]: https://github.com/HerculesWS/Hercules/wiki/Coding-Style
+
+ Update packets up to 2020-05-20
+ ### Pull Request Prelude
+
+- [x] I have followed [proper Hercules code styling][code].
+- [x] I have read and understood the [contribution guidelines][cont] before making this PR.
+- [x] I am aware that this PR may be closed if the above-mentioned criteria are not fulfilled.
+
+### Changes Proposed
+Update packets table, and shuffle packets.
+Update packets table.
+Update messages table.
+Fix different crashes.
+Add some missing checks (Fixes #2719).
+
+@Kenpachi2k13 now no debug commits, and only checks what really need present
+
+ Fix condition for deleting skill units when unloading NPC
+ ### Pull Request Prelude
+
+- [x] I have followed [proper Hercules code styling][code].
+- [x] I have read and understood the [contribution guidelines][cont] before making this PR.
+- [x] I am aware that this PR may be closed if the above-mentioned criteria are not fulfilled.
+
+### Changes Proposed
+
+Currently it's almost impossible to fulfil the condition for calling `skill_clear_unitgroup()` in `npc_unload()` since `nd->ud` always is `NULL` or `&npc->base_ud` if `unit_bl2ud2()` was never called for the NPC's block_list (for example by `npcspeed()`).
+I changed the condition to only check for `nd->ud != NULL` to ensure that all skill units belonging to the unloaded NPC are deleted.
+
+**Issues addressed:** #768 
+
+
+<!-- You can safely ignore the links below:  -->
+
+[cont]: https://github.com/HerculesWS/Hercules/blob/master/CONTRIBUTING.md
+[code]: https://github.com/HerculesWS/Hercules/wiki/Coding-Style
+
+ Break Weapon not affecting Subtype Mace
+ **Describe the bug**
+Tested with bBreakWeaponRate only. all weapon that has W_MACE subtype is not affected or does not get broken... tested on a clean copy of hercules
+
+**To Reproduce**
+Steps to reproduce the behavior:
+1. use a item with 100% bBreakWeaponRate 
+2. player b will equip a mace type weapon
+3. it won't break 
+4. No error or any kind of message... But other weapons such as dagger still break.
+
+**Expected behavior**
+W_MACE type should also be affected by bBreakWeaponRate  or break status
+
+**Screenshots**
+If applicable, add screenshots to help explain your problem.
+
+**System specs (please complete the following information):**
+ - OS: [Ubuntu 19]
+ - Hercules Version [v2020.05.03] (fresh copy upon submitting this)
+ - Mode: [pre-renewal]
+ - Packet version: [2016-02-03]
+ - Client type: [RE]
+
+**Plugins used or source modifications**
+NO PLUGIN USED
+
+**Additional context**
+Seems that even melt down can't break mace type.
+
+Mace and axe weapons are unbreakable
+https://irowiki.org/wiki/Mace
+
+> Mace and axe weapons are unbreakable
+> https://irowiki.org/wiki/Mace
+
+Thank you
+

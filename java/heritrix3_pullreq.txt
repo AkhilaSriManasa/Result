@@ -1,0 +1,167 @@
+﻿ Fixes extractor multiple regex matcher recycle
+ 
+ Warc convention for storing ftp responses has been to use a WARC reso…
+ …urce record and not a response record. Changing to be consisten with the default WARCWriterProcessor
+ Remove deprecated sudo setting.
+ [Travis are now recommending removing the sudo tag.](https://blog.travis-ci.com/2018-11-19-required-linux-infrastructure-migration)
+ Warc convention for storing ftp responses has been to use a WARC reso…
+ …urce record and not a response record. Changing to be consisten with the default WARCWriterProcessor
+ don't youtubedl receivedFromAMQP
+ 
+ youtube-dl no cache dir
+ skip using a cache dir for youtube-dl
+ Fix match result is always false in MatchesListRegexDecideRule
+ It looks like #290 introduced a bug that `MatchesListRegexDecideRule#evaluate()` always returns false because future result is discarded.
+This fix respects the returned future value.
+Thanks,
+ best medium-ish size
+ 
+ Add real crawlStatus in the crawlReport
+ During the crawl, we have "crawl status: Finished - Abnormal exit from crawling" in the crawlSummary report.
+I have changed the crawlStatus to have the same info as the job main page:
+- crawl status: Pausing - Active
+- crawl status: Paused - Active
+- crawl status: Running - Active
+- crawl status: Empty - Active
+- crawl status: Stopping - Active
+when isRunning()=true.
+
+The crawl summary report is always re generated to have the correct crawlStatus.
+ youtube-dl: request best medium-ish size format
+ 
+ Add parsing for HTML tags (data-*)
+ Add parsing for data-src, data-srcset, data-original and data-original-set tags to original ExtractorHTML.
+ Add support for the SFTP protocol
+ Support for SFTP protocol (issue #319)
+I create a new client and a new fetcher to support SFTP.
+ Recycle the regex Matcher after use.
+ 
+ Use the Wayback Machine to repair a link to Oracle docs.
+ 
+ Utilize the `d` parameter
+ There are uses of this class that necessitate a lower false positive
+rate than the value that was hard-coded. By making use of the parameter,
+as indicated in the JavaDoc, the resulting delegate should meet the
+demands of the caller.
+ Remove Old Hbase and Kafka Classes
+ 
+ Exclude hbase-client's guava 12 transitive dependency
+ Guava 12 from hbase-client is closer to the root of the dependency tree than guava 17 from webarchive-commons so Maven prefers it. But recent changes to heritrix-commons rely on classes in the newer version of Guava. So let's ensure webarchive-commons wins.
+
+Hopefully this doesn't break the hbase module, I have no way of testing it.
+
+Fixes #311
+ [SECURITY] Use HTTPS to resolve dependencies in Maven Build
+ [![mitm_build](https://user-images.githubusercontent.com/1323708/59226671-90645200-8ba1-11e9-8ab3-39292bef99e9.jpeg)](https://medium.com/@jonathan.leitschuh/want-to-take-over-the-java-ecosystem-all-you-need-is-a-mitm-1fc329d898fb?source
+- [Want to take over the Java ecosystem? All you need is a MITM!](https://medium.com/@jonathan.leitschuh/want-to-take-over-the-java-ecosystem-all-you-need-is-a-mitm-1fc329d898fb?source=friends_link&sk=3c99970c55a899ad9ef41f126efcde0e)
+- [Update: Want to take over the Java ecosystem? All you need is a MITM!](https://medium.com/bugbountywriteup/update-want-to-take-over-the-java-ecosystem-all-you-need-is-a-mitm-d069d253fe23?source=friends_link&sk=8c8e52a7d57b98d0b7e541665688b454)
+
+---
+
+This is a security fix for a  vulnerability in your [Apache Maven](https://maven.apache.org/) `pom.xml` file(s).
+
+The build files indicate that this project is resolving dependencies over HTTP instead of HTTPS.
+This leaves your build vulnerable to allowing a [Man in the Middle](https://en.wikipedia.org/wiki/Man-in-the-middle_attack) (MITM) attackers to execute arbitrary code on your or your computer or CI/CD system.
+
+This vulnerability has a CVSS v3.0 Base Score of [8.1/10](https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H).
+
+[POC code](https://max.computer/blog/how-to-take-over-the-computer-of-any-java-or-clojure-or-scala-developer/) has existed since 2014 to maliciously compromise a JAR file in-flight.
+MITM attacks against HTTP are [increasingly common](https://security.stackexchange.com/a/12050), for example [Comcast is known to have done it to their own users](https://thenextweb.com/insights/2017/12/11/comcast-continues-to-inject-its-own-code-into-websites-you-visit/#).
+
+This contribution is a part of a submission to the [GitHub Security Lab](https://securitylab.github.com/) Bug Bounty program.
+
+## Detecting this and Future Vulnerabilities
+
+This vulnerability was automatically detected by [LGTM.com](https://lgtm.com) using this [CodeQL Query](https://lgtm.com/rules/1511115648721/).
+
+As of September 2019 LGTM.com and Semmle are [officially a part of GitHub](https://github.blog/2019-09-18-github-welcomes-semmle/).
+
+You can automatically detect future vulnerabilities like this by enabling the free (for open-source) [LGTM App](https://github.com/marketplace/lgtm).
+
+I'm not an employee of GitHub nor of Semmle, I'm simply a user of [LGTM.com](https://lgtm.com) and an open-source security researcher.
+
+## Source
+
+Yes, this contribution was automatically generated, however, the code to generate this PR was lovingly hand crafted to bring this security fix to your repository.
+
+The source code that generated and submitted this PR can be found here:
+[JLLeitschuh/bulk-security-pr-generator](https://github.com/JLLeitschuh/bulk-security-pr-generator)
+
+## Opting-Out
+
+If you'd like to opt-out of future automated security vulnerability fixes like this, please consider adding a file called
+`.github/GH-ROBOTS.txt` to your repository with the line:
+
+```
+User-agent: JLLeitschuh/bulk-security-pr-generator
+Disallow: *
+```
+
+This bot will respect the [ROBOTS.txt](https://moz.com/learn/seo/robotstxt) format for future contributions.
+
+Alternatively, if this project is no longer actively maintained, consider [archiving](https://help.github.com/en/github/creating-cloning-and-archiving-repositories/about-archiving-repositories) the repository.
+
+## CLA Requirements
+
+_This section is only relevant if your project requires contributors to sign a Contributor License Agreement (CLA) for external contributions._
+
+It is unlikely that I'll be able to directly sign CLAs. However, all contributed commits are already automatically signed-off.
+
+> The meaning of a signoff depends on the project, but it typically certifies that committer has the rights to submit this work under the same license and agrees to a Developer Certificate of Origin 
+> (see [https://developercertificate.org/](https://developercertificate.org/) for more information).
+>
+> \- [Git Commit Signoff documentation](https://developercertificate.org/)
+
+If signing your organization's CLA is a strict-requirement for merging this contribution, please feel free to close this PR.
+
+## Tracking
+
+All PR's generated as part of this fix are tracked here: 
+https://github.com/JLLeitschuh/bulk-security-pr-generator/issues/2
+ Fix stream closed exception for Paged view
+ Related to #305 the stream closed exception is also showing up when clicking "more" to get the "Paged view" of the Job Log or Crawl Log for a job in the Heritrix web user interface. This commits a similar fix to what is seen in #306.
+ Fix stream closed exception by not closing output stream
+ ServerCall.writeResponseBody() flushes it after we return so it must
+remain open.
+
+Fixes #305
+ Replace custom Base32 encoding
+ Guava is available so a custom implementation is unnecessary.
+ Replace constant with accessor methods
+ CrawlURI already had the accessor method, and the use of the constant
+was a bit inconsistent. This change adds the corresponding mutator
+method to make working with the CrawlURI history a bit simpler.
+ limit ExtractorYoutubeDL heap usage
+ We were seeing OOME due to large youtoube-dl json (for playlists and
+such). So instead of storing the json in ram, stream through it, and
+stash the contents in an thread-local anonymous tempfile so it can be
+written to to warc.
+ fix logging config
+ by setting system property java.util.logging.config.file, because new
+version restlet reconfigures logging after heritrix has already
+configured it
+ Use Guice instead of custom bloom filter implementation
+ This uses the avaialable code in Guice rather than a custom
+implementation. It also provides a performance increase (as demonstrated
+by the unit tests)
+
+In service of https://github.com/internetarchive/heritrix3/issues/299
+ Speed up ObjectIdentityBdbManualCacheTest
+ - Some refactoring and clean up
+- Partly addresses https://github.com/internetarchive/heritrix3/issues/297 by adding a default constructor
+ Set JUnit version to latest
+ Updating JUnit to begin updating the unit tests
+ Disable test that connects to wwwb-dedup.us.archive.org
+ http://wwwb-dedup.us.archive.org:8083/web/timemap/cdx?urlis returning 503 intermittently and so this test is breaking the Travis builds of
+unrelated changes.
+ Fix 'Method Not Allowed' on POST of config editor form
+ Under Restlet 2 `getVariants()` always returns null for a POST so our
+post() method was never called and 405 Method Not Allowed was returned.
+We don't need content negotiation for the POST response anyway so let's
+instead override the no-variants post() like we do for put().
+
+Fixes #293
+ Replace A_TIMESTAMP with A_FETCH_BEGAN_TIME
+ It seems that [A_TIMESTAMP went out of favor quite a long time ago](https://github.com/internetarchive/heritrix3/blob/51c7c55e4ac928f9d9c5dbd5cfb830ad0b7fd767/contrib/src/main/java/org/archive/modules/recrawl/wbm/WbmPersistLoadProcessor.java#L520-L522).
+A_FETCH_BEGAN_TIME is used within [FetchHistoryProcessor](https://github.com/internetarchive/heritrix3/blob/51c7c55e4ac928f9d9c5dbd5cfb830ad0b7fd767/modules/src/main/java/org/archive/modules/recrawl/FetchHistoryProcessor.java#L124) and throws an
+exception as is because of it.

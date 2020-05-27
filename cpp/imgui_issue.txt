@@ -1,0 +1,1675 @@
+﻿ The question about the child windows heights calculation
+ I have an ImGui application that plots graphs one in a row. Let us say that there are 7 graphs that fit into the window vertically without a need of a vertical scroller.  I use github.com/epezent/implot libraty and its BeginPlot calls ImGui::BeginChild with the provided size as it is.
+I calculate the size of the graph for ImGui::BeginChild as above the following way:
+ImVec2 graphWindowSize = ImGui::GetContentRegionAvail();
+ImVec2 oneGraphSize = ImVec2(-1, graphWindowSize.y / allGraphs_.size() - allGraphs_.size());
+….
+ImGui::BeginChild(…, oneGraphSize, …);
+Please, notice the “- allGraphs_.size()” part. I need exactly one extra pixel for each ImGui::BeginChild call inside my window to be sure the vertical scroller will not appear. So, if I have 3 graphs I need to calculate the graph child window height the following way: graphWindowSize.y / 3 - 3. If I subtract, for example, 2 or 1 then unneeded vertical scroller appears.
+My question is: is such a behavior defective? And if it is not do you plan to provide a kind of helpers for translating floating point arithmetic (rounding) into the window coordinate system?
+Thank you.
+
+- All size values needs to be rounded to integer values.
+
+- What's your value for `style.ItemSpacing.y` ? Every item is separated by ItemSpacing.
+
+- Can you confirm this reproduces with e.g. raw `InvisibleButton()` call. Provide a repro would help.
+
+> Provide a repro would help.
+You are welcome.  For example_win32_directx12:
+ImGui::SetNextWindowSize(ImGui::GetIO().DisplaySize);
+ImGui::SetNextWindowPos(ImVec2());
+ImGui::Begin("Mike", nullptr, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoResize);
+ImVec2 graphWindowSize = ImGui::GetContentRegionAvail();// ImGui::GetWindowSize();
+ImVec2 oneGraphSize = ImVec2(-1, graphWindowSize.y / 3 /*- 3*/);
+ImGui::BeginChild("1", oneGraphSize);
+ImGui::EndChild();
+ImGui::BeginChild("2", oneGraphSize);
+ImGui::EndChild();
+ImGui::BeginChild("3", oneGraphSize);
+ImGui::EndChild();
+ImGui::End();
+
+
+-3 shall be commented out with c-style comment. I have tried to resend the code with the "insert code" button but it looks awful in preview too.
+
+Use \`\`\` markers to surround code blocks. 
+https://guides.github.com/features/mastering-markdown/
+
+```
+ImGui::SetNextWindowSize(ImGui::GetIO().DisplaySize);
+ImGui::SetNextWindowPos(ImVec2());
+ImGui::Begin("Mike", nullptr, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoResize);
+ImVec2 graphWindowSize = ImGui::GetContentRegionAvail();// ImGui::GetWindowSize();
+ImVec2 oneGraphSize = ImVec2(-1, graphWindowSize.y / 3 /*- 3*/);
+ImGui::BeginChild("1", oneGraphSize);
+ImGui::EndChild();
+ImGui::BeginChild("2", oneGraphSize);
+ImGui::EndChild();
+ImGui::BeginChild("3", oneGraphSize);
+ImGui::EndChild();
+ImGui::End();
+```
+
+
+Hello Mike,
+Have you read my answer above?
+
+
+If you take account of item spacing it works:
+
+```
+ImGui::Begin("Issue #3263", NULL);
+float avail_height = ImGui::GetContentRegionAvail().y;
+float spacing_y = ImGui::GetStyle().ItemSpacing.y;
+
+int graph_count = 3;
+ImVec2 graph_size;
+graph_size.x = -1.0f;
+graph_size.y = floorf((avail_height - (graph_count - 1) * spacing_y) / graph_count);
+
+ImGui::BeginChild("1", graph_size, true);
+ImGui::EndChild();
+ImGui::BeginChild("2", graph_size, true);
+ImGui::EndChild();
+ImGui::BeginChild("3", graph_size, true);
+ImGui::EndChild();
+ImGui::End();
+```
+![image](https://user-images.githubusercontent.com/8225057/82809966-9d02b880-9e8d-11ea-8135-989b8a1107a6.png)
+
+
+Good, thank you. I believe I will set the item spacing to zero for the concrete child window and will take it into account in the future. 
+
+ Problems with labels of ImGui long controls like sliders
+ Hi.
+I have several problems with labels of ImGui items.
+1. The total majority people I know read from left to right. All the program they work with and operating systems dialogs put labels of input fields and horizontal sliders on the left. I.e. all of them have a form “Label: <very long input control>”. ImGui places labels on the right. I have to handle the problem with additional programming. Checkboxes and radio-buttons are Ok to have their labels on the right.
+2. Horizontal sliders like SliderFloat may not be extended to the full window width. Even having been assigned an invisible label, like "##Label" and with ImGui::PushItemWidth(-100); helper they still have an empty place on the right.
+3. Does ImGui have a horizontal slider that a kind of moves a smaller window/range inside of a bigger one? The bigger the internal and external windows/ranges difference/width the smaller the runner size. I mean the following: [-----[===========]------------] and [-----[====]------------------]. I believe ImGui does have it for vertical sliders.
+
+Thank you in advance.
+1. This has been discussed in #395, we will eventually support various combination but the current setup (A) makes it easier to support text clipping with single draw call and (B) Is actually much more flexible in term of laying out multiple widgets on a same line. Having label on the left is actually quite a limiting thing. It's easy to re-implement with custom wrapper.
+
+2.  Use PushItemWidth/SetItemWidth(-FLT_MIN) to right align. You are giving the example of `-100` aka "leave 100 pixels unused".  I'm not sure I understand your question.
+
+3. I don't understand your request, so the answer is probably no. You can adjust style.GrabMinSize, and for integer sliders the grab width is adjusted based on the size it represent among the min/max range.
+
+
+
+
+I do not know why but I have decided that -100 is a magic value (as -1 for width of a window) while reading this github.com/ocornut/imgui/issues/267 . My bad.
+As for 3 I need a horizontal slider as in a text editor. If your screen is 100 symbols wide than while your strings are up to 100 symbols long a gui makes the runner (I am not sure how it is called) of the slider control is so big that it cannot move. 101 symbols long strings make the runner smaller and it can move a little (to scroll one symbol), 200 symbols long strings require the runner to be half the length of the scroller, 1000 symbols long strings and above require the smallest runner possible. I would like to pass to ImGui two ranges -- the big external one and small "visible" one and it would choose the proper length of the runner of the slider control (depending on its screen length).
+
+This is already what the vertical and horizontal scrollbars do I still don't understand your request.
+
+
+IMGUI_API bool          SliderFloat(const char* label, float* v, float v_min, float v_max, const char* format 
+OK, so you are trying to create a scrollbar with a slider.
+Why not using the regular Horizontal Scrollbar facility provided by windows?
+
+If you mean I could make the computer to render the whole data I need to visualize than I cannot do it because the data may not fit in its memory. I do not even use the plot facilities for this because such controls are not supposed to handle really big data. I select and decimate the data according to the window size and the portion is is supposed to show. One portion at a time. In parallel. But ImGui does not really need a parallel processing as I found. It is quick enough itself unlike QT + QWT bundle. The bad news is that my ImGui application is capable to work out the bounce of my mouse pointer (it bounces near the blinking cursor or in the whole ImGui window, at least when I drag the slider). The quick operation becomes the problem and I probably need a replacement for my mouse, or driver or OS -- I cannot believe that the mouse pointer is drawn programmably in the 21st century in Windows.
+
+**I mean if you need a scrollbar, use a scrollbar.**  I don't understand why you need a Scrollbar and are trying to use a Slider for it. This has nothing to do with "rendering whole data", for large sets you can still clip/decimate based on visibility.
+
+If you move the cursor inside a window it enlarge the maximum contents bounds of a window and create a scrollbar when contents is larger than window size. Surely you've noticed that dear imgui has scrollbars already. Horizontal scrollbars needs to be explicitly enabled with `ImGuiWindowFlags_HorizontalScrollbar`.
+
+I don't understand why your message is going in ten different directions instead of sticking on the topic. I'm sorry to say you've reached my patience quota. None of your five issues had the requested issue template filled. Please ask on Discord in the future.
+
+
+ imgui_impl_osx.mm: import the glfw workaround to avoid missing mouse clicks.
+ This PR addresses the "missing clicks" issue on mac, which happens very easily with the trackpad when using the soft click feature (it generates very quick Press/Release events that often do not span over two frames).
+
+YES PLEASE! Thanks for doing this and submitting a detailed issue with references. Pushed with very minor tweaks.
+
+ example_apple: catch events from the right and other mouse buttons.
+ The macOS examples example_apple_metal and example_apple_opengl2 do not catch the `right` and `other` mouse buttons.
+
+As a consequence the Dear ImGui Demo does not work properly, for example the `Popups & Modal Windows / Context Menus` does not work as it requires a right click.
+
+Note: the glfw examples are fine on macOS, so this PR only fixes the Cocoa-based examples.
+Merged, thank you!
+
+ Fix SDL+Vulkan example when minimized
+ Fixes crash when minimized / recover from minimized of SDL_Vulkan example by adding additional events,
+SDL_WINDOWEVENT_MINIMIZED and SDL_WINDOWEVENT_RESTORED
+
+Thomas
+
+Hello,
+Thanks for reporting this.
+- I get a bunch of validation layer error when trying to resize to zero.
+- I'm not sure why you commented out the `windowID` compare, this is most likely required to work with multi-viewports.
+
+Will look for another solution to this issue and try to patch the GLFW+Vulkan example which has the same issue.
+
+(PS: As pointed out above it's generally good when making a pull-request to try to conform to the local coding style. Thanks!)
+
+
+Hi Omar,
+
+*<<*
+
+   - *I get a bunch of validation layer error when trying to resize to
+   zero.*
+   - *I'm not sure why you commented out the windowID compare, this is most
+   likely required to work with multi-viewports.*
+
+*>>*
+I don't resize to zero I define a minimum size for resizing.
+My original problem was crashing on minimize or recover from minimized.
+Solving that problem was including the callbacks for MINIMIZED and RESTORED
+to rebuild the swapchain. Without I get the following error
+*VkResult -1000001004*
+
+I don't use multiple viewports but had that changed already in the
+night here (not on git)
+
+
+* case SDL_WINDOWEVENT:*
+* if (event.window.event == SDL_WINDOWEVENT_MAXIMIZED)*
+* {*
+* printf("Maximized\n");*
+* }*
+
+* if (event.window.event == SDL_WINDOWEVENT_MINIMIZED &&
+event.window.windowID == SDL_GetWindowID(window))*
+* {*
+* g_SwapChainResizeWidth = (int)event.window.data1;*
+* g_SwapChainResizeHeight = (int)event.window.data2;*
+* g_SwapChainRebuild = true;*
+* }*
+
+* if (event.window.event == SDL_WINDOWEVENT_RESTORED &&
+event.window.windowID == SDL_GetWindowID(window))*
+* {*
+* g_SwapChainResizeWidth = (int)event.window.data1;*
+* g_SwapChainResizeHeight = (int)event.window.data2;*
+* g_SwapChainRebuild = true;*
+* }*
+
+* if (event.window.event == SDL_WINDOWEVENT_RESIZED &&
+event.window.windowID == SDL_GetWindowID(window))*
+* {*
+* g_SwapChainResizeWidth = (int)event.window.data1;*
+* g_SwapChainResizeHeight = (int)event.window.data2;*
+* g_SwapChainRebuild = true;*
+* }*
+* break;*
+
+Best Regards
+Thomas Richter
+
+
+On Mon, 25 May 2020 at 11:01, omar <notifications@github.com> wrote:
+
+> Hello,
+> Thanks for reporting this.
+>
+>    - I get a bunch of validation layer error when trying to resize to
+>    zero.
+>    - I'm not sure why you commented out the windowID compare, this is
+>    most likely required to work with multi-viewports.
+>
+> Will look for another solution to this issue and try to patch the
+> GLFW+Vulkan example which has the same issue.
+>
+> —
+> You are receiving this because you authored the thread.
+> Reply to this email directly, view it on GitHub
+> <https://github.com/ocornut/imgui/pull/3259#issuecomment-633491548>, or
+> unsubscribe
+> <https://github.com/notifications/unsubscribe-auth/AD6WYM34SXTXWP56ANQXP73RTI6YNANCNFSM4NJD3K7Q>
+> .
+>
+
+
+Thomas, 
+
+- with Vulkan debug layer your PR gets me a bunch of error/warnings as we cannot create a zero-sized swap chains.
+- the code is unnecessary repetitive and misleading, as SDL sends zero values in data1/data2 for minimize/restore events.
+- I changed SDL backend to report minimized windows as (0,0) to be consistent with other back-ends.
+
+Pushed a couple of commits to address this in master and with multi-viewports, for both GLFW and SDL.
+- bb2529dd48f01d550afb00c3eff61a255e110282
+- a06eb833590478276a3c186a7b66a9cf5082ebf4
+- 0fe5170bc400b789dcb3038eb0ead9d540927dfd
+- and the merge 5d472c4895505414b3e729e947603c9a0c4893e9 include adjustments as well.
+
+Thanks for the report!
+
+ Line not drawing at the points I specify
+ Apologies if this has been addressed before but I didn't find anything from a quick Google search.
+
+I have the following code:
+```c++
+auto dl = ImGui::GetForegroundDrawList();
+
+vec2 offset = {10, 10};
+dl->AddRectFilled(offset, offset + vec2(100, 100), 0xFFFFFFFF);
+dl->AddRectFilled(offset + vec2(0, 100), offset + vec2(100, 200), 0xFF000000);
+
+dl->AddLine(offset + vec2(50, 0), offset + vec2(50, 100), 0xFF0000FF);
+```
+
+The line is being drawn 1 pixel lower than it should be, on the start and end points. Here's what it looks like: 
+![image](https://user-images.githubusercontent.com/2185132/82743786-fc51b300-9d3d-11ea-923f-1247ddfa7890.png)
+
+I'm probably just doing something stupid here but, I really don't understand why this happens!
+
+Hello @sci4me ,
+
+Could you specify your rendering back-ends as requested by the issue template?
+Also linking to #3116 and #2441.
+
+
+
+Ah, sorry about that @ocornut! Was being lazy and went quickly :P
+
+I am using `imgui_impl_glfw` and `imgui_impl_opengl3`. 
+
+The only thing I'm going to ask you if you post there is to not be lazy, fill the requested forms and do some searching. I'm spending dozen hours every week answering people problems here so any help is appreciated.
+
+
+@ocornut Absolutely; I'm on the same page. Frankly, my lazy posting goes against my own values so I really mean it when I say I'm sorry about that.
+
+Regarding the issue, I would tell you what commit I'm using but I've been a bad developer and currently I only have the minimum source files, etc. checked into my repo, so I'm not really sure what commit it would be. Lesson learned! :P Perhaps I should just update to latest and properly keep track of that.
+
+That rendering code haven't changed in a while so commit # isn't so important, best to specify version (mentioned in all dear imgui sources files) in general but here it won't make a difference. 
+
+I cannot repro here with DX11 nor OpenGL with:
+```
+ImDrawList* dl = ImGui::GetForegroundDrawList();
+
+ImVec2 offset(10, 10);
+dl->AddRectFilled(offset, ImVec2(offset.x + 100, offset.y + 100), 0xFFFFFFFF);
+dl->AddRectFilled(ImVec2(offset.x + 0, offset.y + 100), ImVec2(offset.x + 100, offset.y + 200), 0xFF000000);
+
+dl->AddLine(ImVec2(offset.x + 50, offset.y + 0), ImVec2(offset.x + 50, offset.y + 100), 0xFF0000FF);
+```
+
+Does this repro for you in the unmodified examples/ application?
+
+
+
+Yes, I just checked out the repo and added that snippet into the GLFW OpenGL 3 example right after the call to ImGui::NewFrame, and it does repro on my machine.
+
+Which operating system, video card and drivers? (Another thing requested by the issue template!) Thank you.
+
+OS: Linux 5.6.14-arch1-1 x86_64
+Video Card: MSI RTX 2060 (Rev. A supposedly)
+Driver: nvidia 440.82-17 (through the Arch Linux package)
+Compiler: g++ (gcc) 10.1.0
+
+Can not reproduce here.
+OS: Linux 5.6.10-arch1-1
+GPU: RX 580
+Driver: amdgpu
+Mesa: v20.0.6
+
+I have taken the GLFW+OpenGL3 example and modified it to be a relatively minimal program that, on my machine, repros this issue. (I'm really starting to wonder if it's my hardware specifically or something...)
+
+Here's how I built in:
+```
+g++ -I../ -I../../ ../imgui_impl_glfw.cpp ../imgui_impl_opengl3.cpp ../../imgui.cpp ../../imgui_draw.cpp ../../imgui_widgets.cpp main.cpp -o example_glfw_opengl3 -lGLEW -lglfw -lGL -DIMGUI_IMPL_OPENGL_LOADER_GLEW
+```
+I just ran that from the same example directory.
+
+And the code:
+<details>
+<summary>Expand Me</summary>
+
+```c++
+#define DIMGUI_IMPL_OPENGL_LOADER_GLEW
+
+#include "imgui.h"
+#include "imgui_impl_glfw.h"
+#include "imgui_impl_opengl3.h"
+#include <stdio.h>
+
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
+
+static void glfw_error_callback(int error, const char* description) {
+    fprintf(stderr, "Glfw Error %d: %s\n", error, description);
+}
+
+int main(int, char**) {
+    glfwSetErrorCallback(glfw_error_callback);
+    if (!glfwInit())
+        return 1;
+
+    const char* glsl_version = "#version 130";
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
+
+    GLFWwindow* window = glfwCreateWindow(1280, 720, "Dear ImGui GLFW+OpenGL3 example", NULL, NULL);
+    if (window == NULL)
+        return 1;
+    glfwMakeContextCurrent(window);
+    glfwSwapInterval(1);
+
+    if (glewInit() != GLEW_OK) {
+        fprintf(stderr, "Failed to initialize GLEW!\n");
+        return 1;
+    }
+
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+    ImGuiIO& io = ImGui::GetIO(); (void)io;
+
+    ImGui::StyleColorsDark();
+
+    ImGui_ImplGlfw_InitForOpenGL(window, true);
+    ImGui_ImplOpenGL3_Init(glsl_version);
+
+    while (!glfwWindowShouldClose(window)) {
+        glfwPollEvents();
+
+        ImGui_ImplOpenGL3_NewFrame();
+        ImGui_ImplGlfw_NewFrame();
+        ImGui::NewFrame();
+
+        {
+            ImDrawList* dl = ImGui::GetForegroundDrawList();
+
+            ImVec2 offset(10, 10);
+            dl->AddRectFilled(offset, ImVec2(offset.x + 100, offset.y + 100), 0xFFFFFFFF);
+            dl->AddRectFilled(ImVec2(offset.x + 0, offset.y + 100), ImVec2(offset.x + 100, offset.y + 200), 0xFF000000);
+
+            dl->AddLine(ImVec2(offset.x + 50, offset.y + 0), ImVec2(offset.x + 50, offset.y + 100), 0xFF0000FF);
+        }
+
+        ImGui::Render();
+        int display_w, display_h;
+        glfwGetFramebufferSize(window, &display_w, &display_h);
+        glViewport(0, 0, display_w, display_h);
+        glClearColor(0, 0, 1, 1);
+        glClear(GL_COLOR_BUFFER_BIT);
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+        glfwSwapBuffers(window);
+    }
+
+    ImGui_ImplOpenGL3_Shutdown();
+    ImGui_ImplGlfw_Shutdown();
+    ImGui::DestroyContext();
+
+    glfwDestroyWindow(window);
+    glfwTerminate();
+
+    return 0;
+}
+```
+</details>
+
+Let me know if there's anything else I can provide that I'm forgetting!
+
+ Render metal texture
+ Hi, how can I show an Image with metal texture, Image() does not work
+this is my texture loading code:
+```
+    MTLTextureDescriptor *textureDescriptor = [[MTLTextureDescriptor alloc] init];
+    
+    textureDescriptor.pixelFormat = MTLPixelFormatRGBA32Float;
+    
+    textureDescriptor.width = width;
+    textureDescriptor.height = height;
+    id<MTLTexture> texture = [g_device newTextureWithDescriptor:textureDescriptor];
+    MTLRegion region = {
+        { 0, 0, 0 },                   // MTLOrigin
+        {width, height, 1} // MTLSize
+    };
+    
+    NSUInteger bytesPerRow = 4 * width * sizeof(float);
+    
+    [texture replaceRegion:region
+    mipmapLevel:0
+      withBytes:imageData
+    bytesPerRow:bytesPerRow];
+```
+
+Hello Konstantin,
+
+If you look at comments and code in [imgui_impl_metal.mm](https://github.com/ocornut/imgui/blob/master/examples/imgui_impl_metal.mm) it says `ImTextureId` is defined as storing a `MTLTexture`. 
+
+Check `makeFontTextureWithDevice()` for an example of creating a texture or any other Metal reference/documentation. The code here is turning an id<MTLTexture> to a `ImTextureId` using `(__bridge void *)texture`
+
+I can't help much more as I'm not a Metal user.
+
+
+
+th
+
+> Hello Konstantin,
+> 
+> If you look at comments and code in [imgui_impl_metal.mm](https://github.com/ocornut/imgui/blob/master/examples/imgui_impl_metal.mm) it says `ImTextureId` is defined as storing a `MTLTexture`.
+> 
+> Check `makeFontTextureWithDevice()` for an example of creating a texture or any other Metal reference/documentation. The code here is turning an id to a `ImTextureId` using `(__bridge void *)texture`
+> 
+> I can't help much more as I'm not a Metal user.
+
+Thank you very much, I will try)
+
+ Allow drag window with mouse, but also ignore if appropriate.
+ **My Issue/Question:**
+
+Suppose I am drawing some custom UI inside an ImGui window.  I know I can stop ImGui from moving the window by making it an invisible button.  But what if I want a combination where sometimes I want to allow ImGui to move the window when clicking, and sometimes I want to take over the mouse interaction?  My scenario is that I have a custom rendered UI on an OpenGL surface, displayed as an image inside an ImGui Window.  I want the user to be able to click elements of that UI and interact with them, but I also want the user to be able to click outside the UI elements - in the dead space around them, to move the window in the usual ImGui way.
+
+Is there a recommended approach to this?  I thought about making it an invisible button, but then forwarding the message to ImGui if I was not interested in it, so that it can implement the window drag.
+
+My motivation is that I like the window drag, it helps stop windows getting stuck off screen.  But I don't want it to universally occur at any point inside my image.
+
+
+The following approach gives me what I want; not sure it is elegant or not ;)  m_pCaptureParam indicates if the user is interacting with my custom control....
+
+`    ImGui::GetIO().ConfigWindowsMoveFromTitleBarOnly = (m_pCaptureParam != nullptr);`
+
+
+Hello,
+
+You should be able to use `StartMouseMovingWindow()` from `imgui_internal.h` when your click lands on area that you don't use. 
+In the `docking` branch this function has a slightly different signature to decide how to behave with docking node.
+
+-Omar
+
+ How to disable Ctrl-tab menu ?
+ Version: Dear ImGui 1.77 WIP (17601)
+Branch: master
+Back-ends: SFML
+Compiler: VS2019 c++
+Operating System: win10x64
+
+Hi,
+
+How do I disable the Ctrl-tab menu ? 
+Because I would like to use ctrl-tab to manage my own window navigation logic, including other Non-Imgui windows.
+Hello,
+
+Ctrl+Tab handling is currently enabled with keyboard navigation, aka setting the `ImGuiConfigFlags_NavEnableKeyboard` configuration flag.
+
+In theory we could add detailed flags to enable/disable subfeatures of keyboard navigation but I'd be interested in figuring out a more general way of dispatching inputs where you would somehow mark the ctrl+tab as handled and nav system won't handle that.
+
+Pragmatically it may be faster to expose those enable/disable flags sooner (I can think of situation where e.g. it would also be good to selectively enable/disable page up/page down).
+
+
+Thanks. Reading the comments in the main code, I did not figure out what was covered by the term "navigation" : now I understand better (I just found in the demo code the explanation that I missed ). 
+
+Alas, the other features of navigation (esc, space, enter) were useful to me. But infact I am stupid : I just can steal this precise ctrl-tab event just before the call to ImGui::ProcessEvent... It should not be a problem, is it ?
+
+For your suggestions, indead, a way to handle these inputs separately, or maybe to reaffect theses naviguation keys would be great. By the way, what do you mean by "expose flags sooner" ? I read this expression a lot of time in the issues, but I do not understand what it means.
+
+> I just can steal this precise ctrl-tab event just before the call to ImGui::ProcessEvent
+
+You can't really steal or claim to handle inputs, that's my point. The only think you can do is to clear inputs manually before passing them to `NewFrame()` but that's not going to work for operations that rely on more context (Ctrl+Tab doesn't rely on much context, but say, PageUp depends on the active widget). Additionally there's no `ProcessEvent` function in dear imgui so I'm not sure what you are referring to. Inputs are exposed and available thorough the frame.
+
+"Expose flags" = "add flags"
+"Sooner" as is, not "later" ??
+
+I'm saying we could always add flags to select which feature to enable, but this is ultimately not the right solution (the right solution is to have a way to dispatch inputs, and it's going to be complex considering how dear imgui work), but the right solution being complex maybe it's ok to add the flags soon instead of waiting forever for the right solution..
+
+Sorry, the ProcessEvent function is from the SFML backend, to send an event to ImGui from the event polling loop of my app :  ImGui::SFML::ProcessEvent(event) . 
+
+So, by stealing, I really mean not sending this particular ctrl-tab event to ImGui at all (thru the ImGuiIO object I suppose). I agree that it cannot be a solution for more complex keys that works only on some precise widgets. 
+
+> "Sooner" as is, not "later" ??
+
+:-D    I was more interested in the meaning you were giving to "expose".
+
+For the perfect solution of "dispatching inputs", as ImGui is always working "one frame later" (or is not aware of its full state until the end of the frame due to its inherent immediate mode), I cannot figure out how you could dispatch inputs ahead. 
+
+Imho, a few flags could definitely do the job.
+
+
+
+
+ Groups do not align as expected
+ **Version/Branch of Dear ImGui:**
+
+Version: 1.76 WIP
+Branch: master
+
+**Back-end/Renderer/Compiler/OS**
+
+Back-ends: SFML (OpenGL)
+Operating System: Windows 10
+
+**My Issue/Question:**
+
+Groups do not align as expected. Between button `A` and `B` is a visible height difference
+
+**Screenshots/Video**
+
+![image](https://user-images.githubusercontent.com/35461917/82687664-41071c80-9c60-11ea-8bcf-b3761537c5df.png)
+
+**Standalone, minimal, complete and verifiable example:**
+```cpp
+void group(std::string title, std::function<void()> fct) {
+    using namespace ImGui;
+    BeginGroup();
+    PushFont(GetIO().Fonts->Fonts[1]);
+    Text(&title[0]);
+    PopFont();
+    fct();
+    EndGroup();
+}
+int main() {
+    // Before main loop
+    ImGui::SFML::Init(window, false);
+    auto io = ImGui::GetIO();
+    io.Fonts->AddFontFromFileTTF("font.ttf", 18);
+    io.Fonts->AddFontFromFileTTF("font.ttf", 30);
+    ImGui::SFML::UpdateFontTexture();
+
+    // Inside main loop
+    using namespace ImGui;
+    Begin("Test", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
+    group("Asadasd", [&] {
+        Text("gergre");
+    });
+    SameLine();
+    group("Asddasdsad", [&] {
+        Text("geefefefefefrgre");
+    });
+    group("Gd", [&] {
+        Button("A");
+    });
+    SameLine();
+    group("hjH", [&] {
+        Button("B");
+    });
+    SameLine();
+    group("hjfH", [&] {
+        Button("B");
+    });
+    End();
+}
+```
+Any updates?
+
+It seems like you tripped on [this detail](https://github.com/ocornut/imgui/blob/d29157ce584e731114ff09d448120e094307304f/imgui.cpp#L7320). As a workaround you can add `AlignTextToFramePadding()` after `BeginGroup()`.
+
+@rokups , it worked. Thx for help
+
+ Vulkan global pipeline is unable to distinguish user render-pass vs gw renderpass.
+ 
+**Version/Branch of Dear ImGui:**
+
+Version: commit 9a363c7c922c04440d0b1901a61e14b796c84fae
+Branch: docking
+**Back-end/Renderer/Compiler/OS**
+
+Back-ends: imgui_impl_vulkan.cpp + imgui_impl_glfw.cpp
+Compiler: clang++
+Operating System: Mac OS X / Linux
+
+**My Issue/Question:**
+
+I am  using the docking branch of Dear ImGui in a code of mine. Everything works fine but when one of the Dear ImGui windows is given a new system window, the Vulkan Khronos debug layer gives an error:
+
+ Backends: Allegro: Don't call AddInputCharacter if the pressed key has no character.
+ - Commit ef13d95466f27b4a955d6f95da90822001ace25f moved the logic of checking for invalid Unicode codes from each backend to Dear ImGui's AddInputCharacter function proper.
+- Commit c8ea0a017d0ea851225f159f26816d86799163a8 then removed that logic, replacing it with something that inserts a question mark-like character in the case of an invalid Unicode code.
+- As a result, after these two commits, if an Allegro keypress has no associated character (arrow keys, End, Page Up, etc.), it will send zero with nobody to filter it out.
+- With this fix, no-character inputs won't even call AddInputCharacter to begin with.
+- Tested with arrow keys, Page Up, etc., tested with regular character keys, and tested with some Unicode symbols directly from the keyboard, like €.
+Thanks @Espyo for the thoughtful commit and explanation.
+
+Looking at c8ea0a017d0ea851225f159f26816d86799163a8 again, I feel like we should add a != 0 test in the lower-level functions `AddInputCharacter()`. I guess we were focusing on the "other" invalid inputs but since lows of back-ends have been passing value to `AddInputCharacter()` filtered it makes sense to add the test back as ef13d95466f27b4a955d6f95da90822001ace25f intended.
+
+I don't mind also leaving the if != 0 in Allegro back-end because that event can query both types of data.
+
+
+ build instructions for msys2 in example_sdl_opengl3 should use SDL2
+ The comment for building on windows/MSYS2 references the wrong package:
+https://github.com/ocornut/imgui/blob/master/examples/example_sdl_opengl3/Makefile#L11
+
+it should be `mingw-w64-i686-SDL2` instead of `mingw-w64-i686-SDL`. then it works just fine.
+Hello,
+
+I changed it but as with everything package-manager-related I expect the person who added this original comment added this for a reason and it may be SDL on some configuration, SDL2 on others. Updating for now, being just a comment it is fairly harmless :)
+
+Thank you!
+
+ Move visual studio 'Fix Projects' step to standalone script
+ - Move visual studio 'Fix Projects' step to standalone script
+- Simplify the script, so that it searches for a regex match instead of a hardcoded version.
+
+The rationale behind moving it to a standalone script is that it makes it easier for people to upgrade to a specific version that is most convenient for them.
+Hello and thanks for the PR,
+
+> The rationale behind moving it to a standalone script is that it makes it easier for people to upgrade to a specific version that is most convenient for them.
+
+Out of curiosity, wouldn't the VS IDE offer you to update to whichever version is active already?
+Do you often use the command-line to perform this yourself?
+
+Feedback:
+- if standalone the script should include some more comments about what it does and why
+- be called vs_update_toolset instead of just update_toolset
+- misc/README.txt should be updated
+
+Thank you!
+
+> Hello and thanks for the PR,
+> 
+> > The rationale behind moving it to a standalone script is that it makes it easier for people to upgrade to a specific version that is most convenient for them.
+> 
+> Out of curiosity, wouldn't the VS IDE offer you to update to whichever version is active already?
+> Do you often use the command-line to perform this yourself?
+> 
+> Feedback:
+> 
+> * if standalone the script should include some more comments about what it does and why
+> * be called vs_update_toolset instead of just update_toolset
+> * misc/README.txt should be updated
+> 
+> Thank you!
+
+It is a per-project option, and can be selected on multiple projects, but it is more convenient to run a script for stuff like this.
+As for if I often do this: Before committing stuff I revert the project file changes, after that I re-apply them with the script.
+I'll update with those changes soon.
+
+@ocornut is it ok for you if I add a third commit renaming the file & adding comments?
+
+Yes go for it, although presently I'm not 100% certain I want to introduce that extra script, but best have the PR be ready with those changes anyway (and I'll squash when merging). Thanks!
+
+ Win32: Default to XInput9_1_0.dll
+ This PR concludes the discussion from #2716.
+
+PR consists of two separable commits, however they are logically related:
+* The first commit makes all Win32 examples link to xinput9_1_0.dll by default instead of xinput1_4.dll. This is realized by linking against xinput9_1_0.lib and making that compilation unit target Windows 7, unless specified otherwise.
+* The second commit addresses a nasty catch I spotted while working on the first one. When compiling examples, I noticed that XInput headers referenced XInput 1.4, but samples got linked against XInput 1.3. This could lead to some nasty bugs where the sample looks like it links against XInput 1.4, but in reality it doesn't. To address this, I verified all uses of `DXSDK_DIR`, and turns out they are all useless with the current setup. To avoid such ambiguities, I removed them all.
+Hello,
+
+- Which platform SDK version and MSVC versions have tried this with?
+- What happens when other compilation units target other Windows version or Xinput versions?
+- Ditto for linking, you state than linking 1.3 and including with 1.4 is problematic, how does using 9_1_0 with different variations of user applications using and linking other versions?
+- Afaik DXSDK_DIR is useful for pre 8.0 windows sdk.
+
+Thank you
+
+First of all, to provide context to used toolsets and IDEs - I have every Visual Studio from 2008 through 2019 installed on my PC. Therefore, what I see "by default" when opening project files on a clean repository is exactly what they are committed as, without any IDE upgrades.
+
+> - Which platform SDK version and MSVC versions have tried this with?
+
+`imgui_examples.sln` is a VS2015 solution with projects using a `v110` (VS2012) toolset. Since this toolset predates the concept of selectable Windows SDK's, it uses a 8.0 SDK for me.
+
+
+> - What happens when other compilation units target other Windows version or Xinput versions?
+
+AFAIK nothing. Multiple XInput versions can be used at once without issues, and it should work fine by default. If somebody needs it to be the other way, they'll have to tailor those examples for their liking but that has to be done at the moment too, so nothing changes.
+
+
+> - Ditto for linking, you state than linking 1.3 and including with 1.4 is problematic, how does using 9_1_0 with different variations of user applications using and linking other versions?
+
+It's not problematic in the technical sense, but it is problematic in the sense that if you peek at headers, you expect 1.4 to be linked but then the inclusion of `DXSDK_DIR` in lib paths (but not include paths) links it against 1.3. This might lead to issues like _"but hey, example code linked against 1.4 and it works on Windows 7 but my own application doesn't!"_ which the user will be scratching their head over unless they peek at the binary with Dependency Walker.
+
+
+> - Afaik DXSDK_DIR is useful for pre 8.0 windows sdk.
+
+Of course, but the way I see it, *project* configuration shouldn't be as generic as possible because people integrating imgui in their projects will not use it either way. This is merely a fix to make examples themselves consistent, and since they all target the 8.0 SDK by default, I consider it the target. If users need to change it, they'll need to modify the project either way and so they may as well end up re-adding `DXSDK_DIR`.
+
+
+That said, you technically can still mismatch XInput 1.3 and 1.4, because the way they are picked differs greatly between the Windows SDK XInput and the DXSDK one. For Windows SDK, it is just:
+
+```cpp
+#if(_WIN32_WINNT >= _WIN32_WINNT_WIN8)
+#define XINPUT_DLL_A  "xinput1_4.dll"
+#define XINPUT_DLL_W L"xinput1_4.dll"
+#else 
+#define XINPUT_DLL_A  "xinput9_1_0.dll"
+#define XINPUT_DLL_W L"xinput9_1_0.dll"
+#endif
+```
+
+meanwhile for DXSDK, it is
+
+```cpp
+#ifndef XINPUT_USE_9_1_0
+#define XINPUT_DLL_A  "xinput1_3.dll"
+#define XINPUT_DLL_W L"xinput1_3.dll"
+#else
+#define XINPUT_DLL_A  "xinput9_1_0.dll"
+#define XINPUT_DLL_W L"xinput9_1_0.dll"
+#endif
+```
+
+I honestly don't know how to solve this incosistency without using dynamic linking. If the XInput library was loaded by `LoadLibrary` instead of using `#pragma comment`, imgui's code could just do `LoadLibrary(XINPUT_DLL)` and roll with it without any care for whether it's XInput9_1_0, XInput1_3 or XInput1_4.
+
+LoadLibrary doesn't sound bad either, but given that we already kind of assumed 9.1.0 is already more than enough, why can't you just define `XINPUT_USE_9_1_0` and call it a day?
+
+> why can't you just define `XINPUT_USE_9_1_0` and call it a day?
+
+That's a valid point. The combination of targeting Win7 and `XINPUT_USE_9_1_0` should ensure that by default only xinput9_1_0.dll is linked, no matter what SDK is used.
+
+Updated the PR with the suggestion from @mirh, because it solves the ambiguity of linked XInput libraries completely:
+
+* If the example uses XInput headers from Windows SDK, it picks `xinput9_1_0` because of `WINVER` targetting Win7.
+* If the example uses XInput headers from DXSDK, it picks `xinput9_1_0` because of `XINPUT_USE_9_1_0` macro.
+
+This should allow people to use this sample code in their own projects out of the box without any nasty surprises caused by their project settings. Of course, we only care about the default behaviour here, so it anyone wants to link against xinput1_3 or xinput1_4 instead, they need to edit the code - but that is not surprising, I think.
+
+ Extended Codepoints in Alternative Material Design Icon Font
+ **Version/Branch of Dear ImGui:**
+
+Version: 1.76
+
+**Back-end/Renderer/Compiler/OS**
+
+Back-ends: `imgui_impl_glfw.cpp` + `imgui_impl_opengl3.cpp`
+Compiler: MSVC 19.25.28614
+Operating System: Windows 10
+
+**My Issue/Question:**
+
+I am trying to use an icon font with fairly large (5 digit) codepoints from my application. An overview of the contents of the font is here:
+
+https://cdn.materialdesignicons.com/5.2.45/
+
+My application is working fine with the standard material design icon font, which uses 4 digit codepoints.
+
+I am merging the material design font into my font atlas like this:
+
+```
+static const ImWchar icons_ranges[] = { 0xF000, 0xFFFF, 0 };
+ImFontConfig icons_config; icons_config.MergeMode = true; icons_config.PixelSnapH = true;
+auto materialdesign = new unsigned char[fonts::materialdesign_length];
+memcpy(materialdesign, fonts::materialdesign, size_t(fonts::materialdesign_length));
+ImGui::GetIO().Fonts->AddFontFromMemoryTTF(materialdesign, fonts::materialdesign_length, font_size, &icons_config, icons_ranges);
+```
+
+The first issue is that the `icons_ranges` does not take a large enough value for the codepoints in my font. I tried also passing `nullptr` to `AddFontFromMemoryTTF` to see if it would just merge everything, but had no success there.
+
+I am trying to reference the glyphs in the font using UTF-8 bytes like this:
+
+```
+ImGui::TreeNodeEx(fmt::format("{0} {1}", "\xef\x85\x87\x64", n->name()).c_str(), leaf_flags);
+```
+
+...or by letting the compiler do the conversion, like this:
+
+```
+ImGui::TreeNodeEx(fmt::format("{0} {1}", u8"\uf147d", n->name()).c_str(), leaf_flags);
+```
+
+No success with either approach. Any help would be appreciated. Definitely not a unicode expert, but did my best to try and answer my own questions as much as possible before submitting a new issue. 
+
+Hello
+
+You’ll need to enable IMGUI_USE_WCHAR32 in imconfig.h to use unicode codepoint larger than 0xFFFF.
+
+
+
+
+Finally managed to get this working. Once I got the `IMGUI_USE_WCHAR32` happening, I was able to use:
+
+`static const ImWchar icons_ranges[] = { 0xF1000, 0xFF000, 0 };`
+
+And then I had to figure out the magic incantation to make the compiler happy with the extended codepoints. This seems to work:
+
+`ImGui::TreeNodeEx(u8"\U000F147D" "Hello", leaf_flags);`
+
+Thank you for the help! Might be a good FAQ addition?
+
+ Cleanup OpenGL 3 loader detection
+ OpenGL 3 backend header has some logic to auto-detect the GL loader, however that is only necessary for the implementation in the cpp, not in the header. This change moves the code from the header to the cpp. This avoids unnecessary global macro pollution as well as potential for mistakes since previously `IMGUI_IMPL_OPENGL_LOADER_*` and `IMGUI_IMPL_OPENGL_*` would have to have consistent values every time `imgui_impl_opengl3.h` was included.
+
+Hello @funchal and thanks for the PR.
+
+You are right most of this doesn't need to be in the header file. Prior to #2798 this block only had a few #ifdef and #defines.
+
+Could you:
+
+1) Keep the OpenGL ES commented defines in the .h (instead of .cpp), so they are visible and helpful as documentation.
+
+2) Add commented #define for each of the 6 desktop loaders (likewise, for documentation) along with a comment redirecting to the cpp file for details on loaders.
+
+Thank you!
+
+Thank you so much for taking the time to review this. I have applied your suggestions.
+
+dear imgui is awesome, I've been a user for absolutely ages and I'm happy that I finally found a little time to try to contribute.
+
+Thank you!
+
+Well, bad news ahead :/
+Looking at the final patch, it looks like the need to add the define to the main.cpp files defeat the purpose of this unfortunately, so I don't think it is worth it anymore (and would technically constitute a breakage, even if I'm not too fussed by small breakage in back-end api).
+
+Also note that `imgui_impl_opengl3.h` is unlikely to need to be included from more than 1 compile-unit from user point of view.
+
+Yes, I agree.
+
+However, note that when `IMGUI_IMPL_OPENGL_ES2/3` is defined, we ignore these settings. See below:
+
+https://github.com/ocornut/imgui/blob/2e2c962f45d1473edd8e621a34d889af87baef82/examples/imgui_impl_opengl3.cpp#L124-L131
+
+This is what bothered me originally. In my case I use ES2 so I had to define `IMGUI_IMPL_OPENGL_ES2` *as well* as `IMGUI_IMPL_OPENGL_LOADER_CUSTOM` otherwise the autodetection would (incorrectly) kick in and `#include` the wrong thing.
+
+So let me suggest one more thing. Perhaps what we should do is move the code for `IMGUI_IMPL_OPENGL_ES2/3` detection from cpp to h in the other direction, so that it happens before the __has_include auto-detection. In this case if `IMGUI_IMPL_OPENGL_ES2` is defined by a user (or autodetected) then `IMGUI_IMPL_OPENGL_LOADER_CUSTOM` doesn't have to also be provided.
+
+https://github.com/ocornut/imgui/blob/2e2c962f45d1473edd8e621a34d889af87baef82/examples/imgui_impl_opengl3.cpp#L115-L122
+
+In other words, basically the header file would have this (in order):
+```
+// Auto-enable GLES on matching platforms 
+#if !defined(IMGUI_IMPL_OPENGL_ES2) && !defined(IMGUI_IMPL_OPENGL_ES3) 
+
+#if (defined(__APPLE__) && (TARGET_OS_IOS || TARGET_OS_TV)) || (defined(__ANDROID__)) 
+#define IMGUI_IMPL_OPENGL_ES3           // iOS, Android  -> GL ES 3, "#version 300 es" 
+#elif defined(__EMSCRIPTEN__) 
+#define IMGUI_IMPL_OPENGL_ES2           // Emscripten    -> GL ES 2, "#version 100" 
+#else
+
+// Desktop OpenGL: attempt to detect default GL loader based on available header files.
+// If auto-detection fails or doesn't select the same GL loader file as used by your application,
+// you are likely to get a crash in ImGui_ImplOpenGL3_Init().
+// You can explicitly select a loader by using '#define IMGUI_IMPL_OPENGL_LOADER_XXX' in imconfig.h or compiler command-line.
+    #if !defined(IMGUI_IMPL_OPENGL_LOADER_GL3W) \
+     && !defined(IMGUI_IMPL_OPENGL_LOADER_GLEW) \
+     && !defined(IMGUI_IMPL_OPENGL_LOADER_GLAD) \
+     && !defined(IMGUI_IMPL_OPENGL_LOADER_GLBINDING2) \
+     && !defined(IMGUI_IMPL_OPENGL_LOADER_GLBINDING3) \
+     && !defined(IMGUI_IMPL_OPENGL_LOADER_CUSTOM)
+        #if defined(__has_include)
+            #if __has_include(<GL/glew.h>)
+                #define IMGUI_IMPL_OPENGL_LOADER_GLEW
+            #elif __has_include(<glad/glad.h>)
+                #define IMGUI_IMPL_OPENGL_LOADER_GLAD
+            #elif __has_include(<GL/gl3w.h>)
+                #define IMGUI_IMPL_OPENGL_LOADER_GL3W
+            #elif __has_include(<glbinding/glbinding.h>)
+                #define IMGUI_IMPL_OPENGL_LOADER_GLBINDING3
+            #elif __has_include(<glbinding/Binding.h>)
+                #define IMGUI_IMPL_OPENGL_LOADER_GLBINDING2
+            #else
+                #error "Cannot detect OpenGL loader!"
+            #endif
+        #else
+            #define IMGUI_IMPL_OPENGL_LOADER_GL3W       // Default to GL3W
+        #endif
+    #endif
+#endif
+
+#if defined(IMGUI_IMPL_OPENGL_ES2) || defined(IMGUI_IMPL_OPENGL_ES3) 
+#undef IMGUI_IMPL_OPENGL_LOADER_GL3W
+#undef IMGUI_IMPL_OPENGL_LOADER_GLEW
+#undef IMGUI_IMPL_OPENGL_LOADER_GLAD
+#undef IMGUI_IMPL_OPENGL_LOADER_GLBINDING2
+#undef IMGUI_IMPL_OPENGL_LOADER_GLBINDING3
+#undef IMGUI_IMPL_OPENGL_LOADER_CUSTOM
+#endif 
+
+```
+
+I agree yes. Seems like this was overlooked when adding the auto-detection macros.
+
+- Note that `<TargetConditionals.h>` would need to be included on OS X (this is fine)
+- I think the auto-detection block could be omitted if either of the ES define are set, by adding two extra #ifndef in that block.
+- And then it means we can delete the `#undef` block perhaps?
+
+
+Yes, I think this is better. Updated.
+
+Merged with minor tweaks (moved comments below to prioritize important contents of imgui_impl_opengl3.h)
+Thanks a lot for your help!
+
+ Feedback wanted: texture-based paths for anti-aliased lines
+ We have various changes coming in the low-level drawing pipelines (mostly implemented by Ben aka @ShironekoBen) and for some of them we'll be looking for feedback.
+
+The first one is fairly simple and available in the `features/tex_antialiased_lines` branch:
+https://github.com/ocornut/imgui/tree/features/tex_antialiased_lines
+
+**We made it that lines up to a certain thickness are relying on texture data instead of extra polygon.**
+
+Essentially:
+
+- Lines that are 1.0f thick now use 50% less indices, 33% less vertices, CPU perfs should be similar.
+- Lines thicker than >1.0f now use 66% less indices, 50% less vertices, in addition they are faster to render on CPU (there's too many factor involved but would say roughly 20-30% faster).
+- Both paths use same code and indices/vertices count. This is useful as it means future DPI and style related changes can make it easier to scale thickness.
+
+Added in style:
+`bool style.AntiAliasedLinesUseTex`
+
+Added in font atlas:
+`ImFontAtlas: ImFontAtlasFlags_NoAntiAliasedLines` (disable the whole thing which takes about 64x64 pixels or pixel space, for very low memory footprint devices)
+
+Restriction:
+- This works if the renderer is using bilinear interpolation on the texture rather than point/nearest filtering. The majority of back-ends and renderers are already doing so, but some embedded/low-end GPU back-ends may not. 
+
+Feedback wanted:
+
+- **We'd like large or unusual users of lines primitives to be testing this branch if they can. While I think the branch is looking good in most tests we done, the exact pixels output is different and it might affect some. We're curious in particular if this is affecting people using non-integer thickness (e.g. 1.5) or doing unusual scaling.**
+- **You may try to add a live toggle in your main loop, e.g. `style.AntiAliasedLinesUseTex = !ImGui::GetIO().KeyShift` as a way to easily compare for difference.**
+
+This is most probably breaking PR #2964 which we will rework accordingly.
+
+This should merge in `docking` with 1 minor conflict which should be obvious to fix when merging (conflicting comments in nearby lines).
+
+Taking the liberty to tag people who I suspect may be interested (writers of node editors or plot widgets):
+
+@rokups @thedmd @inflex @wolfpld @epezent @r-lyeh @soulthreads @mkalte666 @Nelarius
+
+Here are my test results for ImPlot:
+
+## Computer
+- Windows 10 64-bit
+- i7 9700K
+- Nvidia RTX 2070
+- 32 GB Ram
+
+## Test Setup Description
+- added `ImPlot` sources to `imgui_test_app` Project
+- replaced `ShowUI` with `ShowImPlotBenchmark` below
+- used IMGUI_APP_WIN32_DX11 backend
+- enabled 32-bit indices in `imconfig.h`
+- passed `-nothrottle` option
+- `ImPlotFlags_AntiAliased` flag set (ImPlot will use `DrawList.AddLine` for each individual segment)
+
+## Test Code
+```cpp
+float RandomRange(float min, float max) {
+    float scale = rand() / (float)RAND_MAX;
+    return min + scale * (max - min);
+}
+
+struct BenchmarkItem {
+    BenchmarkItem() {
+        float y = RandomRange(0, 1);
+        Data = new ImVec2[1000];
+        for (int i = 0; i < 1000; ++i) {
+            Data[i].x = i * 0.001f;
+            Data[i].y = y + RandomRange(-0.01f, 0.01f);
+        }
+        Col = ImVec4(RandomRange(0, 1), RandomRange(0, 1), RandomRange(0, 1), 1);
+    }
+    ~BenchmarkItem() { delete Data; }
+    ImVec2* Data;
+    ImVec4 Col;
+};
+
+static void ShowImPlotBenchmark() {
+    ImGui::SetNextWindowPos(ImVec2(0, 0), ImGuiCond_Always);
+    ImGui::SetNextWindowSize(ImVec2(1400, 850));
+    ImGui::Begin("ImPlot Benchmark");
+    static const int n_items = 100;
+    srand(0);
+    static BenchmarkItem items[n_items];
+    ImGui::BulletText("%d lines with %d points each @ %.3f FPS.", n_items, 1000, ImGui::GetIO().Framerate);
+    ImPlot::SetNextPlotLimits(0, 1, 0, 1, ImGuiCond_Always);
+    if (ImPlot::BeginPlot("##Bench", NULL, NULL, ImVec2(-1, -1), ImPlotFlags_Default)) {
+        char buff[16];
+        ImPlot::PushStyleVar(ImPlotStyleVar_LineWeight, 1);
+        for (int i = 0; i < 100; ++i) {
+            sprintf(buff, "item_%d", i);
+            ImPlot::PushStyleColor(ImPlotCol_Line, items[i].Col);
+            ImPlot::PlotLine(buff, items[i].Data, 1000);
+            ImPlot::PopStyleColor();
+        }
+        ImPlot::PopStyleVar();
+        ImPlot::EndPlot();
+    }
+    ImGui::End();
+}
+```
+
+## Results
+
+I made the comparison between `imgui/master` and `imgui_private/features/tex_antialiased_lines`. I couldn't detect any noticeable visual differences between them. I also toggled `ImDrawListFlags_AntiAliasedLinesUseTexData` on/off while zooming/panning, moving plot windows, etc. I never saw anything strange. As expected, there is an appreciable performance boost using the new texture anti-aliased method as well. 
+
+You can overlay the images below in Photoshop and see that there is a *very tiny* difference between the two in some areas, but not enough to concern me. 
+
+### `imgui/master`
+
+thickness = 1 : FPS = 153
+![master_aa_1](https://user-images.githubusercontent.com/29577475/82127187-4c95a780-9777-11ea-9219-63d594e651bc.png)
+
+thickness = 2 : FPS = 124
+![master_aa_2](https://user-images.githubusercontent.com/29577475/82127196-57e8d300-9777-11ea-8797-ffa8d1dfd447.png)
+
+### `imgui_private/features/tex_antialiased_lines`
+
+thickness = 1 : FPS = 169
+![tal_aa_1](https://user-images.githubusercontent.com/29577475/82127209-6d5dfd00-9777-11ea-8c60-7f8a51ec039e.png)
+
+thickness = 2 : FPS = 167
+![tal_aa_2](https://user-images.githubusercontent.com/29577475/82127219-7bac1900-9777-11ea-8897-8156317072e7.png)
+
+ImPlot's non-anti aliased solution which bypasses `DrawList.AddLine` is still quite a bit faster at 370 FPS. My preference is to use this and MSAA, but it's still nice to see an improved software AA solution! Let me know how else I can be useful.
+
+Thanks (again) for your amazing feedback :)
+
+> ImPlot's non-anti aliased solution which bypasses DrawList.AddLine is still quite a bit faster at 370 FPS
+
+Have you tried disabling `ImDrawListFlags_AntiAliasedLines` in the current drawlist flag? Curious about the cost here.
+
+I can see some differences, in the following code:
+
+```c++
+static void DrawZigZag( ImDrawList* draw, const ImVec2& wpos, double start, double end, double h, uint32_t color, float thickness = 1.f )
+{
+    const auto spanSz = end - start;
+    if( spanSz <= h * 0.5 )
+    {
+        draw->AddLine( wpos + ImVec2( start, 0 ), wpos + ImVec2( start + spanSz, round( -spanSz ) ), color, thickness );
+        return;
+    }
+
+    const auto p = wpos + ImVec2( 0.5f, 0.5f );
+    const auto h05 = round( h * 0.5 );
+
+    draw->PathLineTo( p + ImVec2( start, 0 ) );
+    draw->PathLineTo( p + ImVec2( start + h05, -h05 ) );
+    start += h05;
+
+    const auto h2 = h*2;
+    int steps = int( ( end - start ) / h2 );
+    while( steps-- )
+    {
+        draw->PathLineTo( p + ImVec2( start + h,   h05 ) );
+        draw->PathLineTo( p + ImVec2( start + h2, -h05 ) );
+        start += h2;
+    }
+
+    if( end - start <= h )
+    {
+        const auto span = end - start;
+        draw->PathLineTo( p + ImVec2( start + span, round( span - h*0.5 ) ) );
+    }
+    else
+    {
+        const auto span = end - start - h;
+        draw->PathLineTo( p + ImVec2( start + h, h05 ) );
+        draw->PathLineTo( p + ImVec2( start + h + span, round( h*0.5 - span ) ) );
+    }
+
+    draw->PathStroke( color, false, thickness );
+}
+```
+
+### Example 1
+
+Flag enabled:
+![obraz](https://user-images.githubusercontent.com/600573/82236180-0afe2b80-9934-11ea-9b97-7b31a5a275f1.png)
+
+Flag disabled:
+![obraz](https://user-images.githubusercontent.com/600573/82236355-4567c880-9934-11ea-81b8-6fa690da53b6.png)
+
+Some pixels are missing, doesn't really matter here.
+
+### Example 2
+
+Enabled:
+![obraz](https://user-images.githubusercontent.com/600573/82236756-dd65b200-9934-11ea-97ee-74864445aec0.png)
+
+Disabled:
+![obraz](https://user-images.githubusercontent.com/600573/82236779-e9517400-9934-11ea-8e53-5c86a662d663.png)
+
+Thickness `1.5`, rendering becomes blurry.
+
+Other than that, everything looks the same.
+
+@ocornut 
+
+> Have you tried disabling ImDrawListFlags_AntiAliasedLines in the current drawlist flag? Curious about the cost here.
+
+Yes, I have. My problem was that I couldn't use `AddPolyline` directly because ImPlot supports offset/circular data (and also at the time AddPolyLine was giving some artifacts for mitered corners). So, naturally I switched to `AddLine()` to render each individual segment separately. But I noticed this calls `PrimReserve` each time. Thus, I stole the non-AA part of `AddPolyline`, and put it in directly in my line rendering for-loop. Approximate performance of each method:
+
+- `DrawList.AddLine()` w/ `ImDrawListFlags_AntiAliasedLines` for each segment
+  - ~120-150 FPS
+- `DrawList.AddLine()` w/o `ImDrawListFlags_AntiAliasedLines` for each segment
+  - ~250 FPS
+- Bypassing multiple calls to `DrawList.AddLine` and adding vtx/indices manually in a way that I only have to make one call to `PrimReserve`. 
+  - ~350 - 400 FPS
+
+My code is [here](https://github.com/epezent/implot/blob/98ff9e8795d6fa0b7da59858992159ac0e5950bf/implot.cpp#L2102), the first half using `AddLine` for AA version, and the second half using my custom solution for non-AA.
+
+@wolfpld:
+Thanks for the feedback. Do they look ok with 1.0f or 2.0f thickness? When not magnified and comparing, does current look with 1.5f seem too problematic to you? If you have time could you try messing with the `fractional_thickness` value in `AddPolyline` and see if you get better results at e.g. 0.0f or 1.0f or in between?
+
+@epezent:
+> because ImPlot supports offset/circular data
+
+Could you possibly make two calls to the function, or would the normal artefact at the point of jointure be too much of a problem?
+
+I wonder if we can refactor some of that code to facilitate reusing chunks of the code with less of the fixed cost (I don't know if `PrimReserve` is a culprit here, most of it should be pretty lightweight provided your `ImDrawList` has been through one frame). Are you compiling with optimization and inlining? 
+
+(By the way any reason you still need to enable 32-bit indices?)
+
+> Could you possibly make two calls to the function, or would the normal artefact at the point of jointure be too much of a problem?
+
+The idea crossed my mind but I haven't tried it yet. The main issue was the visual artifacts (small slivers shooting off screen) I saw in AddPolyline, presumably at the mitereed corners. I think it may have only pertained to the AA code however.
+
+> I wonder if we can refactor some of that code to facilitate reusing chunks of the code with less of the fixed cost (I don't know if PrimReserve is a culprit here, most of it should be pretty lightweight provided your ImDrawList has been through one frame). Are you compiling with optimization and inlining?
+
+Yes, I have optimizations and inlining enabled. Indeed, PrimReserve should only have an effect the first frame. The biggest gain might be from avoiding the if `(Flags & ImDrawListFlags_AntiAliasedLines)` branch for each individual segment. I can't say for sure; I didn't profile too deeply.
+
+> (By the way any reason you still need to enable 32-bit indices?)
+
+For the test above, I saw artifacting if it wasn't enabled. This was done isnide of your test engine with the default backend enabled. 
+
+
+> Do they look ok with 1.0f or 2.0f thickness?
+
+Yes, there's no visible change there.
+
+> When not magnified and comparing, does current look with 1.5f seem too problematic to you?
+
+Yes, the fuzziness is quite obvious. Attaching un-zoomed comparison below.
+
+![obraz](https://user-images.githubusercontent.com/600573/82250790-6b00cc00-994c-11ea-9b3d-baea13780f90.png)
+
+> If you have time could you try messing with the fractional_thickness value in AddPolyline and see if you get better results at e.g. 0.0f or 1.0f or in between?
+
+Hardcoding this value has the same effect as adjusting fractional part in the `thickness` value (which is to be expected, as it is calculated as `thickness - integer_thickness`). With `fractional_thickness=0`, `thickness=1.5` becomes `1`; with `fractional_thickness=1`, `thickness=1.5` becomes `2`, etc. This visibly changes line weight.
+
+>>(By the way any reason you still need to enable 32-bit indices?)
+
+>For the test above, I saw artifacting if it wasn't enabled. This was done isnide of your test engine with the default backend enabled.
+
+I am working on a fix for exactly this problem.  I plan to submit it a bit later this week.
+
+No visual differences on my end, but I'm not doing anything too fancy. Effectively tested `AddBezierCurve`, `AddCircle`, `AddQuad`, and `AddTriangle` with integer and non-integer thickness both above and below 1.0.
+
+![multi-editor-example](https://user-images.githubusercontent.com/3276684/82412461-5d4a6400-9a7c-11ea-84c9-224facf1e687.png)
+
+
+> thickness both above and below 1.0.
+
+To clarify, thickness below <1.0f are and were always treated the same as =1.0f
+
+Forgot to mention in the initial post that this comes with a restriction:
+- This works if the renderer is using bilinear interpolation on the texture rather than point/nearest filtering. The majority of back-ends and renderers are already doing so, but some embedded/low-end GPU back-ends might not. Lines won't look nicely anti-aliased without.
+
+(Added to top-most post now)
+
+
+No differences here as far as I can tell
+
+@epezent 
+>>   (By the way any reason you still need to enable 32-bit indices?)
+
+> For the test above, I saw artifacting if it wasn't enabled. This was done isnide of your test engine with the default backend enabled.
+
+Curious if #3163 fixes it for you?
+I think the PR is probably correct but I'd like us to add more formal tests before merging because it's a very little exercised piece of code.
+
+ Improve window handling in the SDL backend
+ `SDL_Window*` is stored in a global (`g_Window`) by `ImGui_ImplSDL2_Init`. However some apis in the SDL backend use the global and some don't, creating potential for inconsistency/mistakes when starting a new frame, or when processing events. This change makes the SDL backend always use the window passed to `ImGui_ImplSDL2_Init` originally.
+Hello,
+
+I get the removal of the window parameter to `NewFrame()` function (I'd accept it as a breaking change), but I think the `windowID` filtering, albeit correct here, would conflict with how the multi-viewport feature in docking branch uses this function. It's just easier to leave it unfiltered.
+
+Did you need the filter or did you add the filter for correctness?
+
+
+In my own code I do filter the events, but I wasn't aware of conflict with the docking branch, so I just reverted the windowID filtering change. I think getting rid of the window parameter is good enough on its own.
+
+ Not possible to undock
+ In last docking branch:
+https://github.com/ocornut/imgui/commit/3b3af6b73136a03dfcdb84872fc08542900a1aa8
+It is not possible to undock docked windows.
+
+It worked correctly in
+https://github.com/ocornut/imgui/commit/7ddc1adefbdca94e7de350653def7a647ff45612
+
+(I have not bisected so could work in between)
+
+
+
+Confirmed bug introduced by last merge, working on it.
+
+Should be fixed now, let us know if you stumble on anything else as the code is not trivial (7b3d379819c487f0d5323ed7bd7c9109a2bc1d76 was pretty risky but moving us in a better, more explicit direction).
+
+Yes, it is fixed
+
+ fixed issue
+ Fixed issue
+Fonts can not be loaded between NewFrame() and EndFrame() calls.
+
+On May 17, 2020 17:33:03 Ang <notifications@github.com> wrote:
+>
+> Hello my code is
+> static bool pen = false;
+> ImGuiWindowFlags fhgl = 0;
+> fhgl |= ImGuiWindowFlags_NoTitleBar; ImGuiIO& io = ImGui::GetIO(); ImFont* 
+> font1 = io.Fonts->AddFontDefault(); ImFont* font2 = 
+> io.Fonts->AddFontFromFileTTF("C:\Windows\Fonts\Ruda-Bold.ttf", 16.0f); 
+> ImGui::Begin("g",&pen, fhgl); ImGui::Text("Application average %.3f 
+> ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, 
+> ImGui::GetIO().Framerate); ImGui::TextColored(ImVec4(0.00, 0.91, 0.22, 
+> 1.0),"Framerate: (%.1f)", ImGui::GetIO().Framerate); ImGui::End();
+>
+> when i run it sends an error like this https://prnt.sc/sif6j2
+> even after i remove ImFont* font2 = 
+> io.Fonts->AddFontFromFileTTF("C:\Windows\Fonts\Ruda-Bold.ttf", 16.0f);
+> and run this
+> ImGuiWindowFlags fhgl = 0;
+> fhgl |= ImGuiWindowFlags_NoTitleBar; ImGuiIO& io = ImGui::GetIO(); ImFont* 
+> font1 = io.Fonts->AddFontDefault(); ImGui::Begin("g",&pen, fhgl); 
+> ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / 
+> ImGui::GetIO().Framerate, ImGui::GetIO().Framerate); 
+> ImGui::TextColored(ImVec4(0.00, 0.91, 0.22, 1.0),"Framerate: (%.1f)", 
+> ImGui::GetIO().Framerate); ImGui::End();
+>
+> it still sends me that error am i doing something wrong?
+> —
+> You are receiving this because you are subscribed to this thread.
+> Reply to this email directly, view it on GitHub, or unsubscribe.
+
+
+
+As stated above. Please read the error message provided with asserts they are answering your questions.
+
+@Angshu1 next time please do not delete your posts once issue is resolved. Such issues are useful to people who encounter same problems in the future.
+
+ GLFW detect my Wacom tablet as a gamepad (was: All my windows scroll themself to the end)
+ Hello,
+I'm not sure if this is a bug or a missunderstanding but here is my problem:
+Any windows with enough content to produce a scrollbar automatically scroll to the end.
+If I try to scroll to the top it just goes down again. I just can't reach the start (or I have to be really really fast).
+It happen on really all windows so I'm not sure a code snippet will really help but just to have an example to talk with this one:
+```
+    if (ImGui::CollapsingHeader("availableFunctions")) {
+        ImGui::Indent();
+        if (ImGui::CollapsingHeader("Function")) {
+            for (const ShaderGenTK::Function& func : ShaderFunction::_userDefinedFunctionDB) {
+                ImGui::Button(func._symbol.c_str(), ButtonSize);
+            }
+        }
+        if (ImGui::CollapsingHeader("Build-in")) {
+            for (const ShaderGenTK::Function& func : ShaderGenTK::glslNativeFuncDB) {
+                ImGui::Button(func._symbol.c_str(), ButtonSize);
+            }
+        }
+        if (ImGui::CollapsingHeader("Operators")) {
+            for (int8_t i = 0; i < ShaderGenTK::BinaryOperator::MAX_INVALID; ++i) {
+                ImGui::Button(ShaderGenTK::BinaryOperator::typeToString((ShaderGenTK::BinaryOperator::Type)i).c_str(), ButtonSize);
+            }
+        }
+        ImGui::Unindent();
+    }
+```
+This piece of code produce the problem I'm talking about when _userDefinedFunctionDB and/or glslNativeFuncDB and/or Operator Enum is too big. But I have also a bunch of multiline inputs text and every single one windows with a scroll bar just scroll down by itself.
+Just incase you want to see the whole code it's [here](https://git.n700.ovh/newin/Matther) and the case I'm talking about is in [mattherDisplay_toolTab.cpp](https://git.n700.ovh/newin/Matther/src/branch/master/matther/mattherDisplay_toolTab.cpp)
+Imgui.h tells me that I have "1.68 WIP"
+
+Edit: A bit after I posted the issue I started suspecting imgui instead of my code so I tried different thing:
+it seems that the problem occur when my wacom bamboo ONE (CTL-471 to be precise) is connected. so I think this is a input catching problem from Imgui as it doesn't occur on any other software. I'm gonna investigate further.
+(I'm on linux with xorg 1.20.7, mesa 8.4.0, and xf86-input-wacom 0.39.0 as input drivers with kernel 5.6.13)
+Hello,
+
+You ignored and didn’t fill the issue template so there’s no way to tell which platform backend you are using which would be the primary useful information here.
+
+Somehow your tablet/device probably ends up sending inputs that are interpreted as MouseWheel event by the backend. You should be looking at that and debugging how the backend is receiving those inputs.
+
+
+Please confirm the backend and if it repro in the unmodified example applications.
+
+Oh yeah I'm sorry:
+Back-end: glfw (X11 mode)
+Renderer: Vulkan
+Compiler: clang 10.0.0
+OS: Linux (gentoo)
+
+I was able to reproduce it in `imgui/examples/example_glfw_vulkan` but not by default:
+The default code worked great but uncommenting `io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;` (as suggested in the demo window) did reproduce the problem. That make me think that it's not a MouseWheel problem but further investigation is needed.
+Also I'm not sure why my tablet is detected as a gamepad and not a mouse by GLFW but I guess it's a glfw problem.
+I disabled this in my own project and it also "fixed" the problem. I'm gonna keep it like this as a workaround.
+
+Interesting! Yes it looks like it is reported as a gamepad then :( i would support reporting this to the glfw repo.
+Going to add in some comments to mention this possible behavior.
+
+I guess because it's a glfw problem and not an imgui one I should close this issue
+
+ Popup Modal window initial size ?
+ Version: Dear ImGui 1.77 WIP (17601)
+Branch: master
+Back-ends: SFML
+Compiler: VS2019 c++
+Operating System: win10x64
+
+Hi Omar,
+
+I really have problem with sizing objects...
+
+Here is the code of a little confirmation popup (a window with a variable title and yes/no buttons that returns 0 if nothing if clicked, 1 if no, 2 if yes)
+
+The problem is that the popup width is sized to the 2 buttons, not to the title bar. Is there a way to autosize this correctly at first appearing (the title can have variable length) ?
+
+![image](https://user-images.githubusercontent.com/20345939/82138873-00547100-9824-11ea-808c-abc42b134406.png)
+
+
+```
+	Uint8 Confirm(const std::string& title)
+	{
+		static bool showWindow = false;
+		Uint8 ret = 0;
+		std::string s = title + "###confirm";
+
+		if (!showWindow)
+		{
+			ImGui::OpenPopup(s.c_str());
+			showWindow = true;
+		}
+
+		if (ImGui::BeginPopupModal(s.c_str(),nullptr))
+		{
+			if (ImGui::Button("Yes"))
+			{
+				showWindow = false;
+				ImGui::CloseCurrentPopup();
+				ret = 2;
+			}
+
+			ImGui::SameLine();
+
+			if (ImGui::Button("No"))
+			{
+				showWindow = false;
+				ImGui::CloseCurrentPopup();
+				ret = 1;
+			}
+			ImGui::EndPopup();
+		}
+
+		return(ret);
+	}
+
+```
+Hello,
+
+It's been always the case that title bar width doesn't contribute to width calculation.
+(e.g. https://github.com/ocornut/imgui/issues/176#issuecomment-84634290)
+
+I don't imagine we should allocate a window flag for that, we could decide it would be a global style flag however it would be ambiguous and misleading when switching single windows to be using tabs in the docking branch, so I'm not sure this is a good idea right now.
+
+You can enforce a minimum automatic width for the window by using, e.g.
+
+```
+ImGui::Begin(...)
+ImGui::SetCursorPosX(some_width)
+ImGui::SetCursorPosX(0.0f)
+[...]
+```
+That will feed into the auto calculated width.
+`some_width` may be `CalcTextSize(title).x` + `GetFrameHeight()` * number_of_visible button.
+
+Not suggesting this is a great solution but it might be good enough in your case?
+
+Hi Omar,
+Thanks for your answer.
+I do not understand why a global flag would not be desirable : I still do not find very "nice" that a simple window opens with its title truncated... But you know the code repercussions better than me ;-)
+Anyway, thanks for the trick, it does the job !
+
+ high ASCII support for ImGui::Text* functions
+ **Version/Branch of Dear ImGui:**
+
+Version: v1.77 WIP
+Branch: tables
+
+**Back-end/Renderer/Compiler/OS**
+
+Back-ends: custom OpenGL
+Operating System: Win10
+
+**My Issue/Question:**
+
+I'm using ImGui to display text content loaded from disk. Some of the text files in question are older and so contain high ASCII characters, for example 0x92 ’. Because the content can be arbitrary, including %whatever sequences, I'm using ImGui::TextUnformatted for display.
+
+When encountering a high ASCII character, RenderText takes the bottom code path here:
+
+```
+        // Decode and advance source
+        unsigned int c = (unsigned int)*s;
+        if (c < 0x80)
+        {
+            s += 1;
+        }
+        else
+        {
+            s += ImTextCharFromUtf8(&c, s, text_end);
+            if (c == 0) // Malformed UTF-8?
+                break;
+        }
+```
+
+This fails because the text isn't UTF8, which then causes the string to abort printing partway through.
+
+Is there a way to print text using ImGui to have the content interpreted as ISO-8859-1? Would you be open to accept a patch that added a flag for this (ImGuiTextFlags_Something?) or would you recommend doing work outside ImGui to guarantee that passed-in content is valid UTF8? If the latter, would you be willing to willing to accept a patch that added documenting the requirement that all passed-in content is valid UTF8?
+
+For a simple repro, you can try to print the string "I\x92d be".
+
+Hello,
+
+Unfortunately there are no plan to support local codepage, sorry.
+They are widely obsolete tech as this point and I can't find of a way for the library to support them without large amount of cognitive and CPU overhead.
+
+You should convert your content to UTF-8 at runtime prior to displaying it.
+Note that C++11 provide `u8""` literals to encode your literals as UTF-8:
+https://github.com/ocornut/imgui/wiki/Loading-Font-Example
+
+> If the latter, would you be willing to willing to accept a patch that added documenting the requirement that all passed-in content is valid UTF8?
+
+There are various suggestions and references that the library takes UTF-8 but if you can find other useful places to add that more explicit I'm happy to add them.
+
+
+
+Closing as answered.
+
+
+ Word wrapping in Multiline Text
+ First of all, I am aware of the other posts regarding this issue: https://github.com/ocornut/imgui/issues/952 https://github.com/ocornut/imgui/issues/1062 
+
+This is a little bit different, I would like to attempt to implement this myself since this is not a high priority but I have a couple of questions.
+
+Digging through the source code, I found that the editor is a slightly modified version of https://github.com/nothings/stb/blob/master/stb_textedit.h and, there is this particular paragraph commenting on word-wrapping:
+
+> // STB_TEXTEDIT_LAYOUTROW returns information about the shape of one displayed
+> // row of characters assuming they start on the i'th character--the width and
+> // the height and the number of characters consumed. This allows this library
+> // to traverse the entire layout incrementally. You need to compute word-wrapping
+> // here.
+
+I see that that function is indeed implemented in imgui, more specifically in imgui_widgets.cpp:
+
+```
+static void    STB_TEXTEDIT_LAYOUTROW(StbTexteditRow* r, STB_TEXTEDIT_STRING* obj, int line_start_idx)
+{
+    const ImWchar* text = obj->TextW.Data;
+    const ImWchar* text_remaining = NULL;
+    const ImVec2 size = InputTextCalcTextSizeW(text + line_start_idx, text + obj->CurLenW, &text_remaining, NULL, true);
+    r->x0 = 0.0f;
+    r->x1 = size.x;
+    r->baseline_y_delta = size.y;
+    r->ymin = 0.0f;
+    r->ymax = size.y;
+    r->num_chars = (int)(text_remaining - (text + line_start_idx));
+
+}
+```
+
+So if my understanding is correct, that function gets called when the cursor moves on the text (either by mouse or keyboard), but then I do not understand how that function would aid text wrapping.
+
+That function does not get called when inserting new text, which should be were the wrapping should be checked.
+
+So more specifically:
+
+* Does the function STB_TEXTEDIT_LAYOUTROW have anything to do with how text is rendered or is only used to move the cursor even in wrapped text?
+* What would be the overall steps to be able to achieve word wrapping? Is a total rewrite necessary or is it possible to achieve this by overriding a function?
+* I see that `ImDrawList::AddText` has a `wrap_width` parameter, I guess that if as a first step I should try to modify the calls to that function in `ImGui::InputTextEx`, is that correct?
+
+Thank you for your understanding, I want to build a note taking application and, for me, this is a requirement so I would like this feature, if someone can help I would greatly appreciate that.
+
+Why not using the full featured text editor widgets listed in the wiki ?
+
+I have checked those projects and I do not require that much. Also adding this to the current implementation would help many developers such as myself.
+
+I have been digging through the code and added the correct wrap_size to both AddText calls and the text does indeed get wrapped:
+
+`draw_window->DrawList->AddText(g.Font, g.FontSize, draw_pos - draw_scroll, col, buf_display, buf_display_end, inner_size.x, is_multiline ? NULL : &clip_rect);`
+
+But, the cursor is not updated correctly. I am trying to update the cursor myself when I detect that the text has been wrapped, I want to add a copy of `ImFont::CalcWordWrapPositionA` that would return the number of "wrapped lines" and update the cursor accordingly.
+
+Although I have correctly ported the function (as static in the meantime) I am not 100% sure where the cursor is stored to update it.
+
+I will try to dig around a little bit more, but any help will be welcomed :)
+
+
+I got some advances but the code is very complex and I did not have enough time to look at it over the weekend.
+
+https://youtu.be/BBTho4ZnMIc
+
+I have a better grasp on the complexity of the modifications:
+
+* stb_textedit only needs to be notified of were the cursor has to be moved
+* We need to keep track of the wrapped words and sizes for every lines, the rendering function is already done and moving the cursor is "trivial"
+* Then we need to keep track of mouse inputs and correctly translate the coordinates to "buffer" coordinates
+
+
+
+Looking good! 
+
+I haven't answered your questions above because I don't know what the answers are without digging deeper in that. My whole impression is that we should ditch stb_textedit and rewrite the whole thing anyway without the utf-8<>utf16 round trips.
+
+You'll notice they are various shortcuts involved in InputText inner-loops, namely to allow for very large text and because we don't retain much data. If we rewrite we should probably try to retain more data, in particular line offsets, to make performances more acceptable. 
+
+I have seen those inner loops indeed, but I am afraid I lack the expertise to improve the whole TextEdit code, there are many functions that are still unclear to me. 
+
+Still, I will try to implement the wrapping as it is something I need. Do you know if the TextEdit rewrite is still a low priority? I guess not a lot of people would benefit from it, but in my case it is crucial.
+
+Also, thank you for answering, and for doing so so quickly!
+
+InputText rewrite is not a low priority but there are so many things competing for high priority at the moment it is a little tricky for me to try to even order them. There are many desirable InputText changes that would benefit from that larger refactor. I guess someone should sit down for 2 weeks and rewrite the whole thing from stratch with a check-list derived from entries in TODO.txt and [inputtext tagged issues](https://github.com/ocornut/imgui/labels/inputtext). That's not very helpful for you however.
+
+I still believe the easiest path for you is to use one of the existing full-featured text editor.
+
+
+I understand, unfortunately I do not have the time nor the expertise for a full rewrite addressing all the open issues. 
+
+I wish I could contribute more, I just made a small donation in the hopes that this awesome project continues and some brave developer rewrites the TextEdit code :)
+
+Thank you again for your time and your replies! I will try to use one of the existing text-editors in the meantime, as you suggested :)
+
+ DockContextOnLoadSettings  not defined
+ generating cimgui from latest docking branch:
+
+DockContextOnLoadSettings is declared but not defined
+Pushed fix now.
+
+ Add lambda overloads for functions with callbacks
+ This is a feature request for support for C++11 lambdas in callbacks. I find that having a capturing lambda is much easier than manually making a struct with the data I need in my callback and casting to/from `void*`. I created this issue because I seem to remember seeing somewhere that a C++11 requirement for ImGui was coming soon. However if that's not the case, this issue can be closed (for now?).
+
+Consider the following function: 
+```C++
+bool Combo(const char* label, int* current_item, bool(*items_getter)(void* data, int idx, const char** out_text), void* data, int items_count, int popup_max_height_in_items = -1);
+```
+
+A wrapper function can be added around the existing Combo function that uses the void pointer to support lambdas. There is a small performance impact from doing this because of the extra function call, but I'd imagine that would be mostly irrelevant.
+```C++
+template<typename TFunc>
+inline void Combo(const char* label, int* current_item, TFunc items_getter, int items_count, int popup_max_height_in_items = -1)
+{
+	const auto patch = [](void* data, int idx, const char** out_text)
+	{
+		return (*reinterpret_cast<TFunc*>(data))(idx, out_text);
+	};
+
+	return ImGui::Combo(label, current_item, patch, const_cast<void*>(&items_getter),
+		items_count, popup_max_height_in_items);
+	}
+```
+
+I'm willing to make a pull request for this, but I wanted to get feedback on the idea first.
+Hello,
+
+You can add those functions in your code in the ImGui:: namespace, there’s no need to add them to core imgui.
+
+In addition, please note that using the BeginCombo/EndCombo is much more flexible and doesn’t present the same constraints at all, so thats generally recommended.
+
+(We don’t have C++11 as minimum requirement yet but I wouldn’t rule out offering C++11 features behind ifdef if it made sense!)
+
+-omar
+
+
+
+
+Hello, thanks for your reply.
+
+I realize I can add these functions in my own code, but I usually end up rewriting them every single time I need them. I am proposing adding them to core imgui, since IMO the less time people have to spend casting stuff to void* and back, the better.
+
+I also realize that for this specific example, BeginCombo/EndCombo is available. However, there are other functions that have callbacks like this, such as ListBox, PlotLines, and PlotHistogram. Anecdotally, I usually don't need the flexibility that BeginCombo/EndCombo offers, and I prefer avoiding Begin/End functions when possible, since it reduces the likelihood of bugs in my code.
+
+Perhaps you would consider a separate header/cpp file for C++11 features, like is done with imgui_stdlib?
+
+Hello again,
+
+If you're not convinced by my above messages and/or you don't think this should be added to imgui core, feel free to close this issue.
+
+> However, there are other functions that have callbacks like this, such as ListBox, PlotLines, and PlotHistogram
+> If you're not convinced by my above messages and/or you don't think this should be added to imgui core, feel free to close this issue.
+
+All those api are somehow unperfect and old, ListBox is better replaced with ListBoxHeader/Footer similar to BeginCombo/EndCombo and PlotLines/PlotHistogram are stagnant from 1.0 better replaced with something like https://github.com/epezent/implot. So while in theory I wouldn't mind adding stuff to imgui_stdlib here specifically we are talking about adding extra entry points to potentially already obsolete functions so I'm not sure that's a good idea right now, in particular since you can add a 5 lines function in a header file of your own and reduce it.
+
+So yeah, thinking a little more about it I think it's best to not merge this in core imgui presently.
+Whenever I get around to redesign the ListBox stuff with proper Begin/End function it may make more sense then, I'll tag this issue again!
+
+Thanks a lot!
+
+
+ Collapsing docked window
+ With the docking branch: When a window is docked, titlebar is not visible so that user cant collapse window by double clicking on it.
+
+Is there any alternative for collapsing window when is docked?
+This not currently not supported, no.
+It would make sense only in certain configuration, I wanted to work on this but stumbled on many reasons so for now no plan.
+
+I see...
+It would be useful in my configuration: tiny laptop screen, so that it is needed to collapse ImGui windows frequently to see the work done below.
+
+Well docking already provides lots of the functionalities to unclutter your screens (merging windows into a tab bar, easily resize whole dock nodes) so that should be a + compared to without docking.
+
+ columns and window auto size ?
+ Version: Dear ImGui 1.77 WIP (17601)
+Branch: master
+Back-ends: SFML
+Compiler: VS2019 c++
+Operating System: win10x64
+
+Hi there,
+
+On this image, I just open a popup window, with no size specification, containing two columns of buttons.
+
+![image](https://user-images.githubusercontent.com/20345939/82039595-81392e80-96a5-11ea-86a3-2d26cbcac2e4.png)
+
+I desperately try to find out if it is possible that the columns auto-size to the largest button, and that the window auto-size to both columns width, in order to get automatically something like that 
+
+![image](https://user-images.githubusercontent.com/20345939/82039823-d9703080-96a5-11ea-9af0-0c4b2e0147a3.png)
+
+The fact is that at the end I would like
+- this popup window not be user-resizable
+- the button labels could change from one call to the window to another (and so their length)
+
+Note that the ImGuiWindowFlags_AlwaysAutoResize flag does not solve my problem and gives the first result. I also tried different use of ImGui::SetNextItemWidth (trying also to pass -1.0f).
+
+edit: More generally, I wonder what is the right way to proceed in order for a container to fit the size of all its contents ? (without the use of scrollbars) Or maybe this question is not applicable to an immediate gui mode ?
+
+------------------------------------
+Another question about autosizing 
+
+example :
+![image](https://user-images.githubusercontent.com/20345939/82053938-72ab4100-96be-11ea-9129-68ce096bc8b3.png)
+is resized in 
+![image](https://user-images.githubusercontent.com/20345939/82053997-8bb3f200-96be-11ea-9619-bd3dcc4d0aee.png)
+
+What should I do to make 
+- the first button ("title") size should be automatically set to the size of its characters contents
+- same for the second text ("crypted")
+- the final check box should also have a fixed size, and should touch the right border of the window.
+- the only variable size should be the InputText ("map 0100").
+
+I tried a lot of things, but found no complete solution...
+Sorry to be a noob...
+ VtxOffset offset related fix (fixes blown up triangles on the screen)
+ It is possible to get VtxCurrentOffset and VtxCurrentIdx out of sync with buffers state. This scenario triggers it: Do PrimReserve , which thinks you are reserving too many vertices and triggers new draw command and vtxoffset update. Then you do unreserve same amount (leaving emptry draw command). Next clip rect update this draw command gets poped but does not restore vtx/idx buffer offset, resulting all following draw commands reference incorrect vertex data
+Linking to #3163, #3129 
+

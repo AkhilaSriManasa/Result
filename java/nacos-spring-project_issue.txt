@@ -1,0 +1,738 @@
+﻿ spring与Springboot，读取同nacos服务 spring项目报403
+  spring： nacos版本 0.3.6 ， springboot 0.2.6 nacos 0.3.6
+测试结果:
+spring与Springboot配置相同
+
+    若没加username、password 正常读取配置， 【自己部署的nacos服务】
+
+    若没加username、password 
+        spring报403、springboot正常
+
+当然也有可能时这边nacos部署的问题， 但是spring boot与spring 表现不一致。
+
+```
+spring
+<nacos:global-properties
+        server-addr="http://nacos.xxx.cn:8080"  // 无 /
+        username="xxx" password="xxx123" namespace="wechat"/>
+
+srpingboot
+nacos.config.server-addr=http://nacos.xxx.cn:8080
+nacos.config.namespace=wechat
+nacos.config.username=xxx
+nacos.config.password=xxx123
+springboot正常读取配置
+
+spring报错 ， 会是什么问题呢？ 配置应该没错
+2020-05-22 19:52:24.943 [RMI TCP Connection(2)-127.0.0.1] ERROR c.a.nacos.spring.util.NacosUtils - Can't get content from dataId : wechat_main , groupId : test
+com.alibaba.nacos.api.exception.NacosException: <html><body><h1>Whitelabel Error Page</h1><p>This application has no explicit mapping for /error, so you are seeing this as a fallback.</p><div id='created'>Fri May 22 19:52:24 CST 2020</div><div>There was an unexpected error (type=Forbidden, status=403).</div><div>unknown user!</div></body></html>
+	at com.alibaba.nacos.client.config.impl.ClientWorker.getServerConfig(ClientWorker.java:262)
+	at com.alibaba.nacos.client.config.NacosConfigService.getConfigInner(NacosConfigService.java:143)
+	at com.alibaba.nacos.client.config.NacosConfigService.getConfig(NacosConfigService.java:92)
+	at com.alibaba.nacos.spring.context.event.config.EventPublishingConfigService.getConfig(EventPublishingConfigService.java:60)
+```
+尝试在nacos服务后加 “/”
+```
+spring
+<nacos:global-properties
+        server-addr="http://nacos.xxx.cn:8080/"  // 有 /
+        username="xxx" password="xxx123" namespace="wechat"/>
+```
+这样的配置应该不对，报500， 【下图】此处不应有error日志吗？ 
+![image](https://user-images.githubusercontent.com/4318925/82666866-56347900-9c69-11ea-9aef-93a450d7d692.png)
+
+
+
+
+
+
+
+ NacosConfigurationProperties如何做到自动注入
+ ## Issue Description
+
+Type: *bug report* or *feature request*
+
+### Describe what happened (or what feature you want)
+一个简单的应用配置
+``` java
+@Data
+@NacosConfigurationProperties(prefix = "app", dataId = "123456", autoRefreshed = true, ignoreNestedProperties = true, type = ConfigType.YAML)
+@Configuration
+public class AppProperties {
+
+    private String env;
+    @NacosProperty(value = "app-id")
+    private String appId;
+    private String userId;
+    private String secretKey;
+    @NacosProperty(value = "static-domain")
+    private String staticDomain;
+}
+```
+但是在使用的时候value却是null
+
+### Describe what you expected to happen
+
+希望在使用的时候可以自动注入配置
+
+### How to reproduce it (as minimally and precisely as possible)
+
+1. 
+2. 
+3. 
+
+### Tell us your environment
+应用配置
+``` yaml
+nacos:
+  config:
+    server-addr: localhost:8848
+    data-id: 123456
+    group: PREVIEW
+    type: yaml
+    auto-refresh: true
+    bootstrap:
+      enable: true
+      log-enable: true
+```
+nacos-config-spring-boot-starter 0.2.4
+spring-boot-starter 2.2.2.RELEASE
+### Anything else we need to know?
+
+ bug configService 多次创建！内存泄漏，多开线程
+ Issue Description
+Type: bug report or feature request
+bug report
+
+Describe what happened (or what feature you want)
+ConfigFactory.createConfigService(Properties properties) 有可能会调用多次。 并产生多个实例 里面由于有线程池长轮训服务造成内存泄漏，多开线程 等多种异常情况
+
+错误的原因是因为NacosUtils.identify(Map properties) 方法造出了不同的key
+在NacosConfigEnvironmentProcessor中的匿名builder 调用NacosUtils.identify方法时，由于propertie使用了
+Properties buildGlobalNacosProperties() 方法，如下图 ，没有带上encode属性 ，导致产生的key为
+-----> ||127.0.0.1:18848,127.0.0.1:28848,127.0.0.1:38848||||||
+![image](https://user-images.githubusercontent.com/20021575/80345391-a05d5100-889b-11ea-8ce3-ac625391f2b7.png)
+
+
+image
+![image](https://user-images.githubusercontent.com/20021575/80345414-a81cf580-889b-11ea-9095-9f2f40661a85.png)
+
+
+当spring IOC时 调用NacosConfigurationPropertiesBindingPostProcessor 给bean做处理时，实际上Propertie中会有encode属性 产生的key如下
+-----> ||127.0.0.1:18848,127.0.0.1:28848,127.0.0.1:38848|||||UTF-8|
+判断没有configService 就会重新创建！
+
+Describe what you expected to happen
+ConfigFactory.createConfigService(Properties properties) 在properties相同时 应该只被创建一次
+
+How to reproduce it (as minimally and precisely as possible)
+客户端如下配置
+image
+![image](https://user-images.githubusercontent.com/20021575/80345450-b3702100-889b-11ea-9d3a-4deb951c4ce3.png)
+
+image
+![image](https://user-images.githubusercontent.com/20021575/80345459-b834d500-889b-11ea-8808-4168e647cf07.png)
+
+
+image
+![image](https://user-images.githubusercontent.com/20021575/80345470-bbc85c00-889b-11ea-86ac-b8564ab1fbf7.png)
+
+
+Tell us your environment
+    <dependency>
+        <groupId>com.alibaba.boot</groupId>
+        <artifactId>nacos-config-spring-boot-starter</artifactId>
+        <version>0.2.4</version>
+    </dependency>
+</dependencies>
+Anything else we need to know?
+建议修改nacos-config-spring-boot-autoconfigure 项目中NacosUtils.identify 方法
+1：要么属性全部考虑清楚加上
+或者2：要么key更直白 只和相关的属性沾边移除encode
+ 使用nacos做配置中心，data id配置为java包名时，启动时解析配置异常
+ ## Issue Description
+
+Type: *bug report*
+
+### Describe what happened (or what feature you want)
+
+https://github.com/nacos-group/nacos-spring-boot-project/issues/125
+
+### Describe what you expected to happen
+
+
+### How to reproduce it (as minimally and precisely as possible)
+
+1. 
+2. 
+3. 
+
+### Tell us your environment
+
+
+### Anything else we need to know?
+
+因为`NacosUtils.readTypeFromDataId()` 的优先级 比 `properties.type().getType()`高，但是如果优先`properties.type().getType()`，因为 ConfigType存在默认值 `ConfigType.PROPERTIES`,data id文件后缀的逻辑就不存在，这样的逻辑是否正确？不太明白是否需要readTypeFromDataId的逻辑
+
+ Fix #179 Support bind multi-level YAML to javabean
+ Please do not create a Pull Request without creating an issue first.
+
+## What is the purpose of the change
+
+#179 Support bind multi-level YAML to javabean
+
+## Brief changelog
+
+XX
+
+## Verifying this change
+
+XXXX
+
+Follow this checklist to help us incorporate your contribution quickly and easily:
+
+* [ ] Make sure there is a Github issue filed for the change (usually before you start working on it). Trivial changes like typos do not require a Github issue. Your pull request should address just this issue, without pulling in other changes - one PR resolves one issue.
+* [ ] Format the pull request title like `[ISSUE #123] Fix UnknownException when host config not exist`. Each commit in the pull request should have a meaningful subject line and body.
+* [ ] Write a pull request description that is detailed enough to understand what the pull request does, how, and why.
+* [ ] Write necessary unit-test to verify your logic correction, more mock a little better when cross module dependency exist. If the new feature or significant change is committed, please remember to add integration-test in [test module](https://github.com/alibaba/nacos/tree/master/test).
+* [ ] Run `mvn -B clean package apache-rat:check findbugs:findbugs -Dmaven.test.skip=true` to make sure basic checks pass. Run `mvn clean install -DskipITs` to make sure unit-test pass. Run `mvn clean test-compile failsafe:integration-test`  to make sure integration-test pass.
+
+
+ namespace 配置
+ ## 我使用的是nacos-spring-context，配置文件中配置namespace：nacos.config.namespace发现读取得还是public 空间的，网上查一边，发现spring-boot,dubbo,cloud对改namespce的设置都不一样，我想知道spring 项目这个设置又是什么呢？
+
+ yaml list取不到值？
+ https://github.com/nacos-group/nacos-spring-project/issues/174#issue-538159586
+请问这是用的是哪个项目sample，我用的nacos-spring-project，环境同issue里描述，启动时listv映射就报错了，其他正常能获取到值。
+Caused by: org.springframework.beans.NullValueInNestedPathException: Invalid property 'listv[0]' of bean class [com.alibaba.nacos.example.spring.model.Promotion]: Cannot access indexed value of property referenced in indexed property path 'listv[0]': returned null
+
+```java
+private Long sku;
+private Double price;
+private Integer amount;
+
+@NacosProperty(value = "desc")
+@JSONField(name = "desc")
+private String description;
+
+@NacosIgnore
+private Integer sold;
+
+private List<String> listv;
+
+
+yml：
+ sku: 2
+ price: 99.9  
+ amount: 1001  
+ desc: "Hooray! It's snowing! 下雪了！"  
+ description: descipt  
+ sold: 100  
+ listv:  
+    - one  
+    - two  
+这个代码完整的看下，整个应该用@NacosConfigurationOnProperties这个注解
+
+
+> 
+> 
+> 这个代码完整的看下，整个应该用@NacosConfigurationOnProperties这个注解
+
+```java
+@NacosConfigurationProperties(dataId = "promotion.yml", groupId = "spring-example", autoRefreshed = true, type = ConfigType.YAML)
+public class Promotion {
+
+    private Long sku;
+
+    private Double price;
+
+    private Integer amount;
+
+    @NacosProperty(value = "desc")
+    @JSONField(name = "desc")
+    private String description;
+
+    @NacosIgnore
+    private Integer sold;
+
+    private List<String> listv;
+
+    // getter and setter
+
+```
+
+> 
+> 
+> 这个代码完整的看下，整个应该用@NacosConfigurationOnProperties这个注解
+
+NacosConfigurationOnProperties？是哪个包里，用NacosConfigurationProperties不行
+
+没人遇到这个问题吗...QAQ
+
+ 配置文件的类型优先级应该配置文件中配置的类型更高
+ 对配置文件的额类型进行了修改：在官方javasdk的文档中这样描述dataId:采用类似 package.class（如com.taobao.tc.refund.log.level）的命名规则保证全局唯一性，class 部分建议是配置的业务含义。全部字符小写。只允许英文字符和 4 种特殊字符（"."、":"、"-"、"_"），不超过 256 字节.
+
+但是如果把dataId设置为com.taobao.tc.refund.log.level，解析出的配置文件类型是.tc。
+根据习惯，配置文件中指定的配置文件类型优先级应该更高，毕竟一个文件是什么后缀并不能决定这个文件的类型。
+
+因此本次改动对配置文件类型的读取做了更新：优先使用配置文件中配置的类型，如果未配置再根据dataId来判断文件类型。
+
+ 配置文件不能动态的指定每个配置文件的type，在配置文件中通过data-ids的后缀名作为dataid的类型，不指定type，启动的时候会有null的报错
+ ## Issue Description
+
+Type: *bug report* or *feature request*
+
+### Describe what happened (or what feature you want)
+
+
+### Describe what you expected to happen
+
+
+### How to reproduce it (as minimally and precisely as possible)
+
+1. application.yml配置如下
+#nacos配置
+nacos:
+  config:
+    server-addr: 127.0.0.1:8848
+    data-ids: com.nacos.test.yml,com.nacos.test.mutl.yml
+    autoRefresh: true
+    bootstrap:
+      log-enable: true
+2. 启动springboot工程报错如下：
+java.lang.NullPointerException: null
+	at com.alibaba.boot.nacos.config.util.NacosConfigLoader.reqNacosConfig(NacosConfigLoader.java:164) ~[nacos-config-spring-boot-autoconfigure-0.2.7.jar:0.2.7]
+	at com.alibaba.boot.nacos.config.util.NacosConfigLoader.reqGlobalNacosConfig(NacosConfigLoader.java:127) ~[nacos-config-spring-boot-autoconfigure-0.2.7.jar:0.2.7]
+	at com.alibaba.boot.nacos.config.util.NacosConfigLoader.loadConfig(NacosConfigLoader.java:67) ~[nacos-config-spring-boot-autoconfigure-0.2.7.jar:0.2.7]
+	at com.alibaba.boot.nacos.config.autoconfigure.NacosConfigEnvironmentProcessor.loadConfig(NacosConfigEnvironmentProcessor.java:94) ~[nacos-config-spring-boot-autoconfigure-0.2.7.jar:0.2.7]
+	at com.alibaba.boot.nacos.config.autoconfigure.NacosConfigEnvironmentProcessor.postProcessEnvironment(NacosConfigEnvironmentProcessor.java:87) 
+
+### Tell us your environment
+springboot-2.2.4 +nacos-config-spring-boot-starter-0.2.7
+
+### Anything else we need to know?
+
+ 为什么不能自动注册服务？
+ 看了官网的文档如果使用spring项目作为微服务的客户端那么注册到nacos需要手动注入，也就是访问ip:8848/nacos/v1/ns/instance?serviceName现在还不支持，后面我会考虑实现下这个功能
+
+发自我的iPhone
+
+在 2020年3月16日，11:26，lyvee <notifications@github.com> 写道：
+
+﻿
+
+看了官网的文档如果使用spring项目作为微服务的客户端那么注册到nacos需要手动注入，也就是访问ip:8848/nacos/v1/ns/instance?serviceName=example来注册服务。为什么不做一个简单的注解，当项目启动的时候自动注册到nacos，是我没有找到还是没有开发？
+
+—
+You are receiving this because you are subscribed to this thread.
+Reply to this email directly, view it on GitHub<https://github.com/nacos-group/nacos-spring-project/issues/200>, or unsubscribe<https://github.com/notifications/unsubscribe-auth/AFS35NAG2CHNVBLQEKLZXCTRHWL6DANCNFSM4LLVWJYA>.
+
+
+ 【Feature】Spring multi-container support
+ ## Issue Description
+
+Type: *bug report* or *feature request*
+
+### Describe what happened (or what feature you want)
+
+Fix an issue where event publishing cannot all touch when multiple contexts exist
+
+### Describe what you expected to happen
+
+
+### How to reproduce it (as minimally and precisely as possible)
+
+1. 
+2. 
+3. 
+
+### Tell us your environment
+
+
+### Anything else we need to know?
+
+ Format code style
+ Please do not create a Pull Request without creating an issue first.
+
+## What is the purpose of the change
+
+XXXXX
+
+## Brief changelog
+
+XX
+
+## Verifying this change
+
+XXXX
+
+Follow this checklist to help us incorporate your contribution quickly and easily:
+
+* [ ] Make sure there is a Github issue filed for the change (usually before you start working on it). Trivial changes like typos do not require a Github issue. Your pull request should address just this issue, without pulling in other changes - one PR resolves one issue.
+* [ ] Format the pull request title like `[ISSUE #123] Fix UnknownException when host config not exist`. Each commit in the pull request should have a meaningful subject line and body.
+* [ ] Write a pull request description that is detailed enough to understand what the pull request does, how, and why.
+* [ ] Write necessary unit-test to verify your logic correction, more mock a little better when cross module dependency exist. If the new feature or significant change is committed, please remember to add integration-test in [test module](https://github.com/alibaba/nacos/tree/master/test).
+* [ ] Run `mvn -B clean package apache-rat:check findbugs:findbugs -Dmaven.test.skip=true` to make sure basic checks pass. Run `mvn clean install -DskipITs` to make sure unit-test pass. Run `mvn clean test-compile failsafe:integration-test`  to make sure integration-test pass.
+
+
+ style: code format
+ Please do not create a Pull Request without creating an issue first.
+
+## What is the purpose of the change
+
+XXXXX
+
+## Brief changelog
+
+XX
+
+## Verifying this change
+
+XXXX
+
+Follow this checklist to help us incorporate your contribution quickly and easily:
+
+* [ ] Make sure there is a Github issue filed for the change (usually before you start working on it). Trivial changes like typos do not require a Github issue. Your pull request should address just this issue, without pulling in other changes - one PR resolves one issue.
+* [ ] Format the pull request title like `[ISSUE #123] Fix UnknownException when host config not exist`. Each commit in the pull request should have a meaningful subject line and body.
+* [ ] Write a pull request description that is detailed enough to understand what the pull request does, how, and why.
+* [ ] Write necessary unit-test to verify your logic correction, more mock a little better when cross module dependency exist. If the new feature or significant change is committed, please remember to add integration-test in [test module](https://github.com/alibaba/nacos/tree/master/test).
+* [ ] Run `mvn -B clean package apache-rat:check findbugs:findbugs -Dmaven.test.skip=true` to make sure basic checks pass. Run `mvn clean install -DskipITs` to make sure unit-test pass. Run `mvn clean test-compile failsafe:integration-test`  to make sure integration-test pass.
+
+
+ Update spring-context-support version to 1.0.5
+ Please do not create a Pull Request without creating an issue first.
+
+## What is the purpose of the change
+
+XXXXX
+
+## Brief changelog
+
+XX
+
+## Verifying this change
+
+XXXX
+
+Follow this checklist to help us incorporate your contribution quickly and easily:
+
+* [ ] Make sure there is a Github issue filed for the change (usually before you start working on it). Trivial changes like typos do not require a Github issue. Your pull request should address just this issue, without pulling in other changes - one PR resolves one issue.
+* [ ] Format the pull request title like `[ISSUE #123] Fix UnknownException when host config not exist`. Each commit in the pull request should have a meaningful subject line and body.
+* [ ] Write a pull request description that is detailed enough to understand what the pull request does, how, and why.
+* [ ] Write necessary unit-test to verify your logic correction, more mock a little better when cross module dependency exist. If the new feature or significant change is committed, please remember to add integration-test in [test module](https://github.com/alibaba/nacos/tree/master/test).
+* [ ] Run `mvn -B clean package apache-rat:check findbugs:findbugs -Dmaven.test.skip=true` to make sure basic checks pass. Run `mvn clean install -DskipITs` to make sure unit-test pass. Run `mvn clean test-compile failsafe:integration-test`  to make sure integration-test pass.
+
+
+ refactor: update spring-context-support to 1.0.5
+ Please do not create a Pull Request without creating an issue first.
+
+## What is the purpose of the change
+
+XXXXX
+
+## Brief changelog
+
+XX
+
+## Verifying this change
+
+XXXX
+
+Follow this checklist to help us incorporate your contribution quickly and easily:
+
+* [ ] Make sure there is a Github issue filed for the change (usually before you start working on it). Trivial changes like typos do not require a Github issue. Your pull request should address just this issue, without pulling in other changes - one PR resolves one issue.
+* [ ] Format the pull request title like `[ISSUE #123] Fix UnknownException when host config not exist`. Each commit in the pull request should have a meaningful subject line and body.
+* [ ] Write a pull request description that is detailed enough to understand what the pull request does, how, and why.
+* [ ] Write necessary unit-test to verify your logic correction, more mock a little better when cross module dependency exist. If the new feature or significant change is committed, please remember to add integration-test in [test module](https://github.com/alibaba/nacos/tree/master/test).
+* [ ] Run `mvn -B clean package apache-rat:check findbugs:findbugs -Dmaven.test.skip=true` to make sure basic checks pass. Run `mvn clean install -DskipITs` to make sure unit-test pass. Run `mvn clean test-compile failsafe:integration-test`  to make sure integration-test pass.
+
+
+ Update version to 0.3.6
+ Please do not create a Pull Request without creating an issue first.
+
+## What is the purpose of the change
+
+XXXXX
+
+## Brief changelog
+
+XX
+
+## Verifying this change
+
+XXXX
+
+Follow this checklist to help us incorporate your contribution quickly and easily:
+
+* [ ] Make sure there is a Github issue filed for the change (usually before you start working on it). Trivial changes like typos do not require a Github issue. Your pull request should address just this issue, without pulling in other changes - one PR resolves one issue.
+* [ ] Format the pull request title like `[ISSUE #123] Fix UnknownException when host config not exist`. Each commit in the pull request should have a meaningful subject line and body.
+* [ ] Write a pull request description that is detailed enough to understand what the pull request does, how, and why.
+* [ ] Write necessary unit-test to verify your logic correction, more mock a little better when cross module dependency exist. If the new feature or significant change is committed, please remember to add integration-test in [test module](https://github.com/alibaba/nacos/tree/master/test).
+* [ ] Run `mvn -B clean package apache-rat:check findbugs:findbugs -Dmaven.test.skip=true` to make sure basic checks pass. Run `mvn clean install -DskipITs` to make sure unit-test pass. Run `mvn clean test-compile failsafe:integration-test`  to make sure integration-test pass.
+
+
+ docs: update nacos-client version to 1.2.0
+ Please do not create a Pull Request without creating an issue first.
+
+## What is the purpose of the change
+
+XXXXX
+
+## Brief changelog
+
+XX
+
+## Verifying this change
+
+XXXX
+
+Follow this checklist to help us incorporate your contribution quickly and easily:
+
+* [ ] Make sure there is a Github issue filed for the change (usually before you start working on it). Trivial changes like typos do not require a Github issue. Your pull request should address just this issue, without pulling in other changes - one PR resolves one issue.
+* [ ] Format the pull request title like `[ISSUE #123] Fix UnknownException when host config not exist`. Each commit in the pull request should have a meaningful subject line and body.
+* [ ] Write a pull request description that is detailed enough to understand what the pull request does, how, and why.
+* [ ] Write necessary unit-test to verify your logic correction, more mock a little better when cross module dependency exist. If the new feature or significant change is committed, please remember to add integration-test in [test module](https://github.com/alibaba/nacos/tree/master/test).
+* [ ] Run `mvn -B clean package apache-rat:check findbugs:findbugs -Dmaven.test.skip=true` to make sure basic checks pass. Run `mvn clean install -DskipITs` to make sure unit-test pass. Run `mvn clean test-compile failsafe:integration-test`  to make sure integration-test pass.
+
+
+ feat: issue #189
+ Please do not create a Pull Request without creating an issue first.
+
+## What is the purpose of the change
+
+XXXXX
+
+## Brief changelog
+
+XX
+
+## Verifying this change
+
+XXXX
+
+Follow this checklist to help us incorporate your contribution quickly and easily:
+
+* [ ] Make sure there is a Github issue filed for the change (usually before you start working on it). Trivial changes like typos do not require a Github issue. Your pull request should address just this issue, without pulling in other changes - one PR resolves one issue.
+* [ ] Format the pull request title like `[ISSUE #123] Fix UnknownException when host config not exist`. Each commit in the pull request should have a meaningful subject line and body.
+* [ ] Write a pull request description that is detailed enough to understand what the pull request does, how, and why.
+* [ ] Write necessary unit-test to verify your logic correction, more mock a little better when cross module dependency exist. If the new feature or significant change is committed, please remember to add integration-test in [test module](https://github.com/alibaba/nacos/tree/master/test).
+* [ ] Run `mvn -B clean package apache-rat:check findbugs:findbugs -Dmaven.test.skip=true` to make sure basic checks pass. Run `mvn clean install -DskipITs` to make sure unit-test pass. Run `mvn clean test-compile failsafe:integration-test`  to make sure integration-test pass.
+
+
+ 使@NacosPropertySource注解时，如果namesapce属性使用placeholder占位符时，无法解析
+ 我配置文件中server-addr和groupId使用站位符，可以解析到，但是namesapce属性没有支持。
+nacos.config.namespace=${nacos.namespace}
+nacos.config.data-id=${nacos.config.data.id}
+nacos.config.group=${group.name}
+查下nacos-spring-project的NacosPropertySource.java发现里面没有namespace的属性，故该属性无法使用占位符
+我这里该项目并不会出现此问题，是否是springboot项目
+
+ Feature issue #189
+ Please do not create a Pull Request without creating an issue first.
+
+## What is the purpose of the change
+
+feature issue #189 
+
+## Brief changelog
+
+XX
+
+## Verifying this change
+
+XXXX
+
+Follow this checklist to help us incorporate your contribution quickly and easily:
+
+* [ ] Make sure there is a Github issue filed for the change (usually before you start working on it). Trivial changes like typos do not require a Github issue. Your pull request should address just this issue, without pulling in other changes - one PR resolves one issue.
+* [ ] Format the pull request title like `[ISSUE #123] Fix UnknownException when host config not exist`. Each commit in the pull request should have a meaningful subject line and body.
+* [ ] Write a pull request description that is detailed enough to understand what the pull request does, how, and why.
+* [ ] Write necessary unit-test to verify your logic correction, more mock a little better when cross module dependency exist. If the new feature or significant change is committed, please remember to add integration-test in [test module](https://github.com/alibaba/nacos/tree/master/test).
+* [ ] Run `mvn -B clean package apache-rat:check findbugs:findbugs -Dmaven.test.skip=true` to make sure basic checks pass. Run `mvn clean install -DskipITs` to make sure unit-test pass. Run `mvn clean test-compile failsafe:integration-test`  to make sure integration-test pass.
+
+
+ springboot nacos 如何用@NacosConfigListener监听yml配置的变化
+ Describe what happened (or what feature you want)
+nacos配置：
+
+ alarm:     <br/>
+    weixin:    <br/>
+         api: http://172.25.63.72:8080/weixin    <br/>
+
+
+
+获取动态配置如下
+
+@(dataId = "spring-nacos-demo.yml",type = ConfigType.YAML)
+public void onRecive(Properties value){
+System.out.println("Properties："+ value);
+}
+打印：Properties：{weixin=, api=http://172.25.63.72:8080/weix, alarm=}
+
+@NacosConfigListener(dataId = "spring-nacos-demo.yml",type = ConfigType.YAML)
+public void onRecive(String value){
+    System.out.println("String："+ value);
+}
+打印：String：alarm:
+weixin:
+api: http://172.25.63.72:8080/weix
+
+Describe what you expected to happen
+如何获取：alarm.weixin.api的值呢
+
+How to reproduce it (as minimally and precisely as possible)
+**Tell us your environment**
+
+com.alibaba.boot nacos-config-spring-boot-starter 0.2.4
+
+Anything else we need to know?
+This will be added in the next version and will automatically become a Map object when the parameter is Map
+
+ Upgrade nacos-client to 1.2.0-beta.1
+ Please do not create a Pull Request without creating an issue first.
+
+## What is the purpose of the change
+
+XXXXX
+
+## Brief changelog
+
+XX
+
+## Verifying this change
+
+XXXX
+
+Follow this checklist to help us incorporate your contribution quickly and easily:
+
+* [ ] Make sure there is a Github issue filed for the change (usually before you start working on it). Trivial changes like typos do not require a Github issue. Your pull request should address just this issue, without pulling in other changes - one PR resolves one issue.
+* [ ] Format the pull request title like `[ISSUE #123] Fix UnknownException when host config not exist`. Each commit in the pull request should have a meaningful subject line and body.
+* [ ] Write a pull request description that is detailed enough to understand what the pull request does, how, and why.
+* [ ] Write necessary unit-test to verify your logic correction, more mock a little better when cross module dependency exist. If the new feature or significant change is committed, please remember to add integration-test in [test module](https://github.com/alibaba/nacos/tree/master/test).
+* [ ] Run `mvn -B clean package apache-rat:check findbugs:findbugs -Dmaven.test.skip=true` to make sure basic checks pass. Run `mvn clean install -DskipITs` to make sure unit-test pass. Run `mvn clean test-compile failsafe:integration-test`  to make sure integration-test pass.
+
+
+ 关于本地快照功能
+ 有个springmvc的老项目想引入nacos，貌似参考这个项目是没快照的？看了springboot的貌似是有的
+ 1.添加username password参数
+ 
+ 使@NacosPropertySource注解的groupId属性使用placeholder占位符时，不支持默认值
+ 场景:
+@configuration
+@EnableNacosConfig(globalProperties = @NacosProperties(serverAddr ="${nacos.addr:localhost}"))
+@NacosPropertySources({
+@NacosPropertySource(dataId = “datasource”, autoRefreshed = true,
+groupId = "${nacos.group:DEFAULT_GROUP}")
+public class NacosConfiguration { }
+解析@NacosPropertySource属性值在AbstractNacosPropertySourceBuilder的doBind方法，
+groupId = NacosUtils.readFromEnvironment(groupId, environment);
+在读取属性时，只是简单的去掉group上的${}，没有将默认值分开
+我这里能正常识别默认值，你的版本是多少？
+
+ hotfix/getBeanOfType
+ Please do not create a Pull Request without creating an issue first.
+
+## What is the purpose of the change
+
+XXXXX
+
+## Brief changelog
+
+XX
+
+## Verifying this change
+
+XXXX
+
+Follow this checklist to help us incorporate your contribution quickly and easily:
+
+* [ ] Make sure there is a Github issue filed for the change (usually before you start working on it). Trivial changes like typos do not require a Github issue. Your pull request should address just this issue, without pulling in other changes - one PR resolves one issue.
+* [ ] Format the pull request title like `[ISSUE #123] Fix UnknownException when host config not exist`. Each commit in the pull request should have a meaningful subject line and body.
+* [ ] Write a pull request description that is detailed enough to understand what the pull request does, how, and why.
+* [ ] Write necessary unit-test to verify your logic correction, more mock a little better when cross module dependency exist. If the new feature or significant change is committed, please remember to add integration-test in [test module](https://github.com/alibaba/nacos/tree/master/test).
+* [ ] Run `mvn -B clean package apache-rat:check findbugs:findbugs -Dmaven.test.skip=true` to make sure basic checks pass. Run `mvn clean install -DskipITs` to make sure unit-test pass. Run `mvn clean test-compile failsafe:integration-test`  to make sure integration-test pass.
+
+
+ update verion 0.3.4  Please do not create a Pull Request without creating an issue first.
+
+## What is the purpose of the change
+
+XXXXX
+
+## Brief changelog
+
+XX
+
+## Verifying this change
+
+XXXX
+
+Follow this checklist to help us incorporate your contribution quickly and easily:
+
+* [ ] Make sure there is a Github issue filed for the change (usually before you start working on it). Trivial changes like typos do not require a Github issue. Your pull request should address just this issue, without pulling in other changes - one PR resolves one issue.
+* [ ] Format the pull request title like `[ISSUE #123] Fix UnknownException when host config not exist`. Each commit in the pull request should have a meaningful subject line and body.
+* [ ] Write a pull request description that is detailed enough to understand what the pull request does, how, and why.
+* [ ] Write necessary unit-test to verify your logic correction, more mock a little better when cross module dependency exist. If the new feature or significant change is committed, please remember to add integration-test in [test module](https://github.com/alibaba/nacos/tree/master/test).
+* [ ] Run `mvn -B clean package apache-rat:check findbugs:findbugs -Dmaven.test.skip=true` to make sure basic checks pass. Run `mvn clean install -DskipITs` to make sure unit-test pass. Run `mvn clean test-compile failsafe:integration-test`  to make sure integration-test pass.
+
+
+ Hotfix/get bean of type
+ Please do not create a Pull Request without creating an issue first.
+
+## What is the purpose of the change
+
+XXXXX
+
+## Brief changelog
+
+Fix the problem with getBeanOfType initializing the bean early
+Fix Map object binding problem
+
+## Verifying this change
+
+XXXX
+
+Follow this checklist to help us incorporate your contribution quickly and easily:
+
+* [ ] Make sure there is a Github issue filed for the change (usually before you start working on it). Trivial changes like typos do not require a Github issue. Your pull request should address just this issue, without pulling in other changes - one PR resolves one issue.
+* [ ] Format the pull request title like `[ISSUE #123] Fix UnknownException when host config not exist`. Each commit in the pull request should have a meaningful subject line and body.
+* [ ] Write a pull request description that is detailed enough to understand what the pull request does, how, and why.
+* [ ] Write necessary unit-test to verify your logic correction, more mock a little better when cross module dependency exist. If the new feature or significant change is committed, please remember to add integration-test in [test module](https://github.com/alibaba/nacos/tree/master/test).
+* [ ] Run `mvn -B clean package apache-rat:check findbugs:findbugs -Dmaven.test.skip=true` to make sure basic checks pass. Run `mvn clean install -DskipITs` to make sure unit-test pass. Run `mvn clean test-compile failsafe:integration-test`  to make sure integration-test pass.
+
+
+ Hotfix/get bean of type
+ Please do not create a Pull Request without creating an issue first.
+
+## What is the purpose of the change
+
+XXXXX
+
+## Brief changelog
+
+Fix the problem with getBeanOfType initializing the bean early
+Fix Map object binding problem
+
+## Verifying this change
+
+XXXX
+
+Follow this checklist to help us incorporate your contribution quickly and easily:
+
+* [ ] Make sure there is a Github issue filed for the change (usually before you start working on it). Trivial changes like typos do not require a Github issue. Your pull request should address just this issue, without pulling in other changes - one PR resolves one issue.
+* [ ] Format the pull request title like `[ISSUE #123] Fix UnknownException when host config not exist`. Each commit in the pull request should have a meaningful subject line and body.
+* [ ] Write a pull request description that is detailed enough to understand what the pull request does, how, and why.
+* [ ] Write necessary unit-test to verify your logic correction, more mock a little better when cross module dependency exist. If the new feature or significant change is committed, please remember to add integration-test in [test module](https://github.com/alibaba/nacos/tree/master/test).
+* [ ] Run `mvn -B clean package apache-rat:check findbugs:findbugs -Dmaven.test.skip=true` to make sure basic checks pass. Run `mvn clean install -DskipITs` to make sure unit-test pass. Run `mvn clean test-compile failsafe:integration-test`  to make sure integration-test pass.
+
+
+ spring+spring MVC不能进行自动热更新
+ Refer to https://github.com/alibaba/nacos/issues/2202
+非注解方式时，当远程配置文件改变后， environment 中的配置没有变化
+
+> 非注解方式时，当远程配置文件改变后， environment 中的配置没有变化
+
+看下listener是否有接收到nacos的推送，有可能是因为Spring Context的关系导致的
+
+该问题已修复，由于xml配置解析没有解析相应的而外信息项导致的
+

@@ -1,0 +1,101 @@
+﻿ Clarifications to README
+ - improved clarity by correcting phrasing
+- removed redundancies
+- removed unnecessary capitals
+- added missing capitals
+- minor grammar corrections
+- corrected start of second sentence in Info because it was not a complete sentence
+ James Matchett- Add ICMP attack method
+ Third time's the charm, as per issue #64.
+
+Adds the option for ICMP (ping flood) attacks either with no data in the buffer sent with the ping or a random amount of random bits (up to 65500) in the buffer.
+
+Random bits selected with the "Append random chars" checkbox when ICMP is selected in the method box and number of pings per thread selected with Sockets/thread when ICMP is selected.
+
+Hope this helps contribute towards the program, hope to help write further methods in the future
+
+-with thanks, James
+ James Matchett- Add ICMP attack method 
+ Hopefully Commit coming through clearer now, 
+
+As per issue #64 
+
+Adds the option for ICMP (ping flood) attacks either with no data in the buffer sent with the ping or a random amount of random bits (up to 65500) in the buffer.
+
+Random bits selected with the "Append random chars" checkbox when ICMP is selected in the method box and number of pings per thread selected with Sockets/thread when ICMP is selected.
+
+Things I would change: Drop port number from ICMP method call in cHLDos.cs as it is unnecessary in ICMP pings. I would also like to go over the GUI checkboxes selectable when ICMP is selected.
+
+Thanks a bunch, James 
+ James matchett ICMP Flood Method Addition 
+ As per Issue #64 requesting more attack methods
+
+Adds the ability for ICMP flood style attacks both with and without data being added to the ping by toggling the append random chars flag where if chosen appends between 0 and 65500 random bytes to the ping buffer. Also using the Sockets/thread as a selector for pings sent per thread.
+
+I've kept the coding for this method as similar to that for other methods within the LOIC. 
+
+Things I want to change: update all GUI options so that irrelevant ones are non-selectable, i did this with most but not all options on screen. 
+
+Added the method to ChLDos.cs and made appropriate additions to protocol.cs and frmMain.cs to make it all work, I feel it's a good addition for testing and I believe I could improve how the method works over time.
+ General Syntax and Grammatical Corrections.
+ 
+ Performance and code style improvements
+ - Improved slow int32 conversions
+- Added protocol enum
+- Added null conditional checks
+- Minor improvements/fixes
+- Started adding xml docs
+- Replaced 'new' event handlers with direct references
+- Added readonly attribute where applicable
+ Minor improvements in the IRC library
+ - Removed unused variable
+- Replaced deprecated things with proper ones
+- Added nuget-based log4net package
+
+I replaced several lines where a Hashtable was constructed using the deprecated HashCodeProvider and Comparer parameters. I also replaced the deprecated Dns.Resolve method with the proper Dns.GetHostEntry.
+
+I've also added the log4net library as package dependency (nuget) so that it integrated easily into VS or MonoDevelop/Xamarin without the need of downloading log4net.
+
+This commit was tested by me, it didn't break any functionality.
+
+ Added Socket.NoDelay  This speeds up the socket greatly.
+
+ Added using statement to sockets
+ It seems like LOIC never disposes of the sockets it creates. I found that this was good practice and a memory booster when writing my own DoS/DDoS application.
+
+ Merge pull request #1 from NewEraCracker/master
+ Update from Origin
+
+ Merge pull request #1 from NewEraCracker/master
+ Update from Origin
+
+ A Rewording of the Disclaimer Section
+ I have rephrased the Disclaimer Section of the README.md file to make it clearer and more professional (In my opinion)
+
+ Beta
+ 
+ Some moderate tuning to the README file
+ Just went through the README file and fixed it up a little bit.
+
+Feel free to yell at me if you dislike any of my edits :>
+
+Thanks.
+
+ First refactor based off particleSwarm's code
+ - Moved "Functions" static class to its own file
+
+Do not use a new Random each time. Random is seeded on creation from the system clock. Two different randoms created close enough together can return identical values. Also it's an unnecessary object allocation.
+
+ Code improvement, testing the waters
+ Added static class Functions rather than creating a new object each time just to call this method.
+Move it to its own file as per best practice
+
+ running version
+ added the hivemind alternative (overlord) 
+changed httpflooder to HTTP 1.1 (the old version was NOT supporting V-/shared Servers)
+added ReCoil (chek the source for that :D ) and slowLOIC (the slow-loris implementation) including CVE-2009-1891 vulnerability (http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2009-1891)
+
+added an "copy & paste" screen for the hivemind-topic settings (just set the values ... fire once .. stop .. hit "F10" ... u'll c)
+
+changed some other stuff broke definetly some stuff and so on xD
+

@@ -1,0 +1,6 @@
+﻿ Some proposals
+ No more return from void function
+unecessary if else removed
+for simple if else we should use ?: operator
+ Update readme.md
+ Removed numeric.

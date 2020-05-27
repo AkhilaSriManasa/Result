@@ -1,0 +1,1649 @@
+﻿ ClientAuthentication ClientAuthenticationIf you want to connect a broker via TLS connection, ClientAuthentication should be YES.
+and Clients should be defined by cliens.conf
+
+
+@ty4tw i have defined clients in clients.conf but IP and PORT i am able to give randomly anything and clients are still able to connect and send packets.
+
+show me your clients.conf.
+
+ Gateway hungs on enabling QOS-1-YES
+ I have mqtt-sn gateway connecting to AWS IOT broker using client certificates. I have enabled QoS-1
+After that gateway doesn't connect to AWS IOT broker and hungs on any packet receveid.
+ Is there something wrong with the gateway?
+ Hello Sir, I want to ask something
+
+I use this as my MQTT-SN Client https://github.com/S3ler/arduino-mqtt-sn-client and it can connect to the Gateway and even can subscribe too but the problem is I can publish a message or even change my Client ID and in my gateway show up this error
+
+this is my code for MQTT-SN Client
+
+[       #include <ESP8266WiFi.h>
+        #include <WiFiUdp.h>
+        #include <WiFiUdpSocket.h>
+        #include <MqttSnClient.h>
+    
+    const char* ssid     = "xxx";
+    const char* password = "xxx";
+
+    #define buffer_length 10
+    char buffer[buffer_length + 1];
+    uint16_t buffer_pos = 0;
+
+    IPAddress gatewayIPAddress(192, 168, 1, 151);
+    uint16_t localUdpPort = 1884;
+
+    // #define gatewayHostAddress "arsmb.de"
+
+    WiFiUDP udp;
+    WiFiUdpSocket wiFiUdpSocket(udp, localUdpPort);
+    MqttSnClient<WiFiUdpSocket> mqttSnClient(wiFiUdpSocket);
+
+    const char* clientId = "Kevin";
+    char* subscribeTopicName = "test";
+    char* publishTopicName = "test";
+
+    int8_t qos = 0;
+
+    void mqttsn_callback(char *topic, uint8_t *payload, uint16_t length, bool retain) {
+    Serial.print("Received - Topic: ");
+    Serial.print(topic);
+    Serial.print(" Payload: ");
+    for (uint16_t i = 0; i < length; i++) {
+    char c =  (char) * (payload + i);
+    Serial.print(c);
+    }
+    Serial.print(" Lenght: ");
+    Serial.println(length);
+    }
+
+    void setup() {
+    Serial.begin(115200);
+    delay(1000);
+    pinMode (sensor,INPUT);
+    Serial.println();
+    Serial.print("Connecting to ");
+    Serial.println(ssid);
+  
+    /* Explicitly set the ESP8266 to be a WiFi-client, otherwise, it by default,
+     would try to act as both a client and an access-point and could cause
+     network-issues with your other WiFi-devices on your WiFi-network. */
+    WiFi.mode(WIFI_STA);
+    WiFi.begin(ssid, password);
+
+    while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+    }
+
+    Serial.println("");
+    Serial.println("WiFi connected");
+    Serial.println("IP address: ");
+    Serial.println(WiFi.localIP());
+
+    Serial.print("Starting MqttSnClient - ");
+    mqttSnClient.setCallback(mqttsn_callback);
+     if  (!mqttSnClient.begin()) {
+    Serial.print("Could not initialize MQTT-SN Client ");
+    while (true) {
+      Serial.println(".");
+      delay(1000);
+     }
+    }
+    Serial.println(" ready!");
+    }
+
+     void convertIPAddressAndPortToDeviceAddress(IPAddress& source, uint16_t port, device_address& target) {
+     // IPAdress 0 - 3 bytes
+     target.bytes[0] = source[0];
+     target.bytes[1] = source[1];
+     target.bytes[2] = source[2];
+     target.bytes[3] = source[3];
+     // Port 4 - 5 bytes
+     target.bytes[4] = port >> 8;
+     target.bytes[5] = (uint8_t) port ;
+     }  
+
+
+    void loop() {
+    if (!mqttSnClient.is_mqttsn_connected()) {
+    #if defined(gatewayHostAddress)
+    IPAddress gatewayIPAddress;
+    if (!WiFi.hostByName(gatewayHostAddress, gatewayIPAddress, 20000)) {
+      Serial.println("Could not lookup MQTT-SN Gateway.");
+      return;
+    }
+    #endif
+    device_address gateway_device_address;
+    convertIPAddressAndPortToDeviceAddress(gatewayIPAddress, localUdpPort, gateway_device_address);
+    Serial.print("MQTT-SN Gateway device_address: ");
+    printDeviceAddress(&gateway_device_address);
+
+
+    if (!mqttSnClient.connect(&gateway_device_address, clientId, 180) ) {
+      Serial.println("Could not connect MQTT-SN Client.");
+      delay(1000);
+      return;
+    }
+    Serial.println("MQTT-SN Client connected.");
+    mqttSnClient.subscribe(subscribeTopicName , qos);
+      }
+
+        if (Serial.available()> 0) {
+        buffer[buffer_pos++] = Serial.read();
+      if (buffer[buffer_pos - 1] == '\n') {
+      // only qos -1, 0, 1 are supported
+      if (!mqttSnClient.publish(buffer, publishTopicName , qos)) {
+        Serial.println("Could not publish");
+      }
+      Serial.println("Published");
+      memset(buffer, 0x0, buffer_length);
+      buffer_pos = 0;
+    }
+     }
+
+     mqttSnClient.loop();
+
+    }]
+
+what is the problem? i don't know what's wrong
+![image](https://user-images.githubusercontent.com/48360957/81503065-31a8da80-9314-11ea-9b4f-db62a0f56f3a.png)
+
+show me your gateway.conf.
+Which protocol are you using udp or udp6?
+
+This is what my gateway.conf look like
+
+[     #**************************************************************************
+      # Copyright (c) 2016-2019, Tomoaki Yamaguchi
+      #
+      # All rights reserved. This program and the accompanying materials
+      # are made available under the terms of the Eclipse Public License v1.0
+      # and Eclipse Distribution License v1.0 which accompany this distribution.
+      #
+      # The Eclipse Public License is available at
+      #    http://www.eclipse.org/legal/epl-v10.html
+     # and the Eclipse Distribution License is available at
+     #   http://www.eclipse.org/org/documents/edl-v10.php.
+     #***************************************************************************
+     #
+     # config file of MQTT-SN Gateway
+    #
+
+    BrokerName=192.168.1.151
+    BrokerPortNo=1883
+    BrokerSecurePortNo=8883
+     
+    #
+    # When AggregatingGateway=YES or ClientAuthentication=YES,
+    # All clients must be specified by the ClientList File  
+    #
+    
+    ClientAuthentication=NO
+    AggregatingGateway=NO
+    QoS-1=NO
+    Forwarder=NO
+
+    #ClientsList=/path/to/your_clients.conf
+    
+    PredefinedTopic=NO
+    #PredefinedTopicList=/path/to/your_predefinedTopic.conf
+    
+    #RootCAfile=/etc/ssl/certs/ca-certificates.crt
+    #RootCApath=/etc/ssl/certs/
+    #CertsFile=/path/to/certKey.pem
+    #PrivateKey=/path/to/privateKey.pem
+    
+    GatewayID=1
+    GatewayName=PahoGateway-01
+    KeepAlive=900
+    #LoginID=your_ID
+    #Password=your_Password
+    
+    
+     # UDP
+     GatewayPortNo=1884
+     MulticastIP=225.1.1.1
+     MulticastPortNo=1883
+     MulticastTTL=1
+     
+     # UDP6
+     GatewayUDP6Bind=FFFF:FFFE::1 
+     GatewayUDP6Port=1884
+     GatewayUDP6Broadcast=FF02::1
+     GatewayUDP6If=wpan0
+     GatewayUDP6Hops=1
+     
+      # XBee
+     Baudrate=38400
+     SerialDevice=/dev/ttyUSB0
+     ApiMode=2
+     
+     # LOG
+     ShearedMemory=YES;](url)
+     
+I'm using udp6 
+
+Can I see a while log of the gateway?
+
+
+In your case the gayeway sholud use udp.
+Because your client using udp I guess.
+
+ How can i add broker user and broker password?
+ I want to use Cloudmqtt as a broker but that broker provide user and password,can i add to this  gateway about broker user and broker password?
+how should i do?
+Try setting 
+LoginID=your user name
+Password=your password
+
+below BrokerName
+
+in gateway.conf
+
+Thank you I will try it
+
+ Can i add RF network at this Gateway? 
+ I want to use arduino nano + NRF24L01 as a MQTT-SN client just like this git https://github.com/bittailor/BtMqttSn
+
+And then this git as my gateway, but there is some problem because i use RF network and in this git just have Xbee and UDP network, so can i add RF network to this gateway? If i can, then what should i do? And what should i changer or add?? 
+Just implement SensorNetAddress and  SensorNetwork classes in src/Linux/NRF24L01 directory as same as src/Linux/udp/SensorNetwork.cpp and SensorNetwork.h.
+
+So i just create new Folder for src/Linux/NRF24L01 and copy SensorNetwork.cpp and SensorNetwork.h from src/Linux/udp,is that right? 
+
+Then what should i do so this gateway can run RF network or i mean what should i change in that file so this gateway can recognize RF Network?? I'm new for this please help me Sir
+
+thank You Sir
+
+Implement SensorNetworkAddress and SensorNetwork classes for your network
+devise by yourself.
+
+2020年5月9日(土) 23:18 Kevin <notifications@github.com>:
+
+> So i just create new Folder for src/Linux/NRF24L01 and copy
+> SensorNetwork.cpp and SensorNetwork.h from src/Linux/udp,is that right?
+>
+> Then what should i do so this gateway can run RF network or i mean what
+> should i change in that file so this gateway can recognize RF Network?? I'm
+> new for this please help me Sir
+>
+> thank You Sir
+>
+> —
+> You are receiving this because you commented.
+> Reply to this email directly, view it on GitHub
+> <https://github.com/eclipse/paho.mqtt-sn.embedded-c/issues/201#issuecomment-626183068>,
+> or unsubscribe
+> <https://github.com/notifications/unsubscribe-auth/AB3X2BD4MJX6DMMVJIKRVWLRQVQ2FANCNFSM4M4PEYPA>
+> .
+>
+
+
+Okay Sir Thank you
+
+ Can i run this on Windows?
+ I want to use Windows for my OS can i run it at Windows and Can i use MS Visual Code for my text editor??
+I already tried using Cygwin,and when i try to
+
+$ make [SENSORNET={udp6}]
+
+then this error came up,is there something wrong with the file?? because from what i know Cygwin can make we work on Linux environment
+
+![image](https://user-images.githubusercontent.com/48360957/81282876-5be96680-908e-11ea-8184-d9431e552be7.png)
+
+
+Hi,
+Exec  make without argument.  
+
+By default, a gateway for UDP is built.
+In order to create a gateway for UDP6 or XBee, SENSORNET argument is required.
+
+i already tried
+
+$ make SENSORNET=udp6  / $ make SENSORNET=xbee
+
+but still came out that error,so what should i do?
+
+and i think there is no experiment branch
+
+because you use 
+
+git clone -b experiment ...
+
+Hi,
+master and develop are current existing branches as you said.
+Try develop branch and if you can’t build it, it must be a problem of Cygwin build environment.
+I’ve never tried Cygwin environment before. It’s out of my scope.
+
+Hi
+
+Thank you for answering
+
+i already use Linux at Virtual Box but it seem the gateway can't publish from mqtt-sn client to mqtt broker but for the mqtt-sn client i can do sub and pub
+
+are this gateway support for mosquitto broker? because the broker doesn't get any message from the mqtt-sn client pub
+![image](https://user-images.githubusercontent.com/48360957/81366454-4d965b80-911d-11ea-8cd5-b3c4de8458ea.png)
+
+and this is the prove that there is no error for mqtt-sn client pub/sub
+
+pub as mqtt-sn client
+![image](https://user-images.githubusercontent.com/48360957/81366608-a7972100-911d-11ea-8cb9-3f04a8fd245b.png)
+
+
+
+sub as mqtt-sn client
+![image](https://user-images.githubusercontent.com/48360957/81366629-b382e300-911d-11ea-97bb-15b1d90de664.png)
+
+
+
+Hi
+Can I see the log of gateway?
+
+i have found some error like this,is this the problem?
+![image](https://user-images.githubusercontent.com/48360957/81367355-97804100-911f-11ea-90e5-abf5dcbbb474.png)
+
+is this right? for the log
+![image](https://user-images.githubusercontent.com/48360957/81367458-e29a5400-911f-11ea-85b9-6e6aa1893b22.png)
+
+
+
+
+It works fine.   
+====> and <==== arrow mean message to/from the broker.
+——> and <—— arrows mean message to/from clients.
+
+Hi
+
+But why is my broker that use mosquitto doesn't receive any data that i send from mqtt-sn client even though at the mqtt-sn gateway it said success to send data?? Is there a problem with my broker? Or this gateway doesn't support mosquitto broker??
+
+And i can said that my mqtt-sn client and my mqtt-sn gateway is  success right??
+
+Did you change gateway.conf to set your own broker?
+
+What should i change sir?
+
+I'm new here and I need some guidance
+![image](https://user-images.githubusercontent.com/48360957/81375338-e33ce580-9133-11ea-99d6-ceacf0ed3007.png)
+
+and here is the error on the gateway
+![image](https://user-images.githubusercontent.com/48360957/81375356-ed5ee400-9133-11ea-8389-662881bcfa2a.png)
+
+
+gateway.conf have a broker name,if i use mosquitto broker then what should i name it? or mqttcloud?
+
+Write IP address instead of host name.
+
+Yeah it worked
+
+Now last question, is this library i can implemented it on Arduino nano that using NRF24L01 as the gateway?
+
+If you can run Linux os on those machine answer is yes.
+
+thank you sir i will try it
+
+ Gateway doesn't support clients with certificates for AWS IOT endpoint
+ I have couple of  IOT devices which are registered as AWS IOT device and have a certificate to communicate to AWS IOT using MQTT protocol. 
+Now i wanted to use MQTT-SN gateway in middle so that IOT devices can use UDP connection.
+Issue is where we cannot provide each client with their specific certificates and certificate has to be given at MQTT-SN gateway.conf. This makes all clients communication to AWS IOT as single principleID.
+Hi,
+>This makes all clients communication to AWS IoT as single 
+
+Clients defined as secure by the clients.conf file can commutate to AWS IoT.
+
+
+Hi @ty4tw . I have clients which are having their own certificates generated by AWS IOT at the time of registration. If i have MQTT-SN gateway as intermediary client, then i'll see only one client connecting to AWS IOT even if i have many clients connecting to gateway. 
+
+The gateway can not use client certification.
+So use core certification instead of them.
+
+@ty4tw What is the core certification? How will I identify individual clients on AWS IOT then? Even if MQTT-SN is acting as transparent, i can see only one client which is gateway connected at broker.
+
+Hi,
+When ClientAuthentication=YES in gateway.conf, Only clients which exist in
+clients.conf can CONNECT the gateway.
+I think AWS IoT allows sharing  a TLS certification for a device group.
+So, All clients can share the gateway's certification.
+
+Tomoaki  YAMAGUCHI
+
+2020年5月21日(木) 15:53 Saumil Kapadia <notifications@github.com>:
+
+> @ty4tw <https://github.com/ty4tw> What is the core certification? How
+> will I identify individual clients on AWS IOT then? Even if MQTT-SN is
+> acting as transparent, i can see only one client which is gateway connected
+> at broker.
+>
+> —
+> You are receiving this because you were mentioned.
+> Reply to this email directly, view it on GitHub
+> <https://github.com/eclipse/paho.mqtt-sn.embedded-c/issues/199#issuecomment-631918166>,
+> or unsubscribe
+> <https://github.com/notifications/unsubscribe-auth/AB3X2BAWP75R6YKNC2DYVZTRSTFV7ANCNFSM4MYQ5FLQ>
+> .
+>
+
+
+ Outdated gateway readme document
+ Please review the PR https://github.com/eclipse/paho.mqtt-sn.embedded-c/pull/197 with updated documentation with markdown sementics. 
+ Updated MQTTSNGateway README
+ Updated MQTTSNGateway README as per current working of gateway.
+ Error: Client is not connecting, message has been discarded
+ Hi all, 
+
+I like to thank all the members for their contributions to this project. It has helped me a lot in learning about the MQTT-SN gateway. 
+
+First of all, I like to explain my test set-up. I am trying to connect 30 MQTT-SN clients to the MQTT-SN gateway. Each of the MQTT-SN clients publishes in three topics. The MQTT-SN gateway is connected to the public MQTT broker (mqtt.eclipse.org). I have one MQTT client connected to the broker and it is subscribed to all the three topics. 
+###############
+MQTT-SN Clients (30) -> MQTT-SN Gateway -> Public MQTT broker (mqtt-eclipse.org) -> MQTT Clients (1)
+###############
+Issue:
+While connecting more than 20 MQTT-SN Clients, I am receiving error messages from gateway "Error: Client is not connecting, message has been discarded". It has been observed that messages are not received at the MQTT Client side. I have attached the screen-shot of the gateway messages. Please help me with how to resolve this issue and revert back to me in case any further clarification is needed from my end. 
+
+
+<img width="495" alt="Screenshot 2020-04-23 10 00" src="https://user-images.githubusercontent.com/46866960/80059768-6a8e3480-854a-11ea-9f99-b6cdb34c556a.png">
+ 
+ Securing MQTT-SN messages send over UDP with DTLS
+ Hi all,
+
+I like to secure the transport of MQTT-SN messages send over UDP with DTLS and connect to the MQTT-SN gateway. There are hardly any projects which implemented the same. I have referred some of the similar threads as mentioned below but unfortunately could not find the solution. 
+
+Can you share with me Github repositories of projects which have already implemented the same?
+
+As I am a newbie in the DTLS/TLS protocols, it would be of much help to me if you can please guide me about how to secure the transport of MQTT-SN messages over UDP using DTLS.
+
+References:
+a. https://github.com/eclipse/paho.mqtt-sn.embedded-c/issues/90
+
+
+Thanks and Regards,
+Karthik
+ Failed to connect on arm64 soc
+ Setup on same machine:  mosquto broker +  paho.mqtt-sn.gateway
+I have tested it successfully on  x84 machine.
+On arm64 soc, build and run is OK,  ping ipv6 and ipv4 is OK, 
+but pub failed. 
+
+Here is log when gateway starting:
+
+```
+20200416 035308.819 MQTT-SN/gateway1 has been started.
+
+ ConfigFile: ./gateway.conf
+ ClientList: ./clients.conf
+ SensorN/W:  GatewayUDP6Bind: fe80::f58c:2fb7:adad:1 Gateway Port: 10000
+ Broker:     192.168.1.9 : 1883, 8883
+ RootCApath: (null)
+ RootCAfile: (null)
+ CertKey:    (null)
+ PrivateKey: (null)
+
+
+20200416 035310.000   CONNECT           ===>  MQTT-SN/gateway1QoS-1               10 21 00 04 4D 51 54 54 04 02 03 84 00 15 4D 51 54 54 2D 53 4E 2F 67 61 74 65 77 61 79 31 51 6F 53 2D 31
+20200416 035310.322   CONNACK           <===  MQTT-SN/gateway1QoS-1               20 02 00 00
+20200416 035310.322   CONNACK           --->  MQTT-SN/gateway1QoS-1               03 05 00
+```
+Following is error log when connecting it with mqtt-sn-tools:
+```
+./mqtt-sn-tools-master/mqtt-sn-pub -h 192.168.1.9 -p 10000 -t 10 -m hello
+aaa@aaa-T460s:~/proj/sys/sensornet/mqtt-sn-tools$ sh pub.sh 
+2020-04-16 11:53:43 ERROR Failed to connect to MQTT-SN gateway.
+```
+Use mqtt-sn-tools to test
+```
+ ./mqtt-sn-tools-master/mqtt-sn-pub -h 192.168.1.9 -p 10000 -t 10 -m hello
+2020-04-16 15:24:16 DEBUG Debug level is: 1.
+2020-04-16 15:24:16 DEBUG Network timeout is: 30 seconds.
+2020-04-16 15:24:16 DEBUG Trying 192.168.1.9...
+2020-04-16 15:24:16 DEBUG Connecting...
+2020-04-16 15:24:16 DEBUG Sending CONNECT packet...
+2020-04-16 15:24:16 DEBUG waiting for packet...
+2020-04-16 15:24:46 DEBUG Timed out waiting for packet.
+2020-04-16 15:24:46 ERROR Failed to connect to MQTT-SN gateway.
+
+```
+
+Gateway waits a packet via UDP6.  Client have to send a packet via UDP6.
+
+tshark can get udp packet.
+Add some debug info in the source code as following.
+Foud that:  return value of select always <= 0
+
+```
+//TODO: test if this is working properly (GW works, but this function is not completely tested)                                                                                                             
+int UDPPort6::recv(uint8_t* buf, uint16_t len, SensorNetAddress* addr)
+{
+  struct timeval timeout;
+  fd_set recvfds;
+
+  timeout.tv_sec = 0;
+  timeout.tv_usec = 1000000;    // 1 sec                                                                                                                                                                    
+  FD_ZERO(&recvfds);
+  FD_SET(_sockfdUnicast, &recvfds);
+
+  std::cout << "xxxUDPPort6::recv" <<std::endl;
+
+  int rc = 0;
+  if ( select(_sockfdUnicast + 1, &recvfds, 0, 0, &timeout) > 0 )
+  {
+    // debug found : can not come here                                                                                                                                                                      
+    if (FD_ISSET(_sockfdUnicast, &recvfds))
+    {
+      std::cout << "xxxUDPPort6::recv 2" <<std::endl;
+      rc = recvfrom(_sockfdUnicast, buf, len, 0, addr);
+      std::cout << "xxxUDPPort6::recv 3" <<std::endl;
+    }
+  }
+
+  std::cout << "yyyUDPPort6::recv rc=" << rc << std::endl;
+  return rc;
+}
+
+```
+
+> Gateway waits a packet via UDP6. Client have to send a packet via UDP6.
+
+ fe80::f58c:2fb7:adad:1  and 192.168.1.9  are on the same eth0, so the client can use 192.168.1.9  to publish . right ?
+
+I test with sending a UDP6 packet. MQTT-SN Gateway can not recive the packet. But tshark can catch it.
+
+Two cases log :
+Gateway.conf bind ip6 to 240e:390:3f:7560:f01e:4888:7e85:a
+1. Do not open mqtt-sn gateway
+```
+$ ./mqtt-sn-tools-master/mqtt-sn-pub -h 240e:390:3f:7560:f01e:4888:7e85:a -p 10000 -t 1 -m hello
+recv failed: Connection refused
+
+```
+
+2. Running mqtt-sn gateway.
+
+```
+$ ./mqtt-sn-tools-master/mqtt-sn-pub -h 240e:390:3f:7560:f01e:4888:7e85:a -p 10000 -t 1 -m hello
+2020-04-19 11:17:02 ERROR Failed to connect to MQTT-SN gateway.
+
+```
+
+
+
+
+I use udp 6 receiver  from here, it's OK, it can recive the package from mqtt-sn-pub
+```https://github.com/jhx2002/test_riot/tree/master/udp_recv```
+
+ What does   GatewayUDP6Bind   mean 
+ Hi, what does GatewayUDP6Bind mean ?
+MQTT broker and MQTT-SN gateway on the same machine.
+What value should I  set GatewayUDP6Bind ?
+
+```
+# SensorNetwork UDP6 config 
+GatewayUDP6Bind=240e:390:31:920:6efe:53ff:2fed:7680
+GatewayUDP6Port=10000                              
+#GatewayUDP6Broadcast=FF02::1                      
+#GatewayUDP6If=tapbr0   
+```
+ Update MQTTSNPacket.c
+ Looks like a bug in MQTTSNPacket_len(). If the input parameter is 255, it will return 256, but the actual packet size will be 258.
+There is already a pull request containing this fix at https://github.com/eclipse/paho.mqtt-sn.embedded-c/pull/187 but unfortunately the maintainer reverted it within https://github.com/eclipse/paho.mqtt-sn.embedded-c/pull/189
+
+Hi,
+
+Could you explain why the actual length is 258?
+According to the spec,
+>Messages with lengths smaller than 256 octets may use the shorter 1-octet format.
+
+
+> Could you explain why the actual length is 258?
+
+The length will become 258 because ...
+
+> the output of the function MQTTSNPacket_len is fet into MQTTSNPacket_encode. So if I put 255 as the length of the packet without the length field into MQTTSNPacket_len it will currently return 256. But MQTTSNPacket_encode will use a 3-octed length field for such a message. The result is a MQTT-SN message that is longer (258 bytes) than its length field specifies (256 bytes).
+
+See #187 for a demonstration of the effect.
+
+Hi Martin,
+It was a bug of GatewayTester and fixed.
+MQTTSNPacket_encode() is correct.   
+```
+/**
+ * Encodes the MQTT-SN message length
+ * @param buf the buffer into which the encoded data is written
+ * @param length the length to be encoded
+ * @return the number of bytes written to the buffer
+ */
+int MQTTSNPacket_encode(unsigned char* buf, int length)
+{
+	int rc = 0;
+
+	FUNC_ENTRY;
+	if (length > 255)
+	{
+		writeChar(&buf, 0x01);
+		writeInt(&buf, length);
+		rc += 3;
+	}
+	else
+		buf[rc++] = length;
+
+	FUNC_EXIT_RC(rc);
+	return rc;
+}
+```
+The specification defines the message length as follows:
+>5.2.1 Length
+The Length field is either 1- or 3-octet long and specifies the total number of octets contained in the message (including the Length field itself).
+If the first octet of the Length field is coded “0x01” then the Length field is 3-octet long; in this case, the two following octets specify the total number of octets of the message (most-significant octet first). Otherwise, the Length field is only 1-octet long and specifies itself the total number of octets contained in the message.
+The 3-octet format allows the encoding of message lengths up to 65535 octets. Messages with lengths smaller than 256 octets may use the shorter 1-octet format.
+Note that because MQTT-SN does not support message fragmentation and reassembly, the maximum message length that could be used in a network is governed by the maximum packet size that is supported by that network, and not by the maximum length that could be encoded by MQTT-SN.
+
+
+
+Hi Tomoaki,
+
+As Martin said, the bug is in MQTTSNPacket_len(), not MQTTSNPacket_encode().
+
+/**
+* Calculates the full packet length including length field
+* @param length the length of the MQTT-SN packet without the length field
+* @return the total length of the MQTT-SN packet including the length field
+*/
+int MQTTSNPacket_len(int length)
+{
+return (length > 255) ? length + 3 : length + 1;
+}
+If the input length parameter value is 255,  MQTTSNPacket_len() will return
+256.
+In this case, the length field in the MQTTSN packet will be set to 256 but
+MQTTSNPacket_encode() will encode 258 bytes.
+So this is the bug.
+
+To fix it, you could either use:
+return (length >*=* 255) ? length + 3 : length + 1;
+or
+return (length > 25*4*) ? length + 3 : length + 1;
+
+Hope this helps,
+Dave
+
+--
+
+Dave Gish
+
+Principal Software Architect
+
+The Nielsen Company
+
+Skype: dave.gish
+
+973-831-8208
+
+
+
+
+On Sun, Apr 12, 2020 at 8:34 PM Tomoaki Yamaguchi <notifications@github.com>
+wrote:
+
+> Hi Martin,
+> It was a bug of GatewayTester and fixed.
+> MQTTSNPacket_encode() is correct.
+>
+> /**
+>
+>  * Encodes the MQTT-SN message length
+>
+>  * @param buf the buffer into which the encoded data is written
+>
+>  * @param length the length to be encoded
+>
+>  * @return the number of bytes written to the buffer
+>
+>  */
+>
+> int MQTTSNPacket_encode(unsigned char* buf, int length)
+>
+> {
+>
+> 	int rc = 0;
+>
+>
+>
+> 	FUNC_ENTRY;
+>
+> 	if (length > 255)
+>
+> 	{
+>
+> 		writeChar(&buf, 0x01);
+>
+> 		writeInt(&buf, length);
+>
+> 		rc += 3;
+>
+> 	}
+>
+> 	else
+>
+> 		buf[rc++] = length;
+>
+>
+>
+> 	FUNC_EXIT_RC(rc);
+>
+> 	return rc;
+>
+> }
+>
+>
+> The specification defines the message length as follows:
+>
+> 5.2.1 Length
+> The Length field is either 1- or 3-octet long and specifies the total
+> number of octets contained in the message (including the Length field
+> itself).
+> If the first octet of the Length field is coded “0x01” then the Length
+> field is 3-octet long; in this case, the two following octets specify the
+> total number of octets of the message (most-significant octet first).
+> Otherwise, the Length field is only 1-octet long and specifies itself the
+> total number of octets contained in the message.
+> The 3-octet format allows the encoding of message lengths up to 65535
+> octets. Messages with lengths smaller than 256 octets may use the shorter
+> 1-octet format.
+> Note that because MQTT-SN does not support message fragmentation and
+> reassembly, the maximum message length that could be used in a network is
+> governed by the maximum packet size that is supported by that network, and
+> not by the maximum length that could be encoded by MQTT-SN.
+>
+> —
+> You are receiving this because you authored the thread.
+> Reply to this email directly, view it on GitHub
+> <https://github.com/eclipse/paho.mqtt-sn.embedded-c/pull/192#issuecomment-612699628>,
+> or unsubscribe
+> <https://github.com/notifications/unsubscribe-auth/APEPUBU7XU2OHK44BK54U43RMJMXZANCNFSM4MF7W5TQ>
+> .
+>
+
+
+Hi davegish,
+you are misunderstanding the length parameter.
+@param length  the length of the MQTT-SN packet without the length field
+int MQTTSNPacket_len(int length);
+int MQTTSNPacket_encode(unsigned char* buf, int length)
+when the length is 255 MQTTSNPacket_len  returns 256 and MQTTSNPacket_encode returns 1.
+Nothing is wrong. see the definition of the message length in the specification.
+```
+return (length >*=* 255) ? length + 3 : length + 1;     
+```
+This returns 258  when the length is 255. 
+
+Hi Tomoaki,
+
+I don't see how I'm misunderstanding it.
+
+According to the spec:
+   5.2.1 Length
+The Length field is either 1- or 3-octet long and specifies the total
+number of octets contained in the message (*including the Length field
+itself*).
+
+The number 256 is impossible to carry as 1 byte, so the length field
+expands to 3 bytes.
+In other words, according to the spec, it doesn't seem possible to have a
+packet size of 256 or 257 bytes.
+
+The input parameter to MQTTSNPacket_len() is:
+@param <https://github.com/param> length the length of the MQTT-SN
+packet *without
+*the length field
+
+The return value of  MQTTSNPacket_len() is:
+@return the total length of the MQTT-SN packet *including *the length field
+
+If the MQTT-SN packet *without* the length field is 255 bytes,
+then the total length of the MQTT-SN packet *including* the length field
+will be 258 bytes.
+
+--
+
+Dave Gish
+
+Principal Software Architect
+
+The Nielsen Company
+
+Skype: dave.gish
+
+973-831-8208
+
+
+
+
+On Mon, Apr 13, 2020 at 4:47 AM Tomoaki Yamaguchi <notifications@github.com>
+wrote:
+
+> Hi davegish,
+> you are misunderstanding the length parameter.
+> @param <https://github.com/param> length the length of the MQTT-SN packet
+> without the length field
+> int MQTTSNPacket_len(int length);
+> int MQTTSNPacket_encode(unsigned char* buf, int length)
+> when the length is 255 functions return 256.
+> Nothing is wrong. see the definition of the message length of the
+> specification.
+>
+> return (length >*=* 255) ? length + 3 : length + 1;
+> ```
+> This will return 258  when the length is 255.
+>
+> —
+> You are receiving this because you authored the thread.
+> Reply to this email directly, view it on GitHub
+> <https://github.com/eclipse/paho.mqtt-sn.embedded-c/pull/192#issuecomment-612812414>,
+> or unsubscribe
+> <https://github.com/notifications/unsubscribe-auth/APEPUBWARRDN6HGKJKCO6MTRMLGT5ANCNFSM4MF7W5TQ>
+> .
+>
+
+
+Tomoaki:  Does this mean a message with length 255 octet may use the
+shorter 1 octet format ...
+Dave: Yes.
+
+Tomoaki: ... and the total length is 255 + 1 = 256 ?
+Dave: No. According to the spec, the length value in the header is the *total
+length* of the packet, *including the length field itself*.
+       5.2.1 Length
+    The Length field is either 1- or 3-octet long and specifies the *total
+number of octets* contained in the message (*including the Length field
+itself*).
+
+Examples:
+1) if the payload length before adding the length field is 254 octets, the
+total length is 255, which may use the shorter 1 octet length field.
+In this case, the value of the length field in the header is 255.
+
+2) if the payload length before adding the length field is 255 octets, the
+total length is over 255, which requires the 3-octet length field.
+In this case, the value of the length field in the header is 258.
+
+
+--
+
+Dave Gish
+
+Principal Software Architect
+
+The Nielsen Company
+
+Skype: dave.gish
+
+973-831-8208
+
+
+
+
+On Mon, Apr 13, 2020 at 9:20 AM Tomoaki Yamaguchi <notifications@github.com>
+wrote:
+
+> Messages with lengths smaller than 256 octets may use the shorter 1-octet
+> format.
+>
+> Dose this means message with length 255 octet may use the shorter 1 octet
+> format and total length is 255 + 1 = 256 ?
+>
+> —
+> You are receiving this because you authored the thread.
+> Reply to this email directly, view it on GitHub
+> <https://github.com/eclipse/paho.mqtt-sn.embedded-c/pull/192#issuecomment-612894900>,
+> or unsubscribe
+> <https://github.com/notifications/unsubscribe-auth/APEPUBXIXVSP6W7IPJESJLLRMMGR5ANCNFSM4MF7W5TQ>
+> .
+>
+
+
+Hi,
+Ok I understood.
+I will fix the bugs.
+Thank you for your cooperation.
+
+
+ WillMSGUPD\WillTOPICUPD failed
+ hi
+  I was working in MQTTSN client, and use MQTTSNGW\MOSQUITTO to have a test, i found these issues what i can't understand.
+  After connection has been established success with will topic and will msg
+  1、I send willtopicupd, but not recieve anything, according protocol, GW need to answer with willtopicrsp, is this a issue on MQTTSNGW?  
+  2、I send willMSGupd, but recieved reject information for not support, is this stand for the GW not support the willmsgupd?
+  3、I send willtopicupd ,without flags and topic, only two bytes length, aim to delete the will on GW, but without respect and also revieve will when client disconnect abnormal, is the GW not support this, or willtopicupd package made error?
+
+thanks
+Hi,
+
+WILLTOPICUPD and WILLMSGUPD are not supported.
+
+````
+/*
+ *  WILLTOPICUPD
+ */
+void MQTTSNConnectionHandler::handleWilltopicupd(Client* client, MQTTSNPacket* packet)
+{
+	/* send NOT_SUPPORTED responce to the client */
+	MQTTSNPacket* respMsg = new MQTTSNPacket();
+	respMsg->setWILLTOPICRESP(MQTTSN_RC_NOT_SUPPORTED);
+	Event* evt = new Event();
+	evt->setClientSendEvent(client, respMsg);
+	_gateway->getClientSendQue()->post(evt);
+}
+
+/*
+ *  WILLMSGUPD
+ */
+void MQTTSNConnectionHandler::handleWillmsgupd(Client* client, MQTTSNPacket* packet)
+{
+	/* send NOT_SUPPORTED responce to the client */
+	MQTTSNPacket* respMsg = new MQTTSNPacket();
+	respMsg->setWILLMSGRESP(MQTTSN_RC_NOT_SUPPORTED);
+	Event* evt = new Event();
+	evt->setClientSendEvent(client, respMsg);
+	_gateway->getClientSendQue()->post(evt);
+}
+````
+
+OK, thanks to your reply
+
+ Subscribe with QoS not working
+ Hi,
+I tried to subscribe a topic with QoS > 0 and publish something into this topic. The result is, The QoS of the received message is only dependent on the QoS of the publisher. AFAIK the QoS level of subscriber and publisher are two different things, like this:
+```
+PUBLISHER -> qos_pub -> BROKER -> qos_sub -> SUBSCRIBER
+```
+I used the GatewayTester (run testscript including step 1) to make some logs.
+Test 1:
+ *  `subscribePredefTopic1()` subscribes with QoS1
+*  `publishTopic1` publishes with QoS0
+[test1_gatewaytester.txt](https://github.com/eclipse/paho.mqtt-sn.embedded-c/files/4430989/test1.txt)
+[qos0_gateway.txt](https://github.com/eclipse/paho.mqtt-sn.embedded-c/files/4430983/qos0.txt)
+
+Test 2:
+ *  `subscribePredefTopic1()` subscribes with QoS1
+*  `publishTopic1` publishes with QoS1
+[test2_gatewaytester.txt](https://github.com/eclipse/paho.mqtt-sn.embedded-c/files/4430990/test2.txt)
+[qos1_gateway.txt](https://github.com/eclipse/paho.mqtt-sn.embedded-c/files/4430984/qos1.txt)
+
+I would expect a PUBACK from the receiver like in Test2 also in Test1.
+
+Best regards
+
+Hi a1lu,
+You can't expect PUBACK.  
+It's a spec of MQTT. 
+
+According to the specification [MQTT-3.8.4-6],
+>The Server might grant a lower maximum QoS than the subscriber requested. The QoS of Payload Messages sent in response to a Subscription MUST be the minimum of the QoS of the originally published message and the maximum QoS granted by the Server. 
+
+Ah, too bad. Thanks anyway.
+
+ Revert "Fix bug for messages of length 0x100"
+ Reverts eclipse/paho.mqtt-sn.embedded-c#187
+
+Why did you revert this fix?
+
+ MQTT-Client can't move from one wireless node to another
+ My forwarder uses the client MAC address as the Wireless Node Id for the encapsulated MQTT-SN messages. It can happen that the MAC address changes (random MAC or different hardware). However the MQTT-SN ClientId won't change.
+
+It looks like the gateway won't notice such a change and will keep using the old Wireless Node Id even if the MQTT-SN client already reconnected using its new Wireless Node Id.
+
+I can't find anything in the MQTT-SN Protocol Specification that forces the ClientId and Wireless Node Id to be the same or only change together.
+
+The following script will trigger the issue:
+
+```python
+import socket
+import time
+
+sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+sock.bind(("127.0.0.1", 22002))
+
+sock.sendto(bytearray([0x04, 0xFE, 0x00, 0x01, 0x16, 0x04, 0x04, 0x01, 0x00, 0x3c, 0x47]), ("127.0.0.1", 10000))
+print(sock.recvfrom(6))
+sock.sendto(bytearray([0x04, 0xFE, 0x00, 0x01, 0x02, 0x16]), ("127.0.0.1", 10000))
+print(sock.recvfrom(5))
+
+# Reconnecting using a different Wireless Node Id. But the gateway will send the answer to the old Wireless Node Id.
+sock.sendto(bytearray([0x04, 0xFE, 0x00, 0x02, 0x16, 0x04, 0x04, 0x01, 0x00, 0x3c, 0x47]), ("127.0.0.1", 10000))
+print(sock.recvfrom(6))
+
+# The next message will trigger the error.
+#Error: MQTTSNGWClientRecvTask  Client(127.0.0.1:22002) is not connecting. message has been discarded.
+sock.sendto(bytearray([0x04, 0xFE, 0x00, 0x02, 0x02, 0x16]), ("127.0.0.1", 10000))
+
+# This message was just added to check if the old Wireless Node Id will still work.
+sock.sendto(bytearray([0x04, 0xFE, 0x00, 0x01, 0x02, 0x16]), ("127.0.0.1", 10000))
+print(sock.recvfrom(5))
+```
+
+And the MQTTSNGateway's log output:
+
+```
+20200319 224901.620   CONNECT           ===>  mqttsn-gateway_QoS-1                10 20 00 04 4D 51 54 54 04 02 03 84 00 14 6D 71 74 74 73 6E 2D 67 61 74 65 77 61 79 5F 51 6F 53 2D 31
+20200319 224901.621   CONNACK           <===  mqttsn-gateway_QoS-1                20 02 00 00
+20200319 224901.621   CONNACK           --->  mqttsn-gateway_QoS-1                03 05 00
+20200319 224902.086   ENCAPSULATED      <---  Forwarder01                         04 FE 00 01 16 04 04 01 00 3C 47
+
+20200319 224902.086   CONNECT           <---  G                                   16 04 04 01 00 3C 47
+20200319 224902.086   CONNECT           ===>  G                                   10 0D 00 04 4D 51 54 54 04 02 00 3C 00 01 47
+20200319 224902.121   CONNACK           <===  G                                   20 02 00 00
+20200319 224902.121   CONNACK           --->  G                                   03 05 00
+20200319 224902.121   ENCAPSULATED      --->  Forwarder01                         FE 00 01 03 05 00
+20200319 224902.122   ENCAPSULATED      <---  Forwarder01                         04 FE 00 01 02 16
+
+20200319 224902.122   PINGREQ           <---  G                                   02 16
+20200319 224902.122   PINGREQ           ===>  G                                   C0 00
+20200319 224902.122   PINGRESP          <===  G                                   D0 00
+20200319 224902.122   PINGRESP          --->  G                                   02 17
+20200319 224902.122   ENCAPSULATED      --->  Forwarder01                         FE 00 01 02 17
+20200319 224902.122   ENCAPSULATED      <---  Forwarder01                         04 FE 00 02 16 04 04 01 00 3C 47
+
+20200319 224902.122   CONNECT           <---  G                                   16 04 04 01 00 3C 47
+20200319 224902.122   CONNECT           ===>  G                                   10 0D 00 04 4D 51 54 54 04 02 00 3C 00 01 47
+20200319 224902.123   CONNACK           <===  G                                   20 02 00 00
+20200319 224902.123   CONNACK           --->  G                                   03 05 00
+20200319 224902.123   ENCAPSULATED      --->  Forwarder01                         FE 00 01 03 05 00
+20200319 224902.123   ENCAPSULATED      <---  Forwarder01                         04 FE 00 02 02 16
+
+20200319 224902.123   PINGREQ           <---  Unknown Client !                    02 16
+Error: MQTTSNGWClientRecvTask  Client(127.0.0.1:22002) is not connecting. message has been discarded.
+20200319 224902.123   ENCAPSULATED      <---  Forwarder01                         04 FE 00 01 02 16
+
+20200319 224902.123   PINGREQ           <---  G                                   02 16
+20200319 224902.123   PINGREQ           ===>  G                                   C0 00
+20200319 224902.123   PINGRESP          <===  G                                   D0 00
+20200319 224902.123   PINGRESP          --->  G                                   02 17
+20200319 224902.123   ENCAPSULATED      --->  Forwarder01                         FE 00 01 02 17
+```
+Hi,
+
+Forwarder Addresses and ID are defined in clients.conf  as Clients.
+It's not a specification. it's my own restriction for security.  (Forwarders should be defined by clients.conf.)  
+
+your Encapsulation format is not correct.
+````
+[0x04, 0xFE, 0x00, 0x01, 0x16, 0x04, 0x04, 0x01, 0x00, 0x3c, 0x47]
+````
+
+Client ID in the CONNECT is missing and Packet lengthes are not correct.
+````
+[0x05, 0xFE, 0x00, 0x01, 0x16, 0x08, 0x04, 0x01, 0x00, 0x3c, 0x47,     0x43, 0x44]
+                                                                  clientID  "CD"
+````
+
+````
+sock.sendto(bytearray([0x05, 0xFE, 0x00, 0x01, 0x16, 0x08, 0x04, 0x01, 0x01, 0x3c, 0x47, 0x43, 0x44]), ("127.0.0.1", 10000))
+
+sock.sendto(bytearray([0x05, 0xFE, 0x00, 0x02, 0x16, 0x08, 0x04, 0x01, 0x01, 0x3c, 0x47, 0x43, 0x45]), ("127.0.0.1", 10000))
+````
+Result of the correct message is 
+````
+20200320 153357.170   ENCAPSULATED     <---  Forwarder01            05 FE 00 01 16 08 04 01 01 3C 47 43 44
+
+20200320 153357.170   CONNECT          <---  CD                     08 04 01 01 3C 47 43 44
+20200320 153357.171   CONNECT           ===> CD                     10 0E 00 04 4D 51 54 54 04 00 3C 47 00 02 43 44
+20200320 153357.441   CONNACK           <=== CD                     20 02 01 00
+20200320 153357.441   CONNACK           ---> CD                     03 05 00
+20200320 153357.441   ENCAPSULATED      ---> Forwarder01            FE 00 01 16 03 05 00
+20200320 153409.798   ENCAPSULATED     <---  Forwarder01            05 FE 00 02 16 08 04 01 01 3C 47 43 45
+
+20200320 153409.798   CONNECT          <---  CE                     08 04 01 01 3C 47 43 45
+20200320 153409.798   CONNECT           ===> CE                     10 0E 00 04 4D 51 54 54 04 00 3C 47 00 02 43 45
+20200320 153409.955   CONNACK           <=== CE                     20 02 00 00
+20200320 153409.955   CONNACK           ---> CE                     03 05 00
+20200320 153409.955   ENCAPSULATED      ---> Forwarder01            FE 00 02 16 03 05 00
+````
+
+
+Hi,
+you are right the length field of the message was wrong. But the length field of the forwarding is fine.
+
+However, in your modified example you also changed the client ID at the second connect call. In that case the bug is not triggered. So I restructured my example to get a better overview of what is actually happening.
+
+```python
+import socket
+
+sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+sock.bind(("127.0.0.1", 22002))
+
+
+def connect(wireless_node_id):
+    return bytearray([
+        # Forwarder Encapsulation
+        0x04, # Length(0)
+        0xFE, # MsgType(1)
+        0x00, # Ctrl(2)
+        wireless_node_id, # Wireless Node Id (3)
+
+        # Message
+        0x07, # Length(0)
+        0x04, # MsgType(1)
+        0x04, # Flags(2)
+        0x01, # ProtocolId(3)
+        0x00, # Duration(4)
+        0x3c, # Duration(5)
+        0x47, # ClientId(6)
+    ])
+
+def ping(wireless_node_id):
+    return bytearray([
+        # Forwarder Encapsulation
+        0x04, # Length(0)
+        0xFE, # MsgType(1)
+        0x00, # Ctrl(2)
+        wireless_node_id, # Wireless Node Id (3)
+
+        # Message
+        0x02, # Length(0)
+        0x16, # MsgType(1)
+    ])
+
+sock.sendto(connect(1), ("127.0.0.1", 10000))
+print(sock.recvfrom(6))
+
+sock.sendto(ping(1), ("127.0.0.1", 10000))
+print(sock.recvfrom(5))
+
+# Reconnecting using a different Wireless Node Id. But the gateway will send the answer to the old Wireless Node Id.
+sock.sendto(connect(2), ("127.0.0.1", 10000))
+print(sock.recvfrom(6))
+
+# The next message will trigger the error.
+#Error: MQTTSNGWClientRecvTask  Client(127.0.0.1:22002) is not connecting. message has been discarded.
+sock.sendto(ping(2), ("127.0.0.1", 10000))
+
+# This message was just added to check if the old Wireless Node Id will still work.
+sock.sendto(ping(1), ("127.0.0.1", 10000))
+print(sock.recvfrom(5))
+```
+
+The bug will still get triggered, even if the length field has the right value.
+
+
+Wireless Id and Client Id pare is a key to identify the client to ensure security.
+So, the Gateway can not change the wireless Id of a forwarded client.
+According to the spec,
+Wireless Node Id: ***identifies the wireless node*** which has sent or should receive the encapsulated MQTT-SN message. ***The mapping between this Id and the address of the wireless node is implemented by the for- warder, if needed.***
+
+
+I think the identity of a wireless node is most likely bound to some kind of hardware device. But that is not necessarily true for the the client, which can run on any device. This is probably why they use two different IDs, one for the wireless node and one for the client. Handling them as a pair to identify the client is not mentioned within the MQTT-SN spec. 
+
+It should be possible to let the client use a different wireless node to communicate as long as the client does a reconnect.
+
+
+ Fix bug for messages of length 0x100
+ If the parameter `length` is 255 bytes the result of the previous `MQTTSNPacket_len` implementation was 256 bytes. But such a message actually needs a 3-octet long Length field, so it should return 258 instead.
+
+Signed-off-by: Martin Kirsche <martin.kirsche@gmail.com>
+Hi,
+Thank you for the PR.
+A current implementation goes with the spec, I think.    
+
+![image](https://user-images.githubusercontent.com/7830788/77269338-e39c3100-6ceb-11ea-8795-b5aaba35023f.png)
+
+
+This issue has nothing to do with the spec. The problem is that the output of the function `MQTTSNPacket_len` is fet into `MQTTSNPacket_encode`. So if I put 255 as the length of the packet without the length field into `MQTTSNPacket_len` it will currently return 256. But `MQTTSNPacket_encode` will use a 3-octed length field for such a message. The result is a MQTT-SN message that is longer than its length field specifies.
+
+Here is a test that demonstrates this:
+
+```python
+import socket
+
+sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+sock.bind(("127.0.0.1", 12001))
+
+
+def connect():
+    return bytearray([
+        0x07, # Length(0)
+        0x04, # MsgType(1)
+        0x04, # Flags(2)
+        0x01, # ProtocolId(3)
+        0x00, # Duration(4)
+        0x3c, # Duration(5)
+        0x47  # ClientId(6)
+    ])
+
+def sub():
+    return bytearray([
+        0x07, # Length(0)
+        0x12, # MsgType(1)
+        0x02, # Flags(2)
+        0x00, # MsgId (3)
+        0x01, # MsgId (4)
+        0x41, # TopicName (5)
+        0x41  # TopicName (6)
+    ])
+
+def pub():
+    return bytearray([
+        0x01, # Length(0)
+        0x01,
+        0x02,
+        0x0C, # MsgType(1)
+        0x02, # Flags(2)
+        0x41, # TopicName (3)
+        0x41, # TopicName (4)
+        0x00, # MsgId (5)
+        0x02, # MsgId (6)
+    ]) + (bytearray((0x41,)) * (0x102-9))
+
+sock.sendto(connect(), ("127.0.0.1", 10000))
+print(sock.recvfrom(2))
+
+sock.sendto(sub(), ("127.0.0.1", 10000))
+print(sock.recvfrom(8))
+
+sock.sendto(pub(), ("127.0.0.1", 10000))
+print(sock.recvfrom(0x102))
+```
+
+Here is the MQTT-SN-Gateway log:
+```
+20200323 221723.906   CONNECT           <---  G                                   07 04 04 01 00 3C 47
+20200323 221723.983   CONNACK           --->  GatewayTestClient                   03 05 00
+
+20200323 221723.983   SUBSCRIBE   0001  <---  GatewayTestClient                   07 12 02 00 01 41 41
+20200323 221723.983   SUBACK      0001  --->  GatewayTestClient                   08 13 00 00 00 00 01 00
+20200323 221723.983   PUBLISH     0002  <---  GatewayTestClient                   01 01 02 0C 02 41 41 00 02 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41
+20200323 221723.984   PUBLISH           --->  GatewayTestClient                   01 01 00 0C 02 41 41 00 00 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41
+
+```
+
+Thank you,
+I could understand your PR and merged it.
+
+  Fix bug for messages of length 0x100
+ If the parameter `length` is 255 bytes the result of the previous `MQTTSNPacket_len` implementation was 256 bytes. But such a message actually needs a 3-octet long Length field, so it should return 258 instead.
+ build error on arm soc
+ Compile success. But link failed, log as :
+
+```
+g++ -Wall -O3 -std=c++11   -Isrc -Isrc/linux -Isrc/linux/udp6 -I../MQTTSNPacket/src -Isrc/tests  -o Build/src/mainGateway.o -c -MMD -MP -MF Build/src/mainGateway.d src/mainGateway.cpp
+g++  -o Build/MQTT-SNGateway Build/src/MQTTGWConnectionHandler.o Build/src/MQTTGWPacket.o Build/src/MQTTGWPublishHandler.o Build/src/MQTTGWSubscribeHandler.o Build/src/MQTTSNGateway.o Build/src/MQTTSNGWBrokerRecvTask.o Build/src/MQTTSNGWBrokerSendTask.o Build/src/MQTTSNGWClient.o Build/src/MQTTSNGWClientRecvTask.o Build/src/MQTTSNGWClientSendTask.o Build/src/MQTTSNGWConnectionHandler.o Build/src/MQTTSNGWLogmonitor.o Build/src/MQTTSNGWPacket.o Build/src/MQTTSNGWPacketHandleTask.o Build/src/MQTTSNGWProcess.o Build/src/MQTTSNGWPublishHandler.o Build/src/MQTTSNGWSubscribeHandler.o Build/src/MQTTSNGWEncapsulatedPacket.o Build/src/MQTTSNGWForwarder.o Build/src/MQTTSNGWQoSm1Proxy.o Build/src/MQTTSNGWAdapter.o Build/src/MQTTSNGWAggregater.o Build/src/MQTTSNGWClientList.o Build/src/MQTTSNGWTopic.o Build/src/MQTTSNGWAdapterManager.o Build/src/MQTTSNAggregateConnectionHandler.o Build/src/MQTTSNGWMessageIdTable.o Build/src/MQTTSNGWAggregateTopicTable.o Build/src/linux/udp6/SensorNetwork.o Build/src/linux/Timer.o Build/src/linux/Network.o Build/src/linux/Threading.o Build/src/tests/TestProcess.o Build/src/tests/TestQue.o Build/src/tests/TestTree23.o Build/src/tests/TestTopics.o Build/src/tests/TestTopicIdMap.o Build/src/tests/TestTask.o Build/../MQTTSNPacket/src/MQTTSNConnectClient.o Build/../MQTTSNPacket/src/MQTTSNConnectServer.o Build/../MQTTSNPacket/src/MQTTSNDeserializePublish.o Build/../MQTTSNPacket/src/MQTTSNPacket.o Build/../MQTTSNPacket/src/MQTTSNSearchClient.o Build/../MQTTSNPacket/src/MQTTSNSearchServer.o Build/../MQTTSNPacket/src/MQTTSNSerializePublish.o Build/../MQTTSNPacket/src/MQTTSNSubscribeClient.o Build/../MQTTSNPacket/src/MQTTSNSubscribeServer.o Build/../MQTTSNPacket/src/MQTTSNUnsubscribeClient.o Build/../MQTTSNPacket/src/MQTTSNUnsubscribeServer.o Build/src/mainGateway.o  -L/usr/local/lib -lpthread -lssl -lcrypto -lrt
+/usr/bin/ld: Build/../MQTTSNPacket/src/MQTTSNConnectClient.o: Relocations in generic ELF (EM: 62)
+/usr/bin/ld: Build/../MQTTSNPacket/src/MQTTSNConnectClient.o: Relocations in generic ELF (EM: 62)
+Build/../MQTTSNPacket/src/MQTTSNConnectClient.o: error adding symbols: File in wrong format
+collect2: error: ld returned 1 exit status
+Makefile:116: recipe for target 'Build/MQTT-SNGateway' failed
+make: *** [Build/MQTT-SNGateway] Error 1
+
+```
+Could you tell me the OS, compiler and linker used?
+
+ubuntu 18.04
+```
+xxx@X1:~$ ll /usr/bin/ld*
+lrwxrwxrwx 1 root root   19 May  8  2019 /usr/bin/ld -> x86_64-linux-gnu-ld*
+lrwxrwxrwx 1 root root   23 May  8  2019 /usr/bin/ld.bfd -> x86_64-linux-gnu-ld.bfd*
+-rwxr-xr-x 1 root root 5420 Apr 17  2018 /usr/bin/ldd*
+lrwxrwxrwx 1 root root   24 May  8  2019 /usr/bin/ld.gold -> x86_64-linux-gnu-ld.gold*
+xxx@X1:~$ whereis g++
+g++: /usr/bin/g++ /usr/share/man/man1/g++.1.gz
+
+```
+
+
+Compiler and linker look like  for x86.  
+Those should be for ARM.   
+
+I did build on the arm soc. How could I use ARM arch tools ?
+
+Thank you! @ty4tw 
+
+ Add a session recovery mechanism
+ Hello, I tested the characteristics of MQTT-SN under the NBIOT network. As you know, NB is a low-power protocol. When the device enters the sleep state, the core network will release the previous connection, which will cause the device The source data port seen by the gateway will change after waking up. Do you consider adding a session recovery mechanism?
+Hi,
+I am not thinking about adding such function.
+The device can CONNECT again before sending any message.
+
+ Regression in patch for #181
+ Hi, 
+I noticed a regression in 1b08591fad433b47bc0b87c4d9455a19187e3c18.
+
+I try to connect a client to the gateway. Without the patch:
+
+```
+20200220 092239.567   CONNECT           <---  clientId                            0E 04 04 01 00 3C 63 6C 69 65 6E 74 49 64
+20200220 092239.567   CONNECT           ===>  clientId                            10 14 00 04 4D 51 54 54 04 02 00 3C 00 08 63 6C 69 65 6E 74 49 64
+20200220 092239.689   CONNACK           <===  clientId                            20 02 00 00
+20200220 092239.689   CONNACK           --->  clientId                            03 05 00
+
+20200220 092239.689   SUBSCRIBE   0001  <---  clientId                            09 12 00 00 01 74 65 73 74
+20200220 092239.690   SUBSCRIBE   0001  ===>  clientId                            82 09 00 01 00 04 74 65 73 74 00
+20200220 092239.690   SUBACK      0001  <===  clientId                            90 03 00 01 00
+20200220 092239.690   SUBACK      0001  --->  clientId                            08 13 00 00 01 00 01 00
+```
+
+With the patch:
+```
+20200220 092511.198   CONNECT           <---  clientId                            0E 04 04 01 00 3C 63 6C 69 65 6E 74 49 64
+20200220 092511.198   CONNECT           ===>  clientId                            10 14 00 04 4D 51 54 54 04 02 00 3C 00 08 63 6C 69 65 6E 74 49 64
+20200220 092511.208   CONNACK           <===  clientId                            20 02 00 00
+20200220 092511.208   CONNACK           --->  clientId                            03 05 00
+
+20200220 092511.209   SUBSCRIBE   0001  <---  Unknown Client !                    09 12 00 00 01 74 65 73 74
+```
+
+Regards
+Hi,
+
+I could not reproduce the error.
+![image](https://user-images.githubusercontent.com/7830788/74932421-1de08d00-5425-11ea-82f6-6ec502cdae9d.png)
+
+
+Do you have an entry for the client in clients.conf?
+
+ The bug occurred in case of QoS-1
+Hi,
+I can confirm that this is fixed in 1b6e6faab5fc6f3162cf1d07b2d658cc1af93e9e
+
+thanks.
+
+ Why use pointer types to compare directly with 0？
+ ![image](https://user-images.githubusercontent.com/20105247/74796158-c0ecb600-5302-11ea-87be-d278d6830478.png)
+
+Hi,
+Thank you for your info.
+This Bug was fixed by Jochen0x90h PR #176.
+
+
+ forwarder encapsulation does not work as expected
+ I'm trying to use the MQTT-SN Gateway together with an MQTT-SN Forwarder that encapsulates each MQTT-Paket it receives. Even so the MQTT-SN Gateway seems to decapsulate the packages only establishing a connection works (CONNECT + CONNACK) but every command after that will produce the ` Client(127.0.0.1:22002) is not connecting. message has been discarded.` error message.
+
+I think the encapsulated MQTT-SN packages look like described at [_MQTT For Sensor Networks (MQTT-SN) Protocol Specification Version 1.2_ part _5.5 Forwarder Encapsulation_](http://www.mqtt.org/new/wp-content/uploads/2009/06/MQTT-SN_spec_v1.2.pdf) so I assume that this is a bug within the gateway.
+
+Here is the log output of the gateway:
+
+```
+ ***************************************************************************
+ * MQTT-SN Transparent Gateway
+ * Part of Project Paho in Eclipse
+ * (http://git.eclipse.org/c/paho/org.eclipse.paho.mqtt-sn.embedded-c.git/)
+ *
+ * Author : Tomoaki YAMAGUCHI
+ * Version: 1.3.2
+ ***************************************************************************
+
+20200213 221856.160 PahoGateway-01 has been started.
+
+ ConfigFile: ./gateway.conf
+ ClientList: clients.conf
+ PreDefFile: ./predefinedTopic.conf
+ SensorN/W:  UDP Multicast 225.1.1.1:1883 Gateway Port 10000 TTL: 1
+ Broker:     localhost : 1883, 8883
+ RootCApath: (null)
+ RootCAfile: (null)
+ CertKey:    (null)
+ PrivateKey: (null)
+
+
+20200213 221859.383   ENCAPSULATED      <---  Forwarder01                         05 FE 00 00 41 07 04 04 01 00 01 41
+
+20200213 221859.383   CONNECT           <---  A                                   07 04 04 01 00 01 41
+20200213 221859.385   CONNECT           ===>  A                                   10 0D 00 04 4D 51 54 54 04 02 00 01 00 01 41
+20200213 221859.665   CONNACK           <===  A                                   20 02 00 00
+20200213 221859.665   ENCAPSULATED      --->  Forwarder01                         FE 00 00 41 03 05 00
+20200213 221859.665   CONNACK           --->  A                                   03 05 00
+20200213 221859.666   ENCAPSULATED      <---  Forwarder01                         05 FE 00 00 42 07 04 04 01 00 01 42
+
+20200213 221859.666   CONNECT           <---  B                                   07 04 04 01 00 01 42
+20200213 221859.666   CONNECT           ===>  B                                   10 0D 00 04 4D 51 54 54 04 02 00 01 00 01 42
+20200213 221900.165   CONNACK           <===  B                                   20 02 00 00
+20200213 221900.165   ENCAPSULATED      --->  Forwarder01                         FE 00 00 42 03 05 00
+20200213 221900.165   CONNACK           --->  B                                   03 05 00
+20200213 221900.166   ENCAPSULATED      <---  Forwarder01                         05 FE 00 00 41 02 16
+
+20200213 221900.166   PINGREQ           <---  Unknown Client !                    02 16
+Error: Client(127.0.0.1:22002) is not connecting. message has been discarded.
+20200213 221900.166   ENCAPSULATED      <---  Forwarder01                         05 FE 00 00 42 02 16
+
+20200213 221900.166   PINGREQ           <---  Unknown Client !                    02 16
+Error: Client(127.0.0.1:22002) is not connecting. message has been discarded.
+```
+
+I use the following python script to emulate the forwarder:
+```
+import socket
+
+sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+sock.bind(("127.0.0.1", 22002))
+
+sock.sendto(bytearray([0x05, 0xFE, 0x00, 0x00, 0x41, 0x07, 0x04, 0x04, 0x01, 0x00, 0x01, 0x41]), ("127.0.0.1", 10000))
+print(sock.recvfrom(8))
+
+sock.sendto(bytearray([0x05, 0xFE, 0x00, 0x00, 0x42, 0x07, 0x04, 0x04, 0x01, 0x00, 0x01, 0x42]), ("127.0.0.1", 10000))
+print(sock.recvfrom(8))
+
+sock.sendto(bytearray([0x05, 0xFE, 0x00, 0x00, 0x41, 0x02, 0x16]), ("127.0.0.1", 10000))
+sock.sendto(bytearray([0x05, 0xFE, 0x00, 0x00, 0x42, 0x02, 0x16]), ("127.0.0.1", 10000))
+
+print(sock.recvfrom(7))
+print(sock.recvfrom(7))
+```
+
+Hi,
+Thank you for your info.
+I'll fix it soon.
+
+Hi, thanks for fixing it so fast. It works like a charm now.
+
+ issue in README.md  in MQTTSN-Gateway 
+ executable files are not present in the required directory and after make clean build folder gets deleted but our executable after make is present in build folder
+Hi,
+
+I think you used make command with  
+**install INSTALL_DIR=directory_name  CONFIG_DIR=directory_name**   arguments.
+Related portion of Makefile as follows:
+````
+INSTALL_DIR=../../
+CONFIG_DIR=../../
+    .
+    .
+    .
+clean:
+	rm -rf $(OUTDIR)
+
+install:
+	cp -pf $(PROG) $(INSTALL_DIR)
+	cp -pf $(LPROG) $(INSTALL_DIR)
+	cp -pf $(CONFIG) $(CONFIG_DIR)
+	cp -pf $(CLIENTS) $(CONFIG_DIR)
+	cp -pf $(PREDEFTOPIC) $(CONFIG_DIR)
+	
+````
+Nothing seems wrong.
+I guess the directory names which you specified were incorrect.
+
+
+Hi,
+
+Try
+```
+$ make install
+$ ls -l ../../
+```
+you will find files.
+
+ Not able to execute MQTT-SN-Gateway
+ terminate called after throwing an instance of 'MQTTSNGW::Exception'
+  what():  RingBuffer can't create a shared memory.
+Aborted (core dumped)
+
+Hi,
+If you get the error message as follows:
+````    
+what(): RingBuffer can't create a shared memory.
+Aborted (core dumped)
+````
+You have to start using sudo command only once for the first time.    
+````
+$ sudo ./MQTT-SNGateway [-f Config file name]
+````
+I will add the info about this to README.
+
+
+
+ BugFix of #171 and PINGREQ and PINGRESP error of Adapter class
+ 
+ MQTT-SN Gateway doesn't work on Ubuntu 64 bit for ARM64
+ I compiled the **MQTTSNGateway** from the develop branch (7 Feb 2020). It's work fine on Fedora 29, but doesn't work on ARM64 (**Odroid N2** with Ubuntu x64).
+
+```
+uname -v
+Linux odroid 4.9.210-66 #1 SMP PREEMPT Thu Jan 16 09:14:42 -03 2020 aarch64 aarch64 aarch64 GNU/Linux
+
+lscpu
+Architecture:        aarch64
+Byte Order:          Little Endian
+CPU(s):              6
+On-line CPU(s) list: 0-5
+Thread(s) per core:  1
+Core(s) per socket:  3
+Socket(s):           2
+Vendor ID:           ARM
+Model:               4
+Model name:          Cortex-A53
+Stepping:            r0p4
+CPU max MHz:         1896.0000
+CPU min MHz:         100.0000
+BogoMIPS:            48.00
+
+ip link show
+Hi,
+The GW can run on a RaspberryPi 3B+.
+So, it's not a problem of ARM64.
+what kind of client did you use?
+
+
+Hm, may be problen in Odroid N2? I can provide SSH for debugging if needed.
+
+I send data from https://github.com/eclipse/paho.mqtt-sn.embedded-c/tree/master/MQTTSNPacket library and gei in on Node.red. But it's not a client problem, because Gateway output window is empty.
+
+
+
+Could you monitor UDP packets with a **Wireshark** or any other network monitor ?
+I'd like to know the Gateway receives packets or not.
+
+Hello! Yes, gateway receives packets fine, but no any reaction.
+
+```
+root@odroid:~# tcpdump udp port 10000 -vv -X -n
+tcpdump: listening on eth0, link-type EN10MB (Ethernet), capture size 262144 bytes
+17:12:36.000531 IP (tos 0x0, ttl 128, id 11019, offset 0, flags [none], proto UDP (17), length 50)
+    192.168.1.250.52665 > 192.168.1.100.10000: [udp sum ok] UDP, length 22
+	0x0000:  4500 0032 2b0b 0000 8011 8b01 c0a8 01fa  E..2+...........
+	0x0010:  c0a8 0164 cdb9 2710 001e 600d 1604 0401  ...d..'...`.....
+	0x0020:  000a 4e56 4744 6576 3633 3737 3837 3437  ..NVGDev63778747
+	0x0030:  3733                                     73
+17:12:37.464435 IP (tos 0x0, ttl 128, id 11020, offset 0, flags [none], proto UDP (17), length 138)
+    192.168.1.250.52665 > 192.168.1.100.10000: [udp sum ok] UDP, length 110
+	0x0000:  4500 008a 2b0c 0000 8011 8aa8 c0a8 01fa  E...+...........
+	0x0010:  c0a8 0164 cdb9 2710 0076 a733 6e0c 0273  ...d..'..v.3n..s
+	0x0020:  6400 007b 2249 4422 3a22 3633 3737 3837  d..{"ID":"637787
+	0x0030:  3437 3733 222c 2254 5322 3a22 3135 3831  4773","TS":"1581
+	0x0040:  3037 3530 3633 222c 224d 4422 3a22 3022  075063","MD":"0"
+	0x0050:  2c22 4254 223a 2236 322e 3339 222c 2242  ,"BT":"62.39","B
+	0x0060:  5222 3a22 3338 3236 3122 2c22 5254 223a  R":"38261","RT":
+	0x0070:  2231 3632 222c 2253 5322 3a22 2d37 3522  "162","SS":"-75"
+	0x0080:  2c22 4e4d 223a 2232 227d                 ,"NM":"2"}
+```
+![Снимок экрана от 2020-02-21 17-12-49](https://user-images.githubusercontent.com/20832343/75041517-c6e2c280-54cd-11ea-84e2-a7fb9d293da9.png)
+![Снимок экрана от 2020-02-21 17-12-44](https://user-images.githubusercontent.com/20832343/75041523-c8ac8600-54cd-11ea-8c90-7243e5471b2e.png)
+
+
+Hi,
+I understand that UDP port 10000 is receiving CONNECT messages starting with 0x001e.
+
+![image](https://user-images.githubusercontent.com/7830788/75088617-0fb07f00-5593-11ea-8a0f-09a1e61f1e86.png)
+ 
+However, I do not know why the GW can not receive it.
+Could you try again with the latest version of GW ?
+
+
+Compiled the latest version from develop branch:
+```
+git rev-list --count HEAD
+216
+```
+But the same behavior:
+
+```
+root@odroid:/home/src# ./MQTT-SNGateway 
+ClientList can not open the Predefined Topic List.     NO
+
+ ***************************************************************************
+ * MQTT-SN Transparent Gateway
+ * Part of Project Paho in Eclipse
+ * (http://git.eclipse.org/c/paho/org.eclipse.paho.mqtt-sn.embedded-c.git/)
+ *
+ * Author : Tomoaki YAMAGUCHI
+ * Version: 1.3.2
+ ***************************************************************************
+
+20200222 185220.305 PahoGateway-01 has been started.
+
+ ConfigFile: ./gateway.conf
+ ClientList: ./clients.conf
+ PreDefFile: ./predefinedTopic.conf
+ SensorN/W:  UDP Multicast 225.1.1.1:1883 Gateway Port 10000 TTL: 1
+ Broker:     127.0.0.1 : 1883, 8883
+ RootCApath: (null)
+ RootCAfile: (null)
+ CertKey:    (null)
+ PrivateKey: (null)
+
+```
+
+MQTT Connect playload: 16 04 04 01 00 0A 4E 56 47 44 65 76 36 33 37 37 38 37 34 37 37 33, it's work fine on desktop PC with Fedora, but nothing on Odroid. (((
+
+Ok. Will you make a debug version for me with the collection of additional logs in a separate git branch? I will attach all the necessary logs. TIA!
+
+I fixed the bug of "ClientList can not open the Predefined Topic List. " 
+I can't solve this issue because I don't have Odroid or I don't know anything about it.
+
+
+My Rasbian was 32 bit. So, I checked GW with ubuntu 64-bit version and the bug was reproduced.
+![image](https://user-images.githubusercontent.com/7830788/75210617-e5de9e80-57c4-11ea-9e66-a4621b273304.png)
+This is not a problem of Odroid.    
+
+The GW can send ADVERTISE message.
+And a client can receive ADVERTISE from the GW.     
+ This issue might be a UDP receive problem.
+![image](https://user-images.githubusercontent.com/7830788/75218371-6ad5b200-57dd-11ea-8d17-7fbe539ff307.png)
+It must be a ARM64 compiler related problem.
+
+
+Hello! I corrected the bug title description.
+
+I checked the latest version on Odroid N2 (Ubuntu 18.04 x86_64):
+
+```
+git rev-list --count HEAD
+218
+```
+When I send via console:
+```
+echo -n -e "\x016\x004\x004\x001\x000\x00A\x04E\x056\x047\x044\x065\x076\x036\x033\x037\x037\x038\x037\x034\x037\x037\x033" | nc -u 192.168.1.100 10000
+```
+I got the error:
+
+```
+20200225 134710.069   UNKNOWN           <---  Unknown Client !                    01 36 00 34 00 34 00 31 00 30 00 41 04 45 05 36 04 37 04 34 06 35 07 36 03 36 03 33 03 37 03 37 03 38 03 37 03 34 03 37 03 37 03 33
+Error: MQTTSNGWClientRecvTask  Client(192.168.1.10:53839) is not connecting. message has been discarded.
+```
+
+But I tested on the real NB IoT device (GPS tracker with data send via MQTT SN on MTS RUS) and seems it works fine (checked CONNECT, CONACK, PUBLISH, SUBSCRIBE, SUBAC):
+
+![Снимок экрана от 2020-02-25 13-46-39](https://user-images.githubusercontent.com/20832343/75241154-a325c200-57d6-11ea-943c-71d2280abb18.png)
+
+Suppose bug is fixed. Thank you!
+
+
+Thank you for your contribution.
+
+ Support for MacOS
+ Got it to compile on MacOS. I had to split semaphore into Semaphore and NamedSemaphore classes like in boost. Semaphore is implemented with Grand Central Dispatch because sem_init returns not implemented error MacOS. NamedSemaphore uses the spin lock approach like in boost for sem_timedwait. sem_getvalue is also not supported on MacOS so I had to remove it, this is the only possible source of problems in this patch.
+
+Note the change in MQTTSNSearchClient.c, there seems to be a bug: (gatewayaddress_len > 0) is always true, I assume it must be (*gatewayaddress_len > 0)

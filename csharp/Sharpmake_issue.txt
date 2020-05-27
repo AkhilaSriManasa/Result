@@ -1,0 +1,275 @@
+﻿ Add an AutoDependenciesOrder option
+ Add an AutoDependenciesOrder option to projects that will allow them to opt into ordering their ouputs in dependency order.
+This is useful on linux platforms where link order matters more.
+ Various improvements for working with csproj files.
+ All of these came from adapting a very large csharp code base to be generated using sharpmake.
+ Add a template version of Solution.GetProject
+ 
+ Promote Custom target elements to Project level
+ Promote Custom target elements to Project level so it can also be used in vcxproj. This was mainly needed to be able to suppress auto generation of AssemblyAttributes.cpp in clr projects:
+
+[More info](https://stackoverflow.com/questions/3104356/in-visual-studio-2010-why-is-the-netframework-version-v4-0-assemblyattributes-c)
+ Makefile improvements
+ A few fixes to improve working with makefile. Precompiled header support being the big one.
+ Add support for nuget in c++
+ 
+ Reset console color before running certain scripts.
+ This small fix just makes for a nicer experience when your iterating.
+ Add helper to auto detect highest installed windows sdk
+ The first lines of my SharpmakeMain are:
+```cs
+			KitsRootPaths.SetKitsRoot10ToHighestInstalledVersion(DevEnv.vs2017);
+			KitsRootPaths.SetKitsRoot10ToHighestInstalledVersion(DevEnv.vs2019);
+```
+This just helps reduce maintenance burden a bit if you don't depend on specific sdk features.
+ Replace hardcoded doublequotes (Add readibility to string manipulation)
+ Job not finished. This MR is made only to discuss with maintainers to be sure that this improvement is useful
+I can see a value in that change, it improves readability, thanks!
+
+Just pushed an update. Replacement did in Sharpmake.Generator and Sharpmake "Core".
+
+ Replace hard coded "REMOVE_LINE_TAG" by the FileGeneratorUtility one
+ I did not change those in Sharpmake, to not create a depedency to Sharpmake.Generators in Sharpmake "Core"
+Merged, thx!
+
+ Fixed discrepancy in how Sharpmake determines which projects to build between single and multithreaded modes
+ This led to cases where certain necessary projects were not being generated in multithreaded mode, leading to build failures
+
+_buildScheduledType doesn't seem to be used anywhere outside of these few instances in Builder.cs, whereas Arguments.TypesToGenerate is used in GenerateProjectFile (line 893) to determine if a certain project needs to be built.
+Good find!
+
+Merged, thanks!
+
+ Compile script macos
+ Add equivalent of CompileSharpmake.bat in Bash for MacOS and adapt bootstrap.sh to call it.
+Tested on MacOS 10.15.4
+Please rebase you changes and squash the commits in 2:
+- removal of pause from the .bat file
+- the rest
+
+Thanks!
+
+Just pushed a rebased version with only 2 commits
+
+Thanks!
+
+ Compile script MacOS
+ Add equivalent of CompileSharpmake.bat in Bash for MacOS and adapt bootstrap.sh to call it.
+Tested on MacOS 10.15.4
+ Make sure JSON float serialization is culture invariant
+ JSON float serialization currently can be affected by the default system CultureInfo.
+Changed JSON serialization to use CultureInvariant when writing float types, added test.
+Thanks for the fix! And the unit-test :)
+
+ Fix a System.FormatException caused by invalid format string
+ If compilation fails with an error such as this:
+
+`testproj.sharpmake.cs(59,2) : error CS1513: } expected`
+
+Shaprmake throws System.FormatException because the error format string contains a character which is considered as a special formatting character. This can be very confusing and prevents users to find the actual problem which is in their script code. 
+Thanks for the fix!
+
+ Upstream dev branch update
+ 
+Sorry! I wasn't intending to do any of this. I was try to merge the other way around :)
+
+ Update ReadMe to find Sharpmake VS solution
+ 
+Closing, since it was fixed by d2c9bdef085da58d4c0e17e45152aba4c77014f0
+
+ Add /breakintodebugger switch in CommandLineArguments.cs
+ Is it possible to add the /breakintodebugger switch in CommandLineArguments.cs to make possible to see this switch in the documentation in a terminal.
+ Incorrect DLL in Basic Tuto Wiki
+ It is write int the current Basic Tuto in the WIKI to find SimpleNuget.dll wich does not exit after you generate Sharpmake App. The other problem is that Sharpmake App does not compile without adding the "Microsoft.VisualStudio.Setup.Configuration.Interop" package. With this package it works and you need to use "Microsoft.VisualStudio.Setup.Configuration.Interop.dll" and not "SimpleNuget.dll", wich doesn't exist, to use SharpMake.Application.exe to generate our HelloWorldProject.
+
+Is it possible to correct the Wiki ?
+
+Here is my proposal :
+
+"
+Open Sharpmake.sln in Visual Studio and compile *Sharpmake.Application* (if it doesn't work, use the NuGet Package Manager to install *Microsoft.VisualStudio.Setup.Configuration.Interop* and retry). Then,
+in the output folder of the application, take the following binaries and copy
+them in an empty folder:
+* *Sharpmake.Application.exe*
+* *Sharpmake.dll*
+* *Sharpmake.Generator.dll*
+* *Sharpmake.CommonPlatforms.dll*
+* *SimpleNuGet.dll* ( or *Microsoft.VisualStudio.Setup.Configuration.Interop.dll*)
+"
+
+and
+
+"
+We are done with *main.sharpmake.cs*. Save it.
+
+Your directory should look like this:
+* *main.cpp*
+* *main.sharpmake.cs*
+* *Sharpmake.Application.exe*
+* *Sharpmake.CommonPlatforms.dll*
+* *Sharpmake.dll*
+* *Sharpmake.Generators.dll*
+* *SimpleNuGet.dll*  ( or *Microsoft.VisualStudio.Setup.Configuration.Interop.dll*)
+"
+ Embed Interop references support 
+ Hi,
+
+We have made some change to add embedded interop support and a few more things.  I forked the release branch and I was curious if I was doing the correct thing. Should I be submitting the pull requests to the Dev branch?  What's the best way?
+
+Django
+ Embed Interop references support and CSharp7_2
+ 
+Added support for the LanguageVersion CSharp7_2
+Added ReferencesByPathEmbedInterop as reference type
+Functional tests succeeded.
+ Adding a CustomBuildStep
+ I'm trying to add a custom build steps to compile my shader files, but the custom build properties are empty.
+
+I derive from `Project.Configuration.CustomFileBuildStep` and fill in the properties of the class:
+ 
+``` csharp
+public class ShaderCompileBuildStep : Project.Configuration.CustomFileBuildStep
+ {
+     ShaderCompileBuildStep(string sourceFileName)
+      {
+          // fill in KeyInput, Executable, etc.
+      }
+```
+
+I add the extension to the project's supported extensions:
+
+``` csharp
+SourceFilesExtensions.Add(".fx");
+```
+
+I then override `Project.ExcludeOutputFiles()`:
+
+``` csharp
+protected override void ExcludeOutputFiles()
+{
+    base.ExcludeOutputFiles();
+    GenerateShaderCustomBuildSteps();
+}
+```
+In `GenerateShaderCustomBuildSteps()`, I add the custom build steps to the project configuration:
+``` csharp
+ private void GenerateShaderCustomBuildSteps()
+ {
+     foreach (var f in ResolvedSourceFiles.Where(f => System.IO.Path.GetExtension(f).ToLower() == ".fx"))
+    {
+        foreach (Project.Configuration conf in Configurations)
+        {
+            conf.CustomFileBuildSteps.Add(new ShaderCompileBuildStep(f));
+         }
+    }
+}
+```
+
+In Visual Studio, my .fx files have the proper "Item Type" of "Custom Build Tool", but all of the properties in "Custom Build Tool" are empty.
+
+What am I doing wrong?
+ solutionFolder doesn't seem to work in AddProject<>
+ Hi!!
+
+I'm trying to organize the projects in my solution with solution folders and I notice that AddProject<> has a solutionFolder parameter in it.  I added a name to it and generated the solution and nothing changed.
+
+Am I doing this wrong?
+
+Thanks for your help! 
+You're not doing it wrong, it's a known bug. The fix was merged upstream a few weeks ago but hasn't made it into the public repo yet. I'll see if I can do something about that at work, but in the meantime you have some options:
+1. If your projects are only in one solution (or they're in the same folder regardless of solution), you can set the `Project.Configuration.SolutionFolder` property during the configuration stage.
+2. If one or more projects have folders that must be set per-solution, you can fix the bug on your end. It's a pretty simple one, and most of the relevant code to change is [here](https://github.com/ubisoftinc/Sharpmake/blob/master/Sharpmake/Solution.cs#L187).
+
+Basically, the problem is that Sharpmake doesn't recognize that the value passed to `AddProject` takes precedence over the value set on `Project.Configuration.SolutionFolder`, sees that the two are different, and blanks out the result.  If you can prevent that code from [erasing the folder](https://github.com/ubisoftinc/Sharpmake/blob/master/Sharpmake/Solution.cs#L198), you should be all set until the official fix rolls in.
+
+Awesome, I will give it a shot.  should I fork the repo and create a pull request of the result if I get it working?
+
+
+We'll see. If I can get the official fix into this repo then there's no need, but feel free to make a request if things take too long :)
+
+ Add support to generate .NET Core projects.
+ * I think most csproj features are still usable so only changed the minimum set to get the projects recognized by visual studio.
+* Tested with Visual Studio 2017 and 2019.
+* Tested linux netcoreapp1.0 and 2.2
+
+Next step I'll be trying to generate .NET Core versions sharpmake itself.
+Sorry for the mixup, I didn't realize I was still working in this branch and accidentally pushed more work than I meant to. I'll leave it like this for a while anyway. At this rate I might end up with a single PR that does a full conversion to .NET Core
+
+After a bunch more work, I have this working with .net core 3 (which allows single file exes) and have it integrated into my personal project so I can generate projects on linux.
+
+I have quite a lot of interdependent changes now so I just dumped my whole branch in here, partially so I can get it running through appveyor.
+
+Interesting! I'll have a look and try to get it running. Do you think this requires a complete switch or could be keep both dotnet core and .net framework versions side-by-side for the time being?
+
+I have them side by side, so that's fine. It's good to have the .NET standard version there since it's a whole lot more stable.
+
+I even ended up using the .NET standard version for the windows version of my project. I only use .NET core version to build projects on linux/mac. There's still some work to be done to get the debug project working with the .net core assemblies.
+
+As an update, I've successfully used binaries compiled on windows to generate compilable makefile projects on both linux and mac.
+
+ ResourcesPath and ContentPath have invalid values.
+ The values of `ResourcesPath` and `ContentPath` are combined with `RootPath` in `InitCSharpSpecifics` (https://github.com/ubisoftinc/Sharpmake/blob/dev/Sharpmake/Project.cs#L2126), but because this is called from the constructor the value of `RootPath` will always be an empty string.
+This causes `CSharpProject` types to fill `ResolvedResourcesFullFileNames` and `ResolvedContentFullFileNames` with all files found in `"/Resources/"` and `"/Content/"`, which will be interpreted to for example `"C:/Resources"` if the working directory is on the C: drive. This adds all the files found in those folders to the C# project, even though they are not related to the project at all.
+
+A simple fix for the issue would be to wait with combining `RootPath` and `ResourcesPath/ContentPath` until the `ResolveSourceFiles` method of `Project.cs`.
+ Fix library dependency copy
+ Dependent dlls were assumed to have the .dll extension. I moved the library extension code from IPlatformVcxproj to IConfigurationTasks so I could use it with the default library prefix and get dependency copy working for .so files. This is probably an API break for anyone using non-standard platforms, should I leave the old function and just forward it?
+
+This isn't a complete fix for android projects in visual studio though since this only copies the .so files local to your exe file (which is also compiled as a .so). They still need to be copied to the android package output/Package/libs/<architecture> so the package builder can pick them up. I haven't figured a good way to do that automatically. (architecture = arm64-v8a for ARM64)
+ Removed invalid ToC link
+ 
+Thanks!
+
+ TextTemplatingFilePreprocessor 
+ Hi,
+
+I have a number of text templates that are using the TextTemplatingFilePreprocessor value in the generation tags. I can't seem to find a way to added them to a project.  The code seems to use AdditionalNone to allow for this, but it doesn't work.  Anyone have any idea of how to set this.  Or is there a way to customize the tags it contains?
+
+Thank you
+Heya,
+
+You should be able to add them in the constructor of your project in the ` AdditionalRuntimeTemplates` list:
+
+```csharp
+AdditionalRuntimeTemplates.Add(
+    "file1.tt",
+    "file2.tt",
+    ...
+);
+```
+
+Let us know :)
+
+Thanks for your quick response!  I have tried that, and I just tried it again. the template is correct but it has the  TextTemplatingFileGenerator tag and not the TextTemplatingFilePreprocessor generation tag in the generated CSProj.
+
+Hum weird,  the code around the lines https://github.com/ubisoftinc/Sharpmake/blob/92bded88c1a2e3fc1e31b850a406d6d7d5a9086c/Sharpmake.Generators/VisualStudio/Csproj.cs#L1882 should handle it.
+Could you trace it?
+
+
+Hmmm, I think i may be using an old version. Let me see if that may be the issue.
+
+I have figured out the issue.  We put the output files in a different place and the "ttFile" was a long relative path and the contains test was failing.   
+
+Thanks for your help.  
+
+ Publish Orbis platform?
+ CryEngine GitHub repo already has an Orbis CMake Toolchain as well as Durango. https://github.com/bkaradzic/GENie also has some public Orbis platform code.
+
+Why don't you publish Orbis platform code to the repo if you already have Durango which is also non-public? 😃
+
+Orbis is not a typical Microsoft platform like Durango so there might be some complications in writing a platform from scratch especially for new users of Sharpmake.
+Heya,
+
+The reason is simple, we were not allowed to release it publicly.
+It is however available on Sony's devnet forums, so if you have access to them you can retrieve it.
+
+Thanks for your interest in sharpmake!
+
+Oh, sorry, I haven't thought about searching the DevNet
+
+ Android fixes
+ I'm not if this ever worked, but there were quite a lot of discrepancies when compared to the Visual Studio template projects. These changes were tested against 3 different apps with few interdependent libraries. 
+After adding a lot more to my android project I managed to find many better ways to solve some of the issues I ran into and updated the changes.
+
+Closing, since all the features this PR cover are now in the dev branch.
+

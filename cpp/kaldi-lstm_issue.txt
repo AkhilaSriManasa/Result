@@ -1,0 +1,14 @@
+﻿ param ”batch-size“  and  ”num-stream“  may cause misunderstanding
+ in this code.  ”batch-size“ means the total term num of a sentence,  ”num-stream“ means the num of sentences.  this may cause misunderstanding.
+
+ train error
+ when I try to train, I get following error
+
+```
+./train_lstm_streams.sh: line 20: utils/parse_options.sh: No such file or directory
+···
+```
+
+You don't have the utils folder yet. You need [install](http://kaldi.sourceforge.net/install.html) Kaldi first, then in the ./egs/   folder you can find many utils folders. 
+
+

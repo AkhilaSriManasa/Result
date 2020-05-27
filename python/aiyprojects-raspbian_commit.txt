@@ -1,0 +1,112 @@
+﻿ Add instructions for AIY Projects app
+
+Change-Id: Id39b9dcdd917496848dc8caeca2de69e2445a85a
+ Update CHANGES.md
+
+Change-Id: I13290b629f27482c6e0679007764a14318ca5a76
+ Update hacking instructions
+
+Change-Id: I381c3f2f7cdf5753a5fe496f9c896f09877da18a
+ Fix joy-demo-* commands
+
+Change-Id: I4d17c6bbd16aa62e48f1f14a211b830bfdb0273a
+ Get rid of _drivers package and use relative imports
+
+Change-Id: I71fea77340c278319f2dd0d98591f81adddaa6a8
+ Add missing __init__.py
+
+Change-Id: I53bfa7e1af7c36f4e80956aa8918189518263ca9
+ Force symlink creation for joy demo
+
+Change-Id: I188186587997f87437a765c579fda9bb0e16ef93
+ reorganize and clarify instructions for AIY system updates;
+move changelog back to CHANGES.md at root
+
+Change-Id: I1109d0bbdefd3449334bb1b0765df3a4a7bf6ad2
+ Update aiy-projects-python version
+
+Change-Id: I4fb175da993d99f1115a1fde2c5898492cbc79e9
+ Add missing copyrights
+
+Change-Id: If4a46227a7a4a9f4bcd36e42cb3f0c1e28be8db9
+ Do not lazy-load inat labels
+
+Change-Id: I0c14029af48844abdca6a7434e1231214b606d94
+ Make code compatible to the latest gpiozero
+
+Change-Id: I9c24d46593b467c66e7b820dd957f55a60041fc6
+ Update project documentation
+
+Change-Id: I1e602635b53a6123b6b939b3955be16e8bb5569b
+ Proper dependencies in setup.py
+
+Change-Id: Ia7023e01b69ae8ac77b5bfb5138a225cee0bb979
+ Minor Makefile update
+
+Change-Id: I5a6f7ef4bf46b1bb414ad4c207d9785760340db8
+ Get rid of crypto files.
+
+This code was moved to a separate repo at
+https://coral.googlesource.com/coral-cloud/
+
+Change-Id: Iba6bd0cce029a6c6babaaec64c1c93d01968cec7
+ Proper python package structure.
+
+Change-Id: Ic7c3fc3d9cd63986d2e7d14adc0e9d9653f837ae
+ Get rid of debian folder.
+
+Debian package can be generated using stdeb library if needed.
+
+Change-Id: I8ab25272d37682fc48c1d759c6c689457a4381e8
+ Replace shell script with Makefile for proto generation.
+
+Change-Id: I673fe76e2771d8570278042ab628b455e8ef0fd0
+ Cleaning up streaming server.
+
+Change-Id: I8a299f40e88e16f8ff9e82933df19c631ed8f09d
+ Add more docs for assistant, cloudspeech, audio, and tts
+
+Change-Id: I58c86b266f0608d309b35da63f4939377728bc2e
+ Add more docs to the RTD site; moving them into the docs/ path.
+
+Includes misc editing for the root README and HACKING docs.
+Leave CONTRIBUTING as a GitHub page at root; link to GitHub from the RTD nav.
+
+Change-Id: I21394faaf2c459d0ac2ac3cdab7dc4a0958cc80e
+ Remove explicit picamera dependency from streaming server.
+
+Change-Id: I472aea6590d14f1687efe2f1e836df255febe78c
+ Make all vision example scripts executable.
+
+Change-Id: I02e81a73cf8fc4e0a802c581c6949f8a4303fc98
+ Add docs README with build instructions, including pip requirements
+And delete obsolete Sphinx Makefile.
+
+Change-Id: I51620eeacf1d3091ee2b3c3d80425fbffc9afff4
+ Add doc generation shortcut to Makefile.
+
+Change-Id: Id51fbe9ceeeab6f055911b2f99645d54510cf03c
+ Revise assistant library documentation now that it's mocked.
+
+Only the module description is now printed, so put info and links there.
+
+Change-Id: Ib704ee7193cce4867c0ad373f21b6e9db4517d03
+ Hard code 497 as pin offset constant.
+
+This value is not going to change for our boards. It depends
+on total number of gpios (512) configured for the Linux kernel
+and total number of AIY gpio pins (15), i.e. 497 = 512 - 15.
+
+Change-Id: I912612dbeda9de262a17dde8e9efdbba42a639f8
+ Adopt sphinx configuration for readthedocs.io.
+
+Add mocks for module dependencies so we can generate sphinx docs
+from any machine.
+
+Change-Id: I922d05b438a4bd256af9a9439a8cf4c1393cbd5b
+ improve API docs for aiy.board,leds,pins and misc
+
+Some CSS updates to improve layout of parameter lists
+(especially when followed by more text)
+
+Change-Id: I0a90b09618800479a5430dc8f8f555484ccf77e7

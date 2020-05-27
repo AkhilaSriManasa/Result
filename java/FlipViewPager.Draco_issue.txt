@@ -1,0 +1,571 @@
+﻿ Some improvement for RecycleView usage and completing the sample
+ 
+ Unchecked call to method as a member of raw type
+ I am getting this warning with regarding generic type, how can I fix this?
+![image](https://user-images.githubusercontent.com/38008900/45966034-ad311780-c05c-11e8-9612-a32c15c15177.png)
+
+ Update README.md
+ 
+ Horizontal list
+ Hello...
+
+I'm working on a news app and I'd like to view my articles in a horizontal fashion i.e once a user opens an article at position say i, I'd like to be able to flip/swipe between the articles....
+Unlike your sample project (where we have a horizontal and vertical scroll), I will not be merging any views... I just want the horizontal flip between my items....
+
+How can I accomplish this with this library ?
+ onClickListener
+ my issue is when I click on image then it filliping same as when I swap left or right 
+please give the solution what i do as soon
+
+
+Hi, @rgjatin! I suppose, You should override `onItemClickMethod()` so that it shouldn't flip pages
+
+Hello sir,
+Firstly I say thank to you for reply me
+Sir I am not understand about it how i apply click Listener on imgaes and
+do same thing when i slide left or right
+I want to do same thing as i slide left or right it give the information
+that operation i want on click on images
+I request you please provide me the code how i used in that project
+
+On Fri, Feb 3, 2017 at 7:42 PM, Dima Sholom <notifications@github.com>
+wrote:
+
+> Hi, @rgjatin <https://github.com/rgjatin>! I suppose, You should override
+> onItemClickMethod() so that it shouldn't flip pages
+>
+> —
+> You are receiving this because you were mentioned.
+> Reply to this email directly, view it on GitHub
+> <https://github.com/Yalantis/FlipViewPager.Draco/issues/22#issuecomment-277255546>,
+> or mute the thread
+> <https://github.com/notifications/unsubscribe-auth/AYTz2dkpbCyqcY4oZI_Eplc2iXg8ScdBks5rYzXggaJpZM4L2GqE>
+> .
+>
+
+
+ OnItemClick does not work properly 
+ Sometimes it works and shows the toast and sometime it doesn't respond
+
+Hi, @arhamranjha! Can you please provide more information about what you are doing? Are you using `ListView` or `RecyclerView`?
+
+ listview set a wrong adaptor
+ Java code(FriendsActivity):
+friends.setAdapter(new FriendsAdapter(this, Utils.friends, settings));
+
+Here are the errors:
+Error:(36, 16) error: no suitable method found for setAdapter(FriendsActivity.FriendsAdapter)
+method AdapterView.setAdapter(ListAdapter) is not applicable
+(argument mismatch; FriendsActivity.FriendsAdapter cannot be converted to ListAdapter)
+method AbsListView.setAdapter(ListAdapter) is not applicable
+(argument mismatch; FriendsActivity.FriendsAdapter cannot be converted to ListAdapter)
+method ListView.setAdapter(ListAdapter) is not applicable
+(argument mismatch; FriendsActivity.FriendsAdapter cannot be converted to ListAdapter)
+
+Hi, @luoguibin , can you provide some more code. Specifically i want to look at your FriendsAdapter
+
+
+Having the same issue. I just wanted to try the sample before implementing it in my own project. It's giving me the above mentioned error by @luoguibin 
+
+Hi, @andy1729! Are you using `ListView` or `RecyclerView`?
+
+Hello, @warko-san sorry for late reply, I am using ListView. Should I use RecyclerView?
+
+I am also facing the same problem. List view adapter showing error
+
+is there anyway to use recyclerAdapter?
+
+Say goodbye to Android, say hello to H5~
+
+ friends(Listview) can't be set adapter with FriendsAdapter
+ I want to start sample java file But It can't be start Because It can't be set adapter with FriendsAdapter... why can't I do that?
+
+Hello, @myeongsic89  , can you please provide some code ?
+
+
+sorry I'm late I found the solution https://github.com/Yalantis/FlipViewPager.Draco/issues/17
+
+
+ about item click
+ It's not proper about code if(ev.getRowX() 
+I change the code like below:
+  if (Math.abs(ev.getX() - mLastMotionX) < mTouchSlop ||
+                            Math.abs(ev.getY() - mLastMotionY) < mTouchSlop) 
+and it works fine.
+
+Thank you very much , man ! It works perfect!
+
+
+Hi, @weity! Thank you for your solution. You can suggest pull request to fix this issue. We appreciate it.
+
+resolved
+
+ ListView.setAdapter error
+ Cannot add BaseFlipAdapter in ListView.setAdapter() method. please help!!!
+![capture](https://cloud.githubusercontent.com/assets/13792658/15067744/304cdfa8-13a5-11e6-8f42-91b2e2b0cb96.PNG)
+
+hey... I have fixed man... do like this...
+1. go to here...
+public FriendsAdapter(Context context, List<Friend> items, FlipSettings settings, CloseListener closeListener) {...}
+and remove the "CloseListener closeListener" paframeter.
+2. go to build.gradle(Module: app)...
+then you should declare this one..
+compile 'com.yalantis:flipviewpager:1.0.0' instead of  compile project(':flipviewpager')
+that's all... 
+contact me via: majithg@gmail.com
+skype: aka_majith
+
+
+Fixed
+
+
+ Flip view programmatically
+ I was wondering if it is possible to flip the view programmatically since I want the view to flip when the user taps on it. Thanks in advance.
+
+Same here.
+
+
+same for me!
+
+
+There 's no such functional for now, we will consider it for the future versions
+
+
+ Sample with errors
+ Hi, I'm trying to implement this beautiful library in my project, what is happening is I cannot set an adapter that extends BaseFlipAdapter in a ListView. In the sample the ListView friends sets a BaseFlipAdapter and for some reason it can't, help please.
+
+Same issue for me.
+What should I do to fix this problem ?
+
+
+@ahmediego Still looking for it, have you fixed it?
+
+@cleanOK Any thoughts?
+
+
+@joaosardinha Same for me, still looking for it.
+
+
+may be it doesn't work with api 23, if anyone found some solution , kindly post it in here
+
+
+@johnrao7 I doubt that's that problem
+
+![image](https://cloud.githubusercontent.com/assets/15181917/14150695/32d17baa-f6a2-11e5-8030-a9c6f7660510.png)
+
+
+@joaosardinha maybe it stopped working since then
+
+
+dev branch has working sample
+
+
+@akrupych-remit can you link it here?
+
+
+Sure I can: https://github.com/Yalantis/FlipViewPager.Draco/tree/develop
+
+
+@johnrao7 @ahmediego I just updated Android Studio to v2 and the sample is working
+
+
+ Buttons in the info page are receiving clicks on main listview
+ 
+Hello, please provide more info about issue
+
+
+outdated
+
+
+ Feature/setting height to static
+ 
+ Made views inside the FlipViewPager clickable and updated to API 23
+ 
+Please merge this.
+
+
+ Right Image can flip 10 times
+ Hi! I copied all the code from the sample and the images on the right side can flip 10 times, why is it happening? shouldn't it flip just one time?
+Also, when here is an odd number of items, the very last space (which holds no item, cause it's an odd number) can be flipped
+Thanks!
+
+Hello,sorry but we can't reproduce this
+
+
+Outdated
+
+
+ click item will be crashed , when make listview  add footer view
+ E/MessageQueue-JNI: Exception in MessageQueue callback: handleReceiveCallback
+E/MessageQueue-JNI: java.lang.IndexOutOfBoundsException: Invalid index 9, size is 1
+                                                                                   at java.util.ArrayList.throwIndexOutOfBoundsException(ArrayList.java:255)
+
+Hello, i found the problem. 
+ friends.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                   if(position<friends.getAdapter().getCount()){
+                Friend f = (Friend) friends.getAdapter().getItem(position);
+                Toast.makeText(FriendsActivity.this, f.getNickname(), Toast.LENGTH_SHORT).show();
+}
+            }
+        });
+
+because by adding the footer you add more item to the listView , but not to the list itself,so you will need the protecting if.
+
+
+ Row Height on Tablet
+ Hello,
+
+Thank you for the library, I am using it in a project but when I test it on a tablet, the row height is too narrow. And the images appears with a very wrong aspect ratio. I tried changing the scale type but nothing worked. The problem seems in the listView row height. ( The problem also is present in the demo provided with your pictures)
+
+Do you have any idea how to change the row height? 
+
+Thank you
+Elie
+
+Hello, thanks for your feedback,we're working to fix that. When repository updates there will be method setItemHeight in BaseFlipAdapter, so you can call it in getPage like this setItemHeight(getResources().getDimension(R.dimen.item_height));. 
+Alse you will need to override dimension for different screeens ,and set this height for image views in your merge_page.xml .Like this 
+    <ImageView
+        android:id="@+id/first"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:contentDescription="left image"
+        android:layout_height="@dimen/item_height"
+        android:scaleType="fitXY" />
+
+```
+<LinearLayout
+    android:layout_width="1dp"
+    android:layout_weight="0"
+    android:background="#000000"
+    android:layout_height="@dimen/item_height"/>
+
+<ImageView
+    android:id="@+id/second"
+    android:layout_width="0dp"
+    android:layout_weight="1"
+    android:contentDescription="right image"
+    android:layout_height="@dimen/item_height"
+    android:scaleType="fitXY" />
+```
+
+for example this dimens worked for me 
+
+default dimens.xml
+
+<dimen name="item_height">200dp</dimen>
+
+dimens.xml (xlarge)
+
+ <dimen name="item_height">400dp</dimen>
+
+
+Thank you for the fix
+
+
+ When getDegreesDone() > Hello,
+When getDegreesDone() >= 90 then other half goes to white. For example when I flip right to left, the right side goes to white when getDegreesDone() >= 90. What can I do to solve this problem?
+Thank you
+
+Hello , can you provide more details please, i can't reproduce it. 
+
+
+Dear Alexey,
+I have captured a video include this problem. I hope it helps you.
+
+On Fri, Jul 8, 2016 at 10:52 AM, Alexey Chernenko notifications@github.com
+wrote:
+
+> Hello , can you provide more details please, i can't reproduce it.
+> 
+> —
+> You are receiving this because you are subscribed to this thread.
+> Reply to this email directly, view it on GitHub
+> https://github.com/Yalantis/FlipViewPager.Draco/issues/8#issuecomment-231297786,
+> or mute the thread
+> https://github.com/notifications/unsubscribe/AKUvmeBTxBq-mWGiWLMi_C8QX3alv8wWks5qTgHUgaJpZM4FuMi0
+> .
+
+## 
+
+Saygılarımla
+İlke ALTINPULLUK
+
+
+Hello,can't reproduce it neither can i play the video
+
+
+Can you watch the video?
+
+On Tue, Aug 23, 2016 at 11:38 AM, Alexey Chernenko <notifications@github.com
+
+> wrote:
+> 
+> Closed #8 https://github.com/Yalantis/FlipViewPager.Draco/issues/8.
+> 
+> —
+> You are receiving this because you are subscribed to this thread.
+> Reply to this email directly, view it on GitHub
+> https://github.com/Yalantis/FlipViewPager.Draco/issues/8#event-764143286,
+> or mute the thread
+> https://github.com/notifications/unsubscribe-auth/AKUvmRes9WYZz7LU5EfKUg9sRZPWs6Pnks5qirFygaJpZM4FuMi0
+> .
+
+## 
+
+Saygılarımla
+İlke ALTINPULLUK
+
+
+@ilkea no i can't, there's no video
+
+
+Could you try below link?
+https://drive.google.com/file/d/0BxyW6_HItFhFWndnUlNsMGFCakU/view?usp=sharing
+
+On Thu, Aug 25, 2016 at 10:35 AM, Alexey Chernenko <notifications@github.com
+
+> wrote:
+> 
+> @ilkea https://github.com/ilkea no i can't, there's something with the
+> link.
+> 
+> —
+> You are receiving this because you were mentioned.
+> Reply to this email directly, view it on GitHub
+> https://github.com/Yalantis/FlipViewPager.Draco/issues/8#issuecomment-242304556,
+> or mute the thread
+> https://github.com/notifications/unsubscribe-auth/AKUvmfrqL_o8q_yA8u_UkUXFb9WX7Ctkks5qjUW6gaJpZM4FuMi0
+> .
+
+## 
+
+Saygılarımla
+İlke ALTINPULLUK
+
+
+@ilkea  now i see it, thanks, gonna try to do something about it. Maybe you can provide layout  for better understanding ?
+
+
+Ok. I am looking forward to reply from you as soon as possible. Thank you
+
+On Thu, Aug 25, 2016 at 12:41 PM, Alexey Chernenko <notifications@github.com
+
+> wrote:
+> 
+> @ilkea https://github.com/ilkea now i see it, thanks, gonna try to do
+> something about it
+> 
+> —
+> You are receiving this because you were mentioned.
+> Reply to this email directly, view it on GitHub
+> https://github.com/Yalantis/FlipViewPager.Draco/issues/8#issuecomment-242332553,
+> or mute the thread
+> https://github.com/notifications/unsubscribe-auth/AKUvmRfhTz27CaRMCs8-SZkn7B2KehgMks5qjWNXgaJpZM4FuMi0
+> .
+
+## 
+
+Saygılarımla
+İlke ALTINPULLUK
+
+
+ Replacing the deprecated <ActionBarActivity> with <AppCompatActivity>
+ Replacing the deprecated <ActionBarActivity> with <AppCompatActivity>
+
+already done
+
+
+ Is it possible to programmatically open a detailled view ?
+ I think everything is on the subject :-)
+
+It's in the case a user click on a picture, so the detailed view is opened.
+
+I think it's not natural to swipe the view if you don't know already what is behind.
+
+This is possible. But you should add code your project and you can customize the code. For example I put a close button in detail view. And when I clicked the close button, the view return to first page.
+
+
+Hi ,
+Can you explain the way or give code snippet to achieve this.Thanks in advance
+
+
+Closing is possible via FlipViewPager.flipToPage(DEFAULT_PAGE)
+
+
+ setOnClickListener inside flipviewpager not working
+ I am trying to implement this in one of my project but the views coming after flip are no taking OnClickListener event.
+For example textviews after flip the image not taking clicklisener event
+Please help to sort out this.
+
+Hey Omi,
+I am facing the same issue. I am adding custom text view when the page is flipped but I am not able to input/select anything in the textview. Also, I added a button but it's not clickable.
+Where you able to find any solution to this?
+Thanks
+
+
+Anyone solve this please?
+
+
+@shivdoshi @OmiAndroid @Aabidi09 
+Yah I did this, follow this procedure...
+1) Comment all OnInterceptTouchEvent in FlipViewpager.java
+
+2) Replace following methods with code given here 
+          private boolean flipped=false;
+          public void flipToPage(int page) {
+                     int delta = page \* FLIP_DISTANCE - (int) mFlipDistance;
+                     endFlip();
+                     mScroller.startScroll(0, (int) mFlipDistance, 0, delta, getFlipDuration(delta));
+                     invalidate();
+                     flipped=!flipped;
+            }
+
+```
+       @Override
+        public boolean onInterceptTouchEvent(MotionEvent ev) {
+              if(flipped){
+              return false;
+              }else{
+               return true;
+        }
+       }
+```
+
+3) Register OnClickListeners on views in fillHolder() of your adapter (adapter that extends BaseFlipAdapter)
+
+
+@KishorAndroid  your solution denies the user to possibility to close the filpview once opened
+
+
+I think I found a solution:
+
+Modify `FlipViewPager.onInterceptTouchEvent()` as following:
+
+```
+@Override
+public boolean onInterceptTouchEvent(MotionEvent ev) {
+        View view = mCurrent.pageView;
+        if (view instanceof ViewGroup) {
+            ViewGroup viewGroup = (ViewGroup) view;
+            for (int i = 0; i < viewGroup.getChildCount(); i++) {
+                View childView = viewGroup.getChildAt(i);
+                if (childView.isClickable() && isPointInsideView(ev.getRawX(), ev.getRawY(), childView)) {
+                    return false;
+                }
+            }
+        }
+       // rest of the method as it is
+}
+```
+
+with
+
+```
+private boolean isPointInsideView(float x, float y, View view) {
+        int location[] = new int[2];
+        view.getLocationOnScreen(location);
+        int viewX = location[0];
+        int viewY = location[1];
+
+        //point is inside view bounds
+        return (x > viewX && x < (viewX + view.getWidth())) &&
+                (y > viewY && y < (viewY + view.getHeight()));
+    }
+```
+
+This will simply check if there was a e.g. a button clicked and will return `false` therefore, so the button gets the event.
+
+
+Try this... working well for me
+
+`@Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        if(flipped){
+            return false;
+        }else{
+            return true;
+        }
+    }`
+
+`private boolean flipped=false;
+    public void flipToPage(int page) {
+        int delta = page * FLIP_DISTANCE - (int) mFlipDistance;
+        endFlip();
+        mScroller.startScroll(0, (int) mFlipDistance, 0, delta, getFlipDuration(delta));
+        invalidate();
+        Log.d("FlipDistance", "delta " + delta + " mFlipDistance " + mFlipDistance);
+        if(delta <=0 && delta >-90){
+            flipped=false;
+            Log.d("FlipDistance", "Flipped Cancel");
+            return;
+        }
+        if(delta >=0 && delta < 90){
+            flipped=false;
+            Log.d("FlipDistance", "Flipped Cancel");
+            return;
+        }
+        flipped=!flipped;
+    }`
+
+
+@KishorAndroid 
+It works sometime even when the view is not flipped . I mean the buttons on the flipped view are responding even when not in view.
+
+
+I managed to solve this with the code given in this link. (The answer is in the comments).
+http://android-delight.blogspot.in/2015/04/flipviewpager-in-list-view.html
+
+But as mentioned above, buttons can be clicked even if the view is not flipped. This means that user is able to click unseen buttons. Is there a way to eliminate this problem. Thanks in advance.
+
+
+@KishorAndroid  I followed your steps but Its not working for me. Please help!
+
+
+@digitex5 I followed the post but it still didnt work. Am i missing something?
+
+
+ OnItemClick works only with two fingers or repeated clicks
+ There will be a fix for this problem? thank you
+
+What is the OS version are you using? 
+Can't reproduce for now :-(
+
+
+Android 5.02 , thanks for replying 
+
+
+Cannot reproduce
+
+
+I am having the same issue any solution to it ? 
+
+
+ used inside viewpager
+ i want to use FlipViewPager inside viewpager, it is not worked.. because when i flip it considered its parent view.. in my side, i am using as parent view, viewpager... so how to implement it inside viewpager...
+
+Same issue here.
+As a workaround, I used this:
+http://stackoverflow.com/questions/9650265/how-do-disable-paging-by-swiping-with-finger-in-viewpager-but-still-be-able-to-s
+
+
+ Add release tags
+ Please maintain consistent releases by also adding Git tags and pushing them to this repository.
+Please consider using [semantic versioning](http://semver.org/) for release tags.
+
+``` bash
+$ git checkout {some-release-commit}
+$ git tag -a "v.1.0.0" -m "Short summary of the release."
+$ git push --tags origin master
+```
+
+No tags?
+
+
+ Enable syntax highlighting for code snippets. Improve formatting.
+ 
+thank you ;)
+
+

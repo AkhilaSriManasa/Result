@@ -1,0 +1,48 @@
+﻿ Prepare for 7.3.0.GA release
+ Merge pull request #160 from emmartins/JBEAP-18339-pt2-7.3.x
+
+[JBEAP-18339] add jakarta activation test dependency to managed-execu…
+ [JBEAP-18339] add jakarta activation test dependency to managed-executor-service QS
+ Merge pull request #158 from emmartins/7.3.x
+
+[WFLY-12893] adding commons-logging replacement to managed-executor-s…
+ [WFLY-12893] adding commons-logging replacement to managed-executor-service QS
+ EAP 7.3: set snapshot versions
+ EAP 7.3: set product version
+ wfly to eap: add prod maven repo
+ wfly to eap: activate prod release shared doc attr
+ wfly to eap: set product maven GAs pt2 (dependencies)
+ wfly to eap: set product maven GAs pt1 (project)
+ wfly-to-eap: remove community-only misc files
+ wfly to eap: remove community-only quickstarts pt3 (dependencies management)
+ wfly to eap: remove community-only quickstarts pt2 (modules)
+ wfly to eap: remove community-only quickstarts pt1 (project)
+ Merge pull request #364 from emmartins/WFLY-12630
+
+WFLY-12630: Document usage of EJB and JMS Client BOM in Quickstarts
+ WFLY-12630: Document usage of EJB and JMS Client BOM in Quickstarts
+ Merge pull request #363 from emmartins/WFLY-12377
+
+[WFLY-12377] Document usage of JAXWS Client BOM in jaws-* quickstarts
+ [WFLY-12377] Document usage of JAXWS Client BOM in jaws-* quickstarts
+ Merge pull request #362 from emmartins/WFLY-12594
+
+[WFLY-12594] Updates Quickstarts docs, replacing references to Java E…
+ [WFLY-12594] Updates Quickstarts docs, replacing references to Java EE wrt Jakarta EE
+ Merge pull request #361 from emmartins/WFLY-12468
+
+[WFLY-12468] Rename BOMs artifactIds with javaee8-* to jakartaee8-*
+ [WFLY-12468] Rename BOMs artifactIds with javaee8-* to jakartaee8-*
+ Merge pull request #360 from emmartins/WFLY-12490-pt2
+
+[WFLY-12490] Upgrade spec artifacts which groupId/artifactId changed …
+ [WFLY-12490] Upgrade spec artifacts which groupId/artifactId changed (pt2)
+ Next is 18.0.0.Final
+ Prepare for 18.0.0.Beta1 release
+ Merge pull request #359 from emmartins/WFLY-12494
+
+[WFLY-12494] add product maven repository
+ [WFLY-12494] add product maven repository
+ Merge pull request #358 from emmartins/WFLY-12490-pt1
+
+[WFLY-12490] Propagating changes from WFLY-12460 and WFLY-12418

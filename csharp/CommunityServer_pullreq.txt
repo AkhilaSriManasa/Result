@@ -1,0 +1,24 @@
+﻿ copyright 2020
+ 
+ Update README.md
+ 
+ Update onlyoffice.data.sql Serbian Lang
+ Support for currency Cyrillic and Latin Serbian Dinar
+ Feature/copyright 2018
+ 
+ Enhance exceptions with WebDav when the user have not write permission
+ No exceptions were thrown when a user does not have write privileges and tries to create a WebDav folder.
+Better exception when a user doesn't have write privileges and try to create a file.
+ Update README.md
+ 
+ Update Roadmap.md
+ 
+ Added Roadmap.md file
+ 
+ Have margins for paragraphs in ckeditor
+ Paragraphs should have margin. Otherwise users enter 2 line returns (inserting an empty paragraph). Comment/discussion pages and emails sending processing correctly interpret paragraphs, so with an empty paragraph between each real paragraph the result is enormous visual space between paragraphs. Having paragraph margins will avoid users entering double line returns.
+ Update README.md
+ Added link to Stack Overflow
+
+ fixed lost 'port' url part
+ 

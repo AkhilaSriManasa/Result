@@ -1,0 +1,392 @@
+﻿ Release 1.13.8 to nuget
+ 
+ Issue #201 AES decryption crc-check 16kB block boundary bug
+ Fix for bug #201 and test to confirm.
+ Added parsing of Disk Start Number from Zip64 header if available
+ This PR fixes an issue reported in #194 - this was happening a the result of 2 problems:
+
+1. My recent PR #184 with a 'proper' (7-zip and WinZip friendly) way of writing Zip64 header, which have set Disk Start Number in Local & Central entry headers to 0xFFFF and populated the proper value to Zip64, have introduced an incompatibility of DotNetZip-generated zips with DotNetZip itself. 😄
+ Repair leap year bugs in unit test
+ On `2020-02-29`, the `DateTime` constructor creating the `threeYearsAgo` variable will attempt to create `2017-02-29`, which doesn't exist since 2017 was not a leap year.  The result is an `ArgumentOutOfRangeException`.
+
+I also fixed a similar occurrence of this pattern in the `twentyYearsAgo` variable construction, though it won't throw since 2000 was indeed a leap year.
+
+See also https://aka.ms/leapday2020blog
+ bumped version to 1.13.6
+ 
+ Bump nokogiri from 1.10.5 to 1.10.8
+ Bumps [nokogiri](https://github.com/sparklemotion/nokogiri) from 1.10.5 to 1.10.8.
+<details>
+<summary>Release notes</summary>
+
+*Sourced from [nokogiri's releases](https://github.com/sparklemotion/nokogiri/releases).*
+
+> ## 1.10.8 / 2020-02-10
+> 
+> ### Security
+> 
+> [MRI] Pulled in upstream patch from libxml that addresses CVE-2020-7595. Full details are available in [#1992](https://github-redirect.dependabot.com/sparklemotion/nokogiri/issues/1992). Note that this patch is not yet (as of 2020-02-10) in an upstream release of libxml.
+> 
+> 
+> 
+> ## 1.10.7 / 2019-12-03
+> 
+> ### Bug
+> 
+> * [MRI] Ensure the patch applied in v1.10.6 works with GNU `patch`. [#1954](https://github-redirect.dependabot.com/sparklemotion/nokogiri/issues/1954)
+> 
+> 
+> 
+> ## 1.10.6 / 2019-12-03
+> 
+> ### Bug
+> 
+> * [MRI] Fix FreeBSD installation of vendored libxml2. [#1941, [#1953](https://github-redirect.dependabot.com/sparklemotion/nokogiri/issues/1953)] (Thanks, [@&#8203;nurse](https://github.com/nurse)!)
+> 
+> 
+</details>
+<details>
+<summary>Changelog</summary>
+
+*Sourced from [nokogiri's changelog](https://github.com/sparklemotion/nokogiri/blob/master/CHANGELOG.md).*
+
+> ## 1.10.8 / 2020-02-10
+> 
+> ### Security
+> 
+> [MRI] Pulled in upstream patch from libxml that addresses CVE-2020-7595. Full details are available in [#1992](https://github-redirect.dependabot.com/sparklemotion/nokogiri/issues/1992). Note that this patch is not yet (as of 2020-02-10) in an upstream release of libxml.
+> 
+> 
+> ## 1.10.7 / 2019-12-03
+> 
+> ### Fixed
+> 
+> * [MRI] Ensure the patch applied in v1.10.6 works with GNU `patch`. [[#1954](https://github-redirect.dependabot.com/sparklemotion/nokogiri/issues/1954)]
+> 
+> 
+> ## 1.10.6 / 2019-12-03
+> 
+> ### Fixed
+> 
+> * [MRI] Fix FreeBSD installation of vendored libxml2. [[#1941](https://github-redirect.dependabot.com/sparklemotion/nokogiri/issues/1941), [#1953](https://github-redirect.dependabot.com/sparklemotion/nokogiri/issues/1953)] (Thanks, [@&#8203;nurse](https://github.com/nurse)!)
+</details>
+<details>
+<summary>Commits</summary>
+
+- [`6ce10d1`](https://github.com/sparklemotion/nokogiri/commit/6ce10d15d7af6ad65813a495eaf168f73eba211c) version bump to v1.10.8
+- [`2320f5b`](https://github.com/sparklemotion/nokogiri/commit/2320f5bd6319dca9c68d85bbf41629bbf8052a49) update CHANGELOG for v1.10.8
+- [`4a77fdb`](https://github.com/sparklemotion/nokogiri/commit/4a77fdb789aefed7ca65c7c7f57ad4dca0d3b209) remove patches from the hoe Manifest
+- [`570b6cb`](https://github.com/sparklemotion/nokogiri/commit/570b6cbc5fbc5ee7ef969332c587b951ae35bcd0) update to use rake-compiler ~1.1.0
+- [`2cdb68e`](https://github.com/sparklemotion/nokogiri/commit/2cdb68e95aa075ac36a08d4d82d9b410a950a051) backport libxml2 patch for CVE-2020-7595
+- [`e6b3229`](https://github.com/sparklemotion/nokogiri/commit/e6b3229ec53ddf70f1d198bba0d3fc13fde842a8) version bump to v1.10.7
+- [`4f9d443`](https://github.com/sparklemotion/nokogiri/commit/4f9d443c2fddc40eefec3366000861433aff6179) update CHANGELOG
+- [`80e67ef`](https://github.com/sparklemotion/nokogiri/commit/80e67ef636ce0ddd55a4a7578d7bbdb186002560) Fix the patch from [#1953](https://github-redirect.dependabot.com/sparklemotion/nokogiri/issues/1953) to work with both `git` and `patch`
+- [`7cf1b85`](https://github.com/sparklemotion/nokogiri/commit/7cf1b85a5f8033252e55844ab2765e8f612d4d89) Fix typo in generated metadata
+- [`d76180d`](https://github.com/sparklemotion/nokogiri/commit/d76180d0d26a7afb76d84e0de2550ac3bb6abb15) add gem metadata
+- Additional commits viewable in [compare view](https://github.com/sparklemotion/nokogiri/compare/v1.10.5...v1.10.8)
+</details>
+<br />
+
+[![Dependabot compatibility score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=nokogiri&package-manager=bundler&previous-version=1.10.5&new-version=1.10.8)](https://help.github.com/articles/configuring-automated-security-fixes)
+
+Dependabot will resolve any conflicts with this PR as long as you don't alter it yourself. You can also trigger a rebase manually by commenting `@dependabot rebase`.
+
+[//]: # (dependabot-automerge-start)
+[//]: # (dependabot-automerge-end)
+
+---
+
+<details>
+<summary>Dependabot commands and options</summary>
+<br />
+
+You can trigger Dependabot actions by commenting on this PR:
+- `@dependabot rebase` will rebase this PR
+- `@dependabot recreate` will recreate this PR, overwriting any edits that have been made to it
+- `@dependabot merge` will merge this PR after your CI passes on it
+- `@dependabot squash and merge` will squash and merge this PR after your CI passes on it
+- `@dependabot cancel merge` will cancel a previously requested merge and block automerging
+- `@dependabot reopen` will reopen this PR if it is closed
+- `@dependabot close` will close this PR and stop Dependabot recreating it. You can achieve the same result by closing it manually
+- `@dependabot ignore this major version` will close this PR and stop Dependabot creating any more for this major version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this minor version` will close this PR and stop Dependabot creating any more for this minor version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this dependency` will close this PR and stop Dependabot creating any more for this dependency (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot use these labels` will set the current labels as the default for future PRs for this repo and language
+- `@dependabot use these reviewers` will set the current reviewers as the default for future PRs for this repo and language
+- `@dependabot use these assignees` will set the current assignees as the default for future PRs for this repo and language
+- `@dependabot use this milestone` will set the current milestone as the default for future PRs for this repo and language
+
+You can disable automated security fix PRs for this repo from the [Security Alerts page](https://github.com/haf/DotNetZip.Semverd/network/alerts).
+
+</details>
+ Bump version
+ 
+ fixed O(N²) Performance Bug 
+ Dictionary Lookup is faster: O(1)
+This Bug makes Operations really slow when the Number of Files exceeds 25000. 
+
+ Bump nokogiri from 1.8.5 to 1.10.5
+ Bumps [nokogiri](https://github.com/sparklemotion/nokogiri) from 1.8.5 to 1.10.5.
+<details>
+<summary>Release notes</summary>
+
+*Sourced from [nokogiri's releases](https://github.com/sparklemotion/nokogiri/releases).*
+
+> ## 1.10.5 / 2019-10-31
+> 
+> ### Dependencies
+> 
+> * [MRI] vendored libxml2 is updated from 2.9.9 to 2.9.10
+> * [MRI] vendored libxslt is updated from 1.1.33 to 1.1.34
+> 
+> 
+> 
+> ## 1.10.4 / 2019-08-11
+> 
+> ### Security
+> 
+> #### Address CVE-2019-5477 ([#1915](https://github-redirect.dependabot.com/sparklemotion/nokogiri/issues/1915))
+> 
+> A command injection vulnerability in Nokogiri v1.10.3 and earlier allows commands to be executed in a subprocess by Ruby's `Kernel.open` method. Processes are vulnerable only if the undocumented method `Nokogiri::CSS::Tokenizer#load_file` is being passed untrusted user input.
+> 
+> This vulnerability appears in code generated by the Rexical gem versions v1.0.6 and earlier. Rexical is used by Nokogiri to generate lexical scanner code for parsing CSS queries. The underlying vulnerability was addressed in Rexical v1.0.7 and Nokogiri upgraded to this version of Rexical in Nokogiri v1.10.4.
+> 
+> This CVE's public notice is [sparklemotion/nokogiri#1915](https://github-redirect.dependabot.com/sparklemotion/nokogiri/issues/1915)
+> 
+> 
+> ## 1.10.3 / 2019-04-22
+> 
+> ### Security Notes
+> 
+> [MRI] Pulled in upstream patch from libxslt that addresses CVE-2019-11068. Full details are available in [#1892](https://github-redirect.dependabot.com/sparklemotion/nokogiri/issues/1892). Note that this patch is not yet (as of 2019-04-22) in an upstream release of libxslt.
+> 
+> ## 1.10.2 / 2019-03-24
+> 
+> ### Security
+> 
+> * [MRI] Remove support from vendored libxml2 for future script macros. [#1871](https://github-redirect.dependabot.com/sparklemotion/nokogiri/issues/1871)
+> * [MRI] Remove support from vendored libxml2 for server-side includes within attributes. [#1877](https://github-redirect.dependabot.com/sparklemotion/nokogiri/issues/1877)
+> 
+> 
+> ### Bug fixes
+> 
+> * [JRuby] Fix node ownership in duplicated documents. [#1060](https://github-redirect.dependabot.com/sparklemotion/nokogiri/issues/1060)
+> * [JRuby] Rethrow exceptions caught by Java SAX handler. [#1847, [#1872](https://github-redirect.dependabot.com/sparklemotion/nokogiri/issues/1872)] (Thanks, [@&#8203;adjam](https://github.com/adjam)!)
+> 
+> 
+> 
+> ## 1.10.1 / 2019-01-13
+> 
+> ### Features
+> 
+> * [MRI] During installation, handle Xcode 10's new library pathOS. [#1801, [#1851](https://github-redirect.dependabot.com/sparklemotion/nokogiri/issues/1851)] (Thanks, [@&#8203;mlj](https://github.com/mlj) and [@&#8203;deepj](https://github.com/deepj)!)
+> * Avoid unnecessary creation of `Proc`s in many methods. [#1776](https://github-redirect.dependabot.com/sparklemotion/nokogiri/issues/1776) (Thanks, [@&#8203;chopraanmol1](https://github.com/chopraanmol1)!)
+> 
+></tr></table> ... (truncated)
+</details>
+<details>
+<summary>Changelog</summary>
+
+*Sourced from [nokogiri's changelog](https://github.com/sparklemotion/nokogiri/blob/master/CHANGELOG.md).*
+
+> ## 1.10.5 / 2019-10-31
+> 
+> ### Dependencies
+> 
+> * [MRI] vendored libxml2 is updated from 2.9.9 to 2.9.10
+> * [MRI] vendored libxslt is updated from 1.1.33 to 1.1.34
+> 
+> 
+> ## 1.10.4 / 2019-08-11
+> 
+> ### Security
+> 
+> #### Address CVE-2019-5477 ([#1915](https://github-redirect.dependabot.com/sparklemotion/nokogiri/issues/1915))
+> 
+> A command injection vulnerability in Nokogiri v1.10.3 and earlier allows commands to be executed in a subprocess by Ruby's `Kernel.open` method. Processes are vulnerable only if the undocumented method `Nokogiri::CSS::Tokenizer#load_file` is being passed untrusted user input.
+> 
+> This vulnerability appears in code generated by the Rexical gem versions v1.0.6 and earlier. Rexical is used by Nokogiri to generate lexical scanner code for parsing CSS queries. The underlying vulnerability was addressed in Rexical v1.0.7 and Nokogiri upgraded to this version of Rexical in Nokogiri v1.10.4.
+> 
+> This CVE's public notice is [sparklemotion/nokogiri#1915](https://github-redirect.dependabot.com/sparklemotion/nokogiri/issues/1915)
+> 
+> 
+> ## 1.10.3 / 2019-04-22
+> 
+> ### Security Notes
+> 
+> [MRI] Pulled in upstream patch from libxslt that addresses CVE-2019-11068. Full details are available in [#1892](https://github-redirect.dependabot.com/sparklemotion/nokogiri/issues/1892). Note that this patch is not yet (as of 2019-04-22) in an upstream release of libxslt.
+> 
+> 
+> ## 1.10.2 / 2019-03-24
+> 
+> ### Security
+> 
+> * [MRI] Remove support from vendored libxml2 for future script macros. [#1871](https://github-redirect.dependabot.com/sparklemotion/nokogiri/issues/1871)
+> * [MRI] Remove support from vendored libxml2 for server-side includes within attributes. [#1877](https://github-redirect.dependabot.com/sparklemotion/nokogiri/issues/1877)
+> 
+> 
+> ### Bug fixes
+> 
+> * [JRuby] Fix node ownership in duplicated documents. [#1060](https://github-redirect.dependabot.com/sparklemotion/nokogiri/issues/1060)
+> * [JRuby] Rethrow exceptions caught by Java SAX handler. [#1847, [#1872](https://github-redirect.dependabot.com/sparklemotion/nokogiri/issues/1872)] (Thanks, [@&#8203;adjam](https://github.com/adjam)!)
+> 
+> 
+> ## 1.10.1 / 2019-01-13
+> 
+> ### Features
+> 
+> * [MRI] During installation, handle Xcode 10's new library path. [#1801, [#1851](https://github-redirect.dependabot.com/sparklemotion/nokogiri/issues/1851)] (Thanks, [@&#8203;mlj](https://github.com/mlj) and [@&#8203;deepj](https://github.com/deepj)!)
+> * Avoid unnecessary creation of `Proc`s in many methods. [#1776](https://github-redirect.dependabot.com/sparklemotion/nokogiri/issues/1776) (Thanks, [@&#8203;chopraanmol1](https://github.com/chopraanmol1)!)
+> 
+> 
+></tr></table> ... (truncated)
+</details>
+<details>
+<summary>Commits</summary>
+
+- [`1bc2ff9`](https://github.com/sparklemotion/nokogiri/commit/1bc2ff9f6218e1f814b18040e5bbb49b7b7bf60b) version bump to v1.10.5
+- [`383c1f8`](https://github.com/sparklemotion/nokogiri/commit/383c1f8ee833cb63ca93fe3ecfe8d93755a993b6) update CHANGELOG
+- [`43a1753`](https://github.com/sparklemotion/nokogiri/commit/43a175339b47b8c604508813fc75b83f13cd173e) dependency: update libxslt to 1.1.34 final
+- [`99d8a6b`](https://github.com/sparklemotion/nokogiri/commit/99d8a6b6ec83077652a06a333571e4705120f022) dependency: update libxml to 2.9.10 final
+- [`2a86496`](https://github.com/sparklemotion/nokogiri/commit/2a86496ca565aa283c4fd9cd247d21c6026d7b61) add suppressions for ruby 2.7
+- [`dca794a`](https://github.com/sparklemotion/nokogiri/commit/dca794a716fb285e2b19f8e028e61e4e3613ed14) update CHANGELOG with correct release date for v1.10.4
+- [`077e010`](https://github.com/sparklemotion/nokogiri/commit/077e010613cfb41f8cc03383c3e3b901a3985a49) update rake-compiler commands to install bundler
+- [`beb832e`](https://github.com/sparklemotion/nokogiri/commit/beb832e3a67ba9aef1b4e83640bc8fd08fbc6da5) version bump to v1.10.4
+- [`5d30128`](https://github.com/sparklemotion/nokogiri/commit/5d30128343573a9428c86efc758ba2c66e9f12dc) Merge branch '1915-css-tokenizer-load-file-vulnerability_v1.10.x' into v1.10.x
+- [`c86b5fc`](https://github.com/sparklemotion/nokogiri/commit/c86b5fc02e5b50308d8de08b9a194aa71b701081) update CHANGELOG
+- Additional commits viewable in [compare view](https://github.com/sparklemotion/nokogiri/compare/v1.8.5...v1.10.5)
+</details>
+<br />
+
+[![Dependabot compatibility score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=nokogiri&package-manager=bundler&previous-version=1.8.5&new-version=1.10.5)](https://help.github.com/articles/configuring-automated-security-fixes)
+
+Dependabot will resolve any conflicts with this PR as long as you don't alter it yourself. You can also trigger a rebase manually by commenting `@dependabot rebase`.
+
+[//]: # (dependabot-automerge-start)
+[//]: # (dependabot-automerge-end)
+
+---
+
+<details>
+<summary>Dependabot commands and options</summary>
+<br />
+
+You can trigger Dependabot actions by commenting on this PR:
+- `@dependabot rebase` will rebase this PR
+- `@dependabot recreate` will recreate this PR, overwriting any edits that have been made to it
+- `@dependabot merge` will merge this PR after your CI passes on it
+- `@dependabot squash and merge` will squash and merge this PR after your CI passes on it
+- `@dependabot cancel merge` will cancel a previously requested merge and block automerging
+- `@dependabot reopen` will reopen this PR if it is closed
+- `@dependabot ignore this [patch|minor|major] version` will close this PR and stop Dependabot creating any more for this minor/major version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this dependency` will close this PR and stop Dependabot creating any more for this dependency (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot use these labels` will set the current labels as the default for future PRs for this repo and language
+- `@dependabot use these reviewers` will set the current reviewers as the default for future PRs for this repo and language
+- `@dependabot use these assignees` will set the current assignees as the default for future PRs for this repo and language
+- `@dependabot use this milestone` will set the current milestone as the default for future PRs for this repo and language
+
+You can disable automated security fix PRs for this repo from the [Security Alerts page](https://github.com/haf/DotNetZip.Semverd/network/alerts).
+
+</details>
+ Fix central directory headers when Zip64 extension is applied
+ Hi all.
+
+I've recently encountered a problem related to how DotNetZip generates central directory records when Zip64 and spanning mode are used. This has happened when I extended the span size above 4GB (which seems to have triggered 'AsNecessary' to go into 'Zip64' mode):
+- WinZip was struggling to extract such spanning zips without errors after extracting a few files
+- 7-Zip was able to extract all files, but it has produced a warning message 'Headers Error' in process
+
+After inspecting the produced zips with HEX editor I found the following problems:
+1. 'starting disk number' in Zip64 extra field was hardcoded (accidentally I guess) to 0 - once I fixed it WinZip started working correctly, but 7-Zip still displayed its warning
+2. PKWare Zip spec (https://pkware.cachefly.net/webdocs/casestudies/APPNOTE.TXT) has a note in '4.5.3 -Zip64 Extended Information Extra Field (0x0001)':
+> the fields MUST only appear if the corresponding Local or Central directory record field is set to 0xFFFF or 0xFFFFFFFF.
+
+I've made a change to how we generate central directory entries so that when Zip64 is used, then 'Relative Header' and 'Disk Start' fields are set to 0xFFFFFFFF and 0xFFFF, same logic that we already have for Compressed & Uncompressed fields - this has fixed warning in 7-Zip and didn't produce any issues with WinZip
+ Extract zip file using Deflate64 compression
+ For resolve issue #136 
+
+It's only allow uncompress zip file with entry using deflate64.
+
+This pull request contains modified code from the .NET Core Libraries (CoreFX) [(System.IO.Compression/DeflateManaged)](https://github.com/dotnet/corefx/blob/master/src/System.IO.Compression/src/System/IO/Compression/DeflateManaged/DeflateManagedStream.cs) where deflate64 decompression is implemented.
+This code is under MIT licence.
+
+ SFX: Enable CompilerVersion to be specified in SelfExtractorSaveOptions
+ We want to be able to create self-extracting archives on systems where .NET 2.0 is not installed. After this change we can specify what version of the csc.exe compiler will be used instead of the hardcoded v2.0. If not specified, the system default one will be used.
+ Ignore duplicates 2
+ Fixes another case where duplicated files in externally-created zips could cause an exception on read.
+ Bump Version
+ Bumps version to push https://github.com/haf/DotNetZip.Semverd/pull/176 to Nuget
+ Change: Allow the ZLib dictionary state to be set unconditionally
+ In order to decode a MSZip file, it requires the ZLib dictionary to be unconditionally set to the previously decoded bytes at the end of each block.
+
+Unfortunately, there is *no* error checking whatsoever involved in this, and it'll quite happily decode garbage data if you do not do this.
+This makes it pretty much impossible to implement a sensible working unit test.
+
+Some background and a file in this issue, although this is a MSZip compressed binary X object:
+https://github.com/leezer3/OpenBVE/issues/289
+
+I suppose I could hash stream and hash the output if you want?
+
+### Implementation Notes:
+ Change appveyor.yml to use gem install --no-document rather than gem install --no-ri --no-rdoc
+ The gem --no-ri option seems to be removed in new gem versions, so try using --no-document instead
+ Bumped version to release new version of packages
+ 
+ [#160] In WinZipAesCipherStream, create the AES instance using 'Aes.Create()…
+ …' instead of 'new AesManaged()'
+
+Enables it to use newer algorithms/implementations where available, which helps in enviroments where AesManaged isn't useable.
+ Fix some unit tests that were referring to no-longer-created files
+ Looks like some of the unit tests fail because they try to use Ionic.Zip.(dll/pdb) as input to tests and those no longer exist. Change them to use DotNetZip.(dll/pdb) instead
+ Bump version so a fixed nuget package can be released
+ I'm running into assembly loading errors due to https://github.com/haf/DotNetZip.Semverd/issues/152; the fix is apparently already in master thanks to https://github.com/haf/DotNetZip.Semverd/pull/154, but there's not new version on nuget yet.
+
+Could you push the fixed version to nuget?
+ sign the .NET Standard asembly with Ionic.snk
+ The .NET 4.0 version of the assembly is strong named, so perhaps the .NET Standard version should be as well.
+ Enable generation of the DotNetZip.xml documentation file for the .NE…
+ …T Standard library
+
+to match the .NET 4.0 version
+ Fix the spelling in the Author field in the nuget package
+ Thought i may as well look at the spelling mentioned in #133 while i was poking around in the build.
+ Fixes for the .NET Standard build
+ Two changes for the .NET Standard project:
+
+1) Include SolutionInfo.cs in the project to pick up the version number (#152)
+2) Add AESCRYPTO and BZIP to the defines to match the .NET 4 project
+
+(2) seems to be required to enable AES encryption support in the Standard build.
+ netstandard: fix, combine, and publish
+ First, fix the Xamarin packages, which I had broken.
+
+Second, combine the .NET Standard NuGet package into the .NET Framework one.  This should hopefully make the .NET Standard package easier to find, because it will not be starting from a download count of zero.
+
+Third, bump the version number, to actually publish to NuGet.org.
+
+ Speed up CheckZip function
+ The new version is functionally mostly equivalent to the original; ZipFile.GetEnumerator iterates over _entries.Values, and _entries are indexed by FileName, so looking up an entry in _entries achieves the same result, but is much faster.
+
+In addition CheckZip now looks for files present in the directory but absent in the compressed data. I don't know if this situation ever happens, but handling the situation where a file is present in the directory and absent in the file seemed like the right thing to do.
+ Create NuGet package of the .NET Standard library
+ Our library for .NET Standard existed, but was not yet packaged.
+
+This task requires upgrading Albacore to v3.
+
+Now, Albacore v3 does not know to map .NET TargetFrameworkVersion
+"v2.0" to TargetFramework "net20".  As such, we first upgrade DotNetZip
+from .NET Framework v2.0 to .NET Framework v4.0.  This requires
+removing support for the .NET Compact Framework.
+
+The Silverlight port, used for Windows Phone 8 (WP8), required many
+workarounds, just like the like the Compact Framework did.  Hence we go
+for broke, and delete support for such.
+ NuGet packaging for NetStandard project
+ Trying to get changes for https://github.com/haf/DotNetZip.Semverd/issues/88 into nuget package
+ Fix AppVeyor Build gem install tls error.
+ Attempting to see if a newer version of Ruby being forced with resolve errors in using TLS v1. #141 
+ Bump to albacore v3 to support .net core projects
+ As mentioned in https://github.com/haf/DotNetZip.Semverd/pull/112#issuecomment-387726815 to ensure the CI pipeline is able to output .net standard projects and hopefully completing the .net standard support.
+
+Notably I haven't been apart of the effort in #103 so unsure if this will actually output, but the comments on the prior PR suggest this should in theory be quite easy.
+
+I do not have build infrastructure myself to ensure this is actually going to work, but hoping the PR will kick off a CI build that'll output the artefacts we're all hoping for :-)

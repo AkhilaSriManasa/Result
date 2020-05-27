@@ -1,0 +1,49 @@
+﻿ Merge pull request #407 from MarkStega/cc
+
+Added VS2013 target
+ Added VS2013 target
+ Merge pull request #393 from mattjphillips/node_io_buffer_length_fix
+
+NodeApi.IO.Buffer.Length should be a simple property accessor.
+ NodeApi.IO.Buffer.Length should be a simple property accessor.
+ Merge pull request #387 from mattjphillips/add_ns_methods
+
+Add missing namespaced methods to Html.Document. And ImportNode.
+ Merge pull request #386 from mattjphillips/add_tests_for_bases
+
+Add tests for bases: methods, properties, indexers. Including generation skipping.
+ Minor formatting changes
+ Merge pull request #385 from mattjphillips/fail_on_compiler_error
+
+When a compilation error occurs, fail any of the tests that are based on...
+ Add missing namespaced methods to Html.Document. And ImportNode.
+ Fix some whitespace.
+ Add tests for base methods, properties, and indexes.
+ When a compilation error occurs, fail any of the tests that are based on that compilation.
+ Merge pull request #382 from mattjphillips/cc
+
+Fix for issue #379: use known compile time base to build runtime express...
+ Merge pull request #384 from mattjphillips/remove_app_optimization
+
+Remove problematic optimization for local base class properties.
+ Merge pull request #383 from mattjphillips/add_import_node
+
+Add ImportNode() to XmlDocument.
+ Remove problematic optimization for local base class properties.
+ Add ImportNode() to XmlDocument.
+ Add ImportNode() to XmlDocument.
+ Fix for issue #379: use known compile time base to build runtime expression.
+ Handle scenario for Task.All/Any called with array of tasks rather than sequence of params.
+ Fixed bug in Task implementation
+Add ability to write a task continuation that changes the task result
+ Add PATCH to http verbs enumeration
+ Test fixes
+ Script# node module/npm package
+ Improve azure node module import library APIs
+ Fix azure import library metadata/APIs
+ Fix missing metadata attribute
+ Merge pull request #364 from theoutlander/cc
+
+Creating stubs for base64 encoding/decoding as listed in #362
+ Creating stubs for base64 encoding/decoding as listed in #362
+ String.Trim with ability to specify trim characters + updated tests

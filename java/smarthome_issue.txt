@@ -1,0 +1,1339 @@
+﻿ Bump jquery from 2.1.3 to 3.5.0 in /extensions/ui/org.eclipse.smarthome.ui.paper
+ Bumps [jquery](https://github.com/jquery/jquery) from 2.1.3 to 3.5.0.
+<details>
+<summary>Commits</summary>
+<ul>
+<li><a href="https://github.com/jquery/jquery/commit/7a0a850f3d41c0412609c1d32b1e602d4afe2f4e"><code>7a0a850</code></a> 3.5.0</li>
+<li><a href="https://github.com/jquery/jquery/commit/8570a08f6689223aa06ca8cc51d488c6d81d44f9"><code>8570a08</code></a> Release: Update AUTHORS.txt</li>
+<li><a href="https://github.com/jquery/jquery/commit/da3dd85b63c4e3a6a768132c2a83a1a6eec24840"><code>da3dd85</code></a> Ajax: Do not execute scripts for unsuccessful HTTP responses</li>
+<li><a href="https://github.com/jquery/jquery/commit/065143c2e93512eb0c82d1b344b71d06eb7cf01c"><code>065143c</code></a> Ajax: Overwrite s.contentType with content-type header value, if any</li>
+<li><a href="https://github.com/jquery/jquery/commit/1a4f10ddc37c34c6dc3a451ee451b5c6cf367399"><code>1a4f10d</code></a> Tests: Blacklist one focusin test in IE</li>
+<li><a href="https://github.com/jquery/jquery/commit/9e15d6b469556eccfa607c5ecf53b20c84529125"><code>9e15d6b</code></a> Event: Use only one focusin/out handler per matching window &amp; document</li>
+<li><a href="https://github.com/jquery/jquery/commit/966a70909019aa09632c87c0002c522fa4a1e30e"><code>966a709</code></a> Manipulation: Skip the select wrapper for &lt;option&gt; outside of IE 9</li>
+<li><a href="https://github.com/jquery/jquery/commit/1d61fd9407e6fbe82fe55cb0b938307aa0791f77"><code>1d61fd9</code></a> Manipulation: Make jQuery.htmlPrefilter an identity function</li>
+<li><a href="https://github.com/jquery/jquery/commit/04bf577e2f961c9dde85ddadc77f71bc7bc671cc"><code>04bf577</code></a> Selector: Update Sizzle from 2.3.4 to 2.3.5</li>
+<li><a href="https://github.com/jquery/jquery/commit/7506c9ca62a2f3ef773e19385918c31e9d62d412"><code>7506c9c</code></a> Build: Resolve Travis config warnings</li>
+<li>Additional commits viewable in <a href="https://github.com/jquery/jquery/compare/2.1.3...3.5.0">compare view</a></li>
+</ul>
+</details>
+<details>
+<summary>Maintainer changes</summary>
+<p>This version was pushed to npm by <a href="https://www.npmjs.com/~mgol">mgol</a>, a new releaser for jquery since your current version.</p>
+</details>
+<br />
+
+
+[![Dependabot compatibility score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=jquery&package-manager=npm_and_yarn&previous-version=2.1.3&new-version=3.5.0)](https://help.github.com/articles/configuring-automated-security-fixes)
+
+Dependabot will resolve any conflicts with this PR as long as you don't alter it yourself. You can also trigger a rebase manually by commenting `@dependabot rebase`.
+
+[//]: # (dependabot-automerge-start)
+[//]: # (dependabot-automerge-end)
+
+---
+
+<details>
+<summary>Dependabot commands and options</summary>
+<br />
+
+You can trigger Dependabot actions by commenting on this PR:
+- `@dependabot rebase` will rebase this PR
+- `@dependabot recreate` will recreate this PR, overwriting any edits that have been made to it
+- `@dependabot merge` will merge this PR after your CI passes on it
+- `@dependabot squash and merge` will squash and merge this PR after your CI passes on it
+- `@dependabot cancel merge` will cancel a previously requested merge and block automerging
+- `@dependabot reopen` will reopen this PR if it is closed
+- `@dependabot close` will close this PR and stop Dependabot recreating it. You can achieve the same result by closing it manually
+- `@dependabot ignore this major version` will close this PR and stop Dependabot creating any more for this major version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this minor version` will close this PR and stop Dependabot creating any more for this minor version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this dependency` will close this PR and stop Dependabot creating any more for this dependency (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot use these labels` will set the current labels as the default for future PRs for this repo and language
+- `@dependabot use these reviewers` will set the current reviewers as the default for future PRs for this repo and language
+- `@dependabot use these assignees` will set the current assignees as the default for future PRs for this repo and language
+- `@dependabot use this milestone` will set the current milestone as the default for future PRs for this repo and language
+
+You can disable automated security fix PRs for this repo from the [Security Alerts page](https://github.com/eclipse/smarthome/network/alerts).
+
+</details>
+ Generic MQTT Thing Channel
+ I'm using ESP8266 and DHT22 sensor to measure temperature then send to OpenHab through Generic MQTT Thing. I've set up things succesfully, but the bugs is when MQTT message publish to the broker, it't happen in system log. In Generic MQTT Thing Channel, I choose Number value type, but when the message is publish, the system log show that: 
+
+> [WARN ] [ab.binding.mqtt.generic.ChannelState] - Command '29.80' not supported by type 'OnOffValue': No enum constant org.eclipse.smarthome.core.library.types.OnOffType.29.80"
+
+Even though I choose Channel is Number or String type, I always receive that warning. I think maybe this is a small bug.
+(Sorry for my bad English)
+ Updating the Xtext Community Website
+ Hello Eclipse SmartHome team,
+
+The Xtext team would like to update the [Xtext community website](https://www.eclipse.org/Xtext/community.html) listing all the cool projects people are building around Xtext/Xtend.
+
+See also the corresponding [GitHub issue](https://github.com/eclipse/xtext/issues/1541) and [Bugzilla ticket](https://bugs.eclipse.org/bugs/show_bug.cgi?id=328477).
+
+If you are interested that the Eclipse SmartHome project is listed there, please provide the following information as a comment to this issue:
+
+```
+<tr>
+	<td><a href="project_link">project_name</a></td>
+	<td>project_description_max_2_sentences</td>
+	<td>license</td>
+	<td>category</td>
+	<td>author(s)</td>
+</tr>
+
+```
+We will then update the Xtext community website and get it online as soon as possible.
+
+Thanks!
+Tamás
+ Compilation failure
+ Informations
+-
+**Branch:** master
+**Java jre:** 1.8.0_221
+**Eclipse version:** Photon Release 4.8.0 (Build id: 20180619-1200)
+ 
+Failures in eclipse
+-
+
+Eclipse Smarthome cannot be installed with version 2020-03 or 2019-12.
+According to some comments the installation works on Eclipse Photon.
+Well, the installation itself worked fine, but some projects throw errors (616 errors and 302 warnings).
+Most errors are about "cannot resolved to be a type".
+
+I installed Eclipse Smarthome about an hour ago, nothing was changed by me.
+```
+Like: 
+ModelItem cannot be resolved to a type.
+/org.eclipse.smarthome.model.item/src/org/eclipse/smarthome/model/validation/ItemsValidator.xtend
+````
+
+Failures in maven
+-
+Used privatebin cause pastebin has a paste limit to 256kb.
+
+**Try 1**
+```sh
+mvn clean install > log.txt
+```
+--> See log: https://privatebin.net/?e5563e52cf21c9b8#3V2DhqxKhV3U2FRxNgqoiedtqncEDk5SCqqx1pj1BbKF
+
+---
+**Try 2**  - Thank's to #4305
+```sh
+mvn clean install -DskipChecks=true -DskipTests=true > log2.txt
+```
+--> See log: https://privatebin.net/?848410a1507d799f#77PHVkWa8kxvCGeUbyLXzYGtPXAxtckHKvP4ww8EZkWz
+
+---
+**Try 3**
+```sh
+mvn clean install -e -X > log3.txt
+```
+--> See log: https://privatebin.net/?a79f06c59a999b43#ARfmNqeBfpfG27ewhYecyT4kG4yDhKBoab3zuKnTV48
+
+Also the branch "0.10.x" gives me the same error like try1 and try2.
+This repo is no longer maintained. See #6883 .
+
+Okay thanks
+
+ openHAB does not update switch state in basicui after ESP reboots
+ openHAB2:
+.items
+Switch	 relay1 "реле1" {channel="mqtt:topic:b0d2f1d2:relay1", autoupdate = "true"}
+
+.things
+openHAB no longer uses ESH. You should ask over here... https://github.com/openhab/openhab-webui/issues.
+
+ Bump angular from 1.5.7 to 1.7.9 in /extensions/ui/org.eclipse.smarthome.ui.paper
+ Bumps [angular](https://github.com/angular/angular.js) from 1.5.7 to 1.7.9.
+<details>
+<summary>Changelog</summary>
+
+*Sourced from [angular's changelog](https://github.com/angular/angular.js/blob/master/CHANGELOG.md).*
+
+> # 1.7.9 pollution-eradication (2019-11-19)
+> 
+> ## Bug Fixes
+> - **angular.merge:** do not merge __proto__ property
+>   ([726f49](https://github.com/angular/angular.js/commit/726f49dcf6c23106ddaf5cfd5e2e592841db743a))
+>   <br>(Thanks to the [Snyk Security Research Team](https://snyk.io/blog/snyk-research-team-discovers-severe-prototype-pollution-security-vulnerabilities-affecting-all-versions-of-lodash/) for identifyng this issue.)
+> - **ngStyle:** correctly remove old style when new style value is invalid
+>   ([5edd25](https://github.com/angular/angular.js/commit/5edd25364f617083363dc2bd61f9230b38267578),
+>   [#16860](https://github-redirect.dependabot.com/angular/angular.js/issues/16860),
+>   [#16868](https://github-redirect.dependabot.com/angular/angular.js/issues/16868))
+> 
+> 
+> <a name="1.7.8"></a>
+> # 1.7.8 enthusiastic-oblation (2019-03-11)
+> 
+> 
+> ## Bug Fixes
+> - **required:** correctly validate required on non-input element surrounded by ngIf
+>   ([a4c7bd](https://github.com/angular/angular.js/commit/a4c7bdccd76c39c30e33f6215da9a00cc8acde2c),
+>   [#16830](https://github-redirect.dependabot.com/angular/angular.js/issues/16830),
+>   [#16836](https://github-redirect.dependabot.com/angular/angular.js/issues/16836))
+> 
+> 
+> <a name="1.7.7"></a>
+> # 1.7.7 kingly-exiting (2019-02-04)
+> 
+> ## Bug Fixes
+> - **ngRequired:** set error correctly when inside ngRepeat and false by default
+>   ([5ad4f5](https://github.com/angular/angular.js/commit/5ad4f5562c37b1cb575e3e5fddd96e9dd10408e2),
+>   [#16814](https://github-redirect.dependabot.com/angular/angular.js/issues/16814),
+>   [#16820](https://github-redirect.dependabot.com/angular/angular.js/issues/16820))
+> 
+> 
+> <a name="1.7.6"></a>
+> # 1.7.6 gravity-manipulation (2019-01-17)
+> 
+> ## Bug Fixes
+> - **$compile:** fix ng-prop-* with undefined values
+>   ([772440](https://github.com/angular/angular.js/commit/772440cdaf9a9bfa40de1675e20a5f0e356089ed),
+>   [#16797](https://github-redirect.dependabot.com/angular/angular.js/issues/16797),
+>   [#16798](https://github-redirect.dependabot.com/angular/angular.js/issues/16798))
+> - **compile:** properly handle false value for boolean attrs with jQuery
+>   ([27486b](https://github.com/angular/angular.js/commit/27486bd15e70946ece2ba713e4e8654b7f9bddad),
+>   [#16778](https://github-redirect.dependabot.com/angular/angular.js/issues/16778),
+>   [#16779](https://github-redirect.dependabot.com/angular/angular.js/issues/16779))
+> - **ngRepeat:**
+>   - fix reference to last collection value remaining across linkages
+>   ([cf919a](https://github.com/angular/angular.js/commit/cf919a6fb7fc655f3fa37a74899a797ea5b8073e))
+>   - fix trackBy function being invoked with incorrect scope
+>   ([d4d103](https://github.com/angular/angular.js/commit/d4d1031bcd9b30ae6a58bd60a79bcc9d20f0f2b7),
+></tr></table> ... (truncated)
+</details>
+<details>
+<summary>Commits</summary>
+
+- [`d257c45`](https://github.com/angular/angular.js/commit/d257c4564d069a279c5625ad6b68008d4a4dbb11) docs: release notes for 1.7.9
+- [`1b1684c`](https://github.com/angular/angular.js/commit/1b1684c2b20a75df677426d4e4a61d51af3b5c44) docs($compile): fix typos and incorrect example
+- [`726f49d`](https://github.com/angular/angular.js/commit/726f49dcf6c23106ddaf5cfd5e2e592841db743a) fix(angular.merge): do not merge __proto__ property
+- [`8a187f1`](https://github.com/angular/angular.js/commit/8a187f16c37e0574b1a1fa7ccc54f3690d9d81ec) chore(saucelabs): switch to latest version of desktop Safari
+- [`d97e6f1`](https://github.com/angular/angular.js/commit/d97e6f169536fdb7bd8b0c7735b79348d5669213) chore(saucelabs): upgrade SauceConnect to 4.5.4
+- [`26e893a`](https://github.com/angular/angular.js/commit/26e893a2faa5be9b563948963dc4ac71990e5100) docs(guide/migration): fix typo (misceallenous --> miscellaneous)
+- [`5edd253`](https://github.com/angular/angular.js/commit/5edd25364f617083363dc2bd61f9230b38267578) fix(ngStyle): correctly remove old style when new style value is invalid
+- [`019dded`](https://github.com/angular/angular.js/commit/019dded64b7a58d67994af5f0f5b532f1c97b908) chore(*): update jQuery from 3.2.1 to 3.4.0
+- [`0007be1`](https://github.com/angular/angular.js/commit/0007be1ca2f3d3b8e1b914e2cdc3c943cbe16bc9) chore(*): make yarn.lock & GitHub templates identical between master & v1.7.x
+- [`863528f`](https://github.com/angular/angular.js/commit/863528f2999a32cfb16761258e94e03479e349e8) docs(DEVELOPERS): remove git revert misleading information
+- Additional commits viewable in [compare view](https://github.com/angular/angular.js/compare/v1.5.7...v1.7.9)
+</details>
+<details>
+<summary>Maintainer changes</summary>
+
+This version was pushed to npm by [petebacondarwin](https://www.npmjs.com/~petebacondarwin), a new releaser for angular since your current version.
+</details>
+<br />
+
+[![Dependabot compatibility score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=angular&package-manager=npm_and_yarn&previous-version=1.5.7&new-version=1.7.9)](https://help.github.com/articles/configuring-automated-security-fixes)
+
+Dependabot will resolve any conflicts with this PR as long as you don't alter it yourself. You can also trigger a rebase manually by commenting `@dependabot rebase`.
+
+[//]: # (dependabot-automerge-start)
+[//]: # (dependabot-automerge-end)
+
+---
+
+<details>
+<summary>Dependabot commands and options</summary>
+<br />
+
+You can trigger Dependabot actions by commenting on this PR:
+- `@dependabot rebase` will rebase this PR
+- `@dependabot recreate` will recreate this PR, overwriting any edits that have been made to it
+- `@dependabot merge` will merge this PR after your CI passes on it
+- `@dependabot squash and merge` will squash and merge this PR after your CI passes on it
+- `@dependabot cancel merge` will cancel a previously requested merge and block automerging
+- `@dependabot reopen` will reopen this PR if it is closed
+- `@dependabot ignore this [patch|minor|major] version` will close this PR and stop Dependabot creating any more for this minor/major version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this dependency` will close this PR and stop Dependabot creating any more for this dependency (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot use these labels` will set the current labels as the default for future PRs for this repo and language
+- `@dependabot use these reviewers` will set the current reviewers as the default for future PRs for this repo and language
+- `@dependabot use these assignees` will set the current assignees as the default for future PRs for this repo and language
+- `@dependabot use this milestone` will set the current milestone as the default for future PRs for this repo and language
+
+You can disable automated security fix PRs for this repo from the [Security Alerts page](https://github.com/eclipse/smarthome/network/alerts).
+
+</details>
+@kaikreuzer Apparently the bot didn't get the memo that there shouldn't be any pullrequests against this repo ;) We should probably turn off the bot to prevent it from creating PRs.
+
+Afaik, this needs to be configured on organisation level - I don't have the necessary rights to change anything...
+Easiest to simply ignore those PRs :-/
+
+ Create tags_no.properties
+ Norwegian translation
+ eclipse 4.13.0 - dependency repository
+ I recently downloaded eclipse ee so I can learn more about Java Spring Framework. I am certain that I installed the correct Spring IDE plugin and a Maven Integration plugin is already pre-installed, I double checked. I ran into the issue when I began a new Maven project and I tried adding Spring Dependencies in the pom.xml file. It seems as if eclipse is not looking in the Global Repository because it cannot find any dependencies from the Spring Framework. 
+
+I've tried looking online for a solution. Most posts say to check the preferences on Maven and make sure to select the 'Download repository index  updates on starup'. I tried that but still no luck.
+
+If anyone has a solution please let me know
+
+![Capture](https://user-images.githubusercontent.com/57642954/68997815-978e3b00-0878-11ea-8d55-79148fa5b745.PNG)
+
+
+ Sonos binding 2.5M1: no sound via play command
+ Running each of these commands in console does not play audio on my sonos:
+```
+openhab> smarthome:audio play doorbell.mp3
+openhab> smarthome:audio sinks
+  Sonos (sonos:zoneplayer:living)
+* Sonos (sonos:PLAY3:kitchen)
+  System Speaker (javasound)
+  System Speaker (with mp3 support) (enhancedjavasound)
+  Web Audio (webaudio)
+openhab> smarthome:audio play sonos:PLAY3:kitchen doorbell.mp3
+openhab> smarthome:audio play sonos:PLAY3:kitchen doorbell.mp3 8
+```
+I can see this in the logs:
+```
+openhab_1   | 07:37:31.779 [INFO ] [marthome.event.ItemStateChangedEvent] - KI_Sonos_Title changed from 8e3d3cb0-76fa-4423-a579-ec895098a6a9.mp3 to d2c8a7b4-c801-4dda-8460-8bed63b928ce.mp3
+openhab_1   | 07:37:31.786 [INFO ] [marthome.event.ItemStateChangedEvent] - KI_Sonos_Control changed from PAUSE to UNDEF
+openhab_1   | 07:37:36.152 [INFO ] [marthome.event.ItemStateChangedEvent] - KI_Sonos_Control changed from UNDEF to PAUSE
+```
+
+When trying this while something is already playing on this speaker, the current song stops. Therefore I know that it is the correct speaker and the setup itself seems to work correctly.
+Could not reproduce in M5
+
+ [HUE] Channel dimmer_switch_event triggered with last state at OH start
+ 
+When OH (2.4.0) starts the last pressed button of the hue controller (thing type 0820) is sent through the `dimmer_switch_event` channel.
+
+The rules that use this channel or linked item are also trigger with last pressed button. In my case it open my smart lock. So in case of system restart (power supply failure then backup)...
+
+This behavior should be fixed with https://github.com/eclipse/smarthome/pull/6770 - which has been merged after OH2.4 release and is part of OH2.5 snapshots and milestones.
+
+Please be aware that the Hue binding has been moved to https://github.com/openhab/openhab2-addons/.
+
+ Doesn't find all devices with raspbee Phoscon
+ Hi
+Great plugin but doesn't work correctly with the Phoscon Raspbee Gateway.
+
+I have some Hue Lights, some Gledopto driver, Osram Plug these work all great, 
+but my Osram Ledvance Downlight would not find... 10 of them...
+In the Phoscon Gateway and Hue Essential on android they work fine.
+Openhab with Hue binding will not find them.
+
+So how can i help to find a solution?
+
+Thanks, Marcel
+ Error in Eclipse IDE Installer with SmartHome-Runtime (for Eclipse SmartHome)
+ I am trying to install Eclipse IDE as per instructions given on Eclipse SmartHome web page for installing Eclipse IDE with SmartHome - Runtime Projects.
+
+I have tried many times but am reveiving the following error:
+
+Executing bootstrap tasks
+Java(TM) SE Runtime Environment 1.8.0_151-b12
+Product org.eclipse.products.epp.package.java.latest.released
+Workspace C:\Users\User\smarthome-master\ws
+Project org.eclipse.smarthome.core.master
+Bundle org.eclipse.oomph.setup 1.14.0.v20190815-1111, build=4192, branch=1f649f65846dda3c4acf662cfece78df8bdb18d1
+Bundle org.eclipse.oomph.setup.core 1.14.0.v20190705-1542, build=4192, branch=1f649f65846dda3c4acf662cfece78df8bdb18d1
+Bundle org.eclipse.oomph.setup.installer 1.14.0.v20190823-0726, build=4192, branch=1f649f65846dda3c4acf662cfece78df8bdb18d1
+Bundle org.eclipse.oomph.setup.p2 1.12.0.v20190704-1252, build=4192, branch=1f649f65846dda3c4acf662cfece78df8bdb18d1
+Performing Workspace C:\Users\User\smarthome-master\ws
+Performing P2 Director (Eclipse IDE for Java Developers (2019-06))
+Offline = false
+Mirrors = true
+Resolving 40 requirements from 5 repositories to C:\Users\User\smarthome-master\eclipse
+Requirement org.eclipse.wst.xml_ui.feature.feature.group
+Requirement org.eclipse.m2e.feature.feature.group
+Requirement org.eclipse.m2e.logback.feature.feature.group
+Requirement org.eclipse.xtend.sdk.feature.group [2.14.0,2.15.0)
+Requirement org.eclipse.xtext.sdk.feature.group [2.14.0,2.15.0)
+Requirement org.eclipse.emf.mwe2.language.sdk.feature.group [2.9.1,2.10.0)
+Requirement org.eclipse.emf.mwe2.runtime.sdk.feature.group [2.9.1,2.10.0)
+Requirement org.codehaus.groovy.eclipse.feature.feature.group
+Requirement org.eclipse.emf.sdk.feature.group
+Requirement org.eclipse.mylyn.java_feature.feature.group
+Requirement org.eclipse.mylyn.bugzilla_feature.feature.group
+Requirement org.eclipse.mylyn.hudson.feature.group
+Requirement org.eclipse.mylyn.git.feature.group
+Requirement org.eclipse.pde.feature.group
+Requirement org.eclipse.wst.jsdt.feature.feature.group
+Requirement org.eclipse.wst.web_ui.feature.feature.group
+Requirement epp.package.java [4.12.0,5.0.0)
+Requirement org.eclipse.platform.feature.group [4.12.0,5.0.0)
+Requirement org.eclipse.rcp.feature.group [4.12.0,5.0.0)
+Requirement org.eclipse.buildship.feature.group
+Requirement org.eclipse.eclemma.feature.feature.group
+Requirement org.eclipse.egit.feature.group
+Requirement org.eclipse.egit.mylyn.feature.group
+Requirement org.eclipse.epp.mpc.feature.group
+Requirement org.eclipse.jdt.feature.group
+Requirement org.eclipse.jgit.feature.group
+Requirement org.eclipse.mylyn.context_feature.feature.group
+Requirement org.eclipse.mylyn.ide_feature.feature.group
+Requirement org.eclipse.mylyn.wikitext_feature.feature.group
+Requirement org.eclipse.mylyn_feature.feature.group
+Requirement org.eclipse.tips.feature.feature.group
+Requirement org.eclipse.oomph.setup.feature.group
+Requirement org.eclipse.oomph.targlets.feature.group
+Requirement org.eclipse.oomph.setup.targlets.feature.group
+Requirement org.eclipse.oomph.setup.pde.feature.group
+Requirement org.eclipse.oomph.setup.jdt.feature.group
+Requirement org.eclipse.oomph.setup.git.feature.group
+Requirement org.eclipse.oomph.setup.workingsets.feature.group
+Requirement org.eclipse.oomph.setup.projects.feature.group
+Requirement org.eclipse.oomph.setup.launching.feature.group
+Repository http://dist.springsource.org/snapshot/GRECLIPSE/e4.8
+Repository http://download.eclipse.org/releases/photon
+Repository http://download.eclipse.org/technology/epp/packages/2019-06
+Repository http://download.eclipse.org/releases/2019-06/201906191000
+Repository http://download.eclipse.org/oomph/updates/milestone/latest
+Fetching p2.index from http://download.eclipse.org/releases/photon/
+Adding repository http://dist.springsource.org/snapshot/GRECLIPSE/e4.8
+Adding repository http://download.eclipse.org/oomph/updates/milestone/latest
+Fetching p2.index from http://download.eclipse.org/technology/epp/packages/2019-06/
+Fetching p2.index from http://download.eclipse.org/releases/2019-06/201906191000/
+Fetching p2.index from http://download.eclipse.org/releases/photon/
+Fetching p2.index from http://download.eclipse.org/technology/epp/packages/2019-06/
+Fetching p2.index from http://download.eclipse.org/releases/2019-06/201906191000/
+Adding repository http://download.eclipse.org/releases/photon
+Adding repository http://download.eclipse.org/releases/2019-06/201906191000
+Adding repository http://download.eclipse.org/technology/epp/packages/2019-06
+Fetching content.jar from http://dist.springsource.org/snapshot/GRECLIPSE/e4.8/ (13.62kB)
+Fetching compositeContent.jar from http://download.eclipse.org/releases/photon/ (490B)
+Fetching content.xml.xz from http://download.eclipse.org/technology/epp/packages/2019-06/
+Fetching compositeContent.jar from http://download.eclipse.org/releases/photon/ (490B)
+Fetching content.xml.xz from http://download.eclipse.org/releases/2019-06/201906191000/
+Fetching content.xml.xz from http://download.eclipse.org/technology/epp/packages/2019-06/
+Fetching content.xml.xz from http://download.eclipse.org/releases/2019-06/201906191000/
+Fetching p2.index from http://download.eclipse.org/technology/epp/packages/photon/
+Fetching compositeContent.jar from http://download.eclipse.org/oomph/updates/milestone/latest/ (440B)
+Fetching content.xml.xz from http://download.eclipse.org/releases/2019-06/201906191000/
+Fetching content.xml.xz from http://download.eclipse.org/technology/epp/packages/photon/
+Fetching p2.index from http://download.eclipse.org/releases/photon/201806271001/
+Fetching content.jar from http://download.eclipse.org/oomph/drops/milestone/S20190828-040519-1.14.0-M3/ (57.49kB)
+Fetching p2.index from http://download.eclipse.org/releases/photon/201806271001/
+Fetching content.jar from http://download.eclipse.org/oomph/drops/milestone/S20190828-040519-1.14.0-M3/ (57.49kB)
+Fetching content.xml.xz from http://download.eclipse.org/releases/photon/201806271001/
+Calculating requirements and dependencies.
+**Cannot complete the request.  Generating details.
+ERROR: org.eclipse.equinox.p2.director code=10054 Cannot complete the install because of a conflicting dependency.
+  at org.eclipse.oomph.util.OomphPlugin.coreException(OomphPlugin.java:280)
+  at org.eclipse.oomph.p2.internal.core.ProfileTransactionImpl.resolve(ProfileTransactionImpl.java:425)
+  at org.eclipse.oomph.p2.internal.core.ProfileTransactionImpl.commit(ProfileTransactionImpl.java:337)
+  at org.eclipse.oomph.setup.p2.impl.P2TaskImpl.perform(P2TaskImpl.java:758)
+  at org.eclipse.oomph.setup.internal.core.SetupTaskPerformer.doPerformNeededSetupTasks(SetupTaskPerformer.java:3824)
+  at org.eclipse.oomph.setup.internal.core.SetupTaskPerformer.performNeededSetupTasks(SetupTaskPerformer.java:3752)
+  at org.eclipse.oomph.setup.internal.core.SetupTaskPerformer.performTriggeredSetupTasks(SetupTaskPerformer.java:3733)
+  at org.eclipse.oomph.setup.internal.core.SetupTaskPerformer.perform(SetupTaskPerformer.java:3626)
+  at org.eclipse.oomph.setup.ui.wizards.ProgressPage$9.run(ProgressPage.java:582)
+  at org.eclipse.oomph.setup.ui.wizards.ProgressPage$11$1.run(ProgressPage.java:708)
+  at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+  ERROR: org.eclipse.equinox.p2.director code=0 Software being installed: artificial_root 1.0.0.v1567243289756
+  ERROR: org.eclipse.equinox.p2.director code=1 Only one of the following can be installed at once: 
+    ERROR: org.eclipse.equinox.p2.director code=0 Java Development Tools Core 3.14.0.v20180528-0519 (org.eclipse.jdt.core 3.14.0.v20180528-0519)
+    ERROR: org.eclipse.equinox.p2.director code=0 Java Development Tools Core 3.18.0.v20190522-0428 (org.eclipse.jdt.core 3.18.0.v20190522-0428)
+    ERROR: org.eclipse.equinox.p2.director code=0 Java Development Tools Core 3.14.0.v201908301754-e48 (org.eclipse.jdt.core 3.14.0.v201908301754-e48)
+    ERROR: org.eclipse.equinox.p2.director code=0 Object Teams Development Tooling Core 3.14.0.OTDT_r270_201806120901 (org.eclipse.jdt.core 3.14.0.OTDT_r270_201806120901)
+    ERROR: org.eclipse.equinox.p2.director code=0 Object Teams Development Tooling Core 3.18.0.OTDT_r274_201906101736 (org.eclipse.jdt.core 3.18.0.OTDT_r274_201906101736)
+  ERROR: org.eclipse.equinox.p2.director code=1 Only one of the following can be installed at once: 
+    ERROR: org.eclipse.equinox.p2.director code=0 Log View 1.2.200.v20180512-1206 (org.eclipse.ui.views.log 1.2.200.v20180512-1206)
+    ERROR: org.eclipse.equinox.p2.director code=0 Log View 1.2.600.v20190519-1034 (org.eclipse.ui.views.log 1.2.600.v20190519-1034)
+  ERROR: org.eclipse.equinox.p2.director code=1 Cannot satisfy dependency:
+    ERROR: org.eclipse.equinox.p2.director code=0 From: artificial_root 1.0.0.v1567243289756
+    ERROR: org.eclipse.equinox.p2.director code=0 To: org.eclipse.equinox.p2.iu; org.codehaus.groovy.eclipse.feature.feature.group 0.0.0
+  ERROR: org.eclipse.equinox.p2.director code=1 Cannot satisfy dependency:
+    ERROR: org.eclipse.equinox.p2.director code=0 From: artificial_root 1.0.0.v1567243289756
+    ERROR: org.eclipse.equinox.p2.director code=0 To: org.eclipse.equinox.p2.iu; org.eclipse.pde.feature.group 0.0.0
+  ERROR: org.eclipse.equinox.p2.director code=1 Cannot satisfy dependency:
+    ERROR: org.eclipse.equinox.p2.director code=0 From: artificial_root 1.0.0.v1567243289756
+    ERROR: org.eclipse.equinox.p2.director code=0 To: org.eclipse.equinox.p2.iu; org.eclipse.platform.feature.group [4.12.0,5.0.0)
+  ERROR: org.eclipse.equinox.p2.director code=1 Cannot satisfy dependency:
+    ERROR: org.eclipse.equinox.p2.director code=0 From: Groovy-Eclipse Compilerless feature 3.5.0.v201908301754-e48 (org.codehaus.groovy.compilerless.feature.feature.group 3.5.0.v201908301754-e48)
+    ERROR: org.eclipse.equinox.p2.director code=0 To: org.eclipse.equinox.p2.iu; org.codehaus.groovy.headless.feature.feature.group [3.5.0.v201908301754-e48,3.5.0.v201908301754-e48]
+  ERROR: org.eclipse.equinox.p2.director code=1 Cannot satisfy dependency:
+    ERROR: org.eclipse.equinox.p2.director code=0 From: Eclipse Groovy Development Tools 3.5.0.v201908301754-e48 (org.codehaus.groovy.eclipse.feature.feature.group 3.5.0.v201908301754-e48)
+    ERROR: org.eclipse.equinox.p2.director code=0 To: org.eclipse.equinox.p2.iu; org.codehaus.groovy.compilerless.feature.feature.group [3.5.0.v201908301754-e48,3.5.0.v201908301754-e48]
+  ERROR: org.eclipse.equinox.p2.director code=1 Cannot satisfy dependency:
+    ERROR: org.eclipse.equinox.p2.director code=0 From: Groovy-Eclipse Headless feature 3.5.0.v201908301754-e48 (org.codehaus.groovy.headless.feature.feature.group 3.5.0.v201908301754-e48)
+    ERROR: org.eclipse.equinox.p2.director code=0 To: org.eclipse.equinox.p2.iu; org.codehaus.groovy.jdt.patch.feature.group [3.5.0.v201908301754-e48,3.5.0.v201908301754-e48]
+  ERROR: org.eclipse.equinox.p2.director code=1 Cannot satisfy dependency:
+    ERROR: org.eclipse.equinox.p2.director code=0 From: Eclipse Java Development Tools 3.18.0.v20190605-1800 (org.eclipse.jdt.feature.group 3.18.0.v20190605-1800)
+    ERROR: org.eclipse.equinox.p2.director code=0 To: org.eclipse.equinox.p2.iu; org.eclipse.jdt.ui [3.18.0.v20190601-2139,3.18.0.v20190601-2139]
+  ERROR: org.eclipse.equinox.p2.director code=1 Cannot satisfy dependency:
+    ERROR: org.eclipse.equinox.p2.director code=0 From: Java Development Tools UI 3.18.0.v20190601-2139 (org.eclipse.jdt.ui 3.18.0.v20190601-2139)
+    ERROR: org.eclipse.equinox.p2.director code=0 To: osgi.bundle; org.eclipse.jdt.core [3.18.0,4.0.0)
+  ERROR: org.eclipse.equinox.p2.director code=1 Cannot satisfy dependency:
+    ERROR: org.eclipse.equinox.p2.director code=0 From: Eclipse Plug-in Development Environment 3.13.100.v20180611-0826 (org.eclipse.pde.feature.group 3.13.100.v20180611-0826)
+    ERROR: org.eclipse.equinox.p2.director code=0 To: org.eclipse.equinox.p2.iu; org.eclipse.ui.views.log [1.2.200.v20180512-1206,1.2.200.v20180512-1206]
+  ERROR: org.eclipse.equinox.p2.director code=1 Cannot satisfy dependency:
+    ERROR: org.eclipse.equinox.p2.director code=0 From: Eclipse Plug-in Development Environment 3.14.0.v20190605-1800 (org.eclipse.pde.feature.group 3.14.0.v20190605-1800)
+    ERROR: org.eclipse.equinox.p2.director code=0 To: org.eclipse.equinox.p2.iu; org.eclipse.jdt.feature.group [3.15.0,4.0.0)
+  ERROR: org.eclipse.equinox.p2.director code=1 Cannot satisfy dependency:
+    ERROR: org.eclipse.equinox.p2.director code=0 From: Eclipse Platform 4.12.0.v20190605-1801 (org.eclipse.platform.feature.group 4.12.0.v20190605-1801)
+    ERROR: org.eclipse.equinox.p2.director code=0 To: org.eclipse.equinox.p2.iu; org.eclipse.ui.views.log [1.2.600.v20190519-1034,1.2.600.v20190519-1034]
+  ERROR: org.eclipse.equinox.p2.director code=1 Cannot satisfy dependency:
+    ERROR: org.eclipse.equinox.p2.director code=0 From Patch: org.codehaus.groovy.jdt.patch.feature.group 3.5.0.v201908301754-e48 Eclipse Java Development Tools 3.18.0.v20190605-1800 (org.eclipse.jdt.feature.group 3.18.0.v20190605-1800)
+    ERROR: org.eclipse.equinox.p2.director code=0 To: org.eclipse.equinox.p2.iu; org.eclipse.jdt.core [3.14.0.v201908301754-e48,3.14.0.v201908301754-e48]**
+
+Took 15 seconds.
+There are failed tasks.
+Press Back to choose different settings or Cancel to abort.
+
+
+
+I dont get this error if I dont select the SmartHome - Runtime project and am able to install the IDE with default settings.
+
+Once while installing I had also received  an error dialogue saying "The following URl could not be downloaded: http://download.eclipse.org/oomph/drops/milestone/S20190828-040519-1.14.0-M3/"
+
+Has anyone else received such an error and solved it? Is there a way around in which I could add the project repositories after I install the IDE with default settings?
+I am experiencing exactly the same problem as you. I have tried on two separate windows machines with the identical result. 
+
+Is there any chance we can get some support on this? It is very difficult to be an advocate for ESH when the getting started instructions don't work! This is not the first time I have encountered problems like this when carrying out a "clean install" on a new machine.
+
+This is what I see: 
+
+Executing bootstrap tasks
+Java(TM) SE Runtime Environment 1.8.0_221-b11
+Product org.eclipse.products.epp.package.java.latest.released
+Workspace C:\Users\Martin\smarthome-master\ws
+Project org.eclipse.smarthome.core.master
+Bundle org.eclipse.oomph.setup 1.14.0.v20190815-1111, build=4222, branch=df1f9db2f1c3e575486f818cae17bfd35a376162
+Bundle org.eclipse.oomph.setup.core 1.14.0.v20190705-1542, build=4222, branch=df1f9db2f1c3e575486f818cae17bfd35a376162
+Bundle org.eclipse.oomph.setup.installer 1.14.0.v20190823-0726, build=4222, branch=df1f9db2f1c3e575486f818cae17bfd35a376162
+Bundle org.eclipse.oomph.setup.p2 1.12.0.v20190704-1252, build=4222, branch=df1f9db2f1c3e575486f818cae17bfd35a376162
+Performing Workspace C:\Users\Martin\smarthome-master\ws
+Performing P2 Director (Eclipse IDE for Java Developers (2019-09))
+Offline = false
+Mirrors = true
+Resolving 40 requirements from 5 repositories to C:\Users\Martin\smarthome-master\eclipse
+Requirement org.eclipse.wst.xml_ui.feature.feature.group
+Requirement org.eclipse.m2e.feature.feature.group
+Requirement org.eclipse.m2e.logback.feature.feature.group
+Requirement org.eclipse.xtend.sdk.feature.group [2.14.0,2.15.0)
+Requirement org.eclipse.xtext.sdk.feature.group [2.14.0,2.15.0)
+Requirement org.eclipse.emf.mwe2.language.sdk.feature.group [2.9.1,2.10.0)
+Requirement org.eclipse.emf.mwe2.runtime.sdk.feature.group [2.9.1,2.10.0)
+Requirement org.codehaus.groovy.eclipse.feature.feature.group
+Requirement org.eclipse.emf.sdk.feature.group
+Requirement org.eclipse.mylyn.java_feature.feature.group
+Requirement org.eclipse.mylyn.bugzilla_feature.feature.group
+Requirement org.eclipse.mylyn.hudson.feature.group
+Requirement org.eclipse.mylyn.git.feature.group
+Requirement org.eclipse.pde.feature.group
+Requirement org.eclipse.wst.jsdt.feature.feature.group
+Requirement org.eclipse.wst.web_ui.feature.feature.group
+Requirement epp.package.java [4.13.0,5.0.0)
+Requirement org.eclipse.platform.feature.group [4.13.0,5.0.0)
+Requirement org.eclipse.rcp.feature.group [4.13.0,5.0.0)
+Requirement org.eclipse.buildship.feature.group
+Requirement org.eclipse.eclemma.feature.feature.group
+Requirement org.eclipse.egit.feature.group
+Requirement org.eclipse.egit.mylyn.feature.group
+Requirement org.eclipse.epp.mpc.feature.group
+Requirement org.eclipse.jdt.feature.group
+Requirement org.eclipse.jgit.feature.group
+Requirement org.eclipse.mylyn.context_feature.feature.group
+Requirement org.eclipse.mylyn.ide_feature.feature.group
+Requirement org.eclipse.mylyn.wikitext_feature.feature.group
+Requirement org.eclipse.mylyn_feature.feature.group
+Requirement org.eclipse.tips.feature.feature.group
+Requirement org.eclipse.oomph.setup.feature.group
+Requirement org.eclipse.oomph.targlets.feature.group
+Requirement org.eclipse.oomph.setup.targlets.feature.group
+Requirement org.eclipse.oomph.setup.pde.feature.group
+Requirement org.eclipse.oomph.setup.jdt.feature.group
+Requirement org.eclipse.oomph.setup.git.feature.group
+Requirement org.eclipse.oomph.setup.workingsets.feature.group
+Requirement org.eclipse.oomph.setup.projects.feature.group
+Requirement org.eclipse.oomph.setup.launching.feature.group
+Repository http://dist.springsource.org/snapshot/GRECLIPSE/e4.8
+Repository http://download.eclipse.org/releases/photon
+Repository http://download.eclipse.org/technology/epp/packages/2019-09
+Repository http://download.eclipse.org/releases/2019-09/201909181001
+Repository http://download.eclipse.org/oomph/updates/milestone/latest
+Fetching p2.index from http://download.eclipse.org/releases/photon/
+Adding repository http://download.eclipse.org/oomph/updates/milestone/latest
+Fetching p2.index from http://download.eclipse.org/releases/2019-09/201909181001/
+Fetching p2.index from http://download.eclipse.org/technology/epp/packages/2019-09/
+Fetching p2.index from http://download.eclipse.org/releases/2019-09/201909181001/
+Adding repository http://dist.springsource.org/snapshot/GRECLIPSE/e4.8
+Adding repository http://download.eclipse.org/releases/2019-09/201909181001
+Fetching content.jar from http://dist.springsource.org/snapshot/GRECLIPSE/e4.8/ (13.19kB)
+Adding repository http://download.eclipse.org/technology/epp/packages/2019-09
+Adding repository http://download.eclipse.org/releases/photon
+Fetching compositeContent.jar from http://download.eclipse.org/releases/photon/ (490B)
+Fetching content.xml.xz from http://download.eclipse.org/releases/2019-09/201909181001/
+Fetching content.xml.xz from http://download.eclipse.org/technology/epp/packages/2019-09/
+Fetching p2.index from http://download.eclipse.org/technology/epp/packages/photon/
+Fetching compositeContent.jar from http://download.eclipse.org/oomph/updates/milestone/latest/ (440B)
+Fetching content.xml.xz from http://download.eclipse.org/technology/epp/packages/photon/
+Fetching content.xml.xz from http://download.eclipse.org/releases/2019-09/201909181001/
+Fetching p2.index from http://download.eclipse.org/releases/photon/201806271001/
+Fetching content.jar from http://download.eclipse.org/oomph/drops/milestone/S20190531-082923-1.13.0-M4/ (57.03kB)
+Fetching content.xml.xz from http://download.eclipse.org/releases/photon/201806271001/
+Calculating requirements and dependencies.
+Cannot complete the request.  Generating details.
+ERROR: org.eclipse.equinox.p2.director code=10054 Cannot complete the install because of a conflicting dependency.
+  at org.eclipse.oomph.util.OomphPlugin.coreException(OomphPlugin.java:280)
+  at org.eclipse.oomph.p2.internal.core.ProfileTransactionImpl.resolve(ProfileTransactionImpl.java:425)
+  at org.eclipse.oomph.p2.internal.core.ProfileTransactionImpl.commit(ProfileTransactionImpl.java:337)
+  at org.eclipse.oomph.setup.p2.impl.P2TaskImpl.perform(P2TaskImpl.java:758)
+  at org.eclipse.oomph.setup.internal.core.SetupTaskPerformer.doPerformNeededSetupTasks(SetupTaskPerformer.java:3824)
+  at org.eclipse.oomph.setup.internal.core.SetupTaskPerformer.performNeededSetupTasks(SetupTaskPerformer.java:3752)
+  at org.eclipse.oomph.setup.internal.core.SetupTaskPerformer.performTriggeredSetupTasks(SetupTaskPerformer.java:3733)
+  at org.eclipse.oomph.setup.internal.core.SetupTaskPerformer.perform(SetupTaskPerformer.java:3626)
+  at org.eclipse.oomph.setup.ui.wizards.ProgressPage$9.run(ProgressPage.java:582)
+  at org.eclipse.oomph.setup.ui.wizards.ProgressPage$11$1.run(ProgressPage.java:708)
+  at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+  ERROR: org.eclipse.equinox.p2.director code=0 Software being installed: artificial_root 1.0.0.v1569576828049
+  ERROR: org.eclipse.equinox.p2.director code=1 Only one of the following can be installed at once: 
+    ERROR: org.eclipse.equinox.p2.director code=0 Java Development Tools Core 3.14.0.v20180528-0519 (org.eclipse.jdt.core 3.14.0.v20180528-0519)
+    ERROR: org.eclipse.equinox.p2.director code=0 Object Teams Development Tooling Core 3.19.0.OTDT_r275_201909081329 (org.eclipse.jdt.core 3.19.0.OTDT_r275_201909081329)
+    ERROR: org.eclipse.equinox.p2.director code=0 Java Development Tools Core 3.14.0.v201909251921-e48 (org.eclipse.jdt.core 3.14.0.v201909251921-e48)
+    ERROR: org.eclipse.equinox.p2.director code=0 Object Teams Development Tooling Core 3.14.0.OTDT_r270_201806120901 (org.eclipse.jdt.core 3.14.0.OTDT_r270_201806120901)
+    ERROR: org.eclipse.equinox.p2.director code=0 Java Development Tools Core 3.19.0.v20190903-0936 (org.eclipse.jdt.core 3.19.0.v20190903-0936)
+  ERROR: org.eclipse.equinox.p2.director code=1 Only one of the following can be installed at once: 
+    ERROR: org.eclipse.equinox.p2.director code=0 Log View 1.2.200.v20180512-1206 (org.eclipse.ui.views.log 1.2.200.v20180512-1206)
+    ERROR: org.eclipse.equinox.p2.director code=0 Log View 1.2.700.v20190819-1015 (org.eclipse.ui.views.log 1.2.700.v20190819-1015)
+  ERROR: org.eclipse.equinox.p2.director code=1 Cannot satisfy dependency:
+    ERROR: org.eclipse.equinox.p2.director code=0 From: artificial_root 1.0.0.v1569576828049
+    ERROR: org.eclipse.equinox.p2.director code=0 To: org.eclipse.equinox.p2.iu; org.codehaus.groovy.eclipse.feature.feature.group 0.0.0
+  ERROR: org.eclipse.equinox.p2.director code=1 Cannot satisfy dependency:
+    ERROR: org.eclipse.equinox.p2.director code=0 From: artificial_root 1.0.0.v1569576828049
+    ERROR: org.eclipse.equinox.p2.director code=0 To: org.eclipse.equinox.p2.iu; org.eclipse.pde.feature.group 0.0.0
+  ERROR: org.eclipse.equinox.p2.director code=1 Cannot satisfy dependency:
+    ERROR: org.eclipse.equinox.p2.director code=0 From: artificial_root 1.0.0.v1569576828049
+    ERROR: org.eclipse.equinox.p2.director code=0 To: org.eclipse.equinox.p2.iu; org.eclipse.platform.feature.group [4.13.0,5.0.0)
+  ERROR: org.eclipse.equinox.p2.director code=1 Cannot satisfy dependency:
+    ERROR: org.eclipse.equinox.p2.director code=0 From: Groovy-Eclipse Compilerless feature 3.5.0.v201909251921-e48 (org.codehaus.groovy.compilerless.feature.feature.group 3.5.0.v201909251921-e48)
+    ERROR: org.eclipse.equinox.p2.director code=0 To: org.eclipse.equinox.p2.iu; org.codehaus.groovy.headless.feature.feature.group [3.5.0.v201909251921-e48,3.5.0.v201909251921-e48]
+  ERROR: org.eclipse.equinox.p2.director code=1 Cannot satisfy dependency:
+    ERROR: org.eclipse.equinox.p2.director code=0 From: Eclipse Groovy Development Tools 3.5.0.v201909251921-e48 (org.codehaus.groovy.eclipse.feature.feature.group 3.5.0.v201909251921-e48)
+    ERROR: org.eclipse.equinox.p2.director code=0 To: org.eclipse.equinox.p2.iu; org.codehaus.groovy.compilerless.feature.feature.group [3.5.0.v201909251921-e48,3.5.0.v201909251921-e48]
+  ERROR: org.eclipse.equinox.p2.director code=1 Cannot satisfy dependency:
+    ERROR: org.eclipse.equinox.p2.director code=0 From: Groovy-Eclipse Headless feature 3.5.0.v201909251921-e48 (org.codehaus.groovy.headless.feature.feature.group 3.5.0.v201909251921-e48)
+    ERROR: org.eclipse.equinox.p2.director code=0 To: org.eclipse.equinox.p2.iu; org.codehaus.groovy.jdt.patch.feature.group [3.5.0.v201909251921-e48,3.5.0.v201909251921-e48]
+  ERROR: org.eclipse.equinox.p2.director code=1 Cannot satisfy dependency:
+    ERROR: org.eclipse.equinox.p2.director code=0 From: Eclipse Java Development Tools 3.18.100.v20190916-1045 (org.eclipse.jdt.feature.group 3.18.100.v20190916-1045)
+    ERROR: org.eclipse.equinox.p2.director code=0 To: org.eclipse.equinox.p2.iu; org.eclipse.jdt.junit [3.11.500.v20190809-1613,3.11.500.v20190809-1613]
+  ERROR: org.eclipse.equinox.p2.director code=1 Cannot satisfy dependency:
+    ERROR: org.eclipse.equinox.p2.director code=0 From: Java Development Tools JUnit support 3.11.500.v20190809-1613 (org.eclipse.jdt.junit 3.11.500.v20190809-1613)
+    ERROR: org.eclipse.equinox.p2.director code=0 To: osgi.bundle; org.eclipse.jdt.core [3.18.0,4.0.0)
+  ERROR: org.eclipse.equinox.p2.director code=1 Cannot satisfy dependency:
+    ERROR: org.eclipse.equinox.p2.director code=0 From: Eclipse Plug-in Development Environment 3.13.100.v20180611-0826 (org.eclipse.pde.feature.group 3.13.100.v20180611-0826)
+    ERROR: org.eclipse.equinox.p2.director code=0 To: org.eclipse.equinox.p2.iu; org.eclipse.ui.views.log [1.2.200.v20180512-1206,1.2.200.v20180512-1206]
+  ERROR: org.eclipse.equinox.p2.director code=1 Cannot satisfy dependency:
+    ERROR: org.eclipse.equinox.p2.director code=0 From: Eclipse Plug-in Development Environment 3.14.100.v20190916-1045 (org.eclipse.pde.feature.group 3.14.100.v20190916-1045)
+    ERROR: org.eclipse.equinox.p2.director code=0 To: org.eclipse.equinox.p2.iu; org.eclipse.jdt.feature.group [3.15.0,4.0.0)
+  ERROR: org.eclipse.equinox.p2.director code=1 Cannot satisfy dependency:
+    ERROR: org.eclipse.equinox.p2.director code=0 From: Eclipse Platform 4.13.0.v20190916-1323 (org.eclipse.platform.feature.group 4.13.0.v20190916-1323)
+    ERROR: org.eclipse.equinox.p2.director code=0 To: org.eclipse.equinox.p2.iu; org.eclipse.ui.views.log [1.2.700.v20190819-1015,1.2.700.v20190819-1015]
+  ERROR: org.eclipse.equinox.p2.director code=1 Cannot satisfy dependency:
+    ERROR: org.eclipse.equinox.p2.director code=0 From Patch: org.codehaus.groovy.jdt.patch.feature.group 3.5.0.v201909251921-e48 Eclipse Java Development Tools 3.18.100.v20190916-1045 (org.eclipse.jdt.feature.group 3.18.100.v20190916-1045)
+    ERROR: org.eclipse.equinox.p2.director code=0 To: org.eclipse.equinox.p2.iu; org.eclipse.jdt.core [3.14.0.v201909251921-e48,3.14.0.v201909251921-e48]
+
+Took 6 seconds.
+There are failed tasks.
+Press Back to choose different settings or Cancel to abort.
+
+
+The install works if you select Proton as the Eclipse release rather than the latest which is the default.
+
+> Is there any chance we can get some support on this? It is very difficult to be an advocate for ESH when the getting started instructions don't work!
+
+@sidshinde19  @martinfogarty In case you haven't noticed. But ESH is not being actively developed anymore. Continued development has been reintegrated back into openHAB. See also  https://github.com/eclipse/smarthome/pull/6883
+
+Thanks for the response. Shouldn't something be put on the main page https://www.eclipse.org/smarthome/  or the developer guide https://www.eclipse.org/smarthome/getting-started.html#developers to indicate this? Or maybe here https://github.com/eclipse/smarthome ?
+
+ mvn install error
+ I have abuild failure at Eclipse SmartHome REST Interface log below -
+[INFO] Eclipse SmartHome .................................. SUCCESS [  0.238 s]
+[INFO] Eclipse SmartHome Bundles .......................... SUCCESS [  0.219 s]
+[INFO] Eclipse SmartHome Test Components .................. SUCCESS [  0.018 s]
+[INFO] Eclipse SmartHome Core Components .................. SUCCESS [  0.017 s]
+[INFO] Eclipse SmartHome Core ............................. SUCCESS [01:07 min]
+[INFO] Eclipse SmartHome Configurations ................... SUCCESS [  0.020 s]
+[INFO] Eclipse SmartHome Configuration Core ............... SUCCESS [ 11.175 s]
+[INFO] Eclipse SmartHome Configuration XML ................ SUCCESS [  8.096 s]
+[INFO] Eclipse SmartHome Test ............................. SUCCESS [  9.827 s]
+[INFO] Eclipse SmartHome Automation ....................... SUCCESS [  0.022 s]
+[INFO] Eclipse SmartHome Automation API ................... SUCCESS [  7.559 s]
+[INFO] Eclipse SmartHome I/O Components ................... SUCCESS [  0.014 s]
+[INFO] Eclipse SmartHome Console .......................... SUCCESS [  6.129 s]
+[INFO] Eclipse SmartHome Thing ............................ SUCCESS [ 17.183 s]
+[INFO] Eclipse SmartHome Configuration Discovery .......... SUCCESS [  9.071 s]
+[INFO] Eclipse SmartHome Network I/O ...................... SUCCESS [  7.121 s]
+[INFO] Eclipse SmartHome Magic Bundle ..................... SUCCESS [  9.324 s]
+[INFO] Eclipse SmartHome Magic Bundle Tests ............... SUCCESS [  4.552 s]
+[INFO] Eclipse SmartHome Auth Components .................. SUCCESS [  0.030 s]
+[INFO] Eclipse SmartHome JAAS Authentication .............. SUCCESS [  4.130 s]
+[INFO] Eclipse SmartHome OAuth2Client ..................... SUCCESS [  6.425 s]
+[INFO] Eclipse SmartHome OAuth2Client Tests ............... SUCCESS [  4.912 s]
+[INFO] Eclipse SmartHome Configuration Dispatcher ......... SUCCESS [  8.595 s]
+[INFO] Eclipse SmartHome Configuration Dispatcher Tests ... SUCCESS [  7.393 s]
+[INFO] Eclipse SmartHome Configuration Core Tests ......... SUCCESS [  7.557 s]
+[INFO] Eclipse SmartHome mDNS Service ..................... SUCCESS [  4.710 s]
+[INFO] Eclipse SmartHome Configuration mDNS Discovery ..... SUCCESS [  4.766 s]
+[INFO] Eclipse SmartHome Core Thing XML ................... SUCCESS [  7.800 s]
+[INFO] Eclipse SmartHome Configuration mDNS Discovery Tests SUCCESS [  4.980 s]
+[INFO] Eclipse SmartHome Configuration Discovery Tests .... SUCCESS [  8.391 s]
+[INFO] Eclipse SmartHome Configuration UPnP Discovery ..... SUCCESS [  6.079 s]
+[INFO] Eclipse SmartHome Configuration USB-Serial Discovery SUCCESS [  6.269 s]
+[INFO] Eclipse SmartHome Configuration Discovery UsbSerial Tests SUCCESS [  5.847 s]
+[INFO] Eclipse SmartHome Configuration USB-Serial Discovery for Linux using sysfs scanning SUCCESS [  6.097 s]
+[INFO] Eclipse SmartHome Serial Transport ................. SUCCESS [  5.697 s]
+[INFO] Eclipse SmartHome Configuration Serial ............. SUCCESS [  5.935 s]
+[INFO] Eclipse SmartHome Config XML Tests ................. SUCCESS [  6.368 s]
+[INFO] Eclipse SmartHome Configuration USB-Serial Discovery for Linux using sysfs scanning Tests SUCCESS [  6.182 s]
+[INFO] Eclipse SmartHome HTTP Interface ................... SUCCESS [  6.439 s]
+[INFO] Eclipse SmartHome Core Audio ....................... SUCCESS [  7.915 s]
+[INFO] Eclipse SmartHome Core Binding XML ................. SUCCESS [  6.278 s]
+[INFO] Eclipse SmartHome Audio Test ....................... SUCCESS [  6.137 s]
+[INFO] Eclipse SmartHome Sample Extension Service ......... SUCCESS [  5.106 s]
+[INFO] Eclipse SmartHome REST Interface ................... FAILURE [  0.078 s]
+[INFO] Eclipse SmartHome Core ID .......................... SKIPPED
+[INFO] Eclipse SmartHome ID Tests ......................... SKIPPED
+[INFO] Eclipse SmartHome Core Tests ....................... SKIPPED
+[INFO] Eclipse SmartHome Thing Tests ...................... SKIPPED
+[INFO] Eclipse SmartHome Core Persistence ................. SKIPPED
+[INFO] Eclipse SmartHome Core Scheduler Service ........... SKIPPED
+[INFO] Eclipse SmartHome Core Semantics ................... SKIPPED
+[INFO] Eclipse SmartHome Core Transformation Service ...... SKIPPED
+[INFO] Eclipse SmartHome Core Transform Test .............. SKIPPED
+[INFO] Eclipse SmartHome Core Binding XML Tests ........... SKIPPED
+[INFO] Eclipse SmartHome Core Thing XML Tests ............. SKIPPED
+[INFO] Eclipse SmartHome Core Voice ....................... SKIPPED
+[INFO] Eclipse SmartHome Core Voice Test .................. SKIPPED
+[INFO] Eclipse SmartHome Automation Commands .............. SKIPPED
+[INFO] Eclipse SmartHome Automation Core .................. SKIPPED
+[INFO] Eclipse SmartHome Automation Parser GSON ........... SKIPPED
+[INFO] Eclipse SmartHome Automation Core Modules .......... SKIPPED
+[INFO] Eclipse SmartHome Automation Providers ............. SKIPPED
+[INFO] Eclipse SmartHome Automation Provider File ......... SKIPPED
+[INFO] Eclipse SmartHome Automation Core Tests ............ SKIPPED
+[INFO] Eclipse SmartHome Automation Sample JSON ........... SKIPPED
+[INFO] Eclipse SmartHome Automation Core Module Tests ..... SKIPPED
+[INFO] Eclipse SmartHome Automation Script Modules ........ SKIPPED
+[INFO] Eclipse SmartHome Automation Media Modules ......... SKIPPED
+[INFO] Eclipse SmartHome Automation Timer Modules ......... SKIPPED
+[INFO] Eclipse SmartHome Automation Module Timer Tests .... SKIPPED
+[INFO] Eclipse SmartHome Automation Script Default Scope .. SKIPPED
+[INFO] Eclipse SmartHome Automation Script Module Defaultscope Tests SKIPPED
+[INFO] Eclipse SmartHome Automation Script RuleSupport .... SKIPPED
+[INFO] Eclipse SmartHome Automation Script Module Tests ... SKIPPED
+[INFO] Eclipse SmartHome Automation Event Tests ........... SKIPPED
+[INFO] Eclipse SmartHome Automation Integration Tests ..... SKIPPED
+[INFO] Eclipse SmartHome Automation Sample Extension Java . SKIPPED
+[INFO] Eclipse SmartHome Automation REST API .............. SKIPPED
+[INFO] Eclipse SmartHome Automation Sample REST API ....... SKIPPED
+[INFO] Eclipse SmartHome Automation Java Demo ............. SKIPPED
+[INFO] Eclipse SmartHome Automation Json Demo ............. SKIPPED
+[INFO] Eclipse SmartHome Automation Module Type Demo ...... SKIPPED
+[INFO] Eclipse SmartHome Automation Thing Support ......... SKIPPED
+[INFO] Eclipse SmartHome Console for OSGi framework Eclipse Equinox SKIPPED
+[INFO] Eclipse SmartHome Console for OSGi Console RFC 147 . SKIPPED
+[INFO] Eclipse SmartHome Console for OSGi runtime Karaf ... SKIPPED
+[INFO] Eclipse SmartHome Monitor .......................... SKIPPED
+[INFO] Eclipse SmartHome Network I/O Tests ................ SKIPPED
+[INFO] Eclipse SmartHome HTTP Interface Authentication .... SKIPPED
+[INFO] Eclipse SmartHome HTTP Interface Basic Authentication SKIPPED
+[INFO] Eclipse SmartHome Network I/O HTTP Tests ........... SKIPPED
+[INFO] Eclipse SmartHome IO REST Tests .................... SKIPPED
+[INFO] Eclipse SmartHome Authentication Support for the REST Interface SKIPPED
+[INFO] Eclipse SmartHome Core REST Interface .............. SKIPPED
+[INFO] Eclipse SmartHome IO REST Core Tests ............... SKIPPED
+[INFO] Eclipse SmartHome REST mDNS Announcer .............. SKIPPED
+[INFO] Eclipse SmartHome REST JAX-RS Optimizations ........ SKIPPED
+[INFO] Eclipse SmartHome SSE Interface .................... SKIPPED
+[INFO] Eclipse SmartHome IO SSE Tests ..................... SKIPPED
+[INFO] Eclipse SmartHome Models ........................... SKIPPED
+[INFO] Eclipse SmartHome Model Core ....................... SKIPPED
+[INFO] Eclipse SmartHome Model Lazy Generation ............ SKIPPED
+[INFO] Eclipse SmartHome Model Sitemap .................... SKIPPED
+[INFO] Eclipse SmartHome Model Items ...................... SKIPPED
+[INFO] Eclipse SmartHome UIs .............................. SKIPPED
+[INFO] Eclipse SmartHome UI ............................... SKIPPED
+[INFO] Eclipse SmartHome Sitemap REST Interface ........... SKIPPED
+[INFO] Eclipse SmartHome Sitemap REST Interface Tests ..... SKIPPED
+[INFO] Eclipse SmartHome Core REST UI Logging Module ...... SKIPPED
+[INFO] Eclipse SmartHome Voice REST Interface ............. SKIPPED
+[INFO] Eclipse SmartHome DBus Transport ................... SKIPPED
+[INFO] Eclipse SmartHome MQTT Transport ................... SKIPPED
+[INFO] Eclipse SmartHome Mqtt Transport I/O Tests ......... SKIPPED
+[INFO] Eclipse SmartHome Serial Transport for Java Communications API SKIPPED
+[INFO] Eclipse SmartHome Serial Transport for RXTX ........ SKIPPED
+[INFO] Eclipse SmartHome Serial Transport for RFC2217 ..... SKIPPED
+[INFO] Eclipse SmartHome UPnP Transport ................... SKIPPED
+[INFO] Eclipse SmartHome IO UPnP Tests .................... SKIPPED
+[INFO] Eclipse SmartHome Model Core Tests ................. SKIPPED
+[INFO] Eclipse SmartHome Model Item IDE ................... SKIPPED
+[INFO] Eclipse SmartHome Model Items Runtime .............. SKIPPED
+[INFO] Eclipse SmartHome Model Items Tests ................ SKIPPED
+[INFO] Eclipse SmartHome Model Persistence ................ SKIPPED
+[INFO] Eclipse SmartHome Model Persistence IDE ............ SKIPPED
+[INFO] Eclipse SmartHome Model Script ..................... SKIPPED
+[INFO] Eclipse SmartHome Model Rules ...................... SKIPPED
+[INFO] Eclipse SmartHome Model Rule IDE ................... SKIPPED
+[INFO] Eclipse SmartHome Model Script IDE ................. SKIPPED
+[INFO] Eclipse SmartHome Model Sitemap IDE ................ SKIPPED
+[INFO] Eclipse SmartHome Model Thing ...................... SKIPPED
+[INFO] Eclipse SmartHome Model Thing IDE .................. SKIPPED
+[INFO] Eclipse SmartHome Language Server .................. SKIPPED
+[INFO] Eclipse SmartHome Language Server Tests ............ SKIPPED
+[INFO] Eclipse SmartHome Model Persistence Runtime ........ SKIPPED
+[INFO] Eclipse SmartHome Model Persistence Tests .......... SKIPPED
+[INFO] Eclipse SmartHome Model Rules Runtime .............. SKIPPED
+[INFO] Eclipse SmartHome Model Script Runtime ............. SKIPPED
+[INFO] Eclipse SmartHome Model Rules Tests ................ SKIPPED
+[INFO] Eclipse SmartHome Model Script Tests ............... SKIPPED
+[INFO] Eclipse SmartHome Model Sitemap Runtime ............ SKIPPED
+[INFO] Eclipse SmartHome Model Thing Runtime .............. SKIPPED
+[INFO] Eclipse SmartHome Model Thing Tests ................ SKIPPED
+[INFO] Eclipse SmartHome UI Tests ......................... SKIPPED
+[INFO] Eclipse SmartHome UI Icon Support .................. SKIPPED
+[INFO] Eclipse SmartHome UI Icon Tests .................... SKIPPED
+[INFO] Eclipse SmartHome Storages ......................... SKIPPED
+[INFO] Eclipse SmartHome JSON Storage ..................... SKIPPED
+[INFO] Eclipse SmartHome Storage JSON Tests ............... SKIPPED
+[INFO] Eclipse SmartHome MapDB Storage .................... SKIPPED
+[INFO] Eclipse SmartHome Storage MapDB Tests .............. SKIPPED
+[INFO] Eclipse SmartHome Extensions ....................... SKIPPED
+[INFO] Eclipse SmartHome Bindings ......................... SKIPPED
+[INFO] Eclipse SmartHome Astro Binding .................... SKIPPED
+[INFO] Eclipse SmartHome Astro Binding Tests .............. SKIPPED
+[INFO] Eclipse SmartHome Bluetooth Binding ................ SKIPPED
+[INFO] Eclipse SmartHome BlueGiga Bluetooth Adapter ....... SKIPPED
+[INFO] Eclipse SmartHome Bluetooth BlueGiga Tests ......... SKIPPED
+[INFO] Eclipse SmartHome BlueZ Bluetooth Adapter .......... SKIPPED
+[INFO] Eclipse SmartHome Blukii Binding ................... SKIPPED
+[INFO] Eclipse SmartHome Bluetooth Binding Tests .......... SKIPPED
+[INFO] Eclipse SmartHome Bose SoundTouch Binding .......... SKIPPED
+[INFO] Eclipse SmartHome DigitalSTROM Binding ............. SKIPPED
+[INFO] Eclipse SmartHome DMX Binding ...................... SKIPPED
+[INFO] Eclipse SmartHome DMX Binding Tests ................ SKIPPED
+[INFO] Eclipse SmartHome Homematic Binding ................ SKIPPED
+[INFO] Eclipse SmartHome Homematic Binding Tests .......... SKIPPED
+[INFO] Eclipse SmartHome hue Binding ...................... SKIPPED
+[INFO] Eclipse SmartHome hue Binding Tests ................ SKIPPED
+[INFO] Eclipse SmartHome FSInternetRadio Binding .......... SKIPPED
+[INFO] Eclipse SmartHome FSInternetRadio Binding Test ..... SKIPPED
+[INFO] Eclipse SmartHome LIFX Binding ..................... SKIPPED
+[INFO] Eclipse SmartHome LIRC Binding ..................... SKIPPED
+[INFO] Eclipse SmartHome meteoblue Binding ................ SKIPPED
+[INFO] Eclipse SmartHome MQTT Binding ..................... SKIPPED
+[INFO] Eclipse SmartHome MQTT Binding Tests ............... SKIPPED
+[INFO] Eclipse SmartHome MQTT Thing Binding ............... SKIPPED
+[INFO] Eclipse SmartHome I/O Services ..................... SKIPPED
+[INFO] Eclipse SmartHome Embedded MQTT Broker ............. SKIPPED
+[INFO] Eclipse SmartHome MQTT Thing Binding Tests ......... SKIPPED
+[INFO] Eclipse SmartHome NTP Binding ...................... SKIPPED
+[INFO] Eclipse SmartHome NTP Binding Tests ................ SKIPPED
+[INFO] Eclipse SmartHome OneWire Binding .................. SKIPPED
+[INFO] Eclipse SmartHome OneWire Binding Tests ............ SKIPPED
+[INFO] Eclipse SmartHome OpenWeatherMap Binding ........... SKIPPED
+[INFO] Eclipse SmartHome SerialButton Binding ............. SKIPPED
+[INFO] Eclipse SmartHome Sonos Binding .................... SKIPPED
+[INFO] Eclipse SmartHome SonyAudio Binding ................ SKIPPED
+[INFO] Eclipse SmartHome TRÅDFRI Binding .................. SKIPPED
+[INFO] Eclipse SmartHome TRÅDFRI Binding Tests ............ SKIPPED
+[INFO] Eclipse SmartHome WeatherUnderground Binding ....... SKIPPED
+[INFO] Eclipse SmartHome WeMo Binding ..................... SKIPPED
+[INFO] Eclipse SmartHome Wemo Binding Tests ............... SKIPPED
+[INFO] Eclipse SmartHome Extension Service Extensions ..... SKIPPED
+[INFO] Eclipse SmartHome IoT Marketplace Extension Service  SKIPPED
+[INFO] Eclipse SmartHome IoT Marketplace Extension Automation Support SKIPPED
+[INFO] Eclipse SmartHome IoT Marketplace Extension Service Test SKIPPED
+[INFO] Eclipse SmartHome JavaSound I/O .................... SKIPPED
+[INFO] Eclipse SmartHome Embedded MQTT Broker Tests ....... SKIPPED
+[INFO] Eclipse SmartHome Web Audio Support ................ SKIPPED
+[INFO] Eclipse SmartHome Persistence ...................... SKIPPED
+[INFO] Eclipse SmartHome MapDB Persistence ................ SKIPPED
+[INFO] Eclipse SmartHome MapDB Persistence Tests .......... SKIPPED
+[INFO] Eclipse SmartHome Transformation Services .......... SKIPPED
+[INFO] Eclipse SmartHome Exec Transformation Service ...... SKIPPED
+[INFO] Eclipse SmartHome Javascript Transformation Service  SKIPPED
+[INFO] Eclipse SmartHome Map Transformation Service ....... SKIPPED
+[INFO] Eclipse SmartHome Map Transformation Service Tests . SKIPPED
+[INFO] Eclipse SmartHome Scale Transformation Service ..... SKIPPED
+[INFO] Eclipse SmartHome Scale Transformation Service Tests SKIPPED
+[INFO] Eclipse SmartHome RegEx Transformation Service ..... SKIPPED
+[INFO] Eclipse SmartHome RegEx Transformation Service Tests SKIPPED
+[INFO] Eclipse SmartHome XPath Transformation Service ..... SKIPPED
+[INFO] Eclipse SmartHome XPath Transformation Service Tests SKIPPED
+[INFO] Eclipse SmartHome JSonPath Transformation Service .. SKIPPED
+[INFO] Eclipse SmartHome JSonPath Transformation Service Tests SKIPPED
+[INFO] Eclipse SmartHome Xslt Transformation Service ...... SKIPPED
+[INFO] Eclipse SmartHome Xslt Transformation Service Tests  SKIPPED
+[INFO] Eclipse SmartHome UI Extensions .................... SKIPPED
+[INFO] Eclipse SmartHome Icon Sets ........................ SKIPPED
+[INFO] Eclipse SmartHome Classic Icon Set ................. SKIPPED
+[INFO] Eclipse SmartHome Basic UI ......................... SKIPPED
+[INFO] Eclipse SmartHome Classic UI ....................... SKIPPED
+[INFO] Eclipse SmartHome Paper UI ......................... SKIPPED
+[INFO] Eclipse SmartHome Voice Services ................... SKIPPED
+[INFO] Eclipse SmartHome macOS Text-to-Speech ............. SKIPPED
+[INFO] Eclipse SmartHome macOS Text-to-Speech Tests ....... SKIPPED
+[INFO] Eclipse SmartHome Features ......................... SKIPPED
+[INFO] Eclipse SmartHome Runtime Core Feature ............. SKIPPED
+[INFO] Eclipse SmartHome Runtime Model Feature ............ SKIPPED
+[INFO] Eclipse SmartHome Runtime UI Feature ............... SKIPPED
+[INFO] Eclipse SmartHome Runtime REST Feature ............. SKIPPED
+[INFO] Eclipse SmartHome Runtime Automation Feature ....... SKIPPED
+[INFO] Eclipse SmartHome Runtime Equinox Console Feature .. SKIPPED
+[INFO] Eclipse SmartHome Runtime RfC147 Console Feature ... SKIPPED
+[INFO] Eclipse SmartHome Runtime Binding Feature .......... SKIPPED
+[INFO] Eclipse SmartHome Test Dependencies ................ SKIPPED
+[INFO] Eclipse SmartHome Karaf Features ................... SKIPPED
+[INFO] Eclipse SmartHome Target Platform Feature .......... SKIPPED
+[INFO] Eclipse SmartHome Core Feature ..................... SKIPPED
+[INFO] Eclipse SmartHome Extensions Feature ............... SKIPPED
+[INFO] Eclipse SmartHome Karaf Feature Verification ....... SKIPPED
+[INFO] Eclipse SmartHome Products ......................... SKIPPED
+[INFO] Eclipse SmartHome p2 Repository .................... SKIPPED
+[INFO] Eclipse SmartHome Tools ............................ SKIPPED
+[INFO] Eclipse SmartHome Archetypes ....................... SKIPPED
+[INFO] Eclipse SmartHome Binding Archetype ................ SKIPPED
+[INFO] Eclipse SmartHome Binding Archetype Testsuite ...... SKIPPED
+[INFO] Eclipse SmartHome Target Platform .................. SKIPPED
+[INFO] Eclipse SmartHome Distribution ..................... SKIPPED
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  06:48 min
+[INFO] Finished at: 2019-08-29T11:01:58+02:00
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.felix:maven-scr-plugin:1.24.0:scr (generate-scr-scrdescriptor) on project org.eclipse.smarthome.io.rest: Execution generate-scr-scrdescriptor of goal org.apache.felix:maven-scr-plugin:1.24.0:scr failed: A required class was missing while executing org.apache.felix:maven-scr-plugin:1.24.0:scr: ContainerRequestContext
+[ERROR] -----------------------------------------------------
+[ERROR] realm =    plugin>org.apache.felix:maven-scr-plugin:1.24.0
+[ERROR] strategy = org.codehaus.plexus.classworlds.strategy.SelfFirstStrategy
+[ERROR] urls[0] = file:/home/oem/.m2/repository/org/apache/felix/maven-scr-plugin/1.24.0/maven-scr-plugin-1.24.0.jar
+[ERROR] urls[1] = file:/home/oem/.m2/repository/org/apache/maven/maven-archiver/2.2/maven-archiver-2.2.jar
+[ERROR] urls[2] = file:/home/oem/.m2/repository/junit/junit/4.12/junit-4.12.jar
+[ERROR] urls[3] = file:/home/oem/.m2/repository/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar
+[ERROR] urls[4] = file:/home/oem/.m2/repository/org/codehaus/plexus/plexus-archiver/1.0-alpha-7/plexus-archiver-1.0-alpha-7.jar
+[ERROR] urls[5] = file:/home/oem/.m2/repository/org/apache/felix/org.apache.felix.scr.generator/1.16.0/org.apache.felix.scr.generator-1.16.0.jar
+[ERROR] urls[6] = file:/home/oem/.m2/repository/org/ow2/asm/asm-all/5.1/asm-all-5.1.jar
+[ERROR] urls[7] = file:/home/oem/.m2/repository/org/osgi/org.osgi.core/4.2.0/org.osgi.core-4.2.0.jar
+[ERROR] urls[8] = file:/home/oem/.m2/repository/org/osgi/org.osgi.compendium/4.2.0/org.osgi.compendium-4.2.0.jar
+[ERROR] urls[9] = file:/home/oem/.m2/repository/org/sonatype/plexus/plexus-build-api/0.0.7/plexus-build-api-0.0.7.jar
+[ERROR] urls[10] = file:/home/oem/.m2/repository/org/codehaus/plexus/plexus-utils/1.5.8/plexus-utils-1.5.8.jar
+[ERROR] Number of foreign imports: 1
+[ERROR] import: Entry[import  from realm ClassRealm[project>org.eclipse.smarthome:smarthome:0.11.0-SNAPSHOT, parent: ClassRealm[maven.api, parent: null]]]
+
+ Openhab rule engine error on startup
+ In my openhab on restart error appears. One rule is not initialized. When I edit and sava eit in Paper UI it starts working.
+
+```
+2019-08-26 22:46:56.325 [INFO ] [.transport.mqtt.MqttBrokerConnection] - Starting MQTT broker connection to '192.168.88.10' with clientid paho609404108368627 and file store '/var/lib/openhab2/mqtt/192.168.88.10'                                                                                 
+2019-08-26 22:46:56.616 [ERROR] [utomation.module.script.defaultscope] - bundle org.eclipse.smarthome.automation.module.script.defaultscope:0.10.0.oh240 (214)[org.eclipse.smarthome.automation.module.script.defaultscope.internal.DefaultScriptScopeProvider(234)] : The addThingActions method ha
+s thrown an exception                                                                                                                                                                                                                                                                               
+java.lang.NullPointerException: null                                                                                                                                                                                                                                                                
+        at org.eclipse.smarthome.automation.module.script.defaultscope.internal.DefaultScriptScopeProvider.addThingActions(DefaultScriptScopeProvider.java:125) ~[?:?]                                                                                                                              
+        at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:?]                                                                                                                                                                                                                       
+        at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:?]                                                                                                                                                                                                     
+        at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:?]                                                                                                                                                                                             
+        at java.lang.reflect.Method.invoke(Method.java:498) ~[?:?]                                                                                                                                                                                                                                  
+        at org.apache.felix.scr.impl.inject.methods.BaseMethod.invokeMethod(BaseMethod.java:228) ~[39:org.apache.felix.scr:2.1.2]                                                                                                                                                                   
+        at org.apache.felix.scr.impl.inject.methods.BaseMethod.access$500(BaseMethod.java:41) ~[39:org.apache.felix.scr:2.1.2]                                                                                                                                                                      
+        at org.apache.felix.scr.impl.inject.methods.BaseMethod$Resolved.invoke(BaseMethod.java:664) ~[39:org.apache.felix.scr:2.1.2]                                                                                                                                                                
+        at org.apache.felix.scr.impl.inject.methods.BaseMethod.invoke(BaseMethod.java:510) [39:org.apache.felix.scr:2.1.2]                                                                                                                                                                          
+        at org.apache.felix.scr.impl.inject.methods.BindMethod.invoke(BindMethod.java:42) [39:org.apache.felix.scr:2.1.2]                                                                                                                                                                           
+        at org.apache.felix.scr.impl.manager.DependencyManager.doInvokeBindMethod(DependencyManager.java:1809) [39:org.apache.felix.scr:2.1.2]                                                                                                                                                      
+        at org.apache.felix.scr.impl.manager.DependencyManager.bindDependency(DependencyManager.java:1637) [39:org.apache.felix.scr:2.1.2]                                                                                                                                                          
+        at org.apache.felix.scr.impl.manager.DependencyManager.bind(DependencyManager.java:1625) [39:org.apache.felix.scr:2.1.2]                                                                                                                                                                    
+        at org.apache.felix.scr.impl.manager.SingleComponentManager.createImplementationObject(SingleComponentManager.java:301) [39:org.apache.felix.scr:2.1.2]                                                                                                                                     
+        at org.apache.felix.scr.impl.manager.SingleComponentManager.createComponent(SingleComponentManager.java:114) [39:org.apache.felix.scr:2.1.2]                                                                                                                                                
+        at org.apache.felix.scr.impl.manager.SingleComponentManager.getService(SingleComponentManager.java:947) [39:org.apache.felix.scr:2.1.2]                                                                                                                                                     
+        at org.apache.felix.scr.impl.manager.SingleComponentManager.getServiceInternal(SingleComponentManager.java:919) [39:org.apache.felix.scr:2.1.2]                                                                                                                                             
+        at org.apache.felix.scr.impl.manager.SingleComponentManager.getService(SingleComponentManager.java:863) [39:org.apache.felix.scr:2.1.2]                                                                                                                                                     
+        at org.eclipse.osgi.internal.serviceregistry.ServiceFactoryUse$1.run(ServiceFactoryUse.java:212) [?:?]                                                                                                                                                                                      
+        at java.security.AccessController.doPrivileged(Native Method) ~[?:?]                                                                                                                                                                                                                        
+        at org.eclipse.osgi.internal.serviceregistry.ServiceFactoryUse.factoryGetService(ServiceFactoryUse.java:210) [?:?]                                                                                                                                                                          
+        at org.eclipse.osgi.internal.serviceregistry.ServiceFactoryUse.getService(ServiceFactoryUse.java:111) [?:?]                                                                                                                                                                                 
+        at org.eclipse.osgi.internal.serviceregistry.ServiceConsumer$2.getService(ServiceConsumer.java:45) [?:?]                                                                                                                                                                                    
+        at org.eclipse.osgi.internal.serviceregistry.ServiceRegistrationImpl.getService(ServiceRegistrationImpl.java:508) [?:?]                                                                                                                                                                     
+        at org.eclipse.osgi.internal.serviceregistry.ServiceRegistry.getService(ServiceRegistry.java:461) [?:?]                                                                                                                                                                                     
+        at org.eclipse.osgi.internal.framework.BundleContextImpl.getService(BundleContextImpl.java:624) [?:?]                                                                                                                                                                                       
+        at com.eclipsesource.jaxrs.publisher.internal.ResourceTracker.addingService(ResourceTracker.java:39) [20:com.eclipsesource.jaxrs.publisher:5.3.1.201602281253]                                                                                                                              
+        at org.osgi.util.tracker.ServiceTracker$Tracked.customizerAdding(ServiceTracker.java:941) [?:?]                                                                                                                                                                                             
+        at org.osgi.util.tracker.ServiceTracker$Tracked.customizerAdding(ServiceTracker.java:870) [?:?]                                                                                                                                                                                             
+        at org.osgi.util.tracker.AbstractTracked.trackAdding(AbstractTracked.java:256) [?:?]                                                                                                                                                                                                        
+        at org.osgi.util.tracker.AbstractTracked.track(AbstractTracked.java:229) [?:?]                                                                                                                                                                                                              
+        at org.osgi.util.tracker.ServiceTracker$Tracked.serviceChanged(ServiceTracker.java:901) [?:?]                                                                                                                                                                                               
+        at org.eclipse.osgi.internal.serviceregistry.FilteredServiceListener.serviceChanged(FilteredServiceListener.java:109) [?:?]                                                                                                                                                                 
+        at org.eclipse.osgi.internal.framework.BundleContextImpl.dispatchEvent(BundleContextImpl.java:920) [?:?]                                                                                                                                                                                    
+        at org.eclipse.osgi.framework.eventmgr.EventManager.dispatchEvent(EventManager.java:230) [?:?]                                                                                                                                                                                              
+        at org.eclipse.osgi.framework.eventmgr.ListenerQueue.dispatchEventSynchronous(ListenerQueue.java:148) [?:?]                                                                                                                                                                                 
+        at org.eclipse.osgi.internal.serviceregistry.ServiceRegistry.publishServiceEventPrivileged(ServiceRegistry.java:862) [?:?]                                                                                                                                                                  
+        at org.eclipse.osgi.internal.serviceregistry.ServiceRegistry.publishServiceEvent(ServiceRegistry.java:801) [?:?]                                                                                                                                                                            
+        at org.eclipse.osgi.internal.serviceregistry.ServiceRegistrationImpl.register(ServiceRegistrationImpl.java:127) [?:?]                                                                                                                                                                       
+        at org.eclipse.osgi.internal.serviceregistry.ServiceRegistry.registerService(ServiceRegistry.java:225) [?:?]                                                                                                                                                                                
+        at org.eclipse.osgi.internal.framework.BundleContextImpl.registerService(BundleContextImpl.java:469) [?:?]                                                                                                                                                                                  
+        at org.apache.felix.scr.impl.manager.AbstractComponentManager$3.register(AbstractComponentManager.java:891) [39:org.apache.felix.scr:2.1.2]                                                                                                                                                 
+        at org.apache.felix.scr.impl.manager.AbstractComponentManager$3.register(AbstractComponentManager.java:877) [39:org.apache.felix.scr:2.1.2]                                                                                                                                                 
+        at org.apache.felix.scr.impl.manager.RegistrationManager.changeRegistration(RegistrationManager.java:128) [39:org.apache.felix.scr:2.1.2]                                                                                                                                                   
+        at org.apache.felix.scr.impl.manager.AbstractComponentManager.registerService(AbstractComponentManager.java:944) [39:org.apache.felix.scr:2.1.2]                                                                                                                                            
+        at org.apache.felix.scr.impl.manager.AbstractComponentManager.activateInternal(AbstractComponentManager.java:727) [39:org.apache.felix.scr:2.1.2]                                                                                                                                           
+        at org.apache.felix.scr.impl.manager.AbstractComponentManager.enableInternal(AbstractComponentManager.java:661) [39:org.apache.felix.scr:2.1.2]                                                                                                                                             
+        at org.apache.felix.scr.impl.manager.AbstractComponentManager.enable(AbstractComponentManager.java:427) [39:org.apache.felix.scr:2.1.2]                                                                                                                                                     
+        at org.apache.felix.scr.impl.manager.ConfigurableComponentHolder.enableComponents(ConfigurableComponentHolder.java:665) [39:org.apache.felix.scr:2.1.2]                                                                                                                                     
+        at org.apache.felix.scr.impl.BundleComponentActivator.initialEnable(BundleComponentActivator.java:339) [39:org.apache.felix.scr:2.1.2]                                                                                                                                                      
+        at org.apache.felix.scr.impl.Activator.loadComponents(Activator.java:381) [39:org.apache.felix.scr:2.1.2]                                                                                                                                                                                   
+        at org.apache.felix.scr.impl.Activator.access$200(Activator.java:49) [39:org.apache.felix.scr:2.1.2]                                                                                                                                                                                        
+        at org.apache.felix.scr.impl.Activator$ScrExtension.start(Activator.java:263) [39:org.apache.felix.scr:2.1.2]                                                                                                                                                                               
+        at org.apache.felix.scr.impl.AbstractExtender.createExtension(AbstractExtender.java:196) [39:org.apache.felix.scr:2.1.2]                                                                                                                                                                    
+        at org.apache.felix.scr.impl.AbstractExtender.modifiedBundle(AbstractExtender.java:169) [39:org.apache.felix.scr:2.1.2]                                                                                                                                                                     
+        at org.apache.felix.scr.impl.AbstractExtender.modifiedBundle(AbstractExtender.java:49) [39:org.apache.felix.scr:2.1.2]   
+```
+OH version? What is the rule (if you built in the UI, you'll find it in `$OPENHAB_USERDATA/jsondb/automation_rules.json`)? This issue should also be reported in [openhab-core](https://github.com/openhab/openhab-core/issues) (OH does not use ESH any more), but I suggest first reporting this in the [forum](https://community.openhab.org/).
+
+ Change method name 'little' to 'getLittleField'
+ This class is used to represent Field.  This method named 'little' is to get a LittleField object. Thus, the method name 'getLittleField' is more intuitive than 'little'.
+#6883 
+
+https://github.com/openhab/openhab2-addons/tree/master/bundles/org.openhab.binding.lifx
+
+ Change method name 'localize' to 'createChannelType'
+ This class is used to provide default system wide channel types.  This method named 'localize' is to create channel type. Thus, the method name 'createChannelType' is more intuitive than 'localize'.
+Hello. I already register for the eca agreement.
+
+#6883 
+
+https://github.com/openhab/openhab-core
+
+ STATE_CONTACT for HMIP-SWDO-I
+ This a follow up for issue #5786
+I've just struggled with the contact item for HMIP-SWDO-I and found the older issues for SWDO and SWDO-I.
+I can use the channel STATE_CONTACT in my items file and it works with SWDO-I, but i haven't seen anything about this virtual channel since i found the issues. 
+I'm quite new to Openhab so i don't really know if there is anything missing and if it should appear at the thing view from PaperUI, as it doesn't with Openhab 2.4.0 release build or 2.4.0 snapshot (build 1462).
+The VS Code plugin also only adds the channel STATE as string type and the virtual channel is not listed at binding documentation.
+This repo is no longer maintained... see #6883. ESH has been reintegrated into openhab-core. You might want to try posting in the OH forum.
+
+ [onewire] OFFLINE - CONFIGURATION_ERROR required properties missing
+ I use OH240 with this:
+https://janessa.me/esh/org.openhab.binding.onewire-MASTER.jar
+265 │ Active   │  80 │ 2.5.0.201903031011     │ OneWire Binding
+
+I get:
+OFFLINE - CONFIGURATION_ERROR required properties missing
+
+```
+  Thing bms Ow_BMS_KG_KWL_AA [ id="26.22AE7F010000", id1="28.D6EC5A040000", temperaturesensor="DS18B20", refresh=60 ] {
+    Type humidity : humidity [ humiditytype="/HIH4000/humidity" ]
+    Type temperature-por : temperature 
+  }
+  Thing basic Ow_T_KG_SP_BW_01 [ id="28.176ABC030000", refresh=60 ] {
+            Channels:
+                Type temperature-por-res : temperature [
+                    resolution="11"
+                ]  }
+  Thing basic Ow_T_KG_SP_BW_02 [ id="28.65E39B030000", refresh=60 ] {
+      Type temperature-por : temperature
+  }
+```
+
+But this one works:
+```
+  Thing bms Ow_BMS_KG_DG_HR [ id="26.D1B17F010000", id1="28.17DC5A040000", temperaturesensor="DS18B20", refresh=60 ] {
+    Type humidity : humidity [ humiditytype="/HIH4000/humidity" ]
+    Type temperature-por : temperature 
+  }
+```
+
+Because I added Ow_BMS_KG_DG_HR later, It looks like OH saved some config and now they make a conflict.
+I always deleted org.eclipse.smarthome.core.thing.Thing.json
+ESH is abandoned and everything has been re-integrated to openhab. The correct repository would be openhab/openhab2-addons.
+
+I'm not sure if that is the latest version. I have compiled a new one and updated the jar. Could you please update and open an issue in the repo I mentioned above if your problems persist?
+
+And please show the debug log.
+
+ HexUtils: Fix typo in javadoc
+ The problem was detected by Verification job in JGit project.
+Please see #6883. If you're working with openHAB, you could submit this over in [openhab-core](https://github.com/openhab/openhab-core/).
+
+I do not know anything about openHAB.
+
+ [Astro] Events missing because of docker update by watchtower
+ Hi there,
+
+I have some astro items defined for opening and closing my rollershutters. Everything works perfectly except for opening the rollershutters on Wednesday morning.
+
+My openhab 2 instance runs in a docker container which is updated by watchtower every Tuesday afternoon at 2pm. After the docker container has been updated, everything continues to work. Even the events on Tuesday evening are triggered to close the rollershutters. However, every Wednesday morning, the event to open up the rollershutters does not trigger.
+
+I think this has something to do with the way how and when the astro binding is scheduling the events. I have already found a similar [post](https://community.openhab.org/t/rollershutter-rule-with-astro-binding-not-working-every-day/49910/17) where someone suggests to touch the astro item file with a cronjob to force the astro binding to reschedule the events.
+
+I will certainly try this suggestion, but I am looking for a way that does not depend on another external cronjob. If I have to reinstall my setup, I am pretty sure that I would forget setting up this cronjob.
+
+Cheers,
+tosate
+ [Homematic] Exceptions in the log after updating CCU3 from 3.43.15 to 3.45.7
+ After updating my CCU3 from 3.43.15 to 3.45.7, I see these exceptions every few minutes in the openHAB log:
+``
+2019-06-14 08:48:30.814 [WARN ] [org.eclipse.jetty.server.HttpChannel] - /
+java.lang.ClassCastException: java.lang.String cannot be cast to java.util.Map
+	at org.eclipse.smarthome.binding.homematic.internal.communicator.server.RpcResponseHandler.handleMethodCall(RpcResponseHandler.java:64) ~[?:?]
+	at org.eclipse.smarthome.binding.homematic.internal.communicator.server.XmlRpcServer$ResponseHandler.handle(XmlRpcServer.java:126) ~[?:?]
+	at org.eclipse.jetty.server.handler.HandlerWrapper.handle(HandlerWrapper.java:132) ~[84:org.eclipse.jetty.server:9.4.11.v20180605]
+	at org.eclipse.jetty.server.Server.handle(Server.java:531) ~[84:org.eclipse.jetty.server:9.4.11.v20180605]
+	at org.eclipse.jetty.server.HttpChannel.handle(HttpChannel.java:352) [84:org.eclipse.jetty.server:9.4.11.v20180605]
+	at org.eclipse.jetty.server.HttpConnection.onFillable(HttpConnection.java:260) [84:org.eclipse.jetty.server:9.4.11.v20180605]
+	at org.eclipse.jetty.io.AbstractConnection$ReadCallback.succeeded(AbstractConnection.java:281) [75:org.eclipse.jetty.io:9.4.11.v20180605]
+	at org.eclipse.jetty.io.FillInterest.fillable(FillInterest.java:102) [75:org.eclipse.jetty.io:9.4.11.v20180605]
+	at org.eclipse.jetty.io.ChannelEndPoint$2.run(ChannelEndPoint.java:118) [75:org.eclipse.jetty.io:9.4.11.v20180605]
+	at org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.runTask(EatWhatYouKill.java:333) [87:org.eclipse.jetty.util:9.4.11.v20180605]
+	at org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.doProduce(EatWhatYouKill.java:310) [87:org.eclipse.jetty.util:9.4.11.v20180605]
+	at org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.tryProduce(EatWhatYouKill.java:168) [87:org.eclipse.jetty.util:9.4.11.v20180605]
+	at org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.run(EatWhatYouKill.java:126) [87:org.eclipse.jetty.util:9.4.11.v20180605]
+	at org.eclipse.jetty.util.thread.ReservedThreadExecutor$ReservedThread.run(ReservedThreadExecutor.java:366) [87:org.eclipse.jetty.util:9.4.11.v20180605]
+	at org.eclipse.jetty.util.thread.QueuedThreadPool.runJob(QueuedThreadPool.java:762) [87:org.eclipse.jetty.util:9.4.11.v20180605]
+	at org.eclipse.jetty.util.thread.QueuedThreadPool$2.run(QueuedThreadPool.java:680) [87:org.eclipse.jetty.util:9.4.11.v20180605]
+	at java.lang.Thread.run(Thread.java:748) [?:?]
+``
+
+
+``
+2019-06-14 08:48:30.816 [ERROR] [nal.communicator.server.XmlRpcServer] - Premature end of file.
+org.xml.sax.SAXParseException: Premature end of file.
+	at com.sun.org.apache.xerces.internal.util.ErrorHandlerWrapper.createSAXParseException(ErrorHandlerWrapper.java:203) ~[?:?]
+	at com.sun.org.apache.xerces.internal.util.ErrorHandlerWrapper.fatalError(ErrorHandlerWrapper.java:177) ~[?:?]
+	at com.sun.org.apache.xerces.internal.impl.XMLErrorReporter.reportError(XMLErrorReporter.java:400) ~[?:?]
+	at com.sun.org.apache.xerces.internal.impl.XMLErrorReporter.reportError(XMLErrorReporter.java:327) ~[?:?]
+	at com.sun.org.apache.xerces.internal.impl.XMLScanner.reportFatalError(XMLScanner.java:1472) ~[?:?]
+	at com.sun.org.apache.xerces.internal.impl.XMLDocumentScannerImpl$PrologDriver.next(XMLDocumentScannerImpl.java:1014) ~[?:?]
+	at com.sun.org.apache.xerces.internal.impl.XMLDocumentScannerImpl.next(XMLDocumentScannerImpl.java:602) ~[?:?]
+	at com.sun.org.apache.xerces.internal.impl.XMLDocumentFragmentScannerImpl.scanDocument(XMLDocumentFragmentScannerImpl.java:505) ~[?:?]
+	at com.sun.org.apache.xerces.internal.parsers.XML11Configuration.parse(XML11Configuration.java:842) ~[?:?]
+	at com.sun.org.apache.xerces.internal.parsers.XML11Configuration.parse(XML11Configuration.java:771) ~[?:?]
+	at com.sun.org.apache.xerces.internal.parsers.XMLParser.parse(XMLParser.java:141) ~[?:?]
+	at com.sun.org.apache.xerces.internal.parsers.AbstractSAXParser.parse(AbstractSAXParser.java:1213) ~[?:?]
+	at com.sun.org.apache.xerces.internal.jaxp.SAXParserImpl$JAXPSAXParser.parse(SAXParserImpl.java:643) ~[?:?]
+	at com.sun.org.apache.xerces.internal.jaxp.SAXParserImpl.parse(SAXParserImpl.java:327) ~[?:?]
+	at org.eclipse.smarthome.binding.homematic.internal.communicator.message.XmlRpcResponse.<init>(XmlRpcResponse.java:52) ~[212:org.eclipse.smarthome.binding.homematic:0.10.0.oh240]
+	at org.eclipse.smarthome.binding.homematic.internal.communicator.server.XmlRpcServer$ResponseHandler.handle(XmlRpcServer.java:122) [212:org.eclipse.smarthome.binding.homematic:0.10.0.oh240]
+	at org.eclipse.jetty.server.handler.HandlerWrapper.handle(HandlerWrapper.java:132) [84:org.eclipse.jetty.server:9.4.11.v20180605]
+	at org.eclipse.jetty.server.Server.handle(Server.java:531) [84:org.eclipse.jetty.server:9.4.11.v20180605]
+	at org.eclipse.jetty.server.HttpChannel.handle(HttpChannel.java:407) [84:org.eclipse.jetty.server:9.4.11.v20180605]
+	at org.eclipse.jetty.server.HttpConnection.onFillable(HttpConnection.java:260) [84:org.eclipse.jetty.server:9.4.11.v20180605]
+	at org.eclipse.jetty.io.AbstractConnection$ReadCallback.succeeded(AbstractConnection.java:281) [75:org.eclipse.jetty.io:9.4.11.v20180605]
+	at org.eclipse.jett
+``
+Move to https://github.com/openhab/openhab2-addons/issues/5725
+
+ XmlRpcServer - Vorzeitiges Dateiende
+ Hey there. I get very frequent warnings (around every 3 mins) and errors on my homematic binding (between openhab and CCU2). I simply cannot solve this. I think this results in my system being rather unstable (crashes every few days). Any ideas? Thanks a lot.
+
+`22:59:07.297 [WARN ] [org.eclipse.jetty.server.HttpChannel ] - /
+java.lang.ClassCastException: java.lang.String cannot be cast to java.util.Map
+        at org.eclipse.smarthome.binding.homematic.internal.communicator.server.RpcResponseHandler.handleMethodCall(RpcResponseHandler.java:64) ~[?:?]
+        at org.eclipse.smarthome.binding.homematic.internal.communicator.server.XmlRpcServer$ResponseHandler.handle(XmlRpcServer.java:126) ~[?:?]
+        at org.eclipse.jetty.server.handler.HandlerWrapper.handle(HandlerWrapper.java:132) ~[84:org.eclipse.jetty.server:9.4.11.v20180605]
+        at org.eclipse.jetty.server.Server.handle(Server.java:531) ~[84:org.eclipse.jetty.server:9.4.11.v20180605]
+        at org.eclipse.jetty.server.HttpChannel.handle(HttpChannel.java:352) [84:org.eclipse.jetty.server:9.4.11.v20180605]
+        at org.eclipse.jetty.server.HttpConnection.onFillable(HttpConnection.java:260) [84:org.eclipse.jetty.server:9.4.11.v20180605]
+        at org.eclipse.jetty.io.AbstractConnection$ReadCallback.succeeded(AbstractConnection.java:281) [75:org.eclipse.jetty.io:9.4.11.v20180605]
+        at org.eclipse.jetty.io.FillInterest.fillable(FillInterest.java:102) [75:org.eclipse.jetty.io:9.4.11.v20180605]
+        at org.eclipse.jetty.io.ChannelEndPoint$2.run(ChannelEndPoint.java:118) [75:org.eclipse.jetty.io:9.4.11.v20180605]
+        at org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.runTask(EatWhatYouKill.java:333) [87:org.eclipse.jetty.util:9.4.11.v20180605]
+        at org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.doProduce(EatWhatYouKill.java:310) [87:org.eclipse.jetty.util:9.4.11.v20180605]
+        at org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.tryProduce(EatWhatYouKill.java:168) [87:org.eclipse.jetty.util:9.4.11.v20180605]
+        at org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.run(EatWhatYouKill.java:126) [87:org.eclipse.jetty.util:9.4.11.v20180605]
+        at org.eclipse.jetty.util.thread.ReservedThreadExecutor$ReservedThread.run(ReservedThreadExecutor.java:366) [87:org.eclipse.jetty.util:9.4.11.v20180605]
+        at org.eclipse.jetty.util.thread.QueuedThreadPool.runJob(QueuedThreadPool.java:762) [87:org.eclipse.jetty.util:9.4.11.v20180605]
+        at org.eclipse.jetty.util.thread.QueuedThreadPool$2.run(QueuedThreadPool.java:680) [87:org.eclipse.jetty.util:9.4.11.v20180605]
+        at java.lang.Thread.run(Thread.java:748) [?:?]`
+
+`22:59:07.316 [ERROR] [rnal.communicator.server.XmlRpcServer] - Vorzeitiges Dateiende.
+org.xml.sax.SAXParseException: Vorzeitiges Dateiende.
+        at com.sun.org.apache.xerces.internal.util.ErrorHandlerWrapper.createSAXParseException(ErrorHandlerWrapper.java:203) ~[?:?]
+        at com.sun.org.apache.xerces.internal.util.ErrorHandlerWrapper.fatalError(ErrorHandlerWrapper.java:177) ~[?:?]
+        at com.sun.org.apache.xerces.internal.impl.XMLErrorReporter.reportError(XMLErrorReporter.java:400) ~[?:?]
+        at com.sun.org.apache.xerces.internal.impl.XMLErrorReporter.reportError(XMLErrorReporter.java:327) ~[?:?]
+        at com.sun.org.apache.xerces.internal.impl.XMLScanner.reportFatalError(XMLScanner.java:1472) ~[?:?]
+        at com.sun.org.apache.xerces.internal.impl.XMLDocumentScannerImpl$PrologDriver.next(XMLDocumentScannerImpl.java:1014) ~[?:?]
+        at com.sun.org.apache.xerces.internal.impl.XMLDocumentScannerImpl.next(XMLDocumentScannerImpl.java:602) ~[?:?]
+        at com.sun.org.apache.xerces.internal.impl.XMLDocumentFragmentScannerImpl.scanDocument(XMLDocumentFragmentScannerImpl.java:505) ~[?:?]
+        at com.sun.org.apache.xerces.internal.parsers.XML11Configuration.parse(XML11Configuration.java:841) ~[?:?]
+        at com.sun.org.apache.xerces.internal.parsers.XML11Configuration.parse(XML11Configuration.java:770) ~[?:?]
+        at com.sun.org.apache.xerces.internal.parsers.XMLParser.parse(XMLParser.java:141) ~[?:?]
+        at com.sun.org.apache.xerces.internal.parsers.AbstractSAXParser.parse(AbstractSAXParser.java:1213) ~[?:?]
+        at com.sun.org.apache.xerces.internal.jaxp.SAXParserImpl$JAXPSAXParser.parse(SAXParserImpl.java:643) ~[?:?]
+        at com.sun.org.apache.xerces.internal.jaxp.SAXParserImpl.parse(SAXParserImpl.java:327) ~[?:?]
+        at org.eclipse.smarthome.binding.homematic.internal.communicator.message.XmlRpcResponse.<init>(XmlRpcResponse.java:52) ~[222:org.eclipse.smarthome.binding.homematic:0.10.0.oh240]
+        at org.eclipse.smarthome.binding.homematic.internal.communicator.server.XmlRpcServer$ResponseHandler.handle(XmlRpcServer.java:122) [222:org.eclipse.smarthome.binding.homematic:0.10.0.oh240]
+        at org.eclipse.jetty.server.handler.HandlerWrapper.handle(HandlerWrapper.java:132) [84:org.eclipse.jetty.server:9.4.11.v20180605]
+        at org.eclipse.jetty.server.Server.handle(Server.java:531) [84:org.eclipse.jetty.server:9.4.11.v20180605]
+        at org.eclipse.jetty.server.HttpChannel.handle(HttpChannel.java:407) [84:org.eclipse.jetty.server:9.4.11.v20180605]
+        at org.eclipse.jetty.server.HttpConnection.onFillable(HttpConnection.java:260) [84:org.eclipse.jetty.server:9.4.11.v20180605]
+        at org.eclipse.jetty.io.AbstractConnection$ReadCallback.succeeded(AbstractConnection.java:281) [75:org.eclipse.jetty.io:9.4.11.v20180605]
+        at org.eclipse.jetty.io.FillInterest.fillable(FillInterest.java:102) [75:org.eclipse.jetty.io:9.4.11.v20180605]
+        at org.eclipse.jetty.io.ChannelEndPoint$2.run(ChannelEndPoint.java:118) [75:org.eclipse.jetty.io:9.4.11.v20180605]
+        at org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.runTask(EatWhatYouKill.java:333) [87:org.eclipse.jetty.util:9.4.11.v20180605]
+        at org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.doProduce(EatWhatYouKill.java:310) [87:org.eclipse.jetty.util:9.4.11.v20180605]
+        at org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.tryProduce(EatWhatYouKill.java:168) [87:org.eclipse.jetty.util:9.4.11.v20180605]
+        at org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.run(EatWhatYouKill.java:126) [87:org.eclipse.jetty.util:9.4.11.v20180605]
+        at org.eclipse.jetty.util.thread.ReservedThreadExecutor$ReservedThread.run(ReservedThreadExecutor.java:366) [87:org.eclipse.jetty.util:9.4.11.v20180605]
+        at org.eclipse.jetty.util.thread.QueuedThreadPool.runJob(QueuedThreadPool.java:762) [87:org.eclipse.jetty.util:9.4.11.v20180605]
+        at org.eclipse.jetty.util.thread.QueuedThreadPool$2.run(QueuedThreadPool.java:680) [87:org.eclipse.jetty.util:9.4.11.v20180605]
+        at java.lang.Thread.run(Thread.java:748) [?:?]`
+Please see https://github.com/eclipse/smarthome/pull/6883
+
+ [UoM] Absolute vs. Relative Temperature
+ There was a discussion prior to https://github.com/unitsofmeasurement/indriya/issues/128 around absolute/relative `Temperature` values and how SmarHome should handle them. So far this was done in an application-specific way. JSR 385 (Units of Measurement 2.0) does provide a `Quantity` `Scale` that can be either `ABSOLUTE` or `RELATIVE`, but no implementation-specific operations are applied yet. It is not so easy, because the type `Temperature` cannot be kept hold of in Java due to Generics restrictions. 
+What was done in SmartHome so far, and is there a branch or class we could use as inspiration for something that might work in a more general purpose manner? Or do you feel it's better to leave it up to individual solutions to react based on the new scale?
+Please see https://github.com/eclipse/smarthome/pull/6883
+
+@maggu2810 Sorry to hear the project may be archived or discontinued. We know, there is no demand from your side then or no resources to apply any changes including a 2.0 upgrade ;-/
+
+This project is not continued anymore but the whole codebase has been migrated to openHAB and is further maintained at that place. So UoM is still a topic just for another project name.
+
+Ok, does that mean there's also no more Eclipse SmartHome day at ECE since it looks like it's discontinued at Eclipse IoT?
+
+I assume this question can be answered by @kaikreuzer 
+
+That's unfortunately very likely that there won't be a Smart Home Day at ECE - at least there is no such plan nor any sponsor for it yet...
+
+Sorry to hear. I also pointed to the question about temperature calculations in the OpenHab tracker, and OpenHAB is also a downstream repo for Unit-API: https://github.com/unitsofmeasurement/unit-api/network/dependents. 
+
+ FR: BasicUI: Sort group items by item label
+ Hi, I am quite happy with the Basic UI in general... However, it would be great if group items would be ordered by label by default. 
+
+Supporting sorting by any property would be even better (I have seen a forum entry where somebody wanted to sort a group of 100 items by battery level), but label should be a very good starting point / default.
+
+
+
+
+See #6883. For openHAB UIs, you want this... https://github.com/openhab/openhab-webui/issues.
+
+Thanks for the pointer!
+
+p.s. Wouldn't be bad to have this on the eclipse/smarhome page
+
+
+ Update README.md with format, NaN documentation
+ 
+  [Bug] Rule Engine - enable/disable rules
+ The Rule Engine within Version 2.4 and 2.5 (also within beta releases of 2.5) does not properly reenable Rules.
+
+Expected Behavior
+
+If a Rule is disabled and reenabled through another rule it should be active and working.
+
+Current Behavior
+
+#6883. ESH is no longer maintained, and has been reintegrated into openhab-core. Please open an issue in that repo, but check to see if this has already been reported.
+
+ Javadoc outdated (again)
+ The Javadoc on the [web site](https://www.eclipse.org/smarthome/documentation/javadoc/index.html) is still for 0.9 while the current version seems to be 0.10.
+Hm, as this project is not maintained anymore and has been migrated to openHAB Core ...
+... does it matter?
+
+Mmh, I didn't know. Could you provide me with a pointer how the project is structured by now? Is the statement that ["OpenHAB is an Eclipse SmartHome based project"](https://www.heise.de/developer/artikel/Episode-57-openHAB-und-Eclipse-SmartHome-4001692.html) no longer true? The [Eclipse SmartHome Website](https://www.eclipse.org/smarthome/) does not mention that is has been given up as base.
+
+See #6883
+I assume the links contains the information you need.
+
+Thanks.
+
+ Oomph Setup Install Fails
+ Following the instructions on how to setup a SmartHome development environment (https://www.eclipse.org/smarthome/documentation/development/ide.html) has started failing for me in the past week (it worked without issue before).
+I've reattempted this after deleting .eclipse, .p2, and .maven
+Also reproduced this same error in a clean vagrant environment.
+This has only recently stopped working, I suspect the issue is with some kind of a remote update, but don't know eclipse well enough to troubleshoot further.
+
+The error message I get:
+```
+Calculating requirements and dependencies.
+Cannot complete the request.  Generating details.
+ERROR: org.eclipse.equinox.p2.director code=10054 Cannot complete the install because of a conflicting dependency.
+  at org.eclipse.oomph.util.OomphPlugin.coreException(OomphPlugin.java:280)
+  at org.eclipse.oomph.p2.internal.core.ProfileTransactionImpl.resolve(ProfileTransactionImpl.java:425)
+  at org.eclipse.oomph.p2.internal.core.ProfileTransactionImpl.commit(ProfileTransactionImpl.java:337)
+  at org.eclipse.oomph.setup.p2.impl.P2TaskImpl.perform(P2TaskImpl.java:733)
+  at org.eclipse.oomph.setup.internal.core.SetupTaskPerformer.doPerformNeededSetupTasks(SetupTaskPerformer.java:3335)
+  at org.eclipse.oomph.setup.internal.core.SetupTaskPerformer.performNeededSetupTasks(SetupTaskPerformer.java:3263)
+  at org.eclipse.oomph.setup.internal.core.SetupTaskPerformer.performTriggeredSetupTasks(SetupTaskPerformer.java:3244)
+  at org.eclipse.oomph.setup.internal.core.SetupTaskPerformer.perform(SetupTaskPerformer.java:3144)
+  at org.eclipse.oomph.setup.ui.wizards.ProgressPage$9.run(ProgressPage.java:575)
+  at org.eclipse.oomph.setup.ui.wizards.ProgressPage$11$1.run(ProgressPage.java:701)
+  at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+  ERROR: org.eclipse.equinox.p2.director code=0 Software being installed: artificial_root 1.0.0.v1553268619475
+  ERROR: org.eclipse.equinox.p2.director code=1 Only one of the following can be installed at once: 
+    ERROR: org.eclipse.equinox.p2.director code=0 Object Teams Development Tooling Core 3.17.0.OTDT_r273_201903120955 (org.eclipse.jdt.core 3.17.0.OTDT_r273_201903120955)
+    ERROR: org.eclipse.equinox.p2.director code=0 Java Development Tools Core 3.14.0.xx-201903212139-e48 (org.eclipse.jdt.core 3.14.0.xx-201903212139-e48)
+    ERROR: org.eclipse.equinox.p2.director code=0 Java Development Tools Core 3.17.0.v20190306-2240 (org.eclipse.jdt.core 3.17.0.v20190306-2240)
+    ERROR: org.eclipse.equinox.p2.director code=0 Java Development Tools Core 3.14.0.v20180528-0519 (org.eclipse.jdt.core 3.14.0.v20180528-0519)
+    ERROR: org.eclipse.equinox.p2.director code=0 Object Teams Development Tooling Core 3.14.0.OTDT_r270_201806120901 (org.eclipse.jdt.core 3.14.0.OTDT_r270_201806120901)
+  ERROR: org.eclipse.equinox.p2.director code=1 Only one of the following can be installed at once: 
+    ERROR: org.eclipse.equinox.p2.director code=0 Log View 1.2.200.v20180512-1206 (org.eclipse.ui.views.log 1.2.200.v20180512-1206)
+    ERROR: org.eclipse.equinox.p2.director code=0 Log View 1.2.500.v20190218-0617 (org.eclipse.ui.views.log 1.2.500.v20190218-0617)
+  ERROR: org.eclipse.equinox.p2.director code=1 Cannot satisfy dependency:
+    ERROR: org.eclipse.equinox.p2.director code=0 From: artificial_root 1.0.0.v1553268619475
+    ERROR: org.eclipse.equinox.p2.director code=0 To: org.eclipse.equinox.p2.iu; org.codehaus.groovy.eclipse.feature.feature.group 0.0.0
+  ERROR: org.eclipse.equinox.p2.director code=1 Cannot satisfy dependency:
+    ERROR: org.eclipse.equinox.p2.director code=0 From: artificial_root 1.0.0.v1553268619475
+    ERROR: org.eclipse.equinox.p2.director code=0 To: org.eclipse.equinox.p2.iu; org.eclipse.pde.feature.group 0.0.0
+  ERROR: org.eclipse.equinox.p2.director code=1 Cannot satisfy dependency:
+    ERROR: org.eclipse.equinox.p2.director code=0 From: artificial_root 1.0.0.v1553268619475
+    ERROR: org.eclipse.equinox.p2.director code=0 To: org.eclipse.equinox.p2.iu; org.eclipse.platform.feature.group [4.11.0,5.0.0)
+  ERROR: org.eclipse.equinox.p2.director code=1 Cannot satisfy dependency:
+    ERROR: org.eclipse.equinox.p2.director code=0 From: Groovy-Eclipse Compilerless feature 3.3.0.xx-201903212139-e48 (org.codehaus.groovy.compilerless.feature.feature.group 3.3.0.xx-201903212139-e48)
+    ERROR: org.eclipse.equinox.p2.director code=0 To: org.eclipse.equinox.p2.iu; org.codehaus.groovy.headless.feature.feature.group [3.3.0.xx-201903212139-e48,3.3.0.xx-201903212139-e48]
+  ERROR: org.eclipse.equinox.p2.director code=1 Cannot satisfy dependency:
+    ERROR: org.eclipse.equinox.p2.director code=0 From: Eclipse Groovy Development Tools 3.3.0.xx-201903212139-e48 (org.codehaus.groovy.eclipse.feature.feature.group 3.3.0.xx-201903212139-e48)
+    ERROR: org.eclipse.equinox.p2.director code=0 To: org.eclipse.equinox.p2.iu; org.codehaus.groovy.compilerless.feature.feature.group [3.3.0.xx-201903212139-e48,3.3.0.xx-201903212139-e48]
+  ERROR: org.eclipse.equinox.p2.director code=1 Cannot satisfy dependency:
+    ERROR: org.eclipse.equinox.p2.director code=0 From: Groovy-Eclipse Headless feature 3.3.0.xx-201903212139-e48 (org.codehaus.groovy.headless.feature.feature.group 3.3.0.xx-201903212139-e48)
+    ERROR: org.eclipse.equinox.p2.director code=0 To: org.eclipse.equinox.p2.iu; org.codehaus.groovy.jdt.patch.feature.group [3.3.0.xx-201903212139-e48,3.3.0.xx-201903212139-e48]
+  ERROR: org.eclipse.equinox.p2.director code=1 Cannot satisfy dependency:
+    ERROR: org.eclipse.equinox.p2.director code=0 From: JDI Debug UI 3.10.200.v20190226-0733 (org.eclipse.jdt.debug.ui 3.10.200.v20190226-0733)
+    ERROR: org.eclipse.equinox.p2.director code=0 To: osgi.bundle; org.eclipse.jdt.core [3.15.0,4.0.0)
+  ERROR: org.eclipse.equinox.p2.director code=1 Cannot satisfy dependency:
+    ERROR: org.eclipse.equinox.p2.director code=0 From: Eclipse Java Development Tools 3.17.0.v20190307-0500 (org.eclipse.jdt.feature.group 3.17.0.v20190307-0500)
+    ERROR: org.eclipse.equinox.p2.director code=0 To: org.eclipse.equinox.p2.iu; org.eclipse.jdt.debug.ui [3.10.200.v20190226-0733,3.10.200.v20190226-0733]
+  ERROR: org.eclipse.equinox.p2.director code=1 Cannot satisfy dependency:
+    ERROR: org.eclipse.equinox.p2.director code=0 From: Eclipse Plug-in Development Environment 3.13.100.v20180611-0826 (org.eclipse.pde.feature.group 3.13.100.v20180611-0826)
+    ERROR: org.eclipse.equinox.p2.director code=0 To: org.eclipse.equinox.p2.iu; org.eclipse.ui.views.log [1.2.200.v20180512-1206,1.2.200.v20180512-1206]
+  ERROR: org.eclipse.equinox.p2.director code=1 Cannot satisfy dependency:
+    ERROR: org.eclipse.equinox.p2.director code=0 From: Eclipse Plug-in Development Environment 3.13.400.v20190307-0943 (org.eclipse.pde.feature.group 3.13.400.v20190307-0943)
+    ERROR: org.eclipse.equinox.p2.director code=0 To: org.eclipse.equinox.p2.iu; org.eclipse.jdt.feature.group [3.15.0,4.0.0)
+  ERROR: org.eclipse.equinox.p2.director code=1 Cannot satisfy dependency:
+    ERROR: org.eclipse.equinox.p2.director code=0 From: Eclipse Platform 4.11.0.v20190307-0500 (org.eclipse.platform.feature.group 4.11.0.v20190307-0500)
+    ERROR: org.eclipse.equinox.p2.director code=0 To: org.eclipse.equinox.p2.iu; org.eclipse.ui.views.log [1.2.500.v20190218-0617,1.2.500.v20190218-0617]
+  ERROR: org.eclipse.equinox.p2.director code=1 Cannot satisfy dependency:
+    ERROR: org.eclipse.equinox.p2.director code=0 From Patch: org.codehaus.groovy.jdt.patch.feature.group 3.3.0.xx-201903212139-e48 Eclipse Java Development Tools 3.17.0.v20190307-0500 (org.eclipse.jdt.feature.group 3.17.0.v20190307-0500)
+    ERROR: org.eclipse.equinox.p2.director code=0 To: org.eclipse.equinox.p2.iu; org.eclipse.jdt.core [3.14.0.xx-201903212139-e48,3.14.0.xx-201903212139-e48]
+```
+
+
+Host System: Ubuntu 16.04
+Apache Maven 3.3.9
+OpenJDK-8 8u191-b12-2ubuntu0.16.04.1
+Take a look at the link in #6883. The openHAB project reintegrated ESH into [openhab-core](https://github.com/openhab/openhab-core) and have continued development.
+
+Got it, thanks for the fast reply.  My oversight, will close issue.
+
+ [lsp] Inline validation works only using drive letter
+ OS: windows 10
+VSCode: 1.32.1
+openHAB Extension: 0.4.1 (latest)
+openHAB: 2.4.0 Release Build
+
+mapping openhab server "conf" folder (exported via SMB) to local drive letter the syntax validation working:
+e.g.
+Y:\conf  (drive mapped from \\\\openhabpi\\openhab240)
+
+
+using UNC path directly on same openhab SMB share does **not** work
+e.g.:
+\\\\openhabpi\\openhab240\\conf
+
+this is very irritating and a blocker for newbies because there is no hint or note that UNC SMB path is not supported (even you are able to edit the rules files)
+
+
+see also
+https://github.com/eclipse/smarthome/issues/6430
+@hpd96, OH reintegrated ESH into openhab-core, so your issue here will be overlooked and should be recreated in one of the OH repos. It sounds like you are requesting a documentation update... https://github.com/openhab/openhab-docs, or possibly a change to the VS Code extension... https://github.com/openhab/openhab-vscode. Hope this helps!
+
+duplicate of https://github.com/eclipse/smarthome/issues/6611
+
+ Proposal: Transformation Parameters
+ It would be benefital if one could provide optional parameters to transformations. This might be a default value for transformations that might fail or a context. The latter one could come especially handy in the JS transformation. If an additional parameter could be provided, one could simply reuse chunks of code that behave similar without the need for massive redundancy.
+
+Seems to me (without being too much into it, sorry if I'm wrong) that [this signature](https://github.com/eclipse/smarthome/blob/f2a1f38/bundles/core/org.eclipse.smarthome.core.transform/src/main/java/org/eclipse/smarthome/core/transform/TransformationService.java#L51) might be a showstopper for this.
+This project is abandoned
+

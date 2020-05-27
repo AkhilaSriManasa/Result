@@ -1,0 +1,95 @@
+﻿ Merge pull request #162 from eclipse/develop
+
+BugFix of #149 and #151
+ Bugfix of test
+
+Signed-off-by: tomoaki <tomoaki@tomy-tech.com>
+ Update a errata of README
+
+Signed-off-by: tomoaki <tomoaki@tomy-tech.com>
+ Update README
+
+Add Tips for Debug
+Delete unused define
+
+Signed-off-by: tomoaki <tomoaki@tomy-tech.com>
+ BugFix of #149
+
+Signed-off-by: tomoaki <tomoaki@tomy-tech.com>
+ Update README
+
+Signed-off-by: tomoaki <tomoaki@tomy-tech.com>
+ BugFix of #151
+
+Signed-off-by: tomoaki <tomoaki@tomy-tech.com>
+ Errata Sensernet Address of UDP is IPAdress:PortNo
+
+Signed-off-by: tomoaki <tomoaki@tomy-tech.com>
+ update README
+
+Signed-off-by: tomoaki <tomoaki@tomy-tech.com>
+ update README
+
+Signed-off-by: tomoaki <tomoaki@tomy-tech.com>
+ Improve documentation #145
+Signed-off-by: tomoaki <tomoaki@tomy-tech.com>
+ Merge pull request #143 from eclipse/develop
+
+Add functions of Aggregating Gateway, QoS-1 and forwarder encapsulation.
+ Update READ.me
+
+MQTT-SN transparent Gateway to transparent/aggrigating gateway.
+
+
+Signed-off-by: tomoaki <tomoaki@tomy-tech.com>
+ Refacter the MQTT-SN Packet printf()
+
+Signed-off-by: tomoaki <tomoaki@tomy-tech.com>
+ Update README.md
+ Update README.md
+ Update: Add MQTT-SN message length to the Gateway log.
+
+Signed-off-by: tomoaki <tomoaki@tomy-tech.com>
+ Do not discard PUBLISH message while the client is sleeping.
+
+Signed-off-by: tomoaki <tomoaki@tomy-tech.com>
+ BugFix Subscribe pre\defined\topic #132
+
+Signed-off-by: tomoaki <tomoaki@tomy-tech.com>
+ Change Commom ClientID of predifinedTopic.conf to '*' #132
+
+Signed-off-by: tomoaki <tomoaki@tomy-tech.com>
+ Update for Issue #132
+
+Signed-off-by: tomoaki <tomoaki@tomy-tech.com>
+ Merge pull request #130 from eclipse/develop
+
+Install the gateway into any directories. #124
+ Install the gateway into any directory. #124
+
+Signed-off-by: tomoaki <tomoaki@tomy-tech.com>
+ #129
+
+Signed-off-by: tomoaki <tomoaki@tomy-tech.com>
+ Compile Errors #68
+
+Signed-off-by: tomoaki <tomoaki@tomy-tech.com>
+ Bugfix of #68
+
+Signed-off-by: tomoaki <tomoaki@tomy-tech.com>
+ Merge pull request #128 from eclipse/develop
+
+You can select Aggregate or Transparent gateway in the config file setting.
+ Generate the QoSm1Proxy Name from the Gateway Id.
+
+Bugfix of AggregatePublish
+Memory leak of ClientList
+
+Signed-off-by: tomoaki <tomoaki@tomy-tech.com>
+ Forwerders are declared by the ClientList file.
+
+
+Signed-off-by: tomoaki <tomoaki@tomy-tech.com>
+ BugFix: resource leak
+
+Signed-off-by: tomoaki <tomoaki@tomy-tech.com>

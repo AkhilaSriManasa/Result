@@ -1,0 +1,68 @@
+﻿NUMTopics = 2
+(0, '0.004*"filter" + 0.004*"action" + 0.004*"issue" + 0.004*"see" + 0.004*"would" + 0.004*"method" + 0.004*"work" + 0.004*"name" + 0.004*"codehaack" + 0.004*"email"')
+(1, '0.035*"filter" + 0.030*"action" + 0.013*"see" + 0.013*"issue" + 0.012*"work" + 0.012*"would" + 0.011*"value" + 0.011*"thank" + 0.011*"codehaack" + 0.011*"name"')
+
+------------------------
+NUMTopics = 3
+(0, '0.004*"filter" + 0.004*"action" + 0.004*"see" + 0.004*"role" + 0.004*"mvc" + 0.004*"could" + 0.004*"name" + 0.004*"method" + 0.004*"issue" + 0.004*"thank"')
+(1, '0.004*"filter" + 0.004*"action" + 0.004*"value" + 0.004*"see" + 0.004*"mvc" + 0.004*"bind" + 0.004*"thank" + 0.004*"use" + 0.004*"problem" + 0.004*"name"')
+(2, '0.037*"filter" + 0.032*"action" + 0.014*"issue" + 0.014*"see" + 0.013*"work" + 0.013*"would" + 0.011*"codehaack" + 0.011*"name" + 0.011*"thank" + 0.011*"value"')
+
+------------------------
+NUMTopics = 4
+(0, '0.004*"filter" + 0.004*"action" + 0.004*"see" + 0.004*"role" + 0.004*"could" + 0.004*"mvc" + 0.004*"model" + 0.004*"thank" + 0.004*"issue" + 0.004*"name"')
+(1, '0.004*"action" + 0.004*"filter" + 0.004*"value" + 0.004*"see" + 0.004*"thank" + 0.004*"mvc" + 0.004*"would" + 0.004*"model" + 0.004*"problem" + 0.004*"work"')
+(2, '0.036*"filter" + 0.027*"action" + 0.017*"value" + 0.017*"role" + 0.017*"mvc" + 0.013*"work" + 0.013*"model" + 0.013*"see" + 0.012*"could" + 0.012*"use"')
+(3, '0.034*"filter" + 0.034*"action" + 0.025*"issue" + 0.017*"codehaack" + 0.017*"method" + 0.014*"see" + 0.014*"would" + 0.014*"email" + 0.014*"haacke" + 0.014*"reply"')
+
+------------------------
+NUMTopics = 5
+(0, '0.004*"filter" + 0.004*"action" + 0.004*"see" + 0.004*"role" + 0.004*"mvc" + 0.004*"could" + 0.004*"model" + 0.004*"thank" + 0.004*"work" + 0.004*"would"')
+(1, '0.004*"action" + 0.004*"filter" + 0.004*"value" + 0.004*"see" + 0.004*"mvc" + 0.004*"thank" + 0.004*"use" + 0.004*"bind" + 0.004*"model" + 0.004*"work"')
+(2, '0.037*"filter" + 0.028*"action" + 0.018*"value" + 0.018*"role" + 0.018*"mvc" + 0.013*"work" + 0.013*"see" + 0.013*"model" + 0.013*"could" + 0.013*"use"')
+(3, '0.035*"filter" + 0.035*"action" + 0.026*"issue" + 0.018*"codehaack" + 0.018*"method" + 0.015*"see" + 0.015*"email" + 0.015*"would" + 0.015*"thing" + 0.015*"haacke"')
+(4, '0.005*"filter" + 0.005*"action" + 0.004*"issue" + 0.004*"name" + 0.004*"would" + 0.004*"see" + 0.004*"codehaack" + 0.004*"work" + 0.004*"thank" + 0.004*"directly"')
+
+------------------------
+NUMTopics = 6
+(0, '0.004*"filter" + 0.004*"action" + 0.004*"role" + 0.004*"see" + 0.004*"mvc" + 0.004*"could" + 0.004*"model" + 0.004*"thank" + 0.004*"work" + 0.004*"value"')
+(1, '0.004*"filter" + 0.004*"action" + 0.004*"value" + 0.004*"mvc" + 0.004*"use" + 0.004*"role" + 0.004*"see" + 0.004*"could" + 0.004*"model" + 0.004*"bind"')
+(2, '0.038*"filter" + 0.028*"action" + 0.018*"value" + 0.018*"role" + 0.018*"mvc" + 0.013*"work" + 0.013*"see" + 0.013*"could" + 0.013*"model" + 0.013*"use"')
+(3, '0.036*"filter" + 0.036*"action" + 0.027*"issue" + 0.018*"method" + 0.018*"codehaack" + 0.015*"see" + 0.015*"email" + 0.015*"would" + 0.015*"thing" + 0.015*"haacke"')
+(4, '0.005*"filter" + 0.004*"action" + 0.004*"issue" + 0.004*"name" + 0.004*"would" + 0.004*"codehaack" + 0.004*"see" + 0.004*"directly" + 0.004*"thank" + 0.004*"reply"')
+(5, '0.004*"filter" + 0.004*"action" + 0.004*"see" + 0.004*"issue" + 0.004*"work" + 0.004*"name" + 0.004*"view" + 0.004*"thank" + 0.004*"haacke" + 0.004*"codehaack"')
+
+------------------------
+NUMTopics = 7
+(0, '0.004*"filter" + 0.004*"role" + 0.004*"mvc" + 0.004*"action" + 0.004*"could" + 0.004*"see" + 0.004*"value" + 0.004*"model" + 0.004*"thank" + 0.004*"problem"')
+(1, '0.004*"filter" + 0.004*"action" + 0.004*"value" + 0.004*"mvc" + 0.004*"thank" + 0.004*"see" + 0.004*"role" + 0.004*"bind" + 0.004*"use" + 0.004*"work"')
+(2, '0.005*"filter" + 0.005*"action" + 0.004*"work" + 0.004*"issue" + 0.004*"would" + 0.004*"thank" + 0.004*"codehaack" + 0.004*"value" + 0.004*"call" + 0.004*"see"')
+(3, '0.005*"filter" + 0.004*"action" + 0.004*"see" + 0.004*"codehaack" + 0.004*"issue" + 0.004*"method" + 0.004*"would" + 0.004*"mvc" + 0.004*"email" + 0.004*"currdata"')
+(4, '0.036*"action" + 0.036*"filter" + 0.028*"issue" + 0.018*"codehaack" + 0.018*"method" + 0.016*"thing" + 0.015*"view" + 0.015*"directly" + 0.015*"https" + 0.015*"reply"')
+(5, '0.004*"filter" + 0.004*"action" + 0.004*"work" + 0.004*"issue" + 0.004*"see" + 0.004*"thank" + 0.004*"view" + 0.004*"name" + 0.004*"codehaack" + 0.004*"haacke"')
+(6, '0.039*"filter" + 0.029*"action" + 0.018*"value" + 0.018*"role" + 0.018*"mvc" + 0.013*"could" + 0.013*"see" + 0.013*"work" + 0.013*"model" + 0.013*"use"')
+
+------------------------
+NUMTopics = 8
+(0, '0.004*"filter" + 0.004*"role" + 0.004*"mvc" + 0.004*"action" + 0.004*"see" + 0.004*"could" + 0.004*"model" + 0.004*"value" + 0.004*"thank" + 0.004*"work"')
+(1, '0.004*"filter" + 0.004*"action" + 0.004*"value" + 0.004*"mvc" + 0.004*"see" + 0.004*"use" + 0.004*"thank" + 0.004*"bind" + 0.004*"role" + 0.004*"model"')
+(2, '0.005*"filter" + 0.005*"action" + 0.004*"work" + 0.004*"would" + 0.004*"value" + 0.004*"issue" + 0.004*"thank" + 0.004*"role" + 0.004*"call" + 0.004*"model"')
+(3, '0.005*"filter" + 0.004*"action" + 0.004*"issue" + 0.004*"codehaack" + 0.004*"see" + 0.004*"method" + 0.004*"would" + 0.004*"email" + 0.004*"thing" + 0.004*"name"')
+(4, '0.004*"filter" + 0.004*"action" + 0.004*"issue" + 0.004*"name" + 0.004*"would" + 0.004*"work" + 0.004*"codehaack" + 0.004*"see" + 0.004*"role" + 0.004*"thank"')
+(5, '0.004*"filter" + 0.004*"action" + 0.004*"issue" + 0.004*"work" + 0.004*"see" + 0.004*"view" + 0.004*"haacke" + 0.004*"thank" + 0.004*"directly" + 0.004*"codehaack"')
+(6, '0.039*"filter" + 0.029*"action" + 0.018*"value" + 0.018*"role" + 0.018*"mvc" + 0.013*"see" + 0.013*"model" + 0.013*"work" + 0.013*"could" + 0.013*"use"')
+(7, '0.037*"filter" + 0.037*"action" + 0.028*"issue" + 0.018*"codehaack" + 0.018*"method" + 0.015*"reply" + 0.015*"email" + 0.015*"would" + 0.015*"view" + 0.015*"see"')
+
+------------------------
+NUMTopics = 9
+(0, '0.004*"filter" + 0.004*"role" + 0.004*"mvc" + 0.004*"action" + 0.004*"see" + 0.004*"could" + 0.004*"model" + 0.004*"value" + 0.004*"thank" + 0.004*"work"')
+(1, '0.004*"filter" + 0.004*"action" + 0.004*"value" + 0.004*"mvc" + 0.004*"use" + 0.004*"role" + 0.004*"bind" + 0.004*"model" + 0.004*"see" + 0.004*"thank"')
+(2, '0.005*"filter" + 0.005*"action" + 0.004*"work" + 0.004*"would" + 0.004*"value" + 0.004*"issue" + 0.004*"thank" + 0.004*"role" + 0.004*"call" + 0.004*"see"')
+(3, '0.005*"filter" + 0.004*"action" + 0.004*"issue" + 0.004*"see" + 0.004*"codehaack" + 0.004*"method" + 0.004*"thing" + 0.004*"would" + 0.004*"email" + 0.004*"name"')
+(4, '0.004*"filter" + 0.004*"action" + 0.004*"issue" + 0.004*"name" + 0.004*"codehaack" + 0.004*"would" + 0.004*"see" + 0.004*"view" + 0.004*"directly" + 0.004*"thank"')
+(5, '0.004*"filter" + 0.004*"action" + 0.004*"work" + 0.004*"see" + 0.004*"issue" + 0.004*"name" + 0.004*"thank" + 0.004*"view" + 0.004*"haacke" + 0.004*"codehaack"')
+(6, '0.040*"filter" + 0.029*"action" + 0.019*"role" + 0.019*"mvc" + 0.019*"value" + 0.013*"see" + 0.013*"could" + 0.013*"model" + 0.013*"work" + 0.013*"use"')
+(7, '0.037*"filter" + 0.037*"action" + 0.028*"issue" + 0.019*"codehaack" + 0.019*"method" + 0.016*"see" + 0.016*"would" + 0.016*"reply" + 0.016*"email" + 0.016*"https"')
+(8, '0.005*"filter" + 0.004*"action" + 0.004*"issue" + 0.004*"would" + 0.004*"codehaack" + 0.004*"work" + 0.004*"haacke" + 0.004*"method" + 0.004*"directly" + 0.004*"email"')
+
+------------------------

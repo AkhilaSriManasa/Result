@@ -1,0 +1,68 @@
+﻿NUMTopics = 2
+(0, '0.087*"text" + 0.062*"branch" + 0.062*"license" + 0.062*"replace" + 0.062*"full" + 0.037*"changelogmd" + 0.037*"string" + 0.037*"tracking" + 0.037*"patch" + 0.037*"rollback"')
+(1, '0.132*"fix" + 0.051*"update" + 0.051*"minor" + 0.031*"branch" + 0.031*"merge" + 0.031*"remote" + 0.031*"tracking" + 0.030*"integrate" + 0.030*"intensity" + 0.030*"mode"')
+
+------------------------
+NUMTopics = 3
+(0, '0.028*"text" + 0.028*"license" + 0.028*"branch" + 0.028*"replace" + 0.028*"full" + 0.028*"changelogmd" + 0.028*"string" + 0.028*"patch" + 0.028*"rollback" + 0.028*"origin"')
+(1, '0.097*"fix" + 0.051*"text" + 0.051*"branch" + 0.036*"full" + 0.036*"remote" + 0.036*"replace" + 0.036*"merge" + 0.036*"update" + 0.036*"tracking" + 0.036*"license"')
+(2, '0.029*"fix" + 0.028*"minor" + 0.028*"update" + 0.028*"gravity" + 0.028*"appveyoryml" + 0.028*"add" + 0.028*"compile" + 0.028*"engine" + 0.028*"parameter" + 0.028*"code"')
+
+------------------------
+NUMTopics = 4
+(0, '0.028*"branch" + 0.028*"tracking" + 0.028*"text" + 0.028*"license" + 0.028*"remote" + 0.028*"merge" + 0.028*"replace" + 0.028*"changelogmd" + 0.028*"string" + 0.028*"patch"')
+(1, '0.104*"text" + 0.072*"branch" + 0.072*"full" + 0.072*"replace" + 0.072*"license" + 0.040*"remote" + 0.040*"tracking" + 0.040*"merge" + 0.040*"request" + 0.040*"string"')
+(2, '0.156*"fix" + 0.056*"minor" + 0.056*"update" + 0.031*"gravity" + 0.031*"appveyoryml" + 0.031*"add" + 0.031*"compile" + 0.031*"engine" + 0.031*"parameter" + 0.031*"code"')
+(3, '0.028*"license" + 0.028*"text" + 0.028*"replace" + 0.028*"branch" + 0.028*"patch" + 0.028*"full" + 0.028*"changelogmd" + 0.028*"accept" + 0.028*"rollback" + 0.028*"tracking"')
+
+------------------------
+NUMTopics = 5
+(0, '0.028*"text" + 0.028*"license" + 0.028*"branch" + 0.028*"replace" + 0.028*"changelogmd" + 0.028*"string" + 0.028*"full" + 0.028*"patch" + 0.028*"rollback" + 0.028*"origin"')
+(1, '0.110*"text" + 0.075*"full" + 0.075*"branch" + 0.075*"replace" + 0.075*"license" + 0.041*"accept" + 0.041*"merge" + 0.041*"remote" + 0.041*"request" + 0.041*"environment"')
+(2, '0.028*"branch" + 0.028*"merge" + 0.028*"tracking" + 0.028*"remote" + 0.028*"fix" + 0.028*"license" + 0.028*"text" + 0.028*"rollback" + 0.028*"patch" + 0.028*"replace"')
+(3, '0.028*"branch" + 0.028*"merge" + 0.028*"tracking" + 0.028*"remote" + 0.028*"license" + 0.028*"text" + 0.028*"replace" + 0.028*"patch" + 0.028*"fix" + 0.028*"accept"')
+(4, '0.162*"fix" + 0.058*"minor" + 0.058*"update" + 0.031*"file" + 0.031*"error" + 0.031*"screenshot" + 0.031*"appveyoryml" + 0.031*"integrate" + 0.031*"gravity" + 0.031*"mode"')
+
+------------------------
+NUMTopics = 6
+(0, '0.113*"text" + 0.077*"branch" + 0.077*"license" + 0.077*"replace" + 0.077*"full" + 0.042*"string" + 0.042*"changelogmd" + 0.042*"rollback" + 0.042*"tracking" + 0.042*"origin"')
+(1, '0.029*"text" + 0.028*"full" + 0.028*"branch" + 0.028*"replace" + 0.028*"license" + 0.028*"remote" + 0.028*"accept" + 0.028*"request" + 0.028*"merge" + 0.028*"environment"')
+(2, '0.028*"branch" + 0.028*"merge" + 0.028*"fix" + 0.028*"remote" + 0.028*"tracking" + 0.028*"text" + 0.028*"license" + 0.028*"replace" + 0.028*"accept" + 0.028*"request"')
+(3, '0.029*"text" + 0.028*"license" + 0.028*"replace" + 0.028*"branch" + 0.028*"full" + 0.028*"accept" + 0.028*"patch" + 0.028*"merge" + 0.028*"request" + 0.028*"environment"')
+(4, '0.167*"fix" + 0.059*"minor" + 0.059*"update" + 0.032*"file" + 0.032*"error" + 0.032*"screenshot" + 0.032*"appveyoryml" + 0.032*"mode" + 0.032*"unlitshader" + 0.032*"integrate"')
+(5, '0.028*"branch" + 0.028*"tracking" + 0.028*"merge" + 0.028*"remote" + 0.028*"replace" + 0.028*"fix" + 0.028*"text" + 0.028*"full" + 0.028*"license" + 0.028*"patch"')
+
+------------------------
+NUMTopics = 7
+(0, '0.028*"branch" + 0.028*"text" + 0.028*"tracking" + 0.028*"remote" + 0.028*"fix" + 0.028*"merge" + 0.028*"full" + 0.028*"license" + 0.028*"replace" + 0.028*"string"')
+(1, '0.028*"branch" + 0.028*"text" + 0.028*"fix" + 0.028*"full" + 0.028*"remote" + 0.028*"merge" + 0.028*"tracking" + 0.028*"replace" + 0.028*"license" + 0.028*"update"')
+(2, '0.028*"branch" + 0.028*"fix" + 0.028*"merge" + 0.028*"text" + 0.028*"remote" + 0.028*"tracking" + 0.028*"license" + 0.028*"replace" + 0.028*"full" + 0.028*"rollback"')
+(3, '0.116*"text" + 0.079*"license" + 0.079*"branch" + 0.079*"replace" + 0.079*"full" + 0.042*"environment" + 0.042*"patch" + 0.042*"merge" + 0.042*"rollback" + 0.042*"origin"')
+(4, '0.170*"fix" + 0.059*"minor" + 0.059*"update" + 0.032*"branch" + 0.032*"remote" + 0.032*"tracking" + 0.032*"merge" + 0.032*"file" + 0.032*"screenshot" + 0.032*"error"')
+(5, '0.028*"branch" + 0.028*"fix" + 0.028*"tracking" + 0.028*"replace" + 0.028*"text" + 0.028*"merge" + 0.028*"full" + 0.028*"remote" + 0.028*"update" + 0.028*"license"')
+(6, '0.028*"branch" + 0.028*"fix" + 0.028*"tracking" + 0.028*"remote" + 0.028*"replace" + 0.028*"text" + 0.028*"merge" + 0.028*"full" + 0.028*"license" + 0.028*"update"')
+
+------------------------
+NUMTopics = 8
+(0, '0.028*"text" + 0.028*"license" + 0.028*"branch" + 0.028*"replace" + 0.028*"changelogmd" + 0.028*"string" + 0.028*"full" + 0.028*"patch" + 0.028*"rollback" + 0.028*"origin"')
+(1, '0.118*"text" + 0.080*"full" + 0.080*"replace" + 0.080*"branch" + 0.080*"license" + 0.042*"accept" + 0.042*"request" + 0.042*"merge" + 0.042*"remote" + 0.042*"environment"')
+(2, '0.028*"branch" + 0.028*"fix" + 0.028*"license" + 0.028*"merge" + 0.028*"text" + 0.028*"replace" + 0.028*"remote" + 0.028*"tracking" + 0.028*"patch" + 0.028*"rollback"')
+(3, '0.028*"branch" + 0.028*"license" + 0.028*"text" + 0.028*"merge" + 0.028*"fix" + 0.028*"replace" + 0.028*"tracking" + 0.028*"minor" + 0.028*"patch" + 0.028*"update"')
+(4, '0.173*"fix" + 0.060*"minor" + 0.060*"update" + 0.032*"file" + 0.032*"gravity" + 0.032*"error" + 0.032*"unlitshader" + 0.032*"screenshot" + 0.032*"appveyoryml" + 0.032*"mode"')
+(5, '0.028*"branch" + 0.028*"fix" + 0.028*"replace" + 0.028*"patch" + 0.028*"tracking" + 0.028*"license" + 0.028*"text" + 0.028*"update" + 0.028*"merge" + 0.028*"changelogmd"')
+(6, '0.028*"fix" + 0.028*"branch" + 0.028*"replace" + 0.028*"tracking" + 0.028*"license" + 0.028*"text" + 0.028*"remote" + 0.028*"merge" + 0.028*"full" + 0.028*"rollback"')
+(7, '0.028*"fix" + 0.028*"branch" + 0.028*"replace" + 0.028*"merge" + 0.028*"license" + 0.028*"text" + 0.028*"changelogmd" + 0.028*"tracking" + 0.028*"remote" + 0.028*"minor"')
+
+------------------------
+NUMTopics = 9
+(0, '0.028*"branch" + 0.028*"fix" + 0.028*"text" + 0.028*"license" + 0.028*"tracking" + 0.028*"replace" + 0.028*"changelogmd" + 0.028*"string" + 0.028*"merge" + 0.028*"remote"')
+(1, '0.120*"text" + 0.081*"branch" + 0.081*"full" + 0.081*"replace" + 0.081*"license" + 0.043*"remote" + 0.043*"tracking" + 0.043*"merge" + 0.043*"request" + 0.043*"environment"')
+(2, '0.028*"fix" + 0.028*"branch" + 0.028*"text" + 0.028*"license" + 0.028*"merge" + 0.028*"replace" + 0.028*"tracking" + 0.028*"rollback" + 0.028*"patch" + 0.028*"remote"')
+(3, '0.028*"branch" + 0.028*"license" + 0.028*"text" + 0.028*"fix" + 0.028*"replace" + 0.028*"tracking" + 0.028*"merge" + 0.028*"minor" + 0.028*"update" + 0.028*"patch"')
+(4, '0.175*"fix" + 0.060*"update" + 0.060*"minor" + 0.032*"error" + 0.032*"remote" + 0.032*"tracking" + 0.032*"file" + 0.032*"appveyoryml" + 0.032*"screenshot" + 0.032*"gravity"')
+(5, '0.028*"branch" + 0.028*"fix" + 0.028*"replace" + 0.028*"update" + 0.028*"tracking" + 0.028*"text" + 0.028*"patch" + 0.028*"license" + 0.028*"minor" + 0.028*"changelogmd"')
+(6, '0.028*"fix" + 0.028*"branch" + 0.028*"replace" + 0.028*"tracking" + 0.028*"text" + 0.028*"license" + 0.028*"remote" + 0.028*"update" + 0.028*"merge" + 0.028*"full"')
+(7, '0.031*"fix" + 0.028*"minor" + 0.028*"update" + 0.028*"integrate" + 0.028*"code" + 0.028*"intensity" + 0.028*"config" + 0.028*"merge" + 0.028*"compile" + 0.028*"default"')
+(8, '0.028*"fix" + 0.028*"license" + 0.028*"text" + 0.028*"branch" + 0.028*"replace" + 0.028*"patch" + 0.028*"tracking" + 0.028*"minor" + 0.028*"merge" + 0.028*"update"')
+
+------------------------

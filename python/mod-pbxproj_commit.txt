@@ -1,0 +1,48 @@
+﻿ chore: fix codady links
+ chore: fix codacy links
+ chore: bump version 2.11.0
+ Merge pull request #277 from kronenthaler/optimization
+
+feat: add remove method to PBXBuildFile and PBXFileReference
+ test: improve code coverage
+ test: increase coverage
+ feat: add remove method to PBXBuildFile and PBXFileReference
+ Merge pull request #275 from kronenthaler/optimization
+
+Reduce lookup times while saving by syncing the data on the fly
+ refactor: remove dead code
+ refactor: fix small linting issues
+ test: increase coverage
+ feat: reduce lookup times while saving by syncing the data on the fly
+refactor: improve output compatibility with xcode output
+feat: optimize string formatting and removing redundancies
+ chore: add funding.yml
+ chore: use single label for stales issues
+ chore: update stale.yml
+ Update stale.yml
+ chore: test variable replacement
+ Update stale.yml
+ chore: add stale issue check and matrix test
+ chore: limiting the kind of issues that can be opened.
+ chore: update badges
+ chore: bump version 2.10.1
+ Merge pull request #268 from kronenthaler/github-actions
+
+chore: move to github actions
+ chore: move to github actions
+ chore: bump version to 2.10.0
+ Merge pull request #262 from petervdmeer/parent_cli_option
+
+Make parent option available on CLI when adding files
+ Added 3 unit-tests
+
+Added 3 unit-tests by copying the existing test and adding a Parent.
+ Remove redundant line
+ Apply suggestions from code review
+
+Apply fixes as suggested during review
+
+Co-Authored-By: Ignacio Calderon <kronenthaler@users.noreply.github.com>
+ Merge pull request #260 from kronenthaler/skip-file-from-targets-already-added
+
+fix: add_files with force false will ignore the targets where the file is present

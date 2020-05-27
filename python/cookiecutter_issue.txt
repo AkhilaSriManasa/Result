@@ -1,0 +1,270 @@
+﻿ Added: Example for conditional files / directories in hooks
+ fix https://github.com/cookiecutter/cookiecutter/issues/127#issuecomment-223635938
+@xyb Thank you for contribution.
+
+ feat: don't call Popen for python hooks
+ I want to run cookiecutter with untrusted templates.
+
+One way to do it is run cookiecutter in a sandbox environment such as the the ones in pypy, jython and ironpython.   In such sandbox, I can prevent the untrusted template from modifying files outside the generated project.
+
+The challenge is that the hooks are invoked using subprocess.Popen.  Sandboxes cannot allow Popen, because the child process would escape the sandbox. 
+
+This PR uses python's exec to run the hook code within the same process and remain sandboxed.
+
+Note the tests don't pass because some of the tests invoke sys.exit(1),  which just exits cookiecutter itself.  Looking for feedback for ways to solve this.
+ 
+ Fixed: Replaced no longer maintained pipsi by pipx
+ Pipsi is no longer maintained (from the [pipsi github page](https://github.com/mitsuhiko/pipsi/)).
+@ndclt Thank you for contribution. Merged.
+
+ Hook execution fails under Windows git bash (MingW)
+ * Cookiecutter version: 1.7.2
+* Template project url: 
+* Python version: 3.8
+* Operating System: Windows / MingW bash
+
+### Description
+
+`run_script` fails for me when calling Python hooks in git bash on Windows, without any really usable diagnostics. 
+
+    ERROR: Stopping generation because pre_gen_project hook script didn't exit successfully
+    Hook script failed (exit status: 255)
+
+The cause is the interpreter is called via shell, without a real need (sys.executable is a full path, and can be called directly).
+
+`run_script` ->
+https://github.com/cookiecutter/cookiecutter/blob/master/cookiecutter/hooks.py#L68-L94
+
+Adding this to the '.py' case in above code solves it:
+
+            run_thru_shell = False
+
+Additional questions:
+* Why isn't `subprocess.check_call()` used?
+
+ An error occurred while creating the template using cookiecutter
+ I really hope you can help me
+I searched a lot of relevant information, but I didn't find the answer
+My git works
+[root@bogon test]# /usr/local/python3/bin/cookiecutter https://github.com/pydanny/cookiecutter-django.git
+You've downloaded /root/.cookiecutters/cookiecutter-django before. Is it okay to delete and re-download it? [yes]: no
+Do you want to re-use the existing version? [yes]: yes
+A valid repository for "https://github.com/pydanny/cookiecutter-django.git" could not be found in the following locations:
+/root/.cookiecutters/cookiecutter-django
+
+
+
+
+What is the output of `ls -lah /root/.cookiecutters`?
+
+![PG 9(@}5E$B65I}D`(DL_FA](https://user-images.githubusercontent.com/51106548/82332900-92bd6600-9a18-11ea-8ec5-ccf5ef89b301.png)
+
+I'm sorry.I just saw the news
+
+OK, it sounds like what's in the `.cookiecutters` folder isn't the right thing. You might look inside `/root/.cookiecutters/cookiecutter-django` to make sure it's a valid copy of the git repository.
+
+Is there a particular reason you don't want to re-download the local cached copy? I would try that next and see if things work as expected before spending too much time untangling what's in this directory. If you want to keep the existing one:
+
+```bash
+$ cd /root/.cookiecutters
+$ mv cookiecutter-django cookiecutter-django.bak
+$ # ... then try to create from the cookiecutter like you described above ...
+```
+
+Once you've done that, you can compare the contents of the newly-created copy of cookiecutter-django with the one you moved to a `.bak` name and see if there's something fundamentally different between them.
+
+I've been busy with something recently. I 'm sorry to hear from you now. Thank you for your answer. It' s very useful for me. Thank you very much.
+
+@17864219845 Please reopen if not solved. With full instructions to reproduce. 
+
+But as @seawolf42 said before you should try to re-download first.
+
+ QUES: Does CC work with GitLab?
+ Does CC work with GitLab?
+@joehoeller CC is template engine. You can make template for whatever you want. 
+Our main repository is hosted on github and we do not have gitlab mirror at this moment.
+
+@joehoeller yes, cookiecutter supports git templates hosted on GitLab.
+https://cookiecutter.readthedocs.io/en/1.7.2/usage.html#works-directly-with-git-and-hg-mercurial-repos-too
+
+ Changed: README.md PyPI URLs changed to the modern PyPI last version
+ 
+ Fixed: Comma in README.md
+ Closes #1389 
+ Fix comma in readme.md
+ * Cookiecutter version: current
+
+Line: `Works with Python 2.7, 3.5, 3.6, 3.7, 3.8 ,PyPy and PyPy3.`
+
+Problem: Comma before PyPy
+I'll take this one! 
+
+Pull-request under review
+
+ Binaries on windows does have extensions, so checking for `git` existance will fail
+ * Cookiecutter version: 1.7.2
+* Template project url: not needed
+* Python version: 3.7
+* Operating System: Windows10
+
+### Description:
+
+vcs.py code check for git existance using `which(repo_type)`, which translates to `which(git)`. This won't work on windows because `git` does not exist, only `git.exe` does.
+
+### What I've run:
+
+```
+cookiecutter.exe  git@github.com:repo/template.git
+```
+
+
+Fix is rather simple:
+
+`return bool(which(repo_type + '.exe'))`
+
+Ofc should be checked with either `sys.platform == 'win32'` or `os.name == 'nt'`
+
+shutil.which should work fine
+
+@ssbarnea actually python's `shutil.which` is bugged as it does not work well with "empty PATHEXT item". If you add `;` at the end to PATHEXT `which` won't return anything.
+
+It's because of this part:
+
+```python
+if any(cmd.lower().endswith(ext.lower()) for ext in pathext):
+            files = [cmd]
+```
+
+because every string ends with empty string, it will add plain `git` to files, and then fail on executable check.
+
+Windows builtin `where` does not have this problem, so it seems to be problem of overly simplificated Python's implementation. I will try to advocate for that on python issues
+
+Please do and link it from here. I am afraid that I have zero time (or interest) to focus on Windows specific aspects but I will do my best to review PRs.
+
+I think this issue should move to https://github.com/cookiecutter/whichcraft ?
+
+@michaeljoseph whichcraft is used conditionally only if `shutil.which` is not present, but also whichcraft has copy-pasted it's code so it would also need change.
+
+I've opened https://bugs.python.org/issue40592 and we will see, I do know that it may be edge case, but it's confusing that windows has no problem finding binaries when cc has :)
+
+ MANIFEST: Fix file name extensions
+ The files got new file name extensions, but MANIFEST was not updated -> files were missing in the tarballs
+ Remove support for python2.7
+ Python 2.7 is officially dead and we are not going to make any new release that supports it.
+
+This removes py27 code but a follow-up will address other changes like removing use of `six`.
+
+Major version is bumped to 1.8.0 to mark this breaking change.
+Hi @ssbarnea! 👋 
+
+Dropping Python 2 compatibility is a breaking change and requires a major version bump to version `2.0.0` as well as the PyPI classifier `Programming Language :: Python :: 3 :: Only`.
+
+> Hi @ssbarnea! 👋
+> 
+> Dropping Python 2 compatibility is a breaking change and requires a major version bump to version `2.0.0` as well as the PyPI classifier `Programming Language :: Python :: 3 :: Only`.
+
+I do not mind using 2.0.0, mostly I got used to other projects where top version is used only on serious architectural changes, second is major, 3rd is minor, and 4th is optional and used only for hotfixes. Example ansible project(s).
+
+Anyway, I will update it to 2.0.0. The only worry I have is that as we want to move to a faster release cycle with breaking changes we risk starting to bump the first number quite often. Still, browsers demonstrated that nobody got hurt by this practice.
+
+
+
+BTW, I am really inclined to want to drop py35 too because is nearly end-of life and because having py36 as minimal would enable a serious list of improvements like f-strings or type-checking. Still, that decision is outside the scope of this PR. I want to keep any chance atomic, so is easy to review.
+
+As it appears coverage does really helped this time.
+
+@ssbarnea Please remember that PR title will be in changelog. So it should start with Changed:/Updated: etc keywords.
+
+
+<delurk>Just want to say that this is a wonderful development. Very exciting to watch unfold. Go go go!</delurk>
+
+> @ssbarnea Please remember that PR title will be in changelog. So it should start with Changed:/Updated: etc keywords.
+
+Not sure where this requirement comes from. The good part about using Release Drafter is that we can change the PR title and labels even after the merge and the notes will be updated, as long we do not tag a new release. This gives us time to tune it.
+
+AFAIK, PRs should be concise, easy to read, follow 50/72 rule as commits and use at least one label that is recognized by the drafter. Sadly there is no bot to check that, yet.
+
+Re `jinja2<3.0.0` or `markupsafe<2.0.0` are good to stay, there is no such releases. It is not a bad idea to limit major versions as they are high-likely to break backward compatibility. Only real problem is with packages that bump major version often, but apparently we do not have any problems of this kind with our dependencies.
+
+@pydanny Thanks for the message, I am happy to get some confirmation on our actions. Sometimes we worry that we could end-up making unpopular changes.
+
+@ssbarnea LGTM, but what about 3.5? 
+
+
+ Fixed: Jinja2&Six version limits causing build errors with ansible project (#1384)
+ …
+ Jinja2&Six version limits causing build errors with ansible project
+ * Cookiecutter version: 1.7.1
+
+Closed via #1385 
+
+https://github.com/cookiecutter/cookiecutter/issues/1256#issuecomment-616889030
+
+ Prepare release 1.7.1
+ 
+ readme: document specific topics
+ Documents how template authors can use github topics to make
+their templates easily discoverable by others.
+
+Note: many of these topics do not have any entries because template authors did not know about this. Still, to avoid a chick-n-egg issue, we start by documenting them first. Later we can ping some of them to ask them to update their github topics based on the documentation.
+ Removed: docstrings exclusions from flake8 tests
+ Fixes: #1269
+ Updated: test_prompt.py refactored
+ 
+Hi @pfmoore, no problem. Did not want to interrupt your current work. 
+I just removed you write access to this project, so you will not pop-up in reviewers. 
+Hope you ok with it. Msg me if you want access back.
+
+ Updated: test_generate_context.py refactored
+ Partial-Fix: #742
+ Updated: test_generate* files refactored
+ * Added docstrings
+* Added more strict check for binary files
+* Setup/teardown updated
+* Reformatted
+* 1 test order changed.
+
+Partial-Fix: #742
+ Add docstrings to cookiecutter test files and updated fixtures syntax
+ * Added docstrings
+* Setup/Teardown fixtures to modern syntax
+* Some reformatting
+ Added: docstrings for cookiecutter test files
+ Docstrings only changes.
+Partial-Fix: #742
+ Added: docstrings for invocation test files
+ * Added docstrings
+* One fixture replaced with parametrization
+* New setup/teardown syntax
+
+Partial-Fix: #742
+ Updated: test_abort_generate_on_hook_error file refactored
+ Partial-Fix: #742
+ Added: docstrings for extensions feature test files
+ 
+ Updated: test_generate_hooks refactored
+ * test_generate_hooks changed setup/teardown syntax
+* test-data generation function replaced with static data
+* docstrings added
+ Added: docstrings to `tests/repository` directory files
+ 
+ Updated: get_config Function exception extended with config file path information
+ 
+ Updated: test_abbreviation_expansion files refactored
+ Partial-Fix: #742
+@insspb Please don't keep requesting my review here, I no longer have sufficient time to work on this project.
+
+ Added: Black formatting verification for whole project
+ Adopts black formatting and runs it as part of the linting process. This should assure that code style is assured by black and we do not have to care about it anymore.
+
+Fixes:  #1305
+@inglesp Can you please comment again? Github reports a comment from you which seems impossible to find.
+
+> @inglesp Can you please comment again? Github reports a comment from you which seems impossible to find.
+
+![image](https://user-images.githubusercontent.com/28734/79645382-e4b76580-81a6-11ea-8f53-c6dadbe3c09b.png)
+
+
+Thanks! That GH but is really annoying, the "hidden comments". I think last version got the commas sorted.
+
+

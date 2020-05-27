@@ -1,0 +1,400 @@
+﻿ Merge branch 'release-4.0.x'
+ Merge branch 'release-3.0.x' into release-4.0.x
+ Fix lookup of files containing special characters in Subversion.
+
+This change fixes looking up files that contain characters that may be
+considered special in a URL, such as `#` or `?`. There's a bit of a
+backstory to this change.
+
+Back in 2008, when the Subversion support was brand-new, we accepted a
+patch that fixed looking up filenames containing spaces. Things with our
+implementation was different back then, and this patch accomplished its
+goals by taking a normalized URL to a file in Subversion, splitting the
+path out, quoting its contents, and rebuilding the path.
+
+The act of splitting the path resulted in `#` and `?` characters being
+split from the rest of the path, and they weren't put back in. This came
+up in a bug report from Rob Petti, who provided a patch designed to work
+around the bad behavior in the original implementation. After some
+investigation, we figured out part of what was going on, and Rob built
+an implementation that addresses the issue at its core, removing the
+older code in the process.
+
+This change builds on top of that, making some tweaks based on my
+investigations into the original change, and Subversion compatibility.
+It turns out that these days, we do not need to quote anything going
+into Subversion paths (on either the PySVN or Subvertpy backends), but
+as this was a problem at some point, we'll continue to quote for
+compatibility.
+
+Unit tests were added for both normalization and for lookup of files
+containing spaces, `&`, `#`, and `?` characters, using new files added
+to our test repository.
+
+Testing Done:
+Unit tests pass with both PySVN and Subvertpy backends.
+
+Reviewed at https://reviews.reviewboard.org/r/11020/
+ Merge branch 'release-4.0.x'
+ Fix a call to ngettext, and update to use the new plugin capabilities.
+
+During the admin UI rewrite, I forgot a parameter to `ngettext()`. This
+previously went unnoticed, but with our new babel-plugin-django-gettext,
+it now becomes a build-time error.
+
+This change fixes this up to provide the third argument, the count, and
+at the same time switches to using the new syntax, simplifying the code
+and reducing the setup for it.
+
+Testing Done:
+Verified the generated code (when used against an upcoming build of
+babel-plugin-django-gettext, which fixes ngettext-related issues).
+
+Reviewed at https://reviews.reviewboard.org/r/11022/
+ Merge branch 'release-4.0.x'
+ Fix a Python 3 incompatibility in the new GitLab tests.
+
+This is a trivial change that switches a bytestring header to a native
+string header for `Link`.
+ Merge branch 'release-3.0.x' into release-4.0.x
+ Update GitHub configuration to require Personal Access Tokens.
+
+GitHub has deprecated support for creating OAuth access tokens via the
+API, instead requiring a web-based flow for creating tokens, or usage of
+a Personal Access Token:
+
+https://developer.github.com/changes/2020-02-14-deprecating-oauth-auth-endpoint/
+
+Since our UI still needs to be rewritten to handle a dynamic
+authentication process, our current approach is to require a Personal
+Access Token instead of a password.
+
+This is fairly straight-forward, fortunately. It just requires visiting
+a page (which we link to), providing a token name, clicking a few
+checkboxes for the scopes we need, and then pasting the resulting token
+in the field. To help with this, we've renamed the "Account Username"
+and "Account Password" fields to "GitHub Username" and "Personal Access
+Token", and provided help text linking to the appropriate page and
+listing the scopes to enable.
+
+During authorization, Review Board will make sure it has the scopes it
+needs, displaying a helpful error if it doesn't.
+
+This also allows us to delete a whole bunch of code. We no longer need
+to offer an option for resetting tokens, since this is managed by the
+user and by GitHub. We also no longer need to worry about the rate limit
+issues we used to have.
+
+Basically, We used to link up a token with our GitHub OAuth
+Client/Secret IDs, if set in settings, which was originally built to
+ensure higher rate limits and to tie those limits to a user and not
+Review Board's IP address. This isn't needed with Personal Access
+Tokens. Instead, rate limits will be bound to the user who owns those
+tokens.
+
+This does *not* impact any existing users. However, once GitHub's
+deprecations go fully into effect, which should happen in November 2020,
+users will need to upgrade Review Board to 3.0.18 or higher in order to
+link new accounts.
+
+Documentation has been updated to help users with the new process of
+linking accounts.
+
+Testing Done:
+Unit tests passed.
+
+Tested linking new accounts using a Personal Access Token. I tested with
+a token that had all the scopes that are required, and tokens that were
+missing some combinations of scopes. Verified that a suitable error was
+shown in these cases.
+
+Tested standard usage of accounts previously linked with the older tokens
+and new ones linked with Personl Access Tokens. Verified both were working
+without issues.
+
+Built the docs and checked for errors and bad links.
+
+Reviewed at https://reviews.reviewboard.org/r/11017/
+ Merge branch 'release-4.0.x'
+ Merge branch 'release-3.0.x' into release-4.0.x
+ Enable use of the new babel-plugin-django-gettext for JavaScript.
+
+This is a simple change to our Babel settings that enables use of our
+new `babel-plugin-django-gettext`, used for easier localization. Currently,
+no Review Board code makes use of this, but it'll allow us to slowly begin
+porting code or using it in new code.
+
+Note that to make use of this, this will require a recent run of
+`./setup.py develop`.
+
+Testing Done:
+Modified some JavaScript temporarily to make use of the new plugin.
+Verified the generated JavaScript was correct.
+
+Reviewed at https://reviews.reviewboard.org/r/11018/
+ Merge branch 'release-4.0.x'
+ Update the base template to use the new djblets-ui stylesheet.
+
+This replaces the reference to the `djblets-widgets` stylesheet bundle
+introduced in the un-released Djblets 2.0 dev with the `djblets-ui`
+stylesheet bundle introduced in Djblets commit
+713dfa10a7e174b29a17e61cc4a32f51f747889b. This new bundle replaces the
+old one and incorporates stylesheets for modalboxes.
+
+This is a trivial change.
+ Fix fetching more than 100 branches on GitLab.
+
+The GitLab API v4 support wasn't factoring in pagination for the
+branches API (or the groups API, but that's currently only used on v3).
+This means that if more than 100 branches are defined, only those first
+100 will be shown in the New Review Request page.
+
+This switches our implementation to use the standard pagination support.
+
+It also cleans up the cod around checking the `Link` header to meet our
+coding standards. Note that capitalization has changed for the `Link`
+key in this code, but in practice the underlying code normalizes key
+lookups, so this doesn't change any logic. It just makes it easier to
+test against.
+
+Unit tests have been added to check that paginated branches work
+correctly.
+
+Testing Done:
+Unit tests pass.
+
+Reviewed at https://reviews.reviewboard.org/r/11016/
+ Merge branch 'release-4.0.x'
+ Merge branch 'release-3.0.x' into release-4.0.x
+ Add utility functions for working with the default SSH storage backend.
+
+This introduces `set_ssh_storage_backend_path()` and
+`get_ssh_storage_backend_path()`, which are wrappers around the
+`ssh_storage_backend` siteconfig setting. Right now, these don't do a
+whole lot, but they give us a standard way for extensions to set a new
+backend, and eventually can let us better apply this to the environment
+for rbssh (which is not planned for 3.0.x, as it's a more involved
+project).
+
+Extensions will also be able to check for the existence of these
+functions in order to determine whether to set the old
+`settings.RBSSH_STORAGE_BACKEND` or to set the new key in siteconfig.
+
+Testing Done:
+Tested these with a patch to Power Pack.
+
+Reviewed at https://reviews.reviewboard.org/r/11008/
+ Fix validating and trusting Perforce repositories with Mirror Paths.
+
+Perforce repositories work differently from all other types of
+repositories. Instead of all communication happening over the Path, it
+happens over the Mirror Path. This is done for very ancient historical
+reasons, centered around a very early need for tools like Review Board
+using a read-only Perforce mirror that was separate from the main
+read-write repository that developers had been using. This inversed
+logic is sadly probably here to stay long-term.
+
+The problem is, the repository form didn't know about Perforce's needs
+here, and was checking only the Path field, not Mirror Path, when
+validating a repository. This was generally fine for most usage, but if
+using an SSL-backed repository in Mirror Path that had to be explicitly
+trusted, Review Board would never have an opportunity to validate this
+and present it to the user. The only way it'd work is to have the SSL
+repository in Path, and a non-SSL in Mirror Path, at which point the
+communication wouldn't be encrypted.
+
+This change fixes this up by adding a new `SCMTool.prefers_mirror_path`
+flag, which instructs the form to check using the Mirror Path if set.
+Only Perforce has this enabled, and the documentation discourages others
+from ever setting it.
+
+In time, we can clean some of this up at a presentational level by
+creating a custom subform and making it clear which is used for which.
+This change does take a step toward this by adding new help text for
+Mirror Path that makes it clear it takes precedence for communication.
+
+Testing Done:
+Unit tests pass.
+
+Manually tested adding a local repository and verifying the paths it
+was using.
+
+Reviewed at https://reviews.reviewboard.org/r/11007/
+ Fix a unit test regression when using non-default SSH storage backends.
+
+SSH-related unit tests often involve shelling out to rbssh, which, as of
+a recent change in the un-released 3.0.18, now looks up the proper
+backend to use in the database. However, since rbssh is its own process,
+it doesn't have access to the in-memory test database that the rest of
+Review Board is running in, and will pick up the storage backend
+configured in the developer's database. This can cause unit tests to
+fail, since the environment is set up incorrectly for those tests.
+
+This change introduces a workaround, which is a new
+`$RBSSH_STORAGE_BACKEND` environment variable for rbssh that will take
+precedence over any other configured backends. This value, if provided,
+will be passed in to `SSHClient` using the new `storage_backend`
+parameter, and that will short-circuit the storage loading.
+
+Review Board does not set this during normal usage. It only sets it
+during unit test runs. However, it might be worth exploring setting this
+in a future change, in order to reduce rbssh startup time, but that will
+be a separate project.
+
+This also provides a better, more consistent environment variable name
+for debugging rbssh, called `$RBSSH_DEBUG`. Both this and the old
+`$DEBUG_RBSSH` are supported.
+
+Testing Done:
+Unit tests pass with and without Power Pack's SSHDB enabled locally.
+
+Verified that rbssh from within Review Board and on the command line
+was respecting the configured SSH storage backend.
+
+Reviewed at https://reviews.reviewboard.org/r/11006/
+ Merge branch 'release-4.0.x'
+ Merge branch 'release-3.0.x' into release-4.0.x
+ Fix setting prefixed standard fields on the repository form.
+
+A recent change fixed performing HTTP PUT operations on the repository
+resource without providing entire payloads for the form. It computed the
+initial data based on a repository and populated the form, trying to
+create a solid starting point.
+
+This had a bug, though, that prevented actually submitting the
+repository form via the administration page. It no longer considered
+that some standard fields, like `path`, `mirror_path`, `username`, etc.,
+might be submitted with an SCMTool prefix (e.g., `git-mirror_path`), and
+this caused it to override these provided values with the initial data,
+preventing these fields from being changed again.
+
+This bug did *not* make it into a release, or into production on
+RBCommons.
+
+This change fixes the new logic on the repository form to check whether
+the prefixed form of a key was posted on the form data before trying to
+figure out a fallback value for it. If it's explicitly posted, we use
+the existing value. Otherwise, we now normalize a prefixed form, if one
+was provided, and *then* fall back on the initial value.
+
+Testing Done:
+Unit tests passed.
+
+I was able to successfully modify the formerly-broken fields for
+several existing repositories.
+
+Reviewed at https://reviews.reviewboard.org/r/11005/
+ Merge branch 'release-4.0.x'
+ Merge branch 'release-3.0.x' into release-4.0.x
+ Add tests for RB.UploadAttachmentView
+
+This patch adds unit tests for `RB.UploadAttachmentView`. The recent
+refactoring of the view led to some regressions that were not caught
+until the changes were already landed. With unit tests, we can help
+reduce the likelihood of this happening in the future.
+
+Testing Done:
+New tests:
+- `Cancel` button has the correct state when the dialog is initialized.
+- `Cancel` button closes the dialog when clicked.
+- `Upload` button has the correct state when the dialog is initialized.
+- `Upload` button has the correct state when a file is uploaded and when
+  it is removed.
+- `Upload` button sends request to create a file attachment when
+  clicked.
+- The dialog is populated with the right information when updating a
+  file attachment.
+
+Reviewed at https://reviews.reviewboard.org/r/10941/
+ Merge branch 'release-4.0.x'
+ Merge branch 'release-3.0.x' into release-4.0.x
+ Reduce startup times for rbssh and make custom SSH backends persistant.
+
+rbssh has historically executed within a Review Board environment in
+order to take advantage of extension support, necessary in order for the
+flexible SSH key storage backends to take effect. Originally, startup
+time was fairly reasonable, but over time this became more expensive,
+and on large deployments (particularly those using many extensions, or
+expensive-to-load extensions) it could be a bottleneck.
+
+This change reworks execution by running in a minimal Django
+environment. It now uses a custom `settings.py`, which loads only the
+bare-minimum Django apps needed to manage and implement SSH key storage
+backends.
+
+This means that extensions are no longer loaded. In order for an
+extension-supplied storage backend to still work, the supplier of that
+backend must set the siteconfig-provided `ssh_storage_backend` to the
+path of the backend class. This supercedes the now-legacy
+`RBSSH_STORAGE_BACKEND` key in `settings.py`. It also means that
+extensions *must* be updated to set the new key in order to continue
+working. Unlike the old process-local setting, the new setting
+persists in the database, allowing rbssh to look it up without loading
+any extensions.
+
+Backend loading will try the new setting and the old setting, which will
+help when performing SSH-backed requests from within the Review Board
+process, or in rbssh if `settings_local.py` defines
+`RBSSH_STORAGE_BACKEND`.
+
+SSH communication within rbssh has also received some small speed
+tweaks. We no longer attempt to log anything to debug if the
+`$DEBUG_RBSSH` environment variable isn't set. We previously would send
+to the logger, which would go through the internal logging processes and
+then get ignored. We now just don't do anything.
+
+**NOTE:** This is a breaking change:
+
+1. Extension developers providing custom SSH key storage backends will
+   need to ensure their backends run within a bare-minimum environment.
+   They can rely on the Django `Site` and Djblets `SiteConfiguration`
+   models, but nothing else. If this impacts anyone, they will need to
+   talk to us about a future-proof solution, but this change is not
+   currently attempting to over-engineer this, since we're only aware of
+   the custom backend provided by Power Pack.
+
+2. Power Pack users will need to update to Power Pack 3.0.3 (still
+   in-development at the time of this change) in order to continue using
+   DB-backend SSH keys, or will need to set the following in
+   `settings_local.py`:
+
+```python
+RBSSH_STORAGE_BACKEND = 'rbpowerpack.sshdb.storage.DBSSHStorage'
+```
+
+Testing Done:
+Unit tests pass.
+
+Manually invoked `rbssh`, running speed tests and comparing the old
+execution time to the new one. Saw a drastic speed reduction, particularly
+with extensions enabled.
+
+Tested usage from within Review Board.
+
+Tested with the default local keys backend and the Power Pack SSHDB backend
+(using an updated Power Pack with support for the new setting), verifying
+that the `INSTALLED_APPS` changes didn't break anything.
+
+Tested these changes on both Review Board 3.0 and 4.0.
+
+Reviewed at https://reviews.reviewboard.org/r/11002/
+ Add a search field to the repository resource.
+
+The new repository selector UI was using a nonexistant `q` field to
+query the repository API. This often appeared to work correctly because
+the selector would end up getting the first page of results, and then
+selectize would do the filtering on the client side. If the repository
+the user wanted wasn't in the first page of results, they wouldn't be
+able to get to it.
+
+While the API does have a `name` field, that field tests for equivalence
+rather than being a search term like the `q` fields that are part of the
+user and group APIs. This change adds a matching `q` field to the
+repository API which does an istartswith query on the name.
+
+Testing Done:
+- Interacted with the related repository selector widget and checked the
+  responses in the network tab.
+- Ran unit tests.
+
+Reviewed at https://reviews.reviewboard.org/r/10997/

@@ -1,0 +1,1548 @@
+﻿ Adds HasValue
+ Resolves #140 by adding `HasValue` that supports value types and reference types.
+@ndrwrbgs added experimental support as a new member in PR. Haven't tested performance, allocations etc. Naming. Not sure. Wrestled a bit between `IsDefined` and `HasValue`. If it was performant enough (no boxing etc) we could perhaps replace `IsNotNull`.
+
+ Add the ability to check that a string is made up of a certain type of character(s)
+ I have a need to test whether a string (and possibly just a char) are of a certain type: Letter, Digit, LetterOrDigit, etc. I was in the process of converting my argument checking over to Ensure.That and found that (I think) it doesn't exist. I have it checked similar to this now:
+
+            if (!argString.All(char.IsLetterOrDigit))
+            {
+                throw new ArgumentOutOfRangeException(nameof(argString), "Expecting only letters and digits");
+            }
+
+I realize that I could use a Regex for this, but this seems simpler.
+This should handle that, right?
+https://github.com/danielwertheim/Ensure.That/blob/45a9180b4a6c4d64d70a1b2e0feeb5dc2a2904f4/src/projects/EnsureThat/EnsureThatStringExtensions.cs#L27
+
+As I said above, I realize it could be done in Regex. I just don't know any dev that likes Regex and it seemed like this simple cases maybe should be included.
+
+I don't know if the implementation I have above or a facade over the Regex method is better (easier to read, more performant, etc). There were a few reasons for my posting the issue:
+
+1. To make sure I hadn't completely missed an existing implementation
+2. To see if this is something that would be of interest to add to the library
+3. To discuss possible implementations
+
+I'm perfectly willing to go implement (and likely will as an extension in my project if it's not appropriate here)
+
+Why not add a member in for this against strings? `IsAllLettersOrDigits` If that feels "right" then a PR is more than welcome.
+
+ EnsureArg.IsNotNull without class requirement
+ Would it be possible to remove the class requirement on EnsureArg.IsNotNull?  Maybe something like this:
+        public static T IsNotNull<T>(T value, string paramName = null)
+        {
+            var type = typeof(T);
+            if ((type.IsClass || IsNullable(type)) && value == null)
+            {
+                throw new ArgumentNullException(paramName, "Value may not be null.");
+            }
+
+            return value;
+        }
+
+        private static bool IsNullable(Type type) => Nullable.GetUnderlyingType(type) != null;
+Is this the case you want to support? E.g. a nullable int.
+
+```csharp
+[Theory]
+[InlineData(null)]
+public void ShouldThrow_WhenNull(int? i) =>
+    ShouldThrow<ArgumentNullException>(
+        ExceptionMessages.Common_IsNotNull_Failed,
+        () => Ensure.Any.IsNotNull(i, ParamName),
+        () => EnsureArg.IsNotNull(i, ParamName),
+        () => Ensure.That(i, ParamName).IsNotNull());
+
+[Theory]
+[InlineData(1)]
+public void ShouldNotThrow_WhenNull(int? i) =>
+    ShouldNotThrow(
+        () => Ensure.Any.IsNotNull(i, ParamName),
+        () => EnsureArg.IsNotNull(i, ParamName),
+        () => Ensure.That(i, ParamName).IsNotNull());
+```
+
+![image](https://user-images.githubusercontent.com/196044/81468590-cc080180-91e0-11ea-87bf-3388c8f47e42.png)
+
+
+It's worth noting that a `struct` cannot be `null` in C#. It can override `.Equals` to return `true` when compared to `null`, but it itself cannot be `null` - so I'd be cautious about the API exposed if any changes are needed for this.
+
+int? a = null; is `Equal` to `null`, but is not actually `null`.
+
+More actionable feedback -- since `Nullable<T:struct>` is a common structure, I would add support for that specifically (and maintain the existing API naming since `== null` is colloquially special-cased for that) but if the need is for a `struct` other than `Nullable` to be compared, I'd redirect towards the `IComparable` implementations.
+
+The code above are tests against existing code.
+
+I apologize for my silliness thanks Daniel for the patience!
+@cjvanwyk3 are you still blocked on this?
+
+What I'm ultimately after is being able to use EnsureArg on a generic that does not have a class requirement.  For example
+
+``` 
+// This will not work.
+        public void GenericMethod<T>(T parameter)
+        {
+            EnsureArg.IsNotNull(parameter);
+        }
+```
+
+So sorry to have dropped this!
+
+@cjvanwyk3 could you refactor your code to match more like what we have here under AnyArg?
+https://github.com/danielwertheim/Ensure.That/blob/73c566430ecbc7fa77a54b30e4000d7cc39e9cf1/src/projects/EnsureThat/Enforcers/AnyArg.cs#L8-L26
+
+The thing is, we don't have an overload that checks != null in the case that '== null' is impossible. I'm trying to find a way that it makes sense in the general (I 100% relate to your use case), but am struggling to generalize it to everyone.
+
+One work around that's always available as you want things that aren't in the base library (although thank you for asking since it helps improve coverage ♥) is that the Ensure.That() syntax returns a Param<> object you can write any extension method imaginable against. So even if a particular case doesn't make it into the code base, it can still be supported for your style!
+
+ Updates external NuGet dependencies
+ 
+ Removes members marked as obsolete
+ 
+ Solves #135 by adding netstandard2.0 support back in
+ 
+ Breaking change from 8.1.2 to 8.2.0
+ i got this error after upgrading from 8.1.2 to 8.2.0
+![image](https://user-images.githubusercontent.com/19611912/80084274-530d7680-855f-11ea-8637-160aa930f37e.png) 
+
+this error was raised when trying to use version 8.2.0 with other nuget that was already compiled with version 8.1.2.  to be more clear 
+Project A (with 8.2.0) ---> Nuget X ---> Ensure.That.8.1.2
+Yes, you are correct. Mistake. I'm not keen on reverting that PR.
+
+What do you think about putting out a new package as v9.0.0 and "unlist" 8.2.0?
+
+Sounds good
+
+Done. 8.2.0 has been marked as deprecated and points at 8.1.2 instead. And v9.0.0 has been released. Thanks for reporting.
+
+I do think we should consider releasing a minor version bump that reverts
+it on the 8.* path. Having been on the receiving end of this kind of change
+before, having a "latest" that fixes it helps if I consume a package that
+consumed it but hasn't updated to latest or rolled back.
+
+I guess concern is alleviated if we have a way to see on nuget if any
+packages are saying >=8.2.0
+
+On Wed, Apr 29, 2020, 12:44 PM Daniel Wertheim <notifications@github.com>
+wrote:
+
+> Done. 8.2.0 has been marked as deprecated and points at 8.1.2 instead. And
+> v9.0.0 has been released. Thanks for reporting.
+>
+> —
+> You are receiving this because you are subscribed to this thread.
+> Reply to this email directly, view it on GitHub
+> <https://github.com/danielwertheim/Ensure.That/issues/136#issuecomment-621419520>,
+> or unsubscribe
+> <https://github.com/notifications/unsubscribe-auth/ACSHCOUZQCWIUEFAOXZ7S6LRPB7SDANCNFSM4MO5A52A>
+> .
+>
+
+
+ Bring back netstandard2.0 target
+ Hi Daniel!
+I wanted to use this library in a new project, so I added a newest 8.2.0 version.
+Unfortunately it only targets `netstandard1.1`, which has dependency on NETStandard.Library, which results in lots of dependencies carried over to the project
+![image](https://user-images.githubusercontent.com/3034230/79946682-bb315f00-8470-11ea-8de1-86b400b7cacf.png)
+![image](https://user-images.githubusercontent.com/3034230/79946947-40b50f00-8471-11ea-9719-2bbdc3bdfc8a.png)
+
+Now the last version that had `netstandard2.0` target is 8.1.1 which is free of these dependencies.
+This target was removed in this PR: https://github.com/danielwertheim/Ensure.That/pull/121
+Was this an intended move?
+
+ Create an AggregateException, or throw a single exception from a list of EnsureArg failures.
+ I'd like to use EnsureArgs to check all my arguments in the constructor, and throw a single Exception to report on all issues.
+
+eg.
+```
+public CelebratePiDay(bool isHomeMade, bool isPie, bool isPiDay)
+{
+  Ensure(
+    Ensure.Bool.IsTrue(isHomeMade, nameof(isHomeMade)),
+    Ensure.Bool.IsTrue(isPie, nameof(isPie)),
+    Ensure.Bool.IsTrue(isPiDay, nameof(isPiDay)),
+  )
+}
+```
+```
+var piCelebration = new CelebratePiDay(false, true, false);
+```
+
+which throws  a single exception of "isHomeMade is false, isPiDay is false", or an AggregateException. 
+Any ideas on the construct of it? E.g. acting on `params Action[]` and try-catch and then re-throw single exception if exactly one or all in `AggregateException` if more than one? If that would be the solution I'm not sure if it should be in Ensure.That or if it's better to have in application as a simple construct. Need to measure performance of it first.
+
+I really like this idea, it helps developers avoid the hunt-and-peck when there are multiple failures!
+I'd want to be careful with the performance though. Action[] could be easily wrapped on top of the existing APIs, but would be the least performant. A new semantic that doesn't throw on violations but can return an error code to be aggregated would allow for the best performance -- but the most noise to the existing code.
+
+@grleachman are you hosted in a scenario where 1) these checks have to be in your production code (e.g. no #if DEBUG tricks for us) and 2) performance is SUPER critical that you have to avoid object allocations?
+
+
+no #if DEBUG. This is production code. 
+Performance is critical. We use them in the constructors of all Dto's so it's exceptionally sensitive.
+
+ Add Flags support to Enum.IsDefined
+ @ndrwrbgs Instead of opening an issue, I though it would be nicer to submit this as PR. 😃 
+@nevaldas great work! Let me know if you don't have the time or energy and want me to finalize the last changes according to feedback.
+
+ [Performance] Investigate inline-ability of throws
+ From #131 `I believe this 'throw' prevents inlining of this method. If that is validated to be true, we probably refactor all throws to be method calls in the 'cold-path' (error) cases`
+
+-danielwertheim feel free to 'assign' to me
+ Implement enum validation
+ Fixes #117
+Will update (in about ~10 hours :P~ on 2/20)
+
+On Wed, Feb 19, 2020, 8:30 AM Daniel Wertheim <notifications@github.com>
+wrote:
+
+> *@danielwertheim* commented on this pull request.
+> ------------------------------
+>
+> In src/tests/UnitTests/EnsureEnumParamTests.cs
+> <https://github.com/danielwertheim/Ensure.That/pull/131#discussion_r381390200>
+> :
+>
+> > +        public void IsDefined_ShouldNotThrow()
+> +        {
+> +            var item = Only1IsValid.Valid;
+> +
+> +            ShouldNotThrow(
+> +                () => Ensure.Enum.IsValidEnum(item, ParamName),
+> +                () => EnsureArg.IsValidEnum(item, ParamName),
+> +                () => Ensure.That(item, ParamName).IsValidEnum());
+> +        }
+> +
+> +        [Fact]
+> +        public void IsNotDefined_ShouldThrow()
+> +        {
+> +            var item = (Only1IsValid)2;
+> +
+> +            ShouldThrow<ArgumentOutOfRangeException>(
+>
+> The API's don't have to be aligned. If naming etc works in all contexts,
+> that would of course be preferred. How-ever, I generally don't like to
+> repeat the context in the name.
+>
+> Thinking of it the first Ensure.Enum and third context Ensure.That can be
+> aligned. It's the middle one that benefits from having context in the name.
+> So I do believe the following would be rather intuitive, no?
+>
+> Ensure.Enum.IsDefined(..)
+> EnsureArg.EnumIsDefined(..)
+> Ensure.That(..).IsDefined()
+>
+> —
+> You are receiving this because you authored the thread.
+> Reply to this email directly, view it on GitHub
+> <https://github.com/danielwertheim/Ensure.That/pull/131?email_source=notifications&email_token=ACSHCOUMLOQOPWADPE72SJTRDVNATA5CNFSM4KWV2IVKYY3PNVWWK3TUL52HS4DFWFIHK3DMKJSXC5LFON2FEZLWNFSXPKTDN5WW2ZLOORPWSZGOCWEBOYA#discussion_r381390200>,
+> or unsubscribe
+> <https://github.com/notifications/unsubscribe-auth/ACSHCOW4UNZ7SUEZOYAK7GTRDVNATANCNFSM4KWV2IVA>
+> .
+>
+
+
+Added notes about possible `Flags` pitfall, otherwise ready to commit.
+
+Hey, just saw this, which we had as extension and we had the same `[Flags]` issue.
+We managed to solve it with this solution, maybe this will help you:
+```
+/// <summary>
+        /// Ensures that the value is defined in specified enum.
+        /// </summary>
+        /// <typeparam name="TEnumType">Enum type.</typeparam>
+        /// <param name="arg"><see cref="ComparableArg"/> instance. Unused.</param>
+        /// <param name="value">Enum value.</param>
+        /// <param name="paramName">Name of parameter.</param>
+        /// <param name="optsFn">Ensure options.</param>
+        /// <returns>The value that's supplied as a parameter.</returns>
+        public static TEnumType IsEnumValueDefined<TEnumType>(this ComparableArg arg, TEnumType value, string paramName = null, OptsFn optsFn = null) 
+            where TEnumType : struct, IComparable
+        {
+            var enumType = typeof(TEnumType);
+
+            var isEnum = enumType.IsEnum;
+            Ensure.Bool.IsTrue(isEnum, paramName ?? nameof(isEnum), o => o.WithMessage("Type is not enum"));
+
+            bool isEnumDefined;
+            var hasFlags = enumType.GetCustomAttributes<FlagsAttribute>(false).Any();
+            if (hasFlags)
+            {
+                var givenEnumValue = Convert.ToUInt64(value);
+                if (givenEnumValue == 0)
+                {
+                    isEnumDefined = Enum.IsDefined(enumType, value);
+                }
+                else
+                {
+                    var enumValues = Enum.GetValues(enumType)
+                        .Cast<object>()
+                        .Select(Convert.ToUInt64);
+                    var allEnumValues = enumValues.Aggregate<ulong, ulong>(0, (current, enumValue) => current | enumValue);
+
+                    isEnumDefined = (allEnumValues | givenEnumValue) == allEnumValues;
+                }
+            }
+            else
+            {
+                isEnumDefined = Enum.IsDefined(enumType, value);
+            }
+
+            Ensure.Bool.IsTrue(isEnumDefined, paramName ?? nameof(isEnumDefined), optsFn ?? (o => o.WithMessage($"Enum value '{value}' is not defined")));
+            return value;
+        }
+```
+We even have tests for it:
+```
+[TestClass]
+    public class EnsureExtensionsTests
+    {
+        [TestMethod]
+        public void DefinedEnum_Succeeds()
+        {
+            //ARRANGE
+            const EnumDummy bar = EnumDummy.Bar;
+
+            //ACT
+            var res = Ensure.Comparable.IsEnumValueDefined(bar, nameof(bar));
+
+            //ASSERT
+            Assert.AreEqual(bar, res);
+        }
+
+        [TestMethod]
+        [DataRow((EnumDummy)3)]
+        [DataRow((EnumDummy)0)]
+        public void NotDefinedEnum_ThrowsException(object nonExistingValue)
+        {
+            //ACT && ASSERT
+            Assert.ThrowsException<ArgumentException>(() => 
+                Ensure.Comparable.IsEnumValueDefined((EnumDummy)nonExistingValue, nameof(nonExistingValue)), $"Enum value '{nonExistingValue}' is not defined");
+        }
+
+        [TestMethod]
+        [DataRow(FlagDummy.Bar)]
+        [DataRow(FlagDummy.Bar | FlagDummy.Baz)]
+        public void DefinedFlag_Succeeds(object flags)
+        {
+            //ACT
+            var res = Ensure.Comparable.IsEnumValueDefined((FlagDummy)flags, nameof(flags));
+
+            //ASSERT
+            Assert.AreEqual(flags, res);
+        }
+
+        [TestMethod]
+        [DataRow((FlagDummy)5)]
+        [DataRow((FlagDummy)0)]
+        public void NotDefinedFlag_ThrowsException(object nonExistingValue)
+        {
+            //ACT && ASSERT
+            Assert.ThrowsException<ArgumentException>(() =>
+                Ensure.Comparable.IsEnumValueDefined((FlagDummy)nonExistingValue, nameof(nonExistingValue)), $"Enum value '{nonExistingValue}' is not defined");
+        }
+        
+        private enum EnumDummy : byte
+        {
+            Bar = 1
+        }
+
+        [Flags]
+        private enum FlagDummy : byte
+        {
+            Bar = 1 << 1,
+            Baz = 1 << 2
+        }
+    }
+```
+
+
+Thanks for the free code!
+
+My concern was that it then would deviate from Enum.IsDefined. it felt more
+"pure" to match the BCL functionality, but if someone needs it for flags
+(sounds like your repo did?), could you open an issue for it as a feature
+addition? We'll add an overload or another method name.
+
+In fact could you check if your repo has any other extensions that aren't
+mentioned in #71 and add there?
+
+On Sun, Feb 23, 2020, 9:41 AM Evaldas <notifications@github.com> wrote:
+
+> Hey, just saw this, which we had as extension and we had the same [Flags]
+> issue.
+> We managed to solve it with this solution, maybe this will help you:
+>
+> /// <summary>
+>         /// Ensures that the value is defined in specified enum.
+>         /// </summary>
+>         /// <typeparam name="TEnumType">Enum type.</typeparam>
+>         /// <param name="arg"><see cref="ComparableArg"/> instance. Unused.</param>
+>         /// <param name="value">Enum value.</param>
+>         /// <param name="paramName">Name of parameter.</param>
+>         /// <param name="optsFn">Ensure options.</param>
+>         /// <returns>The value that's supplied as a parameter.</returns>
+>         public static TEnumType IsEnumValueDefined<TEnumType>(this ComparableArg arg, TEnumType value, string paramName = null, OptsFn optsFn = null)
+>             where TEnumType : struct, IComparable
+>         {
+>             var enumType = typeof(TEnumType);
+>
+>             var isEnum = enumType.IsEnum;
+>             Ensure.Bool.IsTrue(isEnum, paramName ?? nameof(isEnum), o => o.WithMessage("Type is not enum"));
+>
+>             bool isEnumDefined;
+>             var hasFlags = enumType.GetCustomAttributes<FlagsAttribute>(false).Any();
+>             if (hasFlags)
+>             {
+>                 var givenEnumValue = Convert.ToUInt64(value);
+>                 if (givenEnumValue == 0)
+>                 {
+>                     isEnumDefined = Enum.IsDefined(enumType, value);
+>                 }
+>                 else
+>                 {
+>                     var enumValues = Enum.GetValues(enumType)
+>                         .Cast<object>()
+>                         .Select(Convert.ToUInt64);
+>                     var allEnumValues = enumValues.Aggregate<ulong, ulong>(0, (current, enumValue) => current | enumValue);
+>
+>                     isEnumDefined = (allEnumValues | givenEnumValue) == allEnumValues;
+>                 }
+>             }
+>             else
+>             {
+>                 isEnumDefined = Enum.IsDefined(enumType, value);
+>             }
+>
+>             Ensure.Bool.IsTrue(isEnumDefined, paramName ?? nameof(isEnumDefined), optsFn ?? (o => o.WithMessage($"Enum value '{value}' is not defined")));
+>             return value;
+>         }
+>
+> We even have tests for it:
+>
+> [TestClass]
+>     public class EnsureExtensionsTests
+>     {
+>         [TestMethod]
+>         public void DefinedEnum_Succeeds()
+>         {
+>             //ARRANGE
+>             const EnumDummy bar = EnumDummy.Bar;
+>
+>             //ACT
+>             var res = Ensure.Comparable.IsEnumValueDefined(bar, nameof(bar));
+>
+>             //ASSERT
+>             Assert.AreEqual(bar, res);
+>         }
+>
+>         [TestMethod]
+>         [DataRow((EnumDummy)3)]
+>         [DataRow((EnumDummy)0)]
+>         public void NotDefinedEnum_ThrowsException(object nonExistingValue)
+>         {
+>             //ACT && ASSERT
+>             Assert.ThrowsException<ArgumentException>(() =>
+>                 Ensure.Comparable.IsEnumValueDefined((EnumDummy)nonExistingValue, nameof(nonExistingValue)), $"Enum value '{nonExistingValue}' is not defined");
+>         }
+>
+>         [TestMethod]
+>         [DataRow(FlagDummy.Bar)]
+>         [DataRow(FlagDummy.Bar | FlagDummy.Baz)]
+>         public void DefinedFlag_Succeeds(object flags)
+>         {
+>             //ACT
+>             var res = Ensure.Comparable.IsEnumValueDefined((FlagDummy)flags, nameof(flags));
+>
+>             //ASSERT
+>             Assert.AreEqual(flags, res);
+>         }
+>
+>         [TestMethod]
+>         [DataRow((FlagDummy)5)]
+>         [DataRow((FlagDummy)0)]
+>         public void NotDefinedFlag_ThrowsException(object nonExistingValue)
+>         {
+>             //ACT && ASSERT
+>             Assert.ThrowsException<ArgumentException>(() =>
+>                 Ensure.Comparable.IsEnumValueDefined((FlagDummy)nonExistingValue, nameof(nonExistingValue)), $"Enum value '{nonExistingValue}' is not defined");
+>         }
+>
+>         private enum EnumDummy : byte
+>         {
+>             Bar = 1
+>         }
+>
+>         [Flags]
+>         private enum FlagDummy : byte
+>         {
+>             Bar = 1 << 1,
+>             Baz = 1 << 2
+>         }
+>     }
+>
+> —
+> You are receiving this because you authored the thread.
+> Reply to this email directly, view it on GitHub
+> <https://github.com/danielwertheim/Ensure.That/pull/131?email_source=notifications&email_token=ACSHCOW5QTAZTWA6BKTKZV3REKYOBA5CNFSM4KWV2IVKYY3PNVWWK3TUL52HS4DFVREXG43VMVBW63LNMVXHJKTDN5WW2ZLOORPWSZGOEMWCHPY#issuecomment-590095295>,
+> or unsubscribe
+> <https://github.com/notifications/unsubscribe-auth/ACSHCOSTS3UU5HY6OLH3YATREKYOBANCNFSM4KWV2IVA>
+> .
+>
+
+
+Yeah, we really needed it, so that's why we spent some time to implement it, hehe. 😄 
+I'll create an issue and check that #71 tomorrow. We have few more additional extensions, but not sure if those are not yet implemented (or implemented with some restrictions), thus I need to check our repo and this one, for up-to-date knowledge.
+As for your concern. I agree, that by definition - it feels like this additional check is not "pure". But from developer's perspective, the change from enum to flags is as simple as adding attribute (provided that all values were 2^n). And we had such case, thus learnt the flags issue the hard way, sadly. And on the other hand - if you have valid combination of enums, why treat it as not defined - but that's a question for .NET team. 😄 
+Anyhow, my suggestion would be that `IsDefined` would support both flags and enums, yet created `IsStrictlyDefined` where flags are not supported. 
+
+@danielwertheim oops I totally forgot to update with the faster code ;-P
+
+ Add API-test to ensure all three APIs have parity, to make contribution easier
+ #Reflection
+Do you have some sample code on what you had in mind?
+
+I'll handle it, feel free to assign to me it was mostly a note-to-self :)
+
+On Tue, Feb 18, 2020 at 1:38 PM Daniel Wertheim <notifications@github.com>
+wrote:
+
+> Do you have some sample code on what you had in mind?
+>
+> —
+> You are receiving this because you authored the thread.
+> Reply to this email directly, view it on GitHub
+> <https://github.com/danielwertheim/Ensure.That/issues/130?email_source=notifications&email_token=ACSHCOQ75ZWYEVYUGR23BIDRDRIOFA5CNFSM4KWVZGEKYY3PNVWWK3TUL52HS4DFVREXG43VMVBW63LNMVXHJKTDN5WW2ZLOORPWSZGOEMFJAYQ#issuecomment-587894882>,
+> or unsubscribe
+> <https://github.com/notifications/unsubscribe-auth/ACSHCOW652765EFU3OTT3HLRDRIOFANCNFSM4KWVZGEA>
+> .
+>
+
+
+I will struggle with this though, if the APIs do not have matching names (like proposed in #131)
+
+They will not have matching API names in all cases. I was more interested in seeing what you had in mind to see what problem it solves and how it will be to maintain. Just so that you don't waste your time so to speak.
+
+Proof of concept in a PR on my repo (meant only to give you the PR view but not sit around in your PRs until it's actually ready)
+https://github.com/ndrwrbgs/Ensure.That/pull/2/files
+
+ Use Memoization to avoid multiple enumeration of Ensure.Enumerable
+ We'd have to pass by ref to replace the value (or ask users nicely [and they'll surely forget] to use the return value) but it could avoid them shooting themselves in the foot :)
+I'm going to put the onus of handling this on the user. We have the signals there so tooling like Resharper can tell them about multiple enumeration. It will help them eagerly enumerate it or they can use https://fuqua.io/Rx.NET/ix-docs/html/M_System_Linq_EnumerableEx_Memoize__2.htm `Memoize()` if they don't want to eagerly evaluate the whole sequence.
+
+In summary, in this case, I think the capacity for misuse isn't our responsibility (at this point, normally I think I'd discourage offering the `IEnumerable` methods that can be costly, but now that they exist I don't want to make a breaking change regarding them).
+
+ Ship-plan v9?
+ @danielwertheim I was wondering what's on your roadmap before shipping version 9, hoping to get the `readonly structs` stuff for consumption and willing to help out with other changes you want to get in
+There's no roadmap. Features are added as needed. I'll rather do 100 releases with one feature than one with 10 features.
+
+Could we do a ship them to get the read-only structs out? :)
+
+On Wed, Feb 12, 2020, 11:35 AM Daniel Wertheim <notifications@github.com>
+wrote:
+
+> There's no roadmap. Features are added as needed. I'll rather do 100
+> releases with one feature than one with 10 features.
+>
+> —
+> You are receiving this because you authored the thread.
+> Reply to this email directly, view it on GitHub
+> <https://github.com/danielwertheim/Ensure.That/issues/128?email_source=notifications&email_token=ACSHCORZPCDNMRFEVJ5WWT3RCRFORA5CNFSM4KRUIY22YY3PNVWWK3TUL52HS4DFVREXG43VMVBW63LNMVXHJKTDN5WW2ZLOORPWSZGOELSC4SI#issuecomment-585379401>,
+> or unsubscribe
+> <https://github.com/notifications/unsubscribe-auth/ACSHCOQLENWXBU7MBEJUARTRCRFORANCNFSM4KRUIY2Q>
+> .
+>
+
+
+Now I have a desire for the enum tests too :-P any sign of shipping?
+
+Noticed that parts of the message construct came in in the last PR but don't believe it's braking. So we can ship whenever.
+
+Shipping https://dev.azure.com/danielwertheim/ensure.that/_build/results?buildId
+Now, what's breaking that you want in v9
+
+Oh I wasn't wanting something specific, just wanted the new changes shipped
+(v9 I just meant next version) :)
+
+On Wed, Mar 4, 2020, 10:40 PM Daniel Wertheim <notifications@github.com>
+wrote:
+
+> Now, what's breaking that you want in v9
+>
+> —
+> You are receiving this because you authored the thread.
+> Reply to this email directly, view it on GitHub
+> <https://github.com/danielwertheim/Ensure.That/issues/128?email_source=notifications&email_token=ACSHCOQ472JPGHANTREHRWDRF5COZA5CNFSM4KRUIY22YY3PNVWWK3TUL52HS4DFVREXG43VMVBW63LNMVXHJKTDN5WW2ZLOORPWSZGOEN35ECY#issuecomment-595055115>,
+> or unsubscribe
+> <https://github.com/notifications/unsubscribe-auth/ACSHCOTWT2UUW4UAKHA5CC3RF5COZANCNFSM4KRUIY2Q>
+> .
+>
+
+
+ ReadOnlySpan<char>
+ For string validation purposes.
+Primary questions I'd have are
+- [ ] Does `ReadOnlySpan` provide a better/more-interoperable API (are there times a user would have `ReadOnlySpan` but not `string`?
+- [ ] Should we provide both, or just `ReadOnlySpan`?
+- [ ] Do we provide the change _only_ for netcoreapp3.0 or also pull in the nuget package that supports it for other frameworks
+
+If we keep both
+- [ ] Can call sites interop okay (or will it be like "unsure which method to call")?
+
+If we switch to only providing `ReadOnlySpan`
+- [ ] Are there performance benefits in the operations we do on `string` that `ReadOnlySpan` will help with?
+- [ ] Does the cost of turning a string into a `ReadOnlySpan` to call us, and converting back to string (to return the value) outweigh those benefits?
+
+If we support multiple frameworks
+- [ ] Can folks who don't import those packages still resolve the old `string` methods without having to pull the new packages (is it a breaking change)
+
+It looks like mostly we're doing nullability & length. I ran some very rough benchmarks and length doesn't seem to perform valuably faster on ReadOnlySpan than on string, and there _is_ an overhead involved in casting to ReadOnlySpan (albeit minor) so I wouldn't replace string with it. But it does appear to be able to live side-by-side (at least for netcore30)
+
+ Readonly structs
+ https://devblogs.microsoft.com/premier-developer/the-in-modifier-and-the-readonly-structs-in-c/
+
+Looks good. Thanks.
+
+I _believe_ this should be a non-breaking change (though I'm not super versed with the new features, let me loop in coworker from my old team who _is_ versed on these @SergeyTeplyakov) so we should be able to release minor-version bump (anything I can do to help with that?)
+
+@ Sergey, this should make [ErrorProne.NET](https://github.com/SergeyTeplyakov/ErrorProne.NET) (and related perf) happy, but do you know if it's a breaking change to introduce `readonly` on a struct or `in` modifiers on the parameters?
+
+ IsPositive, IsNegative, IsNotNegative, IsApproximately
+ In regards to Issue #71:
+
+- Added IsPositive, IsNegative, IsNotNegative, IsApproximately methods and extensions
+- Added 16 new unit tests to cover the new methods
+Might want to look over https://math.stackexchange.com/questions/26705/is-zero-positive-or-negative for how to handle 0, evidently our assumptions might not hold for all application domains
+
+How to handle the `0` is also what got me thinking of what would be the "preferred/expected" way.
+
+@ndrwrbgs @dmarciano will it be to "expressive" to have e.g `IsNonZeroPositive`? 
+
+@danielwertheim I think it would be better to make it so that zero is not positive or negative by default (based on what I've ready in the article provided) and then have an optional parameter for specifying if zero should be considered positive, negative, or both.  I can also update the exception method for when zero is the cause of the failed validation so that way it is clear to the user why it failed when they may have expected a zero to pass.
+
+An enum is a lot better then a pure bool in this sense as it brings semantics. I'm guessing, most of the times, no one will use another value for it than the default. The idea with an "expressive" method name (that I suggested) is, that Ensure.That should be easy to understand (prefer not to go in and look at options, in this case the enum). I would be quite OK with only having the path of treating zero as zero (origin) and never count it into negative nor positive, just to keep the API simple and expressive. I mean, it could be solved using the support for `IsLt/IsLte` and `IsGt/IsGte`
+
+What are your opinions about this? Adding these new members with no enum and not including zero. And then just document it in the XML comments for intellisense and additionally be more informative in the name of the member.
+
+I can support the expressive method name option (programmers spend too much
+time trying to make short vague names so I'll always support longer ones
+:P). It supports fewer possible scenarios, but again this library is so
+easily extendable that supporting every scenario isn't necessary as long as
+those supported are clear. But if dmarc feels strongly I could support
+pushing for the enum route too :P
+
+TLDR both support my use cases (>0, !<0) so I don't have any "skin" in the
+decision.
+
+On Tue, Dec 10, 2019, 12:34 AM Daniel Wertheim <notifications@github.com>
+wrote:
+
+> An enum is a lot better then a pure bool in this sense as it brings
+> semantics. I'm guessing, most of the times, no one will use another value
+> for it than the default. The idea with an "expressive" method name (that I
+> suggested) is, that Ensure.That should be easy to understand (prefer not to
+> go in and look at options, in this case the enum). I would be quite OK with
+> only having the path of treating zero as zero (origin) and never count it
+> into negative nor positive, just to keep the API simple and expressive. I
+> mean, it could be solved using the support for IsLt/IsLte and IsGt/IsGte
+>
+> What are your opinions about this? Adding these new members with no enum
+> and not including zero. And then just document it in the XML comments for
+> intellisense and additionally be more informative in the name of the member.
+>
+> —
+> You are receiving this because you were mentioned.
+> Reply to this email directly, view it on GitHub
+> <https://github.com/danielwertheim/Ensure.That/pull/125?email_source=notifications&email_token=ACSHCOTOAMA67G762IJS653QX5IA5A5CNFSM4JW62NZKYY3PNVWWK3TUL52HS4DFVREXG43VMVBW63LNMVXHJKTDN5WW2ZLOORPWSZGOEGONAHA#issuecomment-563925020>,
+> or unsubscribe
+> <https://github.com/notifications/unsubscribe-auth/ACSHCORPOZXHGNHMYMZCTULQX5IA5ANCNFSM4JW62NZA>
+> .
+>
+
+
+@dmarciano do you want to merge with the latest master and get this into the next release?
+
+ Azd
+ 
+ Fixes status badge link
+ 
+ IsNotNull does not suppress CA1062
+ Using IsNotNull should get rid if the [CA1062 warning](https://docs.microsoft.com/en-us/visualstudio/code-quality/ca1062?view
+```
+Ensure.That(arg).IsNotNull();
+```
+
+Even though there seems to be `[ValidatedNotNull]` attribute on the `EnsureThat.Enforcers.AnyArg.IsNotNull` it still displays at warning
+It's because the value (arg in your sample) is wrapped in a type `Param` and then passed to the enforcer. Don't really think we can fix this. Perhaps use one of the other styles that works:
+
+- `EnsureArg.IsNotNull(i);`
+- `Ensure.Any.IsNotNull(i);`
+
+@ndrwrbgs do you have any ideas on this?
+
+@rsobon I know it is not perfect, but have you tried configurating the null check validation methods in the .editorconfig file as mentioned here: https://docs.microsoft.com/en-us/visualstudio/code-quality/ca1062?view
+Within the Param{T} I think that's the best we can get. We have annotations to tell R#, and could add ContractAnnotations, but CA1062 isn't smart enough to process any of those.
+
+Brief brainstorming, I think we could do would be a major refactor that moves .Name and .OptsFn into _each_ of the validation methods e.g.
+value.EnsureNotNull(), but that would be deviating from the existing design just to work around lacking features in CA so I would rather push on them (maybe @rsobon could ask them to keep it moving? :-P) to give us some contract mechanism to note that the value isn't null.
+
+Other brief brainstorming - we'd have to return a new type `NotNullParam` from methods that are validating not null and let CA know that that struct's Value can never be null, and the user would have to do something like
+```C#
+string myInputString,
+
+myInputString = Ensure.That(myInputString).IsNotNull().Value
+```
+which, again, looks super gross :(
+
+
+Oh, but @danielwertheim your suggestion was actually spot on. Those overloads would avoid the problem for folks who need to. I think the implementation of CA1062 (last I checked) was doing a very shallow analysis, so anything at all wrapped up in a type couldn't be noted.
+
+I think that since there are working alternatives in the lib (other API styles), no redesign should be made and I will close this one for now.
+
+Feel free to reopen if I have missed anything.
+
+ Replaces Cake with Azure Pipeline YAML and tests for multiple targets
+ 
+ Replace IEnumerable.Count() with .Any()
+ Using `.Any()` may be slightly faster then `.Count()`. Because `Count()` method have to iterate through all elements of `IEnumerable` while for `Any()` iterating first element is enough.
+
+Also there was suspicious `#if` directive with same code in both branches.
+Merged. Thanks @Vakadavr 
+
+Will be released soon as I need to give the Azure PipeLine a bit of "attention".
+
+Released
+
+ Fix inconsistent WhiteSpace naming
+ There's an inconsistent usage of the keyword _whitespace_. While for the `IsNotNullOrWhiteSpace` validation it's used with an upper S, for the `IsNotEmptyOrWhitespace` doesn't, so I just replaced all the occurrences of _Whitespace_ for _WhiteSpace_, even though I'd rather use the former.
+@dinispeixoto Thanks for the contribution. Sorry for the late reply.
+
+In order to take this in we should still provide the old overloads to that it doesn't brake for existing users. Probably add an obsolete attribute to the old and refer to the new ones.
+
+Hi @danielwertheim,
+
+Yeah, agree. I'll do it as soon as possible.
+
+Thank you for the feedback
+
+Hi @danielwertheim, just added the `Obsolete` attribute in order to avoid unneeded breaking changes. 
+
+ Support new nullable C#8 attributes
+ From what I understand, the new nullable attributes could be put into Ensure.That to help with nullable analysis in calling code. Something like https://devblogs.microsoft.com/dotnet/try-out-nullable-reference-types/#nullness-dependence-between-inputs-and-outputs-notnullifnotnullstring for example.
+
+This would mean that any analysis of code that comes after a call to Ensure.Any.IsNotNull (or similar functions) will identify that the parameter checked cannot be null after the Ensure call.
+Hmm, just read that the NotNullIfNotNull attribute only applies to method return values or ref parameters. :(
+
+I'd probably leave this open -- if these are finally coming into the base language, we could replace the ReSharper annotations for the same with the other annotations. It might not give the signal we are wanting on IsNotNull (duplicate of #122) but for all other cases (like paramName shouldn't be null if supplied) it would provide the R# experience to folks w/o R# (if https://docs.microsoft.com/en-us/dotnet/csharp/nullable-attributes is integrated into the IDE well)
+
+I'd probably wait about 4 months before bothering, to see if it reaches critical mass, but I'd still want to move to something more 'official' (which is probably why those were introduced?)
+
+@ndrwrbgs reopen or?
+
+I'll keep it in my email inbox, so we can leave this here for now
+User96725416 in 2026, feel free to -1 react me :-P
+
+@roryprimrose do you know of any analysis took that uses these today? Encountered the new attributes myself in netcoreapp30 but not sure if the IDE is doing anything with them yet.
+
+If there is something using them, we can easily add them everywhere the R# ones are. If not I'd defer again.
+
+Based on https://www.google.com/url?sa
+I'm a bit work-tired now so I'll test that theory in the future, unless someone else beats me to it ;-)
+
+It looks like it doesn't _break_ the build, but can throw compiler warnings. We would be able to pretty easily annotate nullability on the EnsureArg/Ensure.Type methods, but Ensure.That is a bit too complex for the trivial conditions implemented from what I see in:
+
+https://www.meziantou.net/csharp-8-nullable-reference-types.htm#post-condition-attri
+
+But that's no reason not to support it for the other APIs!
+
+Options for Ensure.That API: `IsNotNull` returns the input value. User can use the `!` symbol to tell the compiler that the value is really really not null after the call.
+@danielwertheim could you reopen this now? I'll take a look at adding the attributes.
+
+One thing to consider with compiler warnings is where people turn on TreatWarningsAsErrors. That would then fail their builds. 
+
+^ that's why I'm taking the task :)
+
+Sorry, I misunderstood your comment :)
+
+ Suggestion: Adds a way to verify if an enum value is defined
+ Hi,
+
+I want to make sure that the enum-values are defined. Some thing like:
+
+```
+class MyClass {
+    public MyClass(SomeEnum someEnum) {
+        EnsureArg.IsDefined(someEnum, nameof(someEnum));
+    }
+}
+
+enum SomeEnum { Valid }
+
+// Passes
+new MyClass(SomeEnum.Valid);
+
+// Fails
+var invalidEnum = (SomeEnum)-1;
+new MyClass(invalidEnum);
+```
+@maartenoosterhoff Are you interested in providing a PR for this?
+
+@danielwertheim Good afternoon.  I just came across this project while exploring GitHub and found it very interesting and would like to contribute.  I figured this issue was a simple one I could start with as I familiarize myself more with this library.  I just wanted to check if this is still something that you were interested in implementing before I started work on it.
+
+@danielwertheim Sorry for the late reply, but unfortunately I do not have the time to do this at the moment.
+Fortunately @dmarciano is just on time to crack it 👍
+
+@dmarciano absolutely
+
+
+@dmarciano Won't matter as far as the public-facing API, so feel free to get in an MVP of this first, but from perf work in C# I know that enums use some slow reflection to do the kinds of things we'll need to do here. We have some guidance at work about it, but it essentially boils down to caching the `.GetValues()` call on the enum type.
+
+That said, I'd be cautious about caching things for users based on generic types passed in, so I'd probably personally have a `bool useCache = true` flag, that most users could omit (and get performant code) but gives an escape hatch to folks as needed.
+
+@ndrwrbgs Why not cache?
+
+It's _really_ pedantic and just "covering our butts" for scenarios I don't claim to fully understand, but I am imagining a scenario that reflection is being used to construct enums at runtime. These being passed into a generic method that calls us would result in unbounded memory growth if we cache everything.
+
+That said, it's fully possible that .NET would internally result in the same memory growth, and to be concerned about _us_ in the scenario would just be silly; but thoughts are if we can (_very_ easily) supply an (optional) flag to shut it off then we would never have to "panic-release-a-fix" if something were wrong (or have someone internal in a big company have to defend the library). At that point it becomes a user-facing fix (just pass `false`)
+
+working on this
+
+@ndrwrbgs thanks for the PR. Do you feel that it should be released immediately or do you want to address more stuff?
+
+I still want the read-only changes from December out so sooner is better
+for me :P but I'm sure I'll have some more minor version changes upcoming
+now that I'm back at it (read: Seattle has sun again).
+
+On Thu, Feb 20, 2020, 1:02 PM Daniel Wertheim <notifications@github.com>
+wrote:
+
+> @ndrwrbgs <https://github.com/ndrwrbgs> thanks for the PR. Do you feel
+> that it should be released immediately or do you want to address more stuff?
+>
+> —
+> You are receiving this because you were mentioned.
+> Reply to this email directly, view it on GitHub
+> <https://github.com/danielwertheim/Ensure.That/issues/117?email_source=notifications&email_token=ACSHCOV72UL5NTYLR6EGWYDRD3VWNA5CNFSM4HK6MVP2YY3PNVWWK3TUL52HS4DFVREXG43VMVBW63LNMVXHJKTDN5WW2ZLOORPWSZGOEMQCMII#issuecomment-589309473>,
+> or unsubscribe
+> <https://github.com/notifications/unsubscribe-auth/ACSHCOUQJZXQONQFC5VOHLLRD3VWNANCNFSM4HK6MVPQ>
+> .
+>
+
+
+ Added default message and param to OptsFn
+ I'd like to offer this change.
+The idea of this is to have default message as well as param name in the OptsFn. 
+In our case, we want to override the thrown exceptions by our ones, so we could easily handle them. However, we don't want to lose the message (which contains all provided values to the ensure). 
+For instance, if we have:
+`Ensure.String.HasLengthBetween(name, 0, 10, nameof(Name));`
+The default exception and message would "ArgumentException" and "The string is too long. Must be between '0' and '10'.
+But we want to catch only validation errors, so we could show the administrator what the issue is. That means that "ArgumentException" is a bit too risky for us.
+So the desired outcome would be exception of our type, let's say, "DomainValidationException" and message to remain the same. With ".WithException" we would need to duplicate the given arguments as well as the message, for example:
+`Ensure.String.HasLengthBetween(name, 0, 10, nameof(Name), o => o.WithException(new DomainValidationException("The string is too long. Must be between '0' and '10'.", nameof(Name))));`
+Which means that if range changes, it might be that developer wouldn't change the message.
+Also, the code looks abit noisy.
+The solution with given changes would be:
+`Ensure.String.HasLengthBetween(name, 0, 10, nameof(Name), EnsureHelper.WithValidationException);`
+Where EnsureHelper would have such property:
+`public static OptsFn WithValidationException => (options, defaultMessage, paramName) => options.WithException(new DomainValidationException(defaultMessage, paramName));`
+Way cleaner, isn't it? 
+However, current solution means breaking changes, because it requires to change the OptsFn delegate. I could offer another solution: pass the default message and param name to EnsureOptions' constructor. Then such change would not be a breaking one. I could make such change if needed. 
+@nevaldas thanks for the contribution. Sorry for the late response.
+
+@ndrwrbgs What's your input on this? 
+
+Oh, hi, I was asked a question :-D
+let me review :)
+
+I understand the use case but I don't think it's common enough (at this point) to warrant the breaking change.
+
+Separately, it brings up some questions like if we do a change like this, should `OptsFn` have also be passed the input value, so it can use that in the exception message ("Your string was 100 characters long").
+
+To accommodate your scenario without breaking existing users I'd suggest making a middleware layer that you call in your methods instead of calling Ensure directly, and have that layer catch the exceptions from Ensure to rethrow exceptions with your specified type. Catching the `ArgumentException` should not be a concern as long as you're not catching it from _both_ `Ensure` calls _and_ your business logic that might have them coming from elsewhere, as you noticed.
+
+An example would be:
+
+```C#
+void Main()
+{
+  Abc("123");
+}
+
+// Define other methods and classes here
+void Abc(string i)
+{
+  DomainValidation.ArgumentValidationBlock(delegate {
+    Ensure.That(i).IsNotNull();
+  });
+}
+
+static class DomainValidation
+{
+  public static void ArgumentValidationBlock(Action action)
+  {
+    try
+    {
+      action();
+    }
+    catch(ArgumentException ae)
+    {
+      // Ideally you'd also pass ae as the inner exception here anyway
+      // , to get the stack trace of the original exception from 
+      // Ensure.That. You "never" want to just drop an exception
+      // TODO: Use your exception type
+      throw new NullReferenceException(ae.Message, ae /* passing ae as inner exception */);
+    }
+  }
+}
+```
+
+@ndrwrbgs  If taking that middleware route the argument should be passed through, right? Just to get rid of the risk of not being able to cache the closure?
+
+E.g. 
+
+```csharp
+static class DomainValidation
+{
+  public static void ArgumentValidationBlock<T>(T i, Action<T> action)
+  {
+    try
+    {
+      action(i);
+    }
+    catch(ArgumentException ae)
+    {
+      // Ideally you'd also pass ae as the inner exception here anyway
+      // , to get the stack trace of the original exception from 
+      // Ensure.That. You "never" want to just drop an exception
+      // TODO: Use your exception type
+      throw new NullReferenceException(ae.Message, ae /* passing ae as inner exception */);
+    }
+  }
+}
+```
+
+If we populated the `EnsureOptions` struct with the default message and the value we would be set right? And that struct would only be created if a lambda was injected.
+
+I saw the EnsureOptions as a possible route also, but it looked (currently)
+like something that doesn't change on even call to a method (eg with the
+value). It's definitely doable though.
+
+Honestly the request is really valid, if I had no other TODOs on the
+project I think I'd take this up and look into approaches for custom
+exception types/removing the verbosity of OptsFn calls (maybe a generic
+argument that had to be inherited from ArgumentException and has to have a
+certain ctor signature) but at this moment I'd rather focus energy on more
+validation methods and performance (so we can assert "it's just as fast as
+'if null throw'").
+
+
+On Sun, Feb 23, 2020, 5:35 AM Daniel Wertheim <notifications@github.com>
+wrote:
+
+> If we populated the EnsureOptions struct with the default message and the
+> value we would be set right? And that struct would only be created if a
+> lambda was injected.
+>
+> —
+> You are receiving this because you were mentioned.
+> Reply to this email directly, view it on GitHub
+> <https://github.com/danielwertheim/Ensure.That/pull/116?email_source=notifications&email_token=ACSHCOSTWBAMHUOJQIGLADDREJ3RTA5CNFSM4HF5T27KYY3PNVWWK3TUL52HS4DFVREXG43VMVBW63LNMVXHJKTDN5WW2ZLOORPWSZGOEMV36HY#issuecomment-590069535>,
+> or unsubscribe
+> <https://github.com/notifications/unsubscribe-auth/ACSHCOW2EVGRSUC43RH6YMDREJ3RTANCNFSM4HF5T27A>
+> .
+>
+
+
+What if `EnsureOptions` looked like this?
+```
+public struct EnsureOptions
+    {
+        /// <summary>
+        /// If <see cref="CustomExceptionFactory"/> is defined, this exception will be thrown instead of the
+        /// standard exceptions for the particular ensure method.
+        /// Assign using <see cref="WithException"/>.
+        /// </summary>
+        public Exception CustomException => CustomExceptionFactory(null);
+
+        /// <summary>
+        /// If defined, this exception will be thrown instead of the
+        /// standard exceptions for the particular ensure method.
+        /// Assign using <see cref="WithException"/>.
+        /// </summary>
+        public Func<string, Exception> CustomExceptionFactory { get; private set; }
+
+        /// <summary>
+        /// If defined, and no <see cref="CustomExceptionFactory"/> has been defined,
+        /// this message will be used instead of the standard message for the
+        /// particular ensure method.
+        /// Assign using <see cref="WithMessage"/>.
+        /// </summary>
+        public string CustomMessage { get; private set; }
+
+        public EnsureOptions WithException(Exception ex)
+        {
+            CustomExceptionFactory = x => ex;
+
+            return this;
+        }
+
+        public EnsureOptions WithException(Func<string, Exception> factory)
+        {
+            CustomExceptionFactory = factory;
+
+            return this;
+        }
+
+        public EnsureOptions WithMessage(string message)
+        {
+            CustomMessage = message;
+
+            return this;
+        }
+    }
+```
+
+Then `ExceptionFactory` could be like this:
+```
+if (opts.CustomExceptionFactory != null)
+                    return opts.CustomExceptionFactory(defaultMessage);
+```
+This has no breaking changes for the users. One could think about removal of `CustomException`, or at least add `[Obsolete]`, so nobody would use its getter.
+ If this is good enough, I can commit it.  
+
+As long as it doesn't break the API I'm okay with any approach (since I
+don't use the customization methods at least yet). Leaving @danielwertheim
+with all the tough decision making responsibility :-P
+
+On Sun, Feb 23, 2020, 9:29 AM Evaldas <notifications@github.com> wrote:
+
+> What if EnsureOptions looked like this?
+>
+> public struct EnsureOptions
+>     {
+>         /// <summary>
+>         /// If <see cref="CustomExceptionFactory"/> is defined, this exception will be thrown instead of the
+>         /// standard exceptions for the particular ensure method.
+>         /// Assign using <see cref="WithException"/>.
+>         /// </summary>
+>         public Exception CustomException => CustomExceptionFactory(null);
+>
+>         /// <summary>
+>         /// If defined, this exception will be thrown instead of the
+>         /// standard exceptions for the particular ensure method.
+>         /// Assign using <see cref="WithException"/>.
+>         /// </summary>
+>         public Func<string, Exception> CustomExceptionFactory { get; private set; }
+>
+>         /// <summary>
+>         /// If defined, and no <see cref="CustomExceptionFactory"/> has been defined,
+>         /// this message will be used instead of the standard message for the
+>         /// particular ensure method.
+>         /// Assign using <see cref="WithMessage"/>.
+>         /// </summary>
+>         public string CustomMessage { get; private set; }
+>
+>         public EnsureOptions WithException(Exception ex)
+>         {
+>             CustomExceptionFactory = x => ex;
+>
+>             return this;
+>         }
+>
+>         public EnsureOptions WithException(Func<string, Exception> factory)
+>         {
+>             CustomExceptionFactory = factory;
+>
+>             return this;
+>         }
+>
+>         public EnsureOptions WithMessage(string message)
+>         {
+>             CustomMessage = message;
+>
+>             return this;
+>         }
+>     }
+>
+> Then ExceptionFactory could be like this:
+>
+> if (opts.CustomExceptionFactory != null)
+>                     return opts.CustomExceptionFactory(defaultMessage);
+>
+> This has no breaking changes for the users. One could think about removal
+> of CustomException, or at least add [Obsolete], so nobody would use its
+> getter.
+> If this is good enough, I can commit it.
+>
+> —
+> You are receiving this because you were mentioned.
+> Reply to this email directly, view it on GitHub
+> <https://github.com/danielwertheim/Ensure.That/pull/116?email_source=notifications&email_token=ACSHCORLEGYGT3KXCUZUUMDREKW77A5CNFSM4HF5T27KYY3PNVWWK3TUL52HS4DFVREXG43VMVBW63LNMVXHJKTDN5WW2ZLOORPWSZGOEMWB57Q#issuecomment-590094078>,
+> or unsubscribe
+> <https://github.com/notifications/unsubscribe-auth/ACSHCOXTOOBBNGVY2EG3QX3REKW77ANCNFSM4HF5T27A>
+> .
+>
+
+
+@danielwertheim any news regarding this PR?
+
+ Azure devops
+ 
+ IsNullOr()
+ Validation for optional arguments, it'd be nice to have a way to say 'validate, but only if supplied'
+
+## Today:
+```C#
+if (arg != null) {
+  EnsureArg.Matches(arg, new Regex(@"^\d*$"), nameof(arg));
+}
+```
+
+## Proposed syntax
+(I'm not sure how to do this nicely with EnsureArg - and therefore it might belong in a sister library and NOT here) :
+```C#
+Ensure.That(arg, nameof(arg)).IsNullOr().Matches(new Regex(@"^\d*$"));
+```
+
+_Since this is more of a feature-suggestion to myself, feel free to close it if you don't want the noise of me tracking ideas on this backlog :)_
+The "today" case, wouldn't that e.g. be:
+
+```csharp
+EnsureArg.IsNotNull(arg, nameof(arg));
+EnsureArg.Matches(arg, new Regex(@"^\d*$"), nameof(arg));
+```
+
+Anyway, the API of `Ensure.That(...)` was like that at one point, as in it returned the `Param` so that more rules could be chained. Wasn't there a performance reason that it was removed?
+
+In this case, no, it's that the input is { not supplied || valid } so null _is_ okay in this case. Like the user can not supply a phone number, but if they do, it should be a phone number.
+
+I'm sure there was a performance problem :-P - I'll deal with performance before sending any PRs but I think it's worth looking into :-)
+
++1 on having this requirement again - nullable (optional arguments) that have constraints IFF supplied.
+
+ Feature Wish: Object validation
+ It would be nice to have some way to validate an argument.
+
+What am I talking about:
+```
+public class Customer
+{
+  public int Name { get; set; }
+}
+```
+
+...
+```
+public void Foo(Customer customer)
+{
+  Ensure.That(customer, nameof(customer)).IsNotNull();
+  Ensure.That(customer.Name, nameof(customer)).IsNotNullOrEmpty();
+}
+```
+...
+
+So basically I want to validate some properties of the passed in object argument.
+
+Checking the argument for null is the easy part, but how do I validate properties?
+
+Writing it the way I showed in my attempt will lead to an ArgumentNullException, which is wrong.
+
+Of course I can create the exception on my own with the opts part, but this will counterfight the idea of using your library.
+
+
+Just to make sure we're talking about the same things, I presume you meant
+```C#
+public class Customer
+{
+    public string /* ~int~ */ Name { get; set; }
+}
+```
+
+It appears your problem is that you don't want an `ArgumentNullException("customer")` in this case.
+
+Personally, I change the argument for paramName on Ensure.That to the deep name of the argument to aid debugging.
+```C#
+public void Foo(Customer customer)
+{
+    Ensure.That(customer, nameof(customer)).IsNotNull();
+    // ~Ensure.That(customer.Name, nameof(customer)).IsNotNullOrEmpty();~
+    Ensure.That(customer.Name, $"{nameof(customer)}.{nameof(customer.Name)}").IsNotNullOrEmpty();
+}
+```
+
+To help direct any further discussion if that does not solve your problem, could you detail the change in behaviour you'd wish to see?
+
+There is some version back in the history that allowed you to pass a lambda expression that would extract the full path “customer.Address.Zip”. This was removed due to performance issues. If you are fine with having it in, you could perhaps grab that and make use of it somehow.
+
+Personally I would (if possible) move the responsibility and not have a public property and instead have the cTor or a factory method of/for Customer enforce the args. So a consumer of Customer, would only need to check if null or not.
+
+Alternatively just use a string for the name as suggested by @ndrwrbgs 
+
+
+
+Yes, you both understood me perfectly. 
+The double name of is sadly very cumbersome to write, but I like the idea.
+I reviewed some code of my co-workers using just the second part:
+
+`Ensure.That(customer.Name, nameof(customer.Name)).IsNotNullOrEmpty();`
+
+But I dont like it, cause of 2 things:
+
+-  the message tells now something about a parameter named Name, but there is none in the method
+-  the exception is a ArgumentNullException, while it is just an ArgumentException, as the argument is not null in that case
+
+Ignoring the 2nd part, this comes very close:
+
+`Ensure.That(customer.Name, nameof(customer), opts => opts.WithMessage($"Property {nameof(customer.Name)} is null")).IsNotNullOrEmpty();
+`
+
+but is also very cumbersome to write and I have all the string management back in my application.
+If you already tested it for bad performance, yes indeed I hoped for sth like this
+Ensure.That(customer, nameof(customer)).WithProperty(c => c.Name).IsNotNullOrEmpty();
+At least I have not overlooked anything in the documentation.
+
+Thx for your support
+
+
+
+I think using a property like you show, that doesn't capture a closure, and optimizing caching etc around turning the expression into a string would be feasible, but I'm not committing to demoing that at this time :)
+
+Without thinking of performance or anything here is something that works
+
+```csharp
+using System;
+using System.Linq.Expressions;
+using EnsureThat;
+
+namespace ConsoleApp1
+{
+    internal static class ExpressionExtensions
+    {
+        internal static string ToPath(this MemberExpression e)
+        {
+            var path = e.Expression is MemberExpression parent
+                ? parent.ToPath() + "."
+                : string.Empty;
+
+            return path + e.Member.Name;
+        }
+
+        internal static MemberExpression GetRightMostMember(this Expression e)
+        {
+            if (e is LambdaExpression lambdaExpression)
+                return GetRightMostMember(lambdaExpression.Body);
+
+            if (e is MemberExpression memberExpression)
+                return memberExpression;
+
+            if (e is MethodCallExpression callExpression)
+            {
+                if (callExpression.Object is MethodCallExpression || callExpression.Object is MemberExpression)
+                    return GetRightMostMember(callExpression.Object);
+
+                var member = callExpression.Arguments.Count > 0 ? callExpression.Arguments[0] : callExpression.Object;
+                return GetRightMostMember(member);
+            }
+
+            if (e is UnaryExpression unaryExpression)
+            {
+                return GetRightMostMember(unaryExpression.Operand);
+            }
+
+            return null;
+        }
+    }
+
+    internal static class MemberPath
+    {
+        internal static string From(Expression<Func<object>> e)
+        {
+            var memberExpression = e.GetRightMostMember();
+            return memberExpression.ToPath();
+        }
+    }
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            DoSomething(new Customer());
+        }
+
+        static void DoSomething(Customer customer)
+        {
+            Ensure
+                .That(customer.Name, MemberPath.From(() => customer.Name))
+                .IsNotNullOrWhiteSpace();
+        }
+    }
+
+    public class Customer
+    {
+        public string Name { get; set; }
+    }
+}
+```
+
+Not much thoughts have been put in to this, so benchmarking etc. I'll leave up to whom ever wants to grab it and use it.
+
+The thing that caused most performance issue if I remember correctly was to compile the expression and to access the value.
+
+This sample instead duplicates the access path so to speak, hence no compilation of the expression is done to get the actual value.
+
+Quick benchmark
+
+```csharp
+    [RankColumn]
+    [MemoryDiagnoser]
+    public class Foo
+    {
+        private class MyThing
+        {
+            public string MyString { get; set; }
+        }
+
+        private readonly MyThing _myThing = new MyThing
+        {
+            MyString = "Some value"
+        };
+
+        [Benchmark(Baseline = true)]
+        public void NoExpression()
+        {
+            EnsureArg.IsNotNullOrWhiteSpace(_myThing.MyString, "_myThing.MyString");
+        }
+
+        [Benchmark]
+        public void UsingExpression()
+        {
+            EnsureArg.IsNotNullOrWhiteSpace(_myThing.MyString, MemberPath.From(() => _myThing.MyString));
+        }
+    }
+```
+
+|          Method |         Mean |     Error |    StdDev |  Ratio | RatioSD | Rank | Gen 0/1k Op | Gen 1/1k Op | Gen 2/1k Op | Allocated Memory/Op |
+|---------------- |-------------:|----------:|----------:|-------:|--------:|-----:|------------:|------------:|------------:|--------------------:|
+|    NoExpression |     6.890 ns | 0.0172 ns | 0.0161 ns |   1.00 |    0.00 |    1 |           - |           - |           - |                   - |
+| UsingExpression | 1,259.348 ns | 3.8506 ns | 3.6019 ns | 182.77 |    0.67 |    2 |      0.1564 |           - |           - |               656 B |
+
+If we had the string generation to only take place when needed (`Func<T,string>`) then I guess you could live with it as it would only happen during "exception" creation.
+
+I was able to get it down from 182x worse to 19x worse by using some compiler tricks and caching the value based on the call location information that gets compiled into the app.
+
+It would be possible to add this as an add on library rather than embedded here (at least for the `Ensure.That` syntax which is extendable, the others would require modifying the `Ensure.Object` and `EnsureArgs` classes), maybe I'll do that at some point but not right now :)
+
+Please feel free to use the below modifications as you deem fit.
+
+
+
+Primary changes
+* Use Func<Expression> to avoid new-ing one up every time
+* Do not capture _myThing in the expression, so we can use a single Func instance to reduce memory
+* Add [CallerFilePath] and [CallerLineNumber] to allow caching based on the call site, to avoid playing with the Expression at all when possible
+
+```c#
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Linq.Expressions;
+using System.Runtime.CompilerServices;
+using System.Security.Cryptography.X509Certificates;
+using EnsureThat;
+using BenchmarkDotNet;
+using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Configs;
+using BenchmarkDotNet.Jobs;
+using BenchmarkDotNet.Running;
+
+namespace ConsoleApp1
+{ 
+    [RankColumn]
+    [MemoryDiagnoser]
+    public class Foo
+    {
+        private class MyThing
+        {
+            public string MyString { get; set; }
+        }
+
+        private readonly MyThing _myThing = new MyThing
+        {
+            MyString = "Some value"
+        };
+
+        [Benchmark(Baseline = true)]
+        public void NoExpression()
+        {
+            EnsureArg.IsNotNullOrWhiteSpace(_myThing.MyString, $"{nameof(_myThing)}.{nameof(_myThing.MyString)}");
+        }
+
+        [Benchmark]
+        public void UsingExpression()
+        {
+            ////EnsureArg.IsNotNullOrWhiteSpace(_myThing.MyString, MemberPath.From(() => _myThing.MyString));
+            
+            // I think moving to Ensure.That would make capturing "_myThing" cleaner, which we need to do to avoid Func allocation which will happen if we capture _myThing in a closure
+            // Looks like expressions are still new-ing regardless
+            EnsureArg.IsNotNullOrWhiteSpace(_myThing.MyString, 
+                // Can be made faster by using string.Join instead of string.Concat, and pooling the arguments array
+                $"{nameof(_myThing)}.{MemberPath.From<MyThing>(() => thing => thing.MyString)}");
+            // TODO: Impl this
+            //Ensure.That(_myThing, nameof(_myThing)).Property(thing => thing.MyString).IsNotNullOrWhitespace();
+        }
+    }
+    internal static class ExpressionExtensions
+    {
+        internal static string ToPath(this MemberExpression e)
+        {
+            var path = e.Expression is MemberExpression parent
+                ? parent.ToPath() + "."
+                : string.Empty;
+
+            return path + e.Member.Name;
+        }
+
+        internal static MemberExpression GetRightMostMember(this Expression e)
+        {
+            if (e is LambdaExpression lambdaExpression)
+                return GetRightMostMember(lambdaExpression.Body);
+
+            if (e is MemberExpression memberExpression)
+                return memberExpression;
+
+            if (e is MethodCallExpression callExpression)
+            {
+                if (callExpression.Object is MethodCallExpression || callExpression.Object is MemberExpression)
+                    return GetRightMostMember(callExpression.Object);
+
+                var member = callExpression.Arguments.Count > 0 ? callExpression.Arguments[0] : callExpression.Object;
+                return GetRightMostMember(member);
+            }
+
+            if (e is UnaryExpression unaryExpression)
+            {
+                return GetRightMostMember(unaryExpression.Operand);
+            }
+
+            return null;
+        }
+    }
+
+    internal static class MemberPath
+    {
+        // TODO: Does not support multiple statements on one line
+        private static readonly ConcurrentDictionary<MyKey, string> values = new ConcurrentDictionary<MyKey, string>();
+
+        ////internal static string From(Expression<Func<object>> e)
+        // By wrapping this in a Func, we can avoid allocating the Expression except when we want it (since it gets compiled into a method)
+        internal static string From<T>(Func<Expression<Func<T, object>>> e, [CallerFilePath] string file = "", [CallerLineNumber] int line = 0)
+        {
+            return values.GetOrAdd(
+                new MyKey(typeof(T), file, line, e),
+                // TODO: Is making a new func each time for capturing 'e', would need to include in the key but ignore in the equality
+                (key) =>
+                {
+                    // Not EXACTLY what the user was wanted, as it roughly equals nameof(my.property.value) ('value' rather than 'my.property.value')
+                    var memberExpression = key.Expression().GetRightMostMember();
+                    // Remove the first part
+                    return memberExpression.ToPath();
+                });
+        }
+
+        private struct MyKey : IEquatable<MyKey>
+        {
+            public Type Type { get; private set; }
+            public string FilePath { get; private set; }
+            public int LineNumber { get; private set; }
+            // If we didn't save this in 'key' on GetOrAdd for ConcurrentDictionary, it would have to new up a delegate every time to capture it in the closure Func for AddFactory
+            // Since we had to wrap it in a Func to avoid allocations, we also benefit from being able to use equality! (if the user used us correctly and it got compiled to a static method)
+            public Func<Expression> Expression { get; private set; }
+
+            public MyKey(Type type, string filePath, int lineNumber, Func<Expression> expression)
+            {
+                Type = type;
+                FilePath = filePath;
+                LineNumber = lineNumber;
+                Expression = expression;
+            }
+
+            public bool Equals(MyKey other)
+            {
+                return Equals(Type, other.Type) && string.Equals(FilePath, other.FilePath) && LineNumber == other.LineNumber && Equals(Expression, other.Expression);
+            }
+
+            public override bool Equals(object obj)
+            {
+                if (ReferenceEquals(null, obj)) return false;
+                return obj is MyKey other && Equals(other);
+            }
+
+            public override int GetHashCode()
+            {
+                unchecked
+                {
+                    var hashCode = (Type != null ? Type.GetHashCode() : 0);
+                    //hashCode = (hashCode * 397) ^ (FilePath != null ? FilePath.GetHashCode() : 0); // TODO: String.GetHashCode is taking 19% of the time, but we expect it usually to be ReferenceEquals items, can it be optimized? -- oh! just remove it from GetHashCode
+                    hashCode = (hashCode * 397) ^ LineNumber;
+                    hashCode = (hashCode * 397) ^ (Expression != null ? Expression.GetHashCode() : 0);
+                    return hashCode;
+                }
+            }
+
+            public static bool operator ==(MyKey left, MyKey right)
+            {
+                return left.Equals(right);
+            }
+
+            public static bool operator !=(MyKey left, MyKey right)
+            {
+                return !left.Equals(right);
+            }
+        }
+    }
+
+    internal static class Program{
+        static void Main(string[] args)
+        {
+            BenchmarkRunner.Run<Foo>(
+                DefaultConfig.Instance.With(Job.ShortRun));
+        }
+    }
+}
+```
+
+
+
+``` ini
+
+BenchmarkDotNet=v0.11.5, OS=
+Intel Core i7-6820HQ CPU 2.70GHz (Skylake), 1 CPU, 8 logical and 4 physical cores
+  [Host]   : .NET Framework 4.7.2 (CLR 4.0.30319.42000), 32bit LegacyJIT-v4.7.3362.0
+  ShortRun : .NET Framework 4.7.2 (CLR 4.0.30319.42000), 32bit LegacyJIT-v4.7.3362.0
+
+Job=ShortRun  IterationCount=3  LaunchCount=1  
+WarmupCount=3  
+
+```
+|          Method |       Mean |     Error |    StdDev | Ratio | RatioSD | Rank |  Gen 0 | Gen 1 | Gen 2 | Allocated |
+|---------------- |-----------:|----------:|----------:|------:|--------:|-----:|-------:|------:|------:|----------:|
+|    NoExpression |   6.699 ns |  2.292 ns | 0.1256 ns |  1.00 |    0.00 |    1 |      - |     - |     - |         - |
+| UsingExpression | 129.354 ns | 53.568 ns | 2.9362 ns | 19.31 |    0.36 |    2 | 0.0112 |     - |     - |      48 B |
+
+
+Rerunning for non-short-job, that Error was huge in the above :) Results are the same
+
+
+|          Method |       Mean |     Error |    StdDev | Ratio | RatioSD | Rank |  Gen 0 | Gen 1 | Gen 2 | Allocated |
+|---------------- |-----------:|----------:|----------:|------:|--------:|-----:|-------:|------:|------:|----------:|
+|    NoExpression |   6.261 ns | 0.1591 ns | 0.2012 ns |  1.00 |    0.00 |    1 |      - |     - |     - |         - |
+| UsingExpression | 127.487 ns | 2.5965 ns | 5.4769 ns | 19.92 |    1.31 |    2 | 0.0112 |     - |     - |      48 B |
+
+Or would it work with e.g. a Roslyn SyntaxRewriter that code be shipped as an analyzer or something?
+
+Anyways. I will not put in effort on this one right now.
+
+FYI pointer: https://github.com/Fody/Fody is what I've been using for stuff like that lately.
+
+I've finally gotten around to making a package for this. Iterations on performance and feedback on usage are welcome - I agree it doesn't belong in the base library since it can easily be patched on
+
+https://www.nuget.org/packages/Ensure.That.Expressions/0.1.0
+

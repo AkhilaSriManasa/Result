@@ -1,0 +1,34 @@
+﻿ [skip ci] fixed some bad docs
+ [skip ci]
+ Added using statement that needs to go with pull request
+ Fix missing Read with encodin in abot2
+
+Signed-off-by: sjdirect <sjdirect@gmail.com>
+ [skip ci]
+ [skip ci] pointed docs to new AbotX repo
+ Added notice to draw attention to Abot2.Demo for newer code demos
+ Updated docs to new naming convention in v2
+ [skip ci]
+ [skip ci]
+ Merge branch 'master' of github.com:sjdirect/abot
+ Added ignore of html files in abot2 projects
+ [skip ci]
+ Merge pull request #208 from JulioPablo/master
+
+Remove Async events from readme example
+ Remove Async events from readme example
+ Adding Microsoft.Csharp to account for dynamic
+ [skip ci]
+ Better handling of request timeouts that then correctly set the crawledPage.HttpRequestException prop
+ Merge branch 'master' of github.com:sjdirect/abot
+ Logging improvements (threadid, format, syntax, constants, etc...)
+ [skip ci]
+ [skip ci]
+ [skip ci]
+ Updated test project dependencies
+ Another attempt, fixes #203 by adding some more thorough checking of currently processing pages. Also has 3 integration tests that test. Included LimitedConcurrencyTaskScheduler. Will try to use it as an IThreadManager impl comparison.
+ Future proofing method. Also part of last commit that fixes #203
+ Minor change to trigger build
+ Removing async signatures on methods that must block
+ Merge branch 'master' of github.com:sjdirect/abot
+ Have to revert back to Thread.Sleep to block on the current thread. Fixes #203

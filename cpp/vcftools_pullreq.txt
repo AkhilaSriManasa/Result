@@ -1,0 +1,214 @@
+﻿ Fix regex used to check *.gz file extension
+ Search regex should match whether the file path ends with "gz" extension.
+
+Current regex will return true even any of the parent dirs contain "gz" string.
+ Fix FORMAT/FILTER typo in add_FILTER_descriptor()
+ The warning log message in add_FILTER_descriptor() states, "Expected at
+least 2 parts in FORMAT entry". Correct "FORMAT" to "FILTER".
+ Update vcf-merge
+ 
+ Hyperlink DOIs against preferred resolver
+ Hello :-)
+
+The DOI foundation recommends [this new, secure resolver](https://www.doi.org/doi_handbook/3_Resolution.html#3.8).
+
+Cheers!
+ Fix usage & set executable bit for vcf-haplotypes
+ 
+ vcf-haplotypes moved to src/perl/
+ Hello
+
+I have recently contributed the vcf-haplotypes script but unfortunately placed it in a wrong directory. It should be actually in src/perl as id depends on Vcf.pm.
+
+Regards
+Albert Gevorgyan
+ Haploid mode
+ I have introduced a few small changes in order to allow computation of statistics with haploid data. When enabling the --haploid switch, vcftools will assume that genotypes are haploid instead of diploid. This has two consequences: (1) an error will be sent in case a diploid genotype is found at some locus (without the switch, it currently complains in the presence of a haploid genotype) and (2) Ne parameters are divided by 2. This currently only affect the calculations of pi, Tajima's D and Fst values.
+ Create vcf-haplotypes
+ vcf-haplotypes script contributed from MedImmune
+ fixes pkg-config issue regarding the includes
+ - must be ZLIB_CFLAGS instead of ZLIB_CPPFLAGS
+- fixes #62
+
+ Quote shell commands in FaSlice::read_chunk
+ Fixes vcftools/vcftools#46
+
+Uses String::ShellQuote to protect a samtools command
+built from user input, and \Q..\E to protect the regexp
+used to parse samtools output when $chr contains special
+characters.
+
+E.g., if $chr contains pipes as in
+'gi|1028055272|gb|LWRT01000001.1|', quoting
+prevents the execution of
+
+`samtools faidx ref.fa gi|1028055272|gb|LWRT01000001.1|:300-400`
+
+and instead calls
+
+`samtools faidx 'ref.fa' 'gi|1028055272|gb|LWRT01000001.1|:300-400'`
+
+ Fix configure.ac and Makefile.am's to properly honour DESTDIR
+ - Replaced raw 'if test' conditionals with `AS_IF`, as the latter is more portable
+  https://autotools.io/autoconf/arguments.html
+- Add quoting for `PKG_CHECK_MODULES` of zlib, as this is considered good practice
+  https://autotools.io/pkgconfig/pkg_check_modules.html
+- Fix `ZLIB_CPPFLAGS` -> `ZLIB_CFLAGS` incorrect usage
+  https://autotools.io/pkgconfig/pkg_check_modules.html
+- Do not code `PMDIR` with prefix in the configure script, rather let Automake handle
+  this. This is important, as all custom paths in Makefile.am's need to have these
+  variables prefixed, as otherwise `make install` cannot temporarily change them.
+  https://www.gnu.org/software/automake/manual/html_node/Hard_002dCoded-Install-Paths.html
+- Prefer `AC_SEARCH_LIBS` over `AC_CHECK_LIB`, as the former checks whether the function
+  can be consumed without actually linking the library. This is important for Gentoo, as
+  we handle lapack and the likes differently. If the standard `CPPFLAGS` + `LIBS` does not work
+  then `AC_SEARCH_LIBS` proceeds to try the libraries (i.e., `-llapack` here).
+  https://autotools.io/autoconf/finding.html
+
+@auton1 @wookietreiber Please have a look and let me know if you need any further edits.
+
+ remove trailing tab in output_haplotype_r2 function
+ This addresses issue #56, removes the trailing tab in the haplotype r2 function.
+
+ Update version number
+ I just noticed the man page was out of date
+
+ Possible to read BED files with or without header using --bed flag
+ I recently needed to extract exons of gene from a vcf file using exon regions specified in a bed file and I did so using the --bed option. To my surprise, the first exon was missing allthough vcftools output stated that it read the correct number of entries. vcftools treats the first line as a header line regardless of contents which was documented, but nevertheless this was surprising to me. I felt pretty stupid... However, I don't think I am the first to be surprised by this behavior: Googling around for vcftools and "--bed", led to other examples where behavior was assumed, e.g., in http://blogs.helsinki.fi/bioinformatics-viikki/files/2014/09/NGG2014WorkshopIIPracticals3.pdf (page 6, curl'ed bed files have no header) and 
+http://wiki.bits.vib.be/index.php/NGS_Exercise.7_annovar. 
+
+I made a small change so that vcftools now works correctly when no header line is given in VCF file, but still works if header line(s) appears in the bed file. It simply checks if the potential header lines are valid bed entry lines and if not they are treated as headers. The number of lines treated as headers lines and bed entries are now also correctly reported. Note that, it will also work with examples with more than one header line such as those from https://genome.ucsc.edu/FAQ/FAQformat.html#format1 
+
+ Fixed typo.
+ Fixing typo: You many need... -> You may need...
+
+ Patch submitted as pull as requested
+ Re discussion on main issue tracker:
+
+https://github.com/vcftools/vcftools/issues/36
+
+Allows better handling of TCGA `##vcfProcessLog` header lines without being an intrusive feature.
+
+ Added detection of $TMPDIR to default params
+ Added detection of env variable $TMPDIR to initialize contents of temp_dir when it diverges from /tmp. If the content of the variable is empty, it defaults to /tmp/ and is still overridden by flag --temp.
+
+Signed-off-by: Miguel Bernabeu miguel.bernabeu@bsc.es
+
+ added ldhelmet output option
+ As requested in #23, I added a function to ouptut the ldhelmet format ("snps" and "pos" files) based on the ldhat function.
+
+ build: get version string from git
+ To tag a new version:
+
+```
+$ git tag -a 'v0.1.19' -m 'new version v0.1.19'
+$ ./autogen.sh
+$ ./configure && make
+$ ./src/cpp/vcftools
+[...]
+Version 0.1.19
+```
+
+Later, be sure to push the tags to github:
+
+```
+$ git push --tags
+```
+
+To generate a distribution tarball run:
+
+```
+$ make dist
+(will create 'vcftools-0.1.19.tar.gz')
+```
+
+The annotated tag must start with 'v' to be properly detected by
+'git-version-get' (to modify that, see --prefix parameter in the
+script).
+
+If there are commits after tag v0.1.19, the version
+string will be '0.1.19.3-abcd' (where .3 is the number of commits
+after the tag, and 'abcd' is the git sha1 prefix of the current
+revision).
+
+If there are uncommited files, the version string will be
+'0.1.19.3-abcd-dirty' (requires running ./autogen.sh to re-generate the
+version string).
+
+Modified files:
+- configure.ac: use 'git-version-get' to deduce version string based
+  on wither git repository, or the '.tarball-version' file (if
+  extracted from a tarball).
+- Makefile.am: generate .tarball-version file in 'make dist'.
+- build-aux/git-version-gen: imported script from standard GNU programs.
+
+ Added output of partial weighted Fst values
+ I've added PARTIAL_WFST_NUMERATOR and PARTIAL_WFST_DENOMINATOR columns to the output of non-windowed weir-fst.  
+
+Weighted Fst for an arbitrary region can be computed by summing the PARTIAL_WFST_NUMERATOR values, summing the PARTIAL_WFST_DENOMINATOR values, then dividing.
+_The above line is my suggestion for the documentation change._
+
+The use in my case... I'm calculating weighted Fst values for different (large) gene sets.  To make matters worse, I have to bootstrap to get significance.  Working from these partials, I can calc partial numerators and denominators per-gene (summing up the values of individual variants falling in those genes), then compute weighted Fst values for sets.  Many of orders of magnitude faster and easier than creating a bed for each set and recalculating using vcftools --bed.
+
+ lower autoconf requirement to 2.63
+ See #11.
+
+ Install man pages in ${PREFIX}/share/man/man1
+ Manual pages should be installed in `${PREFIX}/share/man/man1` so that `man` can find them in its usual search path.
+
+ Autotools build
+ This is a complete autotools based build. Build instructions are updated in `README.md`. What is not in `README.md`, because it only concerns developers/maintainers, is that you now can create release tarballs via `make dist`.
+
+The only thing missing, which was in the original `cpp/Makefile`, is the `VCFTOOLS_PCA` option. Is this still a thing? If so, I would add support for it via an `--enable-pca` option to `configure`. Let me know whether this should be added before you consider the pull request ready to be merged.
+
+One other thing: I joined the `cpp` and `perl` directories in a `src` directory, because I personally think, this gives a repository more structure. If you are against this, this commit can of course be reverted.
+
+If you have questions about any of this, feel free to ask.
+
+Fixes #7.
+
+ conformity in cpp/Makefile
+ In general: CPP had been mistaken for CXX:
+- CC is the C compiler
+- CFLAGS for C compiler flags, used whenever $(CC) is used
+- CXX is the C++ compiler
+- CXXFLAGS for C++ compiler flags, used whenever $(CXX) is used
+- CPPFLAGS are for headers, e.g. -I/path/to/include, used whenever $(CC) -c or $(CXX) -c are used
+- LDFLAGS are for library locations, e.g. -L/path/to/lib, used whenever linking occurs
+- LIBS are for libs during linking, e.g. -lz (LIBS is more conform than LIB)
+
+This commit adresses these issues. Other changes:
+- both CFLAGS and CXXFLAGS append, so the user can specify his/her own flags (like -Wall)
+- neither CPPFLAGS nor LDFLAGS are set in any way in the Makefile
+  - the defaults of /usr/include and /usr/lib are always included anyway
+  - the user only needs to set CPPFLAGS and LDFLAGS if there are libraries in non-standard locations
+- -m64 should not be hard-coded because this would _always_ compile in 64-bit mode, even if on a 32-bit system
+  - -D_FILE_OFFSET_BITS=64 remains in both CFLAGS and CXXFLAGS to enable large-file operations, IIRC -m64 is not necessary for this to work
+- the bgzf target was actually never used, so I removed it for now, I hope this is OK
+
+ make install target
+ This PR adresses a few issues I had concerning the `install` target.
+
+My installation procedure looked like this to install to `/usr` (without patching any of the `Makefile`s):
+
+```
+make
+make \
+  PREFIX=/usr \
+  MANDIR=/usr/share/man/man1 \
+  install
+```
+
+What I realized then was that this neither installed `/usr/bin/vcftools` nor that the perl scripts had execute permissions. This PR adresses these issues.
+
+Along the way I also a) declared both `clean` and `install` targets as phony (which they should be, because they do not reference names of files that should be built, but are just a recipe) and b) added a `.gitignore` to ignore the built files from version control.
+
+ adds LDFLAGS to Makefile
+ This assures that user defined settings in LDFLAGS are used. If libraries are not installed in standard locations, the appropriate -L/path/to/lib flags are often set in LDFLAGS, so these should be considered.
+
+ appends to CPPFLAGS rather than overwriting it
+ This assures that user defined settings in CPPFLAGS do not get overwritten completely. If headers are not installed in standard locations, the appropriate `-I/path/to/include` flags are often set in `CPPFLAGS`, so these really shouldn't be overwritten.
+
+ compare instead of find in VCF header parsing
+ minor update: use `compare` string prefixes instead of searching the tag in the whole line.
+

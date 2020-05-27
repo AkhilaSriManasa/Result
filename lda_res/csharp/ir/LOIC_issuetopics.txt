@@ -1,0 +1,68 @@
+﻿NUMTopics = 2
+(0, '0.002*"use" + 0.002*"thread" + 0.002*"file" + 0.002*"go" + 0.002*"error" + 0.002*"instal" + 0.002*"method" + 0.002*"unavailable" + 0.002*"wine" + 0.002*"version"')
+(1, '0.018*"use" + 0.016*"instal" + 0.014*"go" + 0.013*"method" + 0.012*"thread" + 0.011*"error" + 0.011*"file" + 0.010*"add" + 0.009*"system" + 0.009*"version"')
+
+------------------------
+NUMTopics = 3
+(0, '0.002*"use" + 0.002*"thread" + 0.002*"error" + 0.002*"unavailable" + 0.002*"file" + 0.002*"wine" + 0.002*"version" + 0.002*"instal" + 0.002*"method" + 0.002*"work"')
+(1, '0.022*"use" + 0.020*"thread" + 0.018*"unavailable" + 0.014*"version" + 0.013*"wine" + 0.012*"error" + 0.009*"file" + 0.009*"install" + 0.009*"exception" + 0.008*"loic"')
+(2, '0.023*"instal" + 0.022*"go" + 0.017*"method" + 0.013*"change" + 0.013*"use" + 0.013*"add" + 0.011*"file" + 0.011*"do" + 0.011*"system" + 0.011*"thank"')
+
+------------------------
+NUMTopics = 4
+(0, '0.002*"use" + 0.002*"thread" + 0.002*"file" + 0.002*"error" + 0.002*"instal" + 0.002*"unavailable" + 0.002*"go" + 0.002*"method" + 0.002*"wine" + 0.002*"version"')
+(1, '0.023*"use" + 0.022*"thread" + 0.019*"unavailable" + 0.015*"version" + 0.014*"wine" + 0.012*"error" + 0.010*"file" + 0.010*"install" + 0.010*"exception" + 0.008*"loic"')
+(2, '0.024*"instal" + 0.023*"go" + 0.018*"method" + 0.014*"change" + 0.014*"add" + 0.014*"use" + 0.012*"do" + 0.012*"file" + 0.012*"thank" + 0.012*"system"')
+(3, '0.002*"instal" + 0.002*"go" + 0.002*"use" + 0.002*"method" + 0.002*"file" + 0.002*"thread" + 0.002*"error" + 0.002*"add" + 0.002*"change" + 0.002*"thank"')
+
+------------------------
+NUMTopics = 5
+(0, '0.002*"use" + 0.002*"thread" + 0.002*"unavailable" + 0.002*"error" + 0.002*"wine" + 0.002*"file" + 0.002*"version" + 0.002*"instal" + 0.002*"method" + 0.002*"work"')
+(1, '0.024*"use" + 0.022*"thread" + 0.020*"unavailable" + 0.015*"version" + 0.014*"wine" + 0.013*"error" + 0.010*"install" + 0.010*"file" + 0.010*"exception" + 0.009*"loic"')
+(2, '0.025*"instal" + 0.024*"go" + 0.018*"method" + 0.014*"change" + 0.014*"use" + 0.014*"add" + 0.012*"thank" + 0.012*"system" + 0.012*"file" + 0.012*"do"')
+(3, '0.002*"instal" + 0.002*"go" + 0.002*"method" + 0.002*"use" + 0.002*"file" + 0.002*"add" + 0.002*"error" + 0.002*"thank" + 0.002*"thread" + 0.002*"issue"')
+(4, '0.005*"instal" + 0.004*"go" + 0.003*"do" + 0.003*"method" + 0.003*"use" + 0.003*"file" + 0.003*"change" + 0.003*"add" + 0.003*"error" + 0.003*"system"')
+
+------------------------
+NUMTopics = 6
+(0, '0.002*"use" + 0.002*"thread" + 0.002*"unavailable" + 0.002*"wine" + 0.002*"file" + 0.002*"error" + 0.002*"version" + 0.002*"method" + 0.002*"instal" + 0.002*"loic"')
+(1, '0.024*"use" + 0.023*"thread" + 0.020*"unavailable" + 0.016*"version" + 0.014*"wine" + 0.013*"error" + 0.010*"install" + 0.010*"file" + 0.010*"exception" + 0.009*"loic"')
+(2, '0.002*"go" + 0.002*"instal" + 0.002*"method" + 0.002*"change" + 0.002*"use" + 0.002*"would" + 0.002*"add" + 0.002*"thank" + 0.002*"issue" + 0.002*"request"')
+(3, '0.002*"go" + 0.002*"instal" + 0.002*"method" + 0.002*"use" + 0.002*"file" + 0.002*"add" + 0.002*"thank" + 0.002*"change" + 0.002*"attack" + 0.002*"issue"')
+(4, '0.025*"instal" + 0.024*"go" + 0.018*"method" + 0.014*"use" + 0.014*"change" + 0.014*"add" + 0.012*"file" + 0.012*"do" + 0.012*"system" + 0.012*"thank"')
+(5, '0.002*"instal" + 0.002*"use" + 0.002*"error" + 0.002*"go" + 0.002*"file" + 0.002*"method" + 0.002*"system" + 0.002*"add" + 0.002*"get" + 0.002*"would"')
+
+------------------------
+NUMTopics = 7
+(0, '0.002*"use" + 0.002*"thread" + 0.002*"unavailable" + 0.002*"wine" + 0.002*"error" + 0.002*"file" + 0.002*"version" + 0.002*"method" + 0.002*"instal" + 0.002*"work"')
+(1, '0.025*"use" + 0.023*"thread" + 0.020*"unavailable" + 0.016*"version" + 0.015*"wine" + 0.013*"error" + 0.010*"install" + 0.010*"file" + 0.010*"exception" + 0.009*"loic"')
+(2, '0.002*"go" + 0.002*"instal" + 0.002*"method" + 0.002*"change" + 0.002*"use" + 0.002*"would" + 0.002*"add" + 0.002*"file" + 0.002*"request" + 0.002*"issue"')
+(3, '0.002*"go" + 0.002*"instal" + 0.002*"method" + 0.002*"use" + 0.002*"file" + 0.002*"add" + 0.002*"change" + 0.002*"thank" + 0.002*"thread" + 0.002*"attack"')
+(4, '0.026*"instal" + 0.025*"go" + 0.019*"method" + 0.014*"use" + 0.014*"change" + 0.014*"add" + 0.012*"file" + 0.012*"do" + 0.012*"system" + 0.012*"thank"')
+(5, '0.002*"instal" + 0.002*"error" + 0.002*"go" + 0.002*"use" + 0.002*"file" + 0.002*"method" + 0.002*"system" + 0.002*"add" + 0.002*"would" + 0.002*"do"')
+(6, '0.002*"use" + 0.002*"instal" + 0.002*"go" + 0.002*"version" + 0.002*"unavailable" + 0.002*"file" + 0.002*"thread" + 0.002*"error" + 0.002*"method" + 0.002*"system"')
+
+------------------------
+NUMTopics = 8
+(0, '0.002*"use" + 0.002*"thread" + 0.002*"file" + 0.002*"error" + 0.002*"instal" + 0.002*"go" + 0.002*"method" + 0.002*"unavailable" + 0.002*"wine" + 0.002*"add"')
+(1, '0.025*"use" + 0.024*"thread" + 0.021*"unavailable" + 0.016*"version" + 0.015*"wine" + 0.013*"error" + 0.010*"install" + 0.010*"file" + 0.010*"exception" + 0.009*"loic"')
+(2, '0.002*"go" + 0.002*"method" + 0.002*"instal" + 0.002*"change" + 0.002*"use" + 0.002*"would" + 0.002*"add" + 0.002*"issue" + 0.002*"request" + 0.002*"thank"')
+(3, '0.002*"go" + 0.002*"instal" + 0.002*"method" + 0.002*"use" + 0.002*"file" + 0.002*"change" + 0.002*"add" + 0.002*"thank" + 0.002*"attack" + 0.002*"error"')
+(4, '0.026*"instal" + 0.025*"go" + 0.019*"method" + 0.015*"change" + 0.015*"use" + 0.015*"add" + 0.013*"do" + 0.013*"file" + 0.013*"system" + 0.013*"thank"')
+(5, '0.002*"instal" + 0.002*"error" + 0.002*"go" + 0.002*"use" + 0.002*"file" + 0.002*"method" + 0.002*"system" + 0.002*"add" + 0.002*"do" + 0.002*"would"')
+(6, '0.002*"use" + 0.002*"instal" + 0.002*"go" + 0.002*"unavailable" + 0.002*"thread" + 0.002*"file" + 0.002*"version" + 0.002*"error" + 0.002*"method" + 0.002*"system"')
+(7, '0.002*"instal" + 0.002*"use" + 0.002*"file" + 0.002*"method" + 0.002*"go" + 0.002*"version" + 0.002*"thread" + 0.002*"error" + 0.002*"add" + 0.002*"thank"')
+
+------------------------
+NUMTopics = 9
+(0, '0.002*"use" + 0.002*"thread" + 0.002*"unavailable" + 0.002*"wine" + 0.002*"error" + 0.002*"file" + 0.002*"version" + 0.002*"exception" + 0.002*"work" + 0.002*"loic"')
+(1, '0.025*"use" + 0.024*"thread" + 0.021*"unavailable" + 0.017*"version" + 0.015*"wine" + 0.014*"error" + 0.011*"install" + 0.011*"file" + 0.011*"exception" + 0.009*"loic"')
+(2, '0.002*"go" + 0.002*"method" + 0.002*"instal" + 0.002*"change" + 0.002*"use" + 0.002*"add" + 0.002*"would" + 0.002*"request" + 0.002*"issue" + 0.002*"thank"')
+(3, '0.002*"go" + 0.002*"instal" + 0.002*"method" + 0.002*"use" + 0.002*"add" + 0.002*"change" + 0.002*"file" + 0.002*"thank" + 0.002*"attack" + 0.002*"issue"')
+(4, '0.026*"instal" + 0.025*"go" + 0.019*"method" + 0.015*"use" + 0.015*"change" + 0.015*"add" + 0.013*"do" + 0.013*"file" + 0.013*"system" + 0.013*"thank"')
+(5, '0.002*"instal" + 0.002*"error" + 0.002*"go" + 0.002*"use" + 0.002*"method" + 0.002*"add" + 0.002*"file" + 0.002*"system" + 0.002*"do" + 0.002*"would"')
+(6, '0.002*"use" + 0.002*"instal" + 0.002*"go" + 0.002*"version" + 0.002*"unavailable" + 0.002*"thread" + 0.002*"file" + 0.002*"error" + 0.002*"method" + 0.002*"thank"')
+(7, '0.002*"instal" + 0.002*"use" + 0.002*"method" + 0.002*"file" + 0.002*"go" + 0.002*"version" + 0.002*"thread" + 0.002*"add" + 0.002*"error" + 0.002*"thank"')
+(8, '0.002*"instal" + 0.002*"use" + 0.002*"go" + 0.002*"thread" + 0.002*"method" + 0.002*"file" + 0.002*"system" + 0.002*"error" + 0.002*"get" + 0.002*"change"')
+
+------------------------

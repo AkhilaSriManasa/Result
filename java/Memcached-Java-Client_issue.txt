@@ -1,0 +1,773 @@
+﻿ Cache client not honoring Expiry
+ I'm not seeing entries expiring according to the Expiry date.
+
+```
+	public static void main(String[] args) throws InterruptedException {	
+ 		String[] servers = { "localhost:11212" };
+		Integer[] weights = {1}; 
+		SockIOPool pool = SockIOPool.getInstance("Test2");
+		pool.setServers( servers );
+		pool.setWeights(weights);
+		pool.setMinConn(2);
+		pool.setMaxConn(20);
+		pool.setFailover( true );
+		pool.setInitConn( 30 );
+		pool.setMaintSleep( 90 );
+		pool.setSocketTO( 2000 );
+		pool.setAliveCheck( true );
+		pool.initialize();
+		MemCachedClient mcc = new MemCachedClient("Test2");
+
+     	Date expiration = new Date(System.currentTimeMillis()+3000);		
+		mcc.set("pet", "cat", expiration);
+		String value = (String) mcc.get("pet");
+		System.out.println("before sleep: got " + value + " from the cache");
+		Thread.sleep(4000);
+		value = (String) mcc.get("pet");
+		System.out.println("after sleep: got " + value + " from the cache");
+	}
+
+```
+Results:
+before sleep: got cat from the cache
+after sleep: got cat from the cache
+
+I expected the second get to return null, as the entry should have expired in 3 seconds.  Am I missing something?
+
+ Memcached self maintenance
+ When I try to run my project in eclipse, in console appears this:
+[MaintThread] DEBUG com.meetup.memcached.SockIOPool  - ++++ Starting self maintenance....
+[MaintThread] DEBUG com.meetup.memcached.SockIOPool  - ++++ Size of avail pool for host (localhost:11211) = 10
+[MaintThread] DEBUG com.meetup.memcached.SockIOPool  - ++++ Size of avail pool for host (localhost:11211) = 10
+[MaintThread] DEBUG com.meetup.memcached.SockIOPool  - ++++ Size of busy pool for host (localhost:11211)  = 0
+[MaintThread] DEBUG com.meetup.memcached.SockIOPool  - +++ ending self maintenance.
+It worked for weeks and I not changed nothing.
+ Memcache Client returns null even when cache is hit.
+ Hi,
+We are using following Memcached whalin client library. It returns null even though cache was hit ( found it through -v flag). It works fine when we use deprecated constructor that takes classloader argument or when we move Memcache jar in WEB-INF/lib from tomcat/lib
+Could you please help us pinpoint the issue.
+
+com.whalin Memcached-Java-Client 3.0.2
+Thanks,
+Vira
+ exception thrown while writing bytes to server on set
+ I am using version 3.0.2. Memcached server version is 1.4.26. I have a legacy system where I want to increase the memcached slab size to 5 MB. When I try to add/set object size more than 1 MB in memcached then I am getting below exception
+
+Dec 11, 2018 12:13:31 PM com.schooner.MemCached.BinaryClient set
+SEVERE: ++++ exception thrown while writing bytes to server on set
+Dec 11, 2018 12:13:31 PM com.schooner.MemCached.BinaryClient set
+SEVERE: Connection reset by peer
+java.io.IOException: Connection reset by peer
+	at sun.nio.ch.FileDispatcherImpl.write0(Native Method)
+	at sun.nio.ch.SocketDispatcher.write(SocketDispatcher.java:47)
+	at sun.nio.ch.IOUtil.writeFromNativeBuffer(IOUtil.java:93)
+	at sun.nio.ch.IOUtil.write(IOUtil.java:51)
+	at sun.nio.ch.SocketChannelImpl.write(SocketChannelImpl.java:466)
+	at com.schooner.MemCached.SockOutputStream.writeToChannel(Unknown Source)
+	at com.schooner.MemCached.SockOutputStream.write(Unknown Source)
+	at java.io.ObjectOutputStream$BlockDataOutputStream.write(ObjectOutputStream.java:1842)
+
+Implement WhalinMemcachedJavaClient example :
+
+    private static void implementWhalinMemcachedJavaClient() {
+          String[] servers = { "127.0.0.1:11211" };
+          SockIOPool sockIOPool = SockIOPool.getInstance("SanTest");
+
+         sockIOPool.setMinConn(2);
+         sockIOPool.setMaxConn(20);
+         sockIOPool.setServers(servers);
+         sockIOPool.setFailover(true);
+         sockIOPool.setInitConn(30);
+         sockIOPool.setMaintSleep(90);
+         sockIOPool.setSocketTO(2000);
+         sockIOPool.setAliveCheck(true);
+         sockIOPool.setHashingAlg(SockIOPool.NATIVE_HASH);
+         sockIOPool.initialize();
+
+         MemCachedClient whalinClient = new MemCachedClient("SanTest", true);
+         //MemCachedClient whalinClient = new MemCachedClient("SanTest");
+
+         whalinClient.add("Result", "Success");
+
+         System.out.println("get Result=" + whalinClient.get("Result"));
+    }
+
+@santoshsgithub Do you have any solution for this issue? 
+
+ java.io.IOException: Connection timed out
+ Hi,I'm use version 3.0.2 and getting below exception:
+
+> 2017-12-07 08:51:50 ERROR com.schooner.MemCached.AscIIClient -1 get - ++++ exception thrown while trying to get object from cache for key: ap_s.sess.user_30
+2017-12-07 08:51:50 ERROR com.schooner.MemCached.AscIIClient -1 get - Connection timed out java.io.IOException: Connection timed out
+        at sun.nio.ch.FileDispatcherImpl.read0(Native Method) ~[?:1.8.0_152]
+        at sun.nio.ch.SocketDispatcher.read(SocketDispatcher.java:39) ~[?:1.8.0_152]
+        at sun.nio.ch.IOUtil.readIntoNativeBuffer(IOUtil.java:223) ~[?:1.8.0_152]
+        at sun.nio.ch.IOUtil.read(IOUtil.java:192) ~[?:1.8.0_152]
+        at sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:380) ~[?:1.8.0_152]
+        at com.schooner.MemCached.SockInputStream.<init>(Unknown Source) ~[Memcached-Java-Client-3.0.2.jar:?]
+        at com.schooner.MemCached.AscIIClient.get(Unknown Source) [Memcached-Java-Client-3.0.2.jar:?]
+        at com.schooner.MemCached.AscIIClient.get(Unknown Source) [Memcached-Java-Client-3.0.2.jar:?]
+        at com.schooner.MemCached.AscIIClient.get(Unknown Source) [Memcached-Java-Client-3.0.2.jar:?]
+        at com.whalin.MemCached.MemCachedClient.get(Unknown Source) [Memcached-Java-Client-3.0.2.jar:?]
+        at com.com4loves.apollo.data.dao.GlobalProtoDAO$1.call(GlobalProtoDAO.java:28) [classes/:?]
+        at com.com4loves.apollo.data.dao.GlobalProtoDAO$1.call(GlobalProtoDAO.java:25) [classes/:?]
+        at com.com4loves.apollo.data.dao.ProtoDAO.handle(ProtoDAO.java:53) [classes/:?]
+        at com.com4loves.apollo.data.dao.GlobalProtoDAO.load(GlobalProtoDAO.java:25) [classes/:?]
+        at com.com4loves.apollo.service.SessionService.uninstallOldSession(SessionService.java:62) [classes/:?]
+        at com.com4loves.apollo.service.SessionService.create(SessionService.java:45) [classes/:?]
+        at com.com4loves.apollo.controller.AccountController.createOrLogin(AccountController.java:66) [classes/:?]
+        at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_152]
+        at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_152]
+        at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_152]
+        at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_152]
+        at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:221) [spring-web-4.1.6.RELEASE.jar:4.1.6.RELEASE]
+        at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:137) [spring-web-4.1.6.RELEASE.jar:4.1.6.RELEASE]
+        at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:110) [spring-webmvc-4.1.6.RELEASE.jar:4.1.6.RELEASE]
+        at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandleMethod(RequestMappingHandlerAdapter.java:776) [spring-webmvc-4.1.6.RELEASE.jar:4.1.6.RELEASE]
+        at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:705) [spring-webmvc-4.1.6.RELEASE.jar:4.1.6.RELEASE]
+        at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:85) [spring-webmvc-4.1.6.RELEASE.jar:4.1.6.RELEASE]
+        at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:959) [spring-webmvc-4.1.6.RELEASE.jar:4.1.6.RELEASE]
+        at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:893) [spring-webmvc-4.1.6.RELEASE.jar:4.1.6.RELEASE]
+        at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:966) [spring-webmvc-4.1.6.RELEASE.jar:4.1.6.RELEASE]
+        at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:868) [spring-webmvc-4.1.6.RELEASE.jar:4.1.6.RELEASE]
+        at javax.servlet.http.HttpServlet.service(HttpServlet.java:661) [servlet-api.jar:?]
+        at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:842) [spring-webmvc-4.1.6.RELEASE.jar:4.1.6.RELEASE]
+        at javax.servlet.http.HttpServlet.service(HttpServlet.java:742) [servlet-api.jar:?]
+        at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231) [catalina.jar:8.5.23]
+        at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166) [catalina.jar:8.5.23]
+        at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:52) [tomcat-websocket.jar:8.5.23]
+        at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193) [catalina.jar:8.5.23]
+        at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166) [catalina.jar:8.5.23]
+        at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:85) [spring-web-4.1.6.RELEASE.jar:4.1.6.RELEASE]
+        at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107) [spring-web-4.1.6.RELEASE.jar:4.1.6.RELEASE]
+        at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193) [catalina.jar:8.5.23]
+        at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166) [catalina.jar:8.5.23]
+        at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:199) [catalina.jar:8.5.23]
+        at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96) [catalina.jar:8.5.23]
+        at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:478) [catalina.jar:8.5.23]
+        at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:140) [catalina.jar:8.5.23]
+        at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:81) [catalina.jar:8.5.23]
+        at org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:650) [catalina.jar:8.5.23]
+        at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:87) [catalina.jar:8.5.23]
+        at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:342) [catalina.jar:8.5.23]
+        at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:803) [tomcat-coyote.jar:8.5.23]
+        at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:66) [tomcat-coyote.jar:8.5.23]
+        at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:868) [tomcat-coyote.jar:8.5.23]
+        at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1459) [tomcat-coyote.jar:8.5.23]
+        at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49) [tomcat-coyote.jar:8.5.23]
+        at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149) [?:1.8.0_152]
+        at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624) [?:1.8.0_152]
+        at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61) [tomcat-util.jar:8.5.23]
+        at java.lang.Thread.run(Thread.java:748) [?:1.8.0_152]
+
+
+My configuration:
+
+> String instance = storage.getAppId() + "_" + entry.getName() + "_" + element.getId();
+		SockIOPool pool = SockIOPool.getInstance(instance, true);
+		pool.setServers(new String[] { element.getHost() + ":" + element.getPort() });
+		pool.setFailover(true);// 设置容错开关
+		pool.setInitConn(10);// 设置开始时每个cache服务器的可用连接数
+		pool.setMinConn(50);// 设置每个服务器最少可用连接数
+		pool.setMaxConn(500);// 设置每个服务器最大可用连接数
+		pool.setMaintSleep(30);// 设置连接池维护线程的睡眠时间
+		pool.setNagle(false);// 设置是否使用Nagle算法
+		pool.setSocketTO(3000);// 设置socket的读取等待超时值
+		pool.setAliveCheck(true);// 设置连接心跳监测开关
+		pool.initialize();
+		initedPools.add(pool);
+		MemCachedClient client = new MemCachedClient(instance);
+		client.setSanitizeKeys(false);
+
+
+This exception occurs on the first visit of the day
+Do you have any solution on this issue? 
+
+ Does this client support auth with password?
+ I'm using 3.0.x com.whalin.MemCached.SockIOPool.
+ Adding a fake traffic daemon thread
+ 
+ java.lang.VerifyError: Bad type on operand stack
+ Hi Am using version 2.6.1 and am trying to upgrade to latest (3.0.2) and getting below exception 
+
+java.lang.VerifyError: Bad type on operand stack
+Exception Details:
+  Location:
+    com/danga/MemCached/MemCachedClient.<init>(Ljava/lang/String;ZZ)V @26: putfield
+  Reason:
+    Type 'com/schooner/MemCached/BinaryClient' (current frame, stack[1]) is not assignable to 'com/danga/MemCached/MemCachedClient'
+  Current Frame:
+    bci: @26
+    flags: { }
+    locals: { 'com/danga/MemCached/MemCachedClient', 'java/lang/String', integer, integer }
+    stack: { 'com/danga/MemCached/MemCachedClient', 'com/schooner/MemCached/BinaryClient' }
+  Bytecode:
+    0000000: 2ab7 00b2 2a12 b4b6 0093 b500 b61d 9900
+    0000010: 122a bb00 c559 2bb7 00c7 b500 aba7 001e
+    0000020: 2a1c 9900 0ebb 00c9 592b b700 cba7 000b
+    0000030: bb00 cc59 2bb7 00ce b500 abb1
+  Stackmap Table:
+    full_frame(@32,{Object[#1],Object[#148],Integer,Integer},{})
+    same_locals_1_stack_item_frame(@48,Object[#1])
+    full_frame(@56,{Object[#1],Object[#148],Integer,Integer},{Object[#1],Object[#1]})
+    same_frame(@59)
+
+ Memcached client throwing NullPointerException
+ After several successful retrievals I get the following:
+
+```
+java.lang.NullPointerException
+    at com.schooner.MemCached.SchoonerSockIOPool.getConnection(Unknown Source)
+    at com.schooner.MemCached.SchoonerSockIOPool.getSock(Unknown Source)
+    at com.schooner.MemCached.AscIIClient.get(Unknown Source)
+    at com.schooner.MemCached.AscIIClient.get(Unknown Source)
+    at com.schooner.MemCached.AscIIClient.get(Unknown Source)
+    at com.whalin.MemCached.MemCachedClient.get(Unknown Source)
+    at com.hpe.labs.patchplanner.dm.indexer.IndexBasedRetriever$KVSRetriever.call(IndexBasedRetriever.java:199)
+```
+
+My code:
+
+``` java
+public Solution call(Long id) throws Exception {
+                SockIOPool pool = IndexBasedSaver.initKVS(repoPath);
+                MemCachedClient mmc = new MemCachedClient(IndexBasedSaver.POOL_NAME);
+            try {
+                Object res = mmc.get(id.toString());
+                if (res == null) {
+                    throw new Exception("Repository" + Arrays.toString(pool.getServers()) + " doesn't contain the solution key " + id);
+                }
+                return (Solution) res;
+            }
+                catch (Exception e) {
+                    e.printStackTrace();
+                    throw e;
+                }
+        }
+```
+
+The exception is thrown by the `mmc.get(id.toString());` for id=25511. 
+Using telnet I'm able to retrieve a not null object for the same id. 
+
+init method code:
+
+``` java
+public static SockIOPool initKVS(String serverPath) {
+        //initialize the SockIOPool that maintains the Memcached Server Connection Pool
+        String[] servers = {serverPath};
+        SockIOPool pool = SockIOPool.getInstance(POOL_NAME);
+        pool.setServers(servers);
+        pool.setFailover(true);
+        pool.setInitConn(10);
+        pool.setMinConn(5);
+        pool.setMaxConn(250);
+        pool.setMaintSleep(30);
+        pool.setNagle(false);
+        pool.setSocketTO(3000);
+        pool.setAliveCheck(true);
+        pool.initialize();
+        return pool;
+    }
+```
+
+ how to confirm a key exit and not to  deserialization it
+ Hi
+    project A set object key (beanc.java) to memcached server. can project B confirm key exit from memcached server if B has not the same object(beanc.java); 
+   I use keyExists(key),apparently it does not work。the exception will be throw,deserialization it
+
+ when ClassNotFoundException is thrown , a memory leak will happen after many times of get() operation.
+ I am using memcached to store object like com.abc.Data in my online system.But for some reason , I have to move this class to another package like com.def.Data.So , I do this and update the code in my test system.Both the test and the online system share the same memcached.
+of cource , this will cause exceptions throws , because if the online system put the com.abc.Data into memcached by key "memcached_data", when the test system get it , it cannot find the class com.abc.Data because this class has been moved to com.def.Data.
+But after a long period of time , I find the system throws exceptions:java.lang.OutOfMemoryError: Direct buffer memory. I debug the code and find that this is because when an ClassNotFoundException happened, the connection was freed but the connection counter does not change.this will make the system think that the connection pool is full and thus create a new connection always instead of reuse the connection..When connection is too much,a  OutOfMemoryError happened.
+
+ 默认调用的时候errorHandler 都为空，如果memcache服务不可用的时候，没有log.error日志，添加了log.error日志
+ 默认调用的时候errorHandler 都为空，如果memcache服务不可用的时候，没有log.error日志，添加了log.error日志
+
+ nio下超时问题
+ 在Memcached-Java-Client-3.0.0版本中
+SockInputStream中的超时问题，在构造函数中是否也需要修改
+sock.getChannel().read(sock.readBuf);
+为
+ReadableByteChannel wrappedChannel = Channels.newChannel(sock.getChannel().socket().getInputStream());
+        wrappedChannel.read(sock.readBuf);
+？
+
+ Add a license to the repo
+ Could you please add an explicit LICENSE file to the repo so that it's clear under what terms you're providing this code?
+
+Per [GitHub docs on licensing](https://help.github.com/articles/open-source-licensing/#what-happens-if-i-dont-choose-a-license):
+
+> Generally speaking, the absence of a license means that the default copyright laws apply. This means that you retain all rights to your source code and that nobody else may reproduce, distribute, or create derivative works from your work. This might not be what you intend.
+
+Thanks!
+
+There is a LICENSE file in the docs folder
+
+
+ The flush_all method is working on the wrong way
+ I have tried several times and found that the action of flushAll method is difference from the flush_all telnet Memcached command:
+
+//Add() some values
+System.out.println("Add foo: " + mcClient.add("foo", "This is foo value"));
+
+//Get() values
+System.out.println("Get foo: " + mcClient.get("foo"));
+
+System.out.println("Flush all key in cached: " + mcClient.flushAll());
+
+ why we dont have getExpiryTime(key) method?
+ I think there are sometimes you need to check the expiry time of an item, but I found that there is no way to do that? Is it right?
+
+ the return value of statsCacheDump() in BinaryClient
+ Hi, i am so confused that statsCacheDump() in BinaryClient always return an empty map event if i had set the value, here is my test case:
+
+```
+    SockIOPool pool = SockIOPool.getInstance();
+    pool.setServers(new String[] { "xxxx:xx" });
+    pool.initialize();
+    MemCachedClient client = new BinaryClient();
+    client.flushAll();
+    client.set("test", "1");
+    Map<String, Map<String, String>> dumpMap = client.statsCacheDump(1, 0);
+    System.out.println(dumpMap);
+```
+
+the output of the test case is "{xxxx:xx={}}",
+but the output of my memcached's client is "ITEM test [1 b; 1419009188 s]".
+Here is the log:
+![2014-12-20 03 38 29](https://cloud.githubusercontent.com/assets/8407968/5510156/3c803cbc-87fa-11e4-9187-96c868ce43f5.png)
+
+My OS is ubuntu and i am using memcached-1.4.21.tar.gz
+
+ 1. add feature to support Object keys(@see interface TransBytecode);2.fi...
+ Hi,
+I feel limited when i found out that only String can be used as the key,so i changed it to Serializable Object.
+Please check @see interface TransBytecode;@see testcase MemCachedBenchTcpKey,MemCachedBenchUdpKey and MemCachedBenchBinaryKey.
+
+ add synchronized to protect the map, to fix the bug:
+ java.util.ConcurrentModificationException
+         at java.util.IdentityHashMap.remove(IdentityHashMap.java:729)
+         at com.ycache.danga.MemCached.SockIOPool.clearHostFromPool(Unknown Source)
+         at com.ycache.danga.MemCached.SockIOPool.createSocket(Unknown Source)
+         at com.ycache.danga.MemCached.SockIOPool.getConnection(Unknown Source)
+         at com.ycache.danga.MemCached.SockIOPool.getSock(Unknown Source)
+         at com.ycache.danga.MemCached.MemCachedClient.get(Unknown Source)
+         at com.ycache.danga.MemCached.MemCachedClient.get(Unknown Source)
+         at com.yihaodian.common.ycache.memcache.impl.BaseMemcacheProxy.get(Unknown Source)
+
+Hi,
+  We hit an exception 'ConcurrentModificationException' when some of the memcached is down. There are hundreds of threads in a client, after read the code, I think the 'clearHostFromPool' and 'addSocketToPool' are not thread-safe. So propose to add a synchronized for both function seems like a simple and effective solution.
+
+
+ 在计算虚拟节点的Hash值时,用服务器列表的位置来计算比使用服务器的"ip:port"要稳定(只要保持服务器列表的次序不变)
+ ```
+            //byte[] d = md5.digest((servers[i] + "-" + j).getBytes());
+            byte[] d = md5.digest(("SHARD-" + i + "-NODE-" + j).getBytes());  //@wjw_add: 在计算虚拟节点的Hash值时,用服务器列表的位置来计算比使用服务器的"ip:port"要稳定(只要保持服务器列表的次序不变)
+```
+
+ Memcached信息过期的问题
+ java_memcached-release_2.6.6.jar，用的是这个client，使用了set(key, value, timeout)设置过期，为什么到了过期时间，使用get出来的还是有value而不是null。
+
+检查下SET的时候设置的时间，看下SET的时间单位是什么！
+
+## 
+
+try {
+    String name = "AndyLau.ZHL";
+} catch (NullPointerException e) {
+    // TODO: handle exception
+    e.printStackTrace();
+}
+
+在 2014-07-18 05:33:33，Will" notifications@github.com 写道：
+
+java_memcached-release_2.6.6.jar，用的是这个client，使用了set(key, value, timeout)设置过期，为什么到了过期时间，使用get出来的还是有value而不是null。
+
+—
+Reply to this email directly or view it on GitHub.
+
+
+ Update code from maven (versions 3.*)
+ Either I'm making a foolish mistake and I don't understand what's going on here or there's something terribly wrong with the maven version.
+### Need:
+
+The version from maven has some issues at first glance with default params.
+- Load balancing doesn't work
+- MemCachedClient().get doesn't work
+### Why the code is old:
+
+First 3 lines of MemCachedClient.java(big C) in maven version 3.0.2
+
+```
+/**
+ * MemCached Java Client Logger
+ * Copyright (c) 2007 Greg Whalin
+```
+
+First 3 lines of Mem__c__achedClient.java(small C)
+
+```
+/**
+ * Copyright (c) 2008 Greg Whalin
+ * All rights reserved.
+```
+### PS:
+- building from ant outputs packages without version:
+
+```
+#   memcached-${ver}.jar.MD5
+#   memcached-${ver}.tar
+#   memcached-${ver}.tar.gz
+#   memcached-${ver}.tar.gz.MD5
+#   memcached-${ver}.zip
+#   memcached-${ver}.zip.MD5
+```
+- I don't know what version your repo is at now. can you be clear on that and not write a version before each class.
+
+ 2.6.3 version：java.lang.OutOfMemoryError: Direct buffer memory
+ I wrote a function to get the data from the memcache, this function is embedded in seatsJson.jsp page, called once every 2 seconds. It sometimes reports errors:
+
+Stacktrace:
+javax.servlet.ServletException: java.lang.OutOfMemoryError: Direct buffer memory
+        at org.apache.jasper.runtime.PageContextImpl.doHandlePageException(PageContextImpl.java:862)
+        at org.apache.jasper.runtime.PageContextImpl.handlePageException(PageContextImpl.java:791)
+        at org.apache.jsp.callcenter.seatsJson_jsp._jspService(seatsJson_jsp.java:312)
+        at org.apache.jasper.runtime.HttpJspBase.service(HttpJspBase.java:70)
+        at javax.servlet.http.HttpServlet.service(HttpServlet.java:717)
+        at org.apache.jasper.servlet.JspServletWrapper.service(JspServletWrapper.java:377)
+        at org.apache.jasper.servlet.JspServlet.serviceJspFile(JspServlet.java:313)
+        at org.apache.jasper.servlet.JspServlet.service(JspServlet.java:260)
+        at javax.servlet.http.HttpServlet.service(HttpServlet.java:717)
+        at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:290)
+        at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)
+        at com.susing.KingleServer.doFilter(KingleServer.java:77)
+        at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:235)
+        at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)
+        at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:233)
+        at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:191)
+        at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:127)
+        at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:102)
+        at org.apache.catalina.valves.AccessLogValve.invoke(AccessLogValve.java:555)
+        at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:109)
+        at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:298)
+        at org.apache.coyote.http11.Http11Processor.process(Http11Processor.java:857)
+        at org.apache.coyote.http11.Http11Protocol$Http11ConnectionHandler.process(Http11Protocol.java:588)
+        at org.apache.tomcat.util.net.JIoEndpoint$Worker.run(JIoEndpoint.java:489)
+        at java.lang.Thread.run(Thread.java:619)
+Caused by: java.lang.OutOfMemoryError: Direct buffer memory
+        at java.nio.Bits.reserveMemory(Bits.java:633)
+        at java.nio.DirectByteBuffer.<init>(DirectByteBuffer.java:95)
+        at java.nio.ByteBuffer.allocateDirect(ByteBuffer.java:288)
+        at com.schooner.MemCached.SchoonerSockIOPool$TCPSockIO.<init>(Unknown Source)
+        at com.schooner.MemCached.SchoonerSockIOFactory.createSocket(Unknown Source)
+        at com.schooner.MemCached.SchoonerSockIOFactory.makeObject(Unknown Source)
+        at org.apache.commons.pool.impl.GenericObjectPool.borrowObject(GenericObjectPool.java:1181)
+        at com.schooner.MemCached.SchoonerSockIOPool.getConnection(Unknown Source)
+        at com.schooner.MemCached.SchoonerSockIOPool.getSock(Unknown Source)
+        at com.schooner.MemCached.AscIIClient.get(Unknown Source)
+        at com.schooner.MemCached.AscIIClient.get(Unknown Source)
+        at com.schooner.MemCached.AscIIClient.get(Unknown Source)
+        at com.danga.MemCached.MemCachedClient.get(Unknown Source)
+        at org.apache.jsp.callcenter.seatsJson_jsp.getScreenData(seatsJson_jsp.java:61)
+        at org.apache.jsp.callcenter.seatsJson_jsp._jspService(seatsJson_jsp.java:280)
+        ... 22 more
+<ERROR>
+
+ Binary and Ascii clients together in one application
+ I have used several Ascii clients in one application, clients were created by `new MemCachedClient()` and the pool was properly initialized with one server. Everything worked fine.
+
+When I try to add one new Binary client via `new MemCachedClient(true)` the Ascii clients stopped working with this call stack:
+
+```
+ERROR whalin.MemCached.MemCachedClient - ++++ exception thrown while writing bytes to server on set
+ERROR whalin.MemCached.MemCachedClient - 
+java.nio.BufferUnderflowException
+    at java.nio.Buffer.nextGetIndex(Buffer.java:491)
+    at java.nio.DirectByteBuffer.get(DirectByteBuffer.java:223)
+    at com.schooner.MemCached.SockInputStream.read(Unknown Source)
+    at com.schooner.MemCached.SockInputStream.getLine(Unknown Source)
+    at com.schooner.MemCached.AscIIClient.set(Unknown Source)
+    at com.schooner.MemCached.AscIIClient.add(Unknown Source)
+    at com.whalin.MemCached.MemCachedClient.add(Unknown Source)
+        ...
+```
+
+When I have tried to replace all Ascii clients with Binary ones, it began to work.
+
+Could I combine Ascii and Binary clients in one app?
+
+ Issue number 35 not fixed properly
+ Hi,
+Issue number 35 is  fixed only in readFromChannel method and the same code present in SockInputStream constructor.Please do let me know ASAP.
+
+Hi umadevid,
+
+Fixed in the latest commit. Thank you for your information.
+
+Meng
+
+
+ Do not allow to set 'expiry' is negative
+ For example:
+MemCachedClient.set(key,value,new Date(negative));
+Above, this method should not be allowed!
+
+ 部分KEY始终缓存失败
+ 我有如下两个KEY，上面这个总是缓存失败，而下面这个却总能成功；
+CPI_DIC_null_com.tydic.cpi.sql.config.queryDictionaryInfo_1085713064_queryForList
+CPI_DIC_null_com.tydic.cpi.sql.config.queryDictionaryInfo_1085713065_queryForList
+两个KEY的不同点仅仅是1085713064和1085713065的最后一位数字，经过反复的测试发现还有很多Key存在此问题，全字母的KEY也存在类似的问题（CPI_DIC_asdasd_queryForList、sadasdasdasdasdsadweqw），因无法获取项目真实源代码，故无法得知问题原因，望尽快修复。
+（memcached版本：2.5.3和2.6.6均存在;服务端：memcached-1.4.15.tar.gz）
+测试代码如下：
+public class TestMemcached {
+    public static void main(String[] args) {
+        SockIOPool pool = SockIOPool.getInstance();
+        String[] s = { "192.168.1.124:11211", "192.168.1.123:11211" };
+        Integer[] w = { 5, 5 };
+        pool.setServers(s);
+        pool.setWeights(w);
+        pool.setInitConn(Integer.valueOf(10 + ""));
+        pool.setMinConn(Integer.valueOf(10 + ""));
+        pool.setMaxConn(Integer.valueOf(1000 + ""));
+        pool.setMaxIdle(Integer.valueOf((1000 \* 60 \* 60) + ""));
+        pool.setMaintSleep(Integer.valueOf(60 + ""));
+        pool.setNagle(Boolean.valueOf("false"));
+        pool.setSocketTO(Integer.valueOf(60 + ""));
+        pool.setSocketConnectTO(Integer.valueOf(0 + ""));
+        pool.initialize();
+
+```
+    MemCachedClient mc = new MemCachedClient();
+    //mc.setSanitizeKeys(true);
+    //mc.setPrimitiveAsString(true);
+    mc.flushAll();
+    String key = "CPI_DIC_null_com.tydic.cpi.sql.config.queryDictionaryInfo_1085713064_queryForList";
+    mc.set(key, new HashMap() {
+        {
+            put("test", 2);
+        }
+    }, 10000);
+    System.out.println("value: " + mc.get(key));        
+    //CPI_DIC_null_com.tydic.cpi.sql.config.queryDictionaryInfo_1085713064_queryForList
+    //CPI_DIC_null_com.tydic.cpi.sql.config.queryDictionaryInfo_1085713065_queryForList
+}
+```
+
+}
+
+这个问题前两天XMemecache也遇到了
+
+ 使用NIO非阻塞通道，不使用selector，只是channel去close，无法真正意义关闭TCP？导致小并发就挂机！
+ Memcache-Java-Clent3和3.X在使用nio非阻塞式管道， 
+但却把非阻塞式管道当作阻塞式套接字用，没有注册Selector， 
+JDK会注册一个临时的Selector，使用Soft引用，并使用ThreadLocal做缓存， 
+当线程池剧烈收缩和扩张时，就会出现很多垃圾Soft引用的Selector， 
+如果内存够用，这些Soft引用都不会释放，句柄数就有可能达到上限。
+
+04:58:00,177 ERROR [org.apache.tomcat.util.net.AprEndpoint](http--0.0.0.0-8080-Acceptor) Socket accept failed: org.apache.tomcat.jni.Error: Too many open files
+        at org.apache.tomcat.jni.Socket.__ejt_nmp_accept(Native Method) [jbossweb-7.0.13.Final.jar:]
+        at org.apache.tomcat.jni.Socket.accept(Socket.java) [jbossweb-7.0.13.Final.jar:]
+        at org.apache.tomcat.util.net.AprEndpoint$Acceptor.run(AprEndpoint.java:1136) [jbossweb-7.0.13.Final.jar:]
+        at java.lang.Thread.run(Thread.java:662) [rt.jar:1.6.0_45]
+
+java    4496 root  979u  sock        0,5            48421 can't identify protocol
+java    4496 root  980u  sock        0,5            48422 can't identify protocol
+java    4496 root  981u  sock        0,5            48423 can't identify protocol
+java    4496 root  982u  sock        0,5            48424 can't identify protocol
+java    4496 root  983u  sock        0,5            48425 can't identify protocol
+java    4496 root  984u  sock        0,5            48426 can't identify protocol
+java    4496 root  985u  sock        0,5            48427 can't identify protocol
+
+但是，不知道你们是怎么解决？或者在那个版本可以解决？
+
+对于SocketChannel和ServerSocketChannel，两者的父类是SelectableChannel，它在jdk中的文档有这么段话：
+
+   Once registered with a selector, a channel remains registered until it is deregistered.This involves deallocating whatever resources were allocated to the channel by the selector.
+    A channel cannot be deregistered directly; instead, the key representing its registration must be cancelled. Cancelling a key requests that the channel be deregistered during the selector's next selection operation.
+
+```
+也就是说关闭一个已经注册的SelectableChannel需要两个步骤：
+```
+
+1）取消注册的key，这个可以通过SelectionKey.cancel方法，也可以通过SelectableChannel.close方法，或者中断阻塞在该channel上的IO操作的线程来做到。
+2）后续的Selector.selectXXX方法的调用才真正地关闭 本地Socket。
+    因而，如果，如果在取消SelectionKey后没有调用到selector的select方法（因为Client一般在取消key后， 我们都会终止调用select的循环，当然，server关闭一个注册的channel我们是不会终止select循环的），那么本地socket将进入CLOSE-WAIT 状态（等待本地Socket关闭）。简单的解决办法是在 SelectableChannel.close方法之后调用Selector.selectNow方法，类似:
+   Selector sel;
+   SocketChannel sch;
+   // …
+   sch.close();
+   sel.selectNow();
+
+//   .........
+
+Hi thinkingmysky,
+
+Could you please tell us what protocol you use? TCP or UDP? ASCII or Binary protocol? Besides, could you please provide us some test code you use?
+
+Meng
+
+
+ help(++++ exception thrown while trying to get object from cache for key: D11000PD00113529000004)
+ I have a question, when I use C# to add data to the Memcache, Java cannot read error! Data format into string! After viewing a MemCachedClient source code, found to be set flags, Java is based on the stored value types for flags, for example: public static final int MARKER_STRING 
+log4j:WARN Error initializing output writer.
+log4j:WARN Unsupported encoding?
+[2013-10-29 16:41:18] [ERROR] ++++ exception thrown while trying to get object from cache for key: D11000PD00113529000004
+[2013-10-29 16:41:18] [ERROR] invalid stream header: 06313932
+java.io.StreamCorruptedException: invalid stream header: 06313932
+    at java.io.ObjectInputStream.readStreamHeader(ObjectInputStream.java:783)
+    at java.io.ObjectInputStream.<init>(ObjectInputStream.java:280)
+    at com.schooner.MemCached.ObjectTransCoder.decode(Unknown Source)
+    at com.schooner.MemCached.AscIIClient.get(Unknown Source)
+    at com.schooner.MemCached.AscIIClient.get(Unknown Source)
+    at com.schooner.MemCached.AscIIClient.get(Unknown Source)
+    at com.whalin.MemCached.MemCachedClient.get(Unknown Source)
+    at com.icare.smart.control.util.MemcachedTest.testMyFunction1(MemcachedTest.java:29)
+    at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+    at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+    at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+    at java.lang.reflect.Method.invoke(Method.java:597)
+    at junit.framework.TestCase.runTest(TestCase.java:176)
+    at junit.framework.TestCase.runBare(TestCase.java:141)
+    at junit.framework.TestResult$1.protect(TestResult.java:122)
+    at junit.framework.TestResult.runProtected(TestResult.java:142)
+    at junit.framework.TestResult.run(TestResult.java:125)
+    at junit.framework.TestCase.run(TestCase.java:129)
+    at junit.framework.TestSuite.runTest(TestSuite.java:255)
+    at junit.framework.TestSuite.run(TestSuite.java:250)
+    at org.junit.internal.runners.JUnit38ClassRunner.run(JUnit38ClassRunner.java:84)
+    at org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference.run(JUnit4TestReference.java:50)
+    at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38)
+    at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:467)
+    at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:683)
+    at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:390)
+    at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:197)
+
+Hi jeasonchen,
+
+You should implement your own transcoder to encode and decode objects stored in Memcached server.
+
+Meng
+
+
+ Help：Can not get new set object on occasions, especially large access
+ 1、We use java_memcached-release_2.6.3 as client, and  memcached-1.4.13, ibevent 2.0.19-stable as cached sever to cached java object class implements
+Serializable. 
+
+2、 The problem is after few days or hours, cilent set some newly generated objects to memcached server, result is true, but get null. Then we can only restart memcached server to restore normal work.
+
+3、We have tried to enlarge the memcached server start memory to 6144M, and socket numbers to 30720, result is no help.
+./memcached -d -m 6144 -c 30720 -l 127.0.0.1 -p 12000
+In addition, we have tried to changed client mode from ASCII to BINARY, also no help.
+1. From the  memcached server log , most errors are 'Not found' related, should we upgrade client or server version?
+
+<32 GET TRSGMJC_as_DB7EEF2DE9CB65B4580926F002A5CD74112.125.95.132
+
+> 32 Writing an error: Not found
+> 32 Writing bin response:
+> 32   0x81 0x00 0x00 0x00
+> 32   0x00 0x00 0x00 0x01
+> 32   0x00 0x00 0x00 0x09
+> 32   0x00 0x00 0x00 0x00
+> 32   0x00 0x00 0x00 0x00
+> 32   0x00 0x00 0x00 0x00
+> <32 Read binary protocol data:
+> <32    0x80 0x01 0x00 0x39
+> <32    0x08 0x00 0x00 0x00
+> <32    0x00 0x00 0x02 0x93
+> <32    0x00 0x00 0x00 0x00
+> <32    0x00 0x00 0x00 0x00
+> <32    0x00 0x00 0x00 0x00
+> <32 SET TRSGMJC_as_DB7EEF2DE9CB65B4580926F002A5CD74112.125.95.132 Value len is 594
+> 32 Writing bin response:
+> 32   0x81 0x01 0x00 0x00
+> 32   0x00 0x00 0x00 0x00
+> 32   0x00 0x00 0x00 0x00
+> 32   0x00 0x00 0x00 0x00
+> 32   0x00 0x00 0x00 0x00
+> 32   0x00 0x03 0x05 0x0f
+> <32 Read binary protocol data:
+> <32    0x80 0x00 0x00 0x39
+> <32    0x00 0x00 0x00 0x00
+> <32    0x00 0x00 0x00 0x39
+> <32    0x00 0x00 0x00 0x00
+> <32    0x00 0x00 0x00 0x00
+> <32    0x00 0x00 0x00 0x00
+> <32 GET TRSGMJC_as_DB7EEF2DE9CB65B4580926F002A5CD74112.125.95.132
+> 32 Writing an error: Not found
+> 32 Writing bin response:
+> 32   0x81 0x00 0x00 0x00
+> 32   0x00 0x00 0x00 0x01
+> 32   0x00 0x00 0x00 0x09
+> 32   0x00 0x00 0x00 0x00
+> 32   0x00 0x00 0x00 0x00
+> 32   0x00 0x00 0x00 0x00
+> <32 Read binary protocol data:
+> <32    0x80 0x00 0x00 0x39
+> <32    0x00 0x00 0x00 0x00
+> <32    0x00 0x00 0x00 0x39
+> <32    0x00 0x00 0x00 0x00
+> <32    0x00 0x00 0x00 0x00
+> <32    0x00 0x00 0x00 0x00
+1. And some other results we do not understand while, does symbol of "¬" means error? why some times sending result no length?
+
+<33 get TRSGMJC_ci_customer2D63280F31F7BF796C598B93D6AF5C248.jvm1
+
+> 33 END
+> <34 get TRSGMJC_ci_customer2B754127D616479FAC1701D891D348E89.jvm1
+> 34 sending key TRSGMJC_ci_customer2B754127D616479FAC1701D891D348E89.jvm11 0 920
+> ¬
+> 34 END
+> <34 get TRSGMJC_ls_AFE3D2F7D918D1CCD24A2928723371BA112.125.95.130
+> 34 sending key TRSGMJC_ls_AFE3D2F7D918D1CCD24A2928723371BA112.125.95.130
+> 34 END
+> <34 get TRSGMJC_ls_AFE3D2F7D918D1CCD24A2928723371BA112.125.95.130
+> 34 sending key TRSGMJC_ls_AFE3D2F7D918D1CCD24A2928723371BA112.125.95.130
+> 34 END
+> <34 delete TRSGMJC_ci_customer2B754127D616479FAC1701D891D348E89.jvm1
+> 34 DELETED
+> <34 delete TRSGMJC_ls_AFE3D2F7D918D1CCD24A2928723371BA112.125.95.130
+> 34 DELETED
+> <34 get TRSGMJC_lu_%E8%B5%B5%E4%B8%96%E5%BA%86
+> 34 sending key TRSGMJC_lu_%E8%B5%B5%E4%B8%96%E5%BA%86
+> 34 END
+> <34 delete TRSGMJC_lu_%E8%B5%B5%E4%B8%96%E5%BA%86
+> 34 DELETED
+> <35 get TRSGMJC_ci_customer2A6CB386E832B6503E9AC1DBCB0E6DF14.jvm1
+> 35 END
+> <32 get TRSGMJC_ci_customer2D2AB156ECC6D893E3F5E917D7FF7EF8E.jvm1
+> 32 END
+> <33 get TRSGMJC_ci_customer26E78EC90BAAD0F24FC8EE3D1C95F743C.jvm1
+> 33 END
+> <34 get TRSGMJC_ci_customer2C2FC12CA4544C7C4B73DC98433F6A6AC.jvm1
+> 34 END
+> <35 get TRSGMJC_ci_customer20AA6067566BF8FDC3A8E514A104AC920.jvm1
+> 35 END
+> <32 get TRSGMJC_ci_customer2AC9A422BB281E578A37485FF60B3428D.jvm1
+> 32 END
+> <33 get TRSGMJC_ci_customer288283C65BF3E5D715A80C734DDC490A0.jvm1
+> 33 END
+> <34 get TRSGMJC_ci_customer2625ECFE1EF83CBB031E1A1048F446FD7.jvm1
+> 34 sending key TRSGMJC_ci_customer2625ECFE1EF83CBB031E1A1048F446FD7.jvm11 0 925
+> ¬
+> 34 END
+> <34 get TRSGMJC_ls_E8D331B3236FF66BE3225601802C0AFF112.125.95.130
+> 34 sending key TRSGMJC_ls_E8D331B3236FF66BE3225601802C0AFF112.125.95.130  0 925
+> ¬
+> 34 END
+> <34 get TRSGMJC_ls_E8D331B3236FF66BE3225601802C0AFF112.125.95.130
+> 34 sending key TRSGMJC_ls_E8D331B3236FF66BE3225601802C0AFF112.125.95.130  0 925
+> ¬
+> 34 END
+> <34 delete TRSGMJC_ci_customer2625ECFE1EF83CBB031E1A1048F446FD7.jvm1
+> 34 DELETED
+> <34 delete TRSGMJC_ls_E8D331B3236FF66BE3225601802C0AFF112.125.95.130
+> 34 DELETED
+> <34 get TRSGMJC_lu_%E7%8E%8B%E6%B3%A2111
+> 34 sending key TRSGMJC_lu_%E7%8E%8B%E6%B3%A2111
+> 34 END
+> <34 delete TRSGMJC_lu_%E7%8E%8B%E6%B3%A2111
+> 34 DELETED
+
+you'd better use setSanitizeKeys to encode the keys for those special characters.
+
+

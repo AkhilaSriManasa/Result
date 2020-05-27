@@ -1,0 +1,56 @@
+﻿ Merge pull request #17 from dermojo/master
+
+move value on insert, fix comment typo
+ move value on insert, fix comment typo
+ Merge pull request #15 from orestonce/master
+
+fix some comment, set Contains() const
+ fix some comment
+ added sample_main to gitignore
+ added getCopy() and validity comment to get()
+ Merge pull request #13 from Quinny/master
+
+removed no copy base class
+ removed no copy base class
+ Merge pull request #10 from breznak/vector_key
+
+[WIP] add example for using vector<> as key in Cache
+ Merge pull request #12 from fawkes74/master
+
+Added missing CMakeLists.txt for cmake support.
+ Merge pull request #7 from breznak/add_example
+
+Add example
+ Added missing CMakeLists.txt for cmake support.
+ add example for using vector<> as key in Cache
+ fix Sample
+
+include <iostream> for std::cout
+ add the example from Readme as SampleMain.cpp
+ rename test to LRUCache11Test.cpp
+
+from SampleMain.cpp
+ Update README.md
+ Update README.md
+ Merge pull request #9 from Quinny/master
+
+rewrote using std::list instead of custom linked list implementation
+ rewrote using std::list instead of custom linked list implementation
+ Merge pull request #4 from danpat/master
+
+Set prev link properly when adding to a 1-item list.
+ Need to set prev link when adding a new item to a 1-item list.
+ Update README.md
+ Merge pull request #1 from dakerfp/patch-3
+
+Remove check for nullptr before deleting.
+ Update LRUCache11.hpp
+ Update LRUCache11.hpp
+ Merge pull request #2 from dakerfp/patch-4
+
+Avoid nesting on Cache::prune by early returning
+ Avoid nesting on Cache::prune by early returning
+ Remove check for nullptr before deleting.
+ Update LRUCache11.hpp
+
+insert for existing node was missing return

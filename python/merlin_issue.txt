@@ -1,0 +1,418 @@
+﻿ GPU Error when running 07_run_merlin.sh
+ Hi,
+After successful training of duration and acoustic models, I tried to synthesize my voice. After running 07_run_merlin.sh, I get the following error when trying to synthesize:
+
+TypeError: Cannot convert Type TensorType(float32, 3D) (of Variable HostFromGpu(gpuarray).0) into Type TensorType(float32, matrix). You can try to manually convert HostFromGpu(gpuarray).0 into a TensorType(float32, matrix).
+
+Acoustic model has architecture [512, 512], ['LSTM', 'LSTM'], but I would not say that is the problem because another model with architecture [256, 256], ['LSTM', 'LSTM'] (so the only difference is the number of hidden units) succesfuly synthesized my txt files.
+
+Does anyone know what the problem could be? I already added floatX=float32 to submit.sh script, and it still doesn't work.
+Thanks!
+ running on cpu
+ Hello everyone, 
+First of all I am not familiar enough with merlin and I followed the article of josh meyer website to build and compile merlin.
+I succesfully compiled merlin but when I am trying to run demo voice from slt_artcic/s1 
+I dont have a GPU and trying to run from CPU
+Maybe my question is silly but merlin compiles default for CPU or GPU?
+Should I edit merlin flags in src/?
+MERLIN_THEANO_FLAGS="cuda.root=/usr/local/8.0,floatX=float32,on_unused_input=ignore"
+export MERLIN_THEANO_FLAGS
+Or should it be from mathplotlib library?
+LD_LIBRARY_PATH:
+    /usr/local/lib
+PYTHONPATH:
+PYTHONBIN: python
+MERLIN_THEANO_FLAGS:
+    cuda.root=/usr/local/8.0
+    floatX=float32
+    on_unused_input=ignore
+ 
+No GPU is available! Running on CPU...
+/home/kaldi/merlin/src/logplot/logging_plotting.py:55: UserWarning: 
+This call to matplotlib.use() has no effect because the backend has already
+been chosen; matplotlib.use() must be called *before* pylab, matplotlib.pyplot,
+or matplotlib.backends is imported for the first time.
+
+The backend was *originally* set to 'agg' by the following code:
+  File "/home/kaldi/merlin/src/run_merlin.py", line 74, in <module>
+    from models.deep_rnn import DeepRecurrentNetwork
+  File "/home/kaldi/merlin/src/models/deep_rnn.py", line 16, in <module>
+    from training_schemes.rprop import compile_RPROP_train_function
+  File "/home/kaldi/merlin/src/training_schemes/rprop.py", line 47, in <module>
+    import  matplotlib.pyplot as plt
+  File "/home/kaldi/.local/lib/python2.7/site-packages/matplotlib/pyplot.py", line 71, in <module>
+    from matplotlib.backends import pylab_setup
+  File "/home/kaldi/.local/lib/python2.7/site-packages/matplotlib/backends/__init__.py", line 17, in <module>
+    line for line in traceback.format_stack()
+
+[slt_artic.txt](https://github.com/CSTR-Edinburgh/merlin/files/4329391/slt_artic.txt)
+ 
+
+IF anyone knows it could be awesome
+ run_demo.sh
+ 
+
+hello I am trying to train the example demo from a CPU with ubuntu 18,04.
+It seems to works fine until it comes to dnn_generation.
+Yesterday I runned it and until today it is same. What could I do wrong?
+slt_artic.txt
+
+ python dependencies
+ Hello I am trying to build merlin tts. Until now I have succesfully compiled all tools. 
+When I install python dependencies such as:
+pip install numpy scipy matplotlib lxml theano bandmat with python 2.7 its collecting and download each one of them but after that it gives that error:
+ERROR: Command errored out with exit status 1:
+     command: /usr/bin/python -c 'import sys, setuptools, tokenize; sys.argv[0] = '"'"'/tmp/pip-install-x_fijD/bandmat/setup.py'"'"'; __file__='"'"'/tmp/pip-install-x_fijD/bandmat/setup.py'"'"';f=getattr(tokenize, '"'"'open'"'"', open)(__file__);code=f.read().replace('"'"'\r\n'"'"', '"'"'\n'"'"');f.close();exec(compile(code, __file__, '"'"'exec'"'"'))' egg_info --egg-base /tmp/pip-install-x_fijD/bandmat/pip-egg-info
+         cwd: /tmp/pip-install-x_fijD/bandmat/
+    Complete output (5 lines):
+    Traceback (most recent call last):
+      File "<string>", line 1, in <module>
+      File "/tmp/pip-install-x_fijD/bandmat/setup.py", line 10, in <module>
+        import numpy as np
+    ImportError: No module named numpy
+    ----------------------------------------
+ERROR: Command errored out with exit status 1: python setup.py egg_info Check the logs for full command output.
+
+if anyone knows it could be awesome
+are you sure that your pip is using the same python?
+
+ fix: TypeError of run_merlin.py
+ using Python 3.6.10
+Fixed "TypeError: must be str, not NoneType" error that occurs in logger.info of run_merlin.py.
+ CRITICALListDataProvider: the number of frames in label and acoustic features are different
+ I'm developing a TTS for Tamil usinng merlin. I have completed upto training duration model. Now error comes in 6th step, train_acoustic_model step.
+Error comes as follows :
+
+**2020-01-21 12:52:07,108 CRITICALListDataProvider: the number of frames in label and acoustic features are different: 533 vs 418 (ta_1436)
+2020-01-21 12:52:07,121 CRITICAL       main    : train_DNN threw an exception
+Traceback (most recent call last):
+  File "/home/acc/merlin/src/run_merlin.py", line 1320, in <module>
+    main_function(cfg)
+  File "/home/acc/merlin/src/run_merlin.py", line 870, in main_function
+    cmp_mean_vector = cmp_mean_vector, cmp_std_vector = cmp_std_vector,init_dnn_model_file=cfg.start_from_trained_model)
+  File "/home/acc/merlin/src/run_merlin.py", line 223, in train_DNN
+    shared_train_set_xy, temp_train_set_x, temp_train_set_y = train_data_reader.load_one_partition()
+  File "/home/acc/merlin/src/utils/providers.py", line 296, in load_one_partition
+    shared_set_xy, temp_set_x, temp_set_y = self.load_next_partition()
+  File "/home/acc/merlin/src/run_merlin.py", line 849, in main_function
+    os.makedirs(model_dir)
+  File "/usr/lib/python2.7/os.py", line 157, in makedirs
+    mkdir(name, mode)
+OSError: [Errno 17] File exists: '/home/acc/merlin/egs/build_your_own_voice/s2/experiments/my_voice/acoustic_model/nnets_model'**
+
+How to solve this error???
+
+ remove deprecated string class method call
+ Replaced a call to a deprecated string method which caused the code to fail in python 3.
+Only line 259 of src/logplot/logging_plotting.py is modified
+
+Here is an example of a stack trace
+>   File "./merlin/src/run_merlin.py", line 1320, in <module>
+>     main_function(cfg)
+>   File "./merlin/src/run_merlin.py", line 870, in main_function
+>     cmp_mean_vector = cmp_mean_vector, cmp_std_vector = cmp_std_vector,init_dnn_model_file=cfg.start_from_trained_model)
+>   File "./merlin/src/run_merlin.py", line 382, in train_DNN
+>     plotlogger.save_plot('training convergence',title='Progress of training and validation error',xlabel='epochs',ylabel='error')
+>   File "/xxx/merlin/src/logplot/logging_plotting.py", line 259, in save_plot
+>     filename = self.plot_path + "/" + string.replace(plot_name, " ", "_") + ".pdf"
+> AttributeError: module 'string' has no attribute 'replace'
+
+'Progress of training and validation error',xlabel Silences and pauses handling 
+ I have a question regarding pauses and silences handling. 
+If I specify if the config files the pattern for the pauses and silences :
+silence_pattern: ['*-sil+*','*-pau+*']
+
+Will the whole training be done without them or just the computation of the metrics ( CORR, RMSE,...) , if the whole training is done without them how they can be incorporated in the synthesised files later if the network never learnt how to generate silence frames  ?
+
+Thanks
+ Error while executing prepare_labels.sh script
+  I tried labeling as follows in merlin:
+
+./02_prepare_labels.sh ./database/wav/ ./database/utts.data ./database/labels/
+
+It is giving a long error as :
+
+Step 2: 
+Preparing labels...
+preparing full-contextual labels using Festival frontend...
+creating a scheme file from text file
+generating utts from scheme file
+free(): invalid next size (fast)
+/{MerlinDir}/egs/build_your_own_voice/s1/scripts/prepare_labels_from_txt.sh: line 53: 10424 Aborted                 (core dumped) ${FESTDIR}/bin/festival -b ${out_dir}/$scheme_file
+converting festival utts to labels...
+01_setup.sh 02_prepare_labels.sh 03_prepare_acoustic_features.sh 04_prepare_conf_files.sh 05_train_duration_model.sh 06_train_acoustic_model.sh 07_run_merlin.sh conf database experiments README.md run_demo_voice.sh scripts
+gawk: fatal: cannot open file `./database/labels//prompt-lab/tmp' for reading (No such file or directory)
+gawk: fatal: cannot open file `./database/labels//prompt-lab/tmp' for reading (No such file or directory)
+normalizing label files for merlin...
+ta_1001.lab
+Traceback (most recent call last):
+  File "/{MerlinDir}/misc/scripts/frontend/utils/normalize_lab_for_merlin.py", line 134, in <module>
+    normalize_label_files(in_lab_file, out_lab_file, label_style, write_time_stamps)
+  File "{MerlinDir}/misc/scripts/frontend/utils/normalize_lab_for_merlin.py", line 35, in normalize_label_files
+    in_f = open(in_lab_file,'r')
+IOError: [Errno 2] No such file or directory: './database/labels//prompt-lab/full/ta_1001.lab'
+forced-alignment using HTK tools...
+---preparing enverionment
+---checking data
+---extracting features
+Mon Jan 13 14:51:47 2020
+---feature_normalisation
+Mon Jan 13 14:51:47 2020
+---making proto
+Mon Jan 13 14:51:47 2020
+---training HMM models
+  ERROR [+7220]  NewHMMScan: cannot find any physical HMMs to scan
+ FATAL ERROR - Terminating program /{MerlinDir}/tools/bin/htk/HERest
+Traceback (most recent call last):
+Hello, I think you are facing the "festival version" problem. I did a pull request to use a more up to date festival (see #481 ). Maybe have a look there
+
+@seblemaguer Eventhough I edited the compile_other_speech_tools.sh as given in the link you have provided, I get the same error again and again. 
+What can I do now?
+
+
+ Error during step 2 of "02_prepare_labels.sh
+ I am encountering an error when trying to run the prepare label step.
+I have been trying many things, looking for similar errors but I do not get where that is coming from. 
+Our you have any idea? 
+
+`forced-alignment using HTK tools...
+---preparing enverionment
+---checking data
+---extracting features
+Traceback (most recent call last):
+ 02_prepare_labels_from_txt - malloc() corrupted top size
+ Hi all I'm trying to make labels from the data in speaker adaptation and I am running into the following error:
+
+Step 2:
+Preparing labels...
+preparing full-contextual labels using Festival frontend...
+creating a scheme file from text directory
+generating utts from scheme file
+malloc(): corrupted top size
+/mnt/c/Users/Bonjour/Documents/GitHub/merlin/egs/speaker_adaptation/s1/scripts/prepare_labels_from_txt.sh: line 53:    12 Aborted                 (core dumped) ${FESTDIR}/bin/festival -b ${out_dir}/$scheme_file
+converting festival utts to labels...
+01_setup.sh 02_prepare_labels.sh 03_prepare_acoustic_features.sh 04_prepare_conf_files.sh 05_train_duration_model.sh 06_train_acoustic_model.sh 07_run_merlin.sh 08_setup_adapt.sh 09_prepare_labels_adapt.sh 10_prepare_acoustic_features.sh 11_prepare_conf_files_adapt.sh 12_adapt_duration_model.sh 13_adapt_acoustic_model.sh conf database download_data.sh experiments README.md RESULTS.md run_demo_voice.sh scripts VCTK-Corpus VCTK-Corpus.tar.gz
+gawk: fatal: cannot open file `database/labels/prompt-lab/tmp' for reading (No such file or directory)
+gawk: fatal: cannot open file `database/labels/prompt-lab/tmp' for reading (No such file or directory)
+normalizing label files for merlin...
+p225_001.lab
+Traceback (most recent call last):
+  File "/mnt/c/Users/Bonjour/Documents/GitHub/merlin/misc/scripts/frontend/utils/normalize_lab_for_merlin.py", line 134, in <module>
+    normalize_label_files(in_lab_file, out_lab_file, label_style, write_time_stamps)
+  File "/mnt/c/Users/Bonjour/Documents/GitHub/merlin/misc/scripts/frontend/utils/normalize_lab_for_merlin.py", line 35, in normalize_label_files
+    in_f = open(in_lab_file,'r')
+IOError: [Errno 2] No such file or directory: 'database/labels/prompt-lab/full/p225_001.lab'
+forced-alignment using HTK tools...
+---preparing enverionment
+---checking data
+---extracting features
+Tue Dec  3 21:39:45 2019
+---feature_normalisation
+Tue Dec  3 21:39:45 2019
+---making proto
+Tue Dec  3 21:39:45 2019
+---training HMM models
+  ERROR [+7220]  NewHMMScan: cannot find any physical HMMs to scan
+ FATAL ERROR - Terminating program /mnt/c/Users/Bonjour/Documents/GitHub/merlin/tools/bin/htk/HERest
+Traceback (most recent call last):
+@gaspardol Have you found a solution to this problem?
+
+@priyanthini I couldn't make it work on my laptop, Ubuntu 18.04 LTS 
+
+However I could make it work it work on google colab using the following code to set it up:
+https://colab.research.google.com/drive/16HxKIk9KTYe5qR3Ex3wSU-viRmxsSUvj
+
+@gaspardol Thank you.
+
+ Merge pull request #1 from CSTR-Edinburgh/master
+ Update
+ Voice conversion
+ Does Merlin give a possibility to apply voice conversion with Non-parallel training data?
+
+Thanks 
+ Is there batch normalization in Theano DNN model?
+ Is there batch normalization within DNN hidden layers implemented in Theano? I could not find it.
+I think the answer is no. My implementation in C/C++ without batch normalization generate the same output.
+
+ World synthesis very sensitive to very slight changes 
+ I am trying to synthesize wavs from numpy arrays regrouping the features needed in World Vocoder Synthesis ("mgc", "bap", "lf0"). For the moment, my numpy arrays are just concatenated features scaled. In the following code I just load these arrays, inverse scale them, and then dispatch them into the corresponding binary files. 
+
+However when I run the synthesis script on these new binary files, it fails, with this error: 
+x2x : error: input data is over the range of type 'double'!
+The error is due to differences in the mgc files, because when I replace it with the initial one, it works.  When I checked for the absolute differences between my mgc file and the initial one, it was lower than 10exp(-26) ( due to scaling /rescaling maybe ) 
+I do not think that the synthesizer is sensitive to such differences, so what am I doing wrong here ? 
+Here is the code to reform the binary files ? 
+( i am using the scripts in merlin/misc/scripts/vocoder/world/ ) 
+```
+ j = np.load(infile)
+ sc = joblib.load(scaler)
+ j = sc.inverse_transform(j)
+ mgc = j[:, 0:60]
+ bap = j[:, 60]
+ lf0 = j[:, 61]
+ for i in range(lf0.shape[0]) :
+     if lf0[i] < -100000000 :
+         lf0[i] = -6.08244970e+77
+ mgc_pth = os.path.join(os.path.join(outdir, "mgc"), fname + ".mgc" )
+ bap_pth = os.path.join(os.path.join(outdir, "bap"), fname + ".bap" )
+ lf0_pth = os.path.join(os.path.join(outdir, "lf0"), fname + ".lf0" )
+ write_binfile(mgc, mgc_pth)
+ write_binfile(lf0, lf0_pth)
+ write_binfile(bap, bap_pth)
+
+```
+
+with write_binfile being : 
+
+```
+def write_binfile(m_data, filename, dtype=np.float64):
+     '''
+     Writes numpy array into binary file.
+     '''
+
+     m_data = np.array(m_data, dtype)
+
+     m_data.tofile(filename)
+     return
+
+
+```
+
+ coarse coding features 
+ Three coarse coding features vectors are exactly the same. 
+ fail to compile postfilter
+ compiling postfilter...
+./00_make.sh: 5: ./00_make.sh: aclocal: not found
+./00_make.sh: 6: ./00_make.sh: automake: not found
+./00_make.sh: 7: ./00_make.sh: autoconf: not found
+./00_make.sh: 8: ./00_make.sh: ./configure: not found
+make: *** No rule to make target 'clean'.  Stop.
+make: *** No targets specified and no makefile found.  Stop.
+make: *** No rule to make target 'install'.  Stop.
+
+why, what could I do to fix it
+ Shape error during training
+ 2019-10-12 20:40:38,462 INFO      acoustic_comp: processing file    1 of  226 : /home/parallels/Desktop/merlin-master/egs/slt_arctic/s1/experiments/slt_arctic_full/acoustic_model/inter_module/nn_lf0_60/arctic_a0005.cmp
+Traceback (most recent call last):
+  File "/home/parallels/Desktop/merlin-master/src/run_merlin.py", line 1322, in <module>
+    main_function(cfg)
+  File "/home/parallels/Desktop/merlin-master/src/run_merlin.py", line 694, in main_function
+    perform_acoustic_composition(delta_win, acc_win, in_file_list_dict, nn_cmp_file_list, cfg, parallel=True)
+  File "/home/parallels/Desktop/merlin-master/src/run_merlin.py", line 510, in perform_acoustic_composition
+    pool.map(perform_acoustic_composition_on_split, splits_full)
+  File "/usr/lib/python2.7/multiprocessing/pool.py", line 253, in map
+    return self.map_async(func, iterable, chunksize).get()
+  File "/usr/lib/python2.7/multiprocessing/pool.py", line 572, in get
+    raise self._value
+ValueError: could not broadcast input array from shape (8120,1) into shape (406,20)
+
+Hi. I'm trying to train acoustic model. For my task I change lf0 to 20. The data in lf0 folder have (x, 20) dimension. What is wrong?
+ Non-deterministic audio synthesis?
+ I am using the slt_arctic demo on merlin without any changes. 
+I ran the demo without problems, but when it comes to synthesizing, everytime I run the script, it produces a different output. Sometimes it's the words I want to hear, but often it is only noise. Shouldn't this be a deterministic program with the same output every time (with always the same input)?
+ user interface
+ 
+ file_id_list_full 
+ I was able to run the first voice demo on merlin. 
+While running the **full voice demo**, there is a file missing **"file_id_list_full.scp"**
+I cannot seem to find it anywhere.
+According to the setup file: https://github.com/CSTR-Edinburgh/merlin/blob/33fa6e65ddb903ed5633ccb66c74d3e7c128667f/egs/slt_arctic/s1/01_setup.sh#L107
+
+`file_id_list_full.scp` is related to the building of the full voice, not the demo
+
+full voice was what I wanted to run. The issue was resolved though by some relocation of files.thankyou
+
+ Error in generating lab files from my voice data
+ 
+ Track fest(vox/ival) and speech_tools repositories, should fix #345 and  #255
+ Speech Tools, Festival and Festvox are now on github so I think it is better to track them as submodule instead of downloading the archives.
+
+Also the github versions are more up-to-date with the modern compilers (gcc > 6) so it should fix #345 and #255 
+ What path to give as <input_lab_dir> argument in normalize_lab_for_merlin.py?
+ I want to create lab files for my voice dataset. 
+
+What should be given as <input_lab_dir> argument for running the file https://github.com/CSTR-Edinburgh/merlin/blob/master/misc/scripts/frontend/utils/normalize_lab_for_merlin.py?
+
+Also how to create lab files in this <input_lab_dir>?
+Any help is appreciated.
+ Segfault Fix: Added isnan() check for tentative_f0 in GetTentativeF0 to WORLD's analysis tool
+ thus rejecting nan/-nan tentative_f0 values. Got these on large (50s) WAVs of synthesized speech.
+
+
+ Need Demo Audio Samples
+ There are no demo .wav files available. 
+That leads me to believe the output must be worse than espeak so would be a waste of time to get working.  Even the presentations done about it don't feature any audio samples. 
+I have tried following the instructions and it did not work. I'm not particularly suprised siince there is no docker image. 
+
+CSTR-Edinburgh probably isn't interested in anyone actually using this, if they aren't brave enough to provide audio samples. 
+ah found the samples, I guess it's alright.
+
+ Network Type for Acoustic and Duration Models
+ I am running the run_full_voice.sh script in the egs/slt_arctic/s1 directory, but I am training on bdl instead of slt. In the demo paper, it says that the first recipe uses a feed-forward DNN architecture. However, when I synthesize new sentences, the following lines are output on the terminal when calculating acoustic and duration features. 
+
+Architecture:network_type has default value RNN
+Architecture:model_type has default value DNN
+
+**Does this mean that the model is actually deep recurrent rather than deep feed-forward?**
+ import theano
+ I get theano import error when i try to run the sample given in s1 of merlin. When i try to to reinstall theano it says rquirement already satisfied.
+
+  File "/home/fjwu/merlin-master/src/run_merlin.py", line 56, in <module>
+    import theano
+ImportError: No module named theano
+
+are you sure that merlin is using the same python than you are for testing?
+
+Resolved. thats was the issue. i was using  a different version for installations. thankyou
+
+ Generated voice is unclear and noisy
+ I've trained the model for Cantonese, using (https://github.com/Jackiexiao/MTTS) frontend with modification for Cantonese(https://github.com/mirfan899/MTTS). Model is trained and `wav` files are generated. But audio is noisy and unclear. I've attached the logs for the reference.
+[output.log](https://github.com/CSTR-Edinburgh/merlin/files/3435558/output.log)
+and generated audio sample.
+[ASR1.wav.zip](https://github.com/CSTR-Edinburgh/merlin/files/3435568/ASR1.wav.zip)
+
+Maybe you can try to increase the acoustic training epochs.
+What vocoder are you using? You can try to extract audio features and resynthesis by that vocoder to check vocoder quality on your audio file. 
+
+It seems my question file is not good enough. I was looking for question file info but did not find anywhere on the internet. If you have any link related to question file format and details of the questions, share it.
+
+does the frontend you've used not provide a question file? Else, you should figure out which features it generates in the label files and write a matching question file. Feel free toshare it back into this repository under https://github.com/CSTR-Edinburgh/merlin/tree/master/misc/questions
+Perhaps the mandarin question file can provide a starting point for the cantonese?
+
+I've used https://github.com/Jackiexiao/MTTS for this purpose. I've generated the question file for Cantonese using Mandarin structure. After adding more data, generated voice has some words yet some words are not clear. 
+
+How much data are you using?
+
+Currently 220 audios.
+
+That's probably the issue then. I'd recommend at least 1000 sentences. Preferably a lot more for high quality synthesis. 
+
+ Label-Files contain gibberish after merlin_synthesis
+ After running merlin_synthesis.sh without errors using the full arctic voice, the wav-file only contains noise. The problem appears to be the label files which look like this:
+`0 440000 x^x-sil+hh=ax@x_x/A:0_0_0/B:x-x-x@x-x&x-x#x-x$x-x!x-x;x-x|x/C:0+0+2/D:0_0/E:x+x@x+x&x+x#x+x/F:content_2/G:0_0/H:x=x@1=1|0/I:11=8/J:11+8-1[2]`
+`440000 880000 x^x-sil+hh=ax@x_x/A:0_0_0/B:x-x-x@x-x&x-x#x-x$x-x!x-x;x-x|x/C:0+0+2/D:0_0/E:x+x@x+x&x+x#x+x/F:content_2/G:0_0/H:x=x@1=1|0/I:11=8/J:11+8-1[3]`
+`880000 1320000 x^x-sil+hh=ax@x_x/A:0_0_0/B:x-x-x@x-x&x-x#x-x$x-x!x-x;x-x|x/C:0+0+2/D:0_0/E:x+x@x+x&x+x#x+x/F:content_2/G:0_0/H:x=x@1=1|0/I:11=8/J:11+8-1[4]`
+`1320000 1760000 x^x-sil+hh=ax@x_x/A:0_0_0/B:x-x-x@x-x&x-x#x-x$x-x!x-x;x-x|x/C:0+0+2/D:0_0/E:x+x@x+x&x+x#x+x/F:content_2/G:0_0/H:x=x@1=1|0/I:11=8/J:11+8-1[5]`
+`1760000 2200000 x^x-sil+hh=ax@x_x/A:0_0_0/B:x-x-x@x-x&x-x#x-x$x-x!x-x;x-x|x/C:0+0+2/D:0_0/E:x+x@x+x&x+x#x+x/F:content_2/G:0_0/H:x=x@1=1|0/I:11=8/J:11+8-1[6]`
+`2200000 2300000 x^sil-hh+ax=l@1_2/A:0_0_0/B:0-0-2@1-2&1-11#1-8$1-6!0-1;0-1|ax/C:1+1+2/D:0_0/E:content+2@1+8&1+4#0+1/F:content_1/G:0_0/H:11=8@1=1|L-L%/I:0=0/J:11+8-1[2]`
+...
+
+The corresponding sentence is "Hello, I am the arctic voice of Merlin."
+Thanks for your help!
+Those label files look good to me. What do you think is wrong with them?
+
+I thought they had to look as "clean" as the training label files...
+
+And how does your training label files look? Are you sure you're not confusing alignment label files and actual training labels? If they didn't contain the above "gibberish" then that's probably why it doesn't work.
+
+I used the stl_arctic example with .lab files looking like
+`0.205 125 sil`
+`0.34 125 ao`
+etc.
+If it isn't the label files that are wrong, what else could cause the wav-files only containing noise?
+No errors showed up during installation, training or synthesis. What files or logs should I provide?
+
+So those you write there are monophone label files which can work for alignment.
+If you've used those for training then that explains why you get a voice that sounds like nothing.
+You need the full-context label files (those with "gibberish" in them you initially posted) for training and synthesis.
+

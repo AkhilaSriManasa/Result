@@ -1,0 +1,280 @@
+﻿ Fix the BubbleSorter and add the unit test.
+ ### Description
+
+#135 
+
+### Checklist
+
+- [x] An issue was first created **before** opening this pull request
+- [ ] The new code follows the [contribution guidelines](CONTRIBUTING.md)
+- [x] I have performed a self-review of my own code
+- [ ] I have commented my code, particularly in hard-to-understand areas
+- [ ] I have made corresponding changes to the documentation
+- [x] My changes generate no new warnings
+- [x] I have added tests to ensure that prove my fix is effective or that my feature works
+- [ ] New and existing unit tests pass locally with my changes
+
+
+ Issue 129: Return primes list as read-only.
+ ### Description
+
+Alter GetAll to return a read-only IList<int> of the prime numbers.
+
+### Checklist
+
+- [X] An issue was first created **before** opening this pull request
+- [X] The new code follows the [contribution guidelines](CONTRIBUTING.md)
+- [X] I have performed a self-review of my own code
+- [X] I have commented my code, particularly in hard-to-understand areas
+- [X] I have made corresponding changes to the documentation
+- [X] My changes generate no new warnings
+- [X] I have added tests to ensure that prove my fix is effective or that my feature works
+- [X] New and existing unit tests pass locally with my changes
+
+
+ Issue 46: Switch netcoreapp2 to netstandard2 for libraries. …
+ ### Description
+
+Update for issue 46:
+Switch netcoreapp2 to netstandard2 for libraries.
+Removed unused using that would have required netcoreapp3.1 to compile.
+Fixed string to char because netstd2 didn't allow for strings as char arrays.
+Added .NETStandard2.0 dependency to nuspec.
+
+### Checklist
+
+- [X] An issue was first created **before** opening this pull request
+- [X] The new code follows the [contribution guidelines](CONTRIBUTING.md)
+- [X] I have performed a self-review of my own code
+- [X] I have commented my code, particularly in hard-to-understand areas
+- [X] I have made corresponding changes to the documentation
+- [X] My changes generate no new warnings
+- [X] I have added tests to ensure that prove my fix is effective or that my feature works
+- [X] New and existing unit tests pass locally with my changes
+
+
+ Issue 87: Stack efficient Euclidean method
+ ### Description
+
+Updated fix to issue 87.  Removes tail recursive function call to save stack memory space at the cost of another integer.
+
+### Checklist
+
+- [X] An issue was first created **before** opening this pull request
+- [X] The new code follows the [contribution guidelines](CONTRIBUTING.md)
+- [X] I have performed a self-review of my own code
+- [n/a] I have commented my code, particularly in hard-to-understand areas
+* The new loop is functionally identical to the old loop which was not specifically documented.
+- [n/a] I have made corresponding changes to the documentation
+* Nothing about the call or output has been changed to warrant a documentation change.
+- [X] My changes generate no new warnings
+- [X] I have added tests to ensure that prove my fix is effective or that my feature works
+* (tests already present)
+- [X] New and existing unit tests pass locally with my changes
+
+
+ Change recursive function to while loop to save stack space
+ ### Description
+
+Update for issue 87. Removes need for tail recursion call in FindGCDEuclidean and reduces stack pressure.
+
+### Checklist
+
+- [X] An issue was first created **before** opening this pull request
+- [X] The new code follows the [contribution guidelines](CONTRIBUTING.md)
+- [X] I have performed a self-review of my own code
+- [X] I have commented my code, particularly in hard-to-understand areas
+- [n/a] I have made corresponding changes to the documentation
+- [X] My changes generate no new warnings
+- [n/a] I have added tests to ensure that prove my fix is effective or that my feature works
+- [X] New and existing unit tests pass locally with my changes
+
+
+ Basic optimizations for UndirectedSparseGraph
+ ### Description
+
+Optimized item removal from UndirectedSparseGraph by only trying to remove the given item from its neighbors' adjacency lists, instead of all vertices'.
+
+Optimized the Contains function of the DLinkedList structure by avoiding exceptions entirely, as they are costly and not really meaningful in this case (not finding an item in a list is normal, it's not an exception).
+
+### Checklist
+
+- [ ] An issue was first created **before** opening this pull request
+- [ ] The new code follows the [contribution guidelines](CONTRIBUTING.md)
+- [X] I have performed a self-review of my own code
+- [X] I have commented my code, particularly in hard-to-understand areas
+- [ ] I have made corresponding changes to the documentation
+- [X] My changes generate no new warnings
+- [ ] I have added tests to ensure that prove my fix is effective or that my feature works
+- [X] New and existing unit tests pass locally with my changes
+
+
+ Fixed #117 and one more bug in ChainedHashTable
+ ### Description
+
+1) Fix #117 . This bug occurs when hash table has collisions. Then the hashTable node contain a list with some values. And the method CopyTo try to fill an array by the end using values from list in this node.
+I added check for existing the next element in the list in the hashTable node.
+
+2) I divided a unit test for ChainedHashTable on some tests. And added additinal tests.
+
+3) When i added unit tests i had found a new bug. 
+When a user create two or greater ChainedHashTable objects then these objects have the same LinkedList array for storing values i.e. adding new value to one hash table this value add to another hash tables.
+I add creating a new array for every ChainedHashTable objects in constructor.
+
+
+ Turned the primes document into an embedded resource.
+ This might help to get started with the embedded resource issue (see #123 ).
+ Implement basic Build and Test GitHub Workflow
+ ### Description
+
+Fixes #121: Implements a basic build and test GitHub workflow
+
+### Checklist
+
+- [x] An issue was first created **before** opening this pull request
+- [x] The new code follows the [contribution guidelines](CONTRIBUTING.md)
+- [x] I have performed a self-review of my own code
+- [ ] I have commented my code, particularly in hard-to-understand areas
+- [ ] I have made corresponding changes to the documentation
+- [ ] My changes generate no new warnings
+- [ ] I have added tests to ensure that prove my fix is effective or that my feature works
+- [ ] New and existing unit tests pass locally with my changes
+
+
+ Fix undirected weighted dense graph
+ ### Description
+This pr fix issue #107 
+
+Changes:
+I didn't make any changes in logic of that graph. Create smaller tests for public methods, previous tests invoke BreadthFirstWalk and some other walk method (i think there should be tested separately). 
+
+Changes in code:
++ Only changes is make consistent when we throw exception and with type. I choose ArgumentOutOfRange when we try do something with vertex that doesn't exists and not throw exception but return false etc when edge doesn't exists.
+
+Future suggestion:
+I think we should discuss create some more clear structure for inheritance in graphs type (So many level on override and using new keyword in some parts it's complicated in maintenance and can lead to future problems.). Maybe i'll open separate issue for that if you also think we can make some improvements in this situation.
+
+### Checklist
+
+- [X] An issue was first created **before** opening this pull request
+- [X] The new code follows the [contribution guidelines](CONTRIBUTING.md)
+- [X] I have performed a self-review of my own code
+- [X] I have commented my code, particularly in hard-to-understand areas
+- [X] I have made corresponding changes to the documentation
+- [X] My changes generate no new warnings
+- [X] I have added tests to ensure that prove my fix is effective or that my feature works
+- [X] New and existing unit tests pass locally with my changes
+
+
+ Search algo
+ ### New scope Search (#95)
+
+- Create new scope Search
+- Implement Binary Search algorithm
+
+### Checklist
+
+- [x] An issue was first created **before** opening this pull request
+- [x] The new code follows the [contribution guidelines](CONTRIBUTING.md)
+- [x] I have performed a self-review of my own code
+- [x] I have commented my code, particularly in hard-to-understand areas
+- [ ] I have made corresponding changes to the documentation
+- [x] My changes generate no new warnings
+- [x] I have added tests to ensure that prove my fix is effective or that my feature works
+- [x] New and existing unit tests pass locally with my changes
+
+
+ Fix bug 89
+ ### Description
+
+Fixes #89:
+- Change SelectionSort() in DLinkedList.cs.
+- Add TestSelectionSort() in DLinkedListTest.cs.
+
+### Checklist
+
+- [x] An issue was first created **before** opening this pull request
+- [x] The new code follows the [contribution guidelines](CONTRIBUTING.md)
+- [x] I have performed a self-review of my own code
+- [ ] I have commented my code, particularly in hard-to-understand areas
+- [ ] I have made corresponding changes to the documentation
+- [x] My changes generate no new warnings
+- [x] I have added tests to ensure that prove my fix is effective or that my feature works
+- [x] New and existing unit tests pass locally with my changes
+
+
+ Fix Dijkstra shortest path algorithm + tests.
+ ### Description
+Connected issues #106 and suggestions from #13 .
+
+Fix for broken unit tests and dijkstra algorithm. Simplify dijkstra code base on wikipedia pseudocode, removed unnecessary variables, little cleanup removed all Console.WriteLine etc, fixed in algorithm only suggested in #13 it was enough to get algorithm works corrects, added much more smaller unit test.
+
+Any suggestion, improvements, more test suggestion warmly welcome.
+
+### Checklist
+
+- [X ] An issue was first created **before** opening this pull request
+- [X] The new code follows the [contribution guidelines](CONTRIBUTING.md)
+- [X] I have performed a self-review of my own code
+- [X] I have commented my code, particularly in hard-to-understand areas
+- [X] I have made corresponding changes to the documentation
+- [X] My changes generate no new warnings
+- [X] I have added tests to ensure that prove my fix is effective or that my feature works
+- [X] New and existing unit tests pass locally with my changes
+
+
+ Move Community Templates under .github directory
+ 
+ Nuget
+ This might help to get started with nuget (see #46).
+
+Before being able to run publish_nuget.cmd you'll need to create an account in nuget.org.
+ #88 - WeightedEdge.IsWeighted should return true (#88)
+ Fixes issue #88.
+ Improve readme labels and add a cool ASCII Art title
+ 
+ #110 improve readme lists
+ 
+ Added the contributors graph image using contributors-img app
+ 
+ Create README-zh.md
+ Hi, I just think the project is very useful and interested in it. Therefore, i try to translate the README file to Chinese. 
+
+Hope you can accept it.Best Wishes!
+ Fix unit test, separate version GCD algorithm to stein and euclidean.
+ Fix GDC algoritm and tests.
+
+Separate Euclidean version and Stein version suggested in #87 
+ Added CircularBuffer DataStructure.
+ Checkout the circular Buffer Data structure. Added unit tests too.
+ Added CircularBuffer DataStructure.
+ Updated the branch
+ Added CircularBuffer DataStructure. It's also known as circular queue.
+ Added the circularBuffer DataStructure, All implemented features were adequately testing (unit tests).
+ Fix unit test
+ Sorry i needed to close #99 i done wrong merge and after rebase git doesn't allow me to reopen that pr again.
+
+PR fix issue #79.
+As you see [travis failed ](https://travis-ci.org/aalhour/C-Sharp-Algorithms/builds/582294590#L462) but it failed because 5 unit tests not pass, not because something is broken. Some of that tests are fix and waiting to merge in other pr.
+
+Last thing, why direct to master?
+When i created #99 to develop travis still use configuration from master... i had to edit travis.yml to turn on run tests.
+
+Feel free to ask if anything is not clear, or if I made a mistake somewhere?
+ [NOT MERGE] Remove broken BellmanFord tests.
+ Do not merge yet, it's draft for fix travis CI.
+ Ignore visual studio generated files
+ On build visual studio generates some files automatically under .vs. This commit is about removing the ones under .vs/C-Sharp-Algorithms/v16/Server/sqlite3
+ Removed redundant parameters and cleaned up code
+ **Change Notes for `MergeSorter.cs`:**
+- The "base case" where the count of `collection` is 2 will already be handled properly if we let the collection be split and merged. There's no need to explicitly write a case for it.
+- The parameters `startIndex` and `endIndex` are unneeded. `startIndex` will *always* be 0 and `endIndex` will *always* be `collection.Count - 1`. It seems someone started to write an in-place index-based MergeSort, but switched to one that splits and creates new Lists.
+- Cleaned up the for loop in Merge with the strange break in the else. Updated the loop condition so that we don't even have to worry about that.
+- At most one of the two split Lists will still have items after the initial loop in Merge (after all, we only stop looping after we've exhausted one List, so that List can't have any more items). As such, there's no need for separate right and left index variables. Cleaned up the ending loops with this in mind.
+ Implemented a basic Btree.
+ Resolves #31. 
+
+Added a B Tree class that allows for inserts, deletes and searching. Tests were written as well.
+ Update SLinkedList.cs
+ I updated SelectionSort according to Issue #89: The SelectionSort() is not a SelectionSort its a BubbleSort #89.
+Changed only in SLinkedList, after you review it I can change it in DLinkedList too. 

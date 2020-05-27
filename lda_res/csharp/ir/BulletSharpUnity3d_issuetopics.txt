@@ -1,0 +1,68 @@
+﻿NUMTopics = 2
+(0, '0.019*"unity" + 0.017*"work" + 0.012*"test" + 0.012*"think" + 0.011*"use" + 0.011*"fix" + 0.009*"file" + 0.008*"add" + 0.008*"update" + 0.008*"time"')
+(1, '0.026*"crash" + 0.014*"scale" + 0.013*"object" + 0.013*"collision" + 0.012*"unity" + 0.012*"thank" + 0.011*"cause" + 0.011*"version" + 0.011*"scene" + 0.010*"add"')
+
+------------------------
+NUMTopics = 3
+(0, '0.002*"unity" + 0.002*"work" + 0.002*"fix" + 0.002*"test" + 0.002*"bullet" + 0.002*"use" + 0.002*"think" + 0.002*"add" + 0.002*"project" + 0.002*"update"')
+(1, '0.021*"unity" + 0.019*"work" + 0.013*"think" + 0.013*"test" + 0.012*"use" + 0.012*"fix" + 0.010*"file" + 0.008*"add" + 0.008*"fixedupdate" + 0.008*"update"')
+(2, '0.028*"crash" + 0.015*"scale" + 0.014*"object" + 0.014*"collision" + 0.013*"unity" + 0.013*"thank" + 0.012*"cause" + 0.012*"version" + 0.012*"scene" + 0.011*"add"')
+
+------------------------
+NUMTopics = 4
+(0, '0.021*"unity" + 0.020*"work" + 0.014*"test" + 0.014*"think" + 0.012*"use" + 0.012*"fix" + 0.010*"file" + 0.009*"update" + 0.009*"time" + 0.009*"add"')
+(1, '0.003*"crash" + 0.002*"unity" + 0.002*"use" + 0.002*"collision" + 0.002*"thank" + 0.002*"object" + 0.002*"cause" + 0.002*"version" + 0.002*"work" + 0.002*"scale"')
+(2, '0.029*"crash" + 0.016*"scale" + 0.014*"object" + 0.014*"collision" + 0.013*"unity" + 0.013*"thank" + 0.012*"version" + 0.012*"cause" + 0.012*"scene" + 0.011*"add"')
+(3, '0.002*"unity" + 0.002*"work" + 0.002*"add" + 0.002*"think" + 0.002*"scale" + 0.002*"cause" + 0.002*"fix" + 0.002*"use" + 0.002*"editor" + 0.002*"crash"')
+
+------------------------
+NUMTopics = 5
+(0, '0.002*"unity" + 0.002*"work" + 0.002*"use" + 0.002*"test" + 0.002*"bullet" + 0.002*"think" + 0.002*"fix" + 0.002*"add" + 0.002*"crash" + 0.002*"thank"')
+(1, '0.002*"crash" + 0.002*"unity" + 0.002*"use" + 0.002*"thank" + 0.002*"collision" + 0.002*"object" + 0.002*"work" + 0.002*"version" + 0.002*"cause" + 0.002*"think"')
+(2, '0.030*"crash" + 0.016*"scale" + 0.015*"object" + 0.015*"collision" + 0.013*"unity" + 0.013*"thank" + 0.013*"version" + 0.013*"cause" + 0.013*"scene" + 0.011*"add"')
+(3, '0.022*"unity" + 0.020*"work" + 0.014*"think" + 0.014*"test" + 0.012*"use" + 0.012*"fix" + 0.011*"file" + 0.009*"add" + 0.009*"update" + 0.009*"fixedupdate"')
+(4, '0.002*"work" + 0.002*"use" + 0.002*"add" + 0.002*"unity" + 0.002*"crash" + 0.002*"cause" + 0.002*"object" + 0.002*"thank" + 0.002*"bullet" + 0.002*"scale"')
+
+------------------------
+NUMTopics = 6
+(0, '0.002*"unity" + 0.002*"work" + 0.002*"use" + 0.002*"bullet" + 0.002*"crash" + 0.002*"test" + 0.002*"add" + 0.002*"think" + 0.002*"thank" + 0.002*"object"')
+(1, '0.002*"crash" + 0.002*"unity" + 0.002*"use" + 0.002*"collision" + 0.002*"thank" + 0.002*"object" + 0.002*"work" + 0.002*"version" + 0.002*"cause" + 0.002*"look"')
+(2, '0.031*"crash" + 0.016*"scale" + 0.015*"object" + 0.015*"collision" + 0.014*"unity" + 0.014*"thank" + 0.013*"version" + 0.013*"cause" + 0.013*"scene" + 0.011*"add"')
+(3, '0.022*"unity" + 0.021*"work" + 0.014*"think" + 0.014*"test" + 0.013*"fix" + 0.013*"use" + 0.011*"file" + 0.009*"add" + 0.009*"update" + 0.009*"fixedupdate"')
+(4, '0.002*"work" + 0.002*"unity" + 0.002*"add" + 0.002*"use" + 0.002*"cause" + 0.002*"bullet" + 0.002*"think" + 0.002*"thank" + 0.002*"object" + 0.002*"crash"')
+(5, '0.002*"unity" + 0.002*"use" + 0.002*"work" + 0.002*"think" + 0.002*"test" + 0.002*"cause" + 0.002*"crash" + 0.002*"bullet" + 0.002*"scale" + 0.002*"fix"')
+
+------------------------
+NUMTopics = 7
+(0, '0.023*"unity" + 0.021*"work" + 0.015*"test" + 0.015*"think" + 0.013*"use" + 0.013*"fix" + 0.011*"file" + 0.009*"update" + 0.009*"fixedupdate" + 0.009*"time"')
+(1, '0.005*"crash" + 0.003*"collision" + 0.003*"unity" + 0.003*"use" + 0.003*"object" + 0.003*"thank" + 0.003*"cause" + 0.003*"version" + 0.003*"scale" + 0.003*"shape"')
+(2, '0.031*"crash" + 0.017*"scale" + 0.015*"object" + 0.015*"collision" + 0.014*"unity" + 0.014*"thank" + 0.013*"version" + 0.013*"cause" + 0.013*"scene" + 0.011*"add"')
+(3, '0.003*"unity" + 0.002*"work" + 0.002*"add" + 0.002*"think" + 0.002*"fix" + 0.002*"cause" + 0.002*"use" + 0.002*"scale" + 0.002*"editor" + 0.002*"crash"')
+(4, '0.002*"work" + 0.002*"add" + 0.002*"unity" + 0.002*"use" + 0.002*"cause" + 0.002*"crash" + 0.002*"thank" + 0.002*"bullet" + 0.002*"object" + 0.002*"scale"')
+(5, '0.002*"unity" + 0.002*"use" + 0.002*"work" + 0.002*"crash" + 0.002*"cause" + 0.002*"scale" + 0.002*"think" + 0.002*"bullet" + 0.002*"test" + 0.002*"fix"')
+(6, '0.002*"unity" + 0.002*"crash" + 0.002*"work" + 0.002*"object" + 0.002*"scale" + 0.002*"cause" + 0.002*"use" + 0.002*"editor" + 0.002*"test" + 0.002*"thank"')
+
+------------------------
+NUMTopics = 8
+(0, '0.002*"unity" + 0.002*"work" + 0.002*"use" + 0.002*"crash" + 0.002*"bullet" + 0.002*"add" + 0.002*"think" + 0.002*"thank" + 0.002*"fix" + 0.002*"test"')
+(1, '0.002*"crash" + 0.002*"unity" + 0.002*"use" + 0.002*"thank" + 0.002*"collision" + 0.002*"object" + 0.002*"version" + 0.002*"work" + 0.002*"cause" + 0.002*"think"')
+(2, '0.031*"crash" + 0.017*"scale" + 0.015*"object" + 0.015*"collision" + 0.014*"unity" + 0.014*"thank" + 0.013*"version" + 0.013*"cause" + 0.013*"scene" + 0.012*"add"')
+(3, '0.002*"unity" + 0.002*"add" + 0.002*"crash" + 0.002*"scale" + 0.002*"think" + 0.002*"cause" + 0.002*"work" + 0.002*"fix" + 0.002*"thank" + 0.002*"use"')
+(4, '0.002*"work" + 0.002*"add" + 0.002*"unity" + 0.002*"use" + 0.002*"cause" + 0.002*"thank" + 0.002*"crash" + 0.002*"bullet" + 0.002*"think" + 0.002*"scale"')
+(5, '0.002*"unity" + 0.002*"use" + 0.002*"work" + 0.002*"crash" + 0.002*"cause" + 0.002*"think" + 0.002*"scale" + 0.002*"bullet" + 0.002*"test" + 0.002*"fix"')
+(6, '0.002*"unity" + 0.002*"work" + 0.002*"test" + 0.002*"crash" + 0.002*"object" + 0.002*"think" + 0.002*"use" + 0.002*"editor" + 0.002*"fix" + 0.002*"cause"')
+(7, '0.023*"unity" + 0.021*"work" + 0.015*"test" + 0.015*"think" + 0.013*"use" + 0.013*"fix" + 0.011*"file" + 0.009*"add" + 0.009*"fixedupdate" + 0.009*"time"')
+
+------------------------
+NUMTopics = 9
+(0, '0.002*"unity" + 0.002*"work" + 0.002*"use" + 0.002*"bullet" + 0.002*"crash" + 0.002*"test" + 0.002*"add" + 0.002*"fix" + 0.002*"thank" + 0.002*"think"')
+(1, '0.003*"crash" + 0.002*"unity" + 0.002*"thank" + 0.002*"use" + 0.002*"collision" + 0.002*"object" + 0.002*"version" + 0.002*"cause" + 0.002*"look" + 0.002*"scale"')
+(2, '0.031*"crash" + 0.017*"scale" + 0.015*"object" + 0.015*"collision" + 0.014*"thank" + 0.014*"unity" + 0.013*"version" + 0.013*"scene" + 0.013*"cause" + 0.012*"add"')
+(3, '0.002*"unity" + 0.002*"crash" + 0.002*"add" + 0.002*"scale" + 0.002*"cause" + 0.002*"thank" + 0.002*"work" + 0.002*"think" + 0.002*"object" + 0.002*"scene"')
+(4, '0.002*"work" + 0.002*"add" + 0.002*"unity" + 0.002*"use" + 0.002*"thank" + 0.002*"cause" + 0.002*"crash" + 0.002*"bullet" + 0.002*"think" + 0.002*"object"')
+(5, '0.002*"unity" + 0.002*"work" + 0.002*"use" + 0.002*"test" + 0.002*"fix" + 0.002*"think" + 0.002*"cause" + 0.002*"bullet" + 0.002*"update" + 0.002*"fixedupdate"')
+(6, '0.002*"unity" + 0.002*"work" + 0.002*"test" + 0.002*"think" + 0.002*"editor" + 0.002*"object" + 0.002*"use" + 0.002*"fix" + 0.002*"crash" + 0.002*"thank"')
+(7, '0.023*"unity" + 0.021*"work" + 0.015*"test" + 0.015*"think" + 0.013*"use" + 0.013*"fix" + 0.011*"file" + 0.009*"add" + 0.009*"fixedupdate" + 0.009*"time"')
+(8, '0.004*"unity" + 0.003*"work" + 0.003*"use" + 0.003*"think" + 0.003*"crash" + 0.003*"cause" + 0.003*"scale" + 0.003*"collision" + 0.003*"bullet" + 0.002*"add"')
+
+------------------------

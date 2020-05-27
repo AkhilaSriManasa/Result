@@ -1,0 +1,345 @@
+﻿ Support for enum constructor parameters
+ Fix for https://github.com/Haacked/CodeHaacks/issues/12#issuecomment-280168038
+Looks good to me!
+
+ GetArgumentValue in AttributeExtensions can not handle enums
+ First and foremost, well done and good post i stumbled on youre old post from 2010 👍 "http://haacked.com/archive/2010/08/05/copying-attributes.aspx/" and wanted to pitch in for an update for enums.
+
+To fix proper handlings of enum for a constructors replace:
+`var value = argument.Value;` with
+```
+object value;
+if (argument.ArgumentType.IsEnum)
+{
+    value = Enum.ToObject(argument.ArgumentType, argument.Value);
+}
+else
+{
+    value = argument.Value;
+}
+```
+Why don't you submit that as a Pull Request? :smile:
+
+@Haacked done :)
+
+ A great article, wish it could be used to configure roles on the actions
+ Hello, I was wondering if you could help out, since this is really the only decent actions and controllers lister-thinamgigy :)
+
+can you please give me an idea on how I could apply roles to the actions (i am using identity v 2.1  with asp mvc 4.52)
+
+thanks
+
+If you mean you want to restrict actions to certain roles, use the `AuthorizeAttribute` and set the `Roles` property. See an example here: https://msdn.microsoft.com/en-us/library/system.web.mvc.authorizeattribute.roles(v
+
+Hi sorry for not being clear, how can I configure the Role to <->  Controller-Actions Mapping, currently its done in a static way in the code. I would like to capture this in the DB or configfile and let Admin user in the view, select which roles have which permission.
+
+
+Ah! There's nothing built in to do that. In theory it's possible because of the extensibility model. Perhaps something like this would help. http://stackoverflow.com/questions/30099613/dynamically-add-roles-to-authorize-attribute-for-controller
+
+
+ Integration with Gimpse
+ I've been using MvcHaack.Ajax on my site and it's working great (Thank you).  I just downloaded Glimpse and when I turn it on, $mvc becomes undefined.
+
+Any idea what I can do to resolve this?
+
+Thanks,
+
+Have you tried looking at in the debugger? Might be worth putting a breakpoint on $mvc to see when it becomes undefined.
+
+/cc @avanderhoorn @nikmd23 do you guys define `$mvc` within Glimpse?
+
+
+Hey Phil,
+
+We do not define `$mvc` anywhere in our source.
+
+@bud786 perhaps you could dig into this a little as @Haacked suggests. If you end up narrowing it down to a bug in Glimpse, please feel free to [report the bug in our repo](https://github.com/glimpse/glimpse/issues?state=open) and we'll try to help you as ASAP.
+
+
+ Add MvcHaack.Ajax.V2 fork for MVC4 - as a new project in the solution si...
+ ...nce it would possibly need to be maintained side by side with V1 (I haven't investigated possibility of simultaneous compatibility with MVC3 framework so I guessed they may need to be maintained side by side).
+
+ MvcHaack.Ajax not working on ASP.NET MVC 4
+ Error Occured when go to url : -siteurl-/json/-json controller-
+
+The RouteData must contain an item named 'action' with a non-empty string value. 
+
+Problem Solved by rewrite the routing url in asp.net mvc 4
+
+instead of 
+
+routes.Add(new JsonRoute("json/{controller}"));
+
+use:
+
+routes.Add(new JsonRoute("json/{controller}")
+{
+    Defaults = new RouteValueDictionary(new { action = "list", id = "" })
+});
+
+
+ Changed the OnClosed event handler to OnClosing
+ Otherwise the window already closed and the WindowPlacement variables are all 0.
+
+Thanks!
+
+
+No problem!
+
+
+ Using markdown extension on readme
+ Helps formatting when displayed on some websites
+
+ Model Binding Problem?
+ I have a FilterController with a "Filters" Action on it.
+It takes a complex JSON object.  
+
+```
+public class FilterController : JsonController
+{
+    public JsonResult Filters(FilterData filters)
+    ...
+```
+
+Calling it like this always results in a null value, almost like it is not running through Model Binding:
+
+```
+    $mvc.Filter.Filters({ filters: currData })...
+```
+
+I can actually see the big blob of JSON data in the Request.InputStream
+
+Calling it like this works fine:
+
+```
+    $.ajax({
+        cache: false,
+        dataType: 'json',
+        type: 'POST',
+        data: window.JSON.stringify({ filters: currData }),
+        contentType: 'application/json; charset=utf-8',
+        url: '/Dev/Filter/Filters'
+    })
+```
+
+Is there something I'm doing wrong?
+
+Hmmm, can you name the argument to the action method something other than "filters" to see if it works? Could be a bug in my code with the argument name matching the action name or something like that.
+
+Phil
+
+-----Original Message-----
+From: tommck [mailto:reply@reply.github.com] 
+Sent: Tuesday, November 22, 2011 1:43 PM
+To: Phil Haack
+Subject: [CodeHaacks] Model Binding Problem? (#5)
+
+I have a FilterController with a "Filters" Action on it.
+It takes a complex JSON object.  
+
+```
+public class FilterController : JsonController
+{
+    public JsonResult Filters(FilterData filters)
+    ...
+```
+
+Calling it like this always results in a null value, almost like it is not running through Model Binding:
+
+```
+    $mvc.Filter.Filters({ filters: currData })...
+```
+
+I can actually see the big blob of JSON data in the Request.InputStream
+
+Calling it like this works fine:
+
+```
+    $.ajax({
+        cache: false,
+        dataType: 'json',
+        type: 'POST',
+        data: window.JSON.stringify({ filters: currData }),
+        contentType: 'application/json; charset=utf-8',
+        url: '/Dev/Filter/Filters'
+    })
+```
+
+Is there something I'm doing wrong?
+
+---
+
+Reply to this email directly or view it on GitHub:
+https://github.com/Haacked/CodeHaacks/issues/5
+
+
+I can try that. I'll let you know.
+
+Thanks
+
+Tom
+
+On Tue, Nov 22, 2011 at 8:43 PM, Phil Haack <
+reply@reply.github.com
+
+> wrote:
+> 
+> Hmmm, can you name the argument to the action method something other than
+> "filters" to see if it works? Could be a bug in my code with the argument
+> name matching the action name or something like that.
+> 
+> Phil
+> 
+> -----Original Message-----
+> From: tommck [mailto:reply@reply.github.com]
+> Sent: Tuesday, November 22, 2011 1:43 PM
+> To: Phil Haack
+> Subject: [CodeHaacks] Model Binding Problem? (#5)
+> 
+> I have a FilterController with a "Filters" Action on it.
+> It takes a complex JSON object.
+> 
+>    public class FilterController : JsonController
+>    {
+>        public JsonResult Filters(FilterData filters)
+>        ...
+> 
+> Calling it like this always results in a null value, almost like it is not
+> running through Model Binding:
+> 
+> ```
+>    $mvc.Filter.Filters({ filters: currData })...
+> ```
+> 
+> I can actually see the big blob of JSON data in the Request.InputStream
+> 
+> Calling it like this works fine:
+> 
+> ```
+>    $.ajax({
+>        cache: false,
+>        dataType: 'json',
+>        type: 'POST',
+>        data: window.JSON.stringify({ filters: currData }),
+>        contentType: 'application/json; charset=utf-8',
+>        url: '/Dev/Filter/Filters'
+>    })
+> ```
+> 
+> Is there something I'm doing wrong?
+> 
+> ---
+> 
+> Reply to this email directly or view it on GitHub:
+> https://github.com/Haacked/CodeHaacks/issues/5
+> 
+> ---
+> 
+> Reply to this email directly or view it on GitHub:
+> https://github.com/Haacked/CodeHaacks/issues/5#issuecomment-2843870
+
+
+I actually changed the name of the Action to "Index", thus accomplishing the same thing and it worked!  Thanks for the tip, Phil :)
+
+
+Great! I'm going to keep the issue open so I can look into _why_ that fixed things. :)
+
+
+Cool... while you're at it, you could turn this into an ActionFilter,
+couldn't you? :)
+
+I was thinking about trying to see if that would work
+
+On Wed, Nov 23, 2011 at 12:25 PM, Phil Haack <
+reply@reply.github.com
+
+> wrote:
+> 
+> Great! I'm going to keep the issue open so I can look into _why_ that
+> fixed things. :)
+> 
+> ---
+> 
+> Reply to this email directly or view it on GitHub:
+> https://github.com/Haacked/CodeHaacks/issues/5#issuecomment-2851809
+
+
+Ok, late response, but FYI. You don't need to specify the parameter name when your action has only one parameter. In the original case, it should have been: 
+
+```
+$mvc.Filter.Filters(currData)
+```
+
+
+Also, I noticed your action method returns a `JsonResult`. No need to do that either. By inheriting `JsonController`, you just need to return the object.
+
+
+Hmmm, I'm unable to reproduce this issue when I don't return JsonResult. I'm going to close this for now. As for your action filter question, I'm not sure I understand that point. I think this would be harder to do as a simple action filter alone.
+
+
+Well, a problem arises whaen someone, like me, already has a base class
+controller with shared methods.
+
+Rather than having to refactor my controllers, it would be nice to be able
+to accomplish this a different way. Maybe tagging all the methods with an
+attribute that "registers" the class / method with a central json method
+registry that is the new source of JavaScript method declarations?
+
+Let me know what you think
+
+Tom
+On Dec 30, 2011 11:41 PM, "Phil Haack" <
+reply@reply.github.com>
+wrote:
+
+> Hmmm, I'm unable to reproduce this issue when I don't return JsonResult.
+> I'm going to close this for now. As for your action filter question, I'm
+> not sure I understand that point. I think this would be harder to do as a
+> simple action filter alone.
+> 
+> ---
+> 
+> Reply to this email directly or view it on GitHub:
+> https://github.com/Haacked/CodeHaacks/issues/5#issuecomment-3319618
+
+
+ Error in SaveSecure, changed Issue to IssueNumber
+ 
+Thank you very much!
+
+
+Sorry it just annoyed me that the object wasn't populated correctly. I
+really dislike JS and JSON, I hate that it doesn't know about itself enough
+to know it's wrong.
+
+On Sat, Nov 12, 2011 at 4:50 AM, Phil Haack <
+reply@reply.github.com
+
+> wrote:
+> 
+> Thank you very much!
+> 
+> ---
+> 
+> Reply to this email directly or view it on GitHub:
+> https://github.com/Haacked/CodeHaacks/pull/4#issuecomment-2716825
+
+
+ Update src/MvcHaack.Ajax/JsonActionInvoker.cs
+ end of the style tag was missing
+
+Thank you!
+
+
+ Provide a way to Validate a CSRF AntiForgeryToken
+ Need to add support for CSRF protections.
+
+Fixed in bf4a15d414a52d59755baf21f2f0b6bf2d9d0291
+
+
+very good idea.  
+
+
+ Show sample route path for each action
+ When inspecting some REST service, a very useful thing is to see what the REST path looks like for each action. Doing this requires involving routing. It's not 100% correct (see comment in code), but for the most part it does the right thing.
+

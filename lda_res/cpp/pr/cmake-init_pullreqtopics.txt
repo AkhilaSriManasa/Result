@@ -1,0 +1,68 @@
+﻿NUMTopics = 2
+(0, '0.022*"use" + 0.021*"cmake" + 0.017*"add" + 0.017*"source" + 0.014*"build" + 0.014*"test" + 0.014*"script" + 0.011*"library" + 0.011*"fix" + 0.011*"require"')
+(1, '0.004*"use" + 0.004*"cmake" + 0.004*"source" + 0.004*"script" + 0.004*"test" + 0.004*"add" + 0.004*"build" + 0.004*"project" + 0.004*"googlet" + 0.004*"default"')
+
+------------------------
+NUMTopics = 3
+(0, '0.030*"cmake" + 0.027*"use" + 0.023*"source" + 0.023*"test" + 0.020*"build" + 0.017*"script" + 0.017*"project" + 0.017*"googlet" + 0.017*"configure" + 0.014*"add"')
+(1, '0.004*"cmake" + 0.004*"use" + 0.004*"source" + 0.004*"test" + 0.004*"script" + 0.004*"project" + 0.004*"build" + 0.004*"add" + 0.004*"googlet" + 0.004*"variable"')
+(2, '0.019*"default" + 0.019*"add" + 0.016*"use" + 0.016*"local" + 0.013*"pointer" + 0.013*"library" + 0.013*"require" + 0.010*"package" + 0.010*"name" + 0.010*"return"')
+
+------------------------
+NUMTopics = 4
+(0, '0.034*"cmake" + 0.031*"use" + 0.028*"source" + 0.023*"test" + 0.023*"build" + 0.021*"script" + 0.018*"add" + 0.018*"project" + 0.018*"googlet" + 0.015*"configure"')
+(1, '0.004*"cmake" + 0.004*"use" + 0.004*"source" + 0.004*"test" + 0.004*"script" + 0.004*"build" + 0.004*"add" + 0.004*"project" + 0.004*"googlet" + 0.004*"variable"')
+(2, '0.023*"default" + 0.019*"local" + 0.017*"add" + 0.016*"pointer" + 0.012*"library" + 0.012*"ref" + 0.012*"return" + 0.012*"name" + 0.012*"package" + 0.012*"symbol"')
+(3, '0.004*"use" + 0.004*"cmake" + 0.004*"source" + 0.004*"script" + 0.004*"add" + 0.004*"test" + 0.004*"build" + 0.004*"googlet" + 0.004*"project" + 0.004*"coverage"')
+
+------------------------
+NUMTopics = 5
+(0, '0.033*"cmake" + 0.029*"use" + 0.026*"source" + 0.026*"test" + 0.022*"build" + 0.019*"script" + 0.019*"configure" + 0.019*"googlet" + 0.019*"project" + 0.015*"add"')
+(1, '0.004*"cmake" + 0.004*"use" + 0.004*"source" + 0.004*"test" + 0.004*"script" + 0.004*"build" + 0.004*"project" + 0.004*"variable" + 0.004*"googlet" + 0.004*"folder"')
+(2, '0.004*"use" + 0.004*"add" + 0.004*"default" + 0.004*"local" + 0.004*"pointer" + 0.004*"source" + 0.004*"library" + 0.004*"script" + 0.004*"fix" + 0.004*"cmake"')
+(3, '0.004*"source" + 0.004*"use" + 0.004*"cmake" + 0.004*"test" + 0.004*"script" + 0.004*"googlet" + 0.004*"build" + 0.004*"project" + 0.004*"add" + 0.004*"coverage"')
+(4, '0.021*"add" + 0.021*"default" + 0.017*"use" + 0.017*"local" + 0.014*"require" + 0.014*"library" + 0.014*"pointer" + 0.011*"cmake" + 0.011*"script" + 0.011*"base"')
+
+------------------------
+NUMTopics = 6
+(0, '0.034*"cmake" + 0.030*"use" + 0.026*"source" + 0.026*"test" + 0.023*"build" + 0.019*"configure" + 0.019*"script" + 0.019*"googlet" + 0.019*"project" + 0.015*"add"')
+(1, '0.004*"cmake" + 0.004*"use" + 0.004*"source" + 0.004*"test" + 0.004*"script" + 0.004*"build" + 0.004*"variable" + 0.004*"googlet" + 0.004*"project" + 0.004*"folder"')
+(2, '0.004*"use" + 0.004*"add" + 0.004*"source" + 0.004*"test" + 0.004*"local" + 0.004*"default" + 0.004*"cmake" + 0.004*"library" + 0.004*"build" + 0.004*"pointer"')
+(3, '0.004*"use" + 0.004*"source" + 0.004*"cmake" + 0.004*"add" + 0.004*"script" + 0.004*"build" + 0.004*"googlet" + 0.004*"test" + 0.004*"project" + 0.004*"configure"')
+(4, '0.021*"add" + 0.021*"default" + 0.018*"use" + 0.018*"local" + 0.014*"require" + 0.014*"library" + 0.014*"pointer" + 0.011*"cmake" + 0.011*"base" + 0.011*"file"')
+(5, '0.005*"cmake" + 0.005*"use" + 0.004*"source" + 0.004*"script" + 0.004*"add" + 0.004*"test" + 0.004*"default" + 0.004*"build" + 0.004*"fix" + 0.004*"project"')
+
+------------------------
+NUMTopics = 7
+(0, '0.034*"cmake" + 0.031*"use" + 0.027*"source" + 0.027*"test" + 0.023*"build" + 0.019*"script" + 0.019*"configure" + 0.019*"googlet" + 0.019*"project" + 0.016*"add"')
+(1, '0.004*"cmake" + 0.004*"use" + 0.004*"source" + 0.004*"test" + 0.004*"script" + 0.004*"build" + 0.004*"variable" + 0.004*"add" + 0.004*"project" + 0.004*"googlet"')
+(2, '0.004*"use" + 0.004*"add" + 0.004*"source" + 0.004*"test" + 0.004*"local" + 0.004*"default" + 0.004*"cmake" + 0.004*"pointer" + 0.004*"library" + 0.004*"fix"')
+(3, '0.004*"source" + 0.004*"use" + 0.004*"cmake" + 0.004*"test" + 0.004*"googlet" + 0.004*"script" + 0.004*"build" + 0.004*"add" + 0.004*"project" + 0.004*"configure"')
+(4, '0.022*"add" + 0.022*"default" + 0.018*"use" + 0.018*"local" + 0.015*"require" + 0.015*"library" + 0.015*"pointer" + 0.011*"cmake" + 0.011*"base" + 0.011*"file"')
+(5, '0.004*"cmake" + 0.004*"use" + 0.004*"source" + 0.004*"script" + 0.004*"add" + 0.004*"test" + 0.004*"build" + 0.004*"fix" + 0.004*"default" + 0.004*"project"')
+(6, '0.005*"use" + 0.004*"cmake" + 0.004*"source" + 0.004*"add" + 0.004*"build" + 0.004*"script" + 0.004*"test" + 0.004*"project" + 0.004*"googlet" + 0.004*"default"')
+
+------------------------
+NUMTopics = 8
+(0, '0.005*"cmake" + 0.005*"source" + 0.005*"use" + 0.005*"build" + 0.005*"add" + 0.005*"test" + 0.005*"configure" + 0.004*"googlet" + 0.004*"fix" + 0.004*"require"')
+(1, '0.004*"cmake" + 0.004*"use" + 0.004*"source" + 0.004*"test" + 0.004*"script" + 0.004*"variable" + 0.004*"build" + 0.004*"project" + 0.004*"folder" + 0.004*"googlet"')
+(2, '0.004*"local" + 0.004*"use" + 0.004*"default" + 0.004*"add" + 0.004*"pointer" + 0.004*"library" + 0.004*"package" + 0.004*"name" + 0.004*"require" + 0.004*"return"')
+(3, '0.004*"source" + 0.004*"use" + 0.004*"cmake" + 0.004*"test" + 0.004*"build" + 0.004*"googlet" + 0.004*"script" + 0.004*"project" + 0.004*"add" + 0.004*"configure"')
+(4, '0.004*"use" + 0.004*"add" + 0.004*"cmake" + 0.004*"local" + 0.004*"default" + 0.004*"require" + 0.004*"library" + 0.004*"build" + 0.004*"base" + 0.004*"script"')
+(5, '0.022*"add" + 0.022*"default" + 0.018*"use" + 0.018*"local" + 0.015*"library" + 0.015*"require" + 0.015*"pointer" + 0.011*"cmake" + 0.011*"source" + 0.011*"script"')
+(6, '0.035*"cmake" + 0.031*"use" + 0.027*"test" + 0.027*"source" + 0.023*"build" + 0.020*"script" + 0.020*"project" + 0.020*"googlet" + 0.020*"configure" + 0.016*"add"')
+(7, '0.004*"use" + 0.004*"cmake" + 0.004*"test" + 0.004*"source" + 0.004*"add" + 0.004*"googlet" + 0.004*"script" + 0.004*"variable" + 0.004*"configure" + 0.004*"project"')
+
+------------------------
+NUMTopics = 9
+(0, '0.038*"cmake" + 0.033*"source" + 0.032*"use" + 0.028*"test" + 0.027*"build" + 0.021*"script" + 0.021*"googlet" + 0.021*"project" + 0.018*"configure" + 0.017*"add"')
+(1, '0.004*"use" + 0.004*"cmake" + 0.004*"source" + 0.004*"test" + 0.004*"script" + 0.004*"add" + 0.004*"build" + 0.004*"require" + 0.004*"project" + 0.004*"googlet"')
+(2, '0.004*"use" + 0.004*"add" + 0.004*"local" + 0.004*"default" + 0.004*"pointer" + 0.004*"library" + 0.004*"source" + 0.004*"fix" + 0.004*"require" + 0.004*"cmake"')
+(3, '0.004*"use" + 0.004*"source" + 0.004*"add" + 0.004*"cmake" + 0.004*"script" + 0.004*"build" + 0.004*"test" + 0.004*"googlet" + 0.004*"project" + 0.004*"require"')
+(4, '0.025*"default" + 0.022*"add" + 0.021*"local" + 0.017*"pointer" + 0.016*"use" + 0.015*"require" + 0.015*"library" + 0.013*"ref" + 0.013*"symbol" + 0.013*"return"')
+(5, '0.005*"cmake" + 0.005*"use" + 0.005*"source" + 0.004*"script" + 0.004*"test" + 0.004*"add" + 0.004*"build" + 0.004*"project" + 0.004*"fix" + 0.004*"coverage"')
+(6, '0.005*"cmake" + 0.005*"use" + 0.005*"test" + 0.005*"build" + 0.005*"source" + 0.005*"script" + 0.005*"project" + 0.005*"googlet" + 0.005*"coverage" + 0.005*"folder"')
+(7, '0.004*"use" + 0.004*"add" + 0.004*"cmake" + 0.004*"source" + 0.004*"test" + 0.004*"script" + 0.004*"fix" + 0.004*"googlet" + 0.004*"local" + 0.004*"build"')
+(8, '0.004*"cmake" + 0.004*"use" + 0.004*"googlet" + 0.004*"test" + 0.004*"source" + 0.004*"add" + 0.004*"build" + 0.004*"script" + 0.004*"file" + 0.004*"target"')
+
+------------------------

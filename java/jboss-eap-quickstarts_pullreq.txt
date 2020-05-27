@@ -1,0 +1,72 @@
+﻿ fix-issue-2109
+ in this PR a dedicated configuration class is used to activate JSF 2.3 features in JBoss EAP 7.3
+Injection points like FacesContext and ExternalContext work out of the box in JBoss EAP 7.3 with this class.
+
+No manual CDI Produces are necessary and JSF 2.3 works like described in the JSF docs.
+ add jvm.options for exec
+ This makes it easier to attach a debugger and do something.
+~~~
+mvn exec:exec -Djvm.options="-agentlib:jdwp=transport=dt_socket,address=8787,server=y,suspend=y"
+~~~
+ Openshift
+ 
+ Minor changes
+ 
+ Fix incorrect template url for CD18
+ https://issues.redhat.com/browse/JBEAP-18693
+ JBEAP-17131: Remove xsi-schemalocation
+ Removed xsi-schemalocation. This issue is resolved in [JBIDE-18319](https://issues.redhat.com/browse/JBIDE-18319). 
+ JBEAP-17039 added servlet-api-3.1.jar dependency in the pom.xml
+ 
+ v01
+ 
+ Ulttrix69 v.0.01
+ 
+ Add Web Archive (WAR) version of ha-singleton example
+ There are slight differences in how it's packaged for WAR vs JAR, so this is a working example.
+ Updated the html page
+ 
+ Update README.adoc
+ The project does not contain a jboss-web.xml
+ 7.2.0.CD15
+ 
+ Updated link to all quickstarts
+ 
+ 7.2.0.CD14 update
+ 
+ 7.1
+ 
+ update to 7.2.0.CD13 release
+ 
+ EAP7-696 update guava version to pass with latest Arquilian version
+ 
+ Learning purpose
+ I am downloading this project for EJB jboss learning purpose
+ Openshift
+ ya
+ 7.2.0.CD12-dev3
+ Move to the 7.2.0.CD12 bom.
+Introduce productization version and repo changes.
+Add the generated README.html files.
+ Generate and add README.html files to the openshift branch. Fix OpenShift template name.
+ @bstansberry : This PR replaces https://github.com/jboss-developer/jboss-eap-quickstarts/pull/2083.
+
+In addition to the generated README.html files, this PR also updates the OpenShift template name to incorporate the unmerged one defined in https://github.com/jboss-developer/jboss-eap-quickstarts/pull/2082: JBoss EAP CD (no https).
+ Generate and add README.html files to the openshift branch
+ 
+ JBEAP-14544: Update OpenShift template name for the JBoss CD release
+ 
+ Jbeap 9156 and readme html files
+ This PR contains 2 fixes cherry-picked from jbossas/eap-quickstarts.
+ JBEAP-9156: Use githubRepoUrl and githubRepoBranch variables in OpenS…
+ …hift deployment instructions
+ 7.0.0.final
+ 
+ Update pom.xml
+ enables mysql database
+ 7.0.0.final
+ 
+ JBEAP-9448 - jaxws-retail - write documentation on how to import wsdl into JBDS
+ Document how to generate classes from WSDl
+
+Signed-off-by: Jeff MAURY <jmaury@redhat.com>

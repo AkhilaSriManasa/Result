@@ -1,0 +1,32 @@
+﻿ handle more gracefully when nashorn is not present
+ update to version 1.1.6
+ update changelog
+ [maven-release-plugin] prepare for next development iteration
+ [maven-release-plugin] prepare release lavagna-1.1.6
+ #136 handle correctly file upload on new card creation, thanks @majugurci for the hint
+ update changelog for release 1.1.5
+ update changelog for release 1.1.5
+ update version in readme
+ [maven-release-plugin] prepare for next development iteration
+ [maven-release-plugin] prepare release lavagna-1.1.5
+ [maven-release-plugin] rollback the release of lavagna-1.1.5
+ [maven-release-plugin] prepare for next development iteration
+ [maven-release-plugin] prepare release lavagna-1.1.5
+ [maven-release-plugin] rollback the release of lavagna-1.1.5
+ [maven-release-plugin] prepare for next development iteration
+ [maven-release-plugin] prepare release lavagna-1.1.5
+ make lavagna work on the latest wildfly (19.0.0) #135
+ update dependencies
+ test update mysql connector (#132)
+ misc updates
+ handle the case when fontconfig is not installed
+ update deps
+ update readme/changelog for release 1.1.4 [skip ci]
+ [maven-release-plugin] prepare for next development iteration
+ [maven-release-plugin] prepare release lavagna-1.1.4
+ update dependencies
+ Update mysql driver version (#126)
+
+Change from 5.1.41 to 5.1.48 to make it works with MySql >= 8.0.3
+ Tweaked the Stale bot config
+ Merge remote-tracking branch 'origin/master'

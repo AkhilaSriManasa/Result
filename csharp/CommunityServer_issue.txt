@@ -1,0 +1,707 @@
+﻿ how to solve onlyoffice service running slowly
+ I deployed both onlyoffice document and community service with docker, but feel really slow(about several seconds to get response) to get response from service. 
+Is there any way to improve the speed of reacting from service?
+Thanks!!
+
+Hardware: 
+CPU: 8 core
+RAM:16 G
+OS:
+Red hat 7.5
+Hello @jackson-ls When you first open the module page, it loads for a long time, but then it works quickly. Also, if you use onlyoffice on a local network without access to the Internet, you need to configure the server dns in [docker](https://helpcenter.onlyoffice.com/server/docker/community/docker-installation.aspx).
+
+Much appreciate!
+but it still looks slow when I switch back to the module page I have just opened, cookie not works?
+another question, what is the reason of configuring dns server in docker? for mail server? 
+
+> Docker specifies Google DNS servers by default. If your Community Server is not going to have access to the Internet, we recommend that you change the default Docker DNS address to the address of your local DNS server. To do that go to the /etc/default/docker file and change the IP address in the following line to the IP address of a DNS server in your local network:
+docker_OPTS="--dns 8.8.8.8"
+For the RPM based operating systems like CentOS, the configuration file can be located here: /etc/docker/daemon.json
+
+This is so that the docker resolves the local dns server, and does not try to connect to google.
+
+ HTTP 500.Error processing request.
+ The latest version build with docker, here are web logs
+
+Description: HTTP 500.Error processing request.
+
+Details: Non-web exception. Exception origin (name of application or object): System.Core.
+
+Exception stack trace:
+  at System.Linq.Enumerable.SingleOrDefault[TSource] (System.Collections.Generic.IEnumerable`1[T] source, System.Func`2[T,TResult] predicate) [0x0004a] in <095b5d9bc1e342edb834ecfce126de48>:0 
+  at MySql.Data.Common.StreamCreator.GetTcpStream (MySql.Data.MySqlClient.MySqlConnectionStringBuilder settings) [0x00034] in <4f93ec5cee7d499da6a85a364813afe3>:0 
+  at MySql.Data.Common.StreamCreator.GetStream (MySql.Data.MySqlClient.MySqlConnectionStringBuilder settings) [0x00021] in <4f93ec5cee7d499da6a85a364813afe3>:0 
+  at MySql.Data.MySqlClient.NativeDriver.Open () [0x00007] in <4f93ec5cee7d499da6a85a364813afe3>:0 
+![批注 2020-04-22 020217](https://user-images.githubusercontent.com/42033874/79898419-d33bbb00-843d-11ea-8b67-922b1448d3ba.jpg)
+
+Hello @June2003 Please check web.log and nginx.error.log for errors. And please describe how did you run Onlyoffice? I think you have a problem with connection to mysql server.
+
+okay,  thank u so much. I'll theck it later. Thank you guys for providing such good fun. -------- Original message --------From: Mike Grunin <notifications@github.com>Date: Wed, Apr 22, 2020, 5:42 PMTo: ONLYOFFICE/CommunityServer <CommunityServer@noreply.github.com>Cc: June2003 <1684717658@qq.com>, Mention <mention@noreply.github.com>Subject: Re: [ONLYOFFICE/CommunityServer] HTTP 500.Error processing request. (#227)
+Hello @June2003 Please check web.log and nginx.error.log for errors. And please describe how did you run Onlyoffice? I think you have a problem with connection to mysql server.
+
+—You are receiving this because you were mentioned.Reply to this email directly, view it on GitHub, or unsubscribe.
+
+ Stick on the web start page with out any response
+ Hi, I'v installed the latest version of community server with docker, and when i get to the web page, it keeps me waiting and just show "we're working on it" all the day. I've stupidly waited for 2 days, so sad.
+p.s. the second image is when i run /app/onlyoffice/run-community-server.sh manually
+![批注 2020-04-22 010600](https://user-images.githubusercontent.com/42033874/79892997-fe221100-8435-11ea-84d6-c76b8a0a6f29.jpg)
+![Uploading 批注 2020-04-22 010924.jpg…]()
+
+Hello @June2003 Please check web.log and nginx.error.log for errors. And please describe how did you run Onlyoffice?
+
+ Document files more than 100 MB doesn't open
+ I have already added the settings
+`<add key="web.available-file-size" value="1000000000" />`
+When I open the document，it shows download error. How to fix it？
+![QQ截图20200413171623](https://user-images.githubusercontent.com/3996569/79109229-88b99f00-7daa-11ea-80ec-bfdbef80ef5b.png)
+Files less then 100M can be opened.
+Hello @zapzqc Please check document server logs for errors, and web.files.log in the community server.
+
+web.files.log
+`2020-04-16 01:39:04,545 ERROR [6] ASC.Files - StreamFile`
+`2020-04-16 01:40:32,580 ERROR [90] ASC.Files - StreamFile `
+
+DocumentServer\log\converter\out.log
+
+[2020-04-16T01:39:04.514] [ERROR] nodeJS - error downloadFile:url=http://localhost:80/Products/Files/httphandlers/filehandler.ashx?action=stream&fileid=24&stream_auth=324668338761.T0NFR37T3GTVW7APBX28SG95IVDXXA3C6CMYEBUGU3Q&X-REWRITER-URL=http%3a%2f%2f192.168.0.180%3a80;attempt=1;code:EMSGSIZE;connect:null;(id=G0Z6p6icpe2esNlZuE17Q90qMmPn_nY1w6oeBUE8Amg_)
+
+Error: Error response: content-length:181534380
+    at raiseError (E:\Program Files (x86)\Ascensio System SIA\DocumentServer\server\Common\sources\utils.js:224:15)
+    at Request.<anonymous> (E:\Program Files (x86)\Ascensio System SIA\DocumentServer\server\Common\sources\utils.js:263:9)
+    at emitOne (events.js:116:13)
+    at Request.emit (events.js:211:7)
+    at Request.onRequestResponse (E:\Program Files (x86)\Ascensio System SIA\DocumentServer\server\Common\node_modules\request\request.js:1066:10)
+    at emitOne (events.js:116:13)
+    at ClientRequest.emit (events.js:211:7)
+    at HTTPParser.parserOnIncomingClient [as onIncoming] (_http_client.js:544:21)
+    at HTTPParser.parserOnHeadersComplete (_http_common.js:117:17)
+    at Socket.socketOnData (_http_client.js:440:20)
+    at emitOne (events.js:116:13)
+    at Socket.emit (events.js:211:7)
+    at addChunk (_stream_readable.js:263:12)
+    at readableAddChunk (_stream_readable.js:250:11)
+    at Socket.Readable.push (_stream_readable.js:208:10)
+    at TCP.onread (net.js:601:20)
+[2020-04-16T01:40:32.580] [ERROR] nodeJS - error downloadFile:url=http://localhost:80/Products/Files/httphandlers/filehandler.ashx?action=stream&fileid=27&stream_auth=324668428095.RTASKK42D1AOTEWWAGT4QPO910JWTSSSISTJZVHBU&X-REWRITER-URL=http%3a%2f%2f192.168.0.180%3a80;attempt=1;code:EMSGSIZE;connect:null;(id=b8Lx2j7mBxsD05X8GEzRXMrrb0N2IoKinTf_fm2Ji_0_)
+Error: Error response: content-length:105339937
+    at raiseError (E:\Program Files (x86)\Ascensio System SIA\DocumentServer\server\Common\sources\utils.js:224:15)
+    at Request.<anonymous> (E:\Program Files (x86)\Ascensio System SIA\DocumentServer\server\Common\sources\utils.js:263:9)
+    at emitOne (events.js:116:13)
+    at Request.emit (events.js:211:7)
+    at Request.onRequestResponse (E:\Program Files (x86)\Ascensio System SIA\DocumentServer\server\Common\node_modules\request\request.js:1066:10)
+    at emitOne (events.js:116:13)
+    at ClientRequest.emit (events.js:211:7)
+    at HTTPParser.parserOnIncomingClient [as onIncoming] (_http_client.js:544:21)
+    at HTTPParser.parserOnHeadersComplete (_http_common.js:117:17)
+    at Socket.socketOnData (_http_client.js:440:20)
+    at emitOne (events.js:116:13)
+    at Socket.emit (events.js:211:7)
+    at addChunk (_stream_readable.js:263:12)
+    at readableAddChunk (_stream_readable.js:250:11)
+    at Socket.Readable.push (_stream_readable.js:208:10)
+    at TCP.onread (net.js:601:20)
+
+You need to configure one more parameter - in `/etc/onlyoffice/documentserver/default.json`change
+`"FileConverter": {
+                "converter": {
+                        "maxDownloadBytes":`
+
+But Onlyoffice is not suitable for working with large files, and this can cause any errors. Do it at your own risk.
+
+And please use the latest versions of components. In the 5.5.1 version of Document Server we change the error message to more correctly.
+
+OK. Thanks, it's works now :)
+
+ Can't edit files
+ CentOS 7.7.1908, Nginx 1.16.1, OnlyOffice Community 10.5.2
+Nextcloud 18.0.3 on another server with FreeBSD 12 and Nginx, OnlyOffice Nextcloud app 4.1.4
+Everything worked fine before. Now I can't edit any files via Nextcloud app. The files open successfully but I can only see content but can't edit.
+I suppose the ticket should be closed. I discovered that OnlyOffice app for Nextcloud can't edit old formats (doc, xls) but can edit new docx, xlsx. Is it correct behavior?
+
+Hello @slaver666 Yes, `doc` and `xls` need to be converted to `docx` or `xlsx` format for edit. 
+
+ Mail Aggregator Issue
+ Install Method - RPM Linux Install
+Operating System - CentOS 7.5 64Bit
+
+I've connected an account but it's not communicating properly with the external server.
+
+For example, when I read an email on OnlyOffice, it's not marked as read on the external server.  The same applies for replied and deleted.
+
+Any ideas?
+Hello @ MikeP1990 At Onlyoffice, we use MailAggregator, which only downloads mail, and does not have full synchronization, like imap.
+
+If that is the case, why is IMAP an option when adding an account?
+
+you mean imap-server? Because all popular email services work on imap protocol and servers. But this does not mean that the mail client has full synchronization.
+
+Then the IMAP option should be removed as it causes confusion, it's shown as IMAP but acts as POP.
+
+You can download email from pop or imap protocol, that your mail service provides. Please read this [information](https://helpcenter.onlyoffice.com/tipstricks/Mail-Project.aspx)
+
+ How to set up user space quota for uploads ? [Question/Improvement]
+ Is there any configuration file where i can setup it ?
+Hello @Genesis0x1b We don't have a ready-made solution for users space quota. I will give your enchancement to our developers.
+
+ Restore a document (stuck at 79%)
+ Hello, community,
+At first. Unfortunately I am not the most experienced Linux/Docker user yet.
+
+I have used the Chrome to edit a file (docx).
+After lunch the browser is frozen. I have reloaded the page. Since then the file does not load more than 79%.
+I downloaded the file from the Nextcloud via scp. But it did not contain any changes. I can also open the file with the Android app. But there are no changes either.
+
+In the Browser Console I get the error
+
+TypeError: d.fa[(e - 1)] is undefined
+
+Xg nextclouddomain/apps/documentserver_community/3rdparty/onlyoffice/documentserver/sdkjs/word/sdk-all.js:7996
+D3d nextclouddomain/apps/documentserver_community/3rdparty/onlyoffice/documentserver/sdkjs/word/sdk-all-min.js:615
+ETc nextclouddomain/apps/documentserver_community/3rdparty/onlyoffice/documentserver/sdkjs/word/sdk-all-min.js:619
+r_b nextclouddomain/apps/documentserver_community/3rdparty/onlyoffice/documentserver/sdkjs/word/sdk-all-min.js:618
+Xzb nextclouddomain/apps/documentserver_community/3rdparty/onlyoffice/documentserver/sdkjs/word/sdk-all-min.js:916
+aaf nextclouddomain/apps/documentserver_community/3rdparty/onlyoffice/documentserver/sdkjs/word/sdk-all-min.js:391
+Xzb nextclouddomain/apps/documentserver_community/3rdparty/onlyoffice/documentserver/sdkjs/word/sdk-all-min.js:916
+njd nextclouddomain/apps/documentserver_community/3rdparty/onlyoffice/documentserver/sdkjs/word/sdk-all-min.js:915
+osa nextclouddomain/apps/documentserver_community/3rdparty/onlyoffice/documentserver/sdkjs/word/sdk-all.js:4755
+oId nextclouddomain/apps/documentserver_community/3rdparty/onlyoffice/documentserver/sdkjs/word/sdk-all-min.js:912
+Ppb nextclouddomain/apps/documentserver_community/3rdparty/onlyoffice/documentserver/sdkjs/word/sdk-all.js:4751
+Ppb nextclouddomain/apps/documentserver_community/3rdparty/onlyoffice/documentserver/sdkjs/word/sdk-all.js:4751
+Ppb nextclouddomain/apps/documentserver_community/3rdparty/onlyoffice/documentserver/sdkjs/word/sdk-all.js:4751
+Ppb nextclouddomain/apps/documentserver_community/3rdparty/onlyoffice/documentserver/sdkjs/word/sdk-all.js:4751
+Ppb nextclouddomain/apps/documentserver_community/3rdparty/onlyoffice/documentserver/sdkjs/word/sdk-all.js:4751
+Ppb nextclouddomain/apps/documentserver_community/3rdparty/onlyoffice/documentserver/sdkjs/word/sdk-all.js:4751
+Ppb nextclouddomain/apps/documentserver_community/3rdparty/onlyoffice/documentserver/sdkjs/word/sdk-all.js:4751
+Gfd nextclouddomain/apps/documentserver_community/3rdparty/onlyoffice/documentserver/sdkjs/word/sdk-all.js:4752
+
+
+Hello @RackRooses Where did you install the nextcloud app and onlyoffice document server? Please open a issue at this place. This repo is for Onlyoffice Community Server.
+
+Possible, you are using Community Document Server integrated in Nextcloud Hub, you need to contact Nextcloud Support Team in case any issues are encountered, as this application was developed by Nextcloud Team. Please refer to this post on our Forum.
+
+> Hello @RackRooses Where did you install the nextcloud app and onlyoffice document server? Please open a issue at this place. This repo is for Onlyoffice Community Server.
+
+Thanks! is done!
+
+@RackRooses please close this issue.
+
+ "Attach files from document" in email doesn't work with Dragon Naturally Speaking browser plugin
+ I've connected to my Nextcloud 18.0.3 via WebDAV, and in the documents section, I can see my WebDAV folder at the top, then some demo-documents, and a self created document.
+Like this:
+![grafik](https://user-images.githubusercontent.com/19840345/78150844-1eaf0a80-7438-11ea-89a5-b0354b017bff.png)
+
+Now I configured email via imap, and try to add a file from the documents section by pressing "Attach files from document". 
+What happens is, I briefly see a pop up with the onlyoffice logo but after a quarter of a second, it's gone again.
+Here is a screenshot:
+![grafik](https://user-images.githubusercontent.com/19840345/78150727-f9220100-7437-11ea-92e6-db058829e336.png)
+
+Disconnecting WebDAV Nextcloud doesn't help, same result. I just checked to make sure.
+Any idea how to fix this?
+My OnlyOffice is Version 10.5.2.1048 on Debian 10 with docker.
+Hello @gr4ssi Please check error in the browser console and web.log, web.files.log, web.api.log.
+
+hello @Carazyda , thanks for your quick reply.
+This is in the console log (via F12 in FF (but same behaviour in IE):
+Diese Seite verwendet die nicht standardisierte Eigenschaft "zoom". Stattdessen sollte calc() in den entsprechenden Eigenschaftswerten oder "transform" zusammen mit "transform-origin: 0 0" verwendet werden. filechoice.aspx
+
+In the three files  web.log, web.files.log and web.api.log, when observing them via tail -f, nothing changes when I click the button. The last entry in those files is from 3 hrs ago, so probably irrelevant.
+
+From the company server with IE11, Chrome, FF via RDP, it works. Very strange. Hmpf. Not sure what's different, there.
+
+Please also check the Network tab in the browser, what happens with the request when you click on "attach" button?
+
+Found it: I've installed Dragon Naturally Speaking which puts a browser extension in place for every one of my browsers. I now disabled all extensions and turned them back on one by one. As soon as I turn on the extension, it doesn't work anymore. That's actually the first time in six years that this happens, never had any issues with the plugin. (It's for voice controlling the PC/browser.)
+
+ install-Debian.sh fails with ModuleNotFoundError: No module named 'setuptools'
+ I tried to install the debian version with install-Debian.sh on a fresh Debian 10.
+After a while, the installer crashes with the following message:
+
+_Collecting radicale
+  Downloading Radicale-2.1.11.tar.gz (76 kB)
+     |████████████████████████████████| 76 kB 3.8 MB/s
+    ERROR: Command errored out with exit status 1:
+     command: /usr/bin/python3 -c 'import sys, setuptools, tokenize; sys.argv[0] = '"'"'/tmp/pip-install-hnpaljli/radicale/setup.py'"'"'; __file__='"'"'/tmp/pip-install-hnpaljli/radicale/setup.py'"'"';f=getattr(tokenize, '"'"'open'"'"', open)(__file__);code=f.read().replace('"'"'\r\n'"'"', '"'"'\n'"'"');f.close();exec(compile(code, __file__, '"'"'exec'"'"'))' egg_info --egg-base /tmp/pip-install-hnpaljli/radicale/pip-egg-info
+         cwd: /tmp/pip-install-hnpaljli/radicale/
+    Complete output (3 lines):
+    Traceback (most recent call last):
+      File "<string>", line 1, in <module>
+    **ModuleNotFoundError: No module named 'setuptools'**
+    ----------------------------------------
+ERROR: Command errored out with exit status 1: python setup.py egg_info Check the logs for full command output._
+
+I tried to fix it by installing python-setuptools:
+> apt-get install python-setuptools
+
+After that, it still didn't work.
+
+What finally fixed it:
+
+> **pip install -U pip setuptools**
+
+I then triggered the install again and it finished without errors.
+
+I did call install-Debian.sh directly, without the wrapper, but I don't think this is the root cause of the issue.
+
+Hello @gr4ssi I cant reproduce your problem on a default installation of Debian 10.3. We cant predict all situations on os, if some system utils are not installed. Have you resolved your case and installed onlyoffice?
+
+Yes thanks, I got it to run finally. Wanted to include it into Nextcloud and needed to tweak some json-file to get it to talk to Nextcloud. But now it works. Thanks.
+
+ Black screen instead of the expected document
+ Hello,
+
+I had many problems with onlyoffice because rabbitmq was unable to start. I upgraded it and now, the said server says it works, but when i open a document in my nextcloud instance, instead of opening it with onlyoffice, does nothig but giving a black screen. I don't even have onlyoffice's toolbars, just the favicon. The onlyoffice's url specified in the nextcloud's parameters is right, and reciprocally, so i don't understand what did i missed.
+ Edits and changes made in Onlyoffice are not saved into Nextcloud and are lost
+ ####Issue
+Edits and changes made in Onlyoffice are not saved into Nextcloud and sync from Nextcloud to Onlyoffice destroys all changes made in Onlyoffice.
+
+#### Expected Behavior
+Edits and changes written in Onlyoffice sync to the local desktop environment and the changes done in the desktop environment sync to OnlyOffice
+
+#### Actual Behavior
+Files stored in the local desktop environment are synced flawlessly to Nextcloud. Onlyoffice opens them flawlessly and lets the user edit the document. After saving the document and or logging out from nextcloud changes are kept in OnlyOffice cache and never written to the actual document. When user opens same document from the desktop the changes have disappeared. If user saves the document with a small change, this change is synced to OnlyOffice overwriting the changes in the cache.
+
+#### Possible Fix
+Write cache data to file regularly and frequently. Recognize when user leaves Onlyoffice or closes file and write cache to file. In short: Copy the functionality of Google Docs.
+
+#### Steps to Reproduce
+<!--- Provide a link to a live example, or an unambiguous set of steps to -->
+<!--- reproduce this bug include code to reproduce, if relevant -->
+1. Use a desktop wordprocessor and create a document in a NextCloud synced folder in your desktop environment 
+2. Log onto the Nextcloud web UI and open the file with OnlyOffice.
+3. Ask colleague to do the same
+4. Make changes in document
+5. Exit document 
+6. Open document with desktop wordprocessor from local NextCloud synced folder.
+7. Notice that the changes never were saved to the file in NextCloud,.
+8. Open file in OnlyOffice from the Nextcloud web UI to notice changes are still there
+9. Close OnlyOffice
+10. Make minimal change in the desktop wordprocessor and save file locally.
+11. Let NextCloud sync
+12. Open file in OnlyOffice from the Nextcloud web UI to notice all changes made in OnlyOffice have been lost and overwritten with those made in the desktop environment
+13. Feel despair.
+
+#### Context
+We just lost 2 days worth of expensive work made by our consultant. This is becoming very expensive to us!
+
+#### Your Environment
+<!--- Include as many relevant details about the environment you experienced the bug in -->
+* Nextcloud 18.0.3
+* OnlyOffice Community Server bundled with NextCloud 18
+* Nextcloud desktop client 2.6.4 Linux
+* Nextcloud desktop client 2.6.4 Mac
+
+
+@timo12357, please note that if you are using Community Document Server integrated in Nextcloud Hub, you need to contact Nextcloud Support Team in case any issues are encountered, as this application was developed by Nextcloud Team. Please refer to this post on our [Forum](https://dev.onlyoffice.org/viewtopic.php?f
+ Link in readme redirect on 404
+ Link redirect on 404.
+
+![readme_link](https://user-images.githubusercontent.com/50904366/77307733-19e0ad00-6cfa-11ea-9042-deca7c40f156.png)
+
+Hi @jfustier ! Thank you for your comment. We forgot to fix readme. The repository has been deleted. All instructions are transferred to the current repository. Pay attention to projects  [ASC.Web.Sample](https://github.com/ONLYOFFICE/CommunityServer/tree/master/web/studio/ASC.Web.Studio/Products/Sample), [ASC.Api.Sample](https://github.com/ONLYOFFICE/CommunityServer/tree/master/module/ASC.Api/ASC.Api.Sample). See [this instructions](https://helpcenter.onlyoffice.com/server/community/community-server-custom-modules.aspx) for more details.
+
+ Can not search contact by Chinese
+ I install the Onlyoffice opensource CommunityServer.
+It's perfect!
+But I can not search for CRM contacts by Chinese.
+
+Search By English:
+![image](https://user-images.githubusercontent.com/2062865/76829166-7d339080-685d-11ea-9205-a43564e8ef17.png)
+
+Search By Chinses:
+![image](https://user-images.githubusercontent.com/2062865/76829217-99373200-685d-11ea-8dcd-c1b9434f76db.png)
+
+
+Hello @lingen sorry, but we can search for the full name in Chinese. We have a Bug 39365 in our private bugtracker. When this will fixed - i will let you know.
+
+> Hello @lingen sorry, but we can search for the full name in Chinese. We have a Bug 39365 in our private bugtracker. When this will fixed - i will let you know.
+
+Thank you very much. 
+I am waiting for your notice.
+Best regards.
+
+ OnlyOffice Community setup wizard ended prematurely on Win 10
+ Hello all,
+I was trying to install Onlyoffice community server on my Windows 10 machine but after having met all the prerequisites, the setup doesn't go on and _ends prematurely_ after approx. 1 h of installing.
+I attach my log file to this message.
+
+What should I do?
+Thank you to all. 
+All the very best
+Onlyoffice Community Server doesn't support Win 10, only server versions of Windows.
+
+ NextCloud Connection Error
+ Hello,
+
+When trying to connect to NextCloud through OnlyOffice community edition, I'm receiving different errors, mostly a 503.  I'm wondering if anyone can shed some light on this?
+
+I installed OnlyOffice using the RPM auto installer instructions found here: https://helpcenter.onlyoffice.com/server/docker/opensource/opensource-script-installation.aspx
+
+Thanks in advance!
+I think you missed product, you need not OnlyOffice community edition, but ONLYOFFICE DocumentServer CommunityEdition, instruction is [here](https://helpcenter.onlyoffice.com/server/docker/document/docker-installation.aspx)
+
+So I only need to install the document server version and not community edition? We don’t want to use docker due to the lack of knowledge.
+
+yeah. you can install DocumentServer any way you prefer
+
+I was under the impression that community edition installed everything? At least that’s what it suggests in the documents?
+
+> I was under the impression that community edition installed everything
+
+Yes it is, but I think if you want integration with Nextcloud I think you don't need ONLYOFFICE Community, whitch handle Document storage
+
+And to be clear - do not be confuse ONLYOFFICE Community - it's a product, and ONLYOFFICE Community Edition - this is typo of installation, including ONLYOFFICE Community and ONLYOFFICE DocumentServer
+
+ Can markdown be supported?
+ I want to try to move the documents to onlyoffice community. But all markdown documents can't be show and edit. we have so many md files...
+Hello @whitelujx markdown is a feature of document server, and situation about it describe in [this issue](https://github.com/ONLYOFFICE/DocumentServer/issues/251).
+
+Please close this issue.
+
+ After upgrading CommunityServer from  9.6.5.239  to 10.5
+ Hello,
+
+After upgrade, i can't connect to Web interface with error HTTP 500. I use Centos 7 and all prerequisite.
+
+I found an error in 
+> /var/log/onlyoffice/svcIndex.log
+ :
+`ERROR [37] ASC.Indexer - Ping false MySql.Data.MySqlClient.MySqlException (0x80004005): Unable to connect to any of the specified MySQL hosts. ---> System.InvalidOperationException: Sequence contains more than one matching element`
+
+It seems a configuration error but i didn't found it.
+
+Thanks.
+Hello,
+
+I found the issue with the config file : 
+> /var/www/onlyoffice/WebStudio/web.connections.config
+
+I used _web.connections.config.rpmnew_ and configure it.
+
+ Runtime Error web.config Required
+ after the installation is complete and I attempt to access the web application for the first time, I receive:
+
+Runtime Error
+A runtime error has occurred
+
+Description: An application error occurred on the server. The current custom error settings for this application prevent the details of the application error from being viewed (for security reasons).
+
+Details: To enable the details of this specific error message to be viewable, please create a tag within a "web.config" configuration file located in the root directory of the current web application. This tag should then have its "mode" attribute set to "Off".
+
+My server configuration: CentOS **Linux release 7.7.1908** - ****SELinux** = Disabled** - **Mono JIT compiler version 6.8.0.105** - **mysqld  Ver 8.0.19** - **1:1.16.1-1.el7.ngx**
+Hello,
+
+Edit the file _/var/www/onlyoffice/WebStudio/Web.config_ and modify :
+`<customErrors mode="On"` to Off
+You will get the real error.
+
+Hello @felipemgl Did you run installation with our script or manually? Please check web.log for the errors.
+
+the same to me, when visit CommunityServer on Docker, wait a long time, then see the error 
+Runtime Error
+A runtime error has occurred
+
+Hello @chendelin1982 Did you run installation with our script or manually? Please check web.log for the errors.
+
+ edit source code
+ hello, I have a problem concerning the modification of the source code of onlyoffice, when I want to upload a file in the documents it opens a new window for choosing the file that I want to upload but I want it to point directly to a specific folder that I choose, on which file (C #) and on which function or class should I point to modify this please?
+
+Hello @fouratbh1 We don't have a complete solution. But if you find how to do this - we will help you to insert it into onlyoffice.
+
+Some materials that we found in the google:
+https://stackoverflow.com/questions/32368173/how-to-open-specific-folder-in-input-type-file
+https://bytes.com/topic/javascript/answers/148166-set-default-directory-open-input-type-file
+
+ copyright 2020
+ 
+ Bug：Can not search by CJK characters
+ Hello ！
+I found that the current version can not search by CJK characters like chinese or japanese
+Hello @boneyhsu Can you give an example, describe it step by step?
+
+I followed the instructions of help center (https://helpcenter.onlyoffice.com/server/docker/opensource/index.aspx), using the Docker Version and Linux Version installation methods, neither of which can search for CJK characters.
+
+Server version: Ubuntu 18.04
+
+Please provide a case, step by step, to reproduce your problem.
+
+ BUG: Switching to Wikitext breaks images with space and underscore in their filename
+ Steps to reproduce:
+1. Create a new wiki page
+2. Add an image containing a space and an underscore in its filename (example: `my test_image.jpg`)
+3. Switch to Wikitext, notice the space got replaced with an underscore
+4. Switch back to normal editing mode
+5. Image is not shown anymore
+
+Tested with version 10.5.2.1048.
+
+The space character is always being replaced by an underscore in the file name which works as long as both are not mixed in the same file name.
+
+This replacement also leads to the wrong file being chosen when a second file, only differing in these two characters, is uploaded. So if `a b.jpg` is used and later `a_b.jpg` is uploaded this file will always be used, even when before it was `a b.jpg`.
+Hello @ServiusHack we added this issue in our private bugtracker, number 44631. As soon as there is information - we will inform you.
+
+ "Sorry, portal is on maintenance. It may take some time." in onlyoffice community server on Windows Server 2019
+ I've compiled and deploy OnlyOffice Community Server on Windows Server 2019, using version 9.6.588 of onlyoffice community server.
+I have followed these instructions: 
+[https://helpcenter.onlyoffice.com/fr/server/windows/community/compile-source-code.aspx](url)
+
+The onlyoffice community server compiled and deployed with no problems or errors.
+![OnMaintenance](https://user-images.githubusercontent.com/60541467/74843051-a7139900-532b-11ea-8adf-b45eb3a4cd03.png)
+
+But, the only thing I get is "Sorry, portal is on maintenance. It may take some time."
+How to solve this?
+Hello @GerMarou this issue is duplicated to [203](https://github.com/ONLYOFFICE/CommunityServer/issues/203) ? Please describe the differences or close it.
+
+I deploy many version 9.0 , 9.6.588 and 10.5.1
+so in each time, i install the same version  for windows. For example: i install  ONLYOFFICE_CommunityServer_Win-install.v9.6.588.exe then i download ONLYOFFICE_CommunityServer_Win-src.v9.6.588.zip code source in IIS 10.0 on Windows server 2019.
+ i following the instructions 
+[https://github.com/ONLYOFFICE/CommunityServer/issues/url](url)
+so, the build and deploy is runninng with no problem, but when i run the code source in IIS i have a problem with "Sorry, portal is on maintenance. It may take some time" . and when i look in the logs files, i interpretate that i haven't a connexion with my database.
+so how i sove this ? and where is the problem ?
+the problem is on Mysql Connector or in the configuration of Onlyoffice? 
+
+@GerMarou  What a difference between this issue and issue [203](https://github.com/ONLYOFFICE/CommunityServer/issues/203)? Please describe by the points.
+
+ Run Onlyoffice Community server on Windows Server
+ Hi, I have a problem when i run onlyoffice from IIS, I just downloaded version 9.6.588 of onlyoffice community server on windows server 2019, then i downloaded the source code present here at sourceforge, I compiled the code and it works well and the deploy folder was created , but when I try to create a website with the path " C: /ONLYOFFICE_site/ webStudio" I have an error, How can  i resolve this problem ? 
+![OnMaintenance](https://user-images.githubusercontent.com/60541467/74841638-45eac600-5329-11ea-997f-7c0fa6ce3bae.png)
+
+I think the problem is related to the problem of the connection to the database, because the three files are empty
+C: \ ONLYOFFICE_site \ Logs \ web.log
+C: \ ONLYOFFICE_site \ Logs \ web.api.log
+C: \ ONLYOFFICE_site \ Logs \ web.sql.log
+Hello @GerMarou Seems you have a problem with connection to your database. And please use the latest version of Onlyoffice.
+
+Issue 204 is duplicate?
+
+I'm using the last vesion of ONLYOFFICE 10.5.1 Community server code source from here at GitHub, but i have the same problem.
+before the compile of ONLYOFFICE , i install Onlyoffice community server windows install v20.02.407
+for the reason of install Software requirements automatically.
+and i use :
+[https://helpcenter.onlyoffice.com/fr/server/windows/community/compile-source-code.aspx](url)
+
+How to solve this?
+
+
+
+
+The instruction at the moment is not quite up to date. Please check URL Rewrite rules in IIS after install Community Edition, and setup this on opensource. We update the instruction.
+
+But we strongly recommend use installer, in particular - Community Edition exe.
+
+ community server compilation issue
+ hello, I just downloaded version 10.5.1 of onlyoffice community server on windows server 2019,  then i downloaded the source code present here at github, I compiled the code and it works well and the deploy folder was created , but when I try to create a website with the path C: / webStudio I have an internal server error 500, what can I do? and thank you
+
+Hi, @fouratbh1 ! Check the database connection settings in the web.connections.config file.
+And check log files for errors
+
+I checked those files : 
+web\studio\ASC.Web.Studio\web.connections.config
+build\config\TeamLabSvc.exe.config
+module\ASC.Mail.Aggregator\ASC.Mail.Aggregator.CollectionService\App.config
+module\ASC.Mail.Aggregator\ASC.Mail.Watchdog.Service\App.config
+and figured out that the password field was empty so i filled it with the onlyoffice password and then rebuild it again ; the build and deploy succeded but the 500 error shows up again 
+
+What are the errors in the logs?
+
+what file should i open to see those errors please ?
+
+web.log, web.api.log, web.sql.log 
+
+thank you , this is the content of web.log file : 
+2020-02-19 10:11:29,547 WARN [8] ASC.Common - core.machinekey: WIN-LDHC0K3SQTH 
+2020-02-19 12:03:19,179 WARN [8] ASC.Common - core.machinekey: WIN-LDHC0K3SQTH 
+2020-02-19 14:45:37,637 WARN [120] ASC.Common - core.machinekey: WIN-LDHC0K3SQTH 
+
+
+and the web.sql.log file show no error, but i dont find the web.api.log file its missed :( 
+
+
+Please describe in detail all the steps you have taken to reproduce this problem.
+
+Did you use the instruction https://helpcenter.onlyoffice.com/server/windows/community/compile-source-code.aspx?
+
+i followed this link step by step and i did take all the steps , but i have installed the onlyoffice community-edition v20.02.407 from source forge and the database was created automatically by it, can this be the origin of the problem ?
+
+The instruction at the moment is not quite up to date. Please check URL Rewrite rules in IIS after install Community Edition, and setup this on opensource. We update the instruction.
+
+But we strongly recommend use installer, in particular - Community Edition exe.
+
+ Documentation for controls within Web UI
+ I'm authoring a plugin/add-in to OnlyOffice, and am trying to keep the styles 100% with the base system.  In doing so, I am trying to use as much of the front-end UI tools that are used within the site, inclusive of dialogs, etc.
+
+Is there deeper documentation available to better understand the method(s) to build each of the UI elements so that I am not manually reading many JavaScript files and determining this on my own?  I can do so, but am burning a lot of time.
+Hello @dealproc Sorry, but we don't have detailed documentation, except api.onlyoffice.com.
+
+In new generation of communityserver, we will have a storybook, that include all documentation about it.
+
+Ok, thank you.
+
+I was hoping for a short-cut method for this, but will continue the grueling task of extracting the capabilities by spelunking the existing UI code.
+
+ Access Denied installer error on ubuntu 18.04 using install-Debian.sh
+ Clean install with just bare minimum packages installed.  
+
+The installer errors out with what appears to be a mysql user error
+`ERROR 1045 (28000): Access denied for user '-e'@'localhost' (using password: NO)`
+
+```
+The following NEW packages will be installed:
+  nginx onlyoffice-communityserver
+0 upgraded, 2 newly installed, 0 to remove and 3 not upgraded.
+Need to get 128 MB of archives.
+After this operation, 511 MB of additional disk space will be used.
+Get:1 http://download.onlyoffice.com/repo/debian squeeze/main amd64 onlyoffice-communityserver all 10.5.2.1048 [128 MB]
+Get:2 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 nginx all 1.14.0-0ubuntu1.7 [3,596 B]
+Fetched 128 MB in 47s (2,744 kB/s)
+Preconfiguring packages ...
+Selecting previously unselected package nginx.
+(Reading database ... 177048 files and directories currently installed.)
+Preparing to unpack .../nginx_1.14.0-0ubuntu1.7_all.deb ...
+Unpacking nginx (1.14.0-0ubuntu1.7) ...
+Selecting previously unselected package onlyoffice-communityserver.
+Preparing to unpack .../onlyoffice-communityserver_10.5.2.1048_all.deb ...
+Unpacking onlyoffice-communityserver (10.5.2.1048) ...
+Setting up nginx (1.14.0-0ubuntu1.7) ...
+Setting up onlyoffice-communityserver (10.5.2.1048) ...
+adduser: Warning: The home directory `/var/www/onlyoffice' does not belong to the user you are currently creating.
+ERROR 1045 (28000): Access denied for user '-e'@'localhost' (using password: NO)
+dpkg: error processing package onlyoffice-communityserver (--configure):
+ installed onlyoffice-communityserver package post-installation script subprocess returned error exit status 1
+Processing triggers for ureadahead (0.100.0-21) ...
+Processing triggers for systemd (237-3ubuntu10.38) ...
+Errors were encountered while processing:
+ onlyoffice-communityserver
+E: Sub-process /usr/bin/dpkg returned an error code (1)
+```
+
+Hello @howudodat for installation with our script we recommend a clean os. Make sure that you don't have mysql server installed.
+
+it was clean.  the install script installed it.  Here it is from the point of the snapshot:
+
+```
+administrator@cod-1ki-ter-TMP-1:~$ dpkg -l | grep mysql
+administrator@cod-1ki-ter-TMP-1:~$
+administrator@cod-1ki-ter-TMP-1:~$ apt search mysql | grep -i install
+
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+diaspora-installer-mysql/bionic 0.7.3.1+debian2ubuntu2 all
+  distributed social networking service - installer (with MySQL)
+  Install and set up one or more MySQL server instances easily
+rsyslog/bionic,now 8.32.0-1ubuntu4 amd64 [installed,automatic]
+```
+
+
+Hi @Carazyda ,
+
+Thanks for your answer.
+
+I confirm your answer. Not install OnlyOffice with SQL (mariadb or mysql present on OS). The automatic installation does it.
+
+I have installed OnlyOffice with .sh automatic installer on clean ubuntu-server 18.04. It works perfectly.
+But, I have another problem with it. After the installation, I want use SQL user root but I don't know witch password the .sh have installed.
+
+Sorry for my english.
+
+Can you help me, please ?
+
+Hi, @OggyParx ! If you did not specify a mysql root password, you can check the default parameter MYSQL_ROOT_PASSWORD in the installation script http://download.onlyoffice.com/install/install.sh
+for docker version.  In the package installation version, the default password is set with a random string. Use mysql instruction to reset root password
+
+Hi @andreysavihin ,
+
+Thanks for your answer.
+
+But, I've used this link : wget [http://download.onlyoffice.com/install/opensource-install.sh](url) and the MYSQL_ROOT_PASSWORD doesn't exist in this file.
+
+In the install.sh file, it is "my-secret-pw" but it doen't work when I try it.
+
+> Use mysql instruction to reset root password
+
+I've followed instructions for reset password and it work succefully.
+
+Thanks for your help
+
+> I've followed instructions for reset password and it work succefully.
+
+I've changed mysql password succefully, but now, OnlyOffice doesn't work. Where I can to declare the new mysql password in OnlyOffice configuration file ?
+
+After changing the root password, you need to change all the database connection strings in the .config files (web.connections.config and the configuration files of all services).
+
+Thanks @andreysavihin ,
+
+Sorry, but I don't know enough OnlyOffice to do this.
+Which files ? In which directory ?
+
+I use .deb install (not docker).
+
+Thank you for your help.
+
+use this command to find all config files:
+
+find /var/www/onlyoffice/ -type f -name "*.config" -print | xargs grep "connectionStrings"
+
+Hi @andreysavihin ,
+
+I found the password in web.connections.config. 
+
+The password is create with the .sh script with random option. It's not readable in this script as yours ([https://github.com/ONLYOFFICE/CommunityServer/issues/url](url))
+
+I've reinstall ubuntu-server, onlyoffice and read the SQL pass. Now, I can install Nextcloud and create user and password in mysql data base.
+
+Thanks for your help. It works perfectly.
+
+Sorry for my english.
+
+ Conflicting Dependencies
+ In an attempt to install community server on centos 8. python-3-setuptool is installed. There is no python36-setuptools version available that i can find. My installed version of python is 3.6.8
+
+the suggested switches also do not work. 
+
+```
+yum install onlyoffice-communityserver
+
+Last metadata expiration check: 0:14:47 ago on Sun 02 Feb 2020 00:02:37 AEDT.
+Error:
+ Problem: conflicting requests
+  - nothing provides python36-setuptools needed by onlyoffice-communityserver-10.5.1-317.noarch
+(try to add '--skip-broken' to skip uninstallable packages or '--nobest' to use not only best candidate packages)
+```
+Hello @Bachomp we will add supporting Centos 8 in next release.
+
+ Healthcheck url: Error: TrustFailure (Authentication failed, see inner exception.)
+ Hi
+
+I have a functional community server (tag : latest) in a docker container and  a document server V5.4.2(not docker) on the same host.
+I want to connect the document server to the community server but it throws a `Healthcheck url: Error: TrustFailure (Authentication failed, see inner exception.)`
+
+Here's what I found in web.api.log : 
+
+`2020-01-29 12:33:54,760 ERROR [100] ASC.Api - method error: http://172.17.0.2/api/2.0/files/docservice.json?__=470752 - Server error System.Exception: Healthcheck url: Error: TrustFailure (Authentication failed, see inner exception.)
+  at ASC.Web.Files.Services.DocumentService.DocumentServiceConnector.CheckDocServiceUrl () [0x00046] in <8b43e55685d446ce8107f232575cd85f>:0 
+  at ASC.Api.Documents.DocumentsApi.CheckDocServiceUrl (System.String docServiceUrl, System.String docServiceUrlInternal, System.String docServiceUrlPortal) [0x00068] in <d17eda17b7ac4abebca226da2d84b549>:0 
+  at (wrapper managed-to-native) System.Reflection.RuntimeMethodInfo.InternalInvoke(System.Reflection.RuntimeMethodInfo,object,object[],System.Exception&)
+  at System.Reflection.RuntimeMethodInfo.Invoke (System.Object obj, System.Reflection.BindingFlags invokeAttr, System.Reflection.Binder binder, System.Object[] parameters, System.Globalization.CultureInfo culture) [0x0006a] in <d2ec5c92492f4d6ba8c422bdf574b786>:0`
+
+The healthcheck on the document server returns true.
+Ideas ?
+Hello @Sagittarius-B why don't you use Community Edition in docker? What address do you enter in the document service settings?
+
+I already had a previous instance of document-server installed, so I thought i would just work with that.
+`https://ip:port/`
+
+Seems problem in self-signed certificates, are you using it? Community Server without it and on 80 port? 
+
+We recommend installing Community Edition with our provided script.
+
+I switched from the docker install and installed community-server v10.5.1 via yum.
+I configured it to use HTTPS with CA certified certificates. The document server is HTTPS as well.
+I modified the urls like indicated in [this ](https://helpcenter.onlyoffice.com/server/linux/document/connect-document-server.aspx)procedure but I still have this error. 
+Same error on HTTP community-server.
+
+Did you manually install Onlyoffice Community Server and Document Server on the same server and install ssl for both of them? What a port do you use for a Document Server, and can you access this through browser?
+
+We still recommend installing Community Edition with our provided script
+
+Yes manual install, the issue was probably when i entered the ip in the document editing section instead of FQDN. 
+

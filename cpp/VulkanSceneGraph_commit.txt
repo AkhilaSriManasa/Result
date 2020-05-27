@@ -1,0 +1,36 @@
+﻿ Ran clang-format
+ Merge pull request #185 from timoore/equals
+
+declare default operator= for math types
+ Merge pull request #184 from vsg-dev/ExecuteCommands
+
+Support for Secodary CommandBuffers + Execute commands
+ Fixed dangling pointer and memory growth issues
+ Merge branch 'master' into ExecuteCommands
+ Added exit once a available command buffer has been found
+ Cleaned up public interface
+ Added check for valid Camera Viewport
+ Added check for valid Camera Viewport
+ Added doxgen comments
+ Ran clang-format
+ Addded support for passing nullptr to completed();
+ Implemented thread safe ExecuteCommands usage
+ Added support for secondary CommandGraph and ExecuteCommands.
+ Improved support for sharing Device/RenderPass etc. between Windows using WindowTraits::shareWindow.
+ Removed the _ from the public member variables for consistency
+ Ran clang-format
+ Added suport for setting up CommandGraph's to generate primary or secondary CommandBuffers
+ Merge branch 'master' into ExecuteCommands
+ Fixed regression when handling a user assigned RenderPass
+ Added VkSubpassContents contents member to enable handling of secondary command buffers when required
+ Added passing of the VkCommandBufferLevel to the CommandBuffer creation.
+ Removed VkCommandBufferUsageFlags flag from CommandBuffer class is it's not relevant to the VkCommandBuffer allocation, only later usage and this can vary depending on usage
+ Fixed handling of window resize and multisampling
+ Merge pull request #183 from vsg-dev/multisample_alternate
+
+Multisampling support
+ Improved description
+ Wired automatic assign of MultisampleState
+ Implemented set of clear values for multisampling
+ Merged multisample framebuffer setup from the multisample branch
+ Solidified types

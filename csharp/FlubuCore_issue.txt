@@ -1,0 +1,473 @@
+﻿ CI configuration generation
+ We should support generation of configuration files for atleast:
+
+- Jenkins 
+- Github actions
+- Azure Devops
+- Travis
+- AppVeyor
+
+Configuration file could be generated with command:
+
+`flubu {TargetName} --CI=Travis,AppVeyor`
+
+Additional options for CI configuration such as defining OS image could be defined in build script `Configure()` method or though attributes. 
+
+In Azure Devops and Github actions each target dependecy should be it's own step.
+
+
+ Set up CI with Azure Pipelines
+ 
+
+ Resolving FileStream.Lock issue on OSX
+ The issue seems resolved after LiteDB is updated from v4 to v5, and used up-to-date version of Serilog.Sinks.LiteDB package from nuget feed.
+ Resolve issue #318: Wrong log info about executing npm process
+ - Fixed Log content.
+- Exclude Deploy folder from Build.csproj.
+- Removed invalid items from csproj file.
+
+I've noticed some tests are failling in FlubuCore.Tests.Tasks.RunProgramTaskTests after your changes. Could you please take a look?
+
+> I've noticed some tests are failling in FlubuCore.Tests.Tasks.RunProgramTaskTests after your changes. Could you please take a look?
+
+Oops sorry! It should be fine now.
+
+ FlubuCore WebApi: Connection string platform does not support FileStream.Lock issue on OSX
+ System.InvalidOperationException: Your platform does not support FileStream.Lock. Please set mode
+When mode is changed to exclusive then when atleast executing tests db file is being locked and cannot write to the file.
+
+Bug is reproducable on: github actions macos build https://github.com/dotnetcore/FlubuCore/runs/687019086 
+After I update LiteDB to v5 and add `Upgrade
+However, there are tests failed in ScriptsClientTests, regarding Logs/log_yyyy-dd-M.db. I inspect that file with LiteDB Studio, and it doesn't contain "logs" collection. Until now, I couldn't solve this mystery yet.
+
+For storing logs into litedb database serilog litedb sink is used.
+
+this is configured in startup
+https://github.com/dotnetcore/FlubuCore/blob/65b0e48a3da7a9a0f544cea9e28d12338b48d39d/src/FlubuCore.WebApi/Startup.cs#L79
+
+It looks like currently used version of this sink does not work with LiteDb 5 hence no logs :) I forgot why I didnt use nuget package for this package. It is located at  src\packages\SerilogSinksLiTeDb
+
+There is new version available  https://www.nuget.org/packages/Serilog.Sinks.LiteDB so updating this package should fix the issue. 
+
+> There is new version available https://www.nuget.org/packages/Serilog.Sinks.LiteDB so updating this package should fix the issue.
+
+Thanks for the tip! Now log db has data, and I don't see FileStream.Lock errors:
+https://github.com/dotnetcore/FlubuCore/actions/runs/110045921
+
+ NugetPublishTask takes version quality into consideration
+ 
+
+ Wrong log info when executing npm process
+ When executing npm logs are not correct about which process is being executed. There might be the same issue with some other processes.
+
+```
+Running program from '....':
+         C:\Windows\system32\cmd.exe  install
+```
+
+It should be npm and not cmd.
+ Cannot create a new Git branch with the given name
+ **Describe the bug**
+Cannot pass a new branch name to `NewBranch` from `GitCheckoutTask`
+Also, `Checkout` method force passing a branch name which is not really required in this case
+
+**To Reproduce**
+Steps to reproduce the behaviour:
+1. Using this version of the library '5.1.1'
+2. Run this code
+
+```
+          context
+                .CreateTarget("branch")
+                .SetDescription("Create a new branch")
+                .AddTask(task => task
+                    .GitTasks()
+                    .Checkout("")
+                    .NewBranch("my_new_branch")
+```
+
+3. With no arguments
+4. See error
+```
+   /usr/local/bin/git  checkout -b
+
+   error: switch `b' requires a value
+```
+
+**Expected behaviour**
+A new branch named `my_new_branch` should be created 
+
+**Screenshots**
+![Screen Shot 2020-04-30 at 5 12 19 pm](https://user-images.githubusercontent.com/4958087/80682394-c1c17580-8b05-11ea-9d68-725535fb3d5b.png)
+
+
+**Additional context**
+Please have a look at [this line](https://github.com/dotnetcore/FlubuCore/blob/develop/src/FlubuCore/Tasks/Git/GitCheckoutTask.cs#L41) of code. It seems the parameter `name` should be passed through.
+
+Thank you for reporting the issue.  Yes problem is that the `name` parameter is not passed through.  Branch name will also be changed to optional parameter.
+
+For now as an alternative you can just write
+
+```C#
+          context
+                .CreateTarget("branch")
+                .SetDescription("Create a new branch")
+                .AddTask(task => task
+                    .GitTasks()
+                    .Checkout("")
+                    .WithArguments("-b", "my_new_branch")
+``` 
+
+@mzorec 
+Thanks for the reply and the workaround. It unblocks me for now
+
+ FlubuCore dotnet cli tool not working on .Net Core 3.1 
+ It requires that .Net Core sdk 2.X is installed. 
+
+As Alternative FlubuCore global tool can be used instead.
+
+```
+Run dotnet flubu compile.linux
+It was not possible to find any compatible framework version
+The framework 'Microsoft.NETCore.App', version '2.1.0' was not found.
+  - The following frameworks were found:
+      3.1.1 at [/opt/hostedtoolcache/dncs/3.1.101/x64/shared/Microsoft.NETCore.App]
+
+You can resolve the problem by installing the specified framework and/or SDK.
+
+The specified framework can be found at:
+  - https://aka.ms/dotnet-core-applaunch?framework=Microsoft.NETCore.App&framework_version=2.1.0&arch=x64&rid=ubuntu.18.04-x64
+```
+
+It looks like this is an external issue in cli tooling. Hopefully it will get fixed. We can open an issue at microsoft if others have same issue and both alternatives are not ok
+
+1. Install .net core 2.1 runtime or sdk.
+2. Use FlubuCore local / global tool
+
+ dotnet command is not working when full path to dotnet executable is not found
+ dotnet command is not working when executing it with RunProgramTask.
+ It works when full path of the dotnet executable is found but not when it is executed  as command `dotnet`. 
+
+This can be reproduced  on GitHub actions on mac os.
+
+There are 2 possible solutions:
+
+1. Fix the bug in Dotnet.Cli.Utils package so that the CommandFactory  will prepare `dotnet` command correctly.
+2. Improve locating of dotnet executable in FlubuCore. Maybe parse location from `dotnet --info` output.
+
+
+ Update Microsoft.Extensions.Logging to v3.1.3
+ 
+ Update Microsoft.Extensions.Logging to version 3.1.3
+ Current: Microsoft.Extensions.Logging 2.1.1
+
+While updating Microsoft.Extensions.Logging to version 3.1.3, several classes are removed, including `WindowsLogConsole`, `AnsiLogConsole`, `IAnsiSystemConsole`..., etc. We might need to copy some of them into FlubuCore.
+
+Affected projects: FlubuCore and FlubuCore.Tests.
+@mzorec , do you want this to be handled in 6.0 or develop branch?
+I might create a PR for develop branch later, and you could see whether those changes are ok or not.
+
+I have merged 6.0 into develop so you can do this on develop branch. Could you come to gitter?
+
+ Documentation - Faq
+ Faq page will be added to https://flubucore.dotnetcore.xyz/ 
+
+If anyone have a proposition about what to add to FAQ page please leave a comment in this issue.
+One idea:
+
+When should I use those `*Async` methods? e.g. `AddTaskAsync`, `DoAsync`, `DependsOnAsync`. Or, should I always prefer async version over sync version (what's the benefit)?  Is there any gotchas/side effects when I use them? And, what do they actually do behind the scene?
+
+
+
+ Synchronize translate README from English to Chinese
+ 
+Could you please also add at the bottom of readme 
+
+## Code of Conduct
+
+This project has adopted the code of conduct defined by the [Contributor Covenant](http://contributor-covenant.org/) to clarify expected behavior in our community.
+For more information see the [.NET Foundation Code of Conduct](http://www.dotnetfoundation.org/code-of-conduct).
+
+## .NET Foundation
+
+This project is supported by the [.NET Foundation](http://www.dotnetfoundation.org).
+
+@mzorec  `Code of Conduct` and `.NET Foundation`  are added.
+
+ Fixes Build summary is incorrect when build with default target
+ When running a build with default targets, the build summary should be correct now.
+It looks like it's not ok now if you remove the SetAsDefault from target
+
+> It looks like it's not ok now if you remove the SetAsDefault from target
+
+Oops sorry! Hopefuly it's all fixed now.
+
+ Build summary is incorrect when build with default target
+ While running a build without specifying any target, i.e. build with default target, the content of build summary is incorrect.
+ Validate type of the build property
+ When the type of build property is changed Flubu should throw meaningfull exception.  
+ Unify BuildVersion build properties 
+ There are currently 3 Build version properties:
+
+- BuildVersion
+- BuildVersionWithQuality
+- BuildVersionQuality
+Only BuildVersion should exist with otherwise it's confusing. It should contain version information and quality information. 
+ Resolving #303: change status name 'Finished' to 'Succeeded'
+ p.s. I smuggled one test script in this PR :)
+ DependsOnAsync, AddTasksAsync and DoAsync naming
+ Suggestion from @huanlin :
+
+> While fixing this bug, one idea popped up:
+> 
+> The tasks configured with `DependsOnAsync` method are actually executed with `Task.Run`, which is arguably not asynchronous calls. I mean the following code in TaskBase.cs:
+> 
+> ``` C#
+> protected virtual async Task<TResult> DoExecuteAsync(ITaskContextInternal context)
+> {
+>     return await Task.Run(() => DoExecute(context));
+> }
+> ```
+> 
+> Having said that, I don't have better ideas to run those "Async" tasks simply because we don't know what those user-defined tasks really do (could be CPU-bound or I/O bound).
+> 
+> I'm just feel that `DependsOnAsync` might mislead people, make them think that those tasks are executed with C# asynchronous calls.
+>  
+> So one possible change is to rename `DependsOnAsync` to something else, maybe `DependsOnParallel` or `DependsOnConcurrently` ?
+> 
+> I may be wrong or missed something though. So this is just a note. No further action requested. (discussions are welcomed) 
+> I'm just feel that DependsOnAsync might mislead people, make them think that those tasks are executed with C# asynchronous calls.
+
+We actually had this discussion before with my brother. The problem is that it might be parallel or it might be async. You are looking at the implementation in the TaskBase which is misleading because it's a base class and DoExecuteAsync can be overriden..
+
+For example take implementation of this simple task:
+
+```c#
+        protected override async Task<int> DoExecuteAsync(ITaskContextInternal context)
+        {
+            await Task.Delay(_delay);
+
+            return 0;
+        }
+```
+
+This task is executed with C# asynchronus call.
+
+So DependsOnAsync naming is so so. Probably better name would be as you suggested because currently more tasks are really not made with asynchronus calls but in some scenarios it might also be misleading. But there is another problem with DoAsync everything with it will almost surely gona be made with asynchronus calls.
+
+```c#
+    protected override void ConfigureTargets(ITaskContext context)
+        {
+            context.CreateTarget("Sample").DoAsync(Sample);
+        }
+
+        private async Task Sample(ITaskContext context)
+        {
+            var httpClient = new HttpClient();
+
+           await httpClient.GetAsync("");
+        } 
+```
+
+So we should change DependsOnAsync to DependsOnConcurrent but leave DoAsync? This might also be confusing.
+
+I am affraid that here we will not find the "100% right" solution but we can definetly change if there are some really good arguments why should we change or If more people votes for any of the proposed solutions 
+
+Edit: Oh yea and if we take this scenario:
+
+```c#
+  context.CreateTarget("Rebuild")
+            .SetAsDefault()
+            .AddTask(x => x.Do(t => { Console.WriteLine("running Rebuild."); }))
+            .DependsOnAsync(doExample, doExample2)
+            .DependsOn(test); 
+```
+This is not parallel anymore :)
+
+
+With your examples, now I understand more about it, and I don't have better ideas for now.
+Maybe just put some words in documents to avoid misunderstanding.... wait, I do see "parallel" mentioned in the document: [Asynchronus or parallel execution of tasks, customCode and dependencies](https://flubucore.dotnetcore.xyz/buildscript-fundamentals/#asynchronus-or-parallel-execution-of-tasks-customcode-and-dependencies).
+
+So yeah, maybe we do nothing for now, wait and see if there are more ideas coming up later.
+
+
+Maybe also some better explanation on the method documentation (summary). 
+
+If you think or anyone else how could this be explained better in the documentation  [Asynchronus or parallel execution of tasks, customCode and dependencies](https://flubucore.dotnetcore.xyz/buildscript-fundamentals/#asynchronus-or-parallel-execution-of-tasks-customcode-and-dependencies) or you fell some parts are missing. PR would be more than welcome. Also if anyone have an idea how could we explain this briefly in method documentation please provide a PR :)
+
+ Resolving #302: DependsOnAsync tasks always show "Not Ran" 
+ While fixing this bug, one idea popped up:
+
+The tasks configured with `DependsOnAsync` method are actually executed with `Task.Run`, which is arguably not asynchronous calls. I mean the following code in TaskBase.cs:
+
+```
+protected virtual async Task<TResult> DoExecuteAsync(ITaskContextInternal context)
+{
+    return await Task.Run(() => DoExecute(context));
+}
+```
+
+Having said that, I don't have better ideas to run those "Async" tasks simply because we don't know what those user-defined tasks really do (could be CPU-bound or I/O bound).
+
+I'm just feel that `DependsOnAsync` might mislead people, make them think that those tasks are executed with C# asynchronous calls.
+ 
+So one possible change is to rename `DependsOnAsync` to something else, maybe `DependsOnParallel` or `DependsOnConcurrently` ?
+
+I may be wrong or missed something though. So this is just a note. No further action requested. (discussions are welcomed) 
+Everything looks ok! Thank you for PR! I have opened an issue regarding your suggestion
+
+> Everything looks ok! Thank you for PR! I have opened an issue regarding your suggestion
+
+OK Thanks :)
+
+ Suggestion: Change task status name `Finished` to `Succeeded`
+ Currently we have `Failed` for failure status, and `Finished` for success status.
+Arguably, "Succeeded" sounds a bit more emphasized on success, and `Finished` could just mean something is ended .
+
+ Bug: Tasks configured with DependsOnAsync method always show "Not Ran"
+ **Reproduce:**
+
+```
+context.CreateTarget("Rebuild")
+            .SetAsDefault()
+            .DependsOnAsync(doExample, doExample2)
+            .DependsOn(compile, test, package);
+```
+The complete build script can be found here: <https://github.com/flubu-core/flubu.core.tests/tree/master/NetCore_2.0.csproj>
+
+**Result summary:**
+
+```
+Target      Duration  Status
+----------------------------------
+DoExample   00:00:00  NotRan
+DoExample2  00:00:00  NotRan
+Compile     00:00:03  Finished
+Test        00:00:03  Finished
+Package     00:00:01  Finished
+Rebuild     00:00:09  Finished
+
+BUILD SUCCESSFUL
+```
+Even if DoExample and DoExample2 is done and successful, it still show NotRan in the build summary.
+**Test case:**
+
+Paste the following code to DefaultTestScript.cs in [FlubuCore.ConsoleTestApp](https://github.com/dotnetcore/FlubuCore/tree/develop/src/FlubuCore.ConsoleTestApp)
+
+```
+protected override void ConfigureTargets(ITaskContext context)
+{
+    var doExample = context.CreateTarget("DoExample")
+            .Do(t => { throw new Exception("error on purpose."); });
+    var doExample2 = context.CreateTarget("DoExample2")
+            .Do(t => { Console.WriteLine("from doExample2"); });
+    var test = context.CreateTarget("test")
+            .Do(t => { Console.WriteLine("from test"); });
+
+    context.CreateTarget("Rebuild")
+        .SetAsDefault()
+        .AddTask(t => t.Do(x => { Console.WriteLine("from rebuild"); }))
+        .DependsOnAsync(doExample, doExample2)
+        .DependsOn(test);
+}
+```
+
+**Expected result:**
+
+```
+Target      Duration  Status
+----------------------------------
+DoExample   00:00:00  Failed
+DoExample2  00:00:00  Finished
+Test        00:00:00  NotRan
+Rebuild     00:00:00  Failed
+
+BUILD FAILED
+```
+
+ Resolving #299: obsolete warnings about IHostingEnvironment and IApplication…
+ I know this issue is targeting milestone 6.0. 
+However, I try to make the changes to support ASP.NET Core 2.x, 3.x, and ASP.NET 4.6.
+One reason being that, even in FlubuCore v6, we might still need to support ASP.NET Core 2.x.
+So I think maybe it can be merged to develop branch? Not sure though.
+Please help me make the decision. If these changes should still go to milestone 6, I'll close this PR and create a new one targeting v6.
+> Ok, sounds good. I've added 6.0 milestone because I though that `IHosthingEnvironment` was deprecated in netcore 2.0.
+> 
+> Thank you for PR.
+
+Right, there is still a chance  that `IHosthingEnvironment` be deprecated in netcore 2.0.
+Thanks!
+
+ Flubu-5.0.5
+ 
+
+ Compiler warning: This type is obsolete and will be removed in a future version.
+ There are compiler warnings in FlubuCore.WebApi that we might need to do something with it. 
+For example:
+
+> Warning	CS0618	'IHostingEnvironment' is obsolete: 'This type is obsolete and will be removed in a future version. The recommended alternative is Microsoft.AspNetCore.Hosting.IWebHostEnvironment.'	FlubuCore.WebApi (netcoreapp3.1)	
+
+It seems not a high priority issue.
+@mzorec , if you think this is an issue should be handled, kindly assign it to me. 
+Otherwise just close it. Thanks :)
+
+ Resolving #293: change method names
+ Method names changed and done.
+ RootDirectory is not set on linux when using .flubu file
+ **Describe the bug**
+When I have added .flubu file I got the following error in ubuntu 19.04
+
+> ERROR: System.ArgumentException: The path is empty.
+Parameter name: path
+   at System.IO.Path.GetFullPath(String path)
+   at FlubuCore.Scripting.DefaultBuildScript.get_RootDirectory()
+   at BuildScript.get_Output() in BuildScript/BuildScript.cs:line 16
+
+**To Reproduce**
+Steps to reproduce the behavior:
+1. Using this version of the library: 5.0.4
+2. Just access root directory in the build script.
+
+**Expected behavior**
+When accessing RootDirectory should not fail.
+
+Fix is already available in 5.1.0-preview1
+
+Wow thank you for the really quick fix! Works perfectly. 
+
+ Resolving #283 update dependent packages
+ There are 3 components left for update in the future:
+
+- LiteDB
+- Swashbuckle (updated to v4)
+- Microsoft.Extensions.Logging 
+
+Note for LiteDB: when update from v4 to v5, we might need to add `Connection=Shared` and `Upgrade=true` in connection string. (Some changes are preserved in branch [f283-update-dependent-packages-bak](https://github.com/huanlin/FlubuCore/tree/f283-update-dependent-packages-bak))
+> I have noticed Analyzer tests are not run:
+> 
+> > Executing task DotnetTestTask
+> > Running program from 'C:\projects\flubucore\src':
+
+ok, I'll see what happened.
+
+Everything looks ok now. Thank you for yet another PR :)
+
+ Move full .Net specific build property(BuildProps) constants to seperate class
+ Full .Net specific build property constants will be moved from `BuildProps` class to  `DotNetBuildProps`. 
+
+Following constants will be moved:
+
+```C#
+        public const string CompanyCopyright = "company_copyright";
+        public const string CompanyName = "company_name";
+        public const string CompanyTrademark = "company_trademark";
+        public const string ProductName = "product_name";
+        public const string AutoAssemblyVersion = "auto_assembly_version";
+        public const string InformationalVersion = "informational_version";
+        public const string ProductVersionFieldCount = "product_version_field_count";
+        public const string BuildDir = "build_dir";
+        public const string OutputDir = "output_dir";
+        public const string DefaultTargets = "default_targets";
+```
+
+Constans will be first obsoleted in Flubu Version 5.1 and then completly removed from `BuildProps` in 6.0

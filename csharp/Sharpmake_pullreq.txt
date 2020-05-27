@@ -1,0 +1,198 @@
+﻿ Add an AutoDependenciesOrder option
+ Add an AutoDependenciesOrder option to projects that will allow them to opt into ordering their ouputs in dependency order.
+This is useful on linux platforms where link order matters more.
+ Various improvements for working with csproj files.
+ All of these came from adapting a very large csharp code base to be generated using sharpmake.
+ Add a template version of Solution.GetProject
+ 
+ Promote Custom target elements to Project level
+ Promote Custom target elements to Project level so it can also be used in vcxproj. This was mainly needed to be able to suppress auto generation of AssemblyAttributes.cpp in clr projects:
+
+[More info](https://stackoverflow.com/questions/3104356/in-visual-studio-2010-why-is-the-netframework-version-v4-0-assemblyattributes-c)
+ Makefile improvements
+ A few fixes to improve working with makefile. Precompiled header support being the big one.
+ Add support for nuget in c++
+ 
+ Reset console color before running certain scripts.
+ This small fix just makes for a nicer experience when your iterating.
+ Add helper to auto detect highest installed windows sdk
+ The first lines of my SharpmakeMain are:
+```cs
+			KitsRootPaths.SetKitsRoot10ToHighestInstalledVersion(DevEnv.vs2017);
+			KitsRootPaths.SetKitsRoot10ToHighestInstalledVersion(DevEnv.vs2019);
+```
+This just helps reduce maintenance burden a bit if you don't depend on specific sdk features.
+ Replace hardcoded doublequotes (Add readibility to string manipulation)
+ Job not finished. This MR is made only to discuss with maintainers to be sure that this improvement is useful
+ Replace hard coded "REMOVE_LINE_TAG" by the FileGeneratorUtility one
+ I did not change those in Sharpmake, to not create a depedency to Sharpmake.Generators in Sharpmake "Core"
+ Fixed discrepancy in how Sharpmake determines which projects to build between single and multithreaded modes
+ This led to cases where certain necessary projects were not being generated in multithreaded mode, leading to build failures
+
+_buildScheduledType doesn't seem to be used anywhere outside of these few instances in Builder.cs, whereas Arguments.TypesToGenerate is used in GenerateProjectFile (line 893) to determine if a certain project needs to be built.
+ Compile script macos
+ Add equivalent of CompileSharpmake.bat in Bash for MacOS and adapt bootstrap.sh to call it.
+Tested on MacOS 10.15.4
+ Compile script MacOS
+ Add equivalent of CompileSharpmake.bat in Bash for MacOS and adapt bootstrap.sh to call it.
+Tested on MacOS 10.15.4
+ Make sure JSON float serialization is culture invariant
+ JSON float serialization currently can be affected by the default system CultureInfo.
+Changed JSON serialization to use CultureInvariant when writing float types, added test.
+ Fix a System.FormatException caused by invalid format string
+ If compilation fails with an error such as this:
+
+`testproj.sharpmake.cs(59,2) : error CS1513: } expected`
+
+Shaprmake throws System.FormatException because the error format string contains a character which is considered as a special formatting character. This can be very confusing and prevents users to find the actual problem which is in their script code. 
+ Upstream dev branch update
+ 
+ Update ReadMe to find Sharpmake VS solution
+ 
+ Embed Interop references support and CSharp7_2
+ 
+Added support for the LanguageVersion CSharp7_2
+Added ReferencesByPathEmbedInterop as reference type
+Functional tests succeeded.
+ Add support to generate .NET Core projects.
+ * I think most csproj features are still usable so only changed the minimum set to get the projects recognized by visual studio.
+* Tested with Visual Studio 2017 and 2019.
+* Tested linux netcoreapp1.0 and 2.2
+
+Next step I'll be trying to generate .NET Core versions sharpmake itself.
+ Fix library dependency copy
+ Dependent dlls were assumed to have the .dll extension. I moved the library extension code from IPlatformVcxproj to IConfigurationTasks so I could use it with the default library prefix and get dependency copy working for .so files. This is probably an API break for anyone using non-standard platforms, should I leave the old function and just forward it?
+
+This isn't a complete fix for android projects in visual studio though since this only copies the .so files local to your exe file (which is also compiled as a .so). They still need to be copied to the android package output/Package/libs/<architecture> so the package builder can pick them up. I haven't figured a good way to do that automatically. (architecture = arm64-v8a for ARM64)
+ Removed invalid ToC link
+ 
+ Android fixes
+ I'm not if this ever worked, but there were quite a lot of discrepancies when compared to the Visual Studio template projects. These changes were tested against 3 different apps with few interdependent libraries. 
+ Add command line arguments to the debug project.
+ When generating the debug solution the command line arguments that are currently being used are also added to the start arguments of the debug project. I've excluded `/sources` (because it's already added) and `/generateDebugSolution` (because it can trigger reloads of the debug project during debugging).
+ Fix bootstrap-sharpmake.bat so that it works with Visual Studio versi…
+ …ons newer than VS2015.
+
+- Use vswhere to find the latest Visual Studio installation to use, as per https://devblogs.microsoft.com/cppblog/finding-the-visual-c-compiler-tools-in-visual-studio-2017/.
+- Fallback on VS2015 if nothing is found.
+ Round-up of improvements
+ I cancelled my previous two pull requests and merged them together against the latest code. There's fixes that affect c++, c#, makefile generation and just a few quality of life improvements in here.
+
+Is it ok to do a super pull request or would you prefer I break them in more atomic changes?
+ Added newer versions of LLVM toolchain
+ Hi,
+
+LLVM 6.0 adds newer platform options to Visual Studio, so I added them to Sharpmake.
+
+Cheers,
+Marcin
+
+
+ Added WinSDK 17134 and ConformanceMode (/permissive-) support
+ 
+ [Visual Studio] header files with exclude tag and remove from project if all configurations ignore it
+ Hello,
+
+This refers to a issue I opened a couple months ago https://github.com/ubisoftinc/Sharpmake/issues/33
+
+I made some changes so that Include files (.h etc) that match exclude from build regex also get the Template.Project.ProjectFilesSourceExcludeFromBuild tag, previously it was only .cpp files. I know having the .h be part of the build or not doesn't impact the configuration but I think this makes it easier to see the solution tree, now both .h and .cpp will show as not part of build.
+
+Another change I made is that while looping allFiles and deciding if a source or header, if all requested Project configurations happen to exclude a certain file then it doesn't get added at all. So in case someone builds only a win32 project it would exclude all mac files for example. But if they add both to configuration it adds the files but marks as ignore from build.
+
+Let me know thoughts and suggestions, if this is helpful or not. 
+
+ Adds missing commits in pull request #39
+ 
+ Integrates a large number of changelists developped internally.
+ This is a cumulative patch that contains many fixes that have been submitted and approved internally.
+
+**General**
+- Adds support for custom `Project.Configuration` and `Solution.Configuration`.
+- Sharpmake now generates itself as part of the build process! Run *bootstrap-sharpmake.bat*.
+- The visualstudio.sharpmake.bat script now registers the .sharpmake into Visual Studio 2017.
+- Adds support for custom NMake projects.
+- Adds a `Project.AdditionalFiltering` virtual method so projects can implement custom file exclusion logic.
+- Adds new utility method `Util.DirectoryGetFilesWithWildcards`.
+- Adds various optimizations in the generators to speed up generation, including a major one for large projects.
+
+
+**C++**
+- Adds support for Visual Studio compiler option *Enable Managed Incremental Build*. (C++/CLI)
+- Makes post-build step name take command arguments into account.
+- Removes C++ std version setting from bff because some platforms only support specific ISO/C++ versions.
+- Projects that interface with Web services triggered an invalid assert because Visual Studio 2017 renamed the Service References folder to Connected Services. That assertion was wrong and has been removed.
+- Adds a declaration of `<ApplicationEnvironment>` tag in Visual Studio project files.
+- Added support for Visual Studio's hotpatch compiler and linker options. See `Options.Vc.Compiler.CreateHotPatchableCode` and `Options.Vc.Linker.CreateHotPatchableImage`.
+- Removes fallback values when writing templates in vcxproj. It is necessary to know if the resolver fails.
+- Improves the way that the Windows Kits are dealt with.
+- Fixes a bug in how the manifest files are added to a Visual Studio vcxproj.
+- Renames Visual C++ option `Sharpmake.Options.Vc.Compiler.RemovedUnreferencedCOMDAT` to `RemovedUnreferencedCodeData`; marks the former deprecated.
+- Adds new Visual C++ option `Sharpmake.Options.Vc.General.PreferredToolArchitecture` to select a particular version of the toolchain.
+- Deprecates `Sharpmake.Options.Vc.General.NativeEnvironment`; use `PreferredToolArchitecture.x64` for the old behavior.
+- Adds Visual C++ option `Sharpmake.Options.Vc.Compiler.RemovedUnreferencedCOMDAT`. It was already there, but it was never implemented in the generators code, and it is now enabled by default.
+
+
+**.NET**
+- The NetFX paths are now loaded as needed in order to avoid unnecessary warnings.
+- Fixes NuGet support for Visual Studio 2010 and Visual Studio 2013.
+- Adds `Project.ProjectReferenceType` to let Sharpmake scripts specify how NuGet packages should be listed. (*project.json*, *packages.config*, `<PackageReference>`, etc.)
+- Fixes broken WCF code generation and adds a regression test for WCF.
+- Fixes WCF file folder assert when the csproj is not output in the source folder.
+- Change the type of `Content.CopyToOutputDirectory` in internal ItemGroups to an enumeration.
+- Adds missing csproj properties for ClickOnce app and VSIX projects.
+- Adds `CopyToOutputDirectory` option for embedded resources.
+- Adds `FileAssociation` and `PublishFile` item groups.
+- Fixes a crash that occurs when serialize WinFormSubTypes is called and DbPath does not exists and makes `Util.GetWinFormSubTypeDbPath` public.
+- Adds support for "private" NuGet packages when using `<PackageReference>`.
+
+
+**FastBuild**
+- Fixes generation of fastbuild unity blobs for projects without source files.
+- The `confSourceFiles` list is now ordered to get consistent platform grouping in FastBuild files.
+- Method `Bff.GetShortPlatformName` now uses `SimplePlatformString` to name the platform. (Note that, for now, to avoid potential issues with naming, we only do that when platform is one the _reserved* flags.)
+- Fixes a problem where the ISO/C++ standard version (C++14, 17, etc.) was set for sources file in C language.
+- Static libraries with a non-standard name (ie: not called libXXX.a on a Unix platform) or using a full path are prefixed with `-l:`.
+- Library names are only shortened if the lib prefix was used in the command line or in the output. (Potential issue: The extension could be different from what the platform expects when using the shortened library name.)
+- Uses the proper ExecutableRootPath of the compiler.
+- Changes `IPlatformBff.SetupExtraLinkerSettings` to take a `Project.Configuration` as a parameter.
+- Fixes a file path casing issue in post build events.
+- Uses platform lib prefix and suffix to detect dependencies.
+- Updates the BFF file generator to work for project with no source files.
+- Fixes partial libraries in projects that output an executable.
+- Fixes a crash that occurs when a project contains a Win32 resource file (.rc files) and the FastBuild script contains non-Microsoft platforms.
+- Configurations using FastBuild Unities without having a proper value for the `Project.Configuration.FastBuildUnityCount` property should now fallback to an appropriate value.
+- Adds support for UnityInputPattern in the Unity sections of bff. This uses the `Project.Configuration.SourceFilesBlobExtensions` property.
+- Adds `PostBuildTest` for running tests post-build. This is a generalist feature, but right now it is only supported for FastBuild.
+- Adds support for `AdditionalResourceIncludeDirectories` in FastBuild.
+- Fixes a mismatch between FastBuild and MSBuild where the object files were listed before the static libraries, which caused weird linking issues such as different DLL dependencies based on which build system was used.
+- The master BFF file is now in lowercase if the solution property `IsFileNameToLower` is enabled.
+- Sort the `CompilerSettings` sections in the global-settings file to make it deterministic.
+
+
+**Tests & Diagnostics**
+- Logs version numbers for Sharpmake extensions.
+- Logs the time taken by the pre/post generation events if they took more than 100ms.
+- Adds a new constructor to `StopwatchProfiler`.
+- When Sharpmake is run in regression test mode, its now displays a better summary of the diffs.
+- Command line option */generateDebugSolution* now only generates one .csproj.
+- Forces the .NET debug solution to use C# 5.
+- Changes `Util.DirectoryGetFiles` and `DirectoryGetDirectories` so that those ignore the filter and search option when `FakeTree` (used during unit tests) is used.
+- Adds unit tests for many new features and bug fixes.
+
+
+**Samples**
+- Adds the *CSharpWCF* sample.
+- Removes the *SharpmakeGen* sample because with the Sharpmake generating itself, it is not really a sample anymore.
+
+
+**Others**
+- Reorders the Platform enumeration and adds _reserved flags for unused items.
+- Fixed a bug that occurred on Windows where a file included in Sharpmake scripts with the `[Sharpmake.Include(...)]` attribute would be compiled twice if it's referred more than once but with different casing.
+- Regression diffs now display something when a side is empty.
+- Fixes a bug in how Sharpmake merges configurations in Visual Studio solutions.
+- *Package.config* no longer refers to *project.json* everywhere.
+- Add an option for adding additional project-less files to a solution.
+- Fixes *An exception occured during the execution* error in `Util.GetWinFormSubTypeDbPath`.
+- Fixes some issues with the *deploy_binaries.py* helper script. (Python.)
+- Uses `Trace` instead of `Debug` to log debug information, so that Sharpmake can be debugged in Release.
+- Fixes the */breakintodebugger* command line argument.

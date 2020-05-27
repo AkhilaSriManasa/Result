@@ -1,0 +1,37 @@
+﻿ Merge pull request #59 from scottkiss/patch-1
+
+remove the extra semicolon
+ remove the extra emicolon
+
+remove the extra emicolon
+thanks.
+
+
+ catch more exceptions safely
+ make sure to close gzip stream
+ Handle de-serialization errors as bad cache data and just return null, but don't force close the client socket connection
+ saner defaults
+ more ignore
+ turning down logging on classcast miss
+ adding ignore file
+ fix possible NPE
+ patch for improved buffered input
+ patch from Kevin Lafferty to optimize logging
+ tweaks to clean up javadocs, more package cleanup
+ tweaks to clean up javadocs, more package cleanup
+ fix package name
+ small bug in pool, fix copyright, fix package name
+ rename package again
+ turn down some verbose logging
+ rename package and class name to more sane values
+ rename package and class name to more sane values
+ rename package and class name to more sane values
+ rename package
+ rename package
+ rename package
+ renaming the repo for a shorter name
+ tweaks to make sun happy
+ fix logger code
+ fix several bugs
+ fire error handler when no conn returned from pool
+ fix bugs with consistent hashing

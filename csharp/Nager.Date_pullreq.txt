@@ -1,0 +1,86 @@
+﻿ Update UkraineProvider.cs
+ 
+ Add IsPublicHoliday(DateTime date, string countryCode) to DateSystem.cs
+ Closes #195
+ Croatia Statehood day date change
+ 
+ Add Remembrance Day for Homeland War Victims as a public holiday for …
+ …Croatia
+ Optimize longweekend logic
+ 
+ Bug fix for RomaniaProvider ignoring the LaunchYear property of the PublicHoliday
+ This PR implements the missing launch year filter for Romania which caused incorrect results and also adds unit tests for multiple years.
+ Fix Iran's weekend provider
+ https://en.wikipedia.org/wiki/Workweek_and_weekend#Friday_weekend_(One_day_weekend)
+ Add 'Liberation Day' 2020-05-08 for Germany/Berlin
+ Implements #175
+ Add Docker Support (Dockerfile and docker-compose add)
+ Add Docker Support (Dockerfile and docker-compose added)
+ Change Austrians 10-26 to 'Nationalfeiertag'
+ 10-26 is called Nationalfeiertag while 01-05 is called Staatsfeiertag. Source: https://en.wikipedia.org/wiki/Public_holidays_in_Austria
+
+Thanks for the library.
+ Update Viet Nam National Day
+ 
+ Create BusinessDays
+ Hi Tino, do you think is possible to adapt this funciontions?
+ Corrected Dutch Easter holiday names
+ > The Dutch have a two-day holiday, called Eerste Paasdag on Sunday and Tweede Paasdag on Monday (lit. First Easter Day and Second Easter Day)
+
+https://en.wikipedia.org/wiki/Public_holidays_in_the_Netherlands
+
+I also changed the spelling of the 2 Christmas holidays of the Netherlands. There are 2 official rules (_Het Groene Boekje_ and _Het Witte Boekje_) that may be used to determine whether both letters should be written in capital. I used the most common rule, because this looks nicer in my opinion. 
+ Fix for Sweden's Pentecost Sunday
+ Fix for Estonia's Finno-Ugrian Days/Ethnicity day and Sweden's Pentecost Sunday
+ Fix Finland holidays for All Saints' Day
+ Fix Finland holidays for All Saints' Day
+ Change polish public holidays names to more natural
+ 
+ Edited UK May Day 2020 code and added test - Fixes #153.
+ Edited May 2020 UK Code and added test over functionality.
+
+Fixes #153.
+ Add Europe Day as a public holiday for Luxembourg
+ 
+ Added UK May Bank Holiday Change VE Day 2020 - #149
+ Implements #149.
+
+Added conditional one-off change to Early May Bank Holiday. Please let me know if this doesn't fit in with your standards and I'll modify accordingly.
+
+It's a one off change just for 2020.
+ Add counties to UnitedKingdomProvider
+ Add counties
+ Re-introduce danish common days off/semi-public holidays
+ 
+ Changed dates to properly reflect PublicHolidays for Bulgaria
+ The months for "Unification Day" and "Independence Day" were incorrect. Nothing else was changed.
+ Added Kosovo country
+ This PR contains,
+
+- Added new country called Kosovo.
+- Included Orthodox as well as catholic holidays
+- Added Country code for Kosovo
+- Added Kosovo in _publicHolidayProviders dictionary, also added missing country AlbaniaProvider to same dictionary.
+
+ Corrected Australian holidays as per wikipedia
+ 
+ Add Good Friday as a bank holiday for Luxembourg (fixes #136)
+ 
+ Correct St. Joseph's Day in Spain
+ It's on March 19th, not March 1st. See [here](https://www.diafestivo.es/san-jose.php).
+ Update alternative projects in README.md
+ Fix typo and update the supported countries count in *alternative projects*
+ Added Albania country
+ @Silvio911 and @tinohager Please review this pull request. I added all constant and orthodox holidays in this PR.
+Cathelic ester I was not able to add due to multiple inheritance. Please let me provide to achieve it.
+Also I did not add holidays which varies every year.
+Please approve if this is correct PR. If it is not a appropriate then please let me know.
+I am happy to improve it.
+ Update Readme.md
+ Updated the Readme.md according to changes made in #113.
+
+Because of some Github markdown limitation preventing displaying checkboxes inside tables, I had to use [this hack](https://gist.github.com/pchaigno/1826ba1151890b751862#file-checkboxes-md) to make it work. Let me know if it is a problem.
+ Update Readme.md
+ Updated the Readme.md according to changes made in #113.
+
+Because of some Github markdown limitation preventing displaying checkboxes inside tables, I had to use [this hack](https://gist.github.com/pchaigno/1826ba1151890b751862#file-checkboxes-md) to make it work. Let me know if it is a problem.

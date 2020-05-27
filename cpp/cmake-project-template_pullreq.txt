@@ -1,0 +1,6 @@
+﻿ Add git submodule manual steps
+ Alleviates #5
+ Update README.md
+ In the current version of Clion build project and install are both contained under the Build menu.
+ Fix unit test compile error
+ 

@@ -1,0 +1,92 @@
+﻿ Server/Misc: Convert VoidTransferError to enum class.
+
+Signed-off-by: AriDEV <aridev666@gmail.com>
+ Server/Misc: Convert PartyOperation and PartyResult enums to enum class.
+
+Signed-off-by: AriDEV <aridev666@gmail.com>
+ Collision/Models: Add a virtual dtor to prevent undefined behavior.
+
+Signed-off-by: AriDEV <aridev666@gmail.com>
+ Remove links to a defunct service no longer used.
+
+Signed-off-by: SkyFire <admin@projectskyfire.org>
+ Core:Compile (#902)
+
+Add work around to fix compile for Visual Studio.
+
+Signed-off-by: SkyFire <admin@projectskyfire.org>
+ Fixed Prince Taldaram unreachable code.
+ Added CLion files to .gitignore.
+ Server/PacketIO: Rewrite some result packets.
+
+Signed-off-by: AriDEV <aridev666@gmail.com>
+ Server/Misc: Fix format warnings.
+
+Signed-off-by: AriDEV <aridev666@gmail.com>
+ Server/Globals: Make ObjectAccessor an Ace singleton.
+
+Signed-off-by: AriDEV <aridev666@gmail.com>
+ Server/Player: Update unscoped enums to scoped enums.
+
+Signed-off-by: AriDEV <aridev666@gmail.com>
+ Scripts/Misc: Fix Multiple issues.
+
+Signed-off-by: AriDEV <aridev666@gmail.com>
+ Scripts/Commands: Fix Build.
+ Server/Misc: Fixed some static analysis issues.
+
+Signed-off-by: AriDEV <aridev666@gmail.com>
+ Server/Spells: Fix Loading of SpellDifficultyID from DBC.
+
+Signed-off-by: AriDEV <aridev666@gmail.com>
+ Server/BG: Convert BattlegroundBracketId to scoped enum.
+
+Signed-off-by: AriDEV <aridev666@gmail.com>
+ Server/Misc: Fix some static analysis issues.
+
+Signed-off-by: AriDEV <aridev666@gmail.com>
+ Update zlib to 1.2.11 (#897)
+
+Signed-off-by: SkyFire <admin@projectskyfire.org>
+ Server/Packets: Fix Arithmetic issue in ReadString.
+
+Signed-off-by: AriDEV <aridev666@gmail.com>
+ Database: Fix typo.
+
+Thanks @lingxDEV
+Closes #894
+-[ci skip]
+
+Signed-off-by: AriDEV <aridev666@gmail.com>
+ Rename folder.
+
+-[ci skip]
+
+Signed-off-by: AriDEV <aridev666@gmail.com>
+ CMake: Update CMake required minimum version for non unix systems to 3.17.0.
+
+Signed-off-by: AriDEV <aridev666@gmail.com>
+ CMake: Update MSVC expected build number.
+
+Signed-off-by: AriDEV <aridev666@gmail.com>
+ CMake: Update MSVC compiler requirements for 16.6, and add error message for 16.5 compiler.
+ Update Gsoap to version 2.8.99 (#895)
+
+Signed-off-by: SkyFire <admin@projectskyfire.org>
+ DB:Release. Release 21. All updates applied to world db and will be uploaded to forum shortly.
+
+Signed-off-by: SkyFire <admin@projectskyfire.org>
+ Update missed copyright headers. No change to any functions.
+
+[ci-skip]
+
+Signed-off-by: SkyFire <admin@projectskyfire.org>
+ Server/Misc: Add Missing default breaks.
+
+Signed-off-by: AriDEV <aridev666@gmail.com>
+ Server/Misc: Fix some static analysis issues.
+
+Signed-off-by: AriDEV <aridev666@gmail.com>
+ Server/Scripts: Fix Warnings.
+
+Signed-off-by: AriDEV <aridev666@gmail.com>

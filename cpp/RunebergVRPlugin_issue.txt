@@ -1,0 +1,1252 @@
+﻿ Compile on 4.24 - 4.25
+ Hey There,
+have you got any info about compiling on the new versions of the UE Engine?
+ Packaging with plugin
+ Hi,
+
+I'm trying to package a project but keep getting errors. I'm trying to find the cause but haven't found it yet.
+Can someone shed some light on this or point me in the right direction?
+
+I will post the erros next writeup
+
+Cheers,
+
+Folkert
+Build normal without errors
+When starting: Fatal error: could not find Superstruct RunebergVR_Pawn to create RunebergVR_Pawn_C
+
+similiar here  
+
+
+
+
+--------------------
+0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:780][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by 3_Move_VRPawn3vectors1
+[2018.10.02-06.40.49:780][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:781][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by 3_Move_VRPawn3vectors1
+[2018.10.02-06.40.49:781][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:781][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by 3_Move_VRPawn3vectors1
+[2018.10.02-06.40.49:781][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:781][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by 3_Move_VRPawn3vectors1
+[2018.10.02-06.40.49:781][  0]LogLinker: Warning: CreateExport: Failed to load Parent for BlueprintGeneratedClass /Game/Maps/3_Movement/3_Move_VRPawn3vectors1.3_Move_VRPawn3vectors1_C
+[2018.10.02-06.40.49:782][  0]LogBlueprint: Warning: FMemberReference::ResolveMember (K2_DestroyActor) bSelfContext == true, but no scope supplied!
+[2018.10.02-06.40.49:782][  0]LogBlueprint: Warning: FMemberReference::ResolveMember (K2_GetActorLocation) bSelfContext == true, but no scope supplied!
+[2018.10.02-06.40.49:782][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:782][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_13452
+[2018.10.02-06.40.49:782][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:782][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_13452
+[2018.10.02-06.40.49:782][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:782][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_13452
+[2018.10.02-06.40.49:783][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:783][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_13452
+[2018.10.02-06.40.49:783][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:783][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_13474
+[2018.10.02-06.40.49:783][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:783][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_13474
+[2018.10.02-06.40.49:783][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:783][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_13474
+[2018.10.02-06.40.49:783][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:783][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_13474
+[2018.10.02-06.40.49:783][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:783][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_1666
+[2018.10.02-06.40.49:783][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:783][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_1666
+[2018.10.02-06.40.49:784][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:784][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_1666
+[2018.10.02-06.40.49:784][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:784][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_1666
+[2018.10.02-06.40.49:784][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:784][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_1667
+[2018.10.02-06.40.49:784][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:784][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_1667
+[2018.10.02-06.40.49:784][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:784][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_1667
+[2018.10.02-06.40.49:784][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:785][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_1667
+[2018.10.02-06.40.49:785][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:785][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_1682
+[2018.10.02-06.40.49:785][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:785][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_1682
+[2018.10.02-06.40.49:785][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:785][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_1682
+[2018.10.02-06.40.49:785][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:785][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_1682
+[2018.10.02-06.40.49:785][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:785][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_2
+[2018.10.02-06.40.49:785][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:785][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_2
+[2018.10.02-06.40.49:785][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:785][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_2
+[2018.10.02-06.40.49:786][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:786][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_2
+[2018.10.02-06.40.49:786][  0]LogBlueprint: Warning: FMemberReference::ResolveMember (SetSpeed) bSelfContext == true, but no scope supplied!
+[2018.10.02-06.40.49:786][  0]LogBlueprint: Warning: FMemberReference::ResolveMember (SetSpeed) bSelfContext == true, but no scope supplied!
+[2018.10.02-06.40.49:786][  0]LogBlueprint: Warning: FMemberReference::ResolveMember (PowerSphere) bSelfContext == true, but no scope supplied!
+[2018.10.02-06.40.49:786][  0]LogBlueprint: Warning: FMemberReference::ResolveMember (PowerSphere) bSelfContext == true, but no scope supplied!
+[2018.10.02-06.40.49:786][  0]LogBlueprint: Warning: FMemberReference::ResolveMember (SetSpeed) bSelfContext == true, but no scope supplied!
+[2018.10.02-06.40.49:786][  0]LogBlueprint: Warning: FMemberReference::ResolveMember (PowerSphere) bSelfContext == true, but no scope supplied!
+[2018.10.02-06.40.49:786][  0]LogBlueprint: Warning: FMemberReference::ResolveMember (SetSpeed) bSelfContext == true, but no scope supplied!
+[2018.10.02-06.40.49:786][  0]LogBlueprint: Warning: FMemberReference::ResolveMember (PowerSphere) bSelfContext == true, but no scope supplied!
+[2018.10.02-06.40.49:786][  0]LogBlueprint: Warning: FMemberReference::ResolveMember (PowerSphere) bSelfContext == true, but no scope supplied!
+[2018.10.02-06.40.49:786][  0]LogBlueprint: Warning: FMemberReference::ResolveMember (PowerSphere) bSelfContext == true, but no scope supplied!
+[2018.10.02-06.40.49:787][  0]LogBlueprint: Warning: FMemberReference::ResolveMember (PowerSphere) bSelfContext == true, but no scope supplied!
+[2018.10.02-06.40.49:787][  0]LogBlueprint: Warning: FMemberReference::ResolveMember (PowerSphere) bSelfContext == true, but no scope supplied!
+[2018.10.02-06.40.49:787][  0]LogBlueprint: Warning: FMemberReference::ResolveMember (ActorHasTag) bSelfContext == true, but no scope supplied!
+[2018.10.02-06.40.49:787][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:787][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_49
+[2018.10.02-06.40.49:787][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:787][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_49
+[2018.10.02-06.40.49:787][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:787][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_49
+[2018.10.02-06.40.49:787][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:787][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_49
+[2018.10.02-06.40.49:787][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:787][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_52
+[2018.10.02-06.40.49:787][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:787][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_52
+[2018.10.02-06.40.49:788][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:788][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_52
+[2018.10.02-06.40.49:788][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:788][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_52
+[2018.10.02-06.40.49:788][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:788][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_53
+[2018.10.02-06.40.49:788][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:788][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_53
+[2018.10.02-06.40.49:788][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:788][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_53
+[2018.10.02-06.40.49:788][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:788][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_53
+[2018.10.02-06.40.49:788][  0]LogBlueprint: Warning: FMemberReference::ResolveMember (ConjureLevelSphere) bSelfContext == true, but no scope supplied!
+[2018.10.02-06.40.49:789][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:789][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_1057
+[2018.10.02-06.40.49:789][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:789][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_1057
+[2018.10.02-06.40.49:789][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:789][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_1057
+[2018.10.02-06.40.49:789][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:789][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_1057
+[2018.10.02-06.40.49:789][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:790][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_43
+[2018.10.02-06.40.49:790][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:790][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_43
+[2018.10.02-06.40.49:790][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:790][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_43
+[2018.10.02-06.40.49:790][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:790][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_43
+[2018.10.02-06.40.49:790][  0]LogBlueprint: Warning: FMemberReference::ResolveMember (SetHandState) bSelfContext == true, but no scope supplied!
+[2018.10.02-06.40.49:790][  0]LogBlueprint: Warning: FMemberReference::ResolveMember (GetHandMesh) bSelfContext == true, but no scope supplied!
+[2018.10.02-06.40.49:790][  0]LogBlueprint: Warning: FMemberReference::ResolveMember (SetHandState) bSelfContext == true, but no scope supplied!
+[2018.10.02-06.40.49:790][  0]LogBlueprint: Warning: FMemberReference::ResolveMember (GetHandMesh) bSelfContext == true, but no scope supplied!
+[2018.10.02-06.40.49:791][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:791][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_ComponentBoundEvent_1
+[2018.10.02-06.40.49:791][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:791][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_ComponentBoundEvent_1
+[2018.10.02-06.40.49:791][  0]LogLinker: Warning: CreateExport: Failed to load Parent for BlueprintGeneratedClass /Game/Maps/3_Movement/3_Move_VRPawn3vectors1.3_Move_VRPawn3vectors1_C
+[2018.10.02-06.40.49:792][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:792][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_InputAxisKeyEvent_7
+[2018.10.02-06.40.49:792][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:792][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_InputAxisKeyEvent_7
+[2018.10.02-06.40.49:792][  0]LogLinker: Warning: CreateExport: Failed to load Parent for BlueprintGeneratedClass /Game/Maps/3_Movement/3_Move_VRPawn3vectors1.3_Move_VRPawn3vectors1_C
+[2018.10.02-06.40.49:793][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:793][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_InputAxisKeyEvent_9
+[2018.10.02-06.40.49:793][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:793][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_InputAxisKeyEvent_9
+[2018.10.02-06.40.49:793][  0]LogLinker: Warning: CreateExport: Failed to load Parent for BlueprintGeneratedClass /Game/Maps/3_Movement/3_Move_VRPawn3vectors1.3_Move_VRPawn3vectors1_C
+[2018.10.02-06.40.49:793][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:794][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_Knot_11
+[2018.10.02-06.40.49:794][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:794][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_Knot_11
+[2018.10.02-06.40.49:794][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:794][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_Knot_11
+[2018.10.02-06.40.49:794][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:794][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_Knot_11
+[2018.10.02-06.40.49:794][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:794][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_Knot_12
+[2018.10.02-06.40.49:794][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:794][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_Knot_12
+[2018.10.02-06.40.49:794][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:794][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_Knot_12
+[2018.10.02-06.40.49:794][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:795][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_Knot_12
+[2018.10.02-06.40.49:795][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:795][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_Knot_296
+[2018.10.02-06.40.49:795][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:795][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_Knot_296
+[2018.10.02-06.40.49:795][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:795][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_Knot_296
+[2018.10.02-06.40.49:795][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:795][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_Knot_296
+[2018.10.02-06.40.49:795][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:795][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_45
+[2018.10.02-06.40.49:796][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:796][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_45
+[2018.10.02-06.40.49:796][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:796][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_88
+[2018.10.02-06.40.49:796][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:796][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_88
+[2018.10.02-06.40.49:796][  0]LogLinker: Warning: CreateExport: Failed to load Parent for BlueprintGeneratedClass /Game/Maps/3_Movement/3_Move_VRPawn3vectors1.3_Move_VRPawn3vectors1_C
+[2018.10.02-06.40.49:796][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:796][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_0
+[2018.10.02-06.40.49:796][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:796][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_0
+[2018.10.02-06.40.49:796][  0]LogLinker: Warning: CreateExport: Failed to load Parent for BlueprintGeneratedClass /Game/Maps/3_Movement/3_Move_VRPawn3vectors1.3_Move_VRPawn3vectors1_C
+[2018.10.02-06.40.49:796][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:796][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_VariableGet_116
+[2018.10.02-06.40.49:796][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:797][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_VariableGet_116
+[2018.10.02-06.40.49:797][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:797][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_116
+[2018.10.02-06.40.49:797][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:797][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_116
+[2018.10.02-06.40.49:797][  0]LogLinker: Warning: CreateExport: Failed to load Parent for BlueprintGeneratedClass /Game/Maps/3_Movement/3_Move_VRPawn3vectors1.3_Move_VRPawn3vectors1_C
+[2018.10.02-06.40.49:797][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:797][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_121
+[2018.10.02-06.40.49:797][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:797][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_121
+[2018.10.02-06.40.49:797][  0]LogLinker: Warning: CreateExport: Failed to load Parent for BlueprintGeneratedClass /Game/Maps/3_Movement/3_Move_VRPawn3vectors1.3_Move_VRPawn3vectors1_C
+[2018.10.02-06.40.49:797][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:797][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_1430
+[2018.10.02-06.40.49:797][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:798][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_1430
+[2018.10.02-06.40.49:798][  0]LogLinker: Warning: CreateExport: Failed to load Parent for BlueprintGeneratedClass /Game/Maps/3_Movement/3_Move_VRPawn3vectors1.3_Move_VRPawn3vectors1_C
+[2018.10.02-06.40.49:798][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:798][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_180
+[2018.10.02-06.40.49:798][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:798][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_180
+[2018.10.02-06.40.49:798][  0]LogLinker: Warning: CreateExport: Failed to load Parent for BlueprintGeneratedClass /Game/Maps/3_Movement/3_Move_VRPawn3vectors1.3_Move_VRPawn3vectors1_C
+[2018.10.02-06.40.49:798][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:798][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_190
+[2018.10.02-06.40.49:798][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:798][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_190
+[2018.10.02-06.40.49:798][  0]LogLinker: Warning: CreateExport: Failed to load Parent for BlueprintGeneratedClass /Game/Maps/3_Movement/3_Move_VRPawn3vectors1.3_Move_VRPawn3vectors1_C
+[2018.10.02-06.40.49:798][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:798][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_191
+[2018.10.02-06.40.49:798][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:799][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_191
+[2018.10.02-06.40.49:799][  0]LogLinker: Warning: CreateExport: Failed to load Parent for BlueprintGeneratedClass /Game/Maps/3_Movement/3_Move_VRPawn3vectors1.3_Move_VRPawn3vectors1_C
+[2018.10.02-06.40.49:799][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:799][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_VariableGet_1986
+[2018.10.02-06.40.49:799][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:799][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_VariableGet_1986
+[2018.10.02-06.40.49:799][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:799][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_1986
+[2018.10.02-06.40.49:799][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:799][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_1986
+[2018.10.02-06.40.49:799][  0]LogLinker: Warning: CreateExport: Failed to load Parent for BlueprintGeneratedClass /Game/Maps/3_Movement/3_Move_VRPawn3vectors1.3_Move_VRPawn3vectors1_C
+[2018.10.02-06.40.49:799][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:799][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_210
+[2018.10.02-06.40.49:799][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:799][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_210
+[2018.10.02-06.40.49:799][  0]LogLinker: Warning: CreateExport: Failed to load Parent for BlueprintGeneratedClass /Game/Maps/3_Movement/3_Move_VRPawn3vectors1.3_Move_VRPawn3vectors1_C
+[2018.10.02-06.40.49:800][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:800][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_211
+[2018.10.02-06.40.49:800][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:800][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_211
+[2018.10.02-06.40.49:800][  0]LogLinker: Warning: CreateExport: Failed to load Parent for BlueprintGeneratedClass /Game/Maps/3_Movement/3_Move_VRPawn3vectors1.3_Move_VRPawn3vectors1_C
+[2018.10.02-06.40.49:800][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:800][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_2610
+[2018.10.02-06.40.49:800][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:800][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_2610
+[2018.10.02-06.40.49:800][  0]LogLinker: Warning: CreateExport: Failed to load Parent for BlueprintGeneratedClass /Game/Maps/3_Movement/3_Move_VRPawn3vectors1.3_Move_VRPawn3vectors1_C
+[2018.10.02-06.40.49:800][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:800][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_VariableGet_39
+[2018.10.02-06.40.49:800][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:800][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_VariableGet_39
+[2018.10.02-06.40.49:800][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:800][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_39
+[2018.10.02-06.40.49:801][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:801][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_39
+[2018.10.02-06.40.49:801][  0]LogLinker: Warning: CreateExport: Failed to load Parent for BlueprintGeneratedClass /Game/Maps/3_Movement/3_Move_VRPawn3vectors1.3_Move_VRPawn3vectors1_C
+[2018.10.02-06.40.49:801][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:801][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_VariableGet_4055
+[2018.10.02-06.40.49:801][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:801][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_VariableGet_4055
+[2018.10.02-06.40.49:801][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:801][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_4055
+[2018.10.02-06.40.49:801][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:801][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_4055
+[2018.10.02-06.40.49:801][  0]LogLinker: Warning: CreateExport: Failed to load Parent for BlueprintGeneratedClass /Game/Maps/3_Movement/3_Move_VRPawn3vectors1.3_Move_VRPawn3vectors1_C
+[2018.10.02-06.40.49:801][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:801][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_4056
+[2018.10.02-06.40.49:801][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:801][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_4056
+[2018.10.02-06.40.49:802][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:802][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_4410
+[2018.10.02-06.40.49:802][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:802][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_4410
+[2018.10.02-06.40.49:802][  0]LogLinker: Warning: CreateExport: Failed to load Parent for BlueprintGeneratedClass /Game/Maps/3_Movement/3_Move_VRPawn3vectors1.3_Move_VRPawn3vectors1_C
+[2018.10.02-06.40.49:802][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:802][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_VariableGet_4625
+[2018.10.02-06.40.49:802][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:802][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_VariableGet_4625
+[2018.10.02-06.40.49:802][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:802][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_4625
+[2018.10.02-06.40.49:802][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:802][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_4625
+[2018.10.02-06.40.49:802][  0]LogLinker: Warning: CreateExport: Failed to load Parent for BlueprintGeneratedClass /Game/Maps/3_Movement/3_Move_VRPawn3vectors1.3_Move_VRPawn3vectors1_C
+[2018.10.02-06.40.49:802][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:802][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_VariableGet_4626
+[2018.10.02-06.40.49:803][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:803][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_VariableGet_4626
+[2018.10.02-06.40.49:803][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:803][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_VariableGet_4626
+[2018.10.02-06.40.49:803][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:803][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_VariableGet_4626
+[2018.10.02-06.40.49:803][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:803][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_VariableGet_653
+[2018.10.02-06.40.49:803][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:803][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_VariableGet_653
+[2018.10.02-06.40.49:803][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:803][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_653
+[2018.10.02-06.40.49:803][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:803][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_653
+[2018.10.02-06.40.49:803][  0]LogLinker: Warning: CreateExport: Failed to load Parent for BlueprintGeneratedClass /Game/Maps/3_Movement/3_Move_VRPawn3vectors1.3_Move_VRPawn3vectors1_C
+[2018.10.02-06.40.49:804][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:804][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_664
+[2018.10.02-06.40.49:804][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:804][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_664
+[2018.10.02-06.40.49:804][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:804][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_701
+[2018.10.02-06.40.49:804][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:804][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_701
+[2018.10.02-06.40.49:804][  0]LogLinker: Warning: CreateExport: Failed to load Parent for BlueprintGeneratedClass /Game/Maps/3_Movement/3_Move_VRPawn3vectors1.3_Move_VRPawn3vectors1_C
+[2018.10.02-06.40.49:804][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:804][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_707
+[2018.10.02-06.40.49:804][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:804][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_707
+[2018.10.02-06.40.49:804][  0]LogLinker: Warning: CreateExport: Failed to load Parent for BlueprintGeneratedClass /Game/Maps/3_Movement/3_Move_VRPawn3vectors1.3_Move_VRPawn3vectors1_C
+[2018.10.02-06.40.49:805][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:805][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_863
+[2018.10.02-06.40.49:805][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:805][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_863
+[2018.10.02-06.40.49:805][  0]LogLinker: Warning: CreateExport: Failed to load Parent for BlueprintGeneratedClass /Game/Maps/3_Movement/3_Move_VRPawn3vectors1.3_Move_VRPawn3vectors1_C
+[2018.10.02-06.40.49:805][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:805][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_271
+[2018.10.02-06.40.49:805][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:805][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_271
+[2018.10.02-06.40.49:805][  0]LogLinker: Warning: CreateExport: Failed to load Parent for BlueprintGeneratedClass /Game/Maps/3_Movement/3_Move_VRPawn3vectors1.3_Move_VRPawn3vectors1_C
+[2018.10.02-06.40.49:805][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:805][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_272
+[2018.10.02-06.40.49:805][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:805][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_272
+[2018.10.02-06.40.49:805][  0]LogLinker: Warning: CreateExport: Failed to load Parent for BlueprintGeneratedClass /Game/Maps/3_Movement/3_Move_VRPawn3vectors1.3_Move_VRPawn3vectors1_C
+[2018.10.02-06.40.49:806][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:806][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_1302
+[2018.10.02-06.40.49:806][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:806][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_1302
+[2018.10.02-06.40.49:806][  0]LogLinker: Warning: CreateExport: Failed to load Parent for BlueprintGeneratedClass /Game/Maps/3_Movement/3_Move_VRPawn3vectors1.3_Move_VRPawn3vectors1_C
+[2018.10.02-06.40.49:806][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:806][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_VariableGet_2206
+[2018.10.02-06.40.49:806][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:806][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_VariableGet_2206
+[2018.10.02-06.40.49:806][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:806][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_2206
+[2018.10.02-06.40.49:806][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:806][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_2206
+[2018.10.02-06.40.49:806][  0]LogLinker: Warning: CreateExport: Failed to load Parent for BlueprintGeneratedClass /Game/Maps/3_Movement/3_Move_VRPawn3vectors1.3_Move_VRPawn3vectors1_C
+[2018.10.02-06.40.49:807][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:807][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableSet_49
+[2018.10.02-06.40.49:807][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:807][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableSet_49
+[2018.10.02-06.40.49:807][  0]LogLinker: Warning: CreateExport: Failed to load Parent for BlueprintGeneratedClass /Game/Maps/3_Movement/3_Move_VRPawn3vectors1.3_Move_VRPawn3vectors1_C
+[2018.10.02-06.40.49:807][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:807][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableSet_124
+[2018.10.02-06.40.49:807][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:807][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableSet_124
+[2018.10.02-06.40.49:807][  0]LogLinker: Warning: CreateExport: Failed to load Parent for BlueprintGeneratedClass /Game/Maps/3_Movement/3_Move_VRPawn3vectors1.3_Move_VRPawn3vectors1_C
+[2018.10.02-06.40.49:807][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:807][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableSet_608
+[2018.10.02-06.40.49:807][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:808][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableSet_608
+[2018.10.02-06.40.49:808][  0]LogLinker: Warning: CreateExport: Failed to load Parent for BlueprintGeneratedClass /Game/Maps/3_Movement/3_Move_VRPawn3vectors1.3_Move_VRPawn3vectors1_C
+[2018.10.02-06.40.49:808][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:808][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableSet_607
+[2018.10.02-06.40.49:808][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:808][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableSet_607
+[2018.10.02-06.40.49:808][  0]LogLinker: Warning: CreateExport: Failed to load Parent for BlueprintGeneratedClass /Game/Maps/3_Movement/3_Move_VRPawn3vectors1.3_Move_VRPawn3vectors1_C
+[2018.10.02-06.40.49:808][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:808][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableSet_800
+[2018.10.02-06.40.49:808][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:808][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableSet_800
+[2018.10.02-06.40.49:808][  0]LogLinker: Warning: CreateExport: Failed to load Parent for BlueprintGeneratedClass /Game/Maps/3_Movement/3_Move_VRPawn3vectors1.3_Move_VRPawn3vectors1_C
+[2018.10.02-06.40.49:808][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:808][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by PackageMetaData
+[2018.10.02-06.40.49:809][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:809][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by PackageMetaData
+[2018.10.02-06.40.49:809][  0]LogLinker: Warning: CreateExport: Failed to load Parent for BlueprintGeneratedClass /Game/Maps/3_Movement/3_Move_VRPawn3vectors1.3_Move_VRPawn3vectors1_C
+[2018.10.02-06.40.49:820][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:820][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by 3_Movement_VRPawn
+[2018.10.02-06.40.49:820][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:820][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by 3_Movement_VRPawn
+[2018.10.02-06.40.49:820][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:820][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by 3_Movement_VRPawn
+[2018.10.02-06.40.49:820][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:820][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by 3_Movement_VRPawn
+[2018.10.02-06.40.49:820][  0]LogLinker: Warning: CreateExport: Failed to load Parent for BlueprintGeneratedClass /Game/Maps/3_Movement/3_Movement_VRPawn.3_Movement_VRPawn_C
+[2018.10.02-06.40.49:835][  0]LogBlueprint: Warning: FMemberReference::ResolveMember (K2_DestroyActor) bSelfContext == true, but no scope supplied!
+[2018.10.02-06.40.49:836][  0]LogBlueprint: Warning: FMemberReference::ResolveMember (K2_GetActorLocation) bSelfContext == true, but no scope supplied!
+[2018.10.02-06.40.49:836][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:836][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_13452
+[2018.10.02-06.40.49:836][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:836][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_13452
+[2018.10.02-06.40.49:836][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:836][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_13452
+[2018.10.02-06.40.49:836][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:836][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_13452
+[2018.10.02-06.40.49:836][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:836][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_13474
+[2018.10.02-06.40.49:836][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:837][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_13474
+[2018.10.02-06.40.49:837][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:837][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_13474
+[2018.10.02-06.40.49:837][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:837][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_13474
+[2018.10.02-06.40.49:837][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:837][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_1666
+[2018.10.02-06.40.49:837][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:837][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_1666
+[2018.10.02-06.40.49:837][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:837][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_1666
+[2018.10.02-06.40.49:837][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:837][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_1666
+[2018.10.02-06.40.49:838][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:838][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_1667
+[2018.10.02-06.40.49:838][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:838][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_1667
+[2018.10.02-06.40.49:838][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:838][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_1667
+[2018.10.02-06.40.49:838][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:838][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_1667
+[2018.10.02-06.40.49:838][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:838][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_1682
+[2018.10.02-06.40.49:838][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:838][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_1682
+[2018.10.02-06.40.49:838][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:838][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_1682
+[2018.10.02-06.40.49:839][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:839][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_1682
+[2018.10.02-06.40.49:839][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:839][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_2
+[2018.10.02-06.40.49:839][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:839][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_2
+[2018.10.02-06.40.49:839][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:839][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_2
+[2018.10.02-06.40.49:839][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:839][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_2
+[2018.10.02-06.40.49:839][  0]LogBlueprint: Warning: FMemberReference::ResolveMember (SetSpeed) bSelfContext == true, but no scope supplied!
+[2018.10.02-06.40.49:840][  0]LogBlueprint: Warning: FMemberReference::ResolveMember (SetSpeed) bSelfContext == true, but no scope supplied!
+[2018.10.02-06.40.49:840][  0]LogBlueprint: Warning: FMemberReference::ResolveMember (PowerSphere) bSelfContext == true, but no scope supplied!
+[2018.10.02-06.40.49:840][  0]LogBlueprint: Warning: FMemberReference::ResolveMember (PowerSphere) bSelfContext == true, but no scope supplied!
+[2018.10.02-06.40.49:840][  0]LogBlueprint: Warning: FMemberReference::ResolveMember (SetSpeed) bSelfContext == true, but no scope supplied!
+[2018.10.02-06.40.49:840][  0]LogBlueprint: Warning: FMemberReference::ResolveMember (PowerSphere) bSelfContext == true, but no scope supplied!
+[2018.10.02-06.40.49:840][  0]LogBlueprint: Warning: FMemberReference::ResolveMember (SetSpeed) bSelfContext == true, but no scope supplied!
+[2018.10.02-06.40.49:840][  0]LogBlueprint: Warning: FMemberReference::ResolveMember (PowerSphere) bSelfContext == true, but no scope supplied!
+[2018.10.02-06.40.49:840][  0]LogBlueprint: Warning: FMemberReference::ResolveMember (PowerSphere) bSelfContext == true, but no scope supplied!
+[2018.10.02-06.40.49:840][  0]LogBlueprint: Warning: FMemberReference::ResolveMember (PowerSphere) bSelfContext == true, but no scope supplied!
+[2018.10.02-06.40.49:841][  0]LogBlueprint: Warning: FMemberReference::ResolveMember (PowerSphere) bSelfContext == true, but no scope supplied!
+[2018.10.02-06.40.49:841][  0]LogBlueprint: Warning: FMemberReference::ResolveMember (PowerSphere) bSelfContext == true, but no scope supplied!
+[2018.10.02-06.40.49:841][  0]LogBlueprint: Warning: FMemberReference::ResolveMember (ActorHasTag) bSelfContext == true, but no scope supplied!
+[2018.10.02-06.40.49:841][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:841][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_49
+[2018.10.02-06.40.49:841][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:841][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_49
+[2018.10.02-06.40.49:841][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:841][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_49
+[2018.10.02-06.40.49:841][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:841][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_49
+[2018.10.02-06.40.49:841][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:841][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_52
+[2018.10.02-06.40.49:842][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:842][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_52
+[2018.10.02-06.40.49:842][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:842][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_52
+[2018.10.02-06.40.49:842][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:842][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_52
+[2018.10.02-06.40.49:842][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:842][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_53
+[2018.10.02-06.40.49:842][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:842][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_53
+[2018.10.02-06.40.49:842][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:842][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_53
+[2018.10.02-06.40.49:842][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:842][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_53
+[2018.10.02-06.40.49:843][  0]LogBlueprint: Warning: FMemberReference::ResolveMember (ConjureLevelSphere) bSelfContext == true, but no scope supplied!
+[2018.10.02-06.40.49:843][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:843][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_1057
+[2018.10.02-06.40.49:843][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:843][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_1057
+[2018.10.02-06.40.49:843][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:843][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_1057
+[2018.10.02-06.40.49:844][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:844][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_1057
+[2018.10.02-06.40.49:844][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:844][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_43
+[2018.10.02-06.40.49:844][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:844][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_43
+[2018.10.02-06.40.49:844][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:844][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_43
+[2018.10.02-06.40.49:844][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:844][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_CallFunction_43
+[2018.10.02-06.40.49:844][  0]LogBlueprint: Warning: FMemberReference::ResolveMember (SetHandState) bSelfContext == true, but no scope supplied!
+[2018.10.02-06.40.49:844][  0]LogBlueprint: Warning: FMemberReference::ResolveMember (GetHandMesh) bSelfContext == true, but no scope supplied!
+[2018.10.02-06.40.49:844][  0]LogBlueprint: Warning: FMemberReference::ResolveMember (SetHandState) bSelfContext == true, but no scope supplied!
+[2018.10.02-06.40.49:845][  0]LogBlueprint: Warning: FMemberReference::ResolveMember (GetHandMesh) bSelfContext == true, but no scope supplied!
+[2018.10.02-06.40.49:845][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:845][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_ComponentBoundEvent_1
+[2018.10.02-06.40.49:845][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:845][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_ComponentBoundEvent_1
+[2018.10.02-06.40.49:845][  0]LogLinker: Warning: CreateExport: Failed to load Parent for BlueprintGeneratedClass /Game/Maps/3_Movement/3_Movement_VRPawn.3_Movement_VRPawn_C
+[2018.10.02-06.40.49:847][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:847][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_InputAxisKeyEvent_7
+[2018.10.02-06.40.49:847][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:847][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_InputAxisKeyEvent_7
+[2018.10.02-06.40.49:847][  0]LogLinker: Warning: CreateExport: Failed to load Parent for BlueprintGeneratedClass /Game/Maps/3_Movement/3_Movement_VRPawn.3_Movement_VRPawn_C
+[2018.10.02-06.40.49:847][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:847][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_InputAxisKeyEvent_9
+[2018.10.02-06.40.49:847][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:847][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_InputAxisKeyEvent_9
+[2018.10.02-06.40.49:847][  0]LogLinker: Warning: CreateExport: Failed to load Parent for BlueprintGeneratedClass /Game/Maps/3_Movement/3_Movement_VRPawn.3_Movement_VRPawn_C
+[2018.10.02-06.40.49:848][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:848][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_Knot_11
+[2018.10.02-06.40.49:848][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:848][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_Knot_11
+[2018.10.02-06.40.49:848][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:848][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_Knot_11
+[2018.10.02-06.40.49:848][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:848][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_Knot_11
+[2018.10.02-06.40.49:849][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:849][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_Knot_12
+[2018.10.02-06.40.49:849][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:849][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_Knot_12
+[2018.10.02-06.40.49:849][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:849][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_Knot_12
+[2018.10.02-06.40.49:849][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:849][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_Knot_12
+[2018.10.02-06.40.49:849][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:849][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_Knot_296
+[2018.10.02-06.40.49:849][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:849][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_Knot_296
+[2018.10.02-06.40.49:850][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:850][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_Knot_296
+[2018.10.02-06.40.49:850][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:850][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_Knot_296
+[2018.10.02-06.40.49:850][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:850][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_45
+[2018.10.02-06.40.49:850][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:850][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_45
+[2018.10.02-06.40.49:851][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:851][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_88
+[2018.10.02-06.40.49:851][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:851][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_88
+[2018.10.02-06.40.49:851][  0]LogLinker: Warning: CreateExport: Failed to load Parent for BlueprintGeneratedClass /Game/Maps/3_Movement/3_Movement_VRPawn.3_Movement_VRPawn_C
+[2018.10.02-06.40.49:851][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:851][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_VariableGet_116
+[2018.10.02-06.40.49:851][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:851][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_VariableGet_116
+[2018.10.02-06.40.49:851][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:851][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_116
+[2018.10.02-06.40.49:851][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:851][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_116
+[2018.10.02-06.40.49:851][  0]LogLinker: Warning: CreateExport: Failed to load Parent for BlueprintGeneratedClass /Game/Maps/3_Movement/3_Movement_VRPawn.3_Movement_VRPawn_C
+[2018.10.02-06.40.49:852][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:852][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_121
+[2018.10.02-06.40.49:852][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:852][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_121
+[2018.10.02-06.40.49:852][  0]LogLinker: Warning: CreateExport: Failed to load Parent for BlueprintGeneratedClass /Game/Maps/3_Movement/3_Movement_VRPawn.3_Movement_VRPawn_C
+[2018.10.02-06.40.49:852][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:852][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_1430
+[2018.10.02-06.40.49:852][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:852][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_1430
+[2018.10.02-06.40.49:852][  0]LogLinker: Warning: CreateExport: Failed to load Parent for BlueprintGeneratedClass /Game/Maps/3_Movement/3_Movement_VRPawn.3_Movement_VRPawn_C
+[2018.10.02-06.40.49:852][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:852][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_180
+[2018.10.02-06.40.49:852][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:852][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_180
+[2018.10.02-06.40.49:852][  0]LogLinker: Warning: CreateExport: Failed to load Parent for BlueprintGeneratedClass /Game/Maps/3_Movement/3_Movement_VRPawn.3_Movement_VRPawn_C
+[2018.10.02-06.40.49:853][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:853][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_190
+[2018.10.02-06.40.49:853][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:853][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_190
+[2018.10.02-06.40.49:853][  0]LogLinker: Warning: CreateExport: Failed to load Parent for BlueprintGeneratedClass /Game/Maps/3_Movement/3_Movement_VRPawn.3_Movement_VRPawn_C
+[2018.10.02-06.40.49:853][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:853][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_191
+[2018.10.02-06.40.49:853][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:853][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_191
+[2018.10.02-06.40.49:853][  0]LogLinker: Warning: CreateExport: Failed to load Parent for BlueprintGeneratedClass /Game/Maps/3_Movement/3_Movement_VRPawn.3_Movement_VRPawn_C
+[2018.10.02-06.40.49:853][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:853][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_VariableGet_1986
+[2018.10.02-06.40.49:853][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:853][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_VariableGet_1986
+[2018.10.02-06.40.49:854][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:854][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_1986
+[2018.10.02-06.40.49:854][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:854][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_1986
+[2018.10.02-06.40.49:854][  0]LogLinker: Warning: CreateExport: Failed to load Parent for BlueprintGeneratedClass /Game/Maps/3_Movement/3_Movement_VRPawn.3_Movement_VRPawn_C
+[2018.10.02-06.40.49:854][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:854][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_210
+[2018.10.02-06.40.49:854][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:854][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_210
+[2018.10.02-06.40.49:854][  0]LogLinker: Warning: CreateExport: Failed to load Parent for BlueprintGeneratedClass /Game/Maps/3_Movement/3_Movement_VRPawn.3_Movement_VRPawn_C
+[2018.10.02-06.40.49:854][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:854][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_211
+[2018.10.02-06.40.49:854][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:854][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_211
+[2018.10.02-06.40.49:854][  0]LogLinker: Warning: CreateExport: Failed to load Parent for BlueprintGeneratedClass /Game/Maps/3_Movement/3_Movement_VRPawn.3_Movement_VRPawn_C
+[2018.10.02-06.40.49:855][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:855][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_2610
+[2018.10.02-06.40.49:855][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:855][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_2610
+[2018.10.02-06.40.49:855][  0]LogLinker: Warning: CreateExport: Failed to load Parent for BlueprintGeneratedClass /Game/Maps/3_Movement/3_Movement_VRPawn.3_Movement_VRPawn_C
+[2018.10.02-06.40.49:855][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:855][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_VariableGet_39
+[2018.10.02-06.40.49:855][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:855][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_VariableGet_39
+[2018.10.02-06.40.49:855][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:855][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_39
+[2018.10.02-06.40.49:855][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:855][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_39
+[2018.10.02-06.40.49:855][  0]LogLinker: Warning: CreateExport: Failed to load Parent for BlueprintGeneratedClass /Game/Maps/3_Movement/3_Movement_VRPawn.3_Movement_VRPawn_C
+[2018.10.02-06.40.49:856][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:856][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_VariableGet_4055
+[2018.10.02-06.40.49:856][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:856][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_VariableGet_4055
+[2018.10.02-06.40.49:856][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:856][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_4055
+[2018.10.02-06.40.49:856][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:856][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_4055
+[2018.10.02-06.40.49:856][  0]LogLinker: Warning: CreateExport: Failed to load Parent for BlueprintGeneratedClass /Game/Maps/3_Movement/3_Movement_VRPawn.3_Movement_VRPawn_C
+[2018.10.02-06.40.49:856][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:856][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_4056
+[2018.10.02-06.40.49:856][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:856][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_4056
+[2018.10.02-06.40.49:857][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:857][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_4410
+[2018.10.02-06.40.49:857][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:857][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_4410
+[2018.10.02-06.40.49:857][  0]LogLinker: Warning: CreateExport: Failed to load Parent for BlueprintGeneratedClass /Game/Maps/3_Movement/3_Movement_VRPawn.3_Movement_VRPawn_C
+[2018.10.02-06.40.49:857][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:857][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_VariableGet_4625
+[2018.10.02-06.40.49:857][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:857][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_VariableGet_4625
+[2018.10.02-06.40.49:857][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:857][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_4625
+[2018.10.02-06.40.49:857][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:857][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_4625
+[2018.10.02-06.40.49:857][  0]LogLinker: Warning: CreateExport: Failed to load Parent for BlueprintGeneratedClass /Game/Maps/3_Movement/3_Movement_VRPawn.3_Movement_VRPawn_C
+[2018.10.02-06.40.49:857][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:857][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_VariableGet_4626
+[2018.10.02-06.40.49:858][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:858][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_VariableGet_4626
+[2018.10.02-06.40.49:858][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:858][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_VariableGet_4626
+[2018.10.02-06.40.49:858][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:858][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_VariableGet_4626
+[2018.10.02-06.40.49:858][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:858][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_VariableGet_653
+[2018.10.02-06.40.49:858][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:858][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_VariableGet_653
+[2018.10.02-06.40.49:858][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:858][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_653
+[2018.10.02-06.40.49:858][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:859][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_653
+[2018.10.02-06.40.49:859][  0]LogLinker: Warning: CreateExport: Failed to load Parent for BlueprintGeneratedClass /Game/Maps/3_Movement/3_Movement_VRPawn.3_Movement_VRPawn_C
+[2018.10.02-06.40.49:859][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:859][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_664
+[2018.10.02-06.40.49:859][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:859][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_664
+[2018.10.02-06.40.49:859][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:859][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_701
+[2018.10.02-06.40.49:859][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:859][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_701
+[2018.10.02-06.40.49:859][  0]LogLinker: Warning: CreateExport: Failed to load Parent for BlueprintGeneratedClass /Game/Maps/3_Movement/3_Movement_VRPawn.3_Movement_VRPawn_C
+[2018.10.02-06.40.49:859][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:859][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_707
+[2018.10.02-06.40.49:860][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:860][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_707
+[2018.10.02-06.40.49:860][  0]LogLinker: Warning: CreateExport: Failed to load Parent for BlueprintGeneratedClass /Game/Maps/3_Movement/3_Movement_VRPawn.3_Movement_VRPawn_C
+[2018.10.02-06.40.49:860][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:860][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_863
+[2018.10.02-06.40.49:860][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:860][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_863
+[2018.10.02-06.40.49:860][  0]LogLinker: Warning: CreateExport: Failed to load Parent for BlueprintGeneratedClass /Game/Maps/3_Movement/3_Movement_VRPawn.3_Movement_VRPawn_C
+[2018.10.02-06.40.49:860][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:860][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_271
+[2018.10.02-06.40.49:860][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:860][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_271
+[2018.10.02-06.40.49:860][  0]LogLinker: Warning: CreateExport: Failed to load Parent for BlueprintGeneratedClass /Game/Maps/3_Movement/3_Movement_VRPawn.3_Movement_VRPawn_C
+[2018.10.02-06.40.49:861][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:861][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_272
+[2018.10.02-06.40.49:861][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:861][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_272
+[2018.10.02-06.40.49:861][  0]LogLinker: Warning: CreateExport: Failed to load Parent for BlueprintGeneratedClass /Game/Maps/3_Movement/3_Movement_VRPawn.3_Movement_VRPawn_C
+[2018.10.02-06.40.49:861][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:861][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_1302
+[2018.10.02-06.40.49:861][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:861][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_1302
+[2018.10.02-06.40.49:861][  0]LogLinker: Warning: CreateExport: Failed to load Parent for BlueprintGeneratedClass /Game/Maps/3_Movement/3_Movement_VRPawn.3_Movement_VRPawn_C
+[2018.10.02-06.40.49:861][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:861][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_VariableGet_2206
+[2018.10.02-06.40.49:861][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:861][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Movement Referenced by K2Node_VariableGet_2206
+[2018.10.02-06.40.49:862][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:862][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_2206
+[2018.10.02-06.40.49:862][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:862][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableGet_2206
+[2018.10.02-06.40.49:862][  0]LogLinker: Warning: CreateExport: Failed to load Parent for BlueprintGeneratedClass /Game/Maps/3_Movement/3_Movement_VRPawn.3_Movement_VRPawn_C
+[2018.10.02-06.40.49:862][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:862][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableSet_49
+[2018.10.02-06.40.49:862][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:862][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableSet_49
+[2018.10.02-06.40.49:862][  0]LogLinker: Warning: CreateExport: Failed to load Parent for BlueprintGeneratedClass /Game/Maps/3_Movement/3_Movement_VRPawn.3_Movement_VRPawn_C
+[2018.10.02-06.40.49:862][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:863][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableSet_124
+[2018.10.02-06.40.49:863][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:863][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableSet_124
+[2018.10.02-06.40.49:863][  0]LogLinker: Warning: CreateExport: Failed to load Parent for BlueprintGeneratedClass /Game/Maps/3_Movement/3_Movement_VRPawn.3_Movement_VRPawn_C
+[2018.10.02-06.40.49:863][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:863][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableSet_608
+[2018.10.02-06.40.49:863][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:863][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableSet_608
+[2018.10.02-06.40.49:863][  0]LogLinker: Warning: CreateExport: Failed to load Parent for BlueprintGeneratedClass /Game/Maps/3_Movement/3_Movement_VRPawn.3_Movement_VRPawn_C
+[2018.10.02-06.40.49:863][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:864][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableSet_607
+[2018.10.02-06.40.49:864][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:864][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableSet_607
+[2018.10.02-06.40.49:864][  0]LogLinker: Warning: CreateExport: Failed to load Parent for BlueprintGeneratedClass /Game/Maps/3_Movement/3_Movement_VRPawn.3_Movement_VRPawn_C
+[2018.10.02-06.40.49:864][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:864][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableSet_800
+[2018.10.02-06.40.49:864][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:864][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by K2Node_VariableSet_800
+[2018.10.02-06.40.49:864][  0]LogLinker: Warning: CreateExport: Failed to load Parent for BlueprintGeneratedClass /Game/Maps/3_Movement/3_Movement_VRPawn.3_Movement_VRPawn_C
+[2018.10.02-06.40.49:864][  0]LogLinker: Warning: Can't find file '/Script/RunebergVRPlugin'
+[2018.10.02-06.40.49:864][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by PackageMetaData
+[2018.10.02-06.40.49:864][  0]LogLinker: Warning: Can't find file for asset '/Script/RunebergVRPlugin' while loading NULL.
+[2018.10.02-06.40.49:864][  0]LoadErrors: Failed to load /Script/RunebergVRPlugin.RunebergVR_Pawn Referenced by PackageMetaData
+[2018.10.02-06.40.49:864][  0]LogLinker: Warning: CreateExport: Failed to load Parent for BlueprintGeneratedClass /Game/Maps/3_Movement/3_Movement_VRPawn.3_Movement_VRPawn_C
+[2018.10.02-06.42.37:299][  0]LogTexture: Display: Building textures: 1_Flyer_noTexSqr (AutoDXT, 5096X5096)
+
+Hey,
+
+Thats a lot of text ;)
+
+I have found my way through - follow the instructions from the runeberg video closely. I f#$d it up by putting stuff in the plugin dir of the engine stead of leving it only in the project. did fix some issues but is not the way to go.
+
+a second thing i did is add a c++ actor wich caused that the program started compiling the whole caboodle from scratch - wich resulted in a perfectly working package again.
+
+Now only if i can find a way to blueprint or program an intruction to set the hmd as not  worn. steamVR bug wich happens when u start the game while wearing the glasses.... I made a check to pause the game wich does not work the way it should...
+
+Hello,
+
+I moved from 4.22.1 to 4.22.2 and had some trouble getting the new Runeberg Version to work. Now I have it and I can do everything in the Editor-Preview, but the Packaging gives me problems. It is looking for files at 
+PackagingResults: Error: FBlueprintNativeCodeGenModule::GenerateSingleAsset error: /Game/RunebergVR/Assets/Blueprints/BP_Destructible_IceTower.BP_Destructible_IceTower_C
+But I never used the IceTower and so on. I allready deleted a lot of content in the project, but I need some of it. 
+
+And as you said, I was looking in the plugin-Directories and have nothing in it. Not at [project]\Plugins\ and not at \Epic Games\UE_4.22\Engine\Plugins\. Runeberg ist only at \Epic Games\UE_4.22\Engine\Plugins\Marketplace\RunebergVRPlugin\
+When I move this folder the project does not start, missing the Plugin-Files.
+
+Here is the Packaging-Log, it is really large, so I uploaded it here:
+https://zerobin.net/?2e46791ebdba9c17#oSlHgbnUvEdVaHAhnXLI0J3eIgDffuJQlfzy1xslFsk=
+
+Maybe: this is the first time I let Epic rename the project while rebuilding it for version 4.22.2. Before, it was always named "Nerik_1_2". Now the folder is called "Nerik_1_2 4.22" and the project file still "Nerik_1_2.uproject". But that was made by Epic, should be correct...
+
+Any ideas?? Best regards
+Drongo
+
+ Fix for teleporter randomly not working with multiple supported nav agents defined
+ 
+ Snap and Smooth Turn
+ Hey @1runeberg - 
+Would it be possible to get the snap and smooth turning for this plugin?
+
+Just curious.
+Hi @HeadClot ! Can you walk me through the mechanic please? Not sure what you mean :)
+
+Here is an example from Payday 2 VR and an Walk through of the feature by Cloud head games. :)
+
+https://www.youtube.com/watch?v=GYOoYGv2KBg
+
+https://www.youtube.com/watch?v=Gp0eMNSVtZA
+
+
+Hope this helps :) 
+
+ VR Pawn Gravity
+ I'm having some issues using the gravity feature built into the VRPawn.
+
+I tried getting it to work in the latest demo project and followed your latest gravity tutorial. 
+
+__Steps to Reproduce__
+1. Create a blueprint inheriting from `Runeberg VR Pawn`
+2. Go to the `Enable Gravity` property under the `VR` category. Enable.
+3. Set `CapsuleCollision`'s `Collision Presets` under the `Collision` category to `Pawn`.
+
+Am I missing something? 
+ How to rotate pawn while teleporting
+ Hi,
+
+First I must say that great plugin! I do have a question which is how can i control the rotation of the pawn while teleporting? I'm not sure if this is already a built-in feature of the plugin but I am pretty new to this so if it is, can you please show me how to "turn it on". If not, can you maybe give some advice on how can i control the rotation of the pawn while teleporting?
+
+Thanks!
+Hi! Thanks for the feedback. you can use the standard Blueprint node "Reset Orientation and Position" to do this.
+
+ FOV  not changing in VR event though it is to 110 
+ Tested it using Steam VR . With a bit of research i came to know that to change FOV Projection Matrix Values has to be modified in the SteamVRHMD.cpp Hope it helps :)
+HI THanks for the report! Yeah you're right this was a 4.19 change and we#ve been forewarned about it for a while, somehow missed it during my edits for 4.19. Will add this as a bugfix in the weekend.
+
+ Weird grip behavior
+ So i'm very new at Unreal blueprinting so this might be something stupid i'm doing but, well when I try to use the shoulder button to trigger change in visibility of a component, for whatever reason, the grip button, which is usually assigned to movement, stops working. All other inputs continue to work fine, but the grip button seems to fail, sometimes if i disable other inputs it starts working again, i'm really confused...
+
+
+So I figured out the issue, it was me being nooby and getting gaze stuck in a loop so it no longer was listening to input. Its fixed now i think
+
+ Added MaxStepHeight variable
+ When using gravity and uneven terrain, this variable determines how much Z offset the Player can step up. This is to enable stepping up stairs with a Z offset of 20, for example, but do disallow stepping up a box with a Z offset of 50, for example.
+ Wrong location at BeginPlay when using a Rift
+ In ARunebergVR_Pawn::BeginPlay() you do the following (when using a Rift):
+`this->SetActorLocation(FVector(0.f, 0.f, this->GetActorLocation().Z + 150.f));`
+That way, your PlayerStart settings get ignored and you always start at (0, 0, Z+150).
+
+Something along the lines of
+`this->SetActorLocation(this->GetActorLocation() + FVector(0.0f, 0.0f, 150.0f));`
+should fix that. I think, all you wanted to do there, is an offset, right?
+Hi Robert - Thanks for the feedback - good catch! Yes, that's indeed an oversight from my end. 
+
+I'm due to release version 2.6 this evening or the latest tomorrow morning with a couple of new features, will add this  fix in there incl. automating the origin of the HMD.
+
+Cheers,
+Rune.
+
+Hi Robert, new version (2.6) which includes this fix is already up here in GitHub... Marketplace version update to follow in a couple of days.
+
+Any further questions on this, please just let me know.
+
+Cheers and Thanks again!
+Rune.
+
+ Subclassing RunebergVR-Pawn leads to compile errors
+ When I create a new C++ Class in the UE4 Editor and select the RunebergVR_Pawn as parent, the Editor (and Visual Studio) fails to compile.
+
+Tried this via installed Plugin as well as just copying the Plugins-directory to my project.
+
+I'am using Master of the plugin and UE4 4.16.1
+
+Here are the resulting compile errors (I removed the base-path from the log):
+
+CompilerResultsLog:Error: Error REMOVED\Unreal Projects\VRTest\Plugins\RunebergVRPlugin\Source\Public\RunebergVR_Pawn.h(35) : error C2143: syntax error: missing ';' before '*'
+CompilerResultsLog:Error: Error REMOVED\Unreal Projects\VRTest\Plugins\RunebergVRPlugin\Source\Public\RunebergVR_Pawn.h(35) : error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+CompilerResultsLog:Error: Error REMOVED\Unreal Projects\VRTest\Plugins\RunebergVRPlugin\Source\Public\RunebergVR_Pawn.h(35) : error C2238: unexpected token(s) preceding ';'
+CompilerResultsLog:Error: Error REMOVED\Unreal Projects\VRTest\Plugins\RunebergVRPlugin\Source\Public\RunebergVR_Pawn.h(43) : error C2143: syntax error: missing ';' before '*'
+CompilerResultsLog:Error: Error REMOVED\Unreal Projects\VRTest\Plugins\RunebergVRPlugin\Source\Public\RunebergVR_Pawn.h(43) : error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+CompilerResultsLog:Error: Error REMOVED\Unreal Projects\VRTest\Plugins\RunebergVRPlugin\Source\Public\RunebergVR_Pawn.h(43) : error C2238: unexpected token(s) preceding ';'
+CompilerResultsLog:Error: Error REMOVED\Unreal Projects\VRTest\Plugins\RunebergVRPlugin\Source\Public\RunebergVR_Pawn.h(35) : error C2143: syntax error: missing ';' before '*'
+CompilerResultsLog:Error: Error REMOVED\Unreal Projects\VRTest\Plugins\RunebergVRPlugin\Source\Public\RunebergVR_Pawn.h(35) : error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+CompilerResultsLog:Error: Error REMOVED\Unreal Projects\VRTest\Plugins\RunebergVRPlugin\Source\Public\RunebergVR_Pawn.h(35) : error C2238: unexpected token(s) preceding ';'
+CompilerResultsLog:Error: Error REMOVED\Unreal Projects\VRTest\Plugins\RunebergVRPlugin\Source\Public\RunebergVR_Pawn.h(43) : error C2143: syntax error: missing ';' before '*'
+CompilerResultsLog:Error: Error REMOVED\Unreal Projects\VRTest\Plugins\RunebergVRPlugin\Source\Public\RunebergVR_Pawn.h(43) : error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+CompilerResultsLog:Error: Error REMOVED\Unreal Projects\VRTest\Plugins\RunebergVRPlugin\Source\Public\RunebergVR_Pawn.h(43) : error C2238: unexpected token(s) preceding ';'
+HI Marc - Have you tried removing your Binaries, Intermediate and Build folders both in your project AND under Plugins\RunebergVRPlugin\ ?
+
+I've tried replicating the issue but I'm unable to from my end using 4.16.1 & VS2015
+
+
+
+I did that but can't open the project in UE4 anymore, as it fails to build the project code. Building in VS2015 also fails with the previously posted compile errors.
+
+Maybe I'am missing something? Or the way I extend the VR pawn is wrong (default CTOR)? I'am new to both C++ and UE4...
+
+Packaged the project and will attach it to this comment.
+
+[VRTest.zip](https://github.com/1runeberg/RunebergVRPlugin/files/1098345/VRTest.zip)
+
+
+Hi Marc,
+
+Thanks for the files. Some component dependencies seem to break when you subclass it so I've added explicit includes as a safety in RunebergVR_Pawn.h to help correct, you can download the latest copy with the hotfix here in GitHub or add the following lines in RunebergVR_Pawn.h:
+
+`...`
+`#include "Components/CapsuleComponent.h"`
+`#include "Camera/CameraComponent.h"`
+`...`
+
+Let me know if you continue to have issues with this.
+
+
+
+
+Thanks, this fixed it for me.
+
+ Teleport issue ?
+ Hi again Rune,
+
+Ran into another issue, I don't know if I'm doing it wrong or if if the plugin doesn't consider that...
+
+So it's about teleporting depending on the room surface on HTC Vive. Let's say I set up my playground to a large 3m*3m room, and the VR game I'm in represents a small museum room. Then let's say I get physically to the angle of my 3m*3m room, then want to teleport next to one of the walls of the game...the "teleport now" considering I'm not at the center of my room will make me teleport not at the place I pointed at with my controller, but with a shift, so I'll possibly get behind the wall, or out of the navigation bounds...
+I don't know if my explanations are clear ?
+
+So do I need to manually recalculate the teleport point due to the shift, or is there already an option to avoid that ? And if I have to manually recalculate the teleport point, how could I get to it using the "teleport now" function as it doesn't take any parameters ?
+
+(just a final question, when I attach a Runeberg_Teleporter to one of the motion controllers, and setting a teleport target mesh to it (let's say a cylinder to mark the teleport location), as it is attached, the cylinder will rotate the same way the motion controller rotates...so that's details, but dunno if that's an option you could add for the next versions ? again...maybe I'm doing it wrong, please tell me if I do)
+
+And thanks again for your time answering my questions ! Hope it doesn't bother you...
+Hi Jay!
+
+I'm not sure I understood your first question sorry - can you write me an email (ue-marketplace-support {at} runeberg {dot} io) with screenshots of the problem? The NavMeshBounds should take care of all the valid positions you have in your level, so you shouldnt need any additional offsets although the component does provide this feature too.
+
+Regarding the marker rotation - yes, you are right, it's set to rotate to face the player -- will expose a custom rotation on the next update then :)
+
+Cheers,
+Rune
+
+HI Jay!
+
+Thanks for the email and bug report. I've now fixed that Teleport Offset issue you described and you can now also do custom rotations of the target mesh including allowing hte pawn to follow this rotation after teleport.
+
+It's currently in v2.4 here in GitHub and should be up in the UE4 Marketplace in a couple of days.
+
+Thanks Rune :) 
+Looking forward to see the next versions and features !
+
+More fixes in Update 3.0
+
+ Menu for VR
+ Hi there Rune,
+
+Already said it to you in a previous mail, great work, thanks for making VR easier to use :) !
+(studying Unreal and blueprints quite hard these months, but still pretty new with some mechanisms, so pardon me if some issues may be unclear or due to my lack of knowledge.)
+
+I'm trying to build just a classic pause menu for VR, using UMG tools in Unreal. I searched for tutorials, but found nothing that helped me clearly...I managed to build a UMG menu I displayed permanently on screen, and that is motion-controller-clickable, so that's quite good.
+Problem is I want to display this menu just in front of the player, whenever he pushes a button (and if that's possible, putting a low opacity color to hide what's on screen). I can't find a way to display it right in front of where the player first pushed and where he was looking at...I tried to get the world location and rotation of the camera, but still didn't change a thing, the menu keeps displaying at the same place and rotation no matter what.
+Another issue I had is how to display the UMG menu (currently a blueprint containing a Widget) in front of the world geometry...as the world remains active when I try to display the menu, some parts of the world (objects, walls, etc) can hide the menu too...
+Hope my questions were clear enough :/
+
+Any ideas, suggestions, or links to tutorials are welcome, thanks :)
+Hi Jay!
+
+Thanks, glad you found it useful.
+
+If you're using the plugin's VR Pawn, the camera location and rotation should be correct, depending on how your menu system is setup, the actor may need to be rotated to face the player using the "Find Look At Rotation" blueprint node. Or you can of course use the HMD function (orientation and position if positional tracking is available in the user's device): (https://docs.unrealengine.com/latest/INT/Platforms/VR/ContentSetup/#headmounteddisplayblueprintnodes)
+
+I'm not sure it's a good idea to "blur" the scene in a VR game, check out the following Oculus best practice guideline (look at the User Interface section for some tips on how to implement a good VR UI which should avoid some of the pitfalls you are currently facing):
+https://static.oculus.com/documentation/pdfs/intro-vr/latest/bp.pdf
+
+Hope that helps.
+
+Thanks :) Menu is displayed at the right location and right orientation now, getting the rotation of the camera and a few adjustements was enough for that :)
+
+Didn't know about these guidelines, I'll have an eye on these, thanks again :)
+
+ Throttle and Point Direction on Opposite Hands
+ Hello, first of all thanks for the plugin! It's wonderful!! I was playing around with it and I can't seem to make it so that the throttle and the direction selection are on the same hand. Currently I throttle with the left and aim with the right, which is confusing and also makes it so I can't really use the right hand. 
+
+Similarly, is there any way to make it so the movement speed/forward direction is dependent on the players finger position relative to the middle of the trackpad? (Trying to replicate the motion system from Onward, essentially.)
+
+Thanks again!!
+Hi ttrockiryba! Thanks for the feedback. Doing some major refactoring this coming Easter holidays so will add these to the list.
+
+For the movement direction via touch on the trackpad, you can use the node "Motion Controller (L)/(R) Thumbstick Y" and read its value (-1 to 1, 0 being the middle/no touch detected), you can then use the value from this node multiplied by some constant and plug that in for speed. You can enable movement as long as this value is not 0, disable otherwise. Does that help?
+
+Cheers,
+Rune.
+
+hi, amazing plugin. thanks so much. how hard would it be for you to implement a iron man style thrusters system built into the hands/motion controllers. if it were reasonable accurate you could control your flight in very subtle ways like that. 
+O
+
+@ttrockiryba - this has beein implemeted (Enable360Movement) a couple of versions back, so am now closing this issue :) Any questions, please jsut let me know.
+
+@owenglobal - Thanks for the feedback! This should already be possible since v1 of the plugin :) Have a look at this tutorial:
+
+https://www.youtube.com/watch?v=MfXD91JnPj0
+
+You can use the trigger axis or any axis input to granularly  control speed if you need to. The Demo projec, VR Movement Map actually shows how this can be done. Hope that helps!
+
+
+
+ 4.15 update
+ Hello!
+Is there any chance that the RunebergVRPlugin will be updated to 4.15?
+
+Juan
+I don't really know, I'm only watching this repo, but I don't think it will
+be difficult to do, and the plugin on the asset store is from this repo.
+They update it pretty regularly.
+
+On Fri, Feb 24, 2017 at 9:23 AM, Juan Gauthier <notifications@github.com>
+wrote:
+
+> Hello!
+> Is there any chance that the RunebergVRPlugin will be updated to 4.15?
+>
+> Juan
+>
+> —
+> You are receiving this because you are subscribed to this thread.
+> Reply to this email directly, view it on GitHub
+> <https://github.com/1runeberg/RunebergVRPlugin/issues/6>, or mute the
+> thread
+> <https://github.com/notifications/unsubscribe-auth/AIJoYnwrjXNgHOtITrf9w6XetpN8yfNaks5rfpNwgaJpZM4MK8Lo>
+> .
+>
+
+
+hi guys... sorry, got busy at work -- will be updating this either tonight or tomorrow. Here in GitHub first then submitting to Epic for review/publication of the update in the Marketplace.
+
+Updated to 4.15 - please let me know if you have any issues with the new version. Marketplace update submitted to Epic for review, should be up there soon!
+
+ Getting rid of the warnings
+ Here you go :)
+This is about the two function updates mentioned earlier;
+GrabComponent -> GrabComponentAtLocationWithRotation
+AttachTo -> AttachToComponent
+where the difference between this and last prq is the WithRotation bit (and related FRotator argument) on the first replaced function, that went missing before last prq because im an idiot :P
+The merge conflict seems to be about the double function replace, not sure how to set up on my end so that i can merge your master into mine and save you the effort of resolving the merge conflict :( it should be straightforward though
+
+
+Hi – Normally you’d update your version first with what’s on master then do your revisions. I’ll do a test and resolve, hopefully by Wed or at the latest Friday as I’m doing some commissioned VR project work at the moment.
+
+Cheers,
+Rune.
+
+From: suicidalbanana [mailto:notifications@github.com]
+Sent: Sunday, November 20, 2016 4:41 PM
+To: 1runeberg/RunebergVRPlugin RunebergVRPlugin@noreply.github.com
+Subject: Re: [1runeberg/RunebergVRPlugin] Getting rid of the warnings (#5)
+
+The merge conflict seems to be about the double function replace, not sure how to set up on my end so that i can merge your master into mine and save you the effort of resolving the merge conflict :( it should be straightforward though
+
+—
+You are receiving this because you are subscribed to this thread.
+Reply to this email directly, view it on GitHubhttps://github.com/1runeberg/RunebergVRPlugin/pull/5#issuecomment-261785422, or mute the threadhttps://github.com/notifications/unsubscribe-auth/AQkQ1yxk1z0qv8y7WmfYiKoTm7O-jQT3ks5rAGnygaJpZM4K3kS6.
+
+
+Heya,
+
+Yeah, honestly thats what im used to doing (workin with git for years, just never on github) but im not at all used to working on a fork, ill have a look around if i can find how to merge the master of yours into mine (currentlly thinking maybe i can add your repo as a diff remote?) if i find it i will close this prq and make a new one :)
+
+_edit:_ (dont actually need a new one ofc, see below)
+
+Yup that was it, sorry for not just trying this myself earlier, it can be merged now.
+
+The conflict is what i suspected, git got confused about what arguments to keep for the 'GrabComponentAtLocationWithRotation' call on line 136 of RunebergVR_Grabber.cpp
+
+Tested and Merged! thanks for your contrib :)
+
+Happy to help :)
+
+ 4.14 support
+ Just a quick commit to save you a couple of minutes, making the RunebergVRPlugin play nice with 4.14 :)
+
+Ive removed a bunch of _bWantsBeginPlay_ references since apparently thats deprecated, changed a reference too _GrabComponent_ into _**GrabComponentAtLocation**_ and an _AttachTo_ into _**AttachToComponent**_ (both obviously taking into account the argument changes)
+
+Also posted in the thread :)
+Cool. Thanks!
+
+I’ll test the changes out this weekend and merge.
+
+Cheers,
+Rune.
+
+From: suicidalbanana [mailto:notifications@github.com]
+Sent: Friday, November 18, 2016 12:08 AM
+To: 1runeberg/RunebergVRPlugin RunebergVRPlugin@noreply.github.com
+Subject: [1runeberg/RunebergVRPlugin] 4.14 support (#4)
+
+Just a quick commit to save you a couple of minutes, making the RunebergVRPlugin play nice with 4.14 :)
+
+Ive removed a bunch of bWantsBeginPlay references since apparently thats deprecated, changed a reference too GrabComponent into GrabComponentAtLocation and an AttachTo into AttachToComponent (both obviously taking into account the argument changes)
+
+Also posted in the thread :)
+
+---
+
+You can view, comment on, or merge this pull request online at:
+
+  https://github.com/1runeberg/RunebergVRPlugin/pull/4
+
+Commit Summary
+-   Plays nice with 4.14 now
+-   Updated README.md to say 4.14 is supported
+
+File Changes
+-   M Plugins/RunebergVRPlugin/RunebergVRPlugin.upluginhttps://github.com/1runeberg/RunebergVRPlugin/pull/4/files#diff-0 (2)
+-   M Plugins/RunebergVRPlugin/Source/Private/RunebergVR_Grabber.cpphttps://github.com/1runeberg/RunebergVRPlugin/pull/4/files#diff-1 (8)
+-   M Plugins/RunebergVRPlugin/Source/Private/RunebergVR_Movement.cpphttps://github.com/1runeberg/RunebergVRPlugin/pull/4/files#diff-2 (1)
+-   M Plugins/RunebergVRPlugin/Source/Private/RunebergVR_SimpleGrabber.cpphttps://github.com/1runeberg/RunebergVRPlugin/pull/4/files#diff-3 (1)
+-   M Plugins/RunebergVRPlugin/Source/Private/RunebergVR_Teleporter.cpphttps://github.com/1runeberg/RunebergVRPlugin/pull/4/files#diff-4 (3)
+-   M README.mdhttps://github.com/1runeberg/RunebergVRPlugin/pull/4/files#diff-5 (2)
+-   M RunebergVR.uprojecthttps://github.com/1runeberg/RunebergVRPlugin/pull/4/files#diff-6 (2)
+
+Patch Links:
+-   https://github.com/1runeberg/RunebergVRPlugin/pull/4.patch
+-   https://github.com/1runeberg/RunebergVRPlugin/pull/4.diff
+
+—
+You are receiving this because you are subscribed to this thread.
+Reply to this email directly, view it on GitHubhttps://github.com/1runeberg/RunebergVRPlugin/pull/4, or mute the threadhttps://github.com/notifications/unsubscribe-auth/AQkQ1wVEdqWfSsDxe7iwpU4Vwtx0h4Byks5q_N5pgaJpZM4K17UI.
+
+
+Heya,
+Cool, my pleasure 👍 
+I tested it with your provided example project btw, seemed to be 1on1 with the 4.13 version :) (but yea, prolly good if u check aswell)
+
+I've also posted a question in the related thread on ue forum btw :)
+
+
+HI! Thanks again for your efforts on this, really appreciate it.
+
+However for this particular pull request, I had to reject it due to rotation issues with the Grabber component. The grabbed actor's rotation needed to be constrained so they don't spin whilst grabbed.
+
+Sorry, but I do look forward to your future contribs! Cheers.
+
+
+Heya,
+Ah thats one thing i didn't properly test then, my mistake!
+
+I see you've made a commit yourself, that actually works, so thanks for that hehe.
+
+I've been working on an 'advanced grabber' (basically rolling your normal and simple grabber into one, and adding more options like grabbing things with 2 hands, 'grab zones' etc) that i'll prolly make a prq for somewhere over the next week, provided i can get it working right ofc.
+
+Either way, thanks for taking the time to look at my 4.14 implementation, and then doing a better one :P much appreciated, will try make and share some cool additions over the next few weeks as i start building my project around it :)
+
+Again, thanks for & keep up the great work :D
+
+
+If you want, i've found and resolved the issue (was result of me testing things and forgetting to roll that back before prq, im an idiot lol) and can do a new prq, it will get rid of all the warnings about 'outdated' functions
+
+
+Hmmmm didnt notice those warnings. Yeah sure, of course feel free to make another pull request.
+
+Thanks,
+Rune.
+
+On 20 Nov 2016 15:50, suicidalbanana notifications@github.com wrote:
+
+If you want, i've found and resolved the issue (was result of me testing things and forgetting to roll that back before prq, im an idiot lol) and can do a new prq, it will get rid of all the warnings about 'outdated' functions
+
+—
+You are receiving this because you modified the open/close state.
+Reply to this email directly, view it on GitHubhttps://github.com/1runeberg/RunebergVRPlugin/pull/4#issuecomment-261782662, or mute the threadhttps://github.com/notifications/unsubscribe-auth/AQkQ14s20yZIqhMrYq57P9krxyzqRms5ks5rAF40gaJpZM4K17UI.
+
+
+Re: advanced grabber
+
+Sounds good. I look forward to it.
+
+Cheers,
+Rune.
+
+On 20 Nov 2016 14:12, suicidalbanana notifications@github.com wrote:
+
+Heya,
+Ah thats one thing i didn't properly test then, my mistake!
+
+I see you've made a commit yourself, that actually works, so thanks for that hehe.
+
+I've been working on an 'advanced grabber' (basically rolling your normal and simple grabber into one, and adding more options like grabbing things with 2 hands, 'grab zones' etc) that i'll prolly make a prq for somewhere over the next week, provided i can get it working right ofc.
+
+Either way, thanks for taking the time to look at my 4.14 implementation, and then doing a better one :P much appreciated, will try make and share some cool additions over the next few weeks as i start building my project around it :)
+
+Again, thanks for & keep up the great work :D
+
+—
+You are receiving this because you modified the open/close state.
+Reply to this email directly, view it on GitHubhttps://github.com/1runeberg/RunebergVRPlugin/pull/4#issuecomment-261777614, or mute the threadhttps://github.com/notifications/unsubscribe-auth/AQkQ10SUjGcIfGwjeU5mURaqgyYbL8HLks5rAEdJgaJpZM4K17UI.
+
+
+ destructible object idtype
+ hello!
+great work as usual with the latest update! 
+another question:
+
+if i want to pickup a destructible object, am i wrong to assume that i can do the same way as with the physical object to be able to grag them but add another grab function but set the object type id for destructibles so i can grab them but when released the fall appart in chunks? in that case, which id corresponds for the destructibles?
+Hi Juan! 
+
+Are you referring to the new simplegrabber component? with the simoplegrabber, by default, anything that has collision set to physics actor and has generate overlap events toggled will be "grabbable".
+
+you only need an object type/collission channel if you want to be more "selective" of which actors in your scene can be grabbed.  As long as you toggle "Enable Physics" in the "Release" function your destructibles should also work as normal.
+
+let me know if that helps or if I misunderstood your question.
+
+
+Configurable object types now avaliable in Update 3.0
+
+ Great work!
+ Hello!
+Great work on the plugin!! got it running in minutes.
+One question though...
+Is it possible to change the way the grabbing of objects works?
+Right now when i grab an object it somehow "snaps" into the vivemesh pivot location, and i wonder if its possible to make the grabbed object to attach where i pointed with the controller?
+Example: if i grab a chair by the leg i would lift it holding the leg.
+
+Thanx in advance!
+Juan
+
+Hi Juan! Thanks... Yeah , good idea - will add that in the next release hopefully in a week or so... it will come up here in github first. The UE4 marketplace version a week or so later after that as the modifs go through Epic code checks. Cheers.
+
+
+Hi Juan!
+
+I've made a new component to this plugin - "SimpleGrabber", this is separate from the original (ranged) "Grabber" component and can do precision grabs.
+
+Will make a couple of vids to explain this new SimpleGrabber component and new stuff in the original Grabber.
+
+Enjoy!
+
+
+ Couldn't compile
+ HI
+i have a problem with this .After generated file with Visual Studio2015,and rebuild ,It apear this message "Could not be compiled. try rebuilding from source manually"
+
+could you tell me how to fix this problem?
+
+Hi hyubrad - It may be you're using 4.12 (or something older than 4.11?), I havent had the chance to upload the upgraded version yet as I'm travelling and my main workstation is at home where I do my VR stuff.
+
+Try right clicking on the uproject and upgrading it to 4.12, it should work without any issues.
+
+Failing that, delete the Intermediate, Binary and Saved directories and double click the uproject file and say Yes to the error message that pops up for the dll rebuild.
+
+Let me know if you still have any issues.
+
+Cheers.
+
+
+Hi!
+
+I get the same issue. I did the instructions you give, and yet, i get the following message:
+
+Running C:/Program Files (x86)/Epic Games/4.12/Engine/Binaries/DotNET/UnrealBuildTool.exe  -projectfiles -project="C:/Users/VIRTUALRENDER/Desktop/UE4 TEMPLATES/RunebergVRPlugin-master/RunebergVR.uproject" -game -rocket -progress
+Visual C++ 2015 toolchain does not appear to be correctly installed. Please verify that "Common Tools for Visual C++ 2015" was selected when installing Visual Studio 2015.
+Discovering modules, targets and source code for project...
+UnrealBuildTool Exception: ERROR: Visual Studio 2015 must be installed in order to build this target.
+
+Can you help me with this issue? I really apreciate it!
+
+Thanks
+
+
+Hi JorgeMarz - Do you have Visual Studio 2015 installed with the all the Visual C++ components?
+
+If not I'll upload a binary (pre-compiled) version.
+
+
+No i don't :(
+
+I'm an early stage enthusiast of the UE4, needless to say, my knowledge with this excellent software is nearly none u_u So, if you can upload a more simple HTC Vive template, i will thank you a lot! 
+
+My intend is to build something like a room, with furniture and realistic lighting, so i can interact with.
+
+Thanks!
+
+
+oh if u want to use the project as a vr template and also to learn with, it's best to install Visual Studio 2015 (Community edition is free) and select all the C++ modules in your PC during the install wizard. You don't need to use C++ or edit any code, UE just needs it to compile the plugin and the engine. 
+
+You can use the plugin to interact with the furniture you import using the motion controllers (grab, push, pull) -- just add a "Physics Handle" component to them and make sure that "Physics enabled" is ticked in the static mesh/furniture you want to make "grabbable".
+
+hopefully I get to post a couple more video tutorials next week, time permitting.
+
+
+Perfect! i Will
+
+Thank you for your help :)
+
+

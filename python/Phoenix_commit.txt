@@ -1,0 +1,46 @@
+﻿ Fix comment text in code snippet
+ wx.Clipboard.Flush now asserts on OSX instead of just returning False
+ Merge pull request #1643 from Metallicow/fix-STC-StartStyling-demo
+
+Fix STC StartStyling Demo
+ Merge pull request #1638 from efahl/patch-1
+
+Eliminate deprecation warning
+ Merge branch 'topic2t push origin masterk-ulc_add_orientation_to_GetSrollPos'
+ Add changelog entry
+ Merge branch 'ulc_add_orientation_to_GetSrollPos' of https://github.com/topic2k/Phoenix into topic2k-ulc_add_orientation_to_GetSrollPos
+ Merge pull request #1631 from topic2k/ulc_get_checked_item_count
+
+[ULC] add method GetCheckedItemCount
+ Merge branch 'topic2k-ulc_add_col-idx_to_event'
+ Add changelog item
+ Merge branch 'ulc_add_col-idx_to_event' of https://github.com/topic2k/Phoenix into topic2k-ulc_add_col-idx_to_event
+ Merge pull request #1629 from topic2k/ulc_fix_GetLineLabelRect
+
+[ULC] fix calculation of line width
+ Merge pull request #1627 from jmoraleda/issue_1364
+
+Fix issue #1364
+ Merge branch 'topic2k-ulc_no_drag'
+ Add changelog entry
+ Merge branch 'ulc_no_drag' of https://github.com/topic2k/Phoenix into topic2k-ulc_no_drag
+ Merge pull request #1608 from jmoraleda/dvc_sample_remove_gtk_exception
+
+Remove GTK exceptional handling in DVC Custom Renderer sample
+ Fix STC StartStyling Demo
+
+Update indicator stuff to work with wxPy4.0 and 4.1 with scintilla version change
+ add method GetCheckedItemCount
+
+Added a method to get the number of checked items.
+ typo fix
+ Remove demo/version.py, it's a generated file.
+ Stub out MSWSetTabStops for now
+ Remove now unneeded tweak for the wxFontInfo ctor
+ Add changelog entry for the DVC HasValue change
+ Update sample to to show DataViewModel.HasValue usage
+ AllowNone for wxDVCVariant, like wxVariant
+ Log the wx.DragResult names rather than just the integer value
+ Make some columns editable
+ i_wxPyMakeBuffer needs to acquire the GIL
+ handle an OSError exception

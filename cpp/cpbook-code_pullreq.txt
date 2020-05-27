@@ -1,0 +1,75 @@
+﻿ Use better math functions
+ Use `lround`, `log2` in c++11, `Math.round` in java and `round`, `math.log2` in python3. Note that `round` in python3 returns `int`(instead of `float`as in python2).
+ Use std::swap
+ 
+ Replace random_shuffle with shuffle
+ `random_shuffle` is deprecated in c++14 and removed in c++17 (https://en.cppreference.com/w/cpp/algorithm/random_shuffle). `shuffle` is added in c++11 to provide the same functionality.
+
+If random seed is desired, replace `default_random_engine()` with `default_random_engine(random_device()())`.
+ Update UVa10181.cpp
+ There are a few codes that I didn't translate to OCaml last year because I want to fix the C++ version first. This is one of them.
+ Introduce `@lru_cache` to UVa10130.py
+ ![Screenshot 2020-02-10 at 1 32 27 AM](https://user-images.githubusercontent.com/10240857/74106855-3a6b0280-4ba5-11ea-9025-fd5b51e29d90.png)
+
+It's faster than the previous implementation, cleaner code overall.
+ Fix UVa10130.py
+ increase recursion limit
+no more runtime error
+😁
+ Fenwick Tree Correction
+ In cpbook-code/ch2/ourown/fenwicktree_ds.py line 16, I changed the second j to an i.
+ algorithm1
+ continue step by step
+ Add python suffix array
+ This PR contains a Python 3 implementation of suffix array and some utility functions. The suffix array construction was translated from https://cp-algorithms.com/string/suffix-array.html.
+
+I have tested the code by using it to AC [dvaput](https://open.kattis.com/problems/dvaput) and [stringmultimatching](https://open.kattis.com/problems/stringmultimatching). As Python 3 is too slow, I had to submit as Python 2 (with minor changes).
+ Fix pointsToLine
+ In my computer, the original code seems to not work -- fixed it by abstracting `a` first.
+ Add Python code for ch6
+ Add Python code for ch6 (by Zhi Jian)
+ Add Python solution for UVa11060.py and fix UVa11060.cpp
+ Add UVa11060.py and fix incorrect C++ solution for the same problem (by Zhi Jian)
+ Add Python code for MCBM and Max Flow
+ Add Python code for MCBM and Max Flow in ch4 (by Zhi Jian).
+Marked as draft PR for now, the Max Flow code requires more testing.
+ Add maxflow vertex capacities
+ Sample graph used for demonstration:
+
+![image](https://user-images.githubusercontent.com/35740636/54087469-003e2300-438e-11e9-8181-63db426964db.png)
+
+ Add more Python code for ch4
+ Add more Python code for ch4 (Zhi Jian)
+ Add more Python code for ch4
+ Add more Python code for ch4 (by Zhi Jian)
+ Add Python code for ch4
+ Added Python code for UVa10004, UVa10986, Dijkstra and Floyd Warshall (by Zhi Jian).
+ Add Python solutions for ch5
+ Add Python solutions for UVa00350, UVa01230, UVa10814 (by Zhi Jian)
+ Fix include bits/stdc++.h header for UVa11065
+ 
+ Add UVa11450_bu.py
+ Added UVa11450_bu.py (by Zhi Jian).
+ Add ch3/UVa00725.py and ch3/UVa11450.py
+ Added Python solutions for UVa 00725 and UVa 11450 from ch3 (by Zhi Jian).
+ Add 8 Queens Chess Problem Python solution
+ 
+ Add python code for UVa10943
+ Convert to python code for UVa10943
+
+ Add python code that AC UVa11742 and UVa12455
+ Convert two files to python
+ Translate some code to python
+ 
+ Add alternative solution for UVa11212 with single queue implementation
+ 
+ Add python code that AC UVa00441 && UVa00725
+ 
+ Added bit manipulation and list for Python
+ Added ch2/bit_manipulation.py and ch2/vector_arraylist.py (by Zhi Jian).
+ Add AC solution in .py in UVA00108 and UVA00674
+ For the input, I built a class to make it easier.
+It used sys.stdin to read from stdin
+ Add AC solution in .py in UVA00108 and UVA00674
+ For the input, I built a class to make it easier.
+It used sys.stdin to read from stdin

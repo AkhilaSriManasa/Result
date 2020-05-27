@@ -1,0 +1,132 @@
+﻿ Only check for ApplVerID on logon and app messages (#261)
+
+* Only check for AppVerID on logon and app messages
+ Only check for ApplVerID on logon and app messages (#261)
+
+* Only check for AppVerID on logon and app messages
+ Fix variable interpolation with custom properties for SessionID (#259)
+
+* Add new constructors for SessionSettings
+* Add test for SessionSettings with custom variableValues and loading from file
+* Fix method visibility
+* Stylistic refactoring after code-review
+ QFJ-375 - configurable timeout multiplier (#288)
+ Add custom tags to Logon message. (#285)
+
+Adds possibility to specify tags via setting `LogonTag` or `LogonTag<n>`.
+
+Example:
+```
+LogonTag=553=user
+LogonTag1=554=password 
+```
+
+It is checked whether a data dictionary is present to determine whether the specified tag is a header field. Otherwise it is put into the body of the message.
+ Add custom tags to Logon message. (#285)
+
+Adds possibility to specify tags via setting `LogonTag` or `LogonTag<n>`.
+
+Example:
+```
+LogonTag=553=user
+LogonTag1=554=password 
+```
+
+It is checked whether a data dictionary is present to determine whether the specified tag is a header field. Otherwise it is put into the body of the message.
+ Add method to DataDictionary to get a value for a given enum value name (#280)
+
+- this is useful for mapping from/to the XML representation obtained
+from Message.toXML()
+ - since the DataDictionary is kind of a memory hog we do not store the
+values in yet another HashMap but iterate over the entries on each call
+to getValue(int, String)
+  - it is up to the user's application to cache the return values if desired
+ added supported FIX versions
+ Create SECURITY.md
+ updated link to Java Cryptography Architecture Oracle Providers
+ Add optional TLS SNI initiator support (#277)
+
+* add address to SNI init log output
+* add UseSNI opt-in parameter
+* add doc for the UseSNI config parameter
+* change to parametrized logging
+* minor changes to comments and logging
+* corrected SNI (indication) in doc
+
+Co-authored-by: Christoph John <christoph.john@macd.com>
+ Removed unit test that was obsoleted by PR #242 (#278)
+ added tag for Stack Overflow
+ added tag for Stack Overflow
+ added link to Stack Overflow
+ added link to Stack Overflow
+ QFJ-905 - adding support for MULTIPLECHARVALUE (#264)
+
+* QFJ-905 - adding support for MULTIPLECHARVALUE
+* QFJ-905 changed wildcard imports to single class imports
+* QFJ-905 added non whitespace character matching
+ fix: upgrade jaxen:jaxen from 1.1.6 to 1.2.0 (#275)
+
+Snyk has created this PR to upgrade jaxen:jaxen from 1.1.6 to 1.2.0.
+
+See this package in NPM:
+https://www.npmjs.com/package/jaxen:jaxen
+
+See this project in Snyk:
+https://app.snyk.io/org/quickfix-j/project/9e149855-1327-42e5-88ef-9c50fd6c3092?utm_source=github&utm_medium=upgrade-pr
+ fix: upgrade org.apache.maven:maven-plugin-api from 3.5.0 to 3.6.3 (#274)
+
+Snyk has created this PR to upgrade org.apache.maven:maven-plugin-api from 3.5.0 to 3.6.3.
+
+See this package in NPM:
+https://www.npmjs.com/package/org.apache.maven:maven-plugin-api
+
+See this project in Snyk:
+https://app.snyk.io/org/quickfix-j/project/50fe797e-f509-4fbc-8918-986f7f344a52?utm_source=github&utm_medium=upgrade-pr
+ fix: upgrade org.slf4j:slf4j-api from 1.7.25 to 1.7.30 (#272)
+
+Snyk has created this PR to upgrade org.slf4j:slf4j-api from 1.7.25 to 1.7.30.
+
+See this package in NPM:
+https://www.npmjs.com/package/org.slf4j:slf4j-api
+
+See this project in Snyk:
+https://app.snyk.io/org/quickfix-j/project/a2ba7698-887e-4fdb-b1ae-1da9d52abae3?utm_source=github&utm_medium=upgrade-pr
+ changed link to Travis build
+ removed unnecessary null check (#265)
+ QFJ-951 - test case covering JIRA description (#266)
+ fix LGTM errors and one typo (#257)
+
+* closed input streams where applicable
+* use try-with-resources in SessionSettings
+* removed boolean `firstFieldFound` which could be replaced by `group!=null` check
+* slightly refactored parseGroup in case of `group==null`
+ Bump dom4j from 2.1.0 to 2.1.1 in /quickfixj-dictgenerator (#239)
+
+Bumps [dom4j](https://github.com/dom4j/dom4j) from 2.1.0 to 2.1.1.
+- [Release notes](https://github.com/dom4j/dom4j/releases)
+- [Commits](https://github.com/dom4j/dom4j/compare/version-2.1.0...version-2.1.1)
+
+Signed-off-by: dependabot[bot] <support@github.com>
+ added LGTM badges
+ Notes on reporting security issues. (#253)
+
+* Notes on reporting security issues.
+* Fix heading level
+* added some missing slashes
+:)
+
+Co-authored-by: Christoph John <christoph.john@macd.com>
+ Create config.yml
+
+added link to mailing list
+ Calculating orderedFieldsArray eagerly to avoid concurrency problems (QFJ-971) (#241)
+
+* #240 Calculating orderedFieldsArray eagerly to avoid races when dictionary is shared between multiple sessions
+* Added unit test to verify race condition is fixed.
+* Added missing constructor to PausableThreadPoolExecutor.
+Co-authored-by: Christoph John <christoph.john@macd.com>
+ Persistance is done before sending and will fail if message cannot be stored or sequence number cannot be incremented. (#242)
+
+This applies a fix from quickfix's main repository https://github.com/quickfix/quickfix/commit/5fb3d4ffc44775295d5525fb30335d57e869f27e.
+ Update example code to Java (#246)
+ Set theme jekyll-theme-minimal

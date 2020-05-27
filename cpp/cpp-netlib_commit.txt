@@ -1,0 +1,91 @@
+﻿ Directives: remove parens to silence gcc8 warning (#844)
+ Update submodule for URI to use C++11 features
+ fix client_get_streaming_test (#840)
+
+* fix client_get_streaming_test
+
+* perform client_get_streaming_test only if SSL is enabled
+
+* test for BOOST_NETWORK_ENABLE_HTTPS for https streaming test
+ cherry-pick: updating breathe because their history has been rewritten (#847)
+ bugfix: libs: Update 'breathe' submodule pointer (#846)
+
+This project recently had its history rewritten, and the SHA we referred
+to no longer exists.
+
+See discussion here:
+https://github.com/cpp-netlib/cpp-netlib/pull/582
+ Enable remove_chunk_markers by default. Fix a bug and add a comment.
+ Updated uri submodule to pick up GCC 6+ fixes.
+ Update README.rst
+ Update README.rst
+ Update README.rst
+ Update RATIONALE.txt
+ Make compatible with boost::chrono
+
+(this fixes two more places that 702dd54353c missed)
+ Make compatible with boost::chrono
+
+In Visual Studio 2013 the std::chrono implementation is quite
+buggy. Therefore we fall back to boost::chrono by
+specifying -DBOOST_ASIO_DISABLE_STD_CHRONO. This change
+makes cppnetlib compatible with that flag.
+ Work around ambiguous true_type
+
+Visual Studio 2017 cannot decide if it is
+
+  boost::integral_constant<bool,true> boost::true_type
+
+or
+
+  boost::spirit::true_type
+ ICC fixes (#4) (#737)
+ Fix compilation errors with VS2015 (#762)
+ fix http client timeout (#763)
+ fix http client body content (#760)
+ Fix exception propaation for client errors (#754)
+
+We change the cross-thread exception propagation given the asynchronous
+client implementation. The previous implementation caused
+double-wrapping of exceptions which works with the
+std::shared_future<...> implementation, but not with
+boost::shared_future<...> -- since Boost.Thread still uses
+Boost.Exception for the APIs.
+
+While we're here we make the exception propagation more explicit using
+boost::rethrow_exception(...), so we can unwrap the exception that's
+transported via an exception_ptr.
+
+Fixes #749.
+ content_length type was std::size_t and was changed to long long in (#753)
+
+commit f8ff77d3ee795c32c51b904583e1b04a8b7a071e. It is also initialized to
+-1 in parse_headers_real(...).
+
+Signed-off-by: Edward Kigwana <ekigwana@gmail.com>
+ Use EXPECT_FALSE instead of EXPECT_EQ(false, X) (#752)
+
+This fixes the failures we're finding from the CI builds. We also take the opportunity to improve the build system, to use ccache if it's available, and also to simplify the travis config. Now that we can just test with Boost 1.55 in the meantime, let's set the appropriate flags that will make the clang build/support work.
+ Use boost-1.55 from boost-latest ppa (#751)
+
+* Use boost-1.55 from boost-latest ppa
+
+* squash: use correct boost package
+ Merge pull request #746 from igorpeshansky/boost-1.55
+
+Make this work with Boost 1.55.
+ Make this work with Boost 1.55.
+ Merge pull request #720 from umennel/master-integration
+
+Introduced new chunked transfer encoding parser to remove chunk markers
+ Nicer formatting and clean ups
+ Merge pull request #734 from tribal-tec/master
+
+Expose OS-chosen address and port from async_server
+ Expose OS-chosen address and port from async_server
+ Merge pull request #724 from anonimal/static-dependencies
+
+Build: allow options to use Boost + OpenSSL static libs
+ Build: allow options to use Boost + OpenSSL static libs
+
+cherry-pick'd from 0.13-release

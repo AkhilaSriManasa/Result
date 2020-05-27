@@ -1,0 +1,26 @@
+﻿ Fix link to Kafka Streams API Docs
+ 
+ Static bug #12 fix for Kafka_Streams_TensorFlow_Image_Recognition_Example.java
+ Static bug #12 fix for Kafka_Streams_TensorFlow_Image_Recognition_Example.java
+
+H2O module was already fixed with PR #13 
+
+Those IntegrationTest contains still these prolems, but in real life test should not contain implementation anyway.
+ TopologyTestDriver based unit tests
+ This is PR related to Issue #11
+
+It contains also some Readme updates and renaming of one directory due to typo.
+ Splitting Different Examples to independent modules
+ This is rather radical refactoring of the project, but I hope this split would make it easier to understand relationship and dependencies of each example.
+
+What do you think about this kind of split?
+
+Folder (modules) split now based on Example sections in Readme. 
+I expect also that StreamsStarterApp.java could be removed and that way whole src folder.
+
+You might have better idea how to split or name these modules and how to restructure Readme, but here is my proposal.
+
+Sorry, this version still contains those Windows unit test workarounds:
+https://github.com/kaiwaehner/kafka-streams-machine-learning-examples/issues/9
+
+I can also remove those if wanted.

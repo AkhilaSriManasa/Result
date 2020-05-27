@@ -1,0 +1,32 @@
+﻿ fix markdown typos
+ fix CalculateError
+ Update README.md
+ fix when there is no validation set
+ add download link to a trained model
+ add download link to a trained model
+ Update helen_train_config.txt
+ fix typo
+ Update README.md
+ Merge branch 'master' of github.com:freesouls/face-alignment-at-3000fps
+ fix write & load overlap
+ fix write & load overlap
+ Refactoring the codes and Add Examples
+ Refactoring the codes and Add Examples
+ Update README.md
+ Update for refactored codes
+ refactoring face alignment
+ refactoring face alignment
+ refactoring face alignment
+ fix buffer size when path name is too long
+ Update README.md
+ add overlap
+ Update README.md
+ Update utils.cpp
+ Update main.cpp
+ Update utils.cpp
+ Update README.md
+ Update README.md
+ update
+ Merge pull request #2 from DoraXingyu/master
+
+Update utils.cpp

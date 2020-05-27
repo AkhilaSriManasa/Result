@@ -1,0 +1,1024 @@
+﻿ Create hook to fetch subscription data
+ Subscription data is also needed on the account settings Subscriptions component, so rather than duplicate the code, create a hook that both of them can use. 
+
+Changes:
+- Move code that fetches subscription data into a custom hook 
+
+To test:
+- Management page should work just as it used to
+- Tests in `payments/pages/management.test.jsx` should still pass 
+
+Part of #7076 
+ Add base for new accounts pages
+ This sets up the basis for the new account management experience. It is ready for review in general but there is still at least one open question(https://github.com/mdn/kuma/issues/7073#issuecomment-633524429)
+
+Also, I have a test on the Python side to ensure the account page is not accessible by anonymous users but, it will be good to also have a happy path for logged in users. I need some assistance on getting that test setup/written.
+
+The new base account page is accessible at http://localhost.org:8000/en-US/accounts/
+
+Note the `s`. This is not ideal but, `account` clashes with an existing route we have. I did not want to block the account work on that so, moved ahead with `accounts` for now. We can resolve that while the rest of the work happens.
+
+I am also separating out the sidebar nav into a separate PR, again, to not block work on other components etc.
+
+@mindy @peterbe r?
+
+fix #7073
+ Bump eslint-plugin-react from 7.19.0 to 7.20.0
+ Bumps [eslint-plugin-react](https://github.com/yannickcr/eslint-plugin-react) from 7.19.0 to 7.20.0.
+<details>
+<summary>Release notes</summary>
+<p><em>Sourced from <a href="https://github.com/yannickcr/eslint-plugin-react/releases">eslint-plugin-react's releases</a>.</em></p>
+<blockquote>
+<h2>v7.20.0</h2>
+<h3>Added</h3>
+<ul>
+<li>support eslint v7 (<a href="https://github-redirect.dependabot.com/yannickcr/eslint-plugin-react/issues/2635">#2635</a>[] <a href="https://github.com/ljharb">@ljharb</a>, <a href="https://github.com/toshi-toma">@toshi-toma</a>)</li>
+<li>[<code>forbid-component-props</code>][]/[<code>forbid-dom-props</code>][]: Allow a custom message with forbid props (<a href="https://github-redirect.dependabot.com/yannickcr/eslint-plugin-react/issues/2615">#2615</a>[] <a href="https://github.com/mtamhankar1">@mtamhankar1</a>)</li>
+<li>[<code>jsx-no-literals</code>][]: add <code>ignoreProps</code> option to ignore props validation (<a href="https://github-redirect.dependabot.com/yannickcr/eslint-plugin-react/issues/2146">#2146</a>[] <a href="https://github.com/iiison">@iiison</a>)</li>
+</ul>
+<h3>Fixed</h3>
+<ul>
+<li>[<code>jsx-sort-props</code>][]: only use localeCompare when case is ignored (<a href="https://github-redirect.dependabot.com/yannickcr/eslint-plugin-react/issues/2556">#2556</a>[] <a href="https://github.com/tanmoyopenroot">@tanmoyopenroot</a>)</li>
+<li>[<code>jsx-key</code>][]: add a failing test case for optional chaining (<a href="https://github-redirect.dependabot.com/yannickcr/eslint-plugin-react/issues/2610">#2610</a>[] <a href="https://github.com/JonathanLee-LX">@JonathanLee-LX</a>)</li>
+ Bump stylelint from 13.3.3 to 13.5.0
+ Bumps [stylelint](https://github.com/stylelint/stylelint) from 13.3.3 to 13.5.0.
+<details>
+<summary>Release notes</summary>
+<p><em>Sourced from <a href="https://github.com/stylelint/stylelint/releases">stylelint's releases</a>.</em></p>
+<blockquote>
+<h2>13.5.0</h2>
+<ul>
+<li>Added: <code>alpha-value-notation</code> rule (<a href="https://github-redirect.dependabot.com/stylelint/stylelint/pull/4770">#4770</a>).</li>
+<li>Added: <code>color-function-notation</code> rule (<a href="https://github-redirect.dependabot.com/stylelint/stylelint/pull/4760">#4760</a>).</li>
+<li>Added: <code>hue-degree-notation</code> rule (<a href="https://github-redirect.dependabot.com/stylelint/stylelint/pull/4769">#4769</a>).</li>
+</ul>
+<h2>13.4.1</h2>
+<ul>
+<li>Fixed: <code>time-min-milliseconds</code> TypeError for <code>ignore: [&quot;delay&quot;]</code> and shorthand animation (<a href="https://github-redirect.dependabot.com/stylelint/stylelint/pull/4783">#4783</a>).</li>
+</ul>
+<h2>13.4.0</h2>
+<ul>
+<li>Added: <code>ignore:[&quot;delay&quot;]</code> to <code>time-min-milliseconds</code> (<a href="https://github-redirect.dependabot.com/stylelint/stylelint/pull/4743">#4743</a>).</li>
+<li>Added: <code>ignoreFunctions: []</code> to <code>value-keyword-case</code> (<a href="https://github-redirect.dependabot.com/stylelint/stylelint/pull/4733">#4733</a>).</li>
+<li>Fixed: improved performance when auto syntax is used (<a href="https://github-redirect.dependabot.com/stylelint/stylelint/pull/4729">#4729</a>).</li>
+<li>Fixed: <code>--report-needless-disables</code> respects stylelint-disable commands (<a href="https://github-redirect.dependabot.com/stylelint/stylelint/pull/4714">#4714</a>).</li>
+<li>Fixed: <code>at-rule-property-requirelist</code> TypeError for comments inside of font-face (<a href="https://github-redirect.dependabot.com/stylelint/stylelint/pull/4744">#4744</a>).</li>
+<li>Fixed: <code>declaration-block-trailing-semicolon</code> false positives for CSS-in-JS object notation (<a href="https://github-redirect.dependabot.com/stylelint/stylelint/pull/4749">#4749</a>).</li>
+<li>Fixed: <code>declaration-empty-line-before</code> false positives for inlines styles (<a href="https://github-redirect.dependabot.com/stylelint/stylelint/pull/4726">#4726</a>).</li>
+<li>Fixed: <code>media-feature-name-*</code> false positives for <code>forced-colors</code> (<a href="https://github-redirect.dependabot.com/stylelint/stylelint/pull/4775">#4775</a>).</li>
+<li>Fixed: <code>value-keyword-case</code> false positives WebExtension replacement keywords (<a href="https://github-redirect.dependabot.com/stylelint/stylelint/pull/4778">#4778</a>).</li>
+<li>Fixed: <code>value-keyword-case</code> false positives regression for mixed-case properties and the <code>ignoreProperties</code> option (<a href="https://github-redirect.dependabot.com/stylelint/stylelint/pull/4748">#4748</a>).</li>
+</ul>
+</blockquote>
+</details>
+<details>
+<summary>Changelog</summary>
+<p><em>Sourced from <a href="https://github.com/stylelint/stylelint/blob/master/CHANGELOG.md">stylelint's changelog</a>.</em></p>
+<blockquote>
+<h2>13.5.0</h2>
+<ul>
+<li>Added: <code>alpha-value-notation</code> rule (<a href="https://github-redirect.dependabot.com/stylelint/stylelint/pull/4770">#4770</a>).</li>
+<li>Added: <code>color-function-notation</code> rule (<a href="https://github-redirect.dependabot.com/stylelint/stylelint/pull/4760">#4760</a>).</li>
+<li>Added: <code>hue-degree-notation</code> rule (<a href="https://github-redirect.dependabot.com/stylelint/stylelint/pull/4769">#4769</a>).</li>
+</ul>
+<h2>13.4.1</h2>
+<ul>
+<li>Fixed: <code>time-min-milliseconds</code> TypeError for <code>ignore: [&quot;delay&quot;]</code> and shorthand animation (<a href="https://github-redirect.dependabot.com/stylelint/stylelint/pull/4783">#4783</a>).</li>
+</ul>
+<h2>13.4.0</h2>
+<ul>
+<li>Added: <code>ignore:[&quot;delay&quot;]</code> to <code>time-min-milliseconds</code> (<a href="https://github-redirect.dependabot.com/stylelint/stylelint/pull/4743">#4743</a>).</li>
+<li>Added: <code>ignoreFunctions: []</code> to <code>value-keyword-case</code> (<a href="https://github-redirect.dependabot.com/stylelint/stylelint/pull/4733">#4733</a>).</li>
+<li>Fixed: improved performance when auto syntax is used (<a href="https://github-redirect.dependabot.com/stylelint/stylelint/pull/4729">#4729</a>).</li>
+<li>Fixed: <code>--report-needless-disables</code> respects stylelint-disable commands (<a href="https://github-redirect.dependabot.com/stylelint/stylelint/pull/4714">#4714</a>).</li>
+<li>Fixed: <code>at-rule-property-requirelist</code> TypeError for comments inside of font-face (<a href="https://github-redirect.dependabot.com/stylelint/stylelint/pull/4744">#4744</a>).</li>
+<li>Fixed: <code>declaration-block-trailing-semicolon</code> false positives for CSS-in-JS object notation (<a href="https://github-redirect.dependabot.com/stylelint/stylelint/pull/4749">#4749</a>).</li>
+<li>Fixed: <code>declaration-empty-line-before</code> false positives for inlines styles (<a href="https://github-redirect.dependabot.com/stylelint/stylelint/pull/4726">#4726</a>).</li>
+<li>Fixed: <code>media-feature-name-*</code> false positives for <code>forced-colors</code> (<a href="https://github-redirect.dependabot.com/stylelint/stylelint/pull/4775">#4775</a>).</li>
+<li>Fixed: <code>value-keyword-case</code> false positives WebExtension replacement keywords (<a href="https://github-redirect.dependabot.com/stylelint/stylelint/pull/4778">#4778</a>).</li>
+<li>Fixed: <code>value-keyword-case</code> false positives regression for mixed-case properties and the <code>ignoreProperties</code> option (<a href="https://github-redirect.dependabot.com/stylelint/stylelint/pull/4748">#4748</a>).</li>
+</ul>
+</blockquote>
+</details>
+<details>
+<summary>Commits</summary>
+<ul>
+<li><a href="https://github.com/stylelint/stylelint/commit/a859f1ae08b2247f6116a08e1848cf44234bfc30"><code>a859f1a</code></a> 13.5.0</li>
+<li><a href="https://github.com/stylelint/stylelint/commit/8fb58b9373bfbe9f082cbc58c890e52ed790dfbb"><code>8fb58b9</code></a> Prepare 13.5.0</li>
+<li><a href="https://github.com/stylelint/stylelint/commit/9b00d0117149823406a48cdad6a7f984bc43d40f"><code>9b00d01</code></a> Fix inconsistent quoting in messages</li>
+<li><a href="https://github.com/stylelint/stylelint/commit/f669a5070e7d4383ed8f86f307a863c1d7153439"><code>f669a50</code></a> Fix guards against unfound nodes</li>
+<li><a href="https://github.com/stylelint/stylelint/commit/781d2ab0a301be0eb7aa7b6c7502efcba6e4ef53"><code>781d2ab</code></a> Add alpha-value-notation (<a href="https://github-redirect.dependabot.com/stylelint/stylelint/issues/4770">#4770</a>)</li>
+<li><a href="https://github.com/stylelint/stylelint/commit/8da3aa8af050d03017785e8842e0fc2d8873d147"><code>8da3aa8</code></a> Update CHANGELOG.md</li>
+<li><a href="https://github.com/stylelint/stylelint/commit/ff2de425a7164578d72b50f7e996662f7bb4609c"><code>ff2de42</code></a> Add hue-degree-notation (<a href="https://github-redirect.dependabot.com/stylelint/stylelint/issues/4769">#4769</a>)</li>
+<li><a href="https://github.com/stylelint/stylelint/commit/849c1374c020d3f689a30f386876dfbdb79e4c7f"><code>849c137</code></a> Add color-function-notation (<a href="https://github-redirect.dependabot.com/stylelint/stylelint/issues/4760">#4760</a>)</li>
+<li><a href="https://github.com/stylelint/stylelint/commit/6818c532775b05722e3c1979016bb5c0038b2ca1"><code>6818c53</code></a> 13.4.1</li>
+<li><a href="https://github.com/stylelint/stylelint/commit/7cf23e2969e15a6d28511fc606df0a64e2e92143"><code>7cf23e2</code></a> Prepare 13.4.1</li>
+<li>Additional commits viewable in <a href="https://github.com/stylelint/stylelint/compare/13.3.3...13.5.0">compare view</a></li>
+</ul>
+</details>
+<br />
+
+
+[![Dependabot compatibility score](https://api.dependabot.com/badges/compatibility_score?dependency-name=stylelint&package-manager=npm_and_yarn&previous-version=13.3.3&new-version=13.5.0)](https://dependabot.com/compatibility-score/?dependency-name=stylelint&package-manager=npm_and_yarn&previous-version=13.3.3&new-version=13.5.0)
+
+Dependabot will resolve any conflicts with this PR as long as you don't alter it yourself. You can also trigger a rebase manually by commenting `@dependabot rebase`.
+
+[//]: # (dependabot-automerge-start)
+[//]: # (dependabot-automerge-end)
+
+---
+
+<details>
+<summary>Dependabot commands and options</summary>
+<br />
+
+You can trigger Dependabot actions by commenting on this PR:
+- `@dependabot rebase` will rebase this PR
+- `@dependabot recreate` will recreate this PR, overwriting any edits that have been made to it
+- `@dependabot merge` will merge this PR after your CI passes on it
+- `@dependabot squash and merge` will squash and merge this PR after your CI passes on it
+- `@dependabot cancel merge` will cancel a previously requested merge and block automerging
+- `@dependabot reopen` will reopen this PR if it is closed
+- `@dependabot close` will close this PR and stop Dependabot recreating it. You can achieve the same result by closing it manually
+- `@dependabot ignore this major version` will close this PR and stop Dependabot creating any more for this major version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this minor version` will close this PR and stop Dependabot creating any more for this minor version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this dependency` will close this PR and stop Dependabot creating any more for this dependency (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot use these labels` will set the current labels as the default for future PRs for this repo and language
+- `@dependabot use these reviewers` will set the current reviewers as the default for future PRs for this repo and language
+- `@dependabot use these assignees` will set the current assignees as the default for future PRs for this repo and language
+- `@dependabot use this milestone` will set the current milestone as the default for future PRs for this repo and language
+- `@dependabot badge me` will comment on this PR with code to add a "Dependabot enabled" badge to your readme
+
+Additionally, you can set the following in your Dependabot [dashboard](https://app.dependabot.com):
+- Update frequency (including time of day and day of week)
+- Pull request limits (per update run and/or open at any time)
+- Automerge options (never/patch/minor, and dev/runtime dependencies)
+- Out-of-range updates (receive only lockfile updates, if desired)
+- Security updates (receive only security updates, if desired)
+
+
+
+</details>
+ Bump @babel/plugin-transform-runtime from 7.9.0 to 7.9.6
+ Bumps [@babel/plugin-transform-runtime](https://github.com/babel/babel) from 7.9.0 to 7.9.6.
+<details>
+<summary>Release notes</summary>
+<p><em>Sourced from <a href="https://github.com/babel/babel/releases">@babel/plugin-transform-runtime's releases</a>.</em></p>
+<blockquote>
+<h2>v7.9.6 (2020-04-29)</h2>
+<p>Thanks to <a href="https://github.com/Beraliv">@Beraliv</a>, <a href="https://github.com/ChintanAcharya">@ChintanAcharya</a>, <a href="https://github.com/dosentmatter">@dosentmatter</a>, <a href="https://github.com/jdreesen">@jdreesen</a> and <a href="https://github.com/johannes-z">@johannes-z</a> for their first PRs!</p>
+<h4>:eyeglasses: Spec Compliance</h4>
+<ul>
+<li><code>babel-plugin-proposal-object-rest-spread</code>
+<ul>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11471">#11471</a> Fix evaluation order with object spread, 2 (<a href="https://github.com/jridgewell">@jridgewell</a>)</li>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11412">#11412</a> Fix evaluation order with object spread (<a href="https://github.com/Zzzen">@Zzzen</a>)</li>
+</ul>
+</li>
+<li><code>babel-helper-replace-supers</code>, <code>babel-plugin-proposal-class-properties</code>, <code>babel-plugin-transform-classes</code>
+<ul>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11480">#11480</a> Super property eval order (<a href="https://github.com/jridgewell">@jridgewell</a>)</li>
+</ul>
+</li>
+</ul>
+<h4>:rocket: New Feature</h4>
+<ul>
+<li><code>babel-traverse</code>, <code>babel-types</code>
+<ul>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11448">#11448</a> Adding createFlowUnionType in place of createUnionTypeAnnotation without breaking change (<a href="https://github.com/Beraliv">@Beraliv</a>)</li>
+</ul>
+</li>
+</ul>
+<h4>:bug: Bug Fix</h4>
+<ul>
+<li><code>babel-helper-create-class-features-plugin</code>, <code>babel-helpers</code>, <code>babel-plugin-transform-modules-commonjs</code>, <code>babel-preset-env</code>
+<ul>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11495">#11495</a> Fix helpers.unsupportedIterableToArray for Map and Set (<a href="https://github.com/ChintanAcharya">@ChintanAcharya</a>)</li>
+</ul>
+</li>
+<li><code>babel-traverse</code>
+<ul>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11482">#11482</a> handle objectMethod in scope.isPure (<a href="https://github.com/Zzzen">@Zzzen</a>)</li>
+</ul>
+</li>
+<li><code>babel-plugin-transform-typescript</code>
+<ul>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11410">#11410</a> Throw error for TypeScript <code>declare const enum</code> (<a href="https://github.com/dosentmatter">@dosentmatter</a>)</li>
+</ul>
+</li>
+<li><code>babel-compat-data</code>
+<ul>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11462">#11462</a> chore: add node.js 14 support data (<a href="https://github.com/JLHwung">@JLHwung</a>)</li>
+</ul>
+</li>
+<li><code>babel-parser</code>
+<ul>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11449">#11449</a> Set exprAllowed to false for star token (<a href="https://github.com/existentialism">@existentialism</a>)</li>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11355">#11355</a> fix: disallow expression after binding identifier <code>of</code> (<a href="https://github.com/JLHwung">@JLHwung</a>)</li>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11417">#11417</a> fix: report missing plugins on type exports (<a href="https://github.com/JLHwung">@JLHwung</a>)</li>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11388">#11388</a> fix: do not push new token context when function is following dot/questionDot (<a href="https://github.com/JLHwung">@JLHwung</a>)</li>
+</ul>
+</li>
+<li><code>babel-helper-create-class-features-plugin</code>, <code>babel-plugin-proposal-class-properties</code>
+<ul>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11424">#11424</a>  Fix redeclaring private in nested class's superClass (<a href="https://github.com/jridgewell">@jridgewell</a>)</li>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11405">#11405</a> Fix nested classes reference private fields (<a href="https://github.com/jridgewell">@jridgewell</a>)</li>
+</ul>
+</li>
+<li><code>babel-traverse</code>, <code>babel-types</code>
+<ul>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11378">#11378</a> transform-spread: create TS types (not Flow) when using TS (<a href="https://github.com/Beraliv">@Beraliv</a>)</li>
+</ul>
+</li>
+<li><code>babel-standalone</code>
+<ul>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11395">#11395</a> chore: update stage preset in babel-standalone (<a href="https://github.com/JLHwung">@JLHwung</a>)</li>
+</ul>
+</li>
+<li><code>babel-plugin-transform-runtime</code>
+<ul>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11366">#11366</a> fix: replace backslashes with forward slashes from resolved path for … (<a href="https://github.com/johannes-z">@johannes-z</a>)</li>
+</ul>
+</li>
+<li><code>babel-generator</code>, <code>babel-plugin-proposal-decorators</code>, <code>babel-plugin-proposal-pipeline-operator</code>, <code>babel-plugin-proposal-throw-expressions</code>, <code>babel-plugin-transform-async-to-generator</code>
+<ul>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11382">#11382</a> Unify parens printing for postfix-like expressions (<a href="https://github.com/nicolo-ribaudo">@nicolo-ribaudo</a>)</li>
+</ul>
+</li>
+</ul>
+<h4>:nail_care: Polish</h4>
+<ul>
+<li><code>babel-parser</code>
+<ul>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11478">#11478</a> Add some parser missing plugins errors (<a href="https://github.com/JLHwung">@JLHwung</a>)</li>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11417">#11417</a> fix: report missing plugins on type exports (<a href="https://github.com/JLHwung">@JLHwung</a>)</li>
+</ul>
+</li>
+<li><code>babel-core</code>
+<ul>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11421">#11421</a> polish: recommend preset for js extensions (<a href="https://github.com/JLHwung">@JLHwung</a>)</li>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11397">#11397</a> fix: add classPrivateProperties and classPrivateMethods to missing plugin helper (<a href="https://github.com/JLHwung">@JLHwung</a>)</li>
+</ul>
+</li>
+</ul>
+<h4>:memo: Documentation</h4>
+</tr></table> ... (truncated)
+</blockquote>
+</details>
+<details>
+<summary>Changelog</summary>
+<p><em>Sourced from <a href="https://github.com/babel/babel/blob/master/CHANGELOG.md">@babel/plugin-transform-runtime's changelog</a>.</em></p>
+<blockquote>
+<h2>v7.9.6 (2020-04-29)</h2>
+<h4>:eyeglasses: Spec Compliance</h4>
+<ul>
+<li><code>babel-plugin-proposal-object-rest-spread</code>
+<ul>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11471">#11471</a> Fix evaluation order with object spread, 2 (<a href="https://github.com/jridgewell">@jridgewell</a>)</li>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11412">#11412</a> Fix evaluation order with object spread (<a href="https://github.com/Zzzen">@Zzzen</a>)</li>
+</ul>
+</li>
+<li><code>babel-helper-replace-supers</code>, <code>babel-plugin-proposal-class-properties</code>, <code>babel-plugin-transform-classes</code>
+<ul>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11480">#11480</a> Super property eval order (<a href="https://github.com/jridgewell">@jridgewell</a>)</li>
+</ul>
+</li>
+</ul>
+<h4>:rocket: New Feature</h4>
+<ul>
+<li><code>babel-traverse</code>, <code>babel-types</code>
+<ul>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11448">#11448</a> Adding createFlowUnionType in place of createUnionTypeAnnotation without breaking change (<a href="https://github.com/Beraliv">@Beraliv</a>)</li>
+</ul>
+</li>
+</ul>
+<h4>:bug: Bug Fix</h4>
+<ul>
+<li><code>babel-helper-create-class-features-plugin</code>, <code>babel-helpers</code>, <code>babel-plugin-transform-modules-commonjs</code>, <code>babel-preset-env</code>
+<ul>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11495">#11495</a> Fix helpers.unsupportedIterableToArray for Map and Set (<a href="https://github.com/ChintanAcharya">@ChintanAcharya</a>)</li>
+</ul>
+</li>
+<li><code>babel-traverse</code>
+<ul>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11482">#11482</a> handle objectMethod in scope.isPure (<a href="https://github.com/Zzzen">@Zzzen</a>)</li>
+</ul>
+</li>
+<li><code>babel-plugin-transform-typescript</code>
+<ul>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11410">#11410</a> Throw error for TypeScript <code>declare const enum</code> (<a href="https://github.com/dosentmatter">@dosentmatter</a>)</li>
+</ul>
+</li>
+<li><code>babel-compat-data</code>
+<ul>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11462">#11462</a> chore: add node.js 14 support data (<a href="https://github.com/JLHwung">@JLHwung</a>)</li>
+</ul>
+</li>
+<li><code>babel-parser</code>
+<ul>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11449">#11449</a> Set exprAllowed to false for star token (<a href="https://github.com/existentialism">@existentialism</a>)</li>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11355">#11355</a> fix: disallow expression after binding identifier <code>of</code> (<a href="https://github.com/JLHwung">@JLHwung</a>)</li>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11417">#11417</a> fix: report missing plugins on type exports (<a href="https://github.com/JLHwung">@JLHwung</a>)</li>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11388">#11388</a> fix: do not push new token context when function is following dot/questionDot (<a href="https://github.com/JLHwung">@JLHwung</a>)</li>
+</ul>
+</li>
+<li><code>babel-helper-create-class-features-plugin</code>, <code>babel-plugin-proposal-class-properties</code>
+<ul>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11424">#11424</a>  Fix redeclaring private in nested class's superClass (<a href="https://github.com/jridgewell">@jridgewell</a>)</li>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11405">#11405</a> Fix nested classes reference private fields (<a href="https://github.com/jridgewell">@jridgewell</a>)</li>
+</ul>
+</li>
+<li><code>babel-traverse</code>, <code>babel-types</code>
+<ul>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11378">#11378</a> transform-spread: create TS types (not Flow) when using TS (<a href="https://github.com/Beraliv">@Beraliv</a>)</li>
+</ul>
+</li>
+<li><code>babel-standalone</code>
+<ul>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11395">#11395</a> chore: update stage preset in babel-standalone (<a href="https://github.com/JLHwung">@JLHwung</a>)</li>
+</ul>
+</li>
+<li><code>babel-plugin-transform-runtime</code>
+<ul>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11366">#11366</a> fix: replace backslashes with forward slashes from resolved path for … (<a href="https://github.com/johannes-z">@johannes-z</a>)</li>
+</ul>
+</li>
+<li><code>babel-generator</code>, <code>babel-plugin-proposal-decorators</code>, <code>babel-plugin-proposal-pipeline-operator</code>, <code>babel-plugin-proposal-throw-expressions</code>, <code>babel-plugin-transform-async-to-generator</code>
+<ul>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11382">#11382</a> Unify parens printing for postfix-like expressions (<a href="https://github.com/nicolo-ribaudo">@nicolo-ribaudo</a>)</li>
+</ul>
+</li>
+</ul>
+<h4>:nail_care: Polish</h4>
+<ul>
+<li><code>babel-parser</code>
+<ul>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11478">#11478</a> Add some parser missing plugins errors (<a href="https://github.com/JLHwung">@JLHwung</a>)</li>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11417">#11417</a> fix: report missing plugins on type exports (<a href="https://github.com/JLHwung">@JLHwung</a>)</li>
+</ul>
+</li>
+<li><code>babel-core</code>
+<ul>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11421">#11421</a> polish: recommend preset for js extensions (<a href="https://github.com/JLHwung">@JLHwung</a>)</li>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11397">#11397</a> fix: add classPrivateProperties and classPrivateMethods to missing plugin helper (<a href="https://github.com/JLHwung">@JLHwung</a>)</li>
+</ul>
+</li>
+</ul>
+<h4>:memo: Documentation</h4>
+<ul>
+<li><code>babel-parser</code>
+<ul>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11492">#11492</a> docs: update AST spec (<a href="https://github.com/JLHwung">@JLHwung</a>)</li>
+</ul>
+</li>
+</ul>
+</tr></table> ... (truncated)
+</blockquote>
+</details>
+<details>
+<summary>Commits</summary>
+<ul>
+<li><a href="https://github.com/babel/babel/commit/9c2846bcacc75aa931ea9d556950c2113765d43d"><code>9c2846b</code></a> v7.9.6</li>
+<li><a href="https://github.com/babel/babel/commit/7c80ed9598551de321919a9e6d8dd12539435a28"><code>7c80ed9</code></a> Update compat table script (<a href="https://github-redirect.dependabot.com/babel/babel/issues/11496">#11496</a>)</li>
+<li><a href="https://github.com/babel/babel/commit/fa98a0a5b355a34b1c737d782f0e8969c55b72c6"><code>fa98a0a</code></a> docs: update AST spec (<a href="https://github-redirect.dependabot.com/babel/babel/issues/11492">#11492</a>)</li>
+<li><a href="https://github.com/babel/babel/commit/2d8edf7c6f1b077e0c92cbd18a9b3b3f59642e88"><code>2d8edf7</code></a> Add note about experimental nature of @babel/eslint-* packages (<a href="https://github-redirect.dependabot.com/babel/babel/issues/11493">#11493</a>)</li>
+<li><a href="https://github.com/babel/babel/commit/93429f8b09e86937c8a986e16e948bd08ff048ab"><code>93429f8</code></a> Fix helpers.unsupportedIterableToArray for Map and Set (<a href="https://github-redirect.dependabot.com/babel/babel/issues/11495">#11495</a>)</li>
+<li><a href="https://github.com/babel/babel/commit/1b777f52663f1b3b9cc590478bccb0b4dde14ee1"><code>1b777f5</code></a> Update preset-env fixtures (<a href="https://github-redirect.dependabot.com/babel/babel/issues/11486">#11486</a>)</li>
+<li><a href="https://github.com/babel/babel/commit/c1d65d8842fda3c6fabbad07e40bd5aaa5061325"><code>c1d65d8</code></a> Fix evaluation order with object spread, 2 (<a href="https://github-redirect.dependabot.com/babel/babel/issues/11471">#11471</a>)</li>
+<li><a href="https://github.com/babel/babel/commit/83d365acb60db2943279cb6f3914c55f52b5702d"><code>83d365a</code></a> handle objectMethod in scope.isPure (<a href="https://github-redirect.dependabot.com/babel/babel/issues/11482">#11482</a>)</li>
+<li><a href="https://github.com/babel/babel/commit/0bbf2da568a8814e256a626cfdb274d8a61c3116"><code>0bbf2da</code></a> Super property eval order (<a href="https://github-redirect.dependabot.com/babel/babel/issues/11480">#11480</a>)</li>
+<li><a href="https://github.com/babel/babel/commit/2e4f18ac92a0230d9db835da2ee4ea56816e6536"><code>2e4f18a</code></a> Add some parser missing plugins errors (<a href="https://github-redirect.dependabot.com/babel/babel/issues/11478">#11478</a>)</li>
+<li>Additional commits viewable in <a href="https://github.com/babel/babel/compare/v7.9.0...v7.9.6">compare view</a></li>
+</ul>
+</details>
+<br />
+
+
+[![Dependabot compatibility score](https://api.dependabot.com/badges/compatibility_score?dependency-name=@babel/plugin-transform-runtime&package-manager=npm_and_yarn&previous-version=7.9.0&new-version=7.9.6)](https://dependabot.com/compatibility-score/?dependency-name=@babel/plugin-transform-runtime&package-manager=npm_and_yarn&previous-version=7.9.0&new-version=7.9.6)
+
+Dependabot will resolve any conflicts with this PR as long as you don't alter it yourself. You can also trigger a rebase manually by commenting `@dependabot rebase`.
+
+[//]: # (dependabot-automerge-start)
+[//]: # (dependabot-automerge-end)
+
+---
+
+<details>
+<summary>Dependabot commands and options</summary>
+<br />
+
+You can trigger Dependabot actions by commenting on this PR:
+- `@dependabot rebase` will rebase this PR
+- `@dependabot recreate` will recreate this PR, overwriting any edits that have been made to it
+- `@dependabot merge` will merge this PR after your CI passes on it
+- `@dependabot squash and merge` will squash and merge this PR after your CI passes on it
+- `@dependabot cancel merge` will cancel a previously requested merge and block automerging
+- `@dependabot reopen` will reopen this PR if it is closed
+- `@dependabot close` will close this PR and stop Dependabot recreating it. You can achieve the same result by closing it manually
+- `@dependabot ignore this major version` will close this PR and stop Dependabot creating any more for this major version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this minor version` will close this PR and stop Dependabot creating any more for this minor version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this dependency` will close this PR and stop Dependabot creating any more for this dependency (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot use these labels` will set the current labels as the default for future PRs for this repo and language
+- `@dependabot use these reviewers` will set the current reviewers as the default for future PRs for this repo and language
+- `@dependabot use these assignees` will set the current assignees as the default for future PRs for this repo and language
+- `@dependabot use this milestone` will set the current milestone as the default for future PRs for this repo and language
+- `@dependabot badge me` will comment on this PR with code to add a "Dependabot enabled" badge to your readme
+
+Additionally, you can set the following in your Dependabot [dashboard](https://app.dependabot.com):
+- Update frequency (including time of day and day of week)
+- Pull request limits (per update run and/or open at any time)
+- Automerge options (never/patch/minor, and dev/runtime dependencies)
+- Out-of-range updates (receive only lockfile updates, if desired)
+- Security updates (receive only security updates, if desired)
+
+
+
+</details>
+ Bump flow-bin from 0.111.3 to 0.125.1
+ Bumps [flow-bin](https://github.com/flowtype/flow-bin) from 0.111.3 to 0.125.1.
+<details>
+<summary>Commits</summary>
+<ul>
+<li>See full diff in <a href="https://github.com/flowtype/flow-bin/commits">compare view</a></li>
+</ul>
+</details>
+<details>
+<summary>Maintainer changes</summary>
+<p>This version was pushed to npm by <a href="https://www.npmjs.com/~flowtype">flowtype</a>, a new releaser for flow-bin since your current version.</p>
+</details>
+<br />
+
+
+[![Dependabot compatibility score](https://api.dependabot.com/badges/compatibility_score?dependency-name=flow-bin&package-manager=npm_and_yarn&previous-version=0.111.3&new-version=0.125.1)](https://dependabot.com/compatibility-score/?dependency-name=flow-bin&package-manager=npm_and_yarn&previous-version=0.111.3&new-version=0.125.1)
+
+Dependabot will resolve any conflicts with this PR as long as you don't alter it yourself. You can also trigger a rebase manually by commenting `@dependabot rebase`.
+
+[//]: # (dependabot-automerge-start)
+[//]: # (dependabot-automerge-end)
+
+---
+
+<details>
+<summary>Dependabot commands and options</summary>
+<br />
+
+You can trigger Dependabot actions by commenting on this PR:
+- `@dependabot rebase` will rebase this PR
+- `@dependabot recreate` will recreate this PR, overwriting any edits that have been made to it
+- `@dependabot merge` will merge this PR after your CI passes on it
+- `@dependabot squash and merge` will squash and merge this PR after your CI passes on it
+- `@dependabot cancel merge` will cancel a previously requested merge and block automerging
+- `@dependabot reopen` will reopen this PR if it is closed
+- `@dependabot close` will close this PR and stop Dependabot recreating it. You can achieve the same result by closing it manually
+- `@dependabot ignore this major version` will close this PR and stop Dependabot creating any more for this major version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this minor version` will close this PR and stop Dependabot creating any more for this minor version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this dependency` will close this PR and stop Dependabot creating any more for this dependency (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot use these labels` will set the current labels as the default for future PRs for this repo and language
+- `@dependabot use these reviewers` will set the current reviewers as the default for future PRs for this repo and language
+- `@dependabot use these assignees` will set the current assignees as the default for future PRs for this repo and language
+- `@dependabot use this milestone` will set the current milestone as the default for future PRs for this repo and language
+- `@dependabot badge me` will comment on this PR with code to add a "Dependabot enabled" badge to your readme
+
+Additionally, you can set the following in your Dependabot [dashboard](https://app.dependabot.com):
+- Update frequency (including time of day and day of week)
+- Pull request limits (per update run and/or open at any time)
+- Automerge options (never/patch/minor, and dev/runtime dependencies)
+- Out-of-range updates (receive only lockfile updates, if desired)
+- Security updates (receive only security updates, if desired)
+
+
+
+</details>
+ Bump newrelic from 6.5.0 to 6.8.0
+ Bumps [newrelic](https://github.com/newrelic/node-newrelic) from 6.5.0 to 6.8.0.
+<details>
+<summary>Release notes</summary>
+<p><em>Sourced from <a href="https://github.com/newrelic/node-newrelic/releases">newrelic's releases</a>.</em></p>
+<blockquote>
+<h2>v6.8.0</h2>
+<ul>
+<li>
+<p>Bumped @newrelic/native-metrics to ^5.1.0.</p>
+<p>Upgraded nan to ^2.14.1 to resolve 'GetContents' deprecation warning with Node 14. This version of the native metrics module is tested against Node 14 and includes a pre-built binary download backup for Node 14.</p>
+</li>
+<li>
+<p>Added whitespace trimming of license key configuration values.</p>
+<p>Previously, when a license key was entered with leading or trailing whitespace, it would be used as-is and result in a validation failure. This most commonly occurred with environment variable based configuration.</p>
+</li>
+<li>
+<p>Moved to GitHub actions for CI.</p>
+</li>
+<li>
+<p>Updated PR template and added initial issue templates.</p>
+</li>
+<li>
+<p>Converted most of the collector API unit tests to use the tap API. Split larger test groupings into their own test files.</p>
+</li>
+</ul>
+</blockquote>
+</details>
+<details>
+<summary>Changelog</summary>
+<p><em>Sourced from <a href="https://github.com/newrelic/node-newrelic/blob/master/NEWS.md">newrelic's changelog</a>.</em></p>
+<blockquote>
+<h3>6.8.0 (2020-05-21):</h3>
+<ul>
+<li>
+<p>Bumped @newrelic/native-metrics to ^5.1.0.</p>
+<p>Upgraded nan to ^2.14.1 to resolve 'GetContents' deprecation warning with Node 14. This version of the native metrics module is tested against Node 14 and includes a pre-built binary download backup for Node 14.</p>
+</li>
+<li>
+<p>Added whitespace trimming of license key configuration values.</p>
+<p>Previously, when a license key was entered with leading or trailing whitespace, it would be used as-is and result in a validation failure. This most commonly occurred with environment variable based configuration.</p>
+</li>
+<li>
+<p>Moved to GitHub actions for CI.</p>
+</li>
+<li>
+<p>Updated PR template and added initial issue templates.</p>
+</li>
+<li>
+<p>Converted most of the collector API unit tests to use the tap API. Split larger test groupings into their own test files.</p>
+</li>
+</ul>
+<h3>6.7.1 (2020-05-14):</h3>
+<ul>
+<li>
+<p>Added synthetics headers to transaction event intrinsics for DT</p>
+</li>
+<li>
+<p>Fixed stale comment documentation with regards to segment recording</p>
+</li>
+</ul>
+<h3>6.7.0 (2020-05-06):</h3>
+<ul>
+<li>
+<p>Added a configurable-length span queue to Infinite Tracing:
+infinite_tracing.span_events.queue_size.</p>
+<p>The queue length can be modified to balance the needs of keeping full traces
+against trade-off of memory usage and CPU overhead in a high-throughput
+application.</p>
+</li>
+<li>
+<p>Fixed issue where API.instrumentLoadedModule could throw an exception when it
+failed.</p>
+<p>Error details will now be caught and logged.</p>
+</li>
+<li>
+<p>Resolved non-proxy minimist security warnings by bumping dependencies.</p>
+<p>These updates only impact development dependencies. Thank you to <a href="https://github.com/devfreddy">@devfreddy</a> for
+the contribution.</p>
+<ul>
+<li>Updated minimist sub-deps to resolve most related security warnings.</li>
+<li>Updated tap to resolve remaining tap security warnings.</li>
+<li>Updated @newrelic/proxy.</li>
+</ul>
+</li>
+<li>
+<p>Updated remaining /api unit tests to use tap API.</p>
+</li>
+<li>
+<p>Updated @grpc/grpc-js to v1.0.3.</p>
+</li>
+</ul>
+<h3>6.6.0 (2020-04-20):</h3>
+</tr></table> ... (truncated)
+</blockquote>
+</details>
+<details>
+<summary>Commits</summary>
+<ul>
+<li><a href="https://github.com/newrelic/node-newrelic/commit/38629d74811eba4301f0e2360ff52faa40aa713a"><code>38629d7</code></a> 6.8.0</li>
+<li><a href="https://github.com/newrelic/node-newrelic/commit/2bc7edc1063e1821b69cba818b01b4d6f5310cc5"><code>2bc7edc</code></a> Merge pull request <a href="https://github-redirect.dependabot.com/newrelic/node-newrelic/issues/359">#359</a> from newrelic/release/v6.8.0</li>
+<li><a href="https://github.com/newrelic/node-newrelic/commit/f89b6e7f2d79eae5e7bf6685b71d4050fe309cbf"><code>f89b6e7</code></a> Updates release notes for 6.8.0.</li>
+<li><a href="https://github.com/newrelic/node-newrelic/commit/bb265ef0c71ef6db784c9fcfb48e23b7ba298d0e"><code>bb265ef</code></a> Merge pull request <a href="https://github-redirect.dependabot.com/newrelic/node-newrelic/issues/358">#358</a> from nijotz/check-license</li>
+<li><a href="https://github.com/newrelic/node-newrelic/commit/fe848ce02f54b9979efcf5fbb415069c1f569aca"><code>fe848ce</code></a> Check for license before running test</li>
+<li><a href="https://github.com/newrelic/node-newrelic/commit/f5932bfaf452a262f8001659d1e2ab876d5badf1"><code>f5932bf</code></a> Merge pull request <a href="https://github-redirect.dependabot.com/newrelic/node-newrelic/issues/356">#356</a> from michaelgoin/ConvertParseResponseUnitTests</li>
+<li><a href="https://github.com/newrelic/node-newrelic/commit/878c504c1b42c6fea75b7013f9781a55637fcf96"><code>878c504</code></a> replacing old rotated key with env reference</li>
+<li><a href="https://github.com/newrelic/node-newrelic/commit/a64f065f2b069c244e72b52d5329a249d100cc22"><code>a64f065</code></a> Merge pull request <a href="https://github-redirect.dependabot.com/newrelic/node-newrelic/issues/351">#351</a> from newrelic/StartConvertingCollectorUnitTests</li>
+<li><a href="https://github.com/newrelic/node-newrelic/commit/3f5a564a779cc9352bb4a923a560bb2220aca741"><code>3f5a564</code></a> Merge pull request <a href="https://github-redirect.dependabot.com/newrelic/node-newrelic/issues/353">#353</a> from newrelic/ExtractSmokeTestsToOwnWorkflow</li>
+<li><a href="https://github.com/newrelic/node-newrelic/commit/555c088b0c8b5fca4b2d6bc84334642ee70c3503"><code>555c088</code></a> Merge pull request <a href="https://github-redirect.dependabot.com/newrelic/node-newrelic/issues/355">#355</a> from nijotz/test-filtering</li>
+<li>Additional commits viewable in <a href="https://github.com/newrelic/node-newrelic/compare/v6.5.0...v6.8.0">compare view</a></li>
+</ul>
+</details>
+<details>
+<summary>Maintainer changes</summary>
+<p>This version was pushed to npm by <a href="https://www.npmjs.com/~michaelgoin">michaelgoin</a>, a new releaser for newrelic since your current version.</p>
+</details>
+<br />
+
+
+[![Dependabot compatibility score](https://api.dependabot.com/badges/compatibility_score?dependency-name=newrelic&package-manager=npm_and_yarn&previous-version=6.5.0&new-version=6.8.0)](https://dependabot.com/compatibility-score/?dependency-name=newrelic&package-manager=npm_and_yarn&previous-version=6.5.0&new-version=6.8.0)
+
+Dependabot will resolve any conflicts with this PR as long as you don't alter it yourself. You can also trigger a rebase manually by commenting `@dependabot rebase`.
+
+[//]: # (dependabot-automerge-start)
+[//]: # (dependabot-automerge-end)
+
+---
+
+<details>
+<summary>Dependabot commands and options</summary>
+<br />
+
+You can trigger Dependabot actions by commenting on this PR:
+- `@dependabot rebase` will rebase this PR
+- `@dependabot recreate` will recreate this PR, overwriting any edits that have been made to it
+- `@dependabot merge` will merge this PR after your CI passes on it
+- `@dependabot squash and merge` will squash and merge this PR after your CI passes on it
+- `@dependabot cancel merge` will cancel a previously requested merge and block automerging
+- `@dependabot reopen` will reopen this PR if it is closed
+- `@dependabot close` will close this PR and stop Dependabot recreating it. You can achieve the same result by closing it manually
+- `@dependabot ignore this major version` will close this PR and stop Dependabot creating any more for this major version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this minor version` will close this PR and stop Dependabot creating any more for this minor version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this dependency` will close this PR and stop Dependabot creating any more for this dependency (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot use these labels` will set the current labels as the default for future PRs for this repo and language
+- `@dependabot use these reviewers` will set the current reviewers as the default for future PRs for this repo and language
+- `@dependabot use these assignees` will set the current assignees as the default for future PRs for this repo and language
+- `@dependabot use this milestone` will set the current milestone as the default for future PRs for this repo and language
+- `@dependabot badge me` will comment on this PR with code to add a "Dependabot enabled" badge to your readme
+
+Additionally, you can set the following in your Dependabot [dashboard](https://app.dependabot.com):
+- Update frequency (including time of day and day of week)
+- Pull request limits (per update run and/or open at any time)
+- Automerge options (never/patch/minor, and dev/runtime dependencies)
+- Out-of-range updates (receive only lockfile updates, if desired)
+- Security updates (receive only security updates, if desired)
+
+
+
+</details>
+ check the WELCOME_EMAIL_FROM before it's too late
+ It ain't pretty but it's more important that it blocks launch than fails subtly in runtime. 
+
+These work:
+```python
+from email.utils import parseaddr
+
+EMAIL = "Janet Swisher - MDN Community Lead <mdn-admins@mozilla.org>"
+assert parseaddr(EMAIL)[1].count("@") == 1, parseaddr(EMAIL)
+
+EMAIL = "no-reply@mozilla.org"
+assert parseaddr(EMAIL)[1].count("@") == 1, parseaddr(EMAIL)
+```
+
+This crashes:
+```python
+EMAIL = "Janet Swisher, MDN Community Lead <mdn-admins@mozilla.org>"
+assert parseaddr(EMAIL)[1].count("@") == 1, parseaddr(EMAIL)
+```
+...with...
+```
+Traceback (most recent call last):
+  ...
+AssertionError: ('', 'Janet')
+```
+ fix welcome email sender address
+ Fixes https://github.com/mdn/kuma/issues/7121
+ SMTPSenderRefused: (552, b"5.1.7 The sender's address was syntactically invalid.\n5.1.7 see : http://support.socketl...
+ https://sentry.prod.mozaws.net/operations/mdn-prod/issues/8510862/?referrer
+```
+SMTPSenderRefused: (552, b"5.1.7 The sender's address was syntactically invalid.\n5.1.7 see : http://support.socketlabs.com/kb/84 for more information.", '=?utf-8?q?Janet?=')
+(8 additional frame(s) were not displayed)
+...
+  File "newrelic/api/function_trace.py", line 151, in literal_wrapper
+    return wrapped(*args, **kwargs)
+  File "django/core/mail/message.py", line 291, in send
+    return self.get_connection(fail_silently).send_messages([self])
+  File "django/core/mail/backends/smtp.py", line 110, in send_messages
+    sent = self._send(message)
+  File "django/core/mail/backends/smtp.py", line 126, in _send
+    self.connection.sendmail(from_email, recipients, message.as_bytes(linesep='\r\n'))
+  File "python3.8/smtplib.py", line 871, in sendmail
+    raise SMTPSenderRefused(code, resp, from_addr)
+
+SMTPSenderRefused: (552, b"5.1.7 The sender's address was syntactically invalid.\n5.1.7 see : http://support.socketlabs.com/kb/84 for more information.", '=?utf-8?q?Janet?=')
+```
+`Janet Swisher, MDN Community Lead <mdn-admins@mozilla.org>` is not a valid email address because of the `,` in the "phrase" portion of the address. I've changed it to `Janet Swisher - MDN Community Lead <mdn-admins@mozilla.org>` which I've confirmed is a valid RFC822 email address using https://sphinx.mythic-beasts.com/~pdw/cgi-bin/emailvalidate.
+
+Wow! That's terrible. 
+We might make this mistake again. Perhaps we should do something like this: https://github.com/mdn/kuma/pull/7123
+
+
+ update sub-modules
+ Update the `kumascript` and `locale` sub-modules. I also pushed new strings to Pontoon via https://github.com/mozilla-l10n/mdn-l10n/commit/92edb323146df0d370f39570e6a9ab390a8b4eea.
+# [Codecov](https://codecov.io/gh/mdn/kuma/pull/7120?src> Merging [#7120](https://codecov.io/gh/mdn/kuma/pull/7120?src=pr&el=desc) into [master](https://codecov.io/gh/mdn/kuma/commit/080b0d84b13925dca8e3c8b0d5772e9f560ae299&el=desc) will **not change** coverage.
+> The diff coverage is `n/a`.
+
+[![Impacted file tree graph](https://codecov.io/gh/mdn/kuma/pull/7120/graphs/tree.svg?width=650&height=150&src=pr&token=t8QxVExVSc)](https://codecov.io/gh/mdn/kuma/pull/7120?src=pr&el=tree)
+
+```diff
+@@           Coverage Diff           @@
+##           master    #7120   +/-   ##
+=======================================
+  Coverage   95.65%   95.65%           
+=======================================
+  Files         297      297           
+  Lines       26634    26634           
+  Branches     2016     2016           
+=======================================
+  Hits        25477    25477           
+  Misses        905      905           
+  Partials      252      252           
+```
+
+
+| [Impacted Files](https://codecov.io/gh/mdn/kuma/pull/7120?src=pr&el=tree) | Coverage Δ | |
+|---|---|---|
+| [kuma/landing/views.py](https://codecov.io/gh/mdn/kuma/pull/7120/diff?src=pr&el=tree#diff-a3VtYS9sYW5kaW5nL3ZpZXdzLnB5) | `100.00% <ø> (ø)` | |
+| [kuma/settings/common.py](https://codecov.io/gh/mdn/kuma/pull/7120/diff?src=pr&el=tree#diff-a3VtYS9zZXR0aW5ncy9jb21tb24ucHk=) | `85.09% <ø> (ø)` | |
+
+------
+
+[Continue to review full report at Codecov](https://codecov.io/gh/mdn/kuma/pull/7120?src=pr&el=continue).
+> **Legend** - [Click here to learn more](https://docs.codecov.io/docs/codecov-delta)
+> `Δ = absolute <relative> (impact)`, `ø = not affected`, `? = missing data`
+> Powered by [Codecov](https://codecov.io/gh/mdn/kuma/pull/7120?src=pr&el=footer). Last update [bd56880...85a48b2](https://codecov.io/gh/mdn/kuma/pull/7120?src=pr&el=lastupdated). Read the [comment docs](https://docs.codecov.io/docs/pull-request-comments).
+
+
+ allow robots to /*users/
+ Fixes #7044 
+# [Codecov](https://codecov.io/gh/mdn/kuma/pull/7119?src> Merging [#7119](https://codecov.io/gh/mdn/kuma/pull/7119?src=pr&el=desc) into [master](https://codecov.io/gh/mdn/kuma/commit/d4ee962025e38b43557eb8860b17e68f0383adec&el=desc) will **not change** coverage.
+> The diff coverage is `100.00%`.
+
+[![Impacted file tree graph](https://codecov.io/gh/mdn/kuma/pull/7119/graphs/tree.svg?width=650&height=150&src=pr&token=t8QxVExVSc)](https://codecov.io/gh/mdn/kuma/pull/7119?src=pr&el=tree)
+
+```diff
+@@           Coverage Diff           @@
+##           master    #7119   +/-   ##
+=======================================
+  Coverage   95.65%   95.65%           
+=======================================
+  Files         297      297           
+  Lines       26634    26634           
+  Branches     2016     2016           
+=======================================
+  Hits        25477    25477           
+  Misses        905      905           
+  Partials      252      252           
+```
+
+
+| [Impacted Files](https://codecov.io/gh/mdn/kuma/pull/7119?src=pr&el=tree) | Coverage Δ | |
+|---|---|---|
+| [kuma/landing/views.py](https://codecov.io/gh/mdn/kuma/pull/7119/diff?src=pr&el=tree#diff-a3VtYS9sYW5kaW5nL3ZpZXdzLnB5) | `100.00% <ø> (ø)` | |
+| [kuma/settings/common.py](https://codecov.io/gh/mdn/kuma/pull/7119/diff?src=pr&el=tree#diff-a3VtYS9zZXR0aW5ncy9jb21tb24ucHk=) | `85.09% <ø> (ø)` | |
+| [kuma/api/v1/tests/test\_views.py](https://codecov.io/gh/mdn/kuma/pull/7119/diff?src=pr&el=tree#diff-a3VtYS9hcGkvdjEvdGVzdHMvdGVzdF92aWV3cy5weQ==) | `100.00% <100.00%> (ø)` | |
+
+------
+
+[Continue to review full report at Codecov](https://codecov.io/gh/mdn/kuma/pull/7119?src=pr&el=continue).
+> **Legend** - [Click here to learn more](https://docs.codecov.io/docs/codecov-delta)
+> `Δ = absolute <relative> (impact)`, `ø = not affected`, `? = missing data`
+> Powered by [Codecov](https://codecov.io/gh/mdn/kuma/pull/7119?src=pr&el=footer). Last update [67dcb57...080b0d8](https://codecov.io/gh/mdn/kuma/pull/7119?src=pr&el=lastupdated). Read the [comment docs](https://docs.codecov.io/docs/pull-request-comments).
+
+
+ link to MDN swag store
+ Fixes #7047
+
+I tested it by opening:
+* http://wiki.localhost.org:8000/en-US/docs/Web/HTML
+* http://localhost.org:8000/en-US/
+* http://localhost.org:8000/en-US/docs/Web/HTML
+* http://localhost.org:8000/en-US/payments/
+
+
+ SMTPServerDisconnected sending confirmation email
+ Fixes #6737
+
+We actually already have retry on the welcome email. But I increased the retry'ing there a bit. 
+The most important change is in the sending of verification emails. 
+
+To test; set in your `.env` this:
+```
+EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
+EMAIL_HOST=anything.for.testing
+```
+and then go to http://localhost.org:8000/en-US/users/account/email and try to trigger the sending of a verification email. It'll just sit there for ~30 seconds and eventually fail (because `anything.for.testing` won't actually work)
+In hindsight, we worried too much about this. The few poor people who got unlucky with the SMTP network connection, in that exact moment, would get a ISE page so they can at least put two and two together and assume something didn't work so they won't get an email. 
+Anyway. Now it's done and it was pretty painless to add. 
+
+# [Codecov](https://codecov.io/gh/mdn/kuma/pull/7116?src> Merging [#7116](https://codecov.io/gh/mdn/kuma/pull/7116?src=pr&el=desc) into [master](https://codecov.io/gh/mdn/kuma/commit/d4ee962025e38b43557eb8860b17e68f0383adec&el=desc) will **increase** coverage by `0.00%`.
+> The diff coverage is `100.00%`.
+
+[![Impacted file tree graph](https://codecov.io/gh/mdn/kuma/pull/7116/graphs/tree.svg?width=650&height=150&src=pr&token=t8QxVExVSc)](https://codecov.io/gh/mdn/kuma/pull/7116?src=pr&el=tree)
+
+```diff
+@@           Coverage Diff           @@
+##           master    #7116   +/-   ##
+=======================================
+  Coverage   95.65%   95.65%           
+=======================================
+  Files         297      297           
+  Lines       26634    26641    +7     
+  Branches     2016     2016           
+=======================================
++ Hits        25477    25484    +7     
+  Misses        905      905           
+  Partials      252      252           
+```
+
+
+| [Impacted Files](https://codecov.io/gh/mdn/kuma/pull/7116?src=pr&el=tree) | Coverage Δ | |
+|---|---|---|
+| [kuma/core/utils.py](https://codecov.io/gh/mdn/kuma/pull/7116/diff?src=pr&el=tree#diff-a3VtYS9jb3JlL3V0aWxzLnB5) | `65.36% <ø> (ø)` | |
+| [kuma/settings/common.py](https://codecov.io/gh/mdn/kuma/pull/7116/diff?src=pr&el=tree#diff-a3VtYS9zZXR0aW5ncy9jb21tb24ucHk=) | `85.09% <ø> (ø)` | |
+| [kuma/users/adapters.py](https://codecov.io/gh/mdn/kuma/pull/7116/diff?src=pr&el=tree#diff-a3VtYS91c2Vycy9hZGFwdGVycy5weQ==) | `95.31% <100.00%> (+0.27%)` | :arrow_up: |
+
+------
+
+[Continue to review full report at Codecov](https://codecov.io/gh/mdn/kuma/pull/7116?src=pr&el=continue).
+> **Legend** - [Click here to learn more](https://docs.codecov.io/docs/codecov-delta)
+> `Δ = absolute <relative> (impact)`, `ø = not affected`, `? = missing data`
+> Powered by [Codecov](https://codecov.io/gh/mdn/kuma/pull/7116?src=pr&el=footer). Last update [f9206d3...d3a8aa7](https://codecov.io/gh/mdn/kuma/pull/7116?src=pr&el=lastupdated). Read the [comment docs](https://docs.codecov.io/docs/pull-request-comments).
+
+
+ Django User admin not working related to stripe_customer_id
+ **Summary**
+<img width="1450" alt="Screen Shot 2020-05-20 at 1 01 52 PM" src="https://user-images.githubusercontent.com/26739/82475221-28e5a080-9a9a-11ea-948f-be97bf2c15d6.png">
+
+There *exists* a user with that username. 
+The user is there. I can manually type in the URL http://localhost.org:8000/admin/users/user/1311/change/ and it works. 
+
+It's related to `IsStripeCustomer` in `kuma/users/admin.py`.
+
+**Steps To Reproduce (STR)**
+
+1. Have a user with and without a `stripe_customer_id`
+2. Go to http://localhost.org:8000/admin/users/user/
+3. Is the user appearing?
+
+
+**Actual behavior**
+_What actually happened?_
+
+
+**Expected behavior**
+_What did you expect to happen?_
+
+
+**Additional context**
+Pretty sure it's the `IsStripeCustomer` thing that's filtering on the empty string even if you didn't filter on it. 
+I suspect that in here https://github.com/mdn/kuma/blob/f9206d32e598d3661af90bf33b1dd41b9d8aad5b/kuma/users/admin.py#L31-L35 we need to look at `self.value()` more closely. 
+
+@atopal I think we'll probably turn this one into a P1 and have a resolution before we launch Stripe/Subscriptions but I think the Django User admin is busted at the moment. Users are simply not showing up. I think you work around it by filtering on "Yes" and "No" on the "By is Stripe Customer" filter. 
+
+Yeah, would be nice, but not urgent. I don't really have a use case for this for now. Let me know if you do.
+
+ Implement new main menu and updated header
+ Implements new main menu. Also cleaned up our page header and some other small tweaks.
+
+@mindy r?
+
+fix #7010
+Whoops! Found a small issue. Resolving.
+
+Ready for r?
+
+Thank you for the review @mindy - Updated.
+
+Also, tested on iOS and Android:
+
+## iOS
+
+![](https://user-images.githubusercontent.com/10350960/82518440-b3241800-9b1f-11ea-870c-2487e890f3a0.png)
+
+![](https://user-images.githubusercontent.com/10350960/82518465-bd461680-9b1f-11ea-8cc3-11484925fcca.png)
+
+## Android
+
+![](https://user-images.githubusercontent.com/10350960/82518632-1615af00-9b20-11ea-8fcc-fe7a59edfce5.png)
+
+![](https://user-images.githubusercontent.com/10350960/82518645-1c0b9000-9b20-11ea-9745-043a1d7394ad.png)
+
+ about subscription management page in email
+ Fixes #7080
+ Change discount code text
+ Fixes #7082
+ welcome email deep links
+ Part of #6883
+ change default email email from
+ Part of #6883
+# [Codecov](https://codecov.io/gh/mdn/kuma/pull/7110?src> Merging [#7110](https://codecov.io/gh/mdn/kuma/pull/7110?src=pr&el=desc) into [master](https://codecov.io/gh/mdn/kuma/commit/e4d827a9369fff63e54fef96f895a6f62e5781dd&el=desc) will **decrease** coverage by `0.00%`.
+> The diff coverage is `86.40%`.
+
+[![Impacted file tree graph](https://codecov.io/gh/mdn/kuma/pull/7110/graphs/tree.svg?width=650&height=150&src=pr&token=t8QxVExVSc)](https://codecov.io/gh/mdn/kuma/pull/7110?src=pr&el=tree)
+
+```diff
+@@            Coverage Diff             @@
+##           master    #7110      +/-   ##
+==========================================
+- Coverage   95.66%   95.65%   -0.01%     
+==========================================
+  Files         292      297       +5     
+  Lines       26528    26634     +106     
+  Branches     2007     2016       +9     
+==========================================
++ Hits        25378    25477      +99     
+- Misses        900      905       +5     
+- Partials      250      252       +2     
+```
+
+
+| [Impacted Files](https://codecov.io/gh/mdn/kuma/pull/7110?src=pr&el=tree) | Coverage Δ | |
+|---|---|---|
+| [kuma/users/checks.py](https://codecov.io/gh/mdn/kuma/pull/7110/diff?src=pr&el=tree#diff-a3VtYS91c2Vycy9jaGVja3MucHk=) | `33.33% <ø> (+2.08%)` | :arrow_up: |
+| [kuma/users/newsletter/sendinblue.py](https://codecov.io/gh/mdn/kuma/pull/7110/diff?src=pr&el=tree#diff-a3VtYS91c2Vycy9uZXdzbGV0dGVyL3NlbmRpbmJsdWUucHk=) | `100.00% <ø> (ø)` | |
+| [kuma/users/tasks.py](https://codecov.io/gh/mdn/kuma/pull/7110/diff?src=pr&el=tree#diff-a3VtYS91c2Vycy90YXNrcy5weQ==) | `100.00% <ø> (ø)` | |
+| [kuma/users/newsletter/checks.py](https://codecov.io/gh/mdn/kuma/pull/7110/diff?src=pr&el=tree#diff-a3VtYS91c2Vycy9uZXdzbGV0dGVyL2NoZWNrcy5weQ==) | `33.33% <33.33%> (ø)` | |
+| [kuma/users/stripe\_utils.py](https://codecov.io/gh/mdn/kuma/pull/7110/diff?src=pr&el=tree#diff-a3VtYS91c2Vycy9zdHJpcGVfdXRpbHMucHk=) | `72.22% <66.66%> (+0.58%)` | :arrow_up: |
+| [kuma/users/newsletter/apps.py](https://codecov.io/gh/mdn/kuma/pull/7110/diff?src=pr&el=tree#diff-a3VtYS91c2Vycy9uZXdzbGV0dGVyL2FwcHMucHk=) | `84.61% <84.61%> (ø)` | |
+| [kuma/users/newsletter/signal\_handlers.py](https://codecov.io/gh/mdn/kuma/pull/7110/diff?src=pr&el=tree#diff-a3VtYS91c2Vycy9uZXdzbGV0dGVyL3NpZ25hbF9oYW5kbGVycy5weQ==) | `90.00% <90.00%> (ø)` | |
+| [kuma/api/v1/tests/test\_views.py](https://codecov.io/gh/mdn/kuma/pull/7110/diff?src=pr&el=tree#diff-a3VtYS9hcGkvdjEvdGVzdHMvdGVzdF92aWV3cy5weQ==) | `100.00% <100.00%> (ø)` | |
+| [kuma/settings/common.py](https://codecov.io/gh/mdn/kuma/pull/7110/diff?src=pr&el=tree#diff-a3VtYS9zZXR0aW5ncy9jb21tb24ucHk=) | `85.09% <100.00%> (-0.05%)` | :arrow_down: |
+| [kuma/settings/pytest.py](https://codecov.io/gh/mdn/kuma/pull/7110/diff?src=pr&el=tree#diff-a3VtYS9zZXR0aW5ncy9weXRlc3QucHk=) | `100.00% <100.00%> (ø)` | |
+| ... and [11 more](https://codecov.io/gh/mdn/kuma/pull/7110/diff?src=pr&el=tree-more) | |
+
+------
+
+[Continue to review full report at Codecov](https://codecov.io/gh/mdn/kuma/pull/7110?src=pr&el=continue).
+> **Legend** - [Click here to learn more](https://docs.codecov.io/docs/codecov-delta)
+> `Δ = absolute <relative> (impact)`, `ø = not affected`, `? = missing data`
+> Powered by [Codecov](https://codecov.io/gh/mdn/kuma/pull/7110?src=pr&el=footer). Last update [acb2a9b...d4ee962](https://codecov.io/gh/mdn/kuma/pull/7110?src=pr&el=lastupdated). Read the [comment docs](https://docs.codecov.io/docs/pull-request-comments).
+
+
+ T - Delete document action
+ 
+ T - Move document action
+ 
+ T - Create document action
+ Basic UI for creating documents, triggering the necessary changes in the FS
+ T - Add UI highlighting existing CMS capabilities
+ Add a toolbar that highlights existing, and makes room for future, CMS capabilities
+ U - Add basic CMS tools for writers
+ **Description:**
+Create (and highlight existing) tooling for creating, editing/moving and deleting of documents
+
+**Acceptance Criteria:**
+- [ ] development mode only UI, possibly a toolbar, that highlights CMS functionalities
+- [ ] CMS actions for documents:
+  - [ ] create
+  - [ ] move
+  - [ ] delete
+Ugh. I typed a bunch but GitHub failed to save it for some reason. (I was getting ISE Unicorns on another issue)
+Regarding "development mode only UI, possibly a toolbar, that highlights CMS functionalities" I think we should move the following into it:
+
+* The flaws that are usually displayed and expanded upon at the bottom of the page
+* The document spy; so you know if you're actively connected to the watcher
+* The "Edit this page in your editor" button
+* The "Edit this page in your browser" link
+* [A link to `https://developer.mozilla.org/$uri`](https://github.com/mdn/yari/issues/608)
+
+The flaw stuff uses up a lot of screen space and it needs it. So perhaps, in this toolbar, if the document HAS flaws, pressing a button can open up the flaws and scroll to the bottom to display them all. 
+
+Another thing to keep in mind is that we might want to put messaging into this toolbar about the git status. Partially, a one-liner summary ("Document is edited but unstaged"  or something) and partially an more verbose/expanded version where you might be able to see the git diff (based on your changes and information about this is GitHub as a PR or something like that)
+
+Also, perhaps it goes without saying but we should put ALL the CMS'y components all under one big bundle. I.e. instead of a lazy-loaded bundle for the flaws, the DocumentSpy, etc. etc. we just have 1 big extra bundle for all CMS'y development things. 
+
+ incorrect operation of input with type number
+  
+ While use Firefox browser can add string character to  input with type="number"
+
+
+
+
+
+<img width="1034" alt="изображение" src="https://user-images.githubusercontent.com/31703093/82346081-b5428580-99fe-11ea-98c8-4a7d2d4c232e.png">
+
+If you believe this is incorrectly/buggy implemented in Firefox, I would advice you use https://bugzilla.mozilla.org/enter_bug.cgi?product
+I'm not sure which page on MDN you're referring to but it might be interesting that you add to the content, a warning about this browser vendor implementation. 
+
+ U - Improve handling of xref macros in Yari Kumascript rendering
+ ### Summary
+As a user of the Yari PVP, I want the family of `*xref` macros to resolve without error even when the document they refer to does not exist, similar to Kuma except that in this case the link will not be clickable. Currently in Yari, they throw an error, which creates a flaw but leaves the macro unresolved.
+
+See https://github.com/mdn/yari/issues/623 for detailed context.
+
+### Acceptance Criteria
+- [ ] New functionality, as described in https://github.com/mdn/yari/issues/623, implemented and tested within the Yari `kumascript` workspace
+ don't run sendinblue signal handlers and checks without config
+ Fix #7100 
+
+The title says it all really
+ Use translate This should not happen. 
+<img width="598" alt="Screen Shot 2020-05-18 at 2 28 21 PM" src="https://user-images.githubusercontent.com/26739/82250854-3bd16700-991a-11ea-932c-6b394f7980ad.png">
+
+From: https://translate.google.com/translate?sl=auto&tl=sv&u=https%3A%2F%2Fdeveloper.mozilla.org%2Fen-US%2Fdocs%2FLearn%2FCSS%2FFirst_steps%2FWhat_is_CSS
+
+ TypeError on sendinblue
+ https://sentry.prod.mozaws.net/operations/mdn-prod/issues/8473154/?referrer
+```
+TypeError: int() argument must be a string, a bytes-like object or a number, not 'NoneType'
+  File "celery/app/trace.py", line 385, in trace_task
+    R = retval = fun(*args, **kwargs)
+  File "newrelic/hooks/application_celery.py", line 85, in wrapper
+    return wrapped(*args, **kwargs)
+  File "celery/app/trace.py", line 650, in __protected_call__
+    return self.run(*args, **kwargs)
+  File "kuma/users/newsletter/tasks.py", line 29, in create_or_update_contact
+    "listIds": [int(settings.SENDINBLUE_LIST_ID)],
+
+TypeError: int() argument must be a string, a bytes-like object or a number, not 'NoneType'
+```
+@Gregoor I think you and @ryan need to work on synchronizing the deployment and the environment variables. 
+

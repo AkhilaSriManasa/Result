@@ -1,0 +1,49 @@
+﻿ Fixed some problems where object files could not be located
+ Thanks for sharing the blink project!
+
+I tried to use the dll branch with our code base and found two issues: 
+  1. When `read_debug_info` is called for multiple modules, the list of object files and the list of source files get out-of-sync; object files are correctly appended to the array, but source files overwrite existing entries.
+  2. I encountered the case, that the object file paths are not absolute in the PDB file, I fixed this by looking at the current working directory in the code view records.
+
+With these fixes blink is able to find all source and object files in our solution, which has multiple projects and a kind of unusual file structure.
+
+This pull request also adds a little feature with lets you attach to a running executable by its name - instead of looking up the PID manually. I added the command line switch `-a` so that it does not interfere with the existing command line options.
+ Actually check the ClassID inside the COFF header
+ The actual signature of an extended COFF is on 3 fields :
+
+Machine type 		-> IMAGE_FILE_MACHINE_UNKNOWN (0)
+Number of Sections 	-> FFFF
+Class ID		-> {D1BAA1C7-BAEE-4ba9-AF20-FAF66AA4DCB8}
+
+This patch adds the missing check of the Class ID inside the "is_extended" function.
+
+For matter of simplicity, I've filed in the 16 byte array as a static
+constant inside the header. The actual value of the classid is only
+documented in comments, but there's no pre-filled structure containing it.
+
+Now we can be assured to have a robust way of checking for an extended COFF file.
+ Update README after changes made in #23 and #25
+ 
+ Make Blink compatible with object files built with `/bigobj`
+ See discussion in issue #23 
+
+Do not merge yet : 
+
+If things are going to get built with /bigobj too. The code that does the "linking and patching" needs a similar modification.
+
+Probably around here : https://github.com/crosire/blink/blob/master/source/blink_linker.cpp#L136
+ Add CMakeLists.txt file
+ I had some issues with the included Visual Studio solution. It was not finding "Windows.h" directly when opened on my system. Re-targeting the windows SDK was necessary, but then it stopped to work again 🤷‍♂️.
+
+CMake is able to generate a Visual Studio solution that is specific to the user's installation of Visual Studio and of the Windows SDK. It is much more flexible.
+
+This PR just adds a CMakeLists.txt file in the root directory that permits to build blink.exe via CMake. This also facilitate automating the build of the project (can just script 2 lines of bash that does CMake -G"Visual Studio  15 2017 win64" . and "CMake --build ." (useful for like, Continuous Integration... 😄 )
+
+
+ Delete *.obj files after linking, always produce source directory from common source path
+ Hello! I find these changes useful for me.
+
+It would be also really great if blink can see sources of linked libraries.
+ Invalid pull request
+ Hi
+I would like to contribute for the code base please accept my pull request

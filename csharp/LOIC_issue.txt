@@ -1,0 +1,659 @@
+﻿ Problems building LOIC with mdtool build file not found
+ I'm working on an Ubuntu server and am trying to build LOIC as instructed in the support documentation. When I write mdtool build I get the error project file not found. I'm in the folder containing LOIC when I run the command.
+![Screenshot 2020-05-06 at 21 23 38](https://user-images.githubusercontent.com/4274904/81224609-e0c97700-8fdf-11ea-92d8-36262ff3efe6.png)
+
+The project file in inside the src folder.
+
+Alternatively you could use loic.sh or loic-net4.5.sh script (depends on the .net version available on your system)
+
+ Loic2
+ 
+ Help with running/compiling
+ Would you be able to help me with the launch options for LOIC? Im messing around and just want to compile my own version. Thanks!
+Download the source code and have fun.
+
+There's a LOIC.sln in src folder that you can open with Visual Studio and might be also openable by Mono Develop. If not use LOIC.csproj
+
+
+
+ Mac OS mono
+  mono --archWARNING: The runtime version supported by this application is unavailable.
+Using default runtime: v4.0.30319
+WARNING: The Carbon driver has not been ported to 64bits, and very few parts of Windows.Forms will work properly, or at all
+
+
+
+mono --arch=32 /LOIC_2/LOIC.exe
+Error: --arch=32 Failed to switch to 'mono32'
+
+
+Mac OS Catalina 
+32 bit mono will not run on catalina, apple removed 32 bit support.
+
+How to run this on Macos catalina 
+Thanks
+
+In theory you could compile it from source using monodevelop and submit any necessary patches as a pull request.
+
+ Wishlist: Support HOIC
+ Since you already interested in LOIC which is more of DOS rather than DDOS, it would be nice to complete the puzzle by having HOIC instructions. (didnt see any on github)
+
+https://sourceforge.net/projects/high-orbit-ion-cannon/
+
+ThX!
+Closing as this is not planed.
+
+ Wishlist: Add Loic to Debian or to Kali/Parrot
+ Its preferable to have loic uploaded to Debian repos or any penetration testing like Kali/Parrot if it will be rewritten in GTK or JSON or PyQt...etc 
+
+ThX!
+Marking as `wontfix`. This a legacy tool and rewrites are not planned.
+
+ Wrong/old instructions of wine installation
+ Wine instructions doesnt work directly as it mentioned here it needs some improvements: 
+
+There is Wine64 and Wine32 , `apt install wine` it will install wine64 because Debian and most distros deprecating/not using by default i386 architecture, so user need to specify the wine version.
+
+Better refer the user to install wine on debian from the official website of winehq: 
+
+https://wiki.winehq.org/Debian
+
+(why do we need 32bit? because loic architecture is 32bit)
+
+I have edited the wiki entry to add your comment:
+https://github.com/NewEraCracker/LOIC/wiki/How-to-run-LOIC-using-Wine
+
+Ok awesome! 
+
+Thx :)
+
+Closing as resolved.
+
+ Mono method is outdated
+ Im trying to install it using mono method but `monodevelop` package doesnt exist anymore thus hindering the installation of it. 
+Read the comment of the loic.sh and loic-net4.5.sh
+```
+# Before using you must install monodevelop from:
+# https://www.monodevelop.com/download/#fndtn-download-lin
+```
+You need to install their package first from their own repository since some distributions no longer include it.
+
+I have added this info to the article in the wiki: https://github.com/NewEraCracker/LOIC/wiki/How-to-run-LOIC-using-Mono
+
+alright great!
+
+closing as resolved.
+
+ Running LOIC with mono on macOS
+ Mono has been installed with mono's installer package (though the same error occurred when trying to run with mono installed from homebrew), and LOIC has been compiled `./loic.sh install`. The error was received when running `./loic.sh run`:
+```
+grep: /etc/*-release: No such file or directory
+/Library/Frameworks/Mono.framework/Versions/Current/Commands/mono
+WARNING: The Carbon driver has not been ported to 64bits, and very few parts of Windows.Forms will work properly, or at all
+
+=================================================================
+	Native Crash Reporting
+=================================================================
+Got a SIGSEGV while executing native code. This usually indicates
+a fatal error in the mono runtime or one of the native libraries 
+used by your application.
+=================================================================
+
+=================================================================
+	Native stacktrace:
+=================================================================
+	0x10c84de3b - /Library/Frameworks/Mono.framework/Versions/Current/Commands/mono : mono_dump_native_crash_info
+	0x10c7e6415 - /Library/Frameworks/Mono.framework/Versions/Current/Commands/mono : mono_handle_native_crash
+	0x10c847f6e - /Library/Frameworks/Mono.framework/Versions/Current/Commands/mono : altstack_handle_and_restore
+	0x7fffba1a37a1 - /System/Library/PrivateFrameworks/SkyLight.framework/Versions/A/SkyLight : SLDisplayBounds
+	0x11301078d - Unknown
+	0x10ccdea26 - Unknown
+	0x10c7432eb - /Library/Frameworks/Mono.framework/Versions/Current/Commands/mono : mono_jit_runtime_invoke
+	0x10c952522 - /Library/Frameworks/Mono.framework/Versions/Current/Commands/mono : mono_runtime_try_invoke
+	0x10c951148 - /Library/Frameworks/Mono.framework/Versions/Current/Commands/mono : mono_runtime_class_init_full
+	0x10c73ae00 - /Library/Frameworks/Mono.framework/Versions/Current/Commands/mono : mono_jit_compile_method_inner
+	0x10c73e7ea - /Library/Frameworks/Mono.framework/Versions/Current/Commands/mono : mono_jit_compile_method_with_opt
+	0x10c7e8ff7 - /Library/Frameworks/Mono.framework/Versions/Current/Commands/mono : common_call_trampoline
+	0x10c7e8a30 - /Library/Frameworks/Mono.framework/Versions/Current/Commands/mono : mono_magic_trampoline
+	0x10cc23393 - Unknown
+	0x112b94b9b - Unknown
+	0x112e16a37 - Unknown
+	0x112b99c43 - Unknown
+
+=================================================================
+	Telemetry Dumper:
+=================================================================
+Pkilling 0x700007aa0000 from 0x7fffc6d3a3c0
+Entering thread summarizer pause from 0x7fffc6d3a3c0
+Finished thread summarizer pause from 0x7fffc6d3a3c0.
+
+Waiting for dumping threads to resume
+
+=================================================================
+	External Debugger Dump:
+=================================================================
+(lldb) command source -s 0 '/tmp/mono-gdb-commands.46978'
+Executing commands in '/tmp/mono-gdb-commands.46978'.
+(lldb) process attach --pid 46978
+warning: (x86_64) /Library/Frameworks/Mono.framework/Versions/6.8.0/lib/mono/4.5/mscorlib.dll.dylib empty dSYM file detected, dSYM was created with an executable with no debug info.
+warning: (x86_64) /Library/Frameworks/Mono.framework/Versions/6.8.0/lib/libglib-2.0.0.dylib empty dSYM file detected, dSYM was created with an executable with no debug info.
+Process 46978 stopped
+* thread #1, name = 'tid_307', queue = 'com.apple.main-thread', stop reason = signal SIGSTOP
+    frame #0: 0x00007fffbdeeb3ee libsystem_kernel.dylib`__wait4 + 10
+libsystem_kernel.dylib`__wait4:
+->  0x7fffbdeeb3ee <+10>: jae    0x7fffbdeeb3f8            ; <+20>
+    0x7fffbdeeb3f0 <+12>: movq   %rax, %rdi
+    0x7fffbdeeb3f3 <+15>: jmp    0x7fffbdee3cd4            ; cerror
+    0x7fffbdeeb3f8 <+20>: retq   
+Target 0: (mono) stopped.
+
+Executable module set to "/Library/Frameworks/Mono.framework/Versions/Current/Commands/mono".
+Architecture set to: x86_64-apple-macosx.
+(lldb) thread list
+Process 46978 stopped
+* thread #1: tid = 0x6faae, 0x00007fffbdeeb3ee libsystem_kernel.dylib`__wait4 + 10, name = 'tid_307', queue = 'com.apple.main-thread', stop reason = signal SIGSTOP
+  thread #2: tid = 0x6fab3, 0x00007fffbdeeabf2 libsystem_kernel.dylib`__psynch_cvwait + 10, name = 'SGen worker'
+  thread #3: tid = 0x6fabd, 0x00007fffbdee3386 libsystem_kernel.dylib`semaphore_wait_trap + 10, name = 'Finalizer'
+  thread #4: tid = 0x6fabe, 0x00007fffbdeeb44e libsystem_kernel.dylib`__workq_kernreturn + 10
+  thread #5: tid = 0x6fabf, 0x00007fffbdeeb44e libsystem_kernel.dylib`__workq_kernreturn + 10
+  thread #6: tid = 0x6fac0, 0x00007fffbdeeb44e libsystem_kernel.dylib`__workq_kernreturn + 10
+(lldb) thread backtrace all
+* thread #1, name = 'tid_307', queue = 'com.apple.main-thread', stop reason = signal SIGSTOP
+  * frame #0: 0x00007fffbdeeb3ee libsystem_kernel.dylib`__wait4 + 10
+    frame #1: 0x000000010c84e057 mono`mono_dump_native_crash_info at mini-posix.c:1084 [opt]
+    frame #2: 0x000000010c84dddc mono`mono_dump_native_crash_info(signal="SIGSEGV", mctx=<unavailable>, info=<unavailable>) at mini-posix.c:1130 [opt]
+    frame #3: 0x000000010c7e6415 mono`mono_handle_native_crash(signal="SIGSEGV", mctx=0x00007fff534cd6d0, info=0x0000000000000000) at mini-exceptions.c:3425 [opt]
+    frame #4: 0x000000010c847f6e mono`altstack_handle_and_restore(ctx=0x00007fff534cd6d0, obj=0x0000000000000000, flags=0) at exceptions-amd64.c:881 [opt]
+    frame #5: 0x00007fffba1a37a1 SkyLight`SLDisplayBounds + 68
+    frame #6: 0x000000011301078d
+    frame #7: 0x000000010ccdea26
+    frame #8: 0x000000010c7432eb mono`mono_jit_runtime_invoke(method=<unavailable>, obj=<unavailable>, params=0x0000000000000000, exc=0x0000000113010000, error=<unavailable>) at mini-runtime.c:3190 [opt]
+    frame #9: 0x000000010c952522 mono`mono_runtime_try_invoke [inlined] do_runtime_invoke(method=<unavailable>, obj=0x0000000000000000, params=0x0000000000000000, exc=0x00007fff534cddc0, error=0x00007fff534cdff0) at object.c:3044 [opt]
+    frame #10: 0x000000010c9524e6 mono`mono_runtime_try_invoke(method=0x00007f978c0f3a28, obj=0x0000000000000000, params=0x0000000000000000, exc=<unavailable>, error=0x00007fff534cdff0) at object.c:3153 [opt]
+    frame #11: 0x000000010c951148 mono`mono_runtime_class_init_full(vtable=0x00007f978c14d8d0, error=<unavailable>) at object.c:551 [opt]
+    frame #12: 0x000000010c73ae00 mono`mono_jit_compile_method_inner(method=0x00007f978c0d1480, target_domain=0x00007f978b50df40, opt=<unavailable>, error=0x00007fff534cdff0) at mini.c:4169 [opt]
+    frame #13: 0x000000010c73e7ea mono`mono_jit_compile_method_with_opt(method=0x00007f978c0d1480, opt=<unavailable>, jit_only=0, error=0x00007fff534cdff0) at mini-runtime.c:2444 [opt]
+    frame #14: 0x000000010c7e8ff7 mono`common_call_trampoline(regs=0x00007fff534ce0a8, code="H\x8b?H??\xa8H\x8b??8, m=0x00007f978c0d1480, vt=0x0000000000000000, vtable_slot=<unavailable>, error=0x00007fff534cdff0) at mini-trampolines.c:635 [opt]
+    frame #15: 0x000000010c7e8a30 mono`mono_magic_trampoline(regs=0x00007fff534ce0a8, code="H\x8b?H??\xa8H\x8b??8, arg=0x00007f978c0d1480, tramp=<unavailable>) at mini-trampolines.c:773 [opt]
+    frame #16: 0x000000010cc23393
+    frame #17: 0x0000000112b94b9b
+    frame #18: 0x0000000112e16a37
+    frame #19: 0x0000000112b99c43
+  thread #2, name = 'SGen worker'
+    frame #0: 0x00007fffbdeeabf2 libsystem_kernel.dylib`__psynch_cvwait + 10
+    frame #1: 0x00007fffbdfd67fa libsystem_pthread.dylib`_pthread_cond_wait + 712
+    frame #2: 0x000000010ca228be mono`thread_func [inlined] mono_os_cond_wait(mutex=<unavailable>) at mono-os-mutex.h:177 [opt]
+    frame #3: 0x000000010ca228ab mono`thread_func at sgen-thread-pool.c:165 [opt]
+    frame #4: 0x000000010ca2289d mono`thread_func(data=0x0000000000000000) at sgen-thread-pool.c:196 [opt]
+    frame #5: 0x00007fffbdfd593b libsystem_pthread.dylib`_pthread_body + 180
+    frame #6: 0x00007fffbdfd5887 libsystem_pthread.dylib`_pthread_start + 286
+    frame #7: 0x00007fffbdfd508d libsystem_pthread.dylib`thread_start + 13
+  thread #3, name = 'Finalizer'
+    frame #0: 0x00007fffbdee3386 libsystem_kernel.dylib`semaphore_wait_trap + 10
+    frame #1: 0x000000010c9cf7ca mono`finalizer_thread [inlined] mono_os_sem_wait(flags=MONO_SEM_FLAGS_ALERTABLE) at mono-os-semaphore.h:84 [opt]
+    frame #2: 0x000000010c9cf7bf mono`finalizer_thread at mono-coop-semaphore.h:41 [opt]
+    frame #3: 0x000000010c9cf7a5 mono`finalizer_thread(unused=<unavailable>) at gc.c:963 [opt]
+    frame #4: 0x000000010c97c4f8 mono`start_wrapper [inlined] start_wrapper_internal at threads.c:1233 [opt]
+    frame #5: 0x000000010c97c4a3 mono`start_wrapper(data=0x00007f978b701df0) at threads.c:1306 [opt]
+    frame #6: 0x00007fffbdfd593b libsystem_pthread.dylib`_pthread_body + 180
+    frame #7: 0x00007fffbdfd5887 libsystem_pthread.dylib`_pthread_start + 286
+    frame #8: 0x00007fffbdfd508d libsystem_pthread.dylib`thread_start + 13
+  thread #4
+    frame #0: 0x00007fffbdeeb44e libsystem_kernel.dylib`__workq_kernreturn + 10
+    frame #1: 0x00007fffbdfd5621 libsystem_pthread.dylib`_pthread_wqthread + 1426
+    frame #2: 0x00007fffbdfd507d libsystem_pthread.dylib`start_wqthread + 13
+  thread #5
+    frame #0: 0x00007fffbdfd5070 libsystem_pthread.dylib`start_wqthread
+  thread #6
+    frame #0: 0x00007fffbdeeb44e libsystem_kernel.dylib`__workq_kernreturn + 10
+    frame #1: 0x00007fffbdfd5621 libsystem_pthread.dylib`_pthread_wqthread + 1426
+    frame #2: 0x00007fffbdfd507d libsystem_pthread.dylib`start_wqthread + 13
+(lldb) detach
+
+=================================================================
+	Basic Fault Address Reporting
+=================================================================
+Memory around native instruction pointer (0x7fffba1a37a1):0x7fffba1a3791  45 d8 89 f7 48 89 c6 e8 1d f4 f8 ff 48 8b 45 f0  E...H.......H.E.
+0x7fffba1a37a1  48 89 43 18 48 8b 45 e8 48 89 43 10 48 8b 45 d8  H.C.H.E.H.C.H.E.
+0x7fffba1a37b1  48 8b 4d e0 48 89 4b 08 48 89 03 48 89 d8 48 83  H.M.H.K.H..H..H.
+0x7fffba1a37c1  c4 28 5b 5d c3 55 48 89 e5 48 83 ec 20 48 8b 05  .([].UH..H.. H..
+Process 46978 detached
+
+=================================================================
+	Managed Stacktrace:
+=================================================================
+	  at <unknown> <0xffffffff>
+	  at System.Windows.Forms.XplatUICarbon:CGDisplayBounds <0x000bc>
+	  at System.Windows.Forms.XplatUICarbon:get_WorkingArea <0x00072>
+	  at System.Windows.Forms.XplatUICarbon:get_VirtualScreen <0x00043>
+	  at System.Windows.Forms.XplatUI:get_VirtualScreen <0x00048>
+	  at System.Windows.Forms.Screen:.cctor <0x0017a>
+	  at System.Object:runtime_invoke_void <0x000a5>
+	  at <unknown> <0xffffffff>
+	  at System.Windows.Forms.Form:get_CreateParams <0x0062a>
+	  at System.Windows.Forms.Control:UpdateBounds <0x00096>
+	  at System.Windows.Forms.Control:SetBoundsCore <0x002b2>
+	  at System.Windows.Forms.Form:SetBoundsCore <0x0018a>
+	  at System.Windows.Forms.Control:SetBounds <0x00187>
+	  at System.Windows.Forms.Control:ScaleControl <0x000ca>
+	  at System.Windows.Forms.ScrollableControl:ScaleControl <0x00052>
+	  at System.Windows.Forms.Form:ScaleControl <0x00052>
+	  at System.Windows.Forms.Control:Scale <0x0020b>
+	  at System.Windows.Forms.ContainerControl:PerformAutoScale <0x001ba>
+	  at System.Windows.Forms.ContainerControl:PerformAutoScale <0x00042>
+	  at System.Windows.Forms.ContainerControl:PerformDelayedAutoScale <0x0004a>
+	  at System.Windows.Forms.ContainerControl:PerformDelayedAutoScale <0x000a2>
+	  at System.Windows.Forms.Control:ResumeLayout <0x001ba>
+	  at LOIC.frmMain:InitializeComponent <0x0b41a>
+	  at LOIC.frmMain:.ctor <0x00372>
+	  at LOIC.frmMain:.ctor <0x000b2>
+	  at LOIC.Program:Main <0x003ea>
+	  at <Module>:runtime_invoke_void_object <0x000b0>
+(lldb) quit
+=================================================================
+./loic.sh: line 83: 46978 Abort trap: 6           mono --runtime=v4.0.30319 src/bin/Debug/LOIC.exe
+```
+I am able to run LOIC with Wine (after having installed dotnet20), so it /can/ run on macOS.
+
+`./loic.sh` (Dotnet 4.0) and `./loic-net4.5.sh` (Dotnet 4.5) are only intended & tested for Linux systems.
+
+ HackTool:Win32?
+ My antivirus found the Oylecann virus associated with the Fynloski backdoor Trojan and I don't want to give anyone access to my PC. So I should use a different penetration test program. I just wanted to report this problem.
+This an "Hack Tool" if you use it right. However it is a get v&ed tool if you use it wrong.
+
+If you trust the Antivirus is right, then you shouldn't use this tool anyway.
+
+ E: Unable to locate package monodevelop ./loic.sh: line 77: xbuild: käsku ei ole
+ 
+Had the same issue. Followed the official instructions to setup the signatures from https://www.monodevelop.com/download/#fndtn-download-lin-ubuntu and that fixed it for me.
+
+For Ubuntu 18.04
+```
+sudo apt install apt-transport-https dirmngr
+sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
+echo "deb https://download.mono-project.com/repo/ubuntu vs-bionic main" | sudo tee /etc/apt/sources.list.d/mono-official-vs.list
+sudo apt update
+```
+
+ hello can publish console versions
+ hello can publish console versions
+Hey, just wanting to clarify this issue. Are we looking to put together a console version of LOIC? 
+
+Apologies if this is a dumb question -James 
+
+sorry
+
+Feel free to contribute @JamesMatchett 
+
+ bring ssl irc!
+ some channels wont even allow loic!!
+Are you able to give a slightly more detailed description of the issue? @HACKER-3000 
+
+Closing as duplicated of #59 
+
+oh
+
+ Unhandled Exception
+ Unhandled Exception:
+System.TypeInitializationException: The type initializer for 'System.Console' threw an exception. ---> System.TypeInitializationException: The type initializer for 'System.ConsoleDriver' threw an exception. ---> System.Exception: Magic number is wrong: 542
+  at System.TermInfoReader.ReadHeader (System.Byte[] buffer, System.Int32& position) [0x0002b] in <8f2c484307284b51944a1a13a14c0266>:0 
+  at System.TermInfoReader..ctor (System.String term, System.String filename) [0x00065] in <8f2c484307284b51944a1a13a14c0266>:0 
+  at System.TermInfoDriver..ctor (System.String term) [0x00058] in <8f2c484307284b51944a1a13a14c0266>:0 
+  at System.ConsoleDriver.CreateTermInfoDriver (System.String term) [0x00000] in <8f2c484307284b51944a1a13a14c0266>:0 
+  at System.ConsoleDriver..cctor () [0x00062] in <8f2c484307284b51944a1a13a14c0266>:0 
+   --- End of inner exception stack trace ---
+  at System.Console.SetupStreams (System.Text.Encoding inputEncoding, System.Text.Encoding outputEncoding) [0x0000a] in <8f2c484307284b51944a1a13a14c0266>:0 
+  at System.Console..cctor () [0x000a8] in <8f2c484307284b51944a1a13a14c0266>:0 
+   --- End of inner exception stack trace ---
+  at Mono.XBuild.CommandLine.ErrorUtilities.Display (System.String[] array) [0x0000d] in <e673f01eee9c4ac7b625922346ff8c35>:0 
+  at Mono.XBuild.CommandLine.ErrorUtilities.ShowVersion (System.Boolean exit) [0x00000] in <e673f01eee9c4ac7b625922346ff8c35>:0 
+  at Mono.XBuild.CommandLine.MainClass.Execute () [0x00048] in <e673f01eee9c4ac7b625922346ff8c35>:0 
+  at Mono.XBuild.CommandLine.MainClass.Main (System.String[] args) [0x0000d] in <e673f01eee9c4ac7b625922346ff8c35>:0 
+
+Are you using the latest version of the install script?
+https://github.com/NewEraCracker/LOIC/blob/master/loic.sh
+
+Can you tell me the Linux distro & version?
+
+I'm using Kali Linux 2018.3 (32bit version) all updated and upgraded. And using that same LOIC file.
+Full error: https://pastebin.com/AnWjhsTF
+Uname: Linux en0xCr3w 4.17.0-kali1-686-pae #1 SMP Debian 4.17.8-1kali1 (2018-07-24) i686 GNU/Linux
+
+Okay. Seems like they killed .net 4.0 for good.
+
+Please try this script instead:
+https://github.com/NewEraCracker/LOIC/blob/master/loic-net4.5.sh
+
+I did not test it, but might work...
+
+@NewEraCracker Installation was successful now.
+Thank you very much.
+https://pastebin.com/SPQL6FQX - This issue now with update command after install !!
+
+You should probably do the following.
+git clean -fx
+./loic-net4.5.sh update
+
+Yep it worked.
+Thank you very much Sir :+1: 
+
+Just to make sure.
+
+You're using the very latest version, right?
+https://github.com/NewEraCracker/LOIC/commits/master
+
+Also mind making sure the 
+loic-net4.5.sh install
+Is working fine with the packages I'm using.
+Thanks a lot!
+
+ The following packages have unmet dependencies:
+ 
+The following packages have unmet dependencies:
+ liblog4net-cil-dev : Depends: liblog4net1.2-cil (= 1.2.10+dfsg-7) but it is not going to be installed
+ mono-devel : Depends: libmono-system-drawing4.0-cil (>= 3.0.6) but it is not going to be installed
+              Depends: libmono-system-runtime4.0-cil (>= 2.10.1) but it is not going to be installed
+              Depends: libmono-system-servicemodel4.0a-cil (>= 3.2.3) but it is not going to be installed
+              Depends: libmono-system-web-services4.0-cil (>= 1.0) but it is not going to be installed
+              Depends: libmono-cil-dev (= 5.12.0.226-0xamarin3+ubuntu1804b1) but it is not going to be installed
+              Recommends: msbuild but it is not going to be installed
+ monodevelop : Depends: fsharp but it is not going to be installed
+               Depends: libglade2.0-cil (>= 2.12.40) but it is not going to be installed
+               Depends: libgtk2.0-cil (>= 2.12.40) but it is not going to be installed
+               Depends: libmono-microsoft-web-infrastructure1.0-cil (>= 1.0) but it is not going to be installed
+               Depends: libmono-system-design4.0-cil (>= 1.0) but it is not going to be installed
+               Depends: libmono-system-drawing4.0-cil (>= 3.0.6) but it is not going to be installed
+               Depends: libmono-system-runtime4.0-cil (>= 2.10.1) but it is not going to be installed
+               Depends: libmono-system-servicemodel4.0a-cil (>= 3.2.3) but it is not going to be installed
+               Depends: libmono-system-web-extensions4.0-cil (>= 2.10.3) but it is not going to be installed
+               Depends: libmono-system-web-services4.0-cil (>= 1.0) but it is not going to be installed
+               Depends: libmono-system-web4.0-cil (>= 2.10.3) but it is not going to be installed
+               Depends: libmono-system-windows-forms4.0-cil (>= 1.0) but it is not going to be installed
+               Depends: msbuild but it is not going to be installed
+               Recommends: libgtk2.0-cil-dev but it is not going to be installed
+E: Unable to correct problems, you have held broken packages.
+
+
+Ask in Ubuntu forums how to fix this.
+
+It is amazing how backwards compatibility is always broken when major releases happen.
+
+compiled without problem with Kali 04/18
+
+Related to #79 ?
+
+ New error
+ Installation fails !!
+Log report :
+
+https://rawstring.com/paste/?245bf44c03dc79a8#hYBAn2UNzNP1a4VL7Vn5JCFvsBNFADvA4Pk6xvt9boA=
+Are you using the install script? 
+
+It is not actually new.
+https://github.com/NewEraCracker/LOIC/issues/72#issuecomment-383330364
+
+It's Mono, they like to break backward compatiblity!
+
+Fixed!
+
+ Install LOIC error
+ Cloning into 'LOIC'...
+warning: redirecting to https://github.com/NewEraCracker/LOIC.git/
+remote: Counting objects: 1556, done.
+remote: Compressing objects: 100% (4/4), done.
+remote: Total 1556 (delta 2), reused 6 (delta 2), pack-reused 1550
+Receiving objects: 100% (1556/1556), 4.23 MiB | 2.00 MiB/s, done.
+Resolving deltas: 100% (1002/1002), done.
+./loic.sh: line 75: mdtool: command not found
+Use this script:
+https://github.com/NewEraCracker/LOIC/blob/master/loic.sh
+
+Closing issue due to lack of more information.
+
+don't install this guys. there's no legitimate LOIC anymore. this is a rat
+
+LOIC is shit now anyway. it uses old methods that can be easily avoided
+
+
+ Poject file not found
+ I get this error when installing loic (./loic.sh install)
+
+> /usr/bin/git
+> Cloning into 'LOIC'...
+> warning: redirecting to https://github.com/NewEraCracker/LOIC.git/
+> remote: Counting objects: 1550, done.
+> remote: Total 1550 (delta 0), reused 0 (delta 0), pack-reused 1550
+> Receiving objects: 100% (1550/1550), 4.23 MiB | 280.00 KiB/s, done.
+> Resolving deltas: 100% (1000/1000), done.
+> MonoDevelop Build Tool
+> Project file not found.
+
+Any ideas what's wrong ? It used to work fine.
+Just to double-check, are you using this script or the very old copy?
+https://github.com/NewEraCracker/LOIC/blob/master/loic.sh
+
+I was using the old one now. But the new one also gives me errors when installing.
+Check output here:
+[http://rawstring.com/paste/?5f0c3b75715d1fa7#PX+jQ0TcyQivLuhcmchomdIbt9GW1te+Bhxz2u8MR8U=](url)
+
+Let me know how the script goes with the recent change.
+
+Tried with new changes, only change I see is the text comes in colors now.
+[http://rawstring.com/paste/?682c59adbdb3055c#wrw+wUwkZL5P8lWd26RbH2lKidOPQfZa9cWEWFTxUD0=](url)
+
+Maybe doing the following could help:
+https://github.com/NewEraCracker/LOIC/blob/master/loic.sh
+Edit line 77 from:
+```cd src; xbuild /p:TargetFrameworkVersion="v4.0"```
+To:
+```cd src; xbuild /p:TargetFrameworkVersion="v4.5"```
+
+Reference:
+https://github.com/hirschmann/nbfc/issues/86
+
+Changed the 77th line.
+Now it's output looks like this:
+[http://rawstring.com/paste/?85f42c350c481411#v6b/vOWNFab+HJGr+PpyPGyDwMJBbttLJN05brtFIO4=](url)
+
+Better. Should have been built.
+
+I'll keep this bug open until I figure a solution to detect available .net versions on the linux distro.
+
+Error log snippet for future reference:
+```
+CSC: error CS0518: The predefined type `System.Object' is not defined or imported
+CSC: error CS0518: The predefined type `System.ValueType' is not defined or imported
+CSC: error CS0518: The predefined type `System.Attribute' is not defined or imported
+CSC: error CS0518: The predefined type `System.Int32' is not defined or imported
+CSC: error CS0518: The predefined type `System.UInt32' is not defined or imported
+CSC: error CS0518: The predefined type `System.Int64' is not defined or imported
+CSC: error CS0518: The predefined type `System.UInt64' is not defined or imported
+(...)
+```
+
+Maybe it's due to new kernel update ?
+
+I doubt it. It's more an issue with some new version of mono or package configuration breaking backwards compatibility with projects for older versions of .net framework.
+
+Fixed.
+
+ Clarifications to README
+ - improved clarity by correcting phrasing
+- removed redundancies
+- removed unnecessary capitals
+- added missing capitals
+- minor grammar corrections
+- corrected start of second sentence in Info because it was not a complete sentence
+ [Request] Proxy functionality
+ 
+Another guy trying to fire an RPG-7 through a keyhole.
+
+
+Closing
+
+ license clarification
+ What's the license for the code in this repo?
+https://github.com/NewEraCracker/LOIC/blob/master/LICENSE.md
+
+ James Matchett- Add ICMP attack method
+ Third time's the charm, as per issue #64.
+
+Adds the option for ICMP (ping flood) attacks either with no data in the buffer sent with the ping or a random amount of random bits (up to 65500) in the buffer.
+
+Random bits selected with the "Append random chars" checkbox when ICMP is selected in the method box and number of pings per thread selected with Sockets/thread when ICMP is selected.
+
+Hope this helps contribute towards the program, hope to help write further methods in the future
+
+-with thanks, James
+Amazing! Thanks a lot for the contribution. Will merge soon.
+
+So, I have improved the code and it is now on master. Please let me know if it works well for you.
+
+Just read through the changes, looks perfect :) , thank you very much 👍 
+
+ James Matchett- Add ICMP attack method 
+ Hopefully Commit coming through clearer now, 
+
+As per issue #64 
+
+Adds the option for ICMP (ping flood) attacks either with no data in the buffer sent with the ping or a random amount of random bits (up to 65500) in the buffer.
+
+Random bits selected with the "Append random chars" checkbox when ICMP is selected in the method box and number of pings per thread selected with Sockets/thread when ICMP is selected.
+
+Things I would change: Drop port number from ICMP method call in cHLDos.cs as it is unnecessary in ICMP pings. I would also like to go over the GUI checkboxes selectable when ICMP is selected.
+
+Thanks a bunch, James 
+Looks good. Thanks a lot. I may do some changes before integrating on master.
+
+That's brilliant, thank you very much :)- James
+
+Have you pushed the latest commit through browser or git client? It introduced a gigantic amount of whitespace changes.
+
+Apologies, bad commit on my part a few mintues ago,  I was being an idiot and uploaded to the wrong branch of mine. I can't get the git client installed where I am during studies and wanted to save a small change to a different branch.
+I can revert it as soon as I get back home, I'm so sorry for adding to the workload, I'll get it done asap.
+
+Hi, sorry again for the stupid mistake, I've pushed the files from git desktop from home. I tried pushing the master then pushing my changes after that so changes only would be highlighted. The large diff number is still appearing. Do you think a new pull request would be the easiest option or is there a better way?
+
+Sorry again, James 
+
+Yeah, just do another pull request. Sorry for the hassle.
+
+not a problem, I've learnt my lesson, stick to git dekstop from now on. Will have that done soon :) 
+
+ James matchett ICMP Flood Method Addition 
+ As per Issue #64 requesting more attack methods
+
+Adds the ability for ICMP flood style attacks both with and without data being added to the ping by toggling the append random chars flag where if chosen appends between 0 and 65500 random bytes to the ping buffer. Also using the Sockets/thread as a selector for pings sent per thread.
+
+I've kept the coding for this method as similar to that for other methods within the LOIC. 
+
+Things I want to change: update all GUI options so that irrelevant ones are non-selectable, i did this with most but not all options on screen. 
+
+Added the method to ChLDos.cs and made appropriate additions to protocol.cs and frmMain.cs to make it all work, I feel it's a good addition for testing and I believe I could improve how the method works over time.
+Apologies for the massive amounts of "files changed" it appears on one of the commits I may have uploaded the entire folder without making any alterations. 
+From memory only files changed are
+frmMain.cs
+cHLDos.cs
+Protocol.cs
+
+
+What editor are you using to edit the files? What client are you using to upload them?
+
+using visual studio to develop, i made an error when uploading, would you like me to make a new fork from master and upload the updated files? and I'm using chrome browser to commit files.
+
+I appreciate your effort but please use the windows git client instead of a browser. It will probably prevent this gigantic mess.
+
+Thanks.
+
+no worries I'll get started on that right away! sorry for the mess still finding my way around github, Thanks a bunch for the prompt reply , Should i close this and make a new pull request when ready? 
+
+I'll close this. Submit another one when ready. Thanks.
+
+ no .exe file?
+ So i downloaded it but can't see .exe file in /bin/Debug. Is there an update going on atm?
+Binaries are available at:
+https://github.com/NewEraCracker/LOIC/releases
+
+Closing this
+
+ More Attack methods?
+ Some Like:
+Tcp
+Tcp-ack
+RST/FIN
+Dns
+ICMP
+ACK
+Syn
+Syn-Ack
+SSDP
+NTP
+SNMP
+CharGEN
+Don't you need amp lists if you want to use NTP for example?
+
+ICMP has been implemented. The others won't be unless I have very good PRs for it.
+
+Hi @NewEraCracker , would you like further attack methods developed or would you prefer me to work on other issues at the moment?
+
+Thanks, James
+
+*DO IT, JUST DO IT!*
+
+no syrsly do a pull req!
+
+ Project file missing for linux install
+ I am getting a project file missing error when installing on ubuntu linux
+What are the steps that can reproduce this? I haven't done Linux development in a long time.
+
+Closing due to lack of further information.
+
+Jorge,
+
+I just saw this stand by I will get it to you this weekend apologies for
+the late response
+
+On Thu, Sep 7, 2017 at 10:53 AM, Jorge Oliveira <notifications@github.com>
+wrote:
+
+> Closing due to lack of further information.
+>
+> —
+> You are receiving this because you authored the thread.
+> Reply to this email directly, view it on GitHub
+> <https://github.com/NewEraCracker/LOIC/issues/63#issuecomment-327824306>,
+> or mute the thread
+> <https://github.com/notifications/unsubscribe-auth/ACnqF5sl_r4vZNoz1Qno5jj4PC0ytUOCks5sgANbgaJpZM4MsYiD>
+> .
+>
+
+
+
+-- 
+~Regards,
+              Kyle Sponable
+
+
+I think I know what you need. I am in process of fixing.
+
+ HTTPS method
+ I was looking at the http request if it were sent to port 443 and the request were shown as unencrypted
+so i was assuming since a lot of sites are getting SSL on their server then adding HTTPS would be a great idea.
+
+I was also thinking maybe you should add like a proxy settings for the HTTP methods
+that would be cool.
+You should add the proxy feature. It'll make ur program more popular and have more vast options.
+
+Proxy? For loic? That's like trying to shoot an rpg-7 through a keyhole.
+
+
+A proxy feature for the HTTP/HTTPS method is a great idea but adding a proxy feature for LOIC in general is like shooting an rpg-7 through a keyhole.
+
+I wonder... As possible workaround, what about tunelling the requests through stunnel? I bet it might consume a lot of CPU but it's a possibility.
+
+ Slow HTTP Attacks
+ Adding slow HTTP DoS attacks would be nice. I'll open a pull request if/when I manage to get it done on my local repo.
+Some methods are available on the not-yet-released 2.9.9.99 (to become 3.0.0.0) on the 'master' branch. You can build manually with Visual Studio 2010+ or Mono.
+
+ General Syntax and Grammatical Corrections.
+ 

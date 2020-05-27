@@ -1,0 +1,37 @@
+﻿ shorten directory name
+ fix minor bug at LIS.cpp
+ remove in.txt
+ add heliocentric in crt format
+ sync ch8
+ ch7 updates
+ move UVa10911 to ch8
+ ch8 edits
+ add ch9/mcmf.cpp, variant of ch8/max_flow.cpp
+ rename files
+ minor edit
+ extend kmp code to a larger sample code
+ sync ch6
+ :q
+:wq
+ rename file again
+ rename file
+ fix indentation
+ ch5 edit
+ update ch5 code
+ update kmp n rabinkarp a bit
+ add Rabin Karp
+ improve SA code
+ move mf to ch8
+ Merge branch 'master' of https://github.com/stevenhalim/cpbook-code
+:wq
+:
+ update
+ update some code
+ Merge pull request #52 from plty/master
+
+Introduce `@lru_cache` to UVa10130.py
+ introduce @lru_cache to UVa10130.py
+ Update README.md
+ Merge pull request #51 from bryanwongweiheng/master
+
+Fix UVa10130.py

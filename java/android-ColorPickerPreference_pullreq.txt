@@ -1,0 +1,133 @@
+﻿ Use android:title as color picker dialog title
+ Used **android:title** as **ColorPickerDialog** title.
+ Used **android:title** as **ColorPickerDialog** title.
+This also extending **AppCompatDialog** instead of the old **Dialog** class.
+
+![image](https://user-images.githubusercontent.com/4012678/78993952-8caeac80-7b71-11ea-9c9a-d093942d76bd.png)
+
+ Used androidx.preference.Preference
+ Used androidx.preference.Preference instead of Preference.
+This will also make the library works well with AppCompat and AndroidX
+ Build update to android pie - API 28
+ This update fixes common bugs during usage of the project like "unable to merge dex" and "compile is obsolete". Google will drop updates of apps build with Android version earlier than marshmallow this year, thus this update comes in handy.
+ Upload to bintray for gradle installation
+ You can now install ColorPickerPreference with:
+
+    compile 'net.margaritov.preference.colorpicker.ColorPickerPreference:ColorPickerPreference:1.0.0'
+
+in your `build.gradle` file, as many Android library.
+ Update ColorPickerDialog.java
+ Material Design Dialog Container
+
+ Fix for perisisting defaultValue attr
+ I have noticed that when you set defaultValue you can only set it as an actual color integer.
+1. If you set it as hex string it crashes, as it expects integer
+2. If you set it as reference to resources color, it persists 0 into shared preferences
+
+Method onGetDefaultValue was modified to look for a string and if it is not null or begins with hash, to use built in method to parse hex string into color integer and return it as default. Color hex can only be used with 6 or 8 chars. If the string is null, it will look for an integer and use it.
+
+Now default can be set as:
+1. Color integer
+2. Hex string (#ffffff or #ffffffff)
+3. Resource reference will be parsed as hex string and return valid color integer
+
+Only the last commit is relevant actually. I had to add condition for the not breaking the integer defaultValue
+
+ fixed rotation when using android:configChanges
+ If the mainfest has config changes attributes for an activity
+
+e.g. using
+android:configChanges="keyboard|keyboardHidden|orientation|screenSize|locale"
+
+the layout is not re-created on orientation change.
+Since the ColorPicker dialog uses different layouts for different
+orientations, it will end up using the wrong layout.
+
+Added a global layout change observer to detect this change
+and recreate the layout
+
+I've tested it on 4.4 and 2.3 so far
+
+ Sample project moved to a separate directory
+ Moved sample project to a separate directory, not seen by the current Gradle config. This solves the problem reported on issue #33 
+
+ Added setup instructions to project
+ Makes it more beginner friendly. 
+
+ Made change to Androidstudio
+ 
+ Implemented display ColorPicker in a simple Activity
+ Hi Sir,
+
+I just implemented to show ColorPicker in a simple Activity to the current library. Hope it'll save some body's time like me. Thank you for your excellency and generosity to share this code. Complete credits goes to you. I've done nothing major in it. Just added changes to get my requirement and thought it would help to somebody like me as i didn't able to find any web reference to implement a ColorPicker in a simple Activity. So, shown a little courage to contribute to your sourcecode.
+
+Hope It makes sense. Attached screen shots.
+![2014-04-09-12-48-55](https://cloud.githubusercontent.com/assets/592596/2652827/18f32bac-bfb8-11e3-928e-040417a03f46.png)
+![2014-04-09-12-49-11](https://cloud.githubusercontent.com/assets/592596/2652828/1921f52c-bfb8-11e3-9d1b-7f02b289957b.png)
+![2014-04-09-12-49-24](https://cloud.githubusercontent.com/assets/592596/2652829/19507e56-bfb8-11e3-9abd-566a323ea01d.png)
+
+Thank you again,
+PraveenB (Y)
+
+ Update settings.xml
+ https://github.com/attenzione/android-ColorPickerPreference/issues/19
+
+defaultValue="#000FF" is invalid,change it to defaulfValue="0xff0000ff".
+
+ Hex picker tweaks
+ I made some minor UI changes to the way the manual selection of a HEX color works. I found it difficult to change the color as the textwatcher was a little too eager to reset the color. Instead I use the ime action done. Plus I switched it to upper case. Feel free to include or discard as you like..
+
+ Add hex color display and entry support
+ Added an EditText to the dialog that displays the hex value of the currently selected color, with the alpha part of the hex value being shown only when the alpha slider is enabled. The EditText also allows users to enter their own hex value in. When an invalid hex value is entered, the text turns red. When a valid hex value is entered, the selector snaps to the color defined by the entered hex value.
+
+![device-2013-05-21-185357](https://f.cloud.github.com/assets/1767319/546152/df1f59a6-c282-11e2-9f01-8e89cee69e48.png)
+
+ Unix line endings for .gitattributes compliance
+ This should be a one-time change only. After this, the Git client should
+automagically convert between Unix and native OS line endings when doing
+checkouts or commits.
+
+See http://git-scm.com/docs/gitattributes for more information.
+
+ Fix a bug that stops initial value from being set (and supporting commits)
+ The `Preference` superclass never called `onSetInitialValue()` because
+`onGetDefaultValue()` was not defined in `ColorPickerPreference`.
+`onGetDefaultValue()` is now defined to fix the issue.
+
+`ColorPickerPreference.mDefaultValue` has been removed since
+it is redundant with `Preference.mDefaultValue`. Support for both [color](https://developer.android.com/guide/topics/resources/more-resources.html#Color) and integer resource types is maintained via [`TypedArray.getColor()`](https://developer.android.com/reference/android/content/res/TypedArray.html).
+
+[`SeekBarPreference`](http://grepcode.com/file/repository.grepcode.com/java/ext/com.google.android/android/4.1.1_r1/android/preference/SeekBarPreference.java) (an integer-based preference written by the Android
+developers) was consulted when making these changes.
+
+ Fix: Restore color picker after rotating
+ When trying out the color picker, I noticed that the color picker dialog disappears if I rotate my phone while it is shown (that is with ICS on SGS2). These changes restore the dialog after the rotation, similar to the DialogPreference. Both old and new color are remembered, but nothing is persisted until the user explicitely asks for it.
+
+ Bug Fixes
+ Included a few commits:
+
+Bug fix for #11
+Bug fix for broken rendering on HoneyComb / ICS
+Fixed a typo
+
+ Color component edit text widgets added
+ Hello attenzione,
+
+thank you very much for providing this great widget. I took the chance and modified it for my needs:
+- added text fields for each color component (RGBA)
+- changed landscape layout such that it uses the availbale space more efficiently
+
+Feel free to add it to your repository!
+
+Bye
+
+Matthias
+
+ Honeycomb/ICS fix regarding WidgetFrame visibility
+ Honeycomb/ICS fix. WidgetFrame is not visible per default. This will set the widgetframe to visible. This is tested fixing the missing color preview in Android 4.0.3.
+
+See Stack Overflow: http://stackoverflow.com/questions/8762984/custom-preference-broken-in-honeycomb-ic
+
+ ADT14 patch
+ http://tools.android.com/recent/switchstatementconversion
+

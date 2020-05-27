@@ -1,0 +1,48 @@
+﻿ Do not fail data_structure_upgrade if no uri is present. Closes #702.
+ fix spelling typo
+ Rebase & make Black happy.
+ no message
+ Address review comments (docstring changes).
+ Remove f-string for backward compatibility.
+ Add stereo pairing and unpairing operations.
+ Only install and run black on cpython 3.6 and up
+ Fix setup.py metadata re after black change
+ Add travis black check
+ Introduce linting on test code
+ Lint fixes for soco
+ Paint examples black
+ Paint test code black
+ Paint main code black
+ Fixing error in index.py so it will run. 
+
+There is an error when trying to run this code: TypeError: Unicode-objects must be encoded before hashing. I added the code to fix that issue.
+ Started implementation of data structure quirks
+
+Added the notions of data structure quirks to implement and isolate fixes for non DIDL-Lite specification compliant data structures
+ Add group volume operations to SoCo (#688)
+
+* Implement operations
+* Add unit tests
+ Add Python 2.7 deprecation warning
+ Add unit test for SoCo.MusicLibrary.delete_music_share()
+
+* Add unit test for SoCo.MusicLibrary.delete_music_share().
+
+* Eliminate duplicate string.
+ Avoid trying to iterate a None
+ Adds the SoCo.set_relative_volume() method. (#687)
+
+Adds the soco.set_relative_volume() method and unit test.
+ Add unit tests.
+ Instead of method calls, use a 'balance' property with a getter and
+setter, for consistency with other playback properties.
+ Add get/set balance operations.
+ Merge pull request #685 from cclauss/print-function
+
+Use print() function in both Python 2 and Python 3
+ Use print() function in both Python 2 and Python 3
+ Replace IRC channel with Gitter on front page support options
+ Merge pull request #682 from pwt/music_library_share_operations
+
+Music library share operations
+ Add suggestion to check for share deletion after calling delete_library_share().

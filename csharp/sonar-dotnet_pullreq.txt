@@ -1,0 +1,100 @@
+﻿ Split InvalidCastToInterface
+ Since this rule combines two (distinct and complementary) implementations I've split it in two analyzers:
+- one is doing semantic analysis
+- the other symbolic execution
+
+This split will ease #3346 implementation.
+
+ Refactor InvalidCastToInterface to reuse SE
+ Fixes #3345
+ Clean up of .editorconfig
+ 
+ S2589: Add test case with ref argument
+ 
+ Add FP for S2589
+ Reproduces #3353 
+ Add FP repro for S1854
+ Reproduces #3348
+ Fix S2933 FP and related S1854, S3010, S2696, S2934 FN: Null-coalescing assignment is not recognized
+ Fixes #3339
+ Restore github templates
+ Aka fix Tom mess
+ Refactor S2583 and S2589 to reuse symbolic execution
+ 
+Fixes #3343 
+
+ Refactor S4158 to reuse symbolic execution
+ Fixes #3344
+ Update .editorconfig: avoid "this." and "Me." if not necessary
+ 
+
+ Refactor S3900 to reuse symbolic execution
+ Fixes #3342
+ Reuse symbolic execution logic in EmptyNullableValueAccess and ObjectsShouldNotBeDisposedMoreThanOnce
+ This commit introduces `SymbolicExecutionRunner` which allows the reuse of the generated exploded graph and walking it one single time for all the symbolic execution rules.
+
+As a proof of concept, `SymbolicExecutionRunner` is now executing the `EmptyNullableValueAccess` and `ObjectsShouldNotBeDisposedMoreThanOnce` analyzers which are refactored to implement `ISymbolicExecutionAnalyzer` instead of `SonarDiagnosticAnalyzer`.
+
+With this refactoring the overall analysis time drops ~6%.
+
+Fixes: #3341
+ S3453: Fix FP with SafeHandle
+ Fixes #3329
+
+Added check for classes derived from SafeHandle to not flag S3453.
+
+Note: I based this PR on the Repro cases to be added with #3336. Let me know if that's not desirable and I will remove the test cases from this PR again.
+ Add FP repro for S3453
+ Reproduces #3329
+ Bump version to 8.8
+ 
+
+ Update rspec
+ Fixes #3279
+
+ Consider lambda functions as parent method
+ Fixes #2499
+
+ S4586: Fix FP and FN with simple lambda expressions
+ Fixes #2510 
+ Allow also uint, long and ULong
+ Fixes #3026
+ Allow import of internal issues with invalid location
+ Issues from third-party Roslyn analyzers (including Roslyn analyzers provided by Microsoft) are included in the MSBuild output and imported by default into SonarQube.
+
+In this case they are considered external issues and the Roslyn importer is very forgiving regarding the location:
+- if the column is invalid it will use only the line
+- if both column and line are invalid, it will report the issue on the file.
+
+On the other hand, if the [SDK for SonarQube Roslyn Analyzer Plugins](https://github.com/SonarSource/sonarqube-roslyn-sdk) is used to create a plugin for the analyzers, then the issues are treated as internal and the importer will not fallback to line or file level.
+
+This commit is changing that and allows the import of internal issues (excepting the ones from `csharpsquid` and `vbnet` repositories) with invalid location.
+
+Fixes #2484
+ Add FP repro for S1854
+ Reproduces #3304
+ Add FN repro for S4784
+ Reproduces #3298
+ S1128 FP: Fix for collection initializer extension methods
+ Fixes #3065 
+
+ Ensure that OpenCover returns the exit code from test runner
+ 
+
+ Remove 'System.ValueTuple' use from C# analyzer
+ Fixes #3286 
+
+ Add assembly name to S3904, S3990, and S3992 messages
+ Fixes #3219 
+
+ Update rspec for S3011
+ 
+This will update the rule type to Code Smell and severity to Major.
+
+Fixes #3285
+ Add 'System.ValueTuple' to CSharp analyzer packaging
+ Fixes #3286 
+
+ Bump version to 8.7
+ 
+

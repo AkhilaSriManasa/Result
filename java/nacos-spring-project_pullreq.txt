@@ -1,0 +1,686 @@
+﻿ Fix #179 Support bind multi-level YAML to javabean
+ Please do not create a Pull Request without creating an issue first.
+
+## What is the purpose of the change
+
+#179 Support bind multi-level YAML to javabean
+
+## Brief changelog
+
+XX
+
+## Verifying this change
+
+XXXX
+
+Follow this checklist to help us incorporate your contribution quickly and easily:
+
+* [ ] Make sure there is a Github issue filed for the change (usually before you start working on it). Trivial changes like typos do not require a Github issue. Your pull request should address just this issue, without pulling in other changes - one PR resolves one issue.
+* [ ] Format the pull request title like `[ISSUE #123] Fix UnknownException when host config not exist`. Each commit in the pull request should have a meaningful subject line and body.
+* [ ] Write a pull request description that is detailed enough to understand what the pull request does, how, and why.
+* [ ] Write necessary unit-test to verify your logic correction, more mock a little better when cross module dependency exist. If the new feature or significant change is committed, please remember to add integration-test in [test module](https://github.com/alibaba/nacos/tree/master/test).
+* [ ] Run `mvn -B clean package apache-rat:check findbugs:findbugs -Dmaven.test.skip=true` to make sure basic checks pass. Run `mvn clean install -DskipITs` to make sure unit-test pass. Run `mvn clean test-compile failsafe:integration-test`  to make sure integration-test pass.
+
+
+ Format code style
+ Please do not create a Pull Request without creating an issue first.
+
+## What is the purpose of the change
+
+XXXXX
+
+## Brief changelog
+
+XX
+
+## Verifying this change
+
+XXXX
+
+Follow this checklist to help us incorporate your contribution quickly and easily:
+
+* [ ] Make sure there is a Github issue filed for the change (usually before you start working on it). Trivial changes like typos do not require a Github issue. Your pull request should address just this issue, without pulling in other changes - one PR resolves one issue.
+* [ ] Format the pull request title like `[ISSUE #123] Fix UnknownException when host config not exist`. Each commit in the pull request should have a meaningful subject line and body.
+* [ ] Write a pull request description that is detailed enough to understand what the pull request does, how, and why.
+* [ ] Write necessary unit-test to verify your logic correction, more mock a little better when cross module dependency exist. If the new feature or significant change is committed, please remember to add integration-test in [test module](https://github.com/alibaba/nacos/tree/master/test).
+* [ ] Run `mvn -B clean package apache-rat:check findbugs:findbugs -Dmaven.test.skip=true` to make sure basic checks pass. Run `mvn clean install -DskipITs` to make sure unit-test pass. Run `mvn clean test-compile failsafe:integration-test`  to make sure integration-test pass.
+
+
+ style: code format
+ Please do not create a Pull Request without creating an issue first.
+
+## What is the purpose of the change
+
+XXXXX
+
+## Brief changelog
+
+XX
+
+## Verifying this change
+
+XXXX
+
+Follow this checklist to help us incorporate your contribution quickly and easily:
+
+* [ ] Make sure there is a Github issue filed for the change (usually before you start working on it). Trivial changes like typos do not require a Github issue. Your pull request should address just this issue, without pulling in other changes - one PR resolves one issue.
+* [ ] Format the pull request title like `[ISSUE #123] Fix UnknownException when host config not exist`. Each commit in the pull request should have a meaningful subject line and body.
+* [ ] Write a pull request description that is detailed enough to understand what the pull request does, how, and why.
+* [ ] Write necessary unit-test to verify your logic correction, more mock a little better when cross module dependency exist. If the new feature or significant change is committed, please remember to add integration-test in [test module](https://github.com/alibaba/nacos/tree/master/test).
+* [ ] Run `mvn -B clean package apache-rat:check findbugs:findbugs -Dmaven.test.skip=true` to make sure basic checks pass. Run `mvn clean install -DskipITs` to make sure unit-test pass. Run `mvn clean test-compile failsafe:integration-test`  to make sure integration-test pass.
+
+
+ Update spring-context-support version to 1.0.5
+ Please do not create a Pull Request without creating an issue first.
+
+## What is the purpose of the change
+
+XXXXX
+
+## Brief changelog
+
+XX
+
+## Verifying this change
+
+XXXX
+
+Follow this checklist to help us incorporate your contribution quickly and easily:
+
+* [ ] Make sure there is a Github issue filed for the change (usually before you start working on it). Trivial changes like typos do not require a Github issue. Your pull request should address just this issue, without pulling in other changes - one PR resolves one issue.
+* [ ] Format the pull request title like `[ISSUE #123] Fix UnknownException when host config not exist`. Each commit in the pull request should have a meaningful subject line and body.
+* [ ] Write a pull request description that is detailed enough to understand what the pull request does, how, and why.
+* [ ] Write necessary unit-test to verify your logic correction, more mock a little better when cross module dependency exist. If the new feature or significant change is committed, please remember to add integration-test in [test module](https://github.com/alibaba/nacos/tree/master/test).
+* [ ] Run `mvn -B clean package apache-rat:check findbugs:findbugs -Dmaven.test.skip=true` to make sure basic checks pass. Run `mvn clean install -DskipITs` to make sure unit-test pass. Run `mvn clean test-compile failsafe:integration-test`  to make sure integration-test pass.
+
+
+ refactor: update spring-context-support to 1.0.5
+ Please do not create a Pull Request without creating an issue first.
+
+## What is the purpose of the change
+
+XXXXX
+
+## Brief changelog
+
+XX
+
+## Verifying this change
+
+XXXX
+
+Follow this checklist to help us incorporate your contribution quickly and easily:
+
+* [ ] Make sure there is a Github issue filed for the change (usually before you start working on it). Trivial changes like typos do not require a Github issue. Your pull request should address just this issue, without pulling in other changes - one PR resolves one issue.
+* [ ] Format the pull request title like `[ISSUE #123] Fix UnknownException when host config not exist`. Each commit in the pull request should have a meaningful subject line and body.
+* [ ] Write a pull request description that is detailed enough to understand what the pull request does, how, and why.
+* [ ] Write necessary unit-test to verify your logic correction, more mock a little better when cross module dependency exist. If the new feature or significant change is committed, please remember to add integration-test in [test module](https://github.com/alibaba/nacos/tree/master/test).
+* [ ] Run `mvn -B clean package apache-rat:check findbugs:findbugs -Dmaven.test.skip=true` to make sure basic checks pass. Run `mvn clean install -DskipITs` to make sure unit-test pass. Run `mvn clean test-compile failsafe:integration-test`  to make sure integration-test pass.
+
+
+ Update version to 0.3.6
+ Please do not create a Pull Request without creating an issue first.
+
+## What is the purpose of the change
+
+XXXXX
+
+## Brief changelog
+
+XX
+
+## Verifying this change
+
+XXXX
+
+Follow this checklist to help us incorporate your contribution quickly and easily:
+
+* [ ] Make sure there is a Github issue filed for the change (usually before you start working on it). Trivial changes like typos do not require a Github issue. Your pull request should address just this issue, without pulling in other changes - one PR resolves one issue.
+* [ ] Format the pull request title like `[ISSUE #123] Fix UnknownException when host config not exist`. Each commit in the pull request should have a meaningful subject line and body.
+* [ ] Write a pull request description that is detailed enough to understand what the pull request does, how, and why.
+* [ ] Write necessary unit-test to verify your logic correction, more mock a little better when cross module dependency exist. If the new feature or significant change is committed, please remember to add integration-test in [test module](https://github.com/alibaba/nacos/tree/master/test).
+* [ ] Run `mvn -B clean package apache-rat:check findbugs:findbugs -Dmaven.test.skip=true` to make sure basic checks pass. Run `mvn clean install -DskipITs` to make sure unit-test pass. Run `mvn clean test-compile failsafe:integration-test`  to make sure integration-test pass.
+
+
+ docs: update nacos-client version to 1.2.0
+ Please do not create a Pull Request without creating an issue first.
+
+## What is the purpose of the change
+
+XXXXX
+
+## Brief changelog
+
+XX
+
+## Verifying this change
+
+XXXX
+
+Follow this checklist to help us incorporate your contribution quickly and easily:
+
+* [ ] Make sure there is a Github issue filed for the change (usually before you start working on it). Trivial changes like typos do not require a Github issue. Your pull request should address just this issue, without pulling in other changes - one PR resolves one issue.
+* [ ] Format the pull request title like `[ISSUE #123] Fix UnknownException when host config not exist`. Each commit in the pull request should have a meaningful subject line and body.
+* [ ] Write a pull request description that is detailed enough to understand what the pull request does, how, and why.
+* [ ] Write necessary unit-test to verify your logic correction, more mock a little better when cross module dependency exist. If the new feature or significant change is committed, please remember to add integration-test in [test module](https://github.com/alibaba/nacos/tree/master/test).
+* [ ] Run `mvn -B clean package apache-rat:check findbugs:findbugs -Dmaven.test.skip=true` to make sure basic checks pass. Run `mvn clean install -DskipITs` to make sure unit-test pass. Run `mvn clean test-compile failsafe:integration-test`  to make sure integration-test pass.
+
+
+ feat: issue #189
+ Please do not create a Pull Request without creating an issue first.
+
+## What is the purpose of the change
+
+XXXXX
+
+## Brief changelog
+
+XX
+
+## Verifying this change
+
+XXXX
+
+Follow this checklist to help us incorporate your contribution quickly and easily:
+
+* [ ] Make sure there is a Github issue filed for the change (usually before you start working on it). Trivial changes like typos do not require a Github issue. Your pull request should address just this issue, without pulling in other changes - one PR resolves one issue.
+* [ ] Format the pull request title like `[ISSUE #123] Fix UnknownException when host config not exist`. Each commit in the pull request should have a meaningful subject line and body.
+* [ ] Write a pull request description that is detailed enough to understand what the pull request does, how, and why.
+* [ ] Write necessary unit-test to verify your logic correction, more mock a little better when cross module dependency exist. If the new feature or significant change is committed, please remember to add integration-test in [test module](https://github.com/alibaba/nacos/tree/master/test).
+* [ ] Run `mvn -B clean package apache-rat:check findbugs:findbugs -Dmaven.test.skip=true` to make sure basic checks pass. Run `mvn clean install -DskipITs` to make sure unit-test pass. Run `mvn clean test-compile failsafe:integration-test`  to make sure integration-test pass.
+
+
+ Feature issue #189
+ Please do not create a Pull Request without creating an issue first.
+
+## What is the purpose of the change
+
+feature issue #189 
+
+## Brief changelog
+
+XX
+
+## Verifying this change
+
+XXXX
+
+Follow this checklist to help us incorporate your contribution quickly and easily:
+
+* [ ] Make sure there is a Github issue filed for the change (usually before you start working on it). Trivial changes like typos do not require a Github issue. Your pull request should address just this issue, without pulling in other changes - one PR resolves one issue.
+* [ ] Format the pull request title like `[ISSUE #123] Fix UnknownException when host config not exist`. Each commit in the pull request should have a meaningful subject line and body.
+* [ ] Write a pull request description that is detailed enough to understand what the pull request does, how, and why.
+* [ ] Write necessary unit-test to verify your logic correction, more mock a little better when cross module dependency exist. If the new feature or significant change is committed, please remember to add integration-test in [test module](https://github.com/alibaba/nacos/tree/master/test).
+* [ ] Run `mvn -B clean package apache-rat:check findbugs:findbugs -Dmaven.test.skip=true` to make sure basic checks pass. Run `mvn clean install -DskipITs` to make sure unit-test pass. Run `mvn clean test-compile failsafe:integration-test`  to make sure integration-test pass.
+
+
+ Upgrade nacos-client to 1.2.0-beta.1
+ Please do not create a Pull Request without creating an issue first.
+
+## What is the purpose of the change
+
+XXXXX
+
+## Brief changelog
+
+XX
+
+## Verifying this change
+
+XXXX
+
+Follow this checklist to help us incorporate your contribution quickly and easily:
+
+* [ ] Make sure there is a Github issue filed for the change (usually before you start working on it). Trivial changes like typos do not require a Github issue. Your pull request should address just this issue, without pulling in other changes - one PR resolves one issue.
+* [ ] Format the pull request title like `[ISSUE #123] Fix UnknownException when host config not exist`. Each commit in the pull request should have a meaningful subject line and body.
+* [ ] Write a pull request description that is detailed enough to understand what the pull request does, how, and why.
+* [ ] Write necessary unit-test to verify your logic correction, more mock a little better when cross module dependency exist. If the new feature or significant change is committed, please remember to add integration-test in [test module](https://github.com/alibaba/nacos/tree/master/test).
+* [ ] Run `mvn -B clean package apache-rat:check findbugs:findbugs -Dmaven.test.skip=true` to make sure basic checks pass. Run `mvn clean install -DskipITs` to make sure unit-test pass. Run `mvn clean test-compile failsafe:integration-test`  to make sure integration-test pass.
+
+
+ 1.添加username password参数
+ 
+ hotfix/getBeanOfType
+ Please do not create a Pull Request without creating an issue first.
+
+## What is the purpose of the change
+
+XXXXX
+
+## Brief changelog
+
+XX
+
+## Verifying this change
+
+XXXX
+
+Follow this checklist to help us incorporate your contribution quickly and easily:
+
+* [ ] Make sure there is a Github issue filed for the change (usually before you start working on it). Trivial changes like typos do not require a Github issue. Your pull request should address just this issue, without pulling in other changes - one PR resolves one issue.
+* [ ] Format the pull request title like `[ISSUE #123] Fix UnknownException when host config not exist`. Each commit in the pull request should have a meaningful subject line and body.
+* [ ] Write a pull request description that is detailed enough to understand what the pull request does, how, and why.
+* [ ] Write necessary unit-test to verify your logic correction, more mock a little better when cross module dependency exist. If the new feature or significant change is committed, please remember to add integration-test in [test module](https://github.com/alibaba/nacos/tree/master/test).
+* [ ] Run `mvn -B clean package apache-rat:check findbugs:findbugs -Dmaven.test.skip=true` to make sure basic checks pass. Run `mvn clean install -DskipITs` to make sure unit-test pass. Run `mvn clean test-compile failsafe:integration-test`  to make sure integration-test pass.
+
+
+ update verion 0.3.4  Please do not create a Pull Request without creating an issue first.
+
+## What is the purpose of the change
+
+XXXXX
+
+## Brief changelog
+
+XX
+
+## Verifying this change
+
+XXXX
+
+Follow this checklist to help us incorporate your contribution quickly and easily:
+
+* [ ] Make sure there is a Github issue filed for the change (usually before you start working on it). Trivial changes like typos do not require a Github issue. Your pull request should address just this issue, without pulling in other changes - one PR resolves one issue.
+* [ ] Format the pull request title like `[ISSUE #123] Fix UnknownException when host config not exist`. Each commit in the pull request should have a meaningful subject line and body.
+* [ ] Write a pull request description that is detailed enough to understand what the pull request does, how, and why.
+* [ ] Write necessary unit-test to verify your logic correction, more mock a little better when cross module dependency exist. If the new feature or significant change is committed, please remember to add integration-test in [test module](https://github.com/alibaba/nacos/tree/master/test).
+* [ ] Run `mvn -B clean package apache-rat:check findbugs:findbugs -Dmaven.test.skip=true` to make sure basic checks pass. Run `mvn clean install -DskipITs` to make sure unit-test pass. Run `mvn clean test-compile failsafe:integration-test`  to make sure integration-test pass.
+
+
+ Hotfix/get bean of type
+ Please do not create a Pull Request without creating an issue first.
+
+## What is the purpose of the change
+
+XXXXX
+
+## Brief changelog
+
+Fix the problem with getBeanOfType initializing the bean early
+Fix Map object binding problem
+
+## Verifying this change
+
+XXXX
+
+Follow this checklist to help us incorporate your contribution quickly and easily:
+
+* [ ] Make sure there is a Github issue filed for the change (usually before you start working on it). Trivial changes like typos do not require a Github issue. Your pull request should address just this issue, without pulling in other changes - one PR resolves one issue.
+* [ ] Format the pull request title like `[ISSUE #123] Fix UnknownException when host config not exist`. Each commit in the pull request should have a meaningful subject line and body.
+* [ ] Write a pull request description that is detailed enough to understand what the pull request does, how, and why.
+* [ ] Write necessary unit-test to verify your logic correction, more mock a little better when cross module dependency exist. If the new feature or significant change is committed, please remember to add integration-test in [test module](https://github.com/alibaba/nacos/tree/master/test).
+* [ ] Run `mvn -B clean package apache-rat:check findbugs:findbugs -Dmaven.test.skip=true` to make sure basic checks pass. Run `mvn clean install -DskipITs` to make sure unit-test pass. Run `mvn clean test-compile failsafe:integration-test`  to make sure integration-test pass.
+
+
+ Hotfix/get bean of type
+ Please do not create a Pull Request without creating an issue first.
+
+## What is the purpose of the change
+
+XXXXX
+
+## Brief changelog
+
+Fix the problem with getBeanOfType initializing the bean early
+Fix Map object binding problem
+
+## Verifying this change
+
+XXXX
+
+Follow this checklist to help us incorporate your contribution quickly and easily:
+
+* [ ] Make sure there is a Github issue filed for the change (usually before you start working on it). Trivial changes like typos do not require a Github issue. Your pull request should address just this issue, without pulling in other changes - one PR resolves one issue.
+* [ ] Format the pull request title like `[ISSUE #123] Fix UnknownException when host config not exist`. Each commit in the pull request should have a meaningful subject line and body.
+* [ ] Write a pull request description that is detailed enough to understand what the pull request does, how, and why.
+* [ ] Write necessary unit-test to verify your logic correction, more mock a little better when cross module dependency exist. If the new feature or significant change is committed, please remember to add integration-test in [test module](https://github.com/alibaba/nacos/tree/master/test).
+* [ ] Run `mvn -B clean package apache-rat:check findbugs:findbugs -Dmaven.test.skip=true` to make sure basic checks pass. Run `mvn clean install -DskipITs` to make sure unit-test pass. Run `mvn clean test-compile failsafe:integration-test`  to make sure integration-test pass.
+
+
+ fix: remove error code
+ Please do not create a Pull Request without creating an issue first.
+
+## What is the purpose of the change
+
+XXXXX
+
+## Brief changelog
+
+XX
+
+## Verifying this change
+
+XXXX
+
+Follow this checklist to help us incorporate your contribution quickly and easily:
+
+* [ ] Make sure there is a Github issue filed for the change (usually before you start working on it). Trivial changes like typos do not require a Github issue. Your pull request should address just this issue, without pulling in other changes - one PR resolves one issue.
+* [ ] Format the pull request title like `[ISSUE #123] Fix UnknownException when host config not exist`. Each commit in the pull request should have a meaningful subject line and body.
+* [ ] Write a pull request description that is detailed enough to understand what the pull request does, how, and why.
+* [ ] Write necessary unit-test to verify your logic correction, more mock a little better when cross module dependency exist. If the new feature or significant change is committed, please remember to add integration-test in [test module](https://github.com/alibaba/nacos/tree/master/test).
+* [ ] Run `mvn -B clean package apache-rat:check findbugs:findbugs -Dmaven.test.skip=true` to make sure basic checks pass. Run `mvn clean install -DskipITs` to make sure unit-test pass. Run `mvn clean test-compile failsafe:integration-test`  to make sure integration-test pass.
+
+
+ remove @value auto refresh
+ Please do not create a Pull Request without creating an issue first.
+
+## What is the purpose of the change
+
+XXXXX
+
+## Brief changelog
+
+XX
+
+## Verifying this change
+
+XXXX
+
+Follow this checklist to help us incorporate your contribution quickly and easily:
+
+* [ ] Make sure there is a Github issue filed for the change (usually before you start working on it). Trivial changes like typos do not require a Github issue. Your pull request should address just this issue, without pulling in other changes - one PR resolves one issue.
+* [ ] Format the pull request title like `[ISSUE #123] Fix UnknownException when host config not exist`. Each commit in the pull request should have a meaningful subject line and body.
+* [ ] Write a pull request description that is detailed enough to understand what the pull request does, how, and why.
+* [ ] Write necessary unit-test to verify your logic correction, more mock a little better when cross module dependency exist. If the new feature or significant change is committed, please remember to add integration-test in [test module](https://github.com/alibaba/nacos/tree/master/test).
+* [ ] Run `mvn -B clean package apache-rat:check findbugs:findbugs -Dmaven.test.skip=true` to make sure basic checks pass. Run `mvn clean install -DskipITs` to make sure unit-test pass. Run `mvn clean test-compile failsafe:integration-test`  to make sure integration-test pass.
+
+
+ Delete @Value auto refresh logic
+ Please do not create a Pull Request without creating an issue first.
+
+## What is the purpose of the change
+
+XXXXX
+
+## Brief changelog
+
+XX
+
+## Verifying this change
+
+XXXX
+
+Follow this checklist to help us incorporate your contribution quickly and easily:
+
+* [ ] Make sure there is a Github issue filed for the change (usually before you start working on it). Trivial changes like typos do not require a Github issue. Your pull request should address just this issue, without pulling in other changes - one PR resolves one issue.
+* [ ] Format the pull request title like `[ISSUE #123] Fix UnknownException when host config not exist`. Each commit in the pull request should have a meaningful subject line and body.
+* [ ] Write a pull request description that is detailed enough to understand what the pull request does, how, and why.
+* [ ] Write necessary unit-test to verify your logic correction, more mock a little better when cross module dependency exist. If the new feature or significant change is committed, please remember to add integration-test in [test module](https://github.com/alibaba/nacos/tree/master/test).
+* [ ] Run `mvn -B clean package apache-rat:check findbugs:findbugs -Dmaven.test.skip=true` to make sure basic checks pass. Run `mvn clean install -DskipITs` to make sure unit-test pass. Run `mvn clean test-compile failsafe:integration-test`  to make sure integration-test pass.
+
+
+ release 0.3.4
+ Please do not create a Pull Request without creating an issue first.
+
+## What is the purpose of the change
+
+XXXXX
+
+## Brief changelog
+
+XX
+
+## Verifying this change
+
+XXXX
+
+Follow this checklist to help us incorporate your contribution quickly and easily:
+
+* [ ] Make sure there is a Github issue filed for the change (usually before you start working on it). Trivial changes like typos do not require a Github issue. Your pull request should address just this issue, without pulling in other changes - one PR resolves one issue.
+* [ ] Format the pull request title like `[ISSUE #123] Fix UnknownException when host config not exist`. Each commit in the pull request should have a meaningful subject line and body.
+* [ ] Write a pull request description that is detailed enough to understand what the pull request does, how, and why.
+* [ ] Write necessary unit-test to verify your logic correction, more mock a little better when cross module dependency exist. If the new feature or significant change is committed, please remember to add integration-test in [test module](https://github.com/alibaba/nacos/tree/master/test).
+* [ ] Run `mvn -B clean package apache-rat:check findbugs:findbugs -Dmaven.test.skip=true` to make sure basic checks pass. Run `mvn clean install -DskipITs` to make sure unit-test pass. Run `mvn clean test-compile failsafe:integration-test`  to make sure integration-test pass.
+
+
+ fix: update nacos
+ Please do not create a Pull Request without creating an issue first.
+
+## What is the purpose of the change
+
+XXXXX
+
+## Brief changelog
+
+XX
+
+## Verifying this change
+
+XXXX
+
+Follow this checklist to help us incorporate your contribution quickly and easily:
+
+* [ ] Make sure there is a Github issue filed for the change (usually before you start working on it). Trivial changes like typos do not require a Github issue. Your pull request should address just this issue, without pulling in other changes - one PR resolves one issue.
+* [ ] Format the pull request title like `[ISSUE #123] Fix UnknownException when host config not exist`. Each commit in the pull request should have a meaningful subject line and body.
+* [ ] Write a pull request description that is detailed enough to understand what the pull request does, how, and why.
+* [ ] Write necessary unit-test to verify your logic correction, more mock a little better when cross module dependency exist. If the new feature or significant change is committed, please remember to add integration-test in [test module](https://github.com/alibaba/nacos/tree/master/test).
+* [ ] Run `mvn -B clean package apache-rat:check findbugs:findbugs -Dmaven.test.skip=true` to make sure basic checks pass. Run `mvn clean install -DskipITs` to make sure unit-test pass. Run `mvn clean test-compile failsafe:integration-test`  to make sure integration-test pass.
+
+
+ Release 0.3.4 version
+ Please do not create a Pull Request without creating an issue first.
+
+## What is the purpose of the change
+
+XXXXX
+
+## Brief changelog
+
+XX
+
+## Verifying this change
+
+XXXX
+
+Follow this checklist to help us incorporate your contribution quickly and easily:
+
+* [ ] Make sure there is a Github issue filed for the change (usually before you start working on it). Trivial changes like typos do not require a Github issue. Your pull request should address just this issue, without pulling in other changes - one PR resolves one issue.
+* [ ] Format the pull request title like `[ISSUE #123] Fix UnknownException when host config not exist`. Each commit in the pull request should have a meaningful subject line and body.
+* [ ] Write a pull request description that is detailed enough to understand what the pull request does, how, and why.
+* [ ] Write necessary unit-test to verify your logic correction, more mock a little better when cross module dependency exist. If the new feature or significant change is committed, please remember to add integration-test in [test module](https://github.com/alibaba/nacos/tree/master/test).
+* [ ] Run `mvn -B clean package apache-rat:check findbugs:findbugs -Dmaven.test.skip=true` to make sure basic checks pass. Run `mvn clean install -DskipITs` to make sure unit-test pass. Run `mvn clean test-compile failsafe:integration-test`  to make sure integration-test pass.
+
+
+ refactor: Correct part code implementation
+ Please do not create a Pull Request without creating an issue first.
+
+## What is the purpose of the change
+
+XXXXX
+
+## Brief changelog
+
+XX
+
+## Verifying this change
+
+XXXX
+
+Follow this checklist to help us incorporate your contribution quickly and easily:
+
+* [ ] Make sure there is a Github issue filed for the change (usually before you start working on it). Trivial changes like typos do not require a Github issue. Your pull request should address just this issue, without pulling in other changes - one PR resolves one issue.
+* [ ] Format the pull request title like `[ISSUE #123] Fix UnknownException when host config not exist`. Each commit in the pull request should have a meaningful subject line and body.
+* [ ] Write a pull request description that is detailed enough to understand what the pull request does, how, and why.
+* [ ] Write necessary unit-test to verify your logic correction, more mock a little better when cross module dependency exist. If the new feature or significant change is committed, please remember to add integration-test in [test module](https://github.com/alibaba/nacos/tree/master/test).
+* [ ] Run `mvn -B clean package apache-rat:check findbugs:findbugs -Dmaven.test.skip=true` to make sure basic checks pass. Run `mvn clean install -DskipITs` to make sure unit-test pass. Run `mvn clean test-compile failsafe:integration-test`  to make sure integration-test pass.
+
+
+ 增加自定义事件，在配置项/bean属性字段更新后，将配置项key和最新的值保存到map中，并通过srping自定义事件发布出去
+ Please do not create a Pull Request without creating an issue first.
+
+fixed issues/162 
+
+## What is the purpose of the change
+1.增加自定义事件类型FieldChangedEvent
+2.在配置项/bean属性字段更新后，将配置项key和最新的值保存到map中，并通过srping自定义事件发布出去，便于业务自定义监听和处理
+主要集中在NacosValueAnnotationBeanPostProcessor#onApplicationEvent中
+
+## Brief changelog
+
+XX
+
+## Verifying this change
+
+XXXX
+
+Follow this checklist to help us incorporate your contribution quickly and easily:
+
+* [ ] Make sure there is a Github issue filed for the change (usually before you start working on it). Trivial changes like typos do not require a Github issue. Your pull request should address just this issue, without pulling in other changes - one PR resolves one issue.
+* [ ] Format the pull request title like `[ISSUE #123] Fix UnknownException when host config not exist`. Each commit in the pull request should have a meaningful subject line and body.
+* [ ] Write a pull request description that is detailed enough to understand what the pull request does, how, and why.
+* [ ] Write necessary unit-test to verify your logic correction, more mock a little better when cross module dependency exist. If the new feature or significant change is committed, please remember to add integration-test in [test module](https://github.com/alibaba/nacos/tree/master/test).
+* [ ] Run `mvn -B clean package apache-rat:check findbugs:findbugs -Dmaven.test.skip=true` to make sure basic checks pass. Run `mvn clean install -DskipITs` to make sure unit-test pass. Run `mvn clean test-compile failsafe:integration-test`  to make sure integration-test pass.
+
+
+ feature issue #160
+ Please do not create a Pull Request without creating an issue first.
+
+## What is the purpose of the change
+
+feat issue #160 
+
+## Brief changelog
+
+XX
+
+## Verifying this change
+
+XXXX
+
+Follow this checklist to help us incorporate your contribution quickly and easily:
+
+* [ ] Make sure there is a Github issue filed for the change (usually before you start working on it). Trivial changes like typos do not require a Github issue. Your pull request should address just this issue, without pulling in other changes - one PR resolves one issue.
+* [ ] Format the pull request title like `[ISSUE #123] Fix UnknownException when host config not exist`. Each commit in the pull request should have a meaningful subject line and body.
+* [ ] Write a pull request description that is detailed enough to understand what the pull request does, how, and why.
+* [ ] Write necessary unit-test to verify your logic correction, more mock a little better when cross module dependency exist. If the new feature or significant change is committed, please remember to add integration-test in [test module](https://github.com/alibaba/nacos/tree/master/test).
+* [ ] Run `mvn -B clean package apache-rat:check findbugs:findbugs -Dmaven.test.skip=true` to make sure basic checks pass. Run `mvn clean install -DskipITs` to make sure unit-test pass. Run `mvn clean test-compile failsafe:integration-test`  to make sure integration-test pass.
+
+
+ #144 NamingMaintainServiceBean 属性注入
+ NacosDiscoveryBeanDefinitionRegistrar#registerBeanDefinitions
+add
+registerGlobalNacosProperties(attributes, registry, environment, MAINTAIN_GLOBAL_NACOS_PROPERTIES_BEAN_NAME);
+ fix issue#157 1.完善demo，从properties文件中读取nacos.server-addr等属性，避免修改JVM -D 启动参数
+ Please do not create a Pull Request without creating an issue first.
+
+## What is the purpose of the change
+
+1.完善demo，从properties文件中读取nacos.server-addr等属性，避免修改JVM -D 启动参数
+2.创建propertySourcesPlaceholderConfigurer bean时新增了容错处理，避免老项目中的配置文件缺失或者配置项缺失导致应用启动或容器初始化bean失败## Brief changelog
+
+XX
+
+## Verifying this change
+
+XXXX
+
+Follow this checklist to help us incorporate your contribution quickly and easily:
+
+* [ ] Make sure there is a Github issue filed for the change (usually before you start working on it). Trivial changes like typos do not require a Github issue. Your pull request should address just this issue, without pulling in other changes - one PR resolves one issue.
+* [ ] Format the pull request title like `[ISSUE #123] Fix UnknownException when host config not exist`. Each commit in the pull request should have a meaningful subject line and body.
+* [ ] Write a pull request description that is detailed enough to understand what the pull request does, how, and why.
+* [ ] Write necessary unit-test to verify your logic correction, more mock a little better when cross module dependency exist. If the new feature or significant change is committed, please remember to add integration-test in [test module](https://github.com/alibaba/nacos/tree/master/test).
+* [ ] Run `mvn -B clean package apache-rat:check findbugs:findbugs -Dmaven.test.skip=true` to make sure basic checks pass. Run `mvn clean install -DskipITs` to make sure unit-test pass. Run `mvn clean test-compile failsafe:integration-test`  to make sure integration-test pass.
+
+
+ fix issue#157  1.完善demo，从properties文件中读取nacos.server-addr等属性，避免修改JVM -D 启动参数
+ 
+1.完善demo，从properties文件中读取nacos.server-addr等属性，避免修改JVM -D 启动参数
+2.创建propertySourcesPlaceholderConfigurer bean时新增了容错处理，避免老项目中的配置文件缺失或者配置项缺失导致应用启动或容器初始化bean失败
+Please do not create a Pull Request without creating an issue first.
+
+## What is the purpose of the change
+
+XXXXX
+
+## Brief changelog
+
+XX
+
+## Verifying this change
+
+XXXX
+
+Follow this checklist to help us incorporate your contribution quickly and easily:
+
+* [ ] Make sure there is a Github issue filed for the change (usually before you start working on it). Trivial changes like typos do not require a Github issue. Your pull request should address just this issue, without pulling in other changes - one PR resolves one issue.
+* [ ] Format the pull request title like `[ISSUE #123] Fix UnknownException when host config not exist`. Each commit in the pull request should have a meaningful subject line and body.
+* [ ] Write a pull request description that is detailed enough to understand what the pull request does, how, and why.
+* [ ] Write necessary unit-test to verify your logic correction, more mock a little better when cross module dependency exist. If the new feature or significant change is committed, please remember to add integration-test in [test module](https://github.com/alibaba/nacos/tree/master/test).
+* [ ] Run `mvn -B clean package apache-rat:check findbugs:findbugs -Dmaven.test.skip=true` to make sure basic checks pass. Run `mvn clean install -DskipITs` to make sure unit-test pass. Run `mvn clean test-compile failsafe:integration-test`  to make sure integration-test pass.
+
+
+ Develop
+ Please do not create a Pull Request without creating an issue first.
+
+## What is the purpose of the change
+
+XXXXX
+
+## Brief changelog
+
+XX
+
+## Verifying this change
+
+XXXX
+
+Follow this checklist to help us incorporate your contribution quickly and easily:
+
+* [ ] Make sure there is a Github issue filed for the change (usually before you start working on it). Trivial changes like typos do not require a Github issue. Your pull request should address just this issue, without pulling in other changes - one PR resolves one issue.
+* [ ] Format the pull request title like `[ISSUE #123] Fix UnknownException when host config not exist`. Each commit in the pull request should have a meaningful subject line and body.
+* [ ] Write a pull request description that is detailed enough to understand what the pull request does, how, and why.
+* [ ] Write necessary unit-test to verify your logic correction, more mock a little better when cross module dependency exist. If the new feature or significant change is committed, please remember to add integration-test in [test module](https://github.com/alibaba/nacos/tree/master/test).
+* [ ] Run `mvn -B clean package apache-rat:check findbugs:findbugs -Dmaven.test.skip=true` to make sure basic checks pass. Run `mvn clean install -DskipITs` to make sure unit-test pass. Run `mvn clean test-compile failsafe:integration-test`  to make sure integration-test pass.
+
+
+ Refactor create
+ Please do not create a Pull Request without creating an issue first.
+
+## What is the purpose of the change
+
+XXXXX
+
+## Brief changelog
+
+XX
+
+## Verifying this change
+
+XXXX
+
+Follow this checklist to help us incorporate your contribution quickly and easily:
+
+* [ ] Make sure there is a Github issue filed for the change (usually before you start working on it). Trivial changes like typos do not require a Github issue. Your pull request should address just this issue, without pulling in other changes - one PR resolves one issue.
+* [ ] Format the pull request title like `[ISSUE #123] Fix UnknownException when host config not exist`. Each commit in the pull request should have a meaningful subject line and body.
+* [ ] Write a pull request description that is detailed enough to understand what the pull request does, how, and why.
+* [ ] Write necessary unit-test to verify your logic correction, more mock a little better when cross module dependency exist. If the new feature or significant change is committed, please remember to add integration-test in [test module](https://github.com/alibaba/nacos/tree/master/test).
+* [ ] Run `mvn -B clean package apache-rat:check findbugs:findbugs -Dmaven.test.skip=true` to make sure basic checks pass. Run `mvn clean install -DskipITs` to make sure unit-test pass. Run `mvn clean test-compile failsafe:integration-test`  to make sure integration-test pass.
+
+
+ refactor(config): Optimized to create the Service logic, add delay cr…
+ …eate function
+
+Please do not create a Pull Request without creating an issue first.
+
+## What is the purpose of the change
+
+XXXXX
+
+## Brief changelog
+
+XX
+
+## Verifying this change
+
+XXXX
+
+Follow this checklist to help us incorporate your contribution quickly and easily:
+
+* [ ] Make sure there is a Github issue filed for the change (usually before you start working on it). Trivial changes like typos do not require a Github issue. Your pull request should address just this issue, without pulling in other changes - one PR resolves one issue.
+* [ ] Format the pull request title like `[ISSUE #123] Fix UnknownException when host config not exist`. Each commit in the pull request should have a meaningful subject line and body.
+* [ ] Write a pull request description that is detailed enough to understand what the pull request does, how, and why.
+* [ ] Write necessary unit-test to verify your logic correction, more mock a little better when cross module dependency exist. If the new feature or significant change is committed, please remember to add integration-test in [test module](https://github.com/alibaba/nacos/tree/master/test).
+* [ ] Run `mvn -B clean package apache-rat:check findbugs:findbugs -Dmaven.test.skip=true` to make sure basic checks pass. Run `mvn clean install -DskipITs` to make sure unit-test pass. Run `mvn clean test-compile failsafe:integration-test`  to make sure integration-test pass.
+
+

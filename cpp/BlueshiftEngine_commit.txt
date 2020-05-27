@@ -1,0 +1,32 @@
+﻿ Merge pull request #30 from cxong/patch-1
+
+Replace license with full text
+ Replace license with full text
+ Merge branch dev
+ Remove 'WIP' text in CHANGELOG.md
+ Quote appPath for CreateProcessW
+ appPath accepts environment strings
+ Rollback PlatformWinProcess.cpp
+ armeabi-v7a debug support
+ Merge remote-tracking branch 'origin/dev' into dev
+ Minor fix
+ 1
+ Update README
+ Merge branch 'dev' of github.com:PolygonTek/BlueshiftEngine into dev
+ Update README
+ Merge remote-tracking branch 'origin/dev' into dev
+ Android debug build for armeabi-v7a
+ Add a intensity parameter to Unlit.shader
+ Fix crash
+ Update README
+ Fix wireframe mode
+ Update screenshots
+ Minor fix
+ Fix compile error for iOS
+ Fix engine config files
+ Integrate gl_sRGB and texture_sRGB into r_sRGB
+ Minor fix
+ Fix default gravity to 9.8
+ Code adjustments
+ Update appveyor.yml
+ Update README

@@ -1,0 +1,216 @@
+﻿ Where's linux????
+ 
+Not currently supported.
+
+ Replace license with full text
+ Taken from https://www.apache.org/licenses/LICENSE-2.0.txt
+This helps github auto detect the license and show it in the header bar
+Thanks !
+
+ Error in android studio
+ 2019-09-23 21:30:56.722 26233-26261/com.polygontek.BlueshiftPlayer.debug E/MemoryLeakMonitorManager: MemoryLeakMonitor.jar is not exist!
+2019-09-23 21:30:56.722 26233-26270/com.polygontek.BlueshiftPlayer.debug E/AwareLog: AtomicFileUtils: readFileLines file not exist: android.util.AtomicFile@1181ae5
+2019-09-23 21:30:56.722 26233-26270/com.polygontek.BlueshiftPlayer.debug E/AwareLog: AtomicFileUtils: readFileLines file not exist: android.util.AtomicFile@19369ba
+Thank you for your report.
+
+However, debugging the problem requires additional information.
+
+ cling based C++ as scripting language / hot code reload
+ cling based C++ as scripting language / hot code reload
+Why? Able to run C++ script in runtime or compile it for max speed ( as in example https://github.com/derofim/cling-cmake )
+
+> **HOT code reload**
+> possible approaches:
+> 
+Thank you for the suggestion.
+
+I think this project is unstable for current use.
+I will test it when I have time.
+
+Thank you anyway.
+
+ Error In Open GuidMap
+ Friend,
+
+I got error when running these code, May I know Why?Couldn't open guidmap
+
+if (!BE1::resourceGuidMapper.Read("Data\\guidmap")) {
+        BE_FATALERROR("Couldn't open guidmap !");
+    }
+It means that you ran BlueshiftPlayer.exe in the wrong location.
+
+Running BlueshiftPlayer.exe from the source code is not currently recommended. I will add the document later.
+
+Thanks.
+
+ [Engine] UI system
+ We need GUI system
+Implemented in v0.7
+
+ Add a Codacy badge to README.md
+ None
+ could you open editor sources?
+ when i use cmake 
+CMake Warning at Source/ThirdParty/ToolWindowManager/CMakeLists.txt:29 (find_package):
+  By not providing "FindQt5Widgets.cmake" in CMAKE_MODULE_PATH this project
+  has asked CMake to find a package configuration file provided by
+  "Qt5Widgets", but CMake did not find one.
+
+  Could not find a package configuration file provided by "Qt5Widgets" with
+  any of the following names:
+
+    Qt5WidgetsConfig.cmake
+    qt5widgets-config.cmake
+
+  Add the installation prefix of "Qt5Widgets" to CMAKE_PREFIX_PATH or set
+  "Qt5Widgets_DIR" to a directory containing one of the above files.  If
+  "Qt5Widgets" provides a separate development package or SDK, be sure it has
+  been installed.
+
+
+CMake Error at Source/ThirdParty/ToolWindowManager/CMakeLists.txt:31 (qt5_wrap_cpp):
+  Unknown CMake command "qt5_wrap_cpp".
+Building editor from source code are not available for now.
+
+To build the engine from source code, you can follow the instructions below.
+
+https://github.com/PolygonTek/BlueshiftEngine/wiki/How-to-Build-Engine-Runtime-Libraries
+
+We don't have any plan to release full source code including editor yet.
+
+ [Editor] Keep Crashing on start-up
+ i do not know if it was crash or just stuck. but everytimes i start the editor the "windows problem reporting" always appeared in the task manager, and the editor windows is never appeared. what possibly i have missed?
+Please let me know the execution environment first. Graphics card, OS version, etc.
+
+And did you run the 0.4 version? Or did you compile the engine yourself?
+
+If you run the editor for the first time, a dialog box will pop up to find the project directory. If it crashes before the dialog, run regedit.exe and delete `HKEY_CURRENT_USER / Software / PolygonTek`. And re-run it.
+
+it was : 
+- Windows 10 home 64bit
+- the graphic card : AMD Radeon HD 7400G
+- the processor : AMD A4-4335 APU
+
+i already set the project directory, exactly it crash after that, i have tried to re-run the editor but it still the same, i used the latest release of the editor and not yet compile the engine myself 
+
+Was the project directory you were trying to open `BasicGame` ? 
+
+If so, can you see the `BasicGame/Log/log.txt` ?
+
+the editor is did not want to running, how could i create or even open any project?
+
+Did you download example project ? [Example Projects](https://github.com/PolygonTek/BlueshiftExamples/archive/master.zip)
+
+Not supported creating new project in editor yet. (will be fixed)
+
+If the editor does not appear on the screen, delete the registry key again.
+
+not yet, hold on sec
+
+its works now, i'm sorry i did not know if the sample is required to run the editor, thanks for the assist
+
+anyway, where is the lua scripting reference i can read?
+
+I'm planning to make scripting API documentation. You can see the issue #19.
+Until then you can reference the source code (cpp) to use.
+https://github.com/PolygonTek/BlueshiftEngine/tree/master/Source/BlueshiftEngine/Private/Script
+Or see the sample script. 
+
+I know that it is inconvenient to use. But please understand that it is an alpha stage engine.
+It will be improved later.
+
+it's okay, i'm okay with learning from example, i'm surely understand, i keep support your development, i looking forward for future features implementation
+
+Thank you for your support. 😃
+
+ [Engine] Multithreaded renderer and jobification
+ References
+------------
+* [Destiny’s Multi-threaded Renderer Architecture](http://www.gdcvault.com/play/1021926/Destiny-s-Multithreaded-Rendering)
+* [Stingray Renderer Walkthrough](http://bitsquid.blogspot.kr/2017/02/stingray-renderer-walkthrough.html)
+ [Engine] Audio mixing
+ To support pitch control on Android device, we have to implement audio mixing in software.
+ Editor source?
+ Hi,
+Excellent job on your engine progress, I'm working on Urho3D based fork engine and would like to add editor support in the future, any plan to release the editor code?
+Thanks for the your interest of our works.
+I'm sorry but we don't have any plan to release editor source code yet.
+
+
+
+Thanks for answer.
+
+ [Engine] Lua scripting
+ I think we need to support below features in the future release.
+Some of them are already implemented in the development branch.
+
+- [x] Support Lua 5.1 to support LuaJIT
+- [x] Support LuaJIT x86_64 (Windows, macOS)
+- [x] Support LuaJIT ARM (LuaJIT ARM64 is in beta for now)
+- [x] Debugging functionality (using [ZeroBrane Studio](https://studio.zerobrane.com/))
+ Update README.md
+ 
+s
+
+ [Engine] Noise module in particle system
+ It will be awesome to add noise module in particle system.
+
+[Curl Noise](http://petewerner.blogspot.kr/2015/02/intro-to-curl-noise.html)
+ [Engine] Automatic script binding
+ We need more general solution for script binding. 
+I think manually bound Lua code is not sustainable in development progress.
+
+I'm considering to use SWIG for now.
+ [Engine] Need support DDS in BC6/BC7 format
+ 
+ Editor Soon?
+ Hey I have just come across this engine, and it looks great! I was wondering when the editor source would be available or a new build released to see all of the new features and test it out to see if it would be a good match for making a game instead of unity or unreal.
+Thank you for your interest. we don't have any plan yet for the editor source release but new binary build (v0.2) will be released as soon as possible.
+
+ [Engine] Add skybox
+ - [x] Add cubemap skybox shader
+- [x] Add 6 sided skybox shader
+ [Engine] Physically based lighting
+ - [x] Implement PBR lighting shaders
+- [x] Add environment probe to pre-compute diffuse/specular lighting
+- [x] Blending environment proves
+ [Engine] Image resize in linear color space
+ 
+ [Engine] No IK Function and Physic Cloth yet
+ this engine is close to perfect, i looking forward for this feature enabled in blueshift engine
+ [Editor] Dockable widget is not working as intended especially in macOS
+ windows 버젼에서는 문제가 없는데, macOS 버젼에서는 dock 의 split 되고 합치는 과정이 매끄럽지가 않습니다. Qt 의 버그처럼 보입니다.
+Unity 나 Stingray 에디터에서 처럼 동작하는 custom dock widget 을 구현하는게 좋을 것 같습니다. 기본 Qt widget 으로는 구현이 불가능하기 때문에 구현하려면 Qt 내부의 소스분석이 필요해 보입니다.
+
+We need tabbed dock widget like Unity or Unreal.
+
+Implemented in v0.3.0
+
+ [Editor] Can edit multiple selected entities
+ New property system is required to support this feature.
+Implemented in v0.3.0
+
+ [Engine] Engine 을 DLL 형태의 동적 링크 라이브러리로 제공 
+ 현재 엔진을 빌드하면 static library 로 떨어집니다. 에디터의 소스가 공개되고 있지 않으므로 엔진을 DLL 형태로 만들어야 수정버젼을 에디터에서 시험해 볼 수 있는 방식이 됩니다. (물론 에디터 소스가 공개되면 이런 과정은 필요없을지도 모릅니다) 
+
+참고로 iOS 8 부터 Apple 에서도 Framework 형태로 동적 링킹을 지원한다고 합니다.
+ [Editor] Particle editor
+ 
+Implemented in v0.2
+
+ [Editor] Redesign material editor
+ - [x] Material editor UI improvement
+ CONTRIBUTING.md 문서 만들기
+ 본 프로젝트에 기여할 때 가이드가 될 [CONTRIBUTING.md](https://github.com/blog/1184-contributing-guidelines) 문서가 필요합니다. 
+ [Editor] FBX 파일 임포트시 embeded texture 도 한꺼번에 import 하도록 수정 필요
+ FBX 파일에 texure 도 함께 embed 하는 기능이 있습니다. FBX SDK 의 import 함수를 호출 하는 순간 FBX 파일이 있는 디렉토리에 파일이 풀립니다. 현재는 이렇게 풀린 파일이 에디터에서 임포트 과정을 거치지 않습니다. 임시방편으로 에디터를 껐다가 켜면 embeded 파일이 임포트 됩니다.
+Fixed in v0.5.0
+
+ [Editor] macOS 에디터 화면 버그
+ macOS 에디터 상에서 Qt warning message 가 계속 발생합니다.
+
+Scene dock 과 Game dock 전환시에 화면이 까맣게 나오는 현상이 있습니다.
+정확한 원인은 파악이 안되고 있으나 Qt 와 OpenGL 의 충돌인 것 같습니다.
+제 컴퓨터에 깔린 Qt 5.6.2 와 engine 의 OpenGL context 가 충돌을 일으키는 것으로 짐작됩니다.
+Qt 5.6.0 으로 link 하면 해결됩니다.
+

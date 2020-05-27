@@ -1,0 +1,6 @@
+﻿ Android oct 2018 fix
+ Hi
+I have spent some time to update your very good cross platform example to work with never Android environments (Oct 2018 on Ubuntu 18.04). I think this would be helpful to others as well, so perhaps you want to merge in the changes?
+Best Jens
+ README typo
+ fix readme typo

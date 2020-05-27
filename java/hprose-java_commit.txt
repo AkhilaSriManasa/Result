@@ -1,0 +1,32 @@
+﻿ Update to v2.0.38
+ Try to fixed #42
+ Try to fix #42
+ Try to fix #42
+ Removed unused import
+ Fixed UnresolvedAddressException
+ Try to fixed #42
+ Format the code
+ Update .gitignore
+ Update to v2.0.37
+ try to fixed #42
+ Fixed #40
+ Changed class.newInstance() to class.getDeclaredConstructor().newInstance()
+ Fixed #39
+ Fixed #40
+ Fixed #37 #38
+ Fixed #34
+ Update to 2.0.36
+ Update to 2.0.36
+ Happy new year!
+ Merge pull request #33 from xiaoyur347/master
+
+Fixed HproseTcpClient may miss sending the first request
+ Fixed HproseTcpClient may miss sending the first request which is also the only one request if onConnected() fires before the request is offered
+ Fixed a bug of unregistered class unserialize.
+ changed the default jdk from 1.5 to 1.6
+ Fixed #27
+ Update to v2.0.33
+ Fixed null Enum unserialization.
+ Fixed null Enum unserialization.
+ Fixed wait until timeout for invalid ip and fixed finishConnect() exception
+ Changed default subscribe timeout to 5 minutes.

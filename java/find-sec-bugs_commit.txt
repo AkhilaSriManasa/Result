@@ -1,0 +1,59 @@
+﻿ Merge pull request #552 from topolik/541
+
+541  RuntimeException when processing static method
+ Merge pull request #551 from Marx314/Update_sqli_jdbc_message
+
+Add example for sql_injection_spring_jdbc with annotation
+ Do not store method parameters that contribute to a Taint state into class static variables - fixes #541
+ Add failing test for #541
+ Add example for sql_injection_spring_jdbc with annotation
+ Merge pull request #532 from orihalcon128/upd-ja-msg
+
+Update Japanese messages
+ Merge pull request #532 from orihalcon128/upd-ja-msg
+
+Update Japanese messages
+ Update Japanese messages.
+ Merge pull request #530 from h3xstream/master
+
+Introduce a properties file to avoid repeating the versions
+ This should speed up the build process.
+The tests appear to have been running twice.
+ Introduce a properties file to avoid repeating the versions
+ Merge pull request #528 from h3xstream/master
+
+Fix links in the messages
+ Merge pull request #528 from h3xstream/master
+
+Fix links in the messages
+ Update the description for Pebble injection. #521
+ Merge branch 'master' of github.com:h3xstream/find-sec-bugs
+ Updating link to https when appropriate + Multiple link updated to the most recent references
+ Merge pull request #527 from h3xstream/master
+
+Fix key misspell #526
+ Fix key misspell #526
+ Merge pull request #522 from sa160690/master
+
+Issue#521: Detect Pebble template library #521
+ Issue#521: Detect Pebble template library #521
+ Merge pull request #520 from h3xstream/master
+
+Miscellaneous code change for readability, unnecessary code and...
+ Miscellaneous code change for readability, unnecessary code and general good practices.
+(Based on SpotBugs core rules recommendations.)
+ Move the badges lower to avoid overflow
+ Preparing the repo for the next iteration
+ Release 1.10.0
+ Merge pull request #519 from h3xstream/master
+
+Replace finally block with try resource sections. (Refactoring)
+ Remove coveralls dependency. No longer in used for the CI
+ Minor tweak to unify the way constant values are extracted in some detector.
+Remove condition evaluate two times (tapestry + other detectors)
+ Add test for Servlet class
+ Relocalisation of samples to package that match better the detector package.
+ Replace finally block with try resource sections. (Refactoring)
+ Merge pull request #518 from nigredo-tori/517-static-iv-unwrap
+
+Change STATIC_IV detector to properly handle key wrapping/unwrapping modes

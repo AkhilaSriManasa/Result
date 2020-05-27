@@ -1,0 +1,85 @@
+﻿ Change version to 1.2.4
+
+Signed-off-by: rdasgupt <ranjan.dasgupta@us.ibm.com>
+ Merge pull request #769 from eclipse/develop
+
+Develop
+ Merge branch 'master' into develop
+ Merge pull request #768 from rdasgupt/develop
+
+Regression: In v1.2.3 introduced by PR #745
+ Merge pull request #703 from xiangwangcheng/develop
+
+fix the problem#680: connectComplete be triggered when connectionLost
+ Fix critical backword compatibility issue introduced by PR #745
+
+Signed-off-by: rdasgupt <ranjan.dasgupta@us.ibm.com>
+ Fix critical issue introduced by PR #745
+
+Signed-off-by: rdasgupt <ranjan.dasgupta@us.ibm.com>
+ Update develop version to 1.2.4-SNAPSHOT
+
+Signed-off-by: rdasgupt <ranjan.dasgupta@us.ibm.com>
+ Update develop version to 1.2.4-SNAPSHOT
+
+Signed-off-by: rdasgupt <ranjan.dasgupta@us.ibm.com>
+ Update release versions to 1.2.3
+
+Signed-off-by: Ranjan-Dasgupta <Ranjan.Dasgupta@us.ibm.com>
+ Fix test cases
+
+Signed-off-by: Ranjan-Dasgupta <Ranjan.Dasgupta@us.ibm.com>
+ Update release versions to 1.2.3
+
+Signed-off-by: Ranjan-Dasgupta <Ranjan.Dasgupta@us.ibm.com>
+ Merge pull request #766 from eclipse/develop
+
+Merge develop into master
+ Fix scm
+
+Signed-off-by: Ranjan-Dasgupta <Ranjan.Dasgupta@us.ibm.com>
+ Revert manual changes in pom.xml
+ Merge pull request #765 from eclipse/develop
+
+Develop to master
+ Merge branch 'master' into develop
+ Release update in develop branch
+
+Signed-off-by: Ranjan-Dasgupta <Ranjan.Dasgupta@us.ibm.com>
+ Merge pull request #669 from bendem/fix/mqtt-callback-extended-discoverability
+
+Improve discoverability of MqttCallbackExtended
+ Merge pull request #721 from ogis-yamazaki/develop
+
+Added decrementInFlight on removeMessage to synchronize actualInFlight.
+ Merge pull request #653 from SolarNetworkFoundation/feature/bug-634-file-persistence-npe-2
+
+Fix #634: NPE when default file persistence tries to restore persiste…
+ Merge pull request #762 from rdasgupt/test644
+
+Merging this PR will close #644. 
+If details provided in #644 is not clear and you need more information, please open a new issue with your use case and test case with paho logs.
+ Add tests for disconnectForcibly
+
+Signed-off-by: Ranjan-Dasgupta <Ranjan.Dasgupta@us.ibm.com>
+ Merge pull request #760 from rdasgupt/fix596rework
+
+Fix conflicts in PR 596
+ Fix conflicts in PR 596
+
+Signed-off-by: Ranjan-Dasgupta <Ranjan.Dasgupta@us.ibm.com>
+ Merge pull request #727 from ogis-yamazaki/shutdownconnection_called_twice
+
+Fix for issue #726
+ Merge pull request #758 from rdasgupt/fix727test
+
+Add more tests for connect disconnect tests for Async client
+ Add test for conntect disconnect use case
+
+Signed-off-by: Ranjan-Dasgupta <Ranjan.Dasgupta@us.ibm.com>
+ Add Connect disconnect tests for async client for PR 725
+
+Signed-off-by: Ranjan-Dasgupta <Ranjan.Dasgupta@us.ibm.com>
+ Merge pull request #745 from maxpagani/fix-url-to-path-conversion
+
+Fix URL to pathname conversion

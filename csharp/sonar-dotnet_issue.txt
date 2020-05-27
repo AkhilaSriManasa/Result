@@ -1,0 +1,740 @@
+﻿ Clean up of .editorconfig
+ 
+Maintenance cost of this file is high. I've put full copy to sonar-security as well, except the Rules section that is useless there.
+
+Kudos, SonarCloud Quality Gate passed!
+
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/bug.png' alt='Bug' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3365&resolved=false&types=BUG) [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/RatingBadge/A.png' alt='A' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3365&resolved=false&types=BUG) [0 Bugs](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3365&resolved=false&types=BUG)  
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/vulnerability.png' alt='Vulnerability' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3365&resolved=false&types=VULNERABILITY) [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/RatingBadge/A.png' alt='A' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3365&resolved=false&types=VULNERABILITY) [0 Vulnerabilities](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3365&resolved=false&types=VULNERABILITY) (and [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/security_hotspot.png' alt='Security Hotspot' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3365&resolved=false&types=SECURITY_HOTSPOT) [0 Security Hotspots](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3365&resolved=false&types=SECURITY_HOTSPOT) to review)  
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/code_smell.png' alt='Code Smell' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3365&resolved=false&types=CODE_SMELL) [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/RatingBadge/A.png' alt='A' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3365&resolved=false&types=CODE_SMELL) [0 Code Smells](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3365&resolved=false&types=CODE_SMELL)
+
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/CoverageChart/NoCoverageInfo.png' alt='No Coverage information' width='16' height='16' />](https://sonarcloud.io/component_measures?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3365&metric=coverage&view=list) No Coverage information  
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/Duplications/NoDuplicationInfo.png' alt='No Duplication information' width='16' height='16' />](https://sonarcloud.io/component_measures?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3365&metric=duplicated_lines_density&view=list) No Duplication information
+
+
+
+Kudos, SonarCloud Quality Gate passed!
+
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/bug.png' alt='Bug' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3365&resolved=false&types=BUG) [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/RatingBadge/A.png' alt='A' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3365&resolved=false&types=BUG) [0 Bugs](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3365&resolved=false&types=BUG)  
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/vulnerability.png' alt='Vulnerability' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3365&resolved=false&types=VULNERABILITY) [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/RatingBadge/A.png' alt='A' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3365&resolved=false&types=VULNERABILITY) [0 Vulnerabilities](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3365&resolved=false&types=VULNERABILITY) (and [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/security_hotspot.png' alt='Security Hotspot' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3365&resolved=false&types=SECURITY_HOTSPOT) [0 Security Hotspots](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3365&resolved=false&types=SECURITY_HOTSPOT) to review)  
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/code_smell.png' alt='Code Smell' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3365&resolved=false&types=CODE_SMELL) [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/RatingBadge/A.png' alt='A' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3365&resolved=false&types=CODE_SMELL) [0 Code Smells](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3365&resolved=false&types=CODE_SMELL)
+
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/CoverageChart/NoCoverageInfo.png' alt='No Coverage information' width='16' height='16' />](https://sonarcloud.io/component_measures?id=sonaranalyzer-dotnet&pullRequest=3365&metric=coverage&view=list) No Coverage information  
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/Duplications/NoDuplicationInfo.png' alt='No Duplication information' width='16' height='16' />](https://sonarcloud.io/component_measures?id=sonaranalyzer-dotnet&pullRequest=3365&metric=duplicated_lines_density&view=list) No Duplication information
+
+
+
+ Fix missing 'equivalenceKey' warning for code fixes
+ ### Description
+
+When we create a `CodeAction` for code fix, we don't provide `equivalenceKey` argument. That raises compiler warning that we need to fix:
+
+>RS1010: Provide an explicit argument for optional parameter 'equivalenceKey', which is non-null and unique across all code actions created by this fixer.
+
+This compiler warning is now suppressed in `.editorconfig` to avoid noise.
+
+### Repro steps
+
+Remove RS1010 supression from `.editorconfig` and rebuild the project. 
+
+### ToDo
+
+* Remove RS1010 supression from `.editorconfig`
+* Create common solution to the problem and fix it
+ S1481: Visual Studio cannot batch modify variable names
+ ### Description
+
+Usually modify the variable name, visual studio will ask the developer whether to batch modify all associated variable names.
+I found that using SonarAnalyzer.CSharp would lose this function.
+After testing, set `dotnet_diagnostic.S1481.severity = none`, the batch modification function will return to normal.
+
+### Repro steps
+
+```
+int Count = 0;  => int count = 0; // Visual Studio will ask the developer whether to batch modify "Count to count".
+Count++;
+```
+
+### Expected behavior
+
+
+### Actual behavior
+
+
+### Known workarounds
+
+
+### Related information
+
+.NET Core 3.1
+SonarAnalyzer.CSharp 8.7.0.17535
+Visual Studio Enterprise 2019-16.6.0
+
+ Deterministic Source Paths Breaks Coverage
+ ### Description
+
+If deterministic source paths are enabled during the builds, the scanner will fail to find the code coverage for the code.  (The coverage reports will be indexed, but it will say 0 files matched).  This happens by default with the Microsoft.SourceLink package.
+
+### Repro steps
+
+Create a dotnet core project with 1 class and 1 unit test project, add the Microsoft.SourceLink package, and then run the sonar scanner against it.  It will fail to produce code coverage.
+
+### Known workarounds
+
+Turn deterministic source paths off.
+
+### Related information
+* see https://github.com/dotnet/sourcelink/issues/615
+* see https://github.com/dotnet/roslyn/issues/43476
+* C#/VB.NET Plugins Version - 8.3.1
+* Visual Studio Version - N/A
+* MSBuild / dotnet version - Core 3.1
+* If running through the Scanner for MSBuild, its version - dotnet-scanner 4.8
+* Operating System - Win 10.
+
+ Analyzers incorrectly caches rule parameters from the SonarLint.xml file
+ ### Description
+
+Rule parameters are passed to the analyzers via a file called `SonarLint.xml` using the Roslyn `AdditionalFiles` mechanism. Roslyn passes the additional files as part of the analysis context each time an analysis is triggered. The contents of the additional files can change between analysis runs.
+
+The sonar-dotnet analyzers load the settings once per AppDomain and then ignore any settings that are supplied in subsequent analysis runs in the same AppDomain. This can lead to the wrong rule parameters being applied.
+
+### Repro steps
+
+1. Open a project in VS and install the SonarC# analyzer (or use SonarLint).
+2. Add a `SonarLint.xml` settings with the content given below, with the `Build Action` set to `C# analyzer additional file` (or set the item type to `AdditionalFiles` if you are editing the project file directly.
+3. Edit the ruleset to turn on rule S1451
+4. Edit a code file to add a copyright header with the wrong year, and check the issue is raised.
+4. Change the year in the copyright in the `SonarLint.xml` file so the rule should not fire, and save the file.
+5. Edit the code to trigger the rule again.
+
+### Expected behaviour
+The new settings are picked up and the issue is not raised.
+
+### Actual behaviour
+The new settings are ignored until VS is restarted.
+
+#### Repro SonarLint.xml file
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<AnalysisInput>
+  <Settings/>
+  <Rules>
+    <Rule>
+      <Key>S1451</Key>
+      <Parameters>
+        <Parameter>
+          <Key>headerFormat</Key>
+          <Value>// Copyright ACME 2020
+</Value>
+        </Parameter>
+        <Parameter>
+          <Key>isRegularExpression</Key>
+          <Value>false</Value>
+        </Parameter>
+      </Parameters>
+    </Rule>
+  </Rules>
+  <Files>
+  </Files>
+</AnalysisInput>
+```
+
+### Known workarounds
+
+Restart VS.
+
+### Related information
+
+* C#/VB.NET Plugins Version: all versions with parameterised rules
+* Visual Studio Version: all
+
+### Background
+The parameters are loaded and cached by the static `ParameterLoader` class that holds a static list of the parameterised analyzers it has processed. If it has already set the parameters for a particular analyzer it won't set them again - [see here](https://github.com/SonarSource/sonar-dotnet/blob/25c1ce8c65d14f2d284657a920dfe2490a3a93b7/sonaranalyzer-dotnet/src/SonarAnalyzer.Common/Helpers/ParameterLoader.cs#L88).
+
+In VS, this means that the once the analyzers have loaded a `SonarLint.xml` file, those rule parameters will be used until VS is restarted. It doesn't matter if the user edits the settings file, switches to a solution with a different `SonarLint.xml` file, or even a different solution that does not have a `SonarLint.xml` file.
+
+I haven't checked whether command line builds are impacted, but my guess is that they are. MSBuild can reuse nodes to build subsequent projects, which might have different (or no) `SonarLint.xml` settings.
+
+Also, both `dotnet` and `MSBuild` have shared build server processes that keep running after a build is complete that can then be used when building other solutions.
+
+
+
+ Rule S4790: its content should be replaced by S2070
+ For hashing algorithms, several rules exist, in particular these two:
+- A security-hotspot: https://jira.sonarsource.com/browse/RSPEC-4790
+- That supersedes this vulnerability: https://jira.sonarsource.com/browse/RSPEC-2070
+
+It's not possible to maintain two rules on exactly the same subject, for us and the end users, so:
+- S2070 will be deprecated
+- the content/implementation of S2070 is more relevant than S4790 because S4790 raises everywhere a hash function is used (even when secure hash function, like SHA-256 is used) and S2070 raises only when a weak hash function is used (like MD5)
+- so the content/implementation of S2070 should "be moved" to S4790 (the key of the rule should be updated in Sonar-dotnet), because the type of issue (hotspot) is more relevant
+
+
+ S2589: Add test case with ref argument
+ 
+Kudos, SonarCloud Quality Gate passed!
+
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/bug.png' alt='Bug' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3359&resolved=false&types=BUG) [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/RatingBadge/A.png' alt='A' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3359&resolved=false&types=BUG) [0 Bugs](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3359&resolved=false&types=BUG)  
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/vulnerability.png' alt='Vulnerability' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3359&resolved=false&types=VULNERABILITY) [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/RatingBadge/A.png' alt='A' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3359&resolved=false&types=VULNERABILITY) [0 Vulnerabilities](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3359&resolved=false&types=VULNERABILITY) (and [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/security_hotspot.png' alt='Security Hotspot' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3359&resolved=false&types=SECURITY_HOTSPOT) [0 Security Hotspots](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3359&resolved=false&types=SECURITY_HOTSPOT) to review)  
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/code_smell.png' alt='Code Smell' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3359&resolved=false&types=CODE_SMELL) [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/RatingBadge/A.png' alt='A' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3359&resolved=false&types=CODE_SMELL) [0 Code Smells](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3359&resolved=false&types=CODE_SMELL)
+
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/CoverageChart/NoCoverageInfo.png' alt='No Coverage information' width='16' height='16' />](https://sonarcloud.io/component_measures?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3359&metric=coverage&view=list) No Coverage information  
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/Duplications/NoDuplicationInfo.png' alt='No Duplication information' width='16' height='16' />](https://sonarcloud.io/component_measures?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3359&metric=duplicated_lines_density&view=list) No Duplication information
+
+
+
+Kudos, SonarCloud Quality Gate passed!
+
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/bug.png' alt='Bug' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3359&resolved=false&types=BUG) [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/RatingBadge/A.png' alt='A' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3359&resolved=false&types=BUG) [0 Bugs](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3359&resolved=false&types=BUG)  
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/vulnerability.png' alt='Vulnerability' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3359&resolved=false&types=VULNERABILITY) [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/RatingBadge/A.png' alt='A' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3359&resolved=false&types=VULNERABILITY) [0 Vulnerabilities](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3359&resolved=false&types=VULNERABILITY) (and [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/security_hotspot.png' alt='Security Hotspot' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3359&resolved=false&types=SECURITY_HOTSPOT) [0 Security Hotspots](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3359&resolved=false&types=SECURITY_HOTSPOT) to review)  
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/code_smell.png' alt='Code Smell' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3359&resolved=false&types=CODE_SMELL) [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/RatingBadge/A.png' alt='A' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3359&resolved=false&types=CODE_SMELL) [0 Code Smells](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3359&resolved=false&types=CODE_SMELL)
+
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/CoverageChart/NoCoverageInfo.png' alt='No Coverage information' width='16' height='16' />](https://sonarcloud.io/component_measures?id=sonaranalyzer-dotnet&pullRequest=3359&metric=coverage&view=list) No Coverage information  
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/Duplications/3.png' alt='0.0%' width='16' height='16' />](https://sonarcloud.io/component_measures?id=sonaranalyzer-dotnet&pullRequest=3359&metric=new_duplicated_lines_density&view=list) [0.0% Duplication](https://sonarcloud.io/component_measures?id=sonaranalyzer-dotnet&pullRequest=3359&metric=new_duplicated_lines_density&view=list)
+
+
+
+ Add FP for S2589
+ Reproduces #3353 
+Kudos, SonarCloud Quality Gate passed!
+
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/bug.png' alt='Bug' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3358&resolved=false&types=BUG) [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/RatingBadge/A.png' alt='A' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3358&resolved=false&types=BUG) [0 Bugs](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3358&resolved=false&types=BUG)  
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/vulnerability.png' alt='Vulnerability' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3358&resolved=false&types=VULNERABILITY) [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/RatingBadge/A.png' alt='A' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3358&resolved=false&types=VULNERABILITY) [0 Vulnerabilities](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3358&resolved=false&types=VULNERABILITY) (and [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/security_hotspot.png' alt='Security Hotspot' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3358&resolved=false&types=SECURITY_HOTSPOT) [0 Security Hotspots](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3358&resolved=false&types=SECURITY_HOTSPOT) to review)  
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/code_smell.png' alt='Code Smell' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3358&resolved=false&types=CODE_SMELL) [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/RatingBadge/A.png' alt='A' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3358&resolved=false&types=CODE_SMELL) [0 Code Smells](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3358&resolved=false&types=CODE_SMELL)
+
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/CoverageChart/NoCoverageInfo.png' alt='No Coverage information' width='16' height='16' />](https://sonarcloud.io/component_measures?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3358&metric=coverage&view=list) No Coverage information  
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/Duplications/NoDuplicationInfo.png' alt='No Duplication information' width='16' height='16' />](https://sonarcloud.io/component_measures?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3358&metric=duplicated_lines_density&view=list) No Duplication information
+
+
+
+Kudos, SonarCloud Quality Gate passed!
+
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/bug.png' alt='Bug' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3358&resolved=false&types=BUG) [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/RatingBadge/A.png' alt='A' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3358&resolved=false&types=BUG) [0 Bugs](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3358&resolved=false&types=BUG)  
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/vulnerability.png' alt='Vulnerability' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3358&resolved=false&types=VULNERABILITY) [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/RatingBadge/A.png' alt='A' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3358&resolved=false&types=VULNERABILITY) [0 Vulnerabilities](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3358&resolved=false&types=VULNERABILITY) (and [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/security_hotspot.png' alt='Security Hotspot' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3358&resolved=false&types=SECURITY_HOTSPOT) [0 Security Hotspots](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3358&resolved=false&types=SECURITY_HOTSPOT) to review)  
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/code_smell.png' alt='Code Smell' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3358&resolved=false&types=CODE_SMELL) [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/RatingBadge/A.png' alt='A' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3358&resolved=false&types=CODE_SMELL) [0 Code Smells](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3358&resolved=false&types=CODE_SMELL)
+
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/CoverageChart/NoCoverageInfo.png' alt='No Coverage information' width='16' height='16' />](https://sonarcloud.io/component_measures?id=sonaranalyzer-dotnet&pullRequest=3358&metric=coverage&view=list) No Coverage information  
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/Duplications/3.png' alt='0.0%' width='16' height='16' />](https://sonarcloud.io/component_measures?id=sonaranalyzer-dotnet&pullRequest=3358&metric=new_duplicated_lines_density&view=list) [0.0% Duplication](https://sonarcloud.io/component_measures?id=sonaranalyzer-dotnet&pullRequest=3358&metric=new_duplicated_lines_density&view=list)
+
+
+
+ Add FP repro for S1854
+ Reproduces #3348
+Kudos, SonarCloud Quality Gate passed!
+
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/bug.png' alt='Bug' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3357&resolved=false&types=BUG) [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/RatingBadge/A.png' alt='A' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3357&resolved=false&types=BUG) [0 Bugs](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3357&resolved=false&types=BUG)  
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/vulnerability.png' alt='Vulnerability' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3357&resolved=false&types=VULNERABILITY) [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/RatingBadge/A.png' alt='A' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3357&resolved=false&types=VULNERABILITY) [0 Vulnerabilities](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3357&resolved=false&types=VULNERABILITY) (and [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/security_hotspot.png' alt='Security Hotspot' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3357&resolved=false&types=SECURITY_HOTSPOT) [0 Security Hotspots](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3357&resolved=false&types=SECURITY_HOTSPOT) to review)  
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/code_smell.png' alt='Code Smell' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3357&resolved=false&types=CODE_SMELL) [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/RatingBadge/A.png' alt='A' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3357&resolved=false&types=CODE_SMELL) [0 Code Smells](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3357&resolved=false&types=CODE_SMELL)
+
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/CoverageChart/NoCoverageInfo.png' alt='No Coverage information' width='16' height='16' />](https://sonarcloud.io/component_measures?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3357&metric=coverage&view=list) No Coverage information  
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/Duplications/NoDuplicationInfo.png' alt='No Duplication information' width='16' height='16' />](https://sonarcloud.io/component_measures?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3357&metric=duplicated_lines_density&view=list) No Duplication information
+
+
+
+Kudos, SonarCloud Quality Gate passed!
+
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/bug.png' alt='Bug' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3357&resolved=false&types=BUG) [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/RatingBadge/A.png' alt='A' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3357&resolved=false&types=BUG) [0 Bugs](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3357&resolved=false&types=BUG)  
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/vulnerability.png' alt='Vulnerability' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3357&resolved=false&types=VULNERABILITY) [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/RatingBadge/A.png' alt='A' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3357&resolved=false&types=VULNERABILITY) [0 Vulnerabilities](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3357&resolved=false&types=VULNERABILITY) (and [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/security_hotspot.png' alt='Security Hotspot' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3357&resolved=false&types=SECURITY_HOTSPOT) [0 Security Hotspots](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3357&resolved=false&types=SECURITY_HOTSPOT) to review)  
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/code_smell.png' alt='Code Smell' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3357&resolved=false&types=CODE_SMELL) [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/RatingBadge/A.png' alt='A' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3357&resolved=false&types=CODE_SMELL) [0 Code Smells](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3357&resolved=false&types=CODE_SMELL)
+
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/CoverageChart/NoCoverageInfo.png' alt='No Coverage information' width='16' height='16' />](https://sonarcloud.io/component_measures?id=sonaranalyzer-dotnet&pullRequest=3357&metric=coverage&view=list) No Coverage information  
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/Duplications/3.png' alt='0.0%' width='16' height='16' />](https://sonarcloud.io/component_measures?id=sonaranalyzer-dotnet&pullRequest=3357&metric=new_duplicated_lines_density&view=list) [0.0% Duplication](https://sonarcloud.io/component_measures?id=sonaranalyzer-dotnet&pullRequest=3357&metric=new_duplicated_lines_density&view=list)
+
+
+
+ Fix S2933 FP and related S1854, S3010, S2696, S2934 FN: Null-coalescing assignment is not recognized
+ Fixes #3339
+Kudos, SonarCloud Quality Gate passed!
+
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/bug.png' alt='Bug' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3356&resolved=false&types=BUG) [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/RatingBadge/A.png' alt='A' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3356&resolved=false&types=BUG) [0 Bugs](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3356&resolved=false&types=BUG)  
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/vulnerability.png' alt='Vulnerability' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3356&resolved=false&types=VULNERABILITY) [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/RatingBadge/A.png' alt='A' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3356&resolved=false&types=VULNERABILITY) [0 Vulnerabilities](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3356&resolved=false&types=VULNERABILITY) (and [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/security_hotspot.png' alt='Security Hotspot' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3356&resolved=false&types=SECURITY_HOTSPOT) [0 Security Hotspots](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3356&resolved=false&types=SECURITY_HOTSPOT) to review)  
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/code_smell.png' alt='Code Smell' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3356&resolved=false&types=CODE_SMELL) [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/RatingBadge/A.png' alt='A' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3356&resolved=false&types=CODE_SMELL) [0 Code Smells](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3356&resolved=false&types=CODE_SMELL)
+
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/CoverageChart/NoCoverageInfo.png' alt='No Coverage information' width='16' height='16' />](https://sonarcloud.io/component_measures?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3356&metric=coverage&view=list) No Coverage information  
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/Duplications/NoDuplicationInfo.png' alt='No Duplication information' width='16' height='16' />](https://sonarcloud.io/component_measures?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3356&metric=duplicated_lines_density&view=list) No Duplication information
+
+
+
+Kudos, SonarCloud Quality Gate passed!
+
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/bug.png' alt='Bug' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3356&resolved=false&types=BUG) [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/RatingBadge/A.png' alt='A' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3356&resolved=false&types=BUG) [0 Bugs](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3356&resolved=false&types=BUG)  
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/vulnerability.png' alt='Vulnerability' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3356&resolved=false&types=VULNERABILITY) [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/RatingBadge/A.png' alt='A' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3356&resolved=false&types=VULNERABILITY) [0 Vulnerabilities](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3356&resolved=false&types=VULNERABILITY) (and [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/security_hotspot.png' alt='Security Hotspot' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3356&resolved=false&types=SECURITY_HOTSPOT) [0 Security Hotspots](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3356&resolved=false&types=SECURITY_HOTSPOT) to review)  
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/code_smell.png' alt='Code Smell' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3356&resolved=false&types=CODE_SMELL) [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/RatingBadge/A.png' alt='A' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3356&resolved=false&types=CODE_SMELL) [0 Code Smells](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3356&resolved=false&types=CODE_SMELL)
+
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/CoverageChart/NoCoverageInfo.png' alt='No Coverage information' width='16' height='16' />](https://sonarcloud.io/component_measures?id=sonaranalyzer-dotnet&pullRequest=3356&metric=coverage&view=list) No Coverage information  
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/Duplications/3.png' alt='0.0%' width='16' height='16' />](https://sonarcloud.io/component_measures?id=sonaranalyzer-dotnet&pullRequest=3356&metric=new_duplicated_lines_density&view=list) [0.0% Duplication](https://sonarcloud.io/component_measures?id=sonaranalyzer-dotnet&pullRequest=3356&metric=new_duplicated_lines_density&view=list)
+
+
+
+ Restore github templates
+ Aka fix Tom mess
+Kudos, SonarCloud Quality Gate passed!
+
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/bug.png' alt='Bug' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3355&resolved=false&types=BUG) [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/RatingBadge/A.png' alt='A' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3355&resolved=false&types=BUG) [0 Bugs](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3355&resolved=false&types=BUG)  
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/vulnerability.png' alt='Vulnerability' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3355&resolved=false&types=VULNERABILITY) [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/RatingBadge/A.png' alt='A' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3355&resolved=false&types=VULNERABILITY) [0 Vulnerabilities](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3355&resolved=false&types=VULNERABILITY) (and [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/security_hotspot.png' alt='Security Hotspot' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3355&resolved=false&types=SECURITY_HOTSPOT) [0 Security Hotspots](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3355&resolved=false&types=SECURITY_HOTSPOT) to review)  
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/code_smell.png' alt='Code Smell' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3355&resolved=false&types=CODE_SMELL) [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/RatingBadge/A.png' alt='A' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3355&resolved=false&types=CODE_SMELL) [0 Code Smells](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3355&resolved=false&types=CODE_SMELL)
+
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/CoverageChart/NoCoverageInfo.png' alt='No Coverage information' width='16' height='16' />](https://sonarcloud.io/component_measures?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3355&metric=coverage&view=list) No Coverage information  
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/Duplications/NoDuplicationInfo.png' alt='No Duplication information' width='16' height='16' />](https://sonarcloud.io/component_measures?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3355&metric=duplicated_lines_density&view=list) No Duplication information
+
+
+
+Kudos, SonarCloud Quality Gate passed!
+
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/bug.png' alt='Bug' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3355&resolved=false&types=BUG) [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/RatingBadge/A.png' alt='A' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3355&resolved=false&types=BUG) [0 Bugs](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3355&resolved=false&types=BUG)  
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/vulnerability.png' alt='Vulnerability' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3355&resolved=false&types=VULNERABILITY) [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/RatingBadge/A.png' alt='A' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3355&resolved=false&types=VULNERABILITY) [0 Vulnerabilities](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3355&resolved=false&types=VULNERABILITY) (and [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/security_hotspot.png' alt='Security Hotspot' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3355&resolved=false&types=SECURITY_HOTSPOT) [0 Security Hotspots](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3355&resolved=false&types=SECURITY_HOTSPOT) to review)  
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/code_smell.png' alt='Code Smell' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3355&resolved=false&types=CODE_SMELL) [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/RatingBadge/A.png' alt='A' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3355&resolved=false&types=CODE_SMELL) [0 Code Smells](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3355&resolved=false&types=CODE_SMELL)
+
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/CoverageChart/NoCoverageInfo.png' alt='No Coverage information' width='16' height='16' />](https://sonarcloud.io/component_measures?id=sonaranalyzer-dotnet&pullRequest=3355&metric=coverage&view=list) No Coverage information  
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/Duplications/NoDuplicationInfo.png' alt='No Duplication information' width='16' height='16' />](https://sonarcloud.io/component_measures?id=sonaranalyzer-dotnet&pullRequest=3355&metric=duplicated_lines_density&view=list) No Duplication information
+
+
+
+  Rule S3626: Rule should handle throw in ExpressionBody
+ Rule does not trigger for the following
+
+```cs
+Func<string> getNonce = () =>
+{
+    var nonce = httpContextAccessor.HttpContext?.GetNonce();
+    if (nonce == null)
+    {
+        throw new InvalidOperationException("HttpContext is null.");
+    }
+
+    return nonce;
+};
+```
+
+It also does not trigger for the following
+```cs
+Func<string> getNonce = () =>
+{
+    return httpContextAccessor.HttpContext?.GetNonce() ?? throw new InvalidOperationException("HttpContext is null.");
+};
+```
+
+The same code can be written as follows, but Rule S3626 gets triggered
+
+```cs
+Func<string> getNonce = () => httpContextAccessor.HttpContext?.GetNonce() ?? throw new InvalidOperationException("HttpContext is null.");
+```
+
+`warning S3626: Remove this redundant jump.`
+Hi @huan086,
+
+Thank you for reporting this issue. We can confirm it as false positive. We already have it reported in #3105 so I'll close this one.
+
+ Fix S2589 FP: ref parameters in multithreading
+ I'm using a double null check for singleton initialization and I'm getting a false positive
+
+Maybe you can avoid raising the warning when the field is a ref parameter:
+
+![image](https://user-images.githubusercontent.com/446796/82280211-bde67d80-9964-11ea-8b2c-86fdb78f8b07.png)
+
+PS: Thanks for such amazing analyzers !!
+
+Hi @MarcosMeli ,
+
+Thank you for reporting this interesting case. We can confirm it as False Positive. 
+
+Problem here is multithreading AND `ref` keyword. Singlethreaded situation with `ref` keyword should be handled normally for True Positives. 
+
+We'll keep this in our backlog to be aware of the issue, but we don't have clear idea how it should be fixed now due to quite big synchronization possibilities in `System.Threading` namespace and it's derivatives.
+
+Thank you  @pavel-mikula-sonarsource 
+
+I completely agree with you, one option could be to validate if the "always true" expression contains a ref parameter there is no need to raise the warning.
+I don't know the internals but just my 2 cents
+
+Regards
+Marcos
+
+
+ Refactor S2583 and S2589 to reuse symbolic execution
+ 
+Fixes #3343 
+
+Kudos, SonarCloud Quality Gate passed!
+
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/bug.png' alt='Bug' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3352&resolved=false&types=BUG) [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/RatingBadge/A.png' alt='A' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3352&resolved=false&types=BUG) [0 Bugs](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3352&resolved=false&types=BUG)  
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/vulnerability.png' alt='Vulnerability' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3352&resolved=false&types=VULNERABILITY) [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/RatingBadge/A.png' alt='A' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3352&resolved=false&types=VULNERABILITY) [0 Vulnerabilities](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3352&resolved=false&types=VULNERABILITY) (and [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/security_hotspot.png' alt='Security Hotspot' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3352&resolved=false&types=SECURITY_HOTSPOT) [0 Security Hotspots](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3352&resolved=false&types=SECURITY_HOTSPOT) to review)  
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/code_smell.png' alt='Code Smell' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3352&resolved=false&types=CODE_SMELL) [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/RatingBadge/A.png' alt='A' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3352&resolved=false&types=CODE_SMELL) [0 Code Smells](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3352&resolved=false&types=CODE_SMELL)
+
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/CoverageChart/NoCoverageInfo.png' alt='No Coverage information' width='16' height='16' />](https://sonarcloud.io/component_measures?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3352&metric=coverage&view=list) No Coverage information  
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/Duplications/NoDuplicationInfo.png' alt='No Duplication information' width='16' height='16' />](https://sonarcloud.io/component_measures?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3352&metric=duplicated_lines_density&view=list) No Duplication information
+
+
+
+Kudos, SonarCloud Quality Gate passed!
+
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/bug.png' alt='Bug' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3352&resolved=false&types=BUG) [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/RatingBadge/A.png' alt='A' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3352&resolved=false&types=BUG) [0 Bugs](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3352&resolved=false&types=BUG)  
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/vulnerability.png' alt='Vulnerability' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3352&resolved=false&types=VULNERABILITY) [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/RatingBadge/A.png' alt='A' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3352&resolved=false&types=VULNERABILITY) [0 Vulnerabilities](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3352&resolved=false&types=VULNERABILITY) (and [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/security_hotspot.png' alt='Security Hotspot' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3352&resolved=false&types=SECURITY_HOTSPOT) [0 Security Hotspots](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3352&resolved=false&types=SECURITY_HOTSPOT) to review)  
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/code_smell.png' alt='Code Smell' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3352&resolved=false&types=CODE_SMELL) [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/RatingBadge/A.png' alt='A' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3352&resolved=false&types=CODE_SMELL) [0 Code Smells](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3352&resolved=false&types=CODE_SMELL)
+
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/CoverageChart/90.png' alt='99.2%' width='16' height='16' />](https://sonarcloud.io/component_measures?id=sonaranalyzer-dotnet&pullRequest=3352&metric=new_coverage&view=list) [99.2% Coverage](https://sonarcloud.io/component_measures?id=sonaranalyzer-dotnet&pullRequest=3352&metric=new_coverage&view=list)  
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/Duplications/3.png' alt='0.0%' width='16' height='16' />](https://sonarcloud.io/component_measures?id=sonaranalyzer-dotnet&pullRequest=3352&metric=new_duplicated_lines_density&view=list) [0.0% Duplication](https://sonarcloud.io/component_measures?id=sonaranalyzer-dotnet&pullRequest=3352&metric=new_duplicated_lines_density&view=list)
+
+
+
+ Refactor S4158 to reuse symbolic execution
+ Fixes #3344
+Kudos, SonarCloud Quality Gate passed!
+
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/bug.png' alt='Bug' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3351&resolved=false&types=BUG) [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/RatingBadge/A.png' alt='A' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3351&resolved=false&types=BUG) [0 Bugs](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3351&resolved=false&types=BUG)  
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/vulnerability.png' alt='Vulnerability' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3351&resolved=false&types=VULNERABILITY) [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/RatingBadge/A.png' alt='A' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3351&resolved=false&types=VULNERABILITY) [0 Vulnerabilities](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3351&resolved=false&types=VULNERABILITY) (and [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/security_hotspot.png' alt='Security Hotspot' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3351&resolved=false&types=SECURITY_HOTSPOT) [0 Security Hotspots](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3351&resolved=false&types=SECURITY_HOTSPOT) to review)  
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/code_smell.png' alt='Code Smell' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3351&resolved=false&types=CODE_SMELL) [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/RatingBadge/A.png' alt='A' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3351&resolved=false&types=CODE_SMELL) [0 Code Smells](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3351&resolved=false&types=CODE_SMELL)
+
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/CoverageChart/NoCoverageInfo.png' alt='No Coverage information' width='16' height='16' />](https://sonarcloud.io/component_measures?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3351&metric=coverage&view=list) No Coverage information  
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/Duplications/NoDuplicationInfo.png' alt='No Duplication information' width='16' height='16' />](https://sonarcloud.io/component_measures?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3351&metric=duplicated_lines_density&view=list) No Duplication information
+
+
+
+Kudos, SonarCloud Quality Gate passed!
+
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/bug.png' alt='Bug' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3351&resolved=false&types=BUG) [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/RatingBadge/A.png' alt='A' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3351&resolved=false&types=BUG) [0 Bugs](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3351&resolved=false&types=BUG)  
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/vulnerability.png' alt='Vulnerability' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3351&resolved=false&types=VULNERABILITY) [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/RatingBadge/A.png' alt='A' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3351&resolved=false&types=VULNERABILITY) [0 Vulnerabilities](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3351&resolved=false&types=VULNERABILITY) (and [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/security_hotspot.png' alt='Security Hotspot' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3351&resolved=false&types=SECURITY_HOTSPOT) [0 Security Hotspots](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3351&resolved=false&types=SECURITY_HOTSPOT) to review)  
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/code_smell.png' alt='Code Smell' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3351&resolved=false&types=CODE_SMELL) [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/RatingBadge/A.png' alt='A' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3351&resolved=false&types=CODE_SMELL) [0 Code Smells](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3351&resolved=false&types=CODE_SMELL)
+
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/CoverageChart/90.png' alt='94.6%' width='16' height='16' />](https://sonarcloud.io/component_measures?id=sonaranalyzer-dotnet&pullRequest=3351&metric=new_coverage&view=list) [94.6% Coverage](https://sonarcloud.io/component_measures?id=sonaranalyzer-dotnet&pullRequest=3351&metric=new_coverage&view=list)  
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/Duplications/3.png' alt='0.0%' width='16' height='16' />](https://sonarcloud.io/component_measures?id=sonaranalyzer-dotnet&pullRequest=3351&metric=new_duplicated_lines_density&view=list) [0.0% Duplication](https://sonarcloud.io/component_measures?id=sonaranalyzer-dotnet&pullRequest=3351&metric=new_duplicated_lines_density&view=list)
+
+
+
+ Update .editorconfig: avoid "this." and "Me." if not necessary
+ 
+
+Kudos, SonarCloud Quality Gate passed!
+
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/bug.png' alt='Bug' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3350&resolved=false&types=BUG) [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/RatingBadge/A.png' alt='A' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3350&resolved=false&types=BUG) [0 Bugs](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3350&resolved=false&types=BUG)  
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/vulnerability.png' alt='Vulnerability' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3350&resolved=false&types=VULNERABILITY) [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/RatingBadge/A.png' alt='A' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3350&resolved=false&types=VULNERABILITY) [0 Vulnerabilities](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3350&resolved=false&types=VULNERABILITY) (and [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/security_hotspot.png' alt='Security Hotspot' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3350&resolved=false&types=SECURITY_HOTSPOT) [0 Security Hotspots](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3350&resolved=false&types=SECURITY_HOTSPOT) to review)  
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/code_smell.png' alt='Code Smell' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3350&resolved=false&types=CODE_SMELL) [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/RatingBadge/A.png' alt='A' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3350&resolved=false&types=CODE_SMELL) [0 Code Smells](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3350&resolved=false&types=CODE_SMELL)
+
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/CoverageChart/NoCoverageInfo.png' alt='No Coverage information' width='16' height='16' />](https://sonarcloud.io/component_measures?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3350&metric=coverage&view=list) No Coverage information  
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/Duplications/NoDuplicationInfo.png' alt='No Duplication information' width='16' height='16' />](https://sonarcloud.io/component_measures?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3350&metric=duplicated_lines_density&view=list) No Duplication information
+
+
+
+Kudos, SonarCloud Quality Gate passed!
+
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/bug.png' alt='Bug' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3350&resolved=false&types=BUG) [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/RatingBadge/A.png' alt='A' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3350&resolved=false&types=BUG) [0 Bugs](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3350&resolved=false&types=BUG)  
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/vulnerability.png' alt='Vulnerability' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3350&resolved=false&types=VULNERABILITY) [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/RatingBadge/A.png' alt='A' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3350&resolved=false&types=VULNERABILITY) [0 Vulnerabilities](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3350&resolved=false&types=VULNERABILITY) (and [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/security_hotspot.png' alt='Security Hotspot' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3350&resolved=false&types=SECURITY_HOTSPOT) [0 Security Hotspots](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3350&resolved=false&types=SECURITY_HOTSPOT) to review)  
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/code_smell.png' alt='Code Smell' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3350&resolved=false&types=CODE_SMELL) [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/RatingBadge/A.png' alt='A' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3350&resolved=false&types=CODE_SMELL) [0 Code Smells](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3350&resolved=false&types=CODE_SMELL)
+
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/CoverageChart/NoCoverageInfo.png' alt='No Coverage information' width='16' height='16' />](https://sonarcloud.io/component_measures?id=sonaranalyzer-dotnet&pullRequest=3350&metric=coverage&view=list) No Coverage information  
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/Duplications/NoDuplicationInfo.png' alt='No Duplication information' width='16' height='16' />](https://sonarcloud.io/component_measures?id=sonaranalyzer-dotnet&pullRequest=3350&metric=duplicated_lines_density&view=list) No Duplication information
+
+
+
+ Refactor S3900 to reuse symbolic execution
+ Fixes #3342
+Kudos, SonarCloud Quality Gate passed!
+
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/bug.png' alt='Bug' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3349&resolved=false&types=BUG) [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/RatingBadge/A.png' alt='A' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3349&resolved=false&types=BUG) [0 Bugs](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3349&resolved=false&types=BUG)  
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/vulnerability.png' alt='Vulnerability' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3349&resolved=false&types=VULNERABILITY) [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/RatingBadge/A.png' alt='A' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3349&resolved=false&types=VULNERABILITY) [0 Vulnerabilities](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3349&resolved=false&types=VULNERABILITY) (and [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/security_hotspot.png' alt='Security Hotspot' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3349&resolved=false&types=SECURITY_HOTSPOT) [0 Security Hotspots](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3349&resolved=false&types=SECURITY_HOTSPOT) to review)  
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/code_smell.png' alt='Code Smell' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3349&resolved=false&types=CODE_SMELL) [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/RatingBadge/A.png' alt='A' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3349&resolved=false&types=CODE_SMELL) [0 Code Smells](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3349&resolved=false&types=CODE_SMELL)
+
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/CoverageChart/NoCoverageInfo.png' alt='No Coverage information' width='16' height='16' />](https://sonarcloud.io/component_measures?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3349&metric=coverage&view=list) No Coverage information  
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/Duplications/NoDuplicationInfo.png' alt='No Duplication information' width='16' height='16' />](https://sonarcloud.io/component_measures?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3349&metric=duplicated_lines_density&view=list) No Duplication information
+
+
+
+Kudos, SonarCloud Quality Gate passed!
+
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/bug.png' alt='Bug' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3349&resolved=false&types=BUG) [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/RatingBadge/A.png' alt='A' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3349&resolved=false&types=BUG) [0 Bugs](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3349&resolved=false&types=BUG)  
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/vulnerability.png' alt='Vulnerability' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3349&resolved=false&types=VULNERABILITY) [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/RatingBadge/A.png' alt='A' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3349&resolved=false&types=VULNERABILITY) [0 Vulnerabilities](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3349&resolved=false&types=VULNERABILITY) (and [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/security_hotspot.png' alt='Security Hotspot' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3349&resolved=false&types=SECURITY_HOTSPOT) [0 Security Hotspots](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3349&resolved=false&types=SECURITY_HOTSPOT) to review)  
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/code_smell.png' alt='Code Smell' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3349&resolved=false&types=CODE_SMELL) [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/RatingBadge/A.png' alt='A' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3349&resolved=false&types=CODE_SMELL) [0 Code Smells](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3349&resolved=false&types=CODE_SMELL)
+
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/CoverageChart/90.png' alt='97.6%' width='16' height='16' />](https://sonarcloud.io/component_measures?id=sonaranalyzer-dotnet&pullRequest=3349&metric=new_coverage&view=list) [97.6% Coverage](https://sonarcloud.io/component_measures?id=sonaranalyzer-dotnet&pullRequest=3349&metric=new_coverage&view=list)  
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/Duplications/3.png' alt='0.0%' width='16' height='16' />](https://sonarcloud.io/component_measures?id=sonaranalyzer-dotnet&pullRequest=3349&metric=new_duplicated_lines_density&view=list) [0.0% Duplication](https://sonarcloud.io/component_measures?id=sonaranalyzer-dotnet&pullRequest=3349&metric=new_duplicated_lines_density&view=list)
+
+
+
+ Fix S1854 FP: Values used as Indices and Ranges
+ ### Description
+
+The array in C # 8 supports the new method of extracting values, and when I extract the value of the range, S1854 is raised.
+
+[C# 8 Indices and ranges](https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-8#indices-and-ranges)
+
+### Repro steps
+
+```
+string asyncMethodName = "<RegisterApp>d__0"
+int first = asyncMethodName.IndexOf("<") + "<".Length;
+int last = asyncMethodName.LastIndexOf(">");
+string methodName = asyncMethodName[first..last];
+```
+
+### Expected behavior
+
+No warning.
+
+### Actual behavior
+
+warning S1854	Remove this useless assignment to local variable 'first'.	
+warning S1854	Remove this useless assignment to local variable 'last'.	
+
+### Known workarounds
+
+### Related information
+
+.NET Core 3.1
+SonarAnalyzer.CSharp 8.7.0.17535
+Visual Studio Enterprise 2019-16.5.5
+
+Hi @ChengYen-Tang ,
+
+We need to keep this opened to be able to track it and fix it in the future.
+
+@pavel-mikula-sonarsource 
+OK, Thank you.
+
+ C# Sensor Test Coverage Report failing to start in Main
+ Sonarqube 8.1.0.31237
+
+I have a jenkins multi-pipeline project setup doing sonar scans with PR decoration.
+
+When a pull request is scanned sonar correctly runs the test coverage report sensor and coverage is reported correctly.
+
+However when this is merged back to our main the sensor just isn't being ran.
+
+PR Branch:
+
+```
+....
+INFO: Importing 34 Roslyn reports
+INFO: Sensor C# [csharp] (done) | time=8804ms
+INFO: Sensor C# Tests Coverage Report Import [csharp]
+INFO: Parsing the OpenCover report C:\Jenkins\workspace\Build-API_PR-273\.\Tests\SharedDataServices.Tests\coverage.opencover.xml
+....
+```
+
+Main Branch:
+
+```
+....
+INFO: Importing 34 Roslyn reports
+INFO: Sensor C# [csharp] (done) | time=13859ms
+INFO: Sensor JavaSecuritySensor [security]
+....
+```
+
+As you can see it completely omits the sensor.
+
+Things I've checked:
+
+- Pull request works and coverage is being reported fine
+- The reports are being generated in the same relative locations on Main
+- The contents of the reports are not empty
+- The contents of the reports refer correctly to the tested .cs files
+
+Specified step of jenkinsfile
+
+```
+stage("Test") 
+    {
+    	steps 
+    	{
+          script {
+          
+              if (env.CHANGE_ID) {
+                bat 'dotnet sonarscanner begin /k:transfers-in /d:sonar.login=xxxxxxx /d:sonar.pullrequest.branch=${env.CHANGE_BRANCH} /d:sonar.pullrequest.base=${env.CHANGE_TARGET} /d:sonar.pullrequest.key=${env.CHANGE_ID} /d:sonar.cs.opencover.reportsPaths=Tests/*/coverage.opencover.xml'
+              } else {
+                bat 'dotnet sonarscanner begin /k:transfers-in /d:sonar.login=xxxxxxx /d:sonar.branch.name=${env.BRANCH_NAME}'
+              }
+    
+              bat 'dotnet test "Build/TransfersIn.Api.sln" /p:CollectCoverage=true /p:CoverletOutputFormat=opencover'
+    
+              bat 'dotnet sonarscanner end /d:sonar.login=xxxxxxx '
+    
+          }
+    	}
+    }
+
+                  bat 'dotnet test "Build/TransfersIn.Api.sln" /p:CollectCoverage=true /p:CoverletOutputFormat=opencover'
+
+                  bat 'dotnet sonarscanner end /d:sonar.login=xxxxxxx '
+
+              }
+	}
+     }
+```
+Sorry guys I realised my mistake, missing `/d:sonar.cs.opencover.reportsPaths
+ Refactor NullPointerDereference to reuse symbolic execution
+ Refactor `NullPointerDereference` analyzer to reuse symbolic execution.
+
+Part of https://jira.sonarsource.com/browse/MMF-2056.
+ Refactor InvalidCastToInterface to reuse symbolic execution
+ Refactor `InvalidCastToInterface` analyzer to reuse symbolic execution.
+
+Part of https://jira.sonarsource.com/browse/MMF-2056.
+ Refactor EmptyCollectionsShouldNotBeEnumerated to reuse symbolic execution
+ Refactor `EmptyCollectionsShouldNotBeEnumerated` analyzer to reuse symbolic execution.
+
+Cumulated with previous changes from #3341 we get a performance improvement of ~12.3%.
+
+Part of https://jira.sonarsource.com/browse/MMF-2056.
+ Refactor ConditionEvaluatesToConstant to reuse symbolic execution
+ Refactor `ConditionEvaluatesToConstant` analyzer to reuse symbolic execution.
+
+Part of https://jira.sonarsource.com/browse/MMF-2056.
+ Refactor PublicMethodArgumentsShouldBeCheckedForNull to reuse symbolic execution
+ Refactor `PublicMethodArgumentsShouldBeCheckedForNull` analyzer to reuse symbolic execution.
+
+Part of https://jira.sonarsource.com/browse/MMF-2056.
+ Refactor EmptyNullableValueAccess and ObjectsShouldNotBeDisposedMoreThanOnce to reuse the symbolic execution
+ Refactor `EmptyNullableValueAccess` and `ObjectsShouldNotBeDisposedMoreThanOnce` analyzers to reuse symbolic execution.
+
+Part of https://jira.sonarsource.com/browse/MMF-2056.
+ Subfolders with a git repository are missing from analysis
+ I have a folder with a C# solution in it, with multiple projects in subfolders. Some of the subfolders have their own git repo associated with them, so there's a `.git` folder in those subfolders. For some reason, those subfolders seem to be omitted during analysis.
+
+Example folder structure
+```
+> .git
+> MyProject1
+> > .git
+> > MyProject1.csproj
+> > Program.cs
+> MyProject2
+> > MyProject2.csproj
+> > Program.cs
+MyProjects.sln
+```
+`MyProject1` will be omitted in the analysis. I expect it to be there as well.
+
+Not sure whether that's a general SonarQube problem or just for SonarC#...
+Hi, this seems to be a `sonar-scanner-cli` or Sonar Scanner for MSBuild problem more than something pertaining to this repo.
+
+Could you please open, as [asked in our readme](https://github.com/SonarSource/sonar-dotnet#do-you-have-a-question-or-feedback), a topic on our community forum? https://community.sonarsource.com/c/help/8 . We only use github issues to track analysis bugs, false positives and false negatives.
+
+Thank you for your understanding!
+
+ Fix S2933 FP: Null-coalescing assignment is not recognized
+ Ruleset tells me to make _value readonly but this is not what I want.
+The following is just an easy example.
+
+(In my real scenario the inherited class is doing some expensive calculation with an object other than string.)
+
+    public abstract class SampleS2933Issue
+        {
+            private string? _value = null;
+            public string Value => _value ??= Generate();
+
+            protected abstract string Generate();
+        }
+Hi @SiSc1285 ,
+
+Thank you for reporting this issue, fix is already on it's way to version 8.8. We've also identified False Negatives in S1854, S3010, S2696, S2934 thanks to your report.
+
+ Reuse symbolic execution logic in EmptyNullableValueAccess and ObjectsShouldNotBeDisposedMoreThanOnce
+ This commit introduces `SymbolicExecutionRunner` which allows the reuse of the generated exploded graph and walking it one single time for all the symbolic execution rules.
+
+As a proof of concept, `SymbolicExecutionRunner` is now executing the `EmptyNullableValueAccess` and `ObjectsShouldNotBeDisposedMoreThanOnce` analyzers which are refactored to implement `ISymbolicExecutionAnalyzer` instead of `SonarDiagnosticAnalyzer`.
+
+With this refactoring the overall analysis time drops ~6%.
+
+Fixes: #3341
+Kudos, SonarCloud Quality Gate passed!
+
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/bug.png' alt='Bug' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3338&resolved=false&types=BUG) [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/RatingBadge/A.png' alt='A' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3338&resolved=false&types=BUG) [0 Bugs](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3338&resolved=false&types=BUG)  
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/vulnerability.png' alt='Vulnerability' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3338&resolved=false&types=VULNERABILITY) [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/RatingBadge/A.png' alt='A' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3338&resolved=false&types=VULNERABILITY) [0 Vulnerabilities](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3338&resolved=false&types=VULNERABILITY) (and [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/security_hotspot.png' alt='Security Hotspot' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3338&resolved=false&types=SECURITY_HOTSPOT) [0 Security Hotspots](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3338&resolved=false&types=SECURITY_HOTSPOT) to review)  
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/code_smell.png' alt='Code Smell' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3338&resolved=false&types=CODE_SMELL) [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/RatingBadge/A.png' alt='A' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3338&resolved=false&types=CODE_SMELL) [0 Code Smells](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3338&resolved=false&types=CODE_SMELL)
+
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/CoverageChart/NoCoverageInfo.png' alt='No Coverage information' width='16' height='16' />](https://sonarcloud.io/component_measures?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3338&metric=coverage&view=list) No Coverage information  
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/Duplications/NoDuplicationInfo.png' alt='No Duplication information' width='16' height='16' />](https://sonarcloud.io/component_measures?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3338&metric=duplicated_lines_density&view=list) No Duplication information
+
+
+
+Kudos, SonarCloud Quality Gate passed!
+
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/bug.png' alt='Bug' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3338&resolved=false&types=BUG) [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/RatingBadge/A.png' alt='A' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3338&resolved=false&types=BUG) [0 Bugs](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3338&resolved=false&types=BUG)  
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/vulnerability.png' alt='Vulnerability' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3338&resolved=false&types=VULNERABILITY) [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/RatingBadge/A.png' alt='A' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3338&resolved=false&types=VULNERABILITY) [0 Vulnerabilities](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3338&resolved=false&types=VULNERABILITY) (and [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/security_hotspot.png' alt='Security Hotspot' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3338&resolved=false&types=SECURITY_HOTSPOT) [0 Security Hotspots](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3338&resolved=false&types=SECURITY_HOTSPOT) to review)  
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/code_smell.png' alt='Code Smell' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3338&resolved=false&types=CODE_SMELL) [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/RatingBadge/A.png' alt='A' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3338&resolved=false&types=CODE_SMELL) [0 Code Smells](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3338&resolved=false&types=CODE_SMELL)
+
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/CoverageChart/90.png' alt='91.9%' width='16' height='16' />](https://sonarcloud.io/component_measures?id=sonaranalyzer-dotnet&pullRequest=3338&metric=new_coverage&view=list) [91.9% Coverage](https://sonarcloud.io/component_measures?id=sonaranalyzer-dotnet&pullRequest=3338&metric=new_coverage&view=list)  
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/Duplications/3.png' alt='0.0%' width='16' height='16' />](https://sonarcloud.io/component_measures?id=sonaranalyzer-dotnet&pullRequest=3338&metric=new_duplicated_lines_density&view=list) [0.0% Duplication](https://sonarcloud.io/component_measures?id=sonaranalyzer-dotnet&pullRequest=3338&metric=new_duplicated_lines_density&view=list)
+
+
+
+ S3453: Fix FP with SafeHandle
+ Fixes #3329
+
+Added check for classes derived from SafeHandle to not flag S3453.
+
+Note: I based this PR on the Repro cases to be added with #3336. Let me know if that's not desirable and I will remove the test cases from this PR again.
+/azp run Sonar.Net.External
+
+<samp>
+Azure Pipelines successfully started running 1 pipeline(s).<br>
+
+</samp>
+
+Ok, I see what happened. My repro-commit was not on master yet, so we have a merge conflict now.
+
+Please rebase on current master and that will solve it.
+
+@pavel-mikula-sonarsource, I think the commit history looks fine now. Comments have been added as per suggestion.
+
+/azp run Sonar.Net
+
+<samp>
+Azure Pipelines successfully started running 1 pipeline(s).<br>
+
+</samp>
+
+/azp run Sonar.Net
+
+<samp>
+Azure Pipelines successfully started running 1 pipeline(s).<br>
+
+</samp>
+
+Kudos, SonarCloud Quality Gate passed!
+
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/bug.png' alt='Bug' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3337&resolved=false&types=BUG) [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/RatingBadge/A.png' alt='A' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3337&resolved=false&types=BUG) [0 Bugs](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3337&resolved=false&types=BUG)  
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/vulnerability.png' alt='Vulnerability' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3337&resolved=false&types=VULNERABILITY) [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/RatingBadge/A.png' alt='A' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3337&resolved=false&types=VULNERABILITY) [0 Vulnerabilities](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3337&resolved=false&types=VULNERABILITY) (and [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/security_hotspot.png' alt='Security Hotspot' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3337&resolved=false&types=SECURITY_HOTSPOT) [0 Security Hotspots](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3337&resolved=false&types=SECURITY_HOTSPOT) to review)  
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/code_smell.png' alt='Code Smell' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3337&resolved=false&types=CODE_SMELL) [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/RatingBadge/A.png' alt='A' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3337&resolved=false&types=CODE_SMELL) [0 Code Smells](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3337&resolved=false&types=CODE_SMELL)
+
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/CoverageChart/NoCoverageInfo.png' alt='No Coverage information' width='16' height='16' />](https://sonarcloud.io/component_measures?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3337&metric=coverage&view=list) No Coverage information  
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/Duplications/NoDuplicationInfo.png' alt='No Duplication information' width='16' height='16' />](https://sonarcloud.io/component_measures?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3337&metric=duplicated_lines_density&view=list) No Duplication information
+
+
+
+Kudos, SonarCloud Quality Gate passed!
+
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/bug.png' alt='Bug' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3337&resolved=false&types=BUG) [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/RatingBadge/A.png' alt='A' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3337&resolved=false&types=BUG) [0 Bugs](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3337&resolved=false&types=BUG)  
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/vulnerability.png' alt='Vulnerability' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3337&resolved=false&types=VULNERABILITY) [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/RatingBadge/A.png' alt='A' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3337&resolved=false&types=VULNERABILITY) [0 Vulnerabilities](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3337&resolved=false&types=VULNERABILITY) (and [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/security_hotspot.png' alt='Security Hotspot' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3337&resolved=false&types=SECURITY_HOTSPOT) [0 Security Hotspots](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3337&resolved=false&types=SECURITY_HOTSPOT) to review)  
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/code_smell.png' alt='Code Smell' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3337&resolved=false&types=CODE_SMELL) [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/RatingBadge/A.png' alt='A' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3337&resolved=false&types=CODE_SMELL) [0 Code Smells](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3337&resolved=false&types=CODE_SMELL)
+
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/CoverageChart/100.png' alt='100.0%' width='16' height='16' />](https://sonarcloud.io/component_measures?id=sonaranalyzer-dotnet&pullRequest=3337&metric=new_coverage&view=list) [100.0% Coverage](https://sonarcloud.io/component_measures?id=sonaranalyzer-dotnet&pullRequest=3337&metric=new_coverage&view=list)  
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/Duplications/20.png' alt='16.7%' width='16' height='16' />](https://sonarcloud.io/component_measures?id=sonaranalyzer-dotnet&pullRequest=3337&metric=new_duplicated_lines_density&view=list) [16.7% Duplication](https://sonarcloud.io/component_measures?id=sonaranalyzer-dotnet&pullRequest=3337&metric=new_duplicated_lines_density&view=list)
+
+
+
+ Add FP repro for S3453
+ Reproduces #3329
+Kudos, SonarCloud Quality Gate passed!
+
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/bug.png' alt='Bug' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3336&resolved=false&types=BUG) [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/RatingBadge/A.png' alt='A' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3336&resolved=false&types=BUG) [0 Bugs](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3336&resolved=false&types=BUG)  
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/vulnerability.png' alt='Vulnerability' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3336&resolved=false&types=VULNERABILITY) [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/RatingBadge/A.png' alt='A' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3336&resolved=false&types=VULNERABILITY) [0 Vulnerabilities](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3336&resolved=false&types=VULNERABILITY) (and [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/security_hotspot.png' alt='Security Hotspot' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3336&resolved=false&types=SECURITY_HOTSPOT) [0 Security Hotspots](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3336&resolved=false&types=SECURITY_HOTSPOT) to review)  
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/code_smell.png' alt='Code Smell' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3336&resolved=false&types=CODE_SMELL) [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/RatingBadge/A.png' alt='A' width='16' height='16' />](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3336&resolved=false&types=CODE_SMELL) [0 Code Smells](https://sonarcloud.io/project/issues?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3336&resolved=false&types=CODE_SMELL)
+
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/CoverageChart/NoCoverageInfo.png' alt='No Coverage information' width='16' height='16' />](https://sonarcloud.io/component_measures?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3336&metric=coverage&view=list) No Coverage information  
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/Duplications/NoDuplicationInfo.png' alt='No Duplication information' width='16' height='16' />](https://sonarcloud.io/component_measures?id=org.sonarsource.dotnet%3Asonar-csharp&pullRequest=3336&metric=duplicated_lines_density&view=list) No Duplication information
+
+
+
+Kudos, SonarCloud Quality Gate passed!
+
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/bug.png' alt='Bug' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3336&resolved=false&types=BUG) [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/RatingBadge/A.png' alt='A' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3336&resolved=false&types=BUG) [0 Bugs](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3336&resolved=false&types=BUG)  
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/vulnerability.png' alt='Vulnerability' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3336&resolved=false&types=VULNERABILITY) [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/RatingBadge/A.png' alt='A' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3336&resolved=false&types=VULNERABILITY) [0 Vulnerabilities](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3336&resolved=false&types=VULNERABILITY) (and [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/security_hotspot.png' alt='Security Hotspot' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3336&resolved=false&types=SECURITY_HOTSPOT) [0 Security Hotspots](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3336&resolved=false&types=SECURITY_HOTSPOT) to review)  
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/common/code_smell.png' alt='Code Smell' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3336&resolved=false&types=CODE_SMELL) [<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/RatingBadge/A.png' alt='A' width='16' height='16' />](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3336&resolved=false&types=CODE_SMELL) [0 Code Smells](https://sonarcloud.io/project/issues?id=sonaranalyzer-dotnet&pullRequest=3336&resolved=false&types=CODE_SMELL)
+
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/CoverageChart/NoCoverageInfo.png' alt='No Coverage information' width='16' height='16' />](https://sonarcloud.io/component_measures?id=sonaranalyzer-dotnet&pullRequest=3336&metric=coverage&view=list) No Coverage information  
+[<img src='https://sonarsource.github.io/sonarcloud-github-static-resources/v2/checks/Duplications/3.png' alt='0.0%' width='16' height='16' />](https://sonarcloud.io/component_measures?id=sonaranalyzer-dotnet&pullRequest=3336&metric=new_duplicated_lines_density&view=list) [0.0% Duplication](https://sonarcloud.io/component_measures?id=sonaranalyzer-dotnet&pullRequest=3336&metric=new_duplicated_lines_density&view=list)
+
+
+

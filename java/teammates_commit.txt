@@ -1,0 +1,338 @@
+﻿ [#10105] "Expand all" does not expand all tabs for some result views when clicked (#10118)
+
+* Add isExpandAll to base classes of results page
+
+* Change var name from expandAll to isExpandAll
+ [#10114] Fix UI of disabled delete button in instructor courses page (#10116)
+
+* add dropdown-item attribute to delete button
+
+* updated snapshots
+ [#10042] Add mobile compatibility to indivual question (#10106)
+
+* Add mobile compatibility to indivual question
+
+Added 'md' to the respective divs so the label and content feel better on small widths.
+Updated the mi-width on the editor, this way the editor's placeholder will not overflow on smaller widths.
+
+* Past the current testing snapshots
+
+Did the required snapshot update so the testings can run with no problem.
+
+Co-authored-by: Pablo Arroyo <prap10.96@gmail.com>
+Co-authored-by: Ahmed Bahajjaj <Ahmed_Bahajjaj@u.nus.edu>
+ [#9382] Remove unused items in Feedback*QuestionDetails and Feedback*ResponseDetails classes (#10113)
+
+* Remove extractQuestionDetails method
+
+* Remove isQuestionSkipped method
+
+* Remove extractResponseDetails method
+
+* Remove validateResponseAttributes method in QuestionDetails
+
+* Remove logic package usage inside FeedbackMsqQuestionDetails
+
+* Reduce nesting depth to avoid PMD violation
+ [#10111] Fix flaky tests (#10112)
+ [#10065] Lift up "Add New Course" and "Sort By" buttons from table (#10098)
+
+* Add a br to lift up add new instructor and sort by
+
+* Remove unrelated changes
+
+* Update src/web/app/pages-instructor/instructor-home-page/instructor-home-page.component.html
+
+Co-authored-by: Xiao Pu <xp.xiaopu@gmail.com>
+Co-authored-by: Ahmed Bahajjaj <Ahmed_Bahajjaj@u.nus.edu>
+ [#10079] Add a dropdown button for the "Action(s)" section in Courses page (#10094)
+
+* Add dropdown button for actions in Courses table
+
+* Updated scss for dropdown button in courses table
+
+* Updated snapshot testing for dropdown button
+
+* Updated css file to pass the lint test
+
+* Updated css to pass the TravisCI check
+
+* Fixed a spacing error for TravisCI
+
+Co-authored-by: Ahmed Bahajjaj <Ahmed_Bahajjaj@u.nus.edu>
+ [#10015] Add "Sort By" in Student-Course-Details-Page (#10030)
+
+* [#9996] Fix pop-up message in Student List page
+
+* Update student list component snapshots
+
+* Add search bar & sort by options
+
+* Add  STUDENT_GENDER, INTSTITUTION & NATINALITY options
+
+* Add sorting functionality & snapshots
+
+* Add snapshots
+
+* Remove search from HTML
+
+* Fix lint errors
+
+* Remove extra space from 'Sort By body' & add snapshots
+
+* Rename parameter 'by' to 'sortOption'
+
+* Set teammateProfilesSortBy to SortBy.NONE
+
+* Update snapshots of student-course-details-page
+
+* Remove unnecessary code
+
+Co-authored-by: Ahmed Bahajjaj <Ahmed_Bahajjaj@u.nus.edu>
+ [#10015] Add "Sort By" in Student-Course-Details-Page (#10030)
+
+* [#9996] Fix pop-up message in Student List page
+
+* Update student list component snapshots
+
+* Add search bar & sort by options
+
+* Add  STUDENT_GENDER, INTSTITUTION & NATINALITY options
+
+* Add sorting functionality & snapshots
+
+* Add snapshots
+
+* Remove search from HTML
+
+* Fix lint errors
+
+* Remove extra space from 'Sort By body' & add snapshots
+
+* Rename parameter 'by' to 'sortOption'
+
+* Set teammateProfilesSortBy to SortBy.NONE
+
+* Update snapshots of student-course-details-page
+
+* Remove unnecessary code
+
+Co-authored-by: Ahmed Bahajjaj <Ahmed_Bahajjaj@u.nus.edu>
+
+* Update student list component snapshots
+
+* Add search bar & sort by options
+
+* Add  STUDENT_GENDER, INTSTITUTION & NATINALITY options
+
+* Add sorting functionality & snapshots
+
+* Add snapshots
+
+* Remove search from HTML
+
+* Fix lint errors
+
+* Remove extra space from 'Sort By body' & add snapshots
+
+* Rename parameter 'by' to 'sortOption'
+
+* Set teammateProfilesSortBy to SortBy.NONE
+
+* Update snapshots of student-course-details-page
+
+* Remove unnecessary code
+
+Co-authored-by: Ahmed Bahajjaj <Ahmed_Bahajjaj@u.nus.edu>
+ [#9989] Migrate GET /courses/enroll/students to RESTful API (#10095)
+
+* Migrate course enroll students endpoint
+
+* Remove endpoint references
+
+* Move method to student.service.ts
+
+* Remove unused import
+
+* Remove use of StudentAttributes
+ [#9382] Add almost all comment features for result page (#10089)
+
+* finish get instructor endpoint, also fix regression from #10004
+
+* add comment feature for per-question view
+
+* add comment feature for gqr rqg
+
+* add comment feature for rgq grq view
+
+* add participant comment for grq rgq view
+
+* fix bug in #10066
+
+* add participant comment for gqr gqr per-question view
+
+* remove redundant null assignment
+ [#10088] Check for empty array (#10093)
+
+Co-authored-by: Ahmed Bahajjaj <Ahmed_Bahajjaj@u.nus.edu>
+ [#10087] Course Details page text should be aligned to the left (#10092)
+
+* Add alignment to course details box
+
+* Update snapshot for course details test
+ Add style to make cursor become pointer (#10091)
+ [#9382] Add example boxes for restoring deleted session section of instructor help page (#10090)
+
+* Add example boxes to restoring deleted sessions
+
+* Add example data for restoring session help page
+ [#9382] Refactor instructor feedback session deleted table (#10083)
+
+* Add deleted feedback session example
+
+* Refactor recycle bin table to another component
+
+* Refactor recycle bin completely to component
+
+* Add documentation to required component files
+
+* Make recycle bin table emit event for expansion
+ [#9382] Add example box for rubric responder's view of question (#10082)
+
+* Add rubric responder's view of question
+
+* Disable example component
+
+Co-authored-by: Ahmed Bahajjaj <Ahmed_Bahajjaj@u.nus.edu>
+ [#10085] Increase height and make width auto (#10086)
+ [#9382] Add remaining question sections setup example boxes (#10080)
+
+* added team contribution question example box
+
+* added distribute points (option) question example box
+
+* added distribute point (recipient) question example box
+
+* added rubric question setup example box
+
+* fixed indentation
+
+* added meaningful data for rubric example box
+ [#9382] Add example to preview session section of help (#10077)
+ [#9382] Add numerical question creation example box (#10073)
+
+* added numerical question example box
+
+* resolves duplicated code from merge
+
+* fixed indent & import style
+
+* fixed syntax
+
+* updated default help data
+
+* updated default help data
+
+* standardised the question model fields
+
+Co-authored-by: Ahmed Bahajjaj <Ahmed_Bahajjaj@u.nus.edu>
+ [#9382] Add TODO for Tests (Java) (#10039)
+
+* Add todo for java tests
+
+* Revert auto changes
+
+* Reflect addition in #10061
+
+* Fix typo
+ [#9382] Add unit test for GetCourseSectionNamesAction (#10061)
+
+* added unit test for GetCourseSectionNamesAction
+
+* corrected method naming
+
+* updated testAccessControl
+
+* fixed indentation
+
+Co-authored-by: Ahmed Bahajjaj <Ahmed_Bahajjaj@u.nus.edu>
+ [#9382] Add Rank Option question example box (#10078)
+
+* added example box for Rank Option question
+
+* added missing comma
+
+* added example box for Rank Option question
+
+* added missing comma
+
+* removed consecutive blank line
+ [#9382] Add Rank Recipient question example box (#10074)
+
+* added html tags for rank questions
+
+* added help data
+
+* updated default help data
+
+* fixed identation and missing semicolon
+
+Co-authored-by: Ahmed Bahajjaj <Ahmed_Bahajjaj@u.nus.edu>
+ Add example component for adding questions to a session (#10075)
+
+Co-authored-by: Ahmed Bahajjaj <Ahmed_Bahajjaj@u.nus.edu>
+ [#10072] Session edit form UI is not ideal (#10076)
+
+* Fix ui for submission card in session form
+
+* Fix ui for session visible card
+
+* Fix ui for send email card
+
+* Add padding to email card
+
+* Make session card rows align
+
+Co-authored-by: Ahmed Bahajjaj <Ahmed_Bahajjaj@u.nus.edu>
+ [#9382] Add example components to instructor help questions MCQ (#10068)
+
+* Convert to use question-edit-form
+
+* Fix tests
+
+* Copy sample data directly
+
+Co-authored-by: Ahmed Bahajjaj <Ahmed_Bahajjaj@u.nus.edu>
+ [#10041] Add builder pattern to LNPSpecification class (#10043)
+
+* added builder pattern to LNPSpecification class
+
+* fixed syntax
+
+* updated the static analysis suppression
+
+* refactored setupSpecification method to abstract and overridden by child classes
+
+* updated rule suppression to file-level
+
+* added Javadoc method suppression comments
+
+* removed suppression from .xml file
+
+* updated coding style
+
+* added missing period for Javadoc
+
+Co-authored-by: Daekoon <42311564+daekoon@users.noreply.github.com>
+ [#9382] Add example for create feedback session form to help page for instructors (#10067)
+
+* Add example form to create session in instructor help page
+
+* Add test skeleton to instructor help session page
+
+* Use original ExampleBox instead of stub for test
+
+* Change import location of MatSnackBarModule
+
+Co-authored-by: Ahmed Bahajjaj <Ahmed_Bahajjaj@u.nus.edu>
+ [#10064] Fix delete permanently bug (#10070)

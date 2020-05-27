@@ -1,0 +1,73 @@
+﻿ Simpler solution to the problem using files.
+ 
+ Update p025.py
+ Runs faster, always prefer faster code I guess
+ Swift directory
+ Swift directory added
+ Modified Problem 6
+ 
+ Modified Problem 10
+ 
+ Modified problem 4
+ 
+ Modified problem 2
+ 
+ Test rec
+ 
+ add some test
+ add some test for this project
+  I have a few suggestions and edited your source code
+ I saw an error in your pow () function and left a comment in it.
+I have added @test to your pow () function
+ This is my homework. Sorry for bothering you
+ I saw an error in your pow () function and left a comment in it.
+I have added @Test to your pow () function
+
+ Test ReciprocalMod Function
+ tests for reciprocalMod function in Library class
+ Add test for pow function
+ 
+ Test powMod Function in Library.java
+ 
+ Add isPrime Test
+ 
+ Pow Test Function
+ Test Pow Function With 7 TestCases
+ add test findRootSecant
+ 
+ comitt
+ 
+ Update LibraryTest.java
+ Add Uinttest flow control for reciprocalMod(). I fixed it.Please check it again
+ Update LibraryTest.java
+ Add Unittest flow of control for function reciprocalMod()
+ Update LibraryTest.java
+ add Testpow()
+ Adding in some JavaScript solutions
+ Hi! I hope this repo is still active.
+
+I've been working on some JavaScript solutions to project-euler questions. I'd like to start adding them to your repo.
+
+Here's the first 5.
+
+Thanks
+Jonathan.
+ README.markdown dosyasının çevirisini üzerine bir çalışma.
+ Bu pull request işleminde BENI_OKU.txt dosyası README.markdown dosyasını türkçe çevirisidir.
+ Improve performance for P30
+ This suggestion improves time on my machine from taking 4.601s to taking 1.633s.
+ added a powershell dir for other contributors
+ added a powershell dir for other contributors
+ Add answer P288 and python code
+ Add answer P288 and python code
+ Merge pull request #1 from nayuki/master
+ P41: Tweaked Python solution for clarity.
+ Efficiency Increase
+ All primes other than 2 or 3 have to be directly adjacent to a multiple of 6, since all other numbers are a multiple of 2, 3 or both. My solution provides a slight performance increase due to the fact that it checks 33% fewer numbers.
+
+ P001: Implement set unions
+ This runs approximately 6x faster using `set`s.
+
+ Update p001.mathematica
+ Added two solutions using Mathematica pattern matching as well as using built-in Divisible function
+

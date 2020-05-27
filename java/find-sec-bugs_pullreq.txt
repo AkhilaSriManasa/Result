@@ -1,0 +1,142 @@
+﻿ 541  RuntimeException when processing static method
+ Fixing #541 - RuntimeException when processing static method
+
+Thanks.
+ Add example for sql_injection_spring_jdbc with annotation
+ This is an open discussion as the description can be also given for @Value without additional information.
+
+It still can be vulnerable if the annotation use some SpEL voodoo but I'm not sure if how exactly.
+
+Example of a "vulnerable" application : 
+```java
+public class ClientRepository {
+    @Value("${jdbc.query.create.client}")
+    private String reqCreateClient;  // INSERT INTO client (no_client, name, mail, date_inscrit) VALUES (?, ?, ?, ?);
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+     
+    public int createClient(Client client) {
+        Assert.notNull(client, "entity cannot be null");
+        try {
+            return jdbcTemplate.update(reqCreateClient, ps -> {
+                Assert.notNull(client.getId(), "embedded id clientId cannot be null");
+                ps.setInt(1, client.getId());
+                ps.setString(2, client.getName());
+                ps.setString(3, client.getMail());
+                ps.setTimestamp(4, client.getDateInscription());
+            });
+        } catch (DuplicateKeyException e) {
+            return update(e);
+        }
+    }
+}
+```
+ Update Japanese messages
+ Update Japanese messages.
+ Introduce a properties file to avoid repeating the versions
+ Build script used to package 1.10.1
+ Fix links in the messages
+ Links update.
+ - Many deprecated link were update.
+ - http to https when possible
+ - Fix description for Pebble injection
+ Fix key misspell #526
+ This should fix "Error: missing bug code for key SECEMA"
+ Issue#521: Detect Pebble template library #521
+ 
+ Miscellaneous code change for readability, unnecessary code and...
+ Miscellaneous code change for readability, unnecessary code and general good practices
+(Based on SpotBugs core rules recommendations.)
+ Replace finally block with try resource sections. (Refactoring)
+ 
+ Change STATIC_IV detector to properly handle key wrapping/unwrapping modes
+ Fixes #517.
+
+This makes wrapping and unwrapping equivalent to encryption and decryption for the purposes of the `STATIC_IV` check.
+ Improve test coverage
+ First two commit are purely esthetical. Everything that follow will be improvement to the test coverage.
+
+Switching to JaCoCo made the line coverage lower because JaCoCo look at instructions coverage and there can be partial coverage.
+ Update SpotBugs to 3.1.12
+ Update SpotBugs to 3.1.12 which include ASM library compatible with Java 11. Fix #512
+ Supporting com/google/common/escape/Escaper as sanitizer
+ Added Google Guava's `Escaper` as a sanitizer. Updated the `HttpParameterPollution` to include a HttpGet object construction passing a escaped string using `urlPathSegmentEscaper`. Added stub classes for the Google Guava classes - `Escaper`, `PercentEscaper` and `UrlEscapers`.
+
+#504 
+ change package to "com.h3xstream.findsecbugs.xml"
+ The declared package "com.h3xstream.findsecbugs" does not match the expected package "com.h3xstream.findsecbugs.xml"
+ SSRF detector moved to the injection package
+ 
+ Attempt to incorporate CodeCov with JaCocCo #507
+ 
+ Add support for separator #470
+ 
+ Overly permissive file permission #438
+ 
+ Handle MessageFormat.format properly when tracking variables #498
+ 
+ jsp:include with constant path  // SAML ignore comments set to false
+ #481 and #369
+
++ New sanity checks for description. I notice few bug patterns had duplicate description. Some on purpose.. other due to copy-paste.
+ + Add the OWASP organisation name to the main pom.xml files.
+ Rename findbugs-test-util to findsecbugs-test-util
+ 
+ Improvement to information leakage and mass assignment detection
+  - Detect mass assignment with pattern like `public void updateUsers(List<User> user)`
+ - Separate mass assignment (incoming) and data leakage (outgoing).
+ - The id and title were rename to avoid mentioning Spring. Other detector could identify such a bug in other framework.
+ - Along with the general guidelines, a Spring MVC solution was given (taken from OWASP cheat sheet mass assigment).
+
+ Small changes to documentation
+ 
+ Fix typo in HTTPONLY_COOKIE description
+ Simple typo fix, correct red to read.
+ 190430-taint-method-propagation-II
+ Hi @h3xstream,
+
+these are some improvements I made in April when analyzed the Liferay portal. I didn't get to make it prettier and don't want to block it on my side anymore.
+
+I'd like to ask you to go together through the changes, discuss them, improve them and hopefully merge them.
+
+I tested the code when working with the plugin but it's possible I introduced some inconsistencies/bugs so I'd be glad for a review.
+
+Thank you.
+
+The important things:
+1, Automatic back-propagation of taints from method calls. 
+2, Improved static fields and static blocks analysis
+3, GC improvements
+
+**Automatic back-propagation of taints from method calls**
+I realized there is lot of unknown in the interprocedural analysis. When we call a safe method `safe(Map a)` and the method doesn't change the parameter we are unable to return this information back to the caller.  So now when we call `Map m = new HashMap(); safe(m)` then the variable `m` keeps now the SAFE taint.
+
+This includes also when we change the taint/tags of the parameter the analysis should back-propagate the changed taint into the caller variable. I.e. having:  
+```java
+public void taint(HttpServletRequest req, StringBuilder output) {
+  output.append(req.getParameter("aa"));
+}
+```
+
+and calling `StringBuilder sb = new StringBuilder; taint(request, output);` then sb variable in now tainted and not unknown as previously.
+
+**Improved static code analysis**
+This looks like a long term requested feature so I did some small improvement. 
+
+ Unable to detect injections on older versions of Hibernate
+ Added a sink signature for the deprecated hibernate createQuery, which returns org.hibernate.query.Query.
+ 190430-taint-method-propagation
+ 
+ Fix typography on Spring Entity Leak description
+ 
+ Add configurable metadataFolder in FindBugsLauncher
+ https://github.com/find-sec-bugs/find-sec-bugs/issues/479
+ Fix NPE when interface has spring mvc annotations
+ This PR fix #477
+
+Use Type instance directly, to prevent NPE.
+`classContext.getMethodGen(m)` can return null, when interface is scanned.
+
+---
+Spring cloud openfeign client uses spring mvc annotation, but these client are not controller.
+These classes should be skipped for spring detectors.

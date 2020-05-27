@@ -1,0 +1,80 @@
+﻿ grow to 0.23.0
+ Update setup.py (#88)
+ Avoid installing tests as a package (#86)
+ grow to 0.22.0
+ Update setup.py (#84)
+ Fix tests (#83)
+ grow to 0.21.0
+ fix DeprecationWarning
+ update ci (#82)
+
+* update ci
+
+* Update .travis.yml
+
+* Update .appveyor.yml
+
+* Update .appveyor.yml
+
+* oldmebestme
+
+* .
+
+* Update restructuredtext.py
+
+* Update test_restructuredtext.py
+ Fixed bad encoding for Python 3.7 (#62)
+ Fix Travis builds on macOS (#61)
+
+* Fix Travis builds on macOS
+
+* Add myself to AUTHORS.rst
+ fix
+ fix import
+
+https: //github.com/ofek/userpath/issues/12#issuecomment-542122160
+Co-Authored-By: John Vandenberg <jayvdb@gmail.com>
+ setup.py: Use OR to indicate MIT or Apache-2.0 (#79)
+
+Using `/` is not ambiguous, however `or` is more clear
+and is syntax recognised by packaging tools.
+ Add decorator to tests which require internet connection. (#59)
+
+* Add decorator to tests which require internet connection.
+
+Pip from version 10.0.0 implemented support for pyproject.toml
+files (PEP 518) which means that pip now installs build
+dependencies automatically which doesn't work without internet.
+
+* fixup! Add decorator to tests which require internet connection.
+ Support tilde in `extras` globs (#69)
+ Semver docfix for CONFIG.rst (#65)
+
+Clarifies operation of the semver configuration in the config file documentation.
+ fix broken link (#64)
+ allow pypy venvs on windows
+ travis
+ fix travis osx
+ replace dep
+ test_download_file() requires internet connection (#53)
+ basic handling of https://github.com/pypa/setuptools/issues/1185
+ test it
+ no need
+ improve find_project_root
+Why is the max_depth set to 3? 
+
+Each iteration is quite fast. I'd say we don't need the max_depth or it would be nice to set it to some ungodly number like 50.
+
+Tbh, I don't have a real use case/technical reason. Though, as a user it feels a bit intrusive to recurse the entire tree looking for a file. It just seems harder to reason about and could cause issues for monorepos.
+
+We could add an env var like pipenv does if you want?
+
+My concern is a user might be in one of the sub-directories of a project (which can be 5 directories deep) and run `hatch install requests`. That might fail because we're unable to detect the project root 3 levels up. 
+
+Plus this traversal is a linear traversal where we go one level up and check until we encounter pyproject.toml or setup.py. We don't do a tree traversal where we try to descend to every sub-directory in an attempt to find the root. 
+
+So I'd prefer we set this value to at least 10. The env var can be added but the default should be a reasonable number (10).
+
+ for now
+ better
+ clean up

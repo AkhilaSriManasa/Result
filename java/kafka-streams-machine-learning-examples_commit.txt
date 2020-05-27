@@ -1,0 +1,37 @@
+﻿ Upgraded to Kafka 2.5
+ Upgraded to Kafka 2.5
+ Upgraded to Kafka 2.5
+ Upgraded to Kafka 2.5
+ Upgraded to Kafka 2.5
+ Upgraded to Kafka 2.5
+ Upgraded Confluent CLI commands to CP53
+ Upgraded Confluent CLI commands to CP53
+ Upgraded to Apache Kafka 2.3 and Confluent Platform 5.3
+ Upgraded to Apache Kafka 2.3 and Confluent Platform 5.3
+ Upgraded to Apache Kafka 2.3 and Confluent Platform 5.3
+ Upgraded to Apache Kafka 2.3 and Confluent Platform 5.3
+ Upgraded to Apache Kafka 2.3 and Confluent Platform 5.3
+ Merge pull request #15 from msilb/master
+
+Fix link to Kafka Streams API Docs
+ Fix link to Kafka Streams API Docs
+ Upgraded Apache Kafka to version 2.2, Scala to 2.12
+ Upgraded Apache Kafka to version 2.2, Scala to 2.12
+ Upgraded Apache Kafka to version 2.2, Scala to 2.12
+ Upgraded Apache Kafka to version 2.2, Scala to 2.12
+ Upgraded Apache Kafka to version 2.2, Scala to 2.12
+ Merge branch 'jukkakarvanen-static_bug'
+Removed static variables to be able to use Threads and scale the Streams app correctly.
+ Merge branch 'static_bug' of https://github.com/jukkakarvanen/kafka-streams-machine-learning-examples into jukkakarvanen-static_bug
+Merge fix for 'static bug' (using static keyword for a variable)  which does not allow to scale with more Threads.
+ Merge branch 'master' into static_bug
+ Merge pull request #2 from kaiwaehner/master
+
+Sync with upstream
+ Removed Zookeeper dependency from kafka-topics commands (no longer needed in Apache Kafka 2.2)
+ More detailed docs + fix of manual test description
+ Moved all test classes into same folder
+ Moved integration tests into test folder
+ Ignore configuration files for Visual Studio Code
+ Merge branch 'jukkakarvanen-unit_tests'
+Refactoring for unit tests merged. Includes removal of duplicate code and simplified topology unit test instead of integration test using embedded kafka broker

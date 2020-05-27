@@ -1,0 +1,39 @@
+﻿ add note for cocoapods users whose project file was converted to XML format
+ fix a missing string type convert after applying #28
+ fix grammar problem
+ now recommend git hook method instead of other methods integrated with Xcode
+ add detailed notice when Cocoapods converted file to XML format. refer to #34
+ XUniqueExit now supports arbitrary arguments; add safety check when project file is incorrect due to #33
+ organize imports and exceptions
+ bump up version
+ add python 3 classifier
+ replacing redundant lambda in sort function
+ format code
+ fixes #28 python3 list sort compatibility
+ fix typo
+ implement six methods instead of creating dependency on it
+ remove unused commented line
+ add python3 compatibility
+ fix a potential ValueError; add more warnings for problematic entries
+ fixes #25 by throw a warning instead of crash when encountering erroneous PBXContainerItemProxy
+
+A warning is not a complete fix, but it's the constraint of how xunique
+works now
+ remove erroneous verbose print action when inreplacing file
+ fix format
+ add notes for xunique install location not in $PATH
+ make command line usage description more clear
+ bump up version
+ update cli command after #21 support
+ Merge branch 'schwa-jwight/PEP8'
+ resolve #22 conflicts: fix typo and adopt pep8 style
+ resolve #21: now a "xunique" command line script would be installed in your PATH after installation
+ Cleans up project to be more PEP 8 compliant.
+
+https://www.python.org/dev/peps/pep-0008/
+ Fixes typos in README.
+ Provides a console script for xunique.
+
+Adds a console script entry point to setup.py
+Adds a new `cli` function to xUnique.py that takes zero parameters and
+calls straight into main() with sys argv.

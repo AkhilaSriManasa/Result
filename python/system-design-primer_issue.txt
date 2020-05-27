@@ -1,0 +1,207 @@
+﻿ Update README.md
+ I believe there's a typo in here and it should say "federation" as opposed to "replication" as replication does not solve the problem of data size and request load.
+ Added an important point on failover
+ Honestly, active-passive stateful systems are terrible. Never have found one that worked, there's always too much data incongruency or other random errors. Stateless applications, like routers, are great. But not your Jenkins master.
+ System design for Cache (Eg: memcached)
+ 
+ DNS diagram not accurate
+ The [diagram](https://camo.githubusercontent.com/fae27d1291ed38dd120595d692eacd2505cd3a9c/687474703a2f2f692e696d6775722e636f6d2f494f794c6a34692e6a7067) in [this section](https://github.com/donnemartin/system-design-primer#domain-name-system) is not accurate.
+Before the request finds its way to the ISP DNS Server, it would check the local DNS cache which is managed by the operating system.  It only goes to the ISP DNS if the local DNS cache doesn't have the answer (or it's expired due to TTL).
+
+In fact, the first DNS server is inside your own machine.
+ Updated back-of-the-envelope usage calculations.
+ Made a small change to explain the logic behind the 4,000 search requests per second.
+ Added scale cube
+ 
+ Why we need MapReducer to deduplicate if the Web Crawler use Redis Sorted Set
+ In part "Use case: Service crawls a list of urls" we store links_to_crawl in a set, which could prevnets duplicate URL. Besides, if we have a similar page, web crawler would reduce the priority of the page link. It would avoid getting into infinite loop.
+
+Given that we use Redis Sorted Set, why do we need MapReducer and how could it filters out the URLs with only 1 frequency now. Is there any more details?
+ Update "Scaling up to your first 10 million users" link
+ Upgrading "Scaling up to your first 10 million users" video link to https://www.youtube.com/watch?v@userstartupideas thank you!
+
+ please ignore this and just close it
+ 
+You are able to close the issues you've opened.
+
+ bug solutions: mint.com typos
+ 
+ Included apache kafka for event queuing
+ Included apache Kafka for event queuing
+
+added some info on backpressure for parallel consumers
+ Correct the wrong translation for "Error handling is excluded below for simplicity"
+ As title.
+--    发自新浪邮箱客户端
+在 4月28日 14:06，Yao Lu <notifications@github.com> 写道：
+As title.
+
+
+
+You can view, comment on, or merge this pull request online at:
+  https://github.com/donnemartin/system-design-primer/pull/407
+
+Commit Summary
+
+  Correct the wrong translation
+
+
+File Changes
+
+  
+    M
+    solutions/system_design/social_graph/README-zh-Hans.md
+    (2)
+  
+
+
+Patch Links:
+
+  https://github.com/donnemartin/system-design-primer/pull/407.patch
+  https://github.com/donnemartin/system-design-primer/pull/407.diff
+
+
+&mdash;
+You are receiving this because you are subscribed to this thread.
+Reply to this email directly, view it on GitHub, or unsubscribe.
+
+
+ Check for dependencies (pandoc for now) before running generate_epub script
+ Fixes https://github.com/donnemartin/system-design-primer/issues/339
+
+@donnemartin @Skn0tt Please check
+LGTM 😄 Thank you!
+
+
+
+> LGTM  Thank you!
+
+@Skn0tt @donnemartin Can you please merge ?
+
+ Remove redundant index
+ Making a column a primary key enforces uniqueness, and the db usually does so by creating a unique clustered index. So, you don't need a second index.
+ REST section improvement
+ Changed some references, definitions and disadvantages, and removed a misconception. 
+Changes are:
+- Fix HATEOAS reference and definition
+- Fix REST hierarchy disadvantage
+- Removed verb misconcenption
+- Add workaround to complex single view problem
+- Rewrote resource change problem 
+ ttttttt
+ 
+ Normally, the passive server won't take over the IP address of active server in the case of failover
+ ![Uploading image.png…]()
+
+The passive server may become active server,  but normally,  they won't change their IP address.
+The passive server takes the IP of the active one when it finds the active one dead, this is how the new traffic goes to the passive one. Read about the concept of elastic IPs in AWS.
+
+> The passive server takes the IP of the active one when it finds the active one dead, this is how the new traffic goes to the passive one. Read about the concept of elastic IPs in AWS.
+
+Is Elastic Ip in AWS the IP address of Nginx-like server?
+
+Check out this lecture at time 1:20:40, where the professor talks about this concept. https://www.youtube.com/watch?v
+Also, check out - How the HA Solution Works here for Nginx where they talk about the virtual ip address - https://www.nginx.com/products/nginx/high-availability/ 
+
+
+Thanks a lot,  @sj123050037, awesome lecture!  It's great to use a virtual IP address to handle the single point failure of Load Balance servers. 
+
+ 网络爬虫核心技术教程，点此获取☞
+ ![c5896b844e918f67269114e6c3174ad](https://user-images.githubusercontent.com/13401581/79433267-7be1b900-7fff-11ea-9906-8916b3aad3c9.png)
+
+This is an advertisement which is not related to this repo and should not be here.
+
+Something wrong with you @gnehsuy  
+Close this issue.
+
+how dare you ?
+
+ Add CAP theorem video
+ I feel that [this](https://www.youtube.com/watch?vWindows open oppoa37 started up form
+
+Wow this turned out to be a really great resource.. thanks for sharing (hope it gets merged)
+ http://www.distributedsystemscourse.com/ (same author) is worth checking out as well
+
+ Missing comma
+ 
+ fix: typo
+ fix typo: single points -> single point
+ Replace "master" and "slave" terms
+ Inspired by this [change request](https://bugs.python.org/issue34605)
+
+`master` and `slave` are a reminder of a painful world history, that is, they are racially charged terms.
+
+I move that we purge these terms in favour of:
+
+- `primary`, `replica`
+- `primary`, `secondary`
+
+Popular open-source communities have adopted newer references:
+https://github.com/django/django/pull/2692
+https://github.com/antirez/redis/issues/3185
+https://issues.apache.org/jira/browse/COUCHDB-2248
+
+
+ Fix the loop over "self.cards"
+ 
+ Update README.md
+ Remove invalid link
+Hay, I want to update  that Readme file.
+
+ Update README.md
+ remove redundant space
+ Delete __init__.py
+ 
+ zh-Hans: Translate solutions
+ Related: #374
+Hi, @donnemartin All translations have been renamed with `README-[language].md` pattern. [files](https://github.com/donnemartin/system-design-primer/pull/392/files)
+
+@sqrthree thank you!
+
+ Revert "zh-cn: Sync with upstream to keep it up-to-date (#374)"
+ This reverts commit 301b9d88e4aed1c34b3275301f18b14957c38c91.
+
+#374 overwrote the English version of the solutions
+
+
+Cc: @sqrthree 
+
+ Reverse index vs. inverted index
+ Hi!
+
+[Design a key-value cache to save the results of the most recent web server queries](https://github.com/donnemartin/system-design-primer/blob/master/solutions/system_design/query_cache/README.md#design-a-key-value-cache-to-save-the-results-of-the-most-recent-web-server-queries) and [Design a web crawler](https://github.com/donnemartin/system-design-primer/blob/master/solutions/system_design/web_crawler/README.md) both are described as using a "Reverse index service". I believe this should be an _inverted_ index. Reversing the index simply reverses the key, e.g. `123` becomes `321` and speeds up inserts (at the expense of slowing down range queries.) [Wiki](https://en.wikipedia.org/wiki/Reverse_index), [StackOverflow](https://stackoverflow.com/questions/19882785/what-is-the-point-of-reverse-indexing). An [inverted index](https://en.wikipedia.org/wiki/Inverted_index) helps with searching, which I believe is the point of the above two architectures.
+
+I may be entirely wrong - pretty new to all this!
+@dharmaturtle I'm pretty sure you're right - even the original [Google paper](http://infolab.stanford.edu/~backrub/google.html) refers to these sort of indexes as an _inverted_ index. Reverse indexes are very different.
+
+I'd open a PR, but I'm not sure how to update the images.
+
+ Is there a formula which can give an answer about ..
+ I mean, 
+for example  I want to build a sytem, and I know about 100 request/sencond to my server and 20 write sql/second,
+
+is there an formula to tell me how to design this system,and how to choose hardware??
+
+Depends upon a lot of things, your data access pattern , your caching
+patterns scale of users, reads vs writes.
+
+On Wed, 4 Mar 2020 at 7:48 PM, Zhenchuan Ren <notifications@github.com>
+wrote:
+
+> I mean,
+> for example I want to build a sytem, and I know about 100 request/sencond
+> to my server and 20 write sql/second,
+>
+> is there an formula to tell me how to design this system,and how to choose
+> hardware??
+>
+> —
+> You are receiving this because you are subscribed to this thread.
+> Reply to this email directly, view it on GitHub
+> <https://github.com/donnemartin/system-design-primer/issues/389?email_source=notifications&email_token=ABG4266OPBF6JRHWMWFEBZTRFZPM7A5CNFSM4LBIQKD2YY3PNVWWK3TUL52HS4DFUVEXG43VMWVGG33NNVSW45C7NFSM4ISMOZ6Q>,
+> or unsubscribe
+> <https://github.com/notifications/unsubscribe-auth/ABG426Y7BNPMKKM6VIKJS33RFZPM7ANCNFSM4LBIQKDQ>
+> .
+>
+
+

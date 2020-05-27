@@ -1,0 +1,172 @@
+﻿ Update README.md
+ removed "how to contribute"
+ Extend ChannelType by command options (#5131)
+
+* WIP: Extend ChannelType description by command options
+
+This is WIP and open for discussion.
+
+This addresses #5099 by adding command options as an alternative to a state description.
+The implementation is naive and straigt forward.
+Command options will be rendered as push buttons by UIs and send the corresponding command value as a command to the channel.
+With this proposal, the state of the channel will not be represented in the UI, so ThingHandelers may not even update the state.
+
+Signed-off-by: Henning Treu <henning.treu@telekom.de>
+ Extend usb serial discovery service to contain product ID … (#6862)
+
+* Extend usb serial discovery service to contain product ID and vendor ID for every USB device.
+
+Signed-off-by: YordanDZhelev <zhelev.yordan@gmail.com>
+ Keep persisted disabled status when thing is removed (#6870)
+
+* Keep persisted disabled status when thing is removed
+
+The disabled status was not persisted after a restart since it was
+removed on shutdown during the thing removal.
+Now it will be persisted, but the disabled status of permanently deleted
+disabled things will remain as orphan entry in the database.
+
+Fixes #6840
+
+Signed-off-by: Florian Stolte <fstolte@itemis.de>
+ Bosesoundtouch - fixed an issue with async. websocket requests (#6874)
+
+Signed-off-by: Alexander Kostadinov <alexander.g.kostadinov@gmail.com>
+ Update children of disabled bridge to UNINITIALIZED/BRIDGE_UNINITIALIZED (#6864)
+
+Fixes #6584
+
+Signed-off-by: Florian Stolte <fstolte@itemis.de>
+ [mqtt] Rollershutter STOP command, outgoing transform, chained incoming transformations (#6695)
+
+* MQTT: Rollershutter STOP command, outgoing transform
+
+The Rollershutter channel stores its value as percentage.
+UP/DOWN/STOP commands received via MQTT do not change that state.
+
+Instead of trying to handle those commands, they are now
+posted to the framework.
+
+* Allow outgoing transformations.
+* Allow chained incoming transformations.
+* Add more examples to the readme.
+
+* PercentageChannel: Return value between min and max. Homie: Remove  handling completely. Readme: Add retain and isCommand and some more mqtt1 details. Rollershutter: Fix
+
+Signed-off-by: David Graeff <david.graeff@web.de>
+ [DMX] fix configuration parsing issues (#6865)
+
+Signed-off-by: Jan N. Klug <jan.n.klug@rub.de>
+ Fixed possible stop of FW update execution if exception is present (continuation of PR #6859) (#6863)
+
+Signed-off-by: Alexander Kostadinov <alexander.g.kostadinov@gmail.com>
+ [TRANSFORM] use precompiled JavaScript for faster transformation (#6793)
+
+Signed-off-by: T. Kordelle <thkdev@protonmail.com>
+ Fixed possible NPE in FirmwareUpdateService. (#6859)
+
+Signed-off-by: Alexander Kostadinov <alexander.g.kostadinov@gmail.com>
+ Changed polling strategy (#6858)
+
+Signed-off-by: Christoph Weitkamp <github@christophweitkamp.de>
+ Removed .project file (#6857)
+
+Signed-off-by: Christoph Weitkamp <github@christophweitkamp.de>
+ [OneWire] add better runtime checks (#6852)
+
+* remove unneeded check for thing status
+the thing status after the base thing handler completed configure was
+checked twice
+
+* remove support for multiple sensor ids
+
+multiple sensor ids were needed for advanced thing-types. #6835 removed
+that necessity
+
+* add runtime checks for correct thing-setup
+
+- thing handlers support sensor type
+- things have all needed properties
+
+* improve tests
+
+- thing handler tests know check the correct sensor update
+- some more completeness tests
+
+Signed-off-by: Jan N. Klug <jan.n.klug@rub.de>
+ Improved docs and fixed typos (#6851)
+
+Signed-off-by: Kai Kreuzer <kai@openhab.org>
+ [OneWire] simplify multisensor configuration and improve thing discovery (#6835)
+
+* improve & simplifiy multisensor configuration and discovery
+
+Signed-off-by: Jan N. Klug <jan.n.klug@rub.de>
+ Merge branch 'Hilbrand-new_scheduler'
+ Merge branch 'new_scheduler' of https://github.com/Hilbrand/smarthome into Hilbrand-new_scheduler
+Updated license headers of new files
+
+Signed-off-by: Kai Kreuzer <kai@openhab.org>
+ fixed some issues with JsonStorage (commit thread not terminated on s… (#6826)
+
+* fixed some issues with JsonStorage (commit thread not terminated on stop, timeout treated as nanos not as millis))
+
+Signed-off-by: Michael Bock <mbock@gmxpro.de>
+ Introducing default value when key not found in map transformation. (#6834)
+
+While on it, circumvent windows specific issue #6816
+
+Signed-off-by: Gaël L'hopital <gael@lhopital.org>
+ [OneWire] code improvements (#6831)
+
+* code improvements
+
+- better dynamic channel handling
+- add test to make sure all sensors types have associated thing-types
+- add test to make sure all thing types have labels for auto-discovery
+- code-style fixes for XML-files
+- fix equals for SensorId
+- remove static initializer for constant maps
+
+Signed-off-by: Jan N. Klug <jan.n.klug@rub.de>
+ Making queuedBeforeActivation in DefaultScriptScopeProvider non-nullable (#6827)
+
+* Making queuedBeforeActivation in DefaultScriptScopeProvider non-nullable
+
+Signed-off-by: sprehn <sebastian.prehn@gmx.de>
+ Update thing-types to fix clientId in #6697 (#6833)
+
+Signed-off-by: Jochen Klein <git@jochen.susca.de>
+ [core] Create channelUID instead of searching for the channel (#6726)
+
+Signed-off-by: Christoph Weitkamp <github@christophweitkamp.de>
+ Fix IllegalArgumentException due to wrong micro character in units (#6818)
+
+Signed-off-by: Wouter Born <eclipse@maindrain.net>
+ Fixing NPE when adding ThingActions before DefaultScriptScopeProvider was activated (#6819)
+
+Signed-off-by: Sebastian Prehn <sebastian.prehn@gmx.de>
+ Update README.md (#6807)
+
+Also-by: Burzin Sumariwalla <burzin.sumariwalla@hotmail.com>
+Signed-off-by: Markus Rathgeb <maggu2810@gmail.com>
+ [hue] Prevent NPE if 'modelid' is 'null' (#6813)
+
+* Prevent NPE if modelid is 'null'
+
+Signed-off-by: Christoph Weitkamp <github@christophweitkamp.de>
+ Make min and max value for slider configurable (#6777)
+
+* Make min and max value for slider configurable
+
+Like for the setpoint, the min and max value for a slider can differ based
+on the underlying thing that is being controlled, so it shouldn't be
+hardcoded and a user should be able to change these values.
+
+The default values, if the parameters are not given, are 0 (minValue) and
+100 (maxValue), like they're currently, so that users shouldn't see a
+difference when they're not changing their configurations.
+
+Fixes #6776
+
+Signed-off-by: Florian <florian.schmidt.welzow@t-online.de>

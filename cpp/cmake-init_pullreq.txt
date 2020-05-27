@@ -1,0 +1,110 @@
+﻿ Replace in-source googletest with external googletest setup
+ This PR removes the in-source googletest release and relies on an external source tree of googletest.
+The project would then be integrated into the own cmake build tree for testing.
+
+On Ubuntu systems, the sources can be installed using
+```shell
+apt install googletest
+```
+which is available since Ubuntu 18.04.
+As general solution, the environment variable `googletest_DIR` is used to search for the sources.
+
+Open issues / questions:
+* Provide an easy way to download the latest googletest sources (a git submodule?).
+ fix broken link in ReadMe
+ The link to the CMakeInitialization section was broken
+ Unify use of CMake variable syntax
+ ...within configuration-in-files (closes #94).
+
+This PR renders all `configure_file` calls to be either `COPYONLY` (which does not resolve cmake variables) or `@ONLY` (which does not resolve variables in the *dollar-braces* syntax).
+ download googletest at configure time via externalproject
+ also fixes errors when building source/test as standalone project (includes where missing or too late)
+ Fix markdown formatting for ADAPT.md
+ `<project>` doesn't show up on GitHub without escaping the opening angle bracket.
+ update ADAPT file
+ logos were not in mentioned folder
+
+<project>_version.h is now version.h.in removing the need for renaming
+
+import of version header was moved from fibcmd to baselib and has metaproject prefix (template/template-version.h)
+
+ Use PIC only for dynamic libraries (closes #82)
+ 
+ Manage test coverage
+ Add targets to generate test coverage report using gcov and lcov. Tests targets are automatically registered for test coverage if coverage option is enabled.
+ Add example to find library dependencies to configure script
+ Since CMake 3.0 there is a feature to search for dependencies of a target within the `-config.cmake` configure script.
+This PR adds an example to our template.
+
+An actual use can be seen in https://github.com/cginternals/globjects/pull/359.
+ Remove unneeded CMP0028 policy setting
+ Since `CMP0028` was introduced in CMake 3.0, and the minimum required version is `3.0`, there is
+no need to explicit set the policy.
+
+References:
+* https://cmake.org/cmake/help/git-master/manual/cmake-policies.7.html#policies-introduced-by-cmake-3-0
+* https://cmake.org/cmake/help/git-master/command/cmake_minimum_required.html
+ simd detection script
+ avx512 not tested
+pls review
+ Add possibility to build in nested folders
+ First of all a note: the `configure` script is awesome to use as a standalone script for other projects which are not based on *cmake-init*. However sometimes other projects require a setup with nested folders, e.g. expecting the build folder to be in `build/Release` or `build/Debug`.
+
+These changes would allow the configure script to be used in these cases.
+ Update .travis.yml
+ no need for sudo
+ [appveyor.yml] Simplify yaml syntax and fix watched file directories
+ As explained in [this well-written StackOverflow answer](https://stackoverflow.com/a/21699210/2560557), using `|-` allows us to write the commands without additional linebreaks in between.
+Additionally, this PR fixes the list of watched files - there is only a `source`, not a `sources` directory.
+ Update googletest to 0fe96607d85cf3a25ac40da369db62bbee2939a5
+ Dump of the entire source at the current master, seems to work.
+
+Googletest should probably be updated again once there is a new release.
+ Remove sudo in travis in order to use container based workers
+ 
+ Use travis containers
+ 
+ Search for clang-tidy without a version suffix
+ This is the naming scheme used by the llvm package in homebrew on macOS:
+```bash
+$ brew list llvm | grep tidy
+/usr/local/Cellar/llvm/5.0.0/bin/clang-tidy
+/usr/local/Cellar/llvm/5.0.0/share/clang/run-clang-tidy.py
+/usr/local/Cellar/llvm/5.0.0/share/clang/clang-tidy-diff.py
+```
+ Add execution bit for .travis.yml (refs #71)
+ 
+ Disable CXX extensions
+ Disable CXX extensions by default in `CompileOptions.cmake`.
+ adjust cppcheck parameters
+ `--check-config` disabled normal checking
+ added project name as prefix for library file names
+ I think it would be nice if you add ${META_PROJECT_NAME} as library prefix,
+so the resulting library name would not be libcore.so, but libtemplatecore.so .
+ Set EXCLUDE_FROM_DEFAULT_BUILD for maintenance targets
+ These should be excluded from build all/solution, as they don't actually build anything and take very long time.
+ Extend cppcheck find script with default installation paths on Windows
+ plus $ENV{CPPCHECK_DIR}
+ Fix cmake initialization regarding policy configuration
+ 
+ Add explicit visibility for class and function templates (closes #56)
+ The current symbol visibility is implemented as follows:
+* Symbols are hidden by default (default on Windows; enabled on Linux and macOS with `-fvisibility=hidden`)
+* Symbols of the public API of a library are tagged using an `_API` macro
+ Disable -Wreturn-stack-address for Clang
+ Clang has some problems correctly detecting these, giving false positives.
+
+See http://stackoverflow.com/questions/33736678/returning-reference-to-local-temporary-object-on-pointer-dereferencing
+
+Currently, this affects `cppexpose::Variant<T>::value(const T & defaultValue = T())` where T is a pointer type. Returning the `defaultValue` pointer by-value is fine (as is copies the pointer value); however, Clang issues a "Returning address of local temporary object" warning.
+ Fix policy declarations for test subproject (closes #44)
+ 
+ Add default deployment for ubuntu PPAs (refs #43)
+ Reopen #46, GitHub doesn't seem to support reopening PRs once merged (but un-merged through forced push to older commit).
+
+Original comment:
+I suggest we ship our base deploy configurations together with cmake-init.
+This PR contains the required scripts for Ubuntu PPA packages, including the required branch recipe for launchpad.
+ Add default deployment for ubuntu PPAs (refs #43)
+ I suggest we ship our base deploy configurations together with cmake-init.
+This PR contains the required scripts for Ubuntu PPA packages, including the required branch recipe for launchpad.

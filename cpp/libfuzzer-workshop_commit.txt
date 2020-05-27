@@ -1,0 +1,33 @@
+﻿ libFuzzer update 1/2
+ libFuzzer: update from llvm checkout
+ libFuzzer: add update commands
+ libFuzzer: information about repository
+ Fix typo in lesson 11 (issue #4).
+ Fix coverage flags (issue #1).
+ Merge pull request #2 from 0ca/patch-1
+
+Using -dump_coverage=1 instead of "ASAN_OPTIONS=coverage=1"
+ Using -dump_coverage
+I don't know why but "ASAN_OPTIONS=coverage=1" isn't working in my test. But -dump_coverage=1 works :)
+ Change some wording.
+ Update virtual machine with newer llvm/clang binaries and workshop checkout.
+ Update libFuzzer source code.
+ Update README.md.
+ Add missing link for the codesearch.
+ Add codesearch query examples for lesson 12 (i.e. homework).
+ Add credentials for the VM.
+ Clean up after moving of lessons.
+ Use .tgz for pdfium binaries instead of .tar.xz.
+ Fix README.md.
+ Add slides and move/fix lessons.
+ Fix typos in README files.
+ Add VirtualBox VM link.
+ Update checkout_build_install_llvm.sh.
+ Update README.md of lesson 10.
+ Add pcre2 fuzzer and two different versions of sources as lesson 10.
+ Add re2 fuzzer as lesson 09.
+ Update libpng_read_fuzzer and add a single seed corpus file.
+ Add lesson 08 with png_read_fuzzer and seed_corpus.
+ Add second fuzzer for libxml and OOM / Memory Leaks info
+ Add xml_read_memory_fuzzer to lesson 07 + coverage report generation.
+ Remove big files from history + add empty lesson 07.

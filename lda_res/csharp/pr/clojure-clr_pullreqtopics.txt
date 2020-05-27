@@ -1,0 +1,68 @@
+﻿NUMTopics = 2
+(0, '0.025*"fix" + 0.019*"build" + 0.013*"method" + 0.013*"mono" + 0.013*"exception" + 0.013*"type" + 0.011*"update" + 0.011*"case" + 0.011*"environment" + 0.009*"add"')
+(1, '0.034*"assembly" + 0.016*"fix" + 0.016*"update" + 0.013*"compile" + 0.013*"target" + 0.013*"call" + 0.010*"build" + 0.010*"test" + 0.010*"runtime" + 0.010*"file"')
+
+------------------------
+NUMTopics = 3
+(0, '0.027*"fix" + 0.020*"build" + 0.014*"mono" + 0.014*"method" + 0.014*"type" + 0.014*"exception" + 0.012*"update" + 0.012*"case" + 0.012*"environment" + 0.010*"print"')
+(1, '0.004*"fix" + 0.004*"assembly" + 0.004*"build" + 0.003*"update" + 0.003*"file" + 0.003*"runtime" + 0.003*"test" + 0.003*"bug" + 0.003*"compile" + 0.003*"method"')
+(2, '0.039*"assembly" + 0.019*"fix" + 0.019*"update" + 0.015*"compile" + 0.015*"target" + 0.015*"call" + 0.012*"build" + 0.012*"test" + 0.012*"file" + 0.012*"clojure"')
+
+------------------------
+NUMTopics = 4
+(0, '0.028*"fix" + 0.021*"build" + 0.015*"mono" + 0.015*"type" + 0.015*"method" + 0.015*"exception" + 0.012*"update" + 0.012*"case" + 0.012*"environment" + 0.010*"print"')
+(1, '0.004*"fix" + 0.004*"assembly" + 0.004*"build" + 0.003*"update" + 0.003*"file" + 0.003*"bug" + 0.003*"method" + 0.003*"test" + 0.003*"compile" + 0.003*"runtime"')
+(2, '0.043*"assembly" + 0.020*"fix" + 0.020*"update" + 0.016*"compile" + 0.016*"target" + 0.016*"call" + 0.012*"build" + 0.012*"test" + 0.012*"file" + 0.012*"clojure"')
+(3, '0.004*"fix" + 0.004*"assembly" + 0.003*"build" + 0.003*"update" + 0.003*"method" + 0.003*"bug" + 0.003*"file" + 0.003*"compile" + 0.003*"environment" + 0.003*"test"')
+
+------------------------
+NUMTopics = 5
+(0, '0.029*"fix" + 0.022*"build" + 0.015*"mono" + 0.015*"type" + 0.015*"method" + 0.015*"exception" + 0.013*"update" + 0.013*"case" + 0.013*"environment" + 0.010*"print"')
+(1, '0.004*"fix" + 0.004*"build" + 0.004*"assembly" + 0.003*"update" + 0.003*"method" + 0.003*"bug" + 0.003*"test" + 0.003*"type" + 0.003*"file" + 0.003*"runtime"')
+(2, '0.045*"assembly" + 0.021*"fix" + 0.021*"update" + 0.017*"compile" + 0.017*"target" + 0.017*"call" + 0.013*"build" + 0.013*"test" + 0.013*"runtime" + 0.013*"clojure"')
+(3, '0.004*"fix" + 0.004*"assembly" + 0.003*"build" + 0.003*"update" + 0.003*"method" + 0.003*"bug" + 0.003*"test" + 0.003*"environment" + 0.003*"file" + 0.003*"exception"')
+(4, '0.004*"fix" + 0.004*"assembly" + 0.004*"build" + 0.004*"update" + 0.003*"file" + 0.003*"compile" + 0.003*"call" + 0.003*"bug" + 0.003*"method" + 0.003*"mono"')
+
+------------------------
+NUMTopics = 6
+(0, '0.030*"fix" + 0.023*"build" + 0.015*"mono" + 0.015*"type" + 0.015*"exception" + 0.015*"method" + 0.013*"update" + 0.013*"case" + 0.013*"environment" + 0.010*"print"')
+(1, '0.004*"fix" + 0.004*"assembly" + 0.003*"build" + 0.003*"update" + 0.003*"test" + 0.003*"method" + 0.003*"runtime" + 0.003*"bug" + 0.003*"type" + 0.003*"file"')
+(2, '0.004*"assembly" + 0.004*"fix" + 0.004*"build" + 0.004*"update" + 0.004*"method" + 0.003*"project" + 0.003*"exception" + 0.003*"bug" + 0.003*"target" + 0.003*"test"')
+(3, '0.004*"fix" + 0.004*"assembly" + 0.003*"build" + 0.003*"update" + 0.003*"method" + 0.003*"bug" + 0.003*"exception" + 0.003*"environment" + 0.003*"test" + 0.003*"type"')
+(4, '0.047*"assembly" + 0.022*"fix" + 0.022*"update" + 0.018*"call" + 0.018*"compile" + 0.018*"target" + 0.013*"build" + 0.013*"file" + 0.013*"runtime" + 0.013*"test"')
+(5, '0.004*"fix" + 0.004*"build" + 0.004*"mono" + 0.004*"assembly" + 0.004*"method" + 0.004*"bug" + 0.004*"update" + 0.004*"name" + 0.004*"type" + 0.004*"set"')
+
+------------------------
+NUMTopics = 7
+(0, '0.005*"fix" + 0.005*"build" + 0.005*"update" + 0.005*"exception" + 0.005*"case" + 0.005*"type" + 0.004*"method" + 0.004*"mono" + 0.004*"add" + 0.004*"print"')
+(1, '0.004*"fix" + 0.003*"build" + 0.003*"assembly" + 0.003*"update" + 0.003*"type" + 0.003*"method" + 0.003*"bug" + 0.003*"test" + 0.003*"exception" + 0.003*"also"')
+(2, '0.005*"assembly" + 0.004*"fix" + 0.004*"build" + 0.004*"update" + 0.004*"target" + 0.004*"test" + 0.004*"compile" + 0.004*"bug" + 0.004*"run" + 0.004*"code"')
+(3, '0.003*"fix" + 0.003*"assembly" + 0.003*"build" + 0.003*"method" + 0.003*"update" + 0.003*"bug" + 0.003*"exception" + 0.003*"type" + 0.003*"environment" + 0.003*"add"')
+(4, '0.004*"assembly" + 0.004*"fix" + 0.003*"update" + 0.003*"build" + 0.003*"call" + 0.003*"compile" + 0.003*"file" + 0.003*"target" + 0.003*"bug" + 0.003*"test"')
+(5, '0.031*"fix" + 0.023*"build" + 0.015*"mono" + 0.015*"method" + 0.015*"type" + 0.015*"exception" + 0.013*"environment" + 0.013*"case" + 0.013*"update" + 0.010*"bug"')
+(6, '0.048*"assembly" + 0.022*"fix" + 0.022*"update" + 0.018*"compile" + 0.018*"call" + 0.018*"target" + 0.014*"build" + 0.014*"file" + 0.014*"runtime" + 0.014*"test"')
+
+------------------------
+NUMTopics = 8
+(0, '0.004*"fix" + 0.004*"build" + 0.004*"case" + 0.004*"mono" + 0.004*"update" + 0.004*"type" + 0.004*"method" + 0.004*"exception" + 0.004*"print" + 0.004*"add"')
+(1, '0.004*"fix" + 0.003*"build" + 0.003*"assembly" + 0.003*"update" + 0.003*"type" + 0.003*"method" + 0.003*"bug" + 0.003*"exception" + 0.003*"test" + 0.003*"also"')
+(2, '0.004*"fix" + 0.004*"assembly" + 0.004*"build" + 0.004*"update" + 0.004*"method" + 0.003*"bug" + 0.003*"target" + 0.003*"test" + 0.003*"project" + 0.003*"compile"')
+(3, '0.004*"fix" + 0.003*"build" + 0.003*"assembly" + 0.003*"method" + 0.003*"exception" + 0.003*"type" + 0.003*"bug" + 0.003*"environment" + 0.003*"update" + 0.003*"add"')
+(4, '0.004*"assembly" + 0.004*"fix" + 0.003*"build" + 0.003*"update" + 0.003*"call" + 0.003*"compile" + 0.003*"file" + 0.003*"target" + 0.003*"test" + 0.003*"bug"')
+(5, '0.004*"fix" + 0.004*"build" + 0.004*"mono" + 0.004*"method" + 0.003*"type" + 0.003*"bug" + 0.003*"use" + 0.003*"variable" + 0.003*"exception" + 0.003*"class"')
+(6, '0.030*"fix" + 0.021*"build" + 0.021*"assembly" + 0.017*"update" + 0.012*"method" + 0.011*"exception" + 0.011*"type" + 0.011*"mono" + 0.011*"bug" + 0.009*"environment"')
+(7, '0.004*"assembly" + 0.004*"nuget" + 0.004*"code" + 0.004*"target" + 0.004*"fix" + 0.004*"update" + 0.004*"call" + 0.004*"file" + 0.004*"compile" + 0.004*"clojure"')
+
+------------------------
+NUMTopics = 9
+(0, '0.031*"fix" + 0.023*"build" + 0.016*"mono" + 0.016*"type" + 0.016*"exception" + 0.016*"method" + 0.013*"update" + 0.013*"case" + 0.013*"environment" + 0.011*"print"')
+(1, '0.003*"fix" + 0.003*"build" + 0.003*"type" + 0.003*"method" + 0.003*"exception" + 0.003*"update" + 0.003*"assembly" + 0.003*"case" + 0.003*"bug" + 0.003*"mono"')
+(2, '0.050*"assembly" + 0.023*"fix" + 0.023*"update" + 0.019*"target" + 0.019*"compile" + 0.019*"call" + 0.014*"build" + 0.014*"test" + 0.014*"clojure" + 0.014*"code"')
+(3, '0.003*"fix" + 0.003*"build" + 0.003*"method" + 0.003*"exception" + 0.003*"type" + 0.003*"environment" + 0.003*"bug" + 0.003*"stackframe" + 0.003*"set" + 0.003*"add"')
+(4, '0.004*"assembly" + 0.004*"fix" + 0.003*"compile" + 0.003*"call" + 0.003*"update" + 0.003*"build" + 0.003*"file" + 0.003*"target" + 0.003*"test" + 0.003*"code"')
+(5, '0.004*"fix" + 0.004*"build" + 0.004*"mono" + 0.004*"method" + 0.004*"type" + 0.004*"bug" + 0.004*"use" + 0.004*"exception" + 0.004*"variable" + 0.004*"environment"')
+(6, '0.005*"assembly" + 0.004*"fix" + 0.004*"update" + 0.004*"build" + 0.004*"file" + 0.004*"compile" + 0.004*"runtime" + 0.004*"call" + 0.004*"method" + 0.004*"test"')
+(7, '0.004*"fix" + 0.004*"assembly" + 0.003*"update" + 0.003*"build" + 0.003*"file" + 0.003*"bug" + 0.003*"target" + 0.003*"compile" + 0.003*"test" + 0.003*"nuget"')
+(8, '0.004*"assembly" + 0.004*"update" + 0.004*"fix" + 0.004*"call" + 0.004*"build" + 0.003*"target" + 0.003*"compile" + 0.003*"nuget" + 0.003*"file" + 0.003*"code"')
+
+------------------------

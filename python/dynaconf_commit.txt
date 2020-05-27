@@ -1,0 +1,139 @@
+﻿ Clean tox installation for local testing (#346)
+ Vendoring dependencies Fix #301 (#345)
+ Fix #298 allow auto complete for editors and console (#339)
+
+implemented `__dir__` on Settings and Dynabox
+ Fix #272 allow access of lowercase keys (#338)
+
+- `settings.lowercase_key` is allowed
+- `settings.dynaconf` is a proxy to internal methods
+- `settings.__reserved_attributes` validates key names
+- `LazySettings __init__ parameters can receive lower case configs`
+ Add ENVLESS_MODE (#337)
+ s/DYNACONF_ENV/ENV_FOR_DYNACONF (#335)
+ Fixed comma typo (#334)
+ Add support for config aliases (#332)
+
+All _FOR_DYNACONF can now be aliased when passing to LazySettings.
+ Insert news validator conditions: (len_eq, len_ne, len_min, len_max, contd) (#328)
+
+* Insert news validator conditions: len_eq, len_ne, len_min, len_max, contd
+
+* Insert news validator conditions: len_eq, len_ne, len_min, len_max, contd
+
+* Update validator_conditions.py
+
+* Update test_validators_conditions.py
+
+* Checked: Flake8
+
+* Black sugest
+
+* Change of the term contd to cont, in order to avoid false interpretation.
+
+Co-authored-by: Bruno Rocha <rochacbruno@users.noreply.github.com>
+ Better exception handling on env_loader (#316)
+ Added little information about how dev into this project. (#321)
+ Adding f string (#319)
+
+* First test to change to f-string
+
+* second change to f-string
+
+* Removed 95% of .format(
+
+* Removed % from code.
+
+* forget format.
+
+* Fixing flaked reports.
+
+* Fixing flaked reports-v2.
+
+* make run-pre-commit command executed.
+
+* Little bugfix f of f-string inside of the string.
+ Fix minor typo in Flask extension docs (#318)
+ Release version 3.0.0rc1
+
+Shortlog of commits since last release:
+
+    Bruno Rocha (8):
+          Release version 2.2.3
+          Changed text format and fixed tests
+          Merge branch '304-ShowDataTypeListCli'
+          Fix issue #305 - printing and exporting LazyFormat (#312)
+          Fix #288 - Nullable values (#300)
+          Default to ruamel.yaml when it is available. (#313)
+          Fix #306 - does not defaults to merge, deprecated reset - [Breaking Change] (#315)
+          HOTFIX - tox.ini drops 3.5
+
+    Tiago Cordeiro (1):
+          Added OSX builds to the Azure Pipeline (#307)
+
+    Vicente Marçal (1):
+          Changed CLI list to show data type of the envvars to fix #304
+
+    dependabot-preview[bot] (1):
+          Unpinning python-box, removing box_it_up and default_box arguments (#279)
+ HOTFIX - tox.ini drops 3.5
+ Fix #306 - does not defaults to merge, deprecated reset - [Breaking Change] (#315)
+
+- Don't default to `merge` for `__` variables
+- Made `@merge` more explicit and smart
+- Deprecated `@reset`
+ Unpinning python-box, removing box_it_up and default_box arguments (#279)
+
+Co-authored-by: Bruno Rocha <rochacbruno@gmail.com>
+ Default to ruamel.yaml when it is available. (#313)
+ Fix #288 - Nullable values (#300)
+
+* Attempt to fix #288 (needs more debugging)
+
+* Fixing bug on DynaBox.get
+ Fix issue #305 - printing and exporting LazyFormat (#312)
+ Merge branch '304-ShowDataTypeListCli'
+ Changed text format and fixed tests
+ Added OSX builds to the Azure Pipeline (#307)
+
+* Added OSX builds to the Azure Pipeline
+
+* Added OSX builds to the Azure Pipeline
+
+* skip docker tests on macOS
+ Changed CLI list to show data type of the envvars to fix #304
+ Release version 2.2.3
+
+Shortlog of commits since last release:
+
+    Bruno Rocha (7):
+          Release version 2.2.2
+          Fix #273 add Flask load extensions method.
+          add t.me badge fix #262
+          Fix #145 allow lazy format using os.environ and settings values.
+          Overriding strategy test
+          Fix #203 document the usage with pytest (with examples)
+          unpin dependencies
+
+    Hildeberto (2):
+          Fix pre-commit to run python3 rather than python3.7
+          Merge pull request #281 from hilam/fix_pre_commit
+
+    JSP (1):
+          fix object_merge issue #285 with  meta value
+
+    dependabot-preview[bot] (2):
+          Update python-dotenv requirement from <=0.10.3 to <0.10.6
+          Update python-dotenv requirement from <0.10.6 to <0.11.1
+ unpin dependencies
+ Update python-dotenv requirement from <0.10.6 to <0.11.1
+
+Updates the requirements on [python-dotenv](https://github.com/theskumar/python-dotenv) to permit the latest version.
+- [Release notes](https://github.com/theskumar/python-dotenv/releases)
+- [Changelog](https://github.com/theskumar/python-dotenv/blob/master/CHANGELOG.md)
+- [Commits](https://github.com/theskumar/python-dotenv/compare/v0.1.1...v0.11.0)
+
+Signed-off-by: dependabot-preview[bot] <support@dependabot.com>
+ Fix #203 document the usage with pytest (with examples)
+ Overriding strategy test
+ Fix #145 allow lazy format using os.environ and settings values.

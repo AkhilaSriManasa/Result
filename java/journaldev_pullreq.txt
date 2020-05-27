@@ -1,0 +1,1087 @@
+﻿ Bump jackson-databind from 2.2.3 to 2.9.10.4 in /Spring/SpringDataSource
+ Bumps [jackson-databind](https://github.com/FasterXML/jackson) from 2.2.3 to 2.9.10.4.
+<details>
+<summary>Commits</summary>
+<ul>
+<li>See full diff in <a href="https://github.com/FasterXML/jackson/commits">compare view</a></li>
+</ul>
+</details>
+<br />
+
+
+[![Dependabot compatibility score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=com.fasterxml.jackson.core:jackson-databind&package-manager=maven&previous-version=2.2.3&new-version=2.9.10.4)](https://help.github.com/articles/configuring-automated-security-fixes)
+
+Dependabot will resolve any conflicts with this PR as long as you don't alter it yourself. You can also trigger a rebase manually by commenting `@dependabot rebase`.
+
+[//]: # (dependabot-automerge-start)
+[//]: # (dependabot-automerge-end)
+
+---
+
+<details>
+<summary>Dependabot commands and options</summary>
+<br />
+
+You can trigger Dependabot actions by commenting on this PR:
+- `@dependabot rebase` will rebase this PR
+- `@dependabot recreate` will recreate this PR, overwriting any edits that have been made to it
+- `@dependabot merge` will merge this PR after your CI passes on it
+- `@dependabot squash and merge` will squash and merge this PR after your CI passes on it
+- `@dependabot cancel merge` will cancel a previously requested merge and block automerging
+- `@dependabot reopen` will reopen this PR if it is closed
+- `@dependabot close` will close this PR and stop Dependabot recreating it. You can achieve the same result by closing it manually
+- `@dependabot ignore this major version` will close this PR and stop Dependabot creating any more for this major version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this minor version` will close this PR and stop Dependabot creating any more for this minor version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this dependency` will close this PR and stop Dependabot creating any more for this dependency (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot use these labels` will set the current labels as the default for future PRs for this repo and language
+- `@dependabot use these reviewers` will set the current reviewers as the default for future PRs for this repo and language
+- `@dependabot use these assignees` will set the current assignees as the default for future PRs for this repo and language
+- `@dependabot use this milestone` will set the current milestone as the default for future PRs for this repo and language
+
+You can disable automated security fix PRs for this repo from the [Security Alerts page](https://github.com/journaldev/journaldev/network/alerts).
+
+</details>
+ Bump jackson-databind from 2.2.3 to 2.9.10.4 in /Spring/SpringExceptionHandling
+ Bumps [jackson-databind](https://github.com/FasterXML/jackson) from 2.2.3 to 2.9.10.4.
+<details>
+<summary>Commits</summary>
+<ul>
+<li>See full diff in <a href="https://github.com/FasterXML/jackson/commits">compare view</a></li>
+</ul>
+</details>
+<br />
+
+
+[![Dependabot compatibility score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=com.fasterxml.jackson.core:jackson-databind&package-manager=maven&previous-version=2.2.3&new-version=2.9.10.4)](https://help.github.com/articles/configuring-automated-security-fixes)
+
+Dependabot will resolve any conflicts with this PR as long as you don't alter it yourself. You can also trigger a rebase manually by commenting `@dependabot rebase`.
+
+[//]: # (dependabot-automerge-start)
+[//]: # (dependabot-automerge-end)
+
+---
+
+<details>
+<summary>Dependabot commands and options</summary>
+<br />
+
+You can trigger Dependabot actions by commenting on this PR:
+- `@dependabot rebase` will rebase this PR
+- `@dependabot recreate` will recreate this PR, overwriting any edits that have been made to it
+- `@dependabot merge` will merge this PR after your CI passes on it
+- `@dependabot squash and merge` will squash and merge this PR after your CI passes on it
+- `@dependabot cancel merge` will cancel a previously requested merge and block automerging
+- `@dependabot reopen` will reopen this PR if it is closed
+- `@dependabot close` will close this PR and stop Dependabot recreating it. You can achieve the same result by closing it manually
+- `@dependabot ignore this major version` will close this PR and stop Dependabot creating any more for this major version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this minor version` will close this PR and stop Dependabot creating any more for this minor version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this dependency` will close this PR and stop Dependabot creating any more for this dependency (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot use these labels` will set the current labels as the default for future PRs for this repo and language
+- `@dependabot use these reviewers` will set the current reviewers as the default for future PRs for this repo and language
+- `@dependabot use these assignees` will set the current assignees as the default for future PRs for this repo and language
+- `@dependabot use this milestone` will set the current milestone as the default for future PRs for this repo and language
+
+You can disable automated security fix PRs for this repo from the [Security Alerts page](https://github.com/journaldev/journaldev/network/alerts).
+
+</details>
+ Bump jackson-databind from 2.2.3 to 2.9.10.4 in /Spring/SpringRestExample
+ Bumps [jackson-databind](https://github.com/FasterXML/jackson) from 2.2.3 to 2.9.10.4.
+<details>
+<summary>Commits</summary>
+<ul>
+<li>See full diff in <a href="https://github.com/FasterXML/jackson/commits">compare view</a></li>
+</ul>
+</details>
+<br />
+
+
+[![Dependabot compatibility score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=com.fasterxml.jackson.core:jackson-databind&package-manager=maven&previous-version=2.2.3&new-version=2.9.10.4)](https://help.github.com/articles/configuring-automated-security-fixes)
+
+Dependabot will resolve any conflicts with this PR as long as you don't alter it yourself. You can also trigger a rebase manually by commenting `@dependabot rebase`.
+
+[//]: # (dependabot-automerge-start)
+[//]: # (dependabot-automerge-end)
+
+---
+
+<details>
+<summary>Dependabot commands and options</summary>
+<br />
+
+You can trigger Dependabot actions by commenting on this PR:
+- `@dependabot rebase` will rebase this PR
+- `@dependabot recreate` will recreate this PR, overwriting any edits that have been made to it
+- `@dependabot merge` will merge this PR after your CI passes on it
+- `@dependabot squash and merge` will squash and merge this PR after your CI passes on it
+- `@dependabot cancel merge` will cancel a previously requested merge and block automerging
+- `@dependabot reopen` will reopen this PR if it is closed
+- `@dependabot close` will close this PR and stop Dependabot recreating it. You can achieve the same result by closing it manually
+- `@dependabot ignore this major version` will close this PR and stop Dependabot creating any more for this major version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this minor version` will close this PR and stop Dependabot creating any more for this minor version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this dependency` will close this PR and stop Dependabot creating any more for this dependency (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot use these labels` will set the current labels as the default for future PRs for this repo and language
+- `@dependabot use these reviewers` will set the current reviewers as the default for future PRs for this repo and language
+- `@dependabot use these assignees` will set the current assignees as the default for future PRs for this repo and language
+- `@dependabot use this milestone` will set the current milestone as the default for future PRs for this repo and language
+
+You can disable automated security fix PRs for this repo from the [Security Alerts page](https://github.com/journaldev/journaldev/network/alerts).
+
+</details>
+ Bump jackson-databind from 2.2.3 to 2.9.10.4 in /Spring/SpringRequestMappingExample
+ Bumps [jackson-databind](https://github.com/FasterXML/jackson) from 2.2.3 to 2.9.10.4.
+<details>
+<summary>Commits</summary>
+<ul>
+<li>See full diff in <a href="https://github.com/FasterXML/jackson/commits">compare view</a></li>
+</ul>
+</details>
+<br />
+
+
+[![Dependabot compatibility score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=com.fasterxml.jackson.core:jackson-databind&package-manager=maven&previous-version=2.2.3&new-version=2.9.10.4)](https://help.github.com/articles/configuring-automated-security-fixes)
+
+Dependabot will resolve any conflicts with this PR as long as you don't alter it yourself. You can also trigger a rebase manually by commenting `@dependabot rebase`.
+
+[//]: # (dependabot-automerge-start)
+[//]: # (dependabot-automerge-end)
+
+---
+
+<details>
+<summary>Dependabot commands and options</summary>
+<br />
+
+You can trigger Dependabot actions by commenting on this PR:
+- `@dependabot rebase` will rebase this PR
+- `@dependabot recreate` will recreate this PR, overwriting any edits that have been made to it
+- `@dependabot merge` will merge this PR after your CI passes on it
+- `@dependabot squash and merge` will squash and merge this PR after your CI passes on it
+- `@dependabot cancel merge` will cancel a previously requested merge and block automerging
+- `@dependabot reopen` will reopen this PR if it is closed
+- `@dependabot close` will close this PR and stop Dependabot recreating it. You can achieve the same result by closing it manually
+- `@dependabot ignore this major version` will close this PR and stop Dependabot creating any more for this major version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this minor version` will close this PR and stop Dependabot creating any more for this minor version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this dependency` will close this PR and stop Dependabot creating any more for this dependency (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot use these labels` will set the current labels as the default for future PRs for this repo and language
+- `@dependabot use these reviewers` will set the current reviewers as the default for future PRs for this repo and language
+- `@dependabot use these assignees` will set the current assignees as the default for future PRs for this repo and language
+- `@dependabot use this milestone` will set the current milestone as the default for future PRs for this repo and language
+
+You can disable automated security fix PRs for this repo from the [Security Alerts page](https://github.com/journaldev/journaldev/network/alerts).
+
+</details>
+ Bump jackson-databind from 2.2.3 to 2.9.10.4 in /JSON/jackson-example
+ Bumps [jackson-databind](https://github.com/FasterXML/jackson) from 2.2.3 to 2.9.10.4.
+<details>
+<summary>Commits</summary>
+<ul>
+<li>See full diff in <a href="https://github.com/FasterXML/jackson/commits">compare view</a></li>
+</ul>
+</details>
+<br />
+
+
+[![Dependabot compatibility score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=com.fasterxml.jackson.core:jackson-databind&package-manager=maven&previous-version=2.2.3&new-version=2.9.10.4)](https://help.github.com/articles/configuring-automated-security-fixes)
+
+Dependabot will resolve any conflicts with this PR as long as you don't alter it yourself. You can also trigger a rebase manually by commenting `@dependabot rebase`.
+
+[//]: # (dependabot-automerge-start)
+[//]: # (dependabot-automerge-end)
+
+---
+
+<details>
+<summary>Dependabot commands and options</summary>
+<br />
+
+You can trigger Dependabot actions by commenting on this PR:
+- `@dependabot rebase` will rebase this PR
+- `@dependabot recreate` will recreate this PR, overwriting any edits that have been made to it
+- `@dependabot merge` will merge this PR after your CI passes on it
+- `@dependabot squash and merge` will squash and merge this PR after your CI passes on it
+- `@dependabot cancel merge` will cancel a previously requested merge and block automerging
+- `@dependabot reopen` will reopen this PR if it is closed
+- `@dependabot close` will close this PR and stop Dependabot recreating it. You can achieve the same result by closing it manually
+- `@dependabot ignore this major version` will close this PR and stop Dependabot creating any more for this major version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this minor version` will close this PR and stop Dependabot creating any more for this minor version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this dependency` will close this PR and stop Dependabot creating any more for this dependency (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot use these labels` will set the current labels as the default for future PRs for this repo and language
+- `@dependabot use these reviewers` will set the current reviewers as the default for future PRs for this repo and language
+- `@dependabot use these assignees` will set the current assignees as the default for future PRs for this repo and language
+- `@dependabot use this milestone` will set the current milestone as the default for future PRs for this repo and language
+
+You can disable automated security fix PRs for this repo from the [Security Alerts page](https://github.com/journaldev/journaldev/network/alerts).
+
+</details>
+ Bump jackson-databind from 2.9.6 to 2.9.10.4 in /Spring/Spring-Controller
+ Bumps [jackson-databind](https://github.com/FasterXML/jackson) from 2.9.6 to 2.9.10.4.
+<details>
+<summary>Commits</summary>
+<ul>
+<li>See full diff in <a href="https://github.com/FasterXML/jackson/commits">compare view</a></li>
+</ul>
+</details>
+<br />
+
+
+[![Dependabot compatibility score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=com.fasterxml.jackson.core:jackson-databind&package-manager=maven&previous-version=2.9.6&new-version=2.9.10.4)](https://help.github.com/articles/configuring-automated-security-fixes)
+
+Dependabot will resolve any conflicts with this PR as long as you don't alter it yourself. You can also trigger a rebase manually by commenting `@dependabot rebase`.
+
+[//]: # (dependabot-automerge-start)
+[//]: # (dependabot-automerge-end)
+
+---
+
+<details>
+<summary>Dependabot commands and options</summary>
+<br />
+
+You can trigger Dependabot actions by commenting on this PR:
+- `@dependabot rebase` will rebase this PR
+- `@dependabot recreate` will recreate this PR, overwriting any edits that have been made to it
+- `@dependabot merge` will merge this PR after your CI passes on it
+- `@dependabot squash and merge` will squash and merge this PR after your CI passes on it
+- `@dependabot cancel merge` will cancel a previously requested merge and block automerging
+- `@dependabot reopen` will reopen this PR if it is closed
+- `@dependabot close` will close this PR and stop Dependabot recreating it. You can achieve the same result by closing it manually
+- `@dependabot ignore this major version` will close this PR and stop Dependabot creating any more for this major version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this minor version` will close this PR and stop Dependabot creating any more for this minor version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this dependency` will close this PR and stop Dependabot creating any more for this dependency (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot use these labels` will set the current labels as the default for future PRs for this repo and language
+- `@dependabot use these reviewers` will set the current reviewers as the default for future PRs for this repo and language
+- `@dependabot use these assignees` will set the current assignees as the default for future PRs for this repo and language
+- `@dependabot use this milestone` will set the current milestone as the default for future PRs for this repo and language
+
+You can disable automated security fix PRs for this repo from the [Security Alerts page](https://github.com/journaldev/journaldev/network/alerts).
+
+</details>
+ Bump jackson-databind from 2.9.6 to 2.9.10.4 in /Spring/Spring-RestController
+ Bumps [jackson-databind](https://github.com/FasterXML/jackson) from 2.9.6 to 2.9.10.4.
+<details>
+<summary>Commits</summary>
+<ul>
+<li>See full diff in <a href="https://github.com/FasterXML/jackson/commits">compare view</a></li>
+</ul>
+</details>
+<br />
+
+
+[![Dependabot compatibility score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=com.fasterxml.jackson.core:jackson-databind&package-manager=maven&previous-version=2.9.6&new-version=2.9.10.4)](https://help.github.com/articles/configuring-automated-security-fixes)
+
+Dependabot will resolve any conflicts with this PR as long as you don't alter it yourself. You can also trigger a rebase manually by commenting `@dependabot rebase`.
+
+[//]: # (dependabot-automerge-start)
+[//]: # (dependabot-automerge-end)
+
+---
+
+<details>
+<summary>Dependabot commands and options</summary>
+<br />
+
+You can trigger Dependabot actions by commenting on this PR:
+- `@dependabot rebase` will rebase this PR
+- `@dependabot recreate` will recreate this PR, overwriting any edits that have been made to it
+- `@dependabot merge` will merge this PR after your CI passes on it
+- `@dependabot squash and merge` will squash and merge this PR after your CI passes on it
+- `@dependabot cancel merge` will cancel a previously requested merge and block automerging
+- `@dependabot reopen` will reopen this PR if it is closed
+- `@dependabot close` will close this PR and stop Dependabot recreating it. You can achieve the same result by closing it manually
+- `@dependabot ignore this major version` will close this PR and stop Dependabot creating any more for this major version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this minor version` will close this PR and stop Dependabot creating any more for this minor version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this dependency` will close this PR and stop Dependabot creating any more for this dependency (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot use these labels` will set the current labels as the default for future PRs for this repo and language
+- `@dependabot use these reviewers` will set the current reviewers as the default for future PRs for this repo and language
+- `@dependabot use these assignees` will set the current assignees as the default for future PRs for this repo and language
+- `@dependabot use this milestone` will set the current milestone as the default for future PRs for this repo and language
+
+You can disable automated security fix PRs for this repo from the [Security Alerts page](https://github.com/journaldev/journaldev/network/alerts).
+
+</details>
+ Create PaidOrFree
+ 
+ Bump jackson-databind from 2.9.6 to 2.9.10.3 in /Spring/Spring-Controller
+ Bumps [jackson-databind](https://github.com/FasterXML/jackson) from 2.9.6 to 2.9.10.3.
+<details>
+<summary>Commits</summary>
+
+- See full diff in [compare view](https://github.com/FasterXML/jackson/commits)
+</details>
+<br />
+
+[![Dependabot compatibility score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=com.fasterxml.jackson.core:jackson-databind&package-manager=maven&previous-version=2.9.6&new-version=2.9.10.3)](https://help.github.com/articles/configuring-automated-security-fixes)
+
+Dependabot will resolve any conflicts with this PR as long as you don't alter it yourself. You can also trigger a rebase manually by commenting `@dependabot rebase`.
+
+[//]: # (dependabot-automerge-start)
+[//]: # (dependabot-automerge-end)
+
+---
+
+<details>
+<summary>Dependabot commands and options</summary>
+<br />
+
+You can trigger Dependabot actions by commenting on this PR:
+- `@dependabot rebase` will rebase this PR
+- `@dependabot recreate` will recreate this PR, overwriting any edits that have been made to it
+- `@dependabot merge` will merge this PR after your CI passes on it
+- `@dependabot squash and merge` will squash and merge this PR after your CI passes on it
+- `@dependabot cancel merge` will cancel a previously requested merge and block automerging
+- `@dependabot reopen` will reopen this PR if it is closed
+- `@dependabot close` will close this PR and stop Dependabot recreating it. You can achieve the same result by closing it manually
+- `@dependabot ignore this major version` will close this PR and stop Dependabot creating any more for this major version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this minor version` will close this PR and stop Dependabot creating any more for this minor version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this dependency` will close this PR and stop Dependabot creating any more for this dependency (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot use these labels` will set the current labels as the default for future PRs for this repo and language
+- `@dependabot use these reviewers` will set the current reviewers as the default for future PRs for this repo and language
+- `@dependabot use these assignees` will set the current assignees as the default for future PRs for this repo and language
+- `@dependabot use this milestone` will set the current milestone as the default for future PRs for this repo and language
+
+You can disable automated security fix PRs for this repo from the [Security Alerts page](https://github.com/journaldev/journaldev/network/alerts).
+
+</details>
+ Bump jackson-databind from 2.9.6 to 2.9.10.3 in /Spring/Spring-RestController
+ Bumps [jackson-databind](https://github.com/FasterXML/jackson) from 2.9.6 to 2.9.10.3.
+<details>
+<summary>Commits</summary>
+
+- See full diff in [compare view](https://github.com/FasterXML/jackson/commits)
+</details>
+<br />
+
+[![Dependabot compatibility score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=com.fasterxml.jackson.core:jackson-databind&package-manager=maven&previous-version=2.9.6&new-version=2.9.10.3)](https://help.github.com/articles/configuring-automated-security-fixes)
+
+Dependabot will resolve any conflicts with this PR as long as you don't alter it yourself. You can also trigger a rebase manually by commenting `@dependabot rebase`.
+
+[//]: # (dependabot-automerge-start)
+[//]: # (dependabot-automerge-end)
+
+---
+
+<details>
+<summary>Dependabot commands and options</summary>
+<br />
+
+You can trigger Dependabot actions by commenting on this PR:
+- `@dependabot rebase` will rebase this PR
+- `@dependabot recreate` will recreate this PR, overwriting any edits that have been made to it
+- `@dependabot merge` will merge this PR after your CI passes on it
+- `@dependabot squash and merge` will squash and merge this PR after your CI passes on it
+- `@dependabot cancel merge` will cancel a previously requested merge and block automerging
+- `@dependabot reopen` will reopen this PR if it is closed
+- `@dependabot close` will close this PR and stop Dependabot recreating it. You can achieve the same result by closing it manually
+- `@dependabot ignore this major version` will close this PR and stop Dependabot creating any more for this major version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this minor version` will close this PR and stop Dependabot creating any more for this minor version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this dependency` will close this PR and stop Dependabot creating any more for this dependency (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot use these labels` will set the current labels as the default for future PRs for this repo and language
+- `@dependabot use these reviewers` will set the current reviewers as the default for future PRs for this repo and language
+- `@dependabot use these assignees` will set the current assignees as the default for future PRs for this repo and language
+- `@dependabot use this milestone` will set the current milestone as the default for future PRs for this repo and language
+
+You can disable automated security fix PRs for this repo from the [Security Alerts page](https://github.com/journaldev/journaldev/network/alerts).
+
+</details>
+ Bump jackson-databind from 2.2.3 to 2.9.10.3 in /Spring/SpringDataSource
+ Bumps [jackson-databind](https://github.com/FasterXML/jackson) from 2.2.3 to 2.9.10.3.
+<details>
+<summary>Commits</summary>
+
+- See full diff in [compare view](https://github.com/FasterXML/jackson/commits)
+</details>
+<br />
+
+[![Dependabot compatibility score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=com.fasterxml.jackson.core:jackson-databind&package-manager=maven&previous-version=2.2.3&new-version=2.9.10.3)](https://help.github.com/articles/configuring-automated-security-fixes)
+
+Dependabot will resolve any conflicts with this PR as long as you don't alter it yourself. You can also trigger a rebase manually by commenting `@dependabot rebase`.
+
+[//]: # (dependabot-automerge-start)
+[//]: # (dependabot-automerge-end)
+
+---
+
+<details>
+<summary>Dependabot commands and options</summary>
+<br />
+
+You can trigger Dependabot actions by commenting on this PR:
+- `@dependabot rebase` will rebase this PR
+- `@dependabot recreate` will recreate this PR, overwriting any edits that have been made to it
+- `@dependabot merge` will merge this PR after your CI passes on it
+- `@dependabot squash and merge` will squash and merge this PR after your CI passes on it
+- `@dependabot cancel merge` will cancel a previously requested merge and block automerging
+- `@dependabot reopen` will reopen this PR if it is closed
+- `@dependabot close` will close this PR and stop Dependabot recreating it. You can achieve the same result by closing it manually
+- `@dependabot ignore this major version` will close this PR and stop Dependabot creating any more for this major version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this minor version` will close this PR and stop Dependabot creating any more for this minor version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this dependency` will close this PR and stop Dependabot creating any more for this dependency (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot use these labels` will set the current labels as the default for future PRs for this repo and language
+- `@dependabot use these reviewers` will set the current reviewers as the default for future PRs for this repo and language
+- `@dependabot use these assignees` will set the current assignees as the default for future PRs for this repo and language
+- `@dependabot use this milestone` will set the current milestone as the default for future PRs for this repo and language
+
+You can disable automated security fix PRs for this repo from the [Security Alerts page](https://github.com/journaldev/journaldev/network/alerts).
+
+</details>
+ Bump jackson-databind from 2.2.3 to 2.9.10.3 in /Spring/SpringRestExample
+ Bumps [jackson-databind](https://github.com/FasterXML/jackson) from 2.2.3 to 2.9.10.3.
+<details>
+<summary>Commits</summary>
+
+- See full diff in [compare view](https://github.com/FasterXML/jackson/commits)
+</details>
+<br />
+
+[![Dependabot compatibility score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=com.fasterxml.jackson.core:jackson-databind&package-manager=maven&previous-version=2.2.3&new-version=2.9.10.3)](https://help.github.com/articles/configuring-automated-security-fixes)
+
+Dependabot will resolve any conflicts with this PR as long as you don't alter it yourself. You can also trigger a rebase manually by commenting `@dependabot rebase`.
+
+[//]: # (dependabot-automerge-start)
+[//]: # (dependabot-automerge-end)
+
+---
+
+<details>
+<summary>Dependabot commands and options</summary>
+<br />
+
+You can trigger Dependabot actions by commenting on this PR:
+- `@dependabot rebase` will rebase this PR
+- `@dependabot recreate` will recreate this PR, overwriting any edits that have been made to it
+- `@dependabot merge` will merge this PR after your CI passes on it
+- `@dependabot squash and merge` will squash and merge this PR after your CI passes on it
+- `@dependabot cancel merge` will cancel a previously requested merge and block automerging
+- `@dependabot reopen` will reopen this PR if it is closed
+- `@dependabot close` will close this PR and stop Dependabot recreating it. You can achieve the same result by closing it manually
+- `@dependabot ignore this major version` will close this PR and stop Dependabot creating any more for this major version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this minor version` will close this PR and stop Dependabot creating any more for this minor version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this dependency` will close this PR and stop Dependabot creating any more for this dependency (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot use these labels` will set the current labels as the default for future PRs for this repo and language
+- `@dependabot use these reviewers` will set the current reviewers as the default for future PRs for this repo and language
+- `@dependabot use these assignees` will set the current assignees as the default for future PRs for this repo and language
+- `@dependabot use this milestone` will set the current milestone as the default for future PRs for this repo and language
+
+You can disable automated security fix PRs for this repo from the [Security Alerts page](https://github.com/journaldev/journaldev/network/alerts).
+
+</details>
+ Bump jackson-databind from 2.2.3 to 2.9.10.3 in /JSON/jackson-example
+ Bumps [jackson-databind](https://github.com/FasterXML/jackson) from 2.2.3 to 2.9.10.3.
+<details>
+<summary>Commits</summary>
+
+- See full diff in [compare view](https://github.com/FasterXML/jackson/commits)
+</details>
+<br />
+
+[![Dependabot compatibility score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=com.fasterxml.jackson.core:jackson-databind&package-manager=maven&previous-version=2.2.3&new-version=2.9.10.3)](https://help.github.com/articles/configuring-automated-security-fixes)
+
+Dependabot will resolve any conflicts with this PR as long as you don't alter it yourself. You can also trigger a rebase manually by commenting `@dependabot rebase`.
+
+[//]: # (dependabot-automerge-start)
+[//]: # (dependabot-automerge-end)
+
+---
+
+<details>
+<summary>Dependabot commands and options</summary>
+<br />
+
+You can trigger Dependabot actions by commenting on this PR:
+- `@dependabot rebase` will rebase this PR
+- `@dependabot recreate` will recreate this PR, overwriting any edits that have been made to it
+- `@dependabot merge` will merge this PR after your CI passes on it
+- `@dependabot squash and merge` will squash and merge this PR after your CI passes on it
+- `@dependabot cancel merge` will cancel a previously requested merge and block automerging
+- `@dependabot reopen` will reopen this PR if it is closed
+- `@dependabot close` will close this PR and stop Dependabot recreating it. You can achieve the same result by closing it manually
+- `@dependabot ignore this major version` will close this PR and stop Dependabot creating any more for this major version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this minor version` will close this PR and stop Dependabot creating any more for this minor version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this dependency` will close this PR and stop Dependabot creating any more for this dependency (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot use these labels` will set the current labels as the default for future PRs for this repo and language
+- `@dependabot use these reviewers` will set the current reviewers as the default for future PRs for this repo and language
+- `@dependabot use these assignees` will set the current assignees as the default for future PRs for this repo and language
+- `@dependabot use this milestone` will set the current milestone as the default for future PRs for this repo and language
+
+You can disable automated security fix PRs for this repo from the [Security Alerts page](https://github.com/journaldev/journaldev/network/alerts).
+
+</details>
+ Bump jackson-databind from 2.2.3 to 2.9.10.3 in /Spring/SpringExceptionHandling
+ Bumps [jackson-databind](https://github.com/FasterXML/jackson) from 2.2.3 to 2.9.10.3.
+<details>
+<summary>Commits</summary>
+
+- See full diff in [compare view](https://github.com/FasterXML/jackson/commits)
+</details>
+<br />
+
+[![Dependabot compatibility score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=com.fasterxml.jackson.core:jackson-databind&package-manager=maven&previous-version=2.2.3&new-version=2.9.10.3)](https://help.github.com/articles/configuring-automated-security-fixes)
+
+Dependabot will resolve any conflicts with this PR as long as you don't alter it yourself. You can also trigger a rebase manually by commenting `@dependabot rebase`.
+
+[//]: # (dependabot-automerge-start)
+[//]: # (dependabot-automerge-end)
+
+---
+
+<details>
+<summary>Dependabot commands and options</summary>
+<br />
+
+You can trigger Dependabot actions by commenting on this PR:
+- `@dependabot rebase` will rebase this PR
+- `@dependabot recreate` will recreate this PR, overwriting any edits that have been made to it
+- `@dependabot merge` will merge this PR after your CI passes on it
+- `@dependabot squash and merge` will squash and merge this PR after your CI passes on it
+- `@dependabot cancel merge` will cancel a previously requested merge and block automerging
+- `@dependabot reopen` will reopen this PR if it is closed
+- `@dependabot close` will close this PR and stop Dependabot recreating it. You can achieve the same result by closing it manually
+- `@dependabot ignore this major version` will close this PR and stop Dependabot creating any more for this major version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this minor version` will close this PR and stop Dependabot creating any more for this minor version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this dependency` will close this PR and stop Dependabot creating any more for this dependency (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot use these labels` will set the current labels as the default for future PRs for this repo and language
+- `@dependabot use these reviewers` will set the current reviewers as the default for future PRs for this repo and language
+- `@dependabot use these assignees` will set the current assignees as the default for future PRs for this repo and language
+- `@dependabot use this milestone` will set the current milestone as the default for future PRs for this repo and language
+
+You can disable automated security fix PRs for this repo from the [Security Alerts page](https://github.com/journaldev/journaldev/network/alerts).
+
+</details>
+ Bump jackson-databind from 2.2.3 to 2.9.10.3 in /Spring/SpringRequestMappingExample
+ Bumps [jackson-databind](https://github.com/FasterXML/jackson) from 2.2.3 to 2.9.10.3.
+<details>
+<summary>Commits</summary>
+
+- See full diff in [compare view](https://github.com/FasterXML/jackson/commits)
+</details>
+<br />
+
+[![Dependabot compatibility score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=com.fasterxml.jackson.core:jackson-databind&package-manager=maven&previous-version=2.2.3&new-version=2.9.10.3)](https://help.github.com/articles/configuring-automated-security-fixes)
+
+Dependabot will resolve any conflicts with this PR as long as you don't alter it yourself. You can also trigger a rebase manually by commenting `@dependabot rebase`.
+
+[//]: # (dependabot-automerge-start)
+[//]: # (dependabot-automerge-end)
+
+---
+
+<details>
+<summary>Dependabot commands and options</summary>
+<br />
+
+You can trigger Dependabot actions by commenting on this PR:
+- `@dependabot rebase` will rebase this PR
+- `@dependabot recreate` will recreate this PR, overwriting any edits that have been made to it
+- `@dependabot merge` will merge this PR after your CI passes on it
+- `@dependabot squash and merge` will squash and merge this PR after your CI passes on it
+- `@dependabot cancel merge` will cancel a previously requested merge and block automerging
+- `@dependabot reopen` will reopen this PR if it is closed
+- `@dependabot close` will close this PR and stop Dependabot recreating it. You can achieve the same result by closing it manually
+- `@dependabot ignore this major version` will close this PR and stop Dependabot creating any more for this major version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this minor version` will close this PR and stop Dependabot creating any more for this minor version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this dependency` will close this PR and stop Dependabot creating any more for this dependency (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot use these labels` will set the current labels as the default for future PRs for this repo and language
+- `@dependabot use these reviewers` will set the current reviewers as the default for future PRs for this repo and language
+- `@dependabot use these assignees` will set the current assignees as the default for future PRs for this repo and language
+- `@dependabot use this milestone` will set the current milestone as the default for future PRs for this repo and language
+
+You can disable automated security fix PRs for this repo from the [Security Alerts page](https://github.com/journaldev/journaldev/network/alerts).
+
+</details>
+ Create SpringMVC
+ 
+ Bump spring-webmvc from 5.0.7.RELEASE to 5.1.0.RELEASE in /Spring/Spring-Controller
+ Bumps [spring-webmvc](https://github.com/spring-projects/spring-framework) from 5.0.7.RELEASE to 5.1.0.RELEASE.
+<details>
+<summary>Release notes</summary>
+
+*Sourced from [spring-webmvc's releases](https://github.com/spring-projects/spring-framework/releases).*
+
+> ## v5.0.16.RELEASE
+> ## :star: New Features
+> 
+> - Cache result of String.getBytes() in ExtendedBeanInfo.PropertyDescriptorComparator [#24109](https://github-redirect.dependabot.com/spring-projects/spring-framework/issues/24109)
+> - Avoid substring allocation in StringUtils.replace [#24025](https://github-redirect.dependabot.com/spring-projects/spring-framework/issues/24025)
+> - Support for new MySQL 8 error code 3572 [#23974](https://github-redirect.dependabot.com/spring-projects/spring-framework/issues/23974)
+> 
+> ## :beetle: Bug Fixes
+> 
+> - Unsafe double-checked locking in SpelExpression#compileExpression [#24307](https://github-redirect.dependabot.com/spring-projects/spring-framework/issues/24307)
+> - Escape quotes in filename in ContentDisposition.Builder when charset not specified [#24230](https://github-redirect.dependabot.com/spring-projects/spring-framework/issues/24230)
+> - SqlRowSet accessor methods should be marked `@Nullable` [#24045](https://github-redirect.dependabot.com/spring-projects/spring-framework/issues/24045)
+> - Allow schemaZip Gradle task to execute on MS Windows [#23988](https://github-redirect.dependabot.com/spring-projects/spring-framework/issues/23988)
+> - Bean definition override leads to NPE due to inconsistent equality check [#23709](https://github-redirect.dependabot.com/spring-projects/spring-framework/issues/23709)
+> - Fix DefaultListableBeanFactory#copyConfigurationFrom [#23708](https://github-redirect.dependabot.com/spring-projects/spring-framework/issues/23708)
+> - Synchronized blocks in MethodOverrides are hurting concurrency [#23707](https://github-redirect.dependabot.com/spring-projects/spring-framework/issues/23707)
+> 
+> ## :notebook_with_decorative_cover: Documentation
+> 
+> - TypeDescriptor#getElementTypeDescriptor does not throw IllegalStateException anymore [#23998](https://github-redirect.dependabot.com/spring-projects/spring-framework/issues/23998)
+> - Correct Javadoc for WebMvcConfigurer#addInterceptors [#23926](https://github-redirect.dependabot.com/spring-projects/spring-framework/issues/23926)
+> 
+> ## v5.0.15.RELEASE
+> ## :star: New Features
+> 
+> - Javadoc missing on some public BeanDefinitionParserDelegate methods [#23398](https://github-redirect.dependabot.com/spring-projects/spring-framework/issues/23398)
+> - Thread-safe removal of destruction callbacks in web scopes [#23118](https://github-redirect.dependabot.com/spring-projects/spring-framework/issues/23118)
+> - Guard against ConcurrentModificationExceptions in the systemProperties PropertySource [#23112](https://github-redirect.dependabot.com/spring-projects/spring-framework/issues/23112)
+> - Avoid expensive assertions in web resource resolution [#22964](https://github-redirect.dependabot.com/spring-projects/spring-framework/issues/22964)
+> 
+> ## :beetle: Bug Fixes
+> 
+> - Session.close() accidentally triggers creation of TransactionAwareDataSourceProxy Connection [#23396](https://github-redirect.dependabot.com/spring-projects/spring-framework/issues/23396)
+> - MethodParameter.equals is too coarse-grained for its use in HandlerMethodArgumentResolverComposite  [#23386](https://github-redirect.dependabot.com/spring-projects/spring-framework/issues/23386)
+> - ResolvableType.forRawClass fails isAssignable against TypeVariable [#23322](https://github-redirect.dependabot.com/spring-projects/spring-framework/issues/23322)
+> - FlashMapManager throws StringIndexOutOfBoundsException for empty target URL path [#23245](https://github-redirect.dependabot.com/spring-projects/spring-framework/issues/23245)
+> - MappingMediaTypeFileExtensionResolver ConcurrentModificationException [#23113](https://github-redirect.dependabot.com/spring-projects/spring-framework/issues/23113)
+> - Fix MockHttpServletRequest.setCookies to produce single Cookie header [#23085](https://github-redirect.dependabot.com/spring-projects/spring-framework/issues/23085)
+> - Fix ScriptUtils for MS Windows line ending [#23027](https://github-redirect.dependabot.com/spring-projects/spring-framework/issues/23027)
+> 
+> ## :notebook_with_decorative_cover: Documentation
+> 
+> - Improve documentation for `@Autowired` constructors [#23309](https://github-redirect.dependabot.com/spring-projects/spring-framework/issues/23309)
+> - Document that Ordered is not supported for `@ControllerAdvice` beans [#23173](https://github-redirect.dependabot.com/spring-projects/spring-framework/issues/23173)
+> - Reintroduce author list and copyright notice [#23080](https://github-redirect.dependabot.com/spring-projects/spring-framework/issues/23080)
+> - spring-mvc.xsd stale-if-error attribute documentation incorrect [#23000](https://github-redirect.dependabot.com/spring-projects/spring-framework/issues/23000)
+> - AbstractBeanDefinition.getBeanClass() javadoc misleads about returning null [#22966](https://github-redirect.dependabot.com/spring-projects/spring-framework/issues/22966)
+> 
+> ## v5.0.14.RELEASE
+> ## :star: New Features
+></tr></table> ... (truncated)
+</details>
+<details>
+<summary>Commits</summary>
+
+- [`f07eed2`](https://github.com/spring-projects/spring-framework/commit/f07eed2b28b4b51e4f2167f2ec6cd4d8bd9295ad) Release version 5.1.0.RELEASE
+- [`92b3f2a`](https://github.com/spring-projects/spring-framework/commit/92b3f2aee7c742ad55bd2ae657937d2f449de5e1) Document timeout configuration for Reactor HttpClient
+- [`80e52de`](https://github.com/spring-projects/spring-framework/commit/80e52de2313b38defaf61bdd0657d976cb55d8d3) Upgrade to HtmlUnit 2.33 and Apache Johnzon 1.1.10
+- [`7562761`](https://github.com/spring-projects/spring-framework/commit/75627617c971333e60a9635f4b762853e3989da5) Ordered streams consistently operate on resolved bean instances
+- [`3f5a7bb`](https://github.com/spring-projects/spring-framework/commit/3f5a7bbf049ff63f0f7b7c99925442efae6af636) Remove snapshot repository from build setup
+- [`093a863`](https://github.com/spring-projects/spring-framework/commit/093a863906da8e455966cf6cb2e96ebd22e8bc6c) Upgrade to Gradle 4.10.2
+- [`90c29b3`](https://github.com/spring-projects/spring-framework/commit/90c29b3af3a4fe5d1bb735a80273826658e406cb) Upgrade to Reactor Californium RELEASE
+- [`f783967`](https://github.com/spring-projects/spring-framework/commit/f7839675f6e6097144fb2d4125c8bbc85fd11cc3) Don't set role in Kotlin bean DSL unless specified
+- [`47d6e91`](https://github.com/spring-projects/spring-framework/commit/47d6e9122751efc78f41632483302d365bb1a2ca) Leverage non-default ctor support in Kotlin bean DSL
+- [`b6b880c`](https://github.com/spring-projects/spring-framework/commit/b6b880ce274396b93a85fe8fb9225f2b5a6b798d) Polishing
+- Additional commits viewable in [compare view](https://github.com/spring-projects/spring-framework/compare/v5.0.7.RELEASE...v5.1.0.RELEASE)
+</details>
+<br />
+
+[![Dependabot compatibility score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=org.springframework:spring-webmvc&package-manager=maven&previous-version=5.0.7.RELEASE&new-version=5.1.0.RELEASE)](https://help.github.com/articles/configuring-automated-security-fixes)
+
+Dependabot will resolve any conflicts with this PR as long as you don't alter it yourself. You can also trigger a rebase manually by commenting `@dependabot rebase`.
+
+[//]: # (dependabot-automerge-start)
+[//]: # (dependabot-automerge-end)
+
+---
+
+<details>
+<summary>Dependabot commands and options</summary>
+<br />
+
+You can trigger Dependabot actions by commenting on this PR:
+- `@dependabot rebase` will rebase this PR
+- `@dependabot recreate` will recreate this PR, overwriting any edits that have been made to it
+- `@dependabot merge` will merge this PR after your CI passes on it
+- `@dependabot squash and merge` will squash and merge this PR after your CI passes on it
+- `@dependabot cancel merge` will cancel a previously requested merge and block automerging
+- `@dependabot reopen` will reopen this PR if it is closed
+- `@dependabot ignore this [patch|minor|major] version` will close this PR and stop Dependabot creating any more for this minor/major version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this dependency` will close this PR and stop Dependabot creating any more for this dependency (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot use these labels` will set the current labels as the default for future PRs for this repo and language
+- `@dependabot use these reviewers` will set the current reviewers as the default for future PRs for this repo and language
+- `@dependabot use these assignees` will set the current assignees as the default for future PRs for this repo and language
+- `@dependabot use this milestone` will set the current milestone as the default for future PRs for this repo and language
+
+You can disable automated security fix PRs for this repo from the [Security Alerts page](https://github.com/journaldev/journaldev/network/alerts).
+
+</details>
+ Bump spring-webmvc from 5.0.7.RELEASE to 5.1.0.RELEASE in /Spring/Spring-RestController
+ Bumps [spring-webmvc](https://github.com/spring-projects/spring-framework) from 5.0.7.RELEASE to 5.1.0.RELEASE.
+<details>
+<summary>Release notes</summary>
+
+*Sourced from [spring-webmvc's releases](https://github.com/spring-projects/spring-framework/releases).*
+
+> ## v5.0.16.RELEASE
+> ## :star: New Features
+> 
+> - Cache result of String.getBytes() in ExtendedBeanInfo.PropertyDescriptorComparator [#24109](https://github-redirect.dependabot.com/spring-projects/spring-framework/issues/24109)
+> - Avoid substring allocation in StringUtils.replace [#24025](https://github-redirect.dependabot.com/spring-projects/spring-framework/issues/24025)
+> - Support for new MySQL 8 error code 3572 [#23974](https://github-redirect.dependabot.com/spring-projects/spring-framework/issues/23974)
+> 
+> ## :beetle: Bug Fixes
+> 
+> - Unsafe double-checked locking in SpelExpression#compileExpression [#24307](https://github-redirect.dependabot.com/spring-projects/spring-framework/issues/24307)
+> - Escape quotes in filename in ContentDisposition.Builder when charset not specified [#24230](https://github-redirect.dependabot.com/spring-projects/spring-framework/issues/24230)
+> - SqlRowSet accessor methods should be marked `@Nullable` [#24045](https://github-redirect.dependabot.com/spring-projects/spring-framework/issues/24045)
+> - Allow schemaZip Gradle task to execute on MS Windows [#23988](https://github-redirect.dependabot.com/spring-projects/spring-framework/issues/23988)
+> - Bean definition override leads to NPE due to inconsistent equality check [#23709](https://github-redirect.dependabot.com/spring-projects/spring-framework/issues/23709)
+> - Fix DefaultListableBeanFactory#copyConfigurationFrom [#23708](https://github-redirect.dependabot.com/spring-projects/spring-framework/issues/23708)
+> - Synchronized blocks in MethodOverrides are hurting concurrency [#23707](https://github-redirect.dependabot.com/spring-projects/spring-framework/issues/23707)
+> 
+> ## :notebook_with_decorative_cover: Documentation
+> 
+> - TypeDescriptor#getElementTypeDescriptor does not throw IllegalStateException anymore [#23998](https://github-redirect.dependabot.com/spring-projects/spring-framework/issues/23998)
+> - Correct Javadoc for WebMvcConfigurer#addInterceptors [#23926](https://github-redirect.dependabot.com/spring-projects/spring-framework/issues/23926)
+> 
+> ## v5.0.15.RELEASE
+> ## :star: New Features
+> 
+> - Javadoc missing on some public BeanDefinitionParserDelegate methods [#23398](https://github-redirect.dependabot.com/spring-projects/spring-framework/issues/23398)
+> - Thread-safe removal of destruction callbacks in web scopes [#23118](https://github-redirect.dependabot.com/spring-projects/spring-framework/issues/23118)
+> - Guard against ConcurrentModificationExceptions in the systemProperties PropertySource [#23112](https://github-redirect.dependabot.com/spring-projects/spring-framework/issues/23112)
+> - Avoid expensive assertions in web resource resolution [#22964](https://github-redirect.dependabot.com/spring-projects/spring-framework/issues/22964)
+> 
+> ## :beetle: Bug Fixes
+> 
+> - Session.close() accidentally triggers creation of TransactionAwareDataSourceProxy Connection [#23396](https://github-redirect.dependabot.com/spring-projects/spring-framework/issues/23396)
+> - MethodParameter.equals is too coarse-grained for its use in HandlerMethodArgumentResolverComposite  [#23386](https://github-redirect.dependabot.com/spring-projects/spring-framework/issues/23386)
+> - ResolvableType.forRawClass fails isAssignable against TypeVariable [#23322](https://github-redirect.dependabot.com/spring-projects/spring-framework/issues/23322)
+> - FlashMapManager throws StringIndexOutOfBoundsException for empty target URL path [#23245](https://github-redirect.dependabot.com/spring-projects/spring-framework/issues/23245)
+> - MappingMediaTypeFileExtensionResolver ConcurrentModificationException [#23113](https://github-redirect.dependabot.com/spring-projects/spring-framework/issues/23113)
+> - Fix MockHttpServletRequest.setCookies to produce single Cookie header [#23085](https://github-redirect.dependabot.com/spring-projects/spring-framework/issues/23085)
+> - Fix ScriptUtils for MS Windows line ending [#23027](https://github-redirect.dependabot.com/spring-projects/spring-framework/issues/23027)
+> 
+> ## :notebook_with_decorative_cover: Documentation
+> 
+> - Improve documentation for `@Autowired` constructors [#23309](https://github-redirect.dependabot.com/spring-projects/spring-framework/issues/23309)
+> - Document that Ordered is not supported for `@ControllerAdvice` beans [#23173](https://github-redirect.dependabot.com/spring-projects/spring-framework/issues/23173)
+> - Reintroduce author list and copyright notice [#23080](https://github-redirect.dependabot.com/spring-projects/spring-framework/issues/23080)
+> - spring-mvc.xsd stale-if-error attribute documentation incorrect [#23000](https://github-redirect.dependabot.com/spring-projects/spring-framework/issues/23000)
+> - AbstractBeanDefinition.getBeanClass() javadoc misleads about returning null [#22966](https://github-redirect.dependabot.com/spring-projects/spring-framework/issues/22966)
+> 
+> ## v5.0.14.RELEASE
+> ## :star: New Features
+></tr></table> ... (truncated)
+</details>
+<details>
+<summary>Commits</summary>
+
+- [`f07eed2`](https://github.com/spring-projects/spring-framework/commit/f07eed2b28b4b51e4f2167f2ec6cd4d8bd9295ad) Release version 5.1.0.RELEASE
+- [`92b3f2a`](https://github.com/spring-projects/spring-framework/commit/92b3f2aee7c742ad55bd2ae657937d2f449de5e1) Document timeout configuration for Reactor HttpClient
+- [`80e52de`](https://github.com/spring-projects/spring-framework/commit/80e52de2313b38defaf61bdd0657d976cb55d8d3) Upgrade to HtmlUnit 2.33 and Apache Johnzon 1.1.10
+- [`7562761`](https://github.com/spring-projects/spring-framework/commit/75627617c971333e60a9635f4b762853e3989da5) Ordered streams consistently operate on resolved bean instances
+- [`3f5a7bb`](https://github.com/spring-projects/spring-framework/commit/3f5a7bbf049ff63f0f7b7c99925442efae6af636) Remove snapshot repository from build setup
+- [`093a863`](https://github.com/spring-projects/spring-framework/commit/093a863906da8e455966cf6cb2e96ebd22e8bc6c) Upgrade to Gradle 4.10.2
+- [`90c29b3`](https://github.com/spring-projects/spring-framework/commit/90c29b3af3a4fe5d1bb735a80273826658e406cb) Upgrade to Reactor Californium RELEASE
+- [`f783967`](https://github.com/spring-projects/spring-framework/commit/f7839675f6e6097144fb2d4125c8bbc85fd11cc3) Don't set role in Kotlin bean DSL unless specified
+- [`47d6e91`](https://github.com/spring-projects/spring-framework/commit/47d6e9122751efc78f41632483302d365bb1a2ca) Leverage non-default ctor support in Kotlin bean DSL
+- [`b6b880c`](https://github.com/spring-projects/spring-framework/commit/b6b880ce274396b93a85fe8fb9225f2b5a6b798d) Polishing
+- Additional commits viewable in [compare view](https://github.com/spring-projects/spring-framework/compare/v5.0.7.RELEASE...v5.1.0.RELEASE)
+</details>
+<br />
+
+[![Dependabot compatibility score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=org.springframework:spring-webmvc&package-manager=maven&previous-version=5.0.7.RELEASE&new-version=5.1.0.RELEASE)](https://help.github.com/articles/configuring-automated-security-fixes)
+
+Dependabot will resolve any conflicts with this PR as long as you don't alter it yourself. You can also trigger a rebase manually by commenting `@dependabot rebase`.
+
+[//]: # (dependabot-automerge-start)
+[//]: # (dependabot-automerge-end)
+
+---
+
+<details>
+<summary>Dependabot commands and options</summary>
+<br />
+
+You can trigger Dependabot actions by commenting on this PR:
+- `@dependabot rebase` will rebase this PR
+- `@dependabot recreate` will recreate this PR, overwriting any edits that have been made to it
+- `@dependabot merge` will merge this PR after your CI passes on it
+- `@dependabot squash and merge` will squash and merge this PR after your CI passes on it
+- `@dependabot cancel merge` will cancel a previously requested merge and block automerging
+- `@dependabot reopen` will reopen this PR if it is closed
+- `@dependabot ignore this [patch|minor|major] version` will close this PR and stop Dependabot creating any more for this minor/major version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this dependency` will close this PR and stop Dependabot creating any more for this dependency (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot use these labels` will set the current labels as the default for future PRs for this repo and language
+- `@dependabot use these reviewers` will set the current reviewers as the default for future PRs for this repo and language
+- `@dependabot use these assignees` will set the current assignees as the default for future PRs for this repo and language
+- `@dependabot use this milestone` will set the current milestone as the default for future PRs for this repo and language
+
+You can disable automated security fix PRs for this repo from the [Security Alerts page](https://github.com/journaldev/journaldev/network/alerts).
+
+</details>
+ Bump jackson-databind from 2.2.3 to 2.9.10.1 in /Spring/SpringDataSource
+ Bumps [jackson-databind](https://github.com/FasterXML/jackson) from 2.2.3 to 2.9.10.1.
+<details>
+<summary>Commits</summary>
+
+- See full diff in [compare view](https://github.com/FasterXML/jackson/commits)
+</details>
+<br />
+
+[![Dependabot compatibility score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=com.fasterxml.jackson.core:jackson-databind&package-manager=maven&previous-version=2.2.3&new-version=2.9.10.1)](https://help.github.com/articles/configuring-automated-security-fixes)
+
+Dependabot will resolve any conflicts with this PR as long as you don't alter it yourself. You can also trigger a rebase manually by commenting `@dependabot rebase`.
+
+[//]: # (dependabot-automerge-start)
+[//]: # (dependabot-automerge-end)
+
+---
+
+<details>
+<summary>Dependabot commands and options</summary>
+<br />
+
+You can trigger Dependabot actions by commenting on this PR:
+- `@dependabot rebase` will rebase this PR
+- `@dependabot recreate` will recreate this PR, overwriting any edits that have been made to it
+- `@dependabot merge` will merge this PR after your CI passes on it
+- `@dependabot squash and merge` will squash and merge this PR after your CI passes on it
+- `@dependabot cancel merge` will cancel a previously requested merge and block automerging
+- `@dependabot reopen` will reopen this PR if it is closed
+- `@dependabot ignore this [patch|minor|major] version` will close this PR and stop Dependabot creating any more for this minor/major version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this dependency` will close this PR and stop Dependabot creating any more for this dependency (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot use these labels` will set the current labels as the default for future PRs for this repo and language
+- `@dependabot use these reviewers` will set the current reviewers as the default for future PRs for this repo and language
+- `@dependabot use these assignees` will set the current assignees as the default for future PRs for this repo and language
+- `@dependabot use this milestone` will set the current milestone as the default for future PRs for this repo and language
+
+You can disable automated security fix PRs for this repo from the [Security Alerts page](https://github.com/journaldev/journaldev/network/alerts).
+
+</details>
+ Bump jackson-databind from 2.2.3 to 2.9.10.1 in /Spring/SpringRequestMappingExample
+ Bumps [jackson-databind](https://github.com/FasterXML/jackson) from 2.2.3 to 2.9.10.1.
+<details>
+<summary>Commits</summary>
+
+- See full diff in [compare view](https://github.com/FasterXML/jackson/commits)
+</details>
+<br />
+
+[![Dependabot compatibility score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=com.fasterxml.jackson.core:jackson-databind&package-manager=maven&previous-version=2.2.3&new-version=2.9.10.1)](https://help.github.com/articles/configuring-automated-security-fixes)
+
+Dependabot will resolve any conflicts with this PR as long as you don't alter it yourself. You can also trigger a rebase manually by commenting `@dependabot rebase`.
+
+[//]: # (dependabot-automerge-start)
+[//]: # (dependabot-automerge-end)
+
+---
+
+<details>
+<summary>Dependabot commands and options</summary>
+<br />
+
+You can trigger Dependabot actions by commenting on this PR:
+- `@dependabot rebase` will rebase this PR
+- `@dependabot recreate` will recreate this PR, overwriting any edits that have been made to it
+- `@dependabot merge` will merge this PR after your CI passes on it
+- `@dependabot squash and merge` will squash and merge this PR after your CI passes on it
+- `@dependabot cancel merge` will cancel a previously requested merge and block automerging
+- `@dependabot reopen` will reopen this PR if it is closed
+- `@dependabot ignore this [patch|minor|major] version` will close this PR and stop Dependabot creating any more for this minor/major version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this dependency` will close this PR and stop Dependabot creating any more for this dependency (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot use these labels` will set the current labels as the default for future PRs for this repo and language
+- `@dependabot use these reviewers` will set the current reviewers as the default for future PRs for this repo and language
+- `@dependabot use these assignees` will set the current assignees as the default for future PRs for this repo and language
+- `@dependabot use this milestone` will set the current milestone as the default for future PRs for this repo and language
+
+You can disable automated security fix PRs for this repo from the [Security Alerts page](https://github.com/journaldev/journaldev/network/alerts).
+
+</details>
+ Bump jackson-databind from 2.2.3 to 2.9.10.1 in /Spring/SpringRestExample
+ Bumps [jackson-databind](https://github.com/FasterXML/jackson) from 2.2.3 to 2.9.10.1.
+<details>
+<summary>Commits</summary>
+
+- See full diff in [compare view](https://github.com/FasterXML/jackson/commits)
+</details>
+<br />
+
+[![Dependabot compatibility score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=com.fasterxml.jackson.core:jackson-databind&package-manager=maven&previous-version=2.2.3&new-version=2.9.10.1)](https://help.github.com/articles/configuring-automated-security-fixes)
+
+Dependabot will resolve any conflicts with this PR as long as you don't alter it yourself. You can also trigger a rebase manually by commenting `@dependabot rebase`.
+
+[//]: # (dependabot-automerge-start)
+[//]: # (dependabot-automerge-end)
+
+---
+
+<details>
+<summary>Dependabot commands and options</summary>
+<br />
+
+You can trigger Dependabot actions by commenting on this PR:
+- `@dependabot rebase` will rebase this PR
+- `@dependabot recreate` will recreate this PR, overwriting any edits that have been made to it
+- `@dependabot merge` will merge this PR after your CI passes on it
+- `@dependabot squash and merge` will squash and merge this PR after your CI passes on it
+- `@dependabot cancel merge` will cancel a previously requested merge and block automerging
+- `@dependabot reopen` will reopen this PR if it is closed
+- `@dependabot ignore this [patch|minor|major] version` will close this PR and stop Dependabot creating any more for this minor/major version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this dependency` will close this PR and stop Dependabot creating any more for this dependency (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot use these labels` will set the current labels as the default for future PRs for this repo and language
+- `@dependabot use these reviewers` will set the current reviewers as the default for future PRs for this repo and language
+- `@dependabot use these assignees` will set the current assignees as the default for future PRs for this repo and language
+- `@dependabot use this milestone` will set the current milestone as the default for future PRs for this repo and language
+
+You can disable automated security fix PRs for this repo from the [Security Alerts page](https://github.com/journaldev/journaldev/network/alerts).
+
+</details>
+ Bump jackson-databind from 2.9.6 to 2.9.10.1 in /Spring/Spring-Controller
+ Bumps [jackson-databind](https://github.com/FasterXML/jackson) from 2.9.6 to 2.9.10.1.
+<details>
+<summary>Commits</summary>
+
+- See full diff in [compare view](https://github.com/FasterXML/jackson/commits)
+</details>
+<br />
+
+[![Dependabot compatibility score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=com.fasterxml.jackson.core:jackson-databind&package-manager=maven&previous-version=2.9.6&new-version=2.9.10.1)](https://help.github.com/articles/configuring-automated-security-fixes)
+
+Dependabot will resolve any conflicts with this PR as long as you don't alter it yourself. You can also trigger a rebase manually by commenting `@dependabot rebase`.
+
+[//]: # (dependabot-automerge-start)
+[//]: # (dependabot-automerge-end)
+
+---
+
+<details>
+<summary>Dependabot commands and options</summary>
+<br />
+
+You can trigger Dependabot actions by commenting on this PR:
+- `@dependabot rebase` will rebase this PR
+- `@dependabot recreate` will recreate this PR, overwriting any edits that have been made to it
+- `@dependabot merge` will merge this PR after your CI passes on it
+- `@dependabot squash and merge` will squash and merge this PR after your CI passes on it
+- `@dependabot cancel merge` will cancel a previously requested merge and block automerging
+- `@dependabot reopen` will reopen this PR if it is closed
+- `@dependabot ignore this [patch|minor|major] version` will close this PR and stop Dependabot creating any more for this minor/major version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this dependency` will close this PR and stop Dependabot creating any more for this dependency (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot use these labels` will set the current labels as the default for future PRs for this repo and language
+- `@dependabot use these reviewers` will set the current reviewers as the default for future PRs for this repo and language
+- `@dependabot use these assignees` will set the current assignees as the default for future PRs for this repo and language
+- `@dependabot use this milestone` will set the current milestone as the default for future PRs for this repo and language
+
+You can disable automated security fix PRs for this repo from the [Security Alerts page](https://github.com/journaldev/journaldev/network/alerts).
+
+</details>
+ Bump jackson-databind from 2.9.6 to 2.9.10.1 in /Spring/Spring-RestController
+ Bumps [jackson-databind](https://github.com/FasterXML/jackson) from 2.9.6 to 2.9.10.1.
+<details>
+<summary>Commits</summary>
+
+- See full diff in [compare view](https://github.com/FasterXML/jackson/commits)
+</details>
+<br />
+
+[![Dependabot compatibility score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=com.fasterxml.jackson.core:jackson-databind&package-manager=maven&previous-version=2.9.6&new-version=2.9.10.1)](https://help.github.com/articles/configuring-automated-security-fixes)
+
+Dependabot will resolve any conflicts with this PR as long as you don't alter it yourself. You can also trigger a rebase manually by commenting `@dependabot rebase`.
+
+[//]: # (dependabot-automerge-start)
+[//]: # (dependabot-automerge-end)
+
+---
+
+<details>
+<summary>Dependabot commands and options</summary>
+<br />
+
+You can trigger Dependabot actions by commenting on this PR:
+- `@dependabot rebase` will rebase this PR
+- `@dependabot recreate` will recreate this PR, overwriting any edits that have been made to it
+- `@dependabot merge` will merge this PR after your CI passes on it
+- `@dependabot squash and merge` will squash and merge this PR after your CI passes on it
+- `@dependabot cancel merge` will cancel a previously requested merge and block automerging
+- `@dependabot reopen` will reopen this PR if it is closed
+- `@dependabot ignore this [patch|minor|major] version` will close this PR and stop Dependabot creating any more for this minor/major version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this dependency` will close this PR and stop Dependabot creating any more for this dependency (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot use these labels` will set the current labels as the default for future PRs for this repo and language
+- `@dependabot use these reviewers` will set the current reviewers as the default for future PRs for this repo and language
+- `@dependabot use these assignees` will set the current assignees as the default for future PRs for this repo and language
+- `@dependabot use this milestone` will set the current milestone as the default for future PRs for this repo and language
+
+You can disable automated security fix PRs for this repo from the [Security Alerts page](https://github.com/journaldev/journaldev/network/alerts).
+
+</details>
+ Bump jackson-databind from 2.2.3 to 2.9.10.1 in /JSON/jackson-example
+ Bumps [jackson-databind](https://github.com/FasterXML/jackson) from 2.2.3 to 2.9.10.1.
+<details>
+<summary>Commits</summary>
+
+- See full diff in [compare view](https://github.com/FasterXML/jackson/commits)
+</details>
+<br />
+
+[![Dependabot compatibility score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=com.fasterxml.jackson.core:jackson-databind&package-manager=maven&previous-version=2.2.3&new-version=2.9.10.1)](https://help.github.com/articles/configuring-automated-security-fixes)
+
+Dependabot will resolve any conflicts with this PR as long as you don't alter it yourself. You can also trigger a rebase manually by commenting `@dependabot rebase`.
+
+[//]: # (dependabot-automerge-start)
+[//]: # (dependabot-automerge-end)
+
+---
+
+<details>
+<summary>Dependabot commands and options</summary>
+<br />
+
+You can trigger Dependabot actions by commenting on this PR:
+- `@dependabot rebase` will rebase this PR
+- `@dependabot recreate` will recreate this PR, overwriting any edits that have been made to it
+- `@dependabot merge` will merge this PR after your CI passes on it
+- `@dependabot squash and merge` will squash and merge this PR after your CI passes on it
+- `@dependabot cancel merge` will cancel a previously requested merge and block automerging
+- `@dependabot reopen` will reopen this PR if it is closed
+- `@dependabot ignore this [patch|minor|major] version` will close this PR and stop Dependabot creating any more for this minor/major version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this dependency` will close this PR and stop Dependabot creating any more for this dependency (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot use these labels` will set the current labels as the default for future PRs for this repo and language
+- `@dependabot use these reviewers` will set the current reviewers as the default for future PRs for this repo and language
+- `@dependabot use these assignees` will set the current assignees as the default for future PRs for this repo and language
+- `@dependabot use this milestone` will set the current milestone as the default for future PRs for this repo and language
+
+You can disable automated security fix PRs for this repo from the [Security Alerts page](https://github.com/journaldev/journaldev/network/alerts).
+
+</details>
+ Bump jackson-databind from 2.2.3 to 2.9.10.1 in /Spring/SpringExceptionHandling
+ Bumps [jackson-databind](https://github.com/FasterXML/jackson) from 2.2.3 to 2.9.10.1.
+<details>
+<summary>Commits</summary>
+
+- See full diff in [compare view](https://github.com/FasterXML/jackson/commits)
+</details>
+<br />
+
+[![Dependabot compatibility score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=com.fasterxml.jackson.core:jackson-databind&package-manager=maven&previous-version=2.2.3&new-version=2.9.10.1)](https://help.github.com/articles/configuring-automated-security-fixes)
+
+Dependabot will resolve any conflicts with this PR as long as you don't alter it yourself. You can also trigger a rebase manually by commenting `@dependabot rebase`.
+
+[//]: # (dependabot-automerge-start)
+[//]: # (dependabot-automerge-end)
+
+---
+
+<details>
+<summary>Dependabot commands and options</summary>
+<br />
+
+You can trigger Dependabot actions by commenting on this PR:
+- `@dependabot rebase` will rebase this PR
+- `@dependabot recreate` will recreate this PR, overwriting any edits that have been made to it
+- `@dependabot merge` will merge this PR after your CI passes on it
+- `@dependabot squash and merge` will squash and merge this PR after your CI passes on it
+- `@dependabot cancel merge` will cancel a previously requested merge and block automerging
+- `@dependabot reopen` will reopen this PR if it is closed
+- `@dependabot ignore this [patch|minor|major] version` will close this PR and stop Dependabot creating any more for this minor/major version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this dependency` will close this PR and stop Dependabot creating any more for this dependency (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot use these labels` will set the current labels as the default for future PRs for this repo and language
+- `@dependabot use these reviewers` will set the current reviewers as the default for future PRs for this repo and language
+- `@dependabot use these assignees` will set the current assignees as the default for future PRs for this repo and language
+- `@dependabot use this milestone` will set the current milestone as the default for future PRs for this repo and language
+
+You can disable automated security fix PRs for this repo from the [Security Alerts page](https://github.com/journaldev/journaldev/network/alerts).
+
+</details>
+ Delete ComputerBuilderDirector.java
+ dffd
+ Create webservice
+ 
+ Logo Designs
+ Greetings sir, This PR contains all of the logo files for your project. Thank you!
+ Create CODE_OF_CONDUCT.md file
+ 
+ junit5-samples
+ 

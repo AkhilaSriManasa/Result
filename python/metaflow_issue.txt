@@ -1,0 +1,840 @@
+﻿ Custom plugins (DO NOT MERGE)
+ 
+ attributes defined in early step lost in a foreach flow
+ Hi,
+I have a flow (link to the [gist](https://gist.github.com/xujiboy/08224c8a6e5803a5c8faf8888471cc75)) that looks like the following:
+<details>
+  <summary>Click to expand</summary>
+ 
+```python
+from metaflow import FlowSpec, step, Parameter
+
+
+def script_path(filename):
+    """
+    A convenience function to get the absolute path to a file in this
+    tutorial's directory. This allows the tutorial to be launched from any
+    directory.
+
+    """
+    import os
+
+    filepath = os.path.join(os.path.dirname(__file__))
+    return os.path.join(filepath, filename)
+    
+class TestForeachFlow(FlowSpec):
+    """
+    A flow to test foreach flow.
+
+    The flow performs the following steps:
+    1) Setup parameters.
+    2) Fork to foreach step.
+    3) Alter the value of input c.
+    4) Joins all the altered c as a list.
+    5) End.
+
+    """
+    # initial attributes
+    init_a = Parameter('init_a',
+                         help = 'the initial attribute a',
+                         default = 100)
+        
+    @step
+    def start(self):
+        """
+        Setup parameters.
+
+        """
+
+        self.param = dict(foo = 2)
+        
+        self.next(self.fork)
+
+    @step
+    def fork(self):
+        """
+        Fork to foreach step.
+
+        """
+            
+        self.c_list = [1,2,3,4]
+        
+        self.next(self.alter_c, foreach='c_list')
+
+    @step
+    def alter_c(self):
+        """
+        This step alters the value of input c.
+
+        """
+        
+        self.c = self.input
+        self.altered_c = self.c + 1000
+        
+        self.next(self.join)
+        
+    @step
+    def join(self, inputs):
+        """
+        This step joins all the altered c as a list
+        """
+        self.altered_c_list = [input.altered_c for input in inputs]
+        self.foo = self.param.get('foo')
+        self.result = [i+ self.foo for i in self.altered_c_list]
+        
+        self.next(self.end)
+        
+    @step
+    def end(self):
+        """
+        end.
+
+        """
+        pass
+
+
+if __name__ == '__main__':
+    TestForeachFlow()
+
+```
+</details>
+
+But when I ran it it failed at the `join` step because the attribute `self.param` is lost. The full trace is show below:
+
+<details>
+  <summary>Click to expand</summary>
+
+```bash
+Metaflow 2.0.1 executing TestForeachFlow for user:ji.xu
+Validating your flow...
+    The graph looks good!
+Running pylint...
+    Pylint not found, so extra checks are disabled.
+2020-05-22 11:05:25.324 Workflow starting (run-id 1590170725321423):
+2020-05-22 11:05:25.327 [1590170725321423/start/1 (pid 54171)] Task is starting.
+2020-05-22 11:05:25.690 [1590170725321423/start/1 (pid 54171)] Task finished successfully.
+2020-05-22 11:05:25.715 [1590170725321423/fork/2 (pid 54255)] Task is starting.
+2020-05-22 11:05:26.050 [1590170725321423/fork/2 (pid 54255)] Foreach yields 4 child steps.
+2020-05-22 11:05:26.050 [1590170725321423/fork/2 (pid 54255)] Task finished successfully.
+2020-05-22 11:05:26.057 [1590170725321423/alter_c/3 (pid 54296)] Task is starting.
+2020-05-22 11:05:26.080 [1590170725321423/alter_c/4 (pid 54297)] Task is starting.
+2020-05-22 11:05:26.086 [1590170725321423/alter_c/5 (pid 54299)] Task is starting.
+2020-05-22 11:05:26.092 [1590170725321423/alter_c/6 (pid 54304)] Task is starting.
+2020-05-22 11:05:26.417 [1590170725321423/alter_c/3 (pid 54296)] Task finished successfully.
+2020-05-22 11:05:26.424 [1590170725321423/alter_c/5 (pid 54299)] Task finished successfully.
+2020-05-22 11:05:26.431 [1590170725321423/alter_c/4 (pid 54297)] Task finished successfully.
+2020-05-22 11:05:26.438 [1590170725321423/alter_c/6 (pid 54304)] Task finished successfully.
+2020-05-22 11:05:26.443 [1590170725321423/join/7 (pid 54357)] Task is starting.
+2020-05-22 11:05:26.751 [1590170725321423/join/7 (pid 54357)] <flow TestForeachFlow step join> failed:
+2020-05-22 11:05:26.753 [1590170725321423/join/7 (pid 54357)] Internal error
+2020-05-22 11:05:26.753 [1590170725321423/join/7 (pid 54357)] Traceback (most recent call last):
+2020-05-22 11:05:26.753 [1590170725321423/join/7 (pid 54357)] File "/opt/miniconda/lib/python3.7/site-packages/metaflow/cli.py", line 853, in main
+@xujiboy This is the expected behavior because you will now have multiple copies of the same param. `self.param` isn't lost, you now have multiple copies associated with every element of `inputs`. You can use `merge_artifacts` as documented in this section - [data flow through the graph](https://docs.metaflow.org/metaflow/basics#data-flow-through-the-graph).
+
+Thank you very much @savingoyal .
+
+ AWS Step Functions Integration
+ Integrates Metaflow with [AWS Step Functions](https://aws.amazon.com/step-functions/).
+
+Introduces a new command `step-functions`:
+ Revert "AWS Step Functions Integration"
+ This reverts commit 0f3765c5aa97a26fb4ea53d00e42defaab5a6dad.
+ [See PR #204 instead] AWS Step Functions Integration
+ Please see #204 
+The ubuntu test failure is unrelated to this PR and is due to resource issues with GitHub.
+
+This PR was erroneously merged. Please follow #204 for updates.
+
+ Tasks status not updated in RDS after retry 
+ Tweak FAILURE_PERCENTAGE until you get at least one failure, but a success after retry in the following flow code:
+
+```
+import random
+
+from metaflow import FlowSpec, current, step, retry
+
+
+class Flow(FlowSpec):
+
+    @step
+    def start(self):
+        random.seed(1)
+        self.next(self.unreliable_step)
+
+    @retry
+    @step
+    def unreliable_step(self):
+        FAILURE_PERCENTAGE = 75
+        failure = random.random() < (FAILURE_PERCENTAGE / 100)
+        if failure:
+            open('nonexistent_file')
+        self.next(self.end)
+
+    @step
+    def end(self):
+        print(f'{current.step_name}()')
+
+
+if __name__ == '__main__':
+    Flow()
+```
+
+It seems that the status on RDS is the one from the first attempt and does not get updated after retries.
+However, if the metadata is stored locally (not RDS), the task status is updated correctly.
+I am able to duplicate the error.
+
+Thanks for the issue @jcasse. @ferras will have a fix ready for consumption at the soonest. Coincidentally, we discovered the same issue earlier this morning.
+
+ Kuberentes Plugin integration.
+ Added Kubernetes plugin for Metaflow. 
+
+The plugin currently support GPU/CPU clusters. It leverages S3 in the same way as AWS batch. We can alter the S3 dependency start using the Datastore directly.  
+Kubernetes is a soft dependency. But unlike `boto3`, I have not kept it a part of setup.py. 
+
+
+## Using The Plugin 
+- Usage is very similar to `@batch` decorator. 
+- on top of any `@step` add the `@kube` decorator or use `--with kube:cpu=2,memory=4000,image=python:3.7` in the CLI args. 
+
+         
+### Running with Conda 
+- To run with Conda it will need `'python-kubernetes':'10.0.1'` in the libraries argument to `@conda_base` step decorator
+- Use `image=python:3.6` when running with Conda in `--with kube:`. Ideally that should be the python version used/mentioned in conda.  
+
+### Small Example Flow 
+```python
+from metaflow import FlowSpec, step,kube
+class HelloKubeFlow(FlowSpec):
+    
+    @step
+    def start(self):
+        print("running Next Step on Kube")
+        self.next(self.kube_step)
+    
+    @kube(cpu=1,memory=2000)
+    @step
+    def kube_step(self):
+        print("Hello I am Running within a container")
+        self.next(self.end)
+    
+    @step
+    def end(self):
+        print("Done Computation")
+
+if __name__== '__main__':
+    HelloKubeFlow()
+```
+- Try it with Minikube.  
+
+## CLI Operations Available with Kube: 
+- ``python myflow.py kube list`` : Show the currently running jobs of flow. 
+- ``python myflow.py kube kill`` : Kills all jobs on Kube. Any Metaflow Runtime accessing those jobs will be gracefully exited. 
+
+More details can be found here : https://github.com/valayDave/metaflow-on-kubernetes-docs
+
+The `kube-deploy` command in the documetation link is  not a part of this PR as its experimental. 
+
+I need a small input on AWS credential loading for Metaflow config. I can convert it to a secret based approach on Kubernetes to make it a lot more secure. I would love to hear your thoughts on the same. I have used this plugin for training really large Deep learning models like ResNet and VGG. I addition, I have been working with this plugin for more than 2 months and have ran 100's of flows for the same plugin.
+
+Large model experimentation tests can be found here: https://github.com/valayDave/imagenet-with-metaflow
+
+PR Based on #16 
+ Trigger release on `published`
+ `created` event is not emitted when a draft release is published, while `published` event is always emitted with or without a draft release.
+ Bump metaflow version to 2.0.5 in preparation for release
+ 1. Fix broken logging of prefixes in `datatools.S3._read_many_files` [#195](https://github.com/Netflix/metaflow/pull/195) 
+2. Increase retry count for AWS Batch logs streaming [#197](https://github.com/Netflix/metaflow/pull/197)
+3. Upper bound pylint version to < 2.5.0 [#196 ](https://github.com/Netflix/metaflow/pull/196)
+ Increase retry count for AWS Batch logs streaming
+ Modify the retry behavior for log fetching on AWS Batch by adding
+jitters to exponential backoffs as well as reset the retry counter
+for every successful request.
+
+Additionally, fail the metaflow task even if AWS Batch task succeeds
+but we fail to stream the task logs back to the user's terminal.
+ pin pylint version to 2.4.4 since 2.5.0 does not like self.next() syntax
+ Tested locally by running `pip3 install .` in the repo folder. It can automatically downgrades pylint from `2.5.0` to `2.4.4`.
+ Fix logging of prefixes in datatools.S3._read_many_files
+ When `datatools.S3._read_many_files` is unsuccessful, instead of displaying the underlying error message, we get a `TypeError: 'map' object is not subscriptable` due to trying to access the first element of `prefixes` with `[0]`. The `prefixes` passed in is a generator (map) which doesn't support this sort of access. The simplest fix is ~to remove the attempted logging of the _first prefix_~ to assign to a list inside the function. 
+
+Better to report the underlying error correctly than a mysterious `'map' object is not subscriptable`. In my case I had an issue with a version of the [typing](https://pypi.org/project/typing/) library being incompatible with a version of [`certifi`](https://pypi.org/project/certifi/) which became obvious once the underlying error message was not being hidden.
+
+~If it's important to log the first prefix requested, we can instead change all callers of `_read_many_files` to pass a list instead of generator.~
+
+## Related Issues
+
+- Should Fix https://github.com/Netflix/metaflow/issues/104
+Thanks! Taking a look at the PR.
+
+ Bump metaflow version to 2.0.4 in preparation for release
+ 
+ Mute `ThrottleException` for AWS Logs API for AWS Batch
+ Currently, the flow logs are polluted with  occasional `ThrottleExceptions`.
+They don't result in flow failures since we retry log fetching till the tasks
+are alive and do a best-effort pull after the tasks have finished. This patch
+swallows the `ThrottleExceptions` so that the end-user isn't thrown off track.
+
+resolves #184 
+ Integrating with an event-driven architecture
+ Hi, is there any possibility to integrate a metaflow pipeline with an event-driven architecture. 
+I'd like to have steps trigger external jobs on different infra and block until those jobs communicate their response through existing pubsub infrastructure. 
+On successful receival, I'd like to unblock the step and pass him the result from the pubsub message.
+Can you think of any possibility to handle it ? 
+Thanks. 
+@jhagege You can embed your pubsub client and make a blocking request (sync call or an sync call with a callback/long polling job status) from inside of your step. 
+```
+@step 
+def my_step(self):
+    import my_pubsub_client
+    self.token = my_pubsub_client.async(self.payload)
+    while True:
+        self.job_status = my_pubsub_client.get_job_status(self.token)
+        if self.job_status.is_finished():
+            break
+    self.next(self.my_next_step())
+```
+
+@savingoyal Thanks, looks good. 
+Would it be possible to pass an asyncio "future" parameter to a step and poll it ? 
+That would be similar to what you are suggesting but relating to a specific type of message. 
+
+```
+@step
+def some_step():
+    result = await myfuture
+```
+
+I am thinking to put this future as a class member and update it from my pubsub manager class.
+Does it sound like a reasonable design, or would you recommend another alternative ? 
+
+**Edit**
+```
+I tried doing the following: 
+@step
+    async def hello(self):
+        """
+        A step for metaflow to introduce itself.
+
+        """
+        print("Metaflow says: Hi!")
+        await asyncio.wait_for(some_future, 0)
+        self.next(self.end)
+```
+but I got     
+
+> Step start specifies a self.next() transition to an unknown step, hello.
+
+
+@savingoyal Any idea how to support awaiting for an asyncio.Future() inside the step ? 
+For now it is not possible to prefix the function with 'async', could it be supported somehow ?
+Thanks.
+
+@jhagege we don't support `async` steps. Internally at Netflix, folks deploy their workflows to a [production scheduler](https://netflixtechblog.com/meson-workflow-orchestration-for-netflix-recommendations-fc932625c1d9) and these workflows trigger on certain events (a cron, or successful execution of upstream flows). We have a [similar integration for OSS](https://github.com/Netflix/metaflow/issues/204) with AWS Step Functions that might address your use case for now.
+
+Thanks for the detailed reply.
+
+ Allow files residing on s3 to be included using IncludeFile
+ This will cause the file to be brought from S3 and then repackaged as a
+Flow artifact.
+
+Fixes #156 
+ Add a IncludeMultipleFiles parameter to allow for file Globbing
+ This allows the specification of a parameter that will include
+multiple files based on the path glob specified.
+
+Fixes #96 
+ Remove spurious code in current.py
+ 
+ Expose Retry Count in Current Singleton
+ current.retry_count now returns the retry attempt (0, 1, .. so on)
+for a metaflow task
+ Expose job attempt configuration for AWS Batch jobs
+ StepFunctions cannot control the retrying strategy for AWS Batch since `$$.State.RetryCount` in SFN ContextObject is a number and AWS Batch only accepts strings as configuration values.
+
+So, instead of relying on StepFunctions to retry failed jobs, we will pass on the baton to AWS Batch instead.
+ Expose `create_job` and `register_job_definition` methods for SFN integration
+ 
+ Pre-empt log collection when Batch task crashes
+ Fix a bug where log collection gets into an infinite loop when AWS Batch job crashes before being executed on ECS. Clean up some log statements as well.
+This provides for a nicely formated error - 
+```
+2020-04-21 14:48:46.768 [1587505723250692/start/1 (pid 13693)] [be15ad25-eb5d-495d-8f1c-9d78a069f078] Task is starting (status SUBMITTED)...
+2020-04-21 14:48:48.971 [1587505723250692/start/1 (pid 13693)] [be15ad25-eb5d-495d-8f1c-9d78a069f078] Task is starting (status RUNNABLE)...
+2020-04-21 14:48:52.306 [1587505723250692/start/1 (pid 13693)] [be15ad25-eb5d-495d-8f1c-9d78a069f078] Task is starting (status FAILED)...
+2020-04-21 14:48:52.308 [1587505723250692/start/1 (pid 13693)] Batch error:
+2020-04-21 14:48:52.311 [1587505723250692/start/1 (pid 13693)] ECS was unable to assume the role 'arn:aws:iam::account:role/job_role' that was provided for this task. Please verify that the role being passed has the proper trust relationship and permissions and that your IAM user has permissions to pass this role. This could be a transient error. Use @retry to retry.
+```
+
+ Mask ThrottleException for GetLogEvents in @batch
+ More context - https://gitter.im/metaflow_org/community?at [QUESTION] Is it possible to use metaflow.S3 outside of standard metaflow use?
+ First of all, my apologies if this is not the appropriate channel for questions.
+
+After researching metaflow, I believe metaflow's implementation of parallel s3 reading is significantly faster than other alternatives (looking for a replacement of dask internal s3fs reading logic).
+
+However, I cant seem to be able to read valid data from metaflow.S3. Here is a snippet that shows my issue:
+```
+S3_PATH = "s3://s3-bucket/path/"
+s3 = S3(s3root=S3_PATH) 
+s3 = s3.__enter__() # issue is the same with context manager
+data = s3.get_all() # read all files in the root
+
+first_file = data[0]
+first_file.text   
+```
+
+The text representation of the files seems to be encoded in a way I cant figure out how to deserialize? How can we properly deserialize these string representations?
+
+I also tried deserializing the locally downloaded data using metaflow datastore 
+
+``` 
+with gzip.GzipFile(data[0].path, mode="rb") as f: 
+    r = f.read()
+```
+
+Yields `Not a gzipped file (b'15')` 
+Hi @manugarri - this is an appropriate channel 🙂 
+
+What's the error you are seeing with the first snippet? `.text` tries to [decode the object as UTF-8](https://github.com/Netflix/metaflow/blob/master/metaflow/datatools/s3.py#L145). If you want raw bytes which you can decode by yourself, use `first_file.blob`.
+
+The issue with the second snippet seems to be that the file is not compressed with `gzip`. If you print out `data[0].path`, are you sure the file is a `gz` file?
+
+great, actually you were right on the 2 part, the file i was testing was a pointer that wasnt gzip encoded, so option 2 (reading the local temp file) works with gzipped files.
+
+And regarding option 1, the best way to deserialized gzip bytes into the strings is with `gzip.decompress(data[1].blob)`.
+
+I will close this issue, will comment if i get  a performance boost in dask with this!.
+
+ Support for flows with intersecting branches
+ I'd like to implement flow in which its branches intersects with each other like:
+![test-graph](https://user-images.githubusercontent.com/33376065/79224137-e73e5600-7e5a-11ea-8826-29910d99f6b8.png)
+<details>
+<summary>Code:</summary>
+
+```python
+
+from metaflow import FlowSpec, step
+
+
+class TestFlow(FlowSpec):
+    @step
+    def start(self):
+        self.next(self.a, self.b)
+
+    @step
+    def a(self):
+
+        self.next(self.a1, self.a2)
+
+    @step
+    def a1(self):
+
+        self.next(self.a1b1)
+
+    @step
+    def a2(self):
+
+        self.next(self.a2b2)
+
+    @step
+    def b(self):
+
+        self.next(self.b1, self.b2)
+
+    @step
+    def b1(self):
+
+        self.next(self.a1b1)
+
+    @step
+    def b2(self,):
+
+        self.next(self.a2b2)
+
+    @step
+    def a1b1(self, inputs):
+        self.merge_artifacts(inputs)
+        self.next(self.join)
+
+    @step
+    def a2b2(self, inputs):
+        self.merge_artifacts(inputs)
+        self.next(self.join)
+
+    @step
+    def join(self, inputs):
+        self.merge_artifacts(inputs)
+        self.next(self.end)
+
+    @step
+    def end(self):
+        pass
+
+
+if __name__ == "__main__":
+    TestFlow()
+```
+
+</details>
+
+It throws error: 
+```
+Step a1b1 joins steps from unrelated splits. Ensure that there is a matching join for every split.
+```
+
+I know I can reimplement this like:
+![test-graph2](https://user-images.githubusercontent.com/33376065/79224903-2d47e980-7e5c-11ea-99da-d55c3fb65efa.png)
+<details>
+<summary>Code:</summary>
+
+```python
+
+from metaflow import FlowSpec, step
+
+
+class TestFlow(FlowSpec):
+    @step
+    def start(self):
+        self.next(self.a, self.b)
+
+    @step
+    def a(self):
+
+        self.next(self.a1, self.a2)
+
+    @step
+    def a1(self):
+
+        self.next(self.a12)
+
+    @step
+    def a2(self):
+
+        self.next(self.a12)
+
+    @step
+    def b(self):
+
+        self.next(self.b1, self.b2)
+
+    @step
+    def b1(self):
+
+        self.next(self.b12)
+
+    @step
+    def b2(self,):
+
+        self.next(self.b12)
+
+    @step
+    def a12(self, inputs):
+        self.merge_artifacts(inputs)
+        self.next(self.as_bs)
+
+    @step
+    def b12(self, inputs):
+        self.merge_artifacts(inputs)
+        self.next(self.as_bs)
+
+    @step
+    def as_bs(self, inputs):
+        self.merge_artifacts(inputs)
+        self.next(self.end)
+
+    @step
+    def end(self):
+        pass
+
+
+if __name__ == "__main__":
+    TestFlow()
+
+```
+
+</details>
+
+In my case looking from a perspective of visual graph second implementation looks cleaner, but from implementation perspective it brings unnecessary additional steps.
+
+Are there any plans to add support for this kind of Flows?
+Thanks!
+@miloszbednarzak I am curious what would be the use case for the first graph? The reason we lean for graphs of later nature is that it's easier to reason about their execution characteristics.
+
+@savingoyal Let's say that functions in steps `a1` and `b1` outputs variables of kind `one`, and `a2`,`b2` accordingly. I wanted in step `a1b1` and `a2b2` to group all data coming from input branches by their kinds.
+So if the first option was possible I could do something like that:
+```python
+# in a1b1 step
+ones_data = [input.one_kind for input in inputs]
+# in a2b2 step
+twos_data = [input.two_kind for input in inputs]
+```
+In second, legitimate variant I need to group them in `as_bs` step like this:
+```python
+ones_data = [self.a1_data, self.b1_data]
+twos_data = [self.a2_data, self.b2_data]
+```
+In this toy example there is not much difference, but my actual graph is much more complex and I'd like to group data by kind not by using their artefact variable name in grouping operation, but by pointing output to the step which will group all inputs automatically.
+
+Makes sense. We are discussing a number of enhancements to the flow structure, including introducing the notion of sub workflows, but the timing is TBD.
+
+@savingoyal : Are you guys planning to add dynamic DAG support ?
+
+@valayDave The exact implementation, as well as UX for sub-workflows, is TBD.
+
+ subprocess spawned from step times out
+ Hey,
+
+crossposting this from here: https://stackoverflow.com/questions/61186961/python-subprocess-stuck-in-aws-batch-job-spawned-via-metaflow
+
+We experience some issues on AWS batch when executing steps calling suprocesses.
+
+Since R is not supported, we prepare some data in the step and then execute the R script as a subprocess. 
+It seems the R script runs fine (we log to google cloud logging from R as well as from python), but then the python script doesn't continue.
+Either the R process doesn't terminate correctly after the last command or the python process hangs when trying to continue. At some point the whole step times out (by metaflow functionality used).
+
+What works: running the whole Flow locally on a EC2 instance.
+What doesn't: running the Flow locally with the R related steps running on batch (by decorating with @batch). Doing only python stuff in that step on batch works fine.
+
+What I will try to maybe somehow make this more reproducible in the upcoming days (and will of course update if this yields to better understanding of the issues):
+* run the whole script "locally", but in the docker container we pushed to AWS ECR to test whether this also times out.
+* invoke the Flow not directly but as a subprocess from a python script
+
+I hope somebody here may have some idea on what is happening and can help. Not sure whether this is more related to metaflow or to batch - feel free to request more information or to direct me to AWS to clarify this stuff.
+This is interesting. Would it be possible to share the job logs? I think the next best step would be to run your code by yourself within the docker container that you use for AWS Batch.
+
+I'll add them later, can't find them anymore in cloudwatch and will re-run both the working and the not working version to provide both logs.
+
+Regarding the docker container idea: yeah, we had the same idea and tried it yesterday (be on the EC2 instance, create docker container, mount the folder containing the Flow, login to container and run this python script from there) - succeded.
+
+EDIT: found some log for the successful run, will add the failed later these day.
+
+Successful:
+```
+(reporter-env-py3) myuser@myserver:/path/to/sorting_model$ python sorting_model.py "--not-quiet" "--package-suffixes" ".py,.R,.sql" run
+Metaflow 2.0.3 executing SortingFlow for user:nalbers
+Validating your flow...
+    The graph looks good!
+Running pylint...
+    Pylint is happy!
+2020-04-13 20:46:17.268 Workflow starting (run-id 1586803577079330):
+2020-04-13 20:46:17.298 [1586803577079330/start/1 (pid 6308)] Task is starting.
+2020-04-13 20:46:18.913 [1586803577079330/start/1 (pid 6308)] Starting Sorting Model stuff.
+2020-04-13 20:46:19.118 [1586803577079330/start/1 (pid 6308)] Task finished successfully.
+2020-04-13 20:46:19.209 [1586803577079330/run_conversion_model/2 (pid 6388)] Task is starting.
+2020-04-13 21:59:00.073 1 tasks are running: e.g. ....
+2020-04-13 21:59:00.073 0 tasks are waiting in the queue.
+2020-04-13 21:59:00.073 0 steps are pending: e.g. ....
+2020-04-13 21:59:00.290 [1586803577079330/run_conversion_model/2 (pid 6388)] 2020-04-13 20:48:18 - sorting_model_conversion.gbq_tools - INFO - Query  GBQ finished in 118.47 sec
+2020-04-13 21:59:00.291 [1586803577079330/run_conversion_model/2 (pid 6388)] 2020-04-13 20:50:06 - sorting_model_conversion.gbq_tools - INFO - Query  GBQ finished in 14.78 sec
+2020-04-13 21:59:00.291 [1586803577079330/run_conversion_model/2 (pid 6388)] 2020-04-13 20:50:16 - sorting_model_conversion - INFO - running R cmd 'Rscript --vanilla --quiet sorting_model.R base_path=/some_base_path/sorting_model_conversion modelname=conversion include_platform=TRUE param1=param1 param2=param2'
+2020-04-13 21:59:00.291 [1586803577079330/run_conversion_model/2 (pid 6388)] 2020-04-13 21:50:22 - sorting_model_conversion - INFO - subprocess running done
+2020-04-13 21:59:00.291 [1586803577079330/run_conversion_model/2 (pid 6388)] 2020-04-13 21:50:22 - sorting_model_conversion - INFO - Result of model train:
+2020-04-13 21:59:00.291 [1586803577079330/run_conversion_model/2 (pid 6388)]
+2020-04-13 21:59:00.291 [1586803577079330/run_conversion_model/2 (pid 6388)] STDOut:
+2020-04-13 21:59:00.291 [1586803577079330/run_conversion_model/2 (pid 6388)] [1] "Reading data..."
+2020-04-13 21:59:00.291 [1586803577079330/run_conversion_model/2 (pid 6388)] [1] "finished reading data."
+2020-04-13 21:59:00.291 [1586803577079330/run_conversion_model/2 (pid 6388)] [1] "start training of model"
+2020-04-13 21:59:00.291 [1586803577079330/run_conversion_model/2 (pid 6388)] [1] "finished model training."
+2020-04-13 21:59:00.291 [1586803577079330/run_conversion_model/2 (pid 6388)] [1] "read prediction base data"
+2020-04-13 21:59:00.291 [1586803577079330/run_conversion_model/2 (pid 6388)] [1] "add predictions"
+2020-04-13 21:59:00.291 [1586803577079330/run_conversion_model/2 (pid 6388)] [1] "export result"
+2020-04-13 21:59:00.291 [1586803577079330/run_conversion_model/2 (pid 6388)] [1] "Exporting prediction done!"
+2020-04-13 21:59:00.291 [1586803577079330/run_conversion_model/2 (pid 6388)]
+2020-04-13 21:59:00.291 [1586803577079330/run_conversion_model/2 (pid 6388)]
+2020-04-13 21:59:00.291 [1586803577079330/run_conversion_model/2 (pid 6388)] STDErr:
+2020-04-13 21:59:00.291 [1586803577079330/run_conversion_model/2 (pid 6388)] Auto-refreshing stale OAuth token.
+2020-04-13 21:59:00.291 [1586803577079330/run_conversion_model/2 (pid 6388)]
+2020-04-13 21:59:00.291 [1586803577079330/run_conversion_model/2 (pid 6388)] 2020-04-13 21:50:22 - sorting_model_conversion - INFO - start reading predited results
+2020-04-13 21:59:00.738 [1586803577079330/run_conversion_model/2 (pid 6388)] Task finished successfully.
+2020-04-13 21:59:00.888 [1586803577079330/run_click_model/3 (pid 19384)] Task is starting.
+2020-04-14 00:34:41.009 1 tasks are running: e.g. ....
+2020-04-14 00:34:41.010 0 tasks are waiting in the queue.
+2020-04-14 00:34:41.010 0 steps are pending: e.g. ....
+2020-04-14 00:34:41.404 [1586803577079330/run_click_model/3 (pid 19384)] 2020-04-13 22:03:31 - sorting_model_click_desktop.gbq_tools - INFO - Query  GBQ finished in 269.23 sec
+2020-04-14 00:34:41.404 [1586803577079330/run_click_model/3 (pid 19384)] 2020-04-13 22:09:04 - sorting_model_click_desktop.gbq_tools - INFO - Query  GBQ finished in 17.23 sec
+2020-04-14 00:34:41.404 [1586803577079330/run_click_model/3 (pid 19384)] 2020-04-13 22:09:14 - sorting_model_click_desktop - INFO - running R cmd 'Rscript --vanilla --quiet sorting_model.R base_path=/some_base_path/sorting_model_click_desktop modelname=click include_platform=FALSE param1=param1 param2=param2'
+2020-04-14 00:34:41.404 [1586803577079330/run_click_model/3 (pid 19384)] 2020-04-14 00:31:56 - sorting_model_click_desktop - INFO - subprocess running done
+2020-04-14 00:34:41.404 [1586803577079330/run_click_model/3 (pid 19384)] 2020-04-14 00:31:56 - sorting_model_click_desktop - INFO - Result of model train:
+2020-04-14 00:34:41.404 [1586803577079330/run_click_model/3 (pid 19384)]
+2020-04-14 00:34:41.405 [1586803577079330/run_click_model/3 (pid 19384)] STDOut:
+2020-04-14 00:34:41.405 [1586803577079330/run_click_model/3 (pid 19384)] [1] "Reading data..."
+2020-04-14 00:34:41.405 [1586803577079330/run_click_model/3 (pid 19384)] [1] "finished reading data."
+2020-04-14 00:34:41.405 [1586803577079330/run_click_model/3 (pid 19384)] [1] "start training of model"
+2020-04-14 00:34:41.405 [1586803577079330/run_click_model/3 (pid 19384)] [1] "finished model training."
+2020-04-14 00:34:41.405 [1586803577079330/run_click_model/3 (pid 19384)] [1] "read prediction base data"
+2020-04-14 00:34:41.405 [1586803577079330/run_click_model/3 (pid 19384)] [1] "add predictions"
+2020-04-14 00:34:41.405 [1586803577079330/run_click_model/3 (pid 19384)] [1] "export result"
+2020-04-14 00:34:41.405 [1586803577079330/run_click_model/3 (pid 19384)] [1] "Exporting prediction done!"
+2020-04-14 00:34:41.405 [1586803577079330/run_click_model/3 (pid 19384)]
+2020-04-14 00:34:41.405 [1586803577079330/run_click_model/3 (pid 19384)]
+2020-04-14 00:34:41.405 [1586803577079330/run_click_model/3 (pid 19384)] STDErr:
+2020-04-14 00:34:41.405 [1586803577079330/run_click_model/3 (pid 19384)] Auto-refreshing stale OAuth token.
+2020-04-14 00:34:41.405 [1586803577079330/run_click_model/3 (pid 19384)]
+2020-04-14 00:34:41.405 [1586803577079330/run_click_model/3 (pid 19384)] 2020-04-14 00:31:56 - sorting_model_click_desktop - INFO - start reading predited results
+2020-04-14 00:34:41.405 [1586803577079330/run_click_model/3 (pid 19384)] 2020-04-14 00:31:57 - sorting_model_click_desktop - INFO - writing to gbq...
+2020-04-14 00:34:41.405 [1586803577079330/run_click_model/3 (pid 19384)] 2020-04-14 00:34:39 - sorting_model_click_desktop - INFO - writing to gbq finished.
+2020-04-14 00:34:41.686 [1586803577079330/run_click_model/3 (pid 19384)] Task finished successfully.
+2020-04-14 00:34:41.818 [1586803577079330/join_predictions/4 (pid 17999)] Task is starting.
+2020-04-14 00:35:09.264 [1586803577079330/join_predictions/4 (pid 17999)] Task finished successfully.
+2020-04-14 00:35:09.357 [1586803577079330/end/5 (pid 18240)] Task is starting.
+2020-04-14 00:35:11.086 [1586803577079330/end/5 (pid 18240)] Finished successfully!
+2020-04-14 00:35:11.275 [1586803577079330/end/5 (pid 18240)] Task finished successfully.
+2020-04-14 00:35:11.312 Done!
+```
+
+Hmm, it seems this is not reproducible anymore and I really don't know what it was :-D Will observe in the next few days (running the Flow on a daily basis) and close this if I can't make it to re-occur.
+
+It seems this may be related to some problem with the docker image or whatsoever, I don't know. Will close this and re-open if it is reproducible in the future.
+
+ support stdlibrary logging 
+ Hey,
+
+for me it would be great if metaflow used [the standard library logging module](https://docs.python.org/3/library/logging.html) instead of the current setup with printing (or would at least support to add some logging handler to the current procedures).
+
+This would enable one to not only see this in cloudwatch but also to add custom handlers (filehandlers, google cloud logging, ...) and integrate metaflow better in existing infrastructure which is using the logging module often.
+
+tbh, I did not dig that much into the code for now to understand how much work this would be, but consider this a really nice feature.
+
+Please drop your thoughts on this, I'd like to discuss if this is possible :)
+@nicoa Excellent point. We do something similar internally as well where all the execution logs are pushed into our data warehouse via an event stream enabled by a side-car. You can take a look at the [debugLogger](https://github.com/Netflix/metaflow/blob/master/metaflow/plugins/__init__.py#L48) implementation for starters. 
+
+Thanks @savingoyal ! I will have a look. Already thought about that but wasn't sure how to use in the CLI with own SideCar Class - do I have to patch this into the implementation or can I somehow implement in a file and point there?
+
+Will for sure try out the debugLogger - this should be simple by invoking with `--event-logger=debugLogger`, correct?
+
+Currently, you will have to patch this into the metaflow code base. Going forward, we should make it easier to do BYOC but we are not there yet. Yes, right now you should be able to do `--event-logger
+@nicoa Please comment and re-open this issue if needed.
+
+I think the logging thing would still be interesting (aka on initialization add some python logging handler or manipulate instead of passing the event-logger param), what would you think?
+
+ Permission error when running tutorial episode 04
+ Hi, I am new to `metaflow` and currently trying to run through the tutorials in my work environment. As a non-root user of `conda`, I don't have write permission for where `conda` is installed: `/opt/miniconda`, so I ran into this error when executing episode 04 in which `@conda` was used:
+```
+PermissionError: [Errno 13] Permission denied: '/opt/miniconda/mf_env-creation.lock'
+```
+Is there some configuration I can do to assign a new location where this `mf_env-creation.lock` will be written?
+
+`conda` version = 4.8.3
+`metaflow` version = 2.0.1
+Thanks for opening the issue. We will make it configurable in the next release.
+
+ Add PYTHONNOUSERSITE explicitly
+ In some edge cases, `python -s` doesn't explicitly set PYTHONNOUSERSITE.
+
+More context - https://gitter.im/metaflow_org/community?at=5e8ee8315d148a0460f51623
+This successfully resolves my issue at https://gitter.im/metaflow_org/community?atThank you.
+
+LGTM
+
+ Follow symlinks while packaging code for execution on AWS Batch
+ More context in #176
+Hey Savin - Thank you for all the help. I tested the change and here is how it goes:
+
+My test script:
+
+```
+    @step
+    def start(self):
+        self.data = random.randint(0, 100)
+        self.next(self.process)
+
+    @step
+    def process(self):
+        self.data /= 100
+        self.next(self.symlink_check_local)
+
+    @step
+    def symlink_check_local(self):
+        with open("xxx/xxx/symbolic_links/test_symlink.sl", "r") as f:
+            symlink_txt = f.readlines()
+        print(symlink_txt)
+        self.next(self.symlink_check_batch)
+
+    @batch(cpu=1, memory=1000)
+    @step
+    def symlink_check_batch(self):
+        print(os.system("ls"))
+        print(os.system("ls symbolic_links/"))
+        with open("symbolic_links/test_symlink.sl", "r") as f:
+            symlink_txt = f.readlines()
+        print(symlink_txt)
+        self.next(self.end)
+
+    @step
+    def end(self):
+        print(self.data)
+        print("🏁🏁🏁🏁🏁🏁🏁🏁🏁")
+```
+
+
+Here is the command:
+
+`python xxx/xxx/hello_metaflow.py --package-suffixes '.py,.json,.sql,.sl,.txt' run | tee out.txt`
+
+So the symlink was in `xxx/xxx/symbolic_links/test_symlink.sl`, and it was pointing a file in the root directory called `test.txt` written hello world text in it.
+
+Here is the shortened output:
+
+```
+Metaflow 2.0.3.post2+gitb4a2eeb executing MockFlow for user:kemalty
+Validating your flow...
+    The graph looks good!
+Running pylint...
+    Pylint not found, so extra checks are disabled.
+Following Links...
+Following Links...
+2020-04-10 15:13:01.768 Workflow starting (run-id 194):
+2020-04-10 15:13:02.304 [194/start/1366 (pid 42637)] Task is starting.
+2020-04-10 15:13:05.868 [194/start/1366 (pid 42637)] Task finished successfully.
+2020-04-10 15:13:06.582 [194/process/1367 (pid 42645)] Task is starting.
+2020-04-10 15:13:10.483 [194/process/1367 (pid 42645)] Task finished successfully.
+2020-04-10 15:13:11.226 [194/symlink_check_local/1368 (pid 42652)] Task is starting.
+2020-04-10 15:13:13.623 [194/symlink_check_local/1368 (pid 42652)] ['Hello symlink...\n']
+2020-04-10 15:13:14.704 [194/symlink_check_local/1368 (pid 42652)] Task finished successfully.
+2020-04-10 15:13:15.456 [194/symlink_check_batch/1369 (pid 42662)] Task is starting.
+2020-04-10 15:13:16.267 [194/symlink_check_batch/1369 (pid 42662)] [28f3b894-9b70-48f8-a832-d3261c5d2424] Task is starting (status SUBMITTED)...
+2020-04-10 15:13:20.665 [194/symlink_check_batch/1369 (pid 42662)] [28f3b894-9b70-48f8-a832-d3261c5d2424] Task is starting (status RUNNABLE)...
+2020-04-10 15:13:22.867 [194/symlink_check_batch/1369 (pid 42662)] [28f3b894-9b70-48f8-a832-d3261c5d2424] Task is starting (status STARTING)...
+2020-04-10 15:13:26.197 [194/symlink_check_batch/1369 (pid 42662)] [28f3b894-9b70-48f8-a832-d3261c5d2424] Task is starting (status RUNNING)...
+2020-04-10 15:13:32.074 [194/symlink_check_batch/1369 (pid 42662)] [28f3b894-9b70-48f8-a832-d3261c5d2424] Setting up task environment.
+2020-04-10 15:13:44.618 [194/symlink_check_batch/1369 (pid 42662)] [28f3b894-9b70-48f8-a832-d3261c5d2424] Downloading code package.
+2020-04-10 15:13:44.618 [194/symlink_check_batch/1369 (pid 42662)] [28f3b894-9b70-48f8-a832-d3261c5d2424] Code package downloaded.
+2020-04-10 15:13:44.618 [194/symlink_check_batch/1369 (pid 42662)] [28f3b894-9b70-48f8-a832-d3261c5d2424] Task is starting.
+2020-04-10 15:13:44.619 [194/symlink_check_batch/1369 (pid 42662)] [28f3b894-9b70-48f8-a832-d3261c5d2424] INFO
+2020-04-10 15:13:44.619 [194/symlink_check_batch/1369 (pid 42662)] [28f3b894-9b70-48f8-a832-d3261c5d2424] __init__.py
+2020-04-10 15:13:44.619 [194/symlink_check_batch/1369 (pid 42662)] [28f3b894-9b70-48f8-a832-d3261c5d2424] configs
+2020-04-10 15:13:44.619 [194/symlink_check_batch/1369 (pid 42662)] [28f3b894-9b70-48f8-a832-d3261c5d2424] data
+2020-04-10 15:13:44.619 [194/symlink_check_batch/1369 (pid 42662)] [28f3b894-9b70-48f8-a832-d3261c5d2424] experiment_main.py
+2020-04-10 15:13:44.619 [194/symlink_check_batch/1369 (pid 42662)] [28f3b894-9b70-48f8-a832-d3261c5d2424] hello_metaflow.py
+2020-04-10 15:13:44.619 [194/symlink_check_batch/1369 (pid 42662)] [28f3b894-9b70-48f8-a832-d3261c5d2424] job.tar
+2020-04-10 15:13:44.619 [194/symlink_check_batch/1369 (pid 42662)] [28f3b894-9b70-48f8-a832-d3261c5d2424] metaflow
+2020-04-10 15:13:44.620 [194/symlink_check_batch/1369 (pid 42662)] [28f3b894-9b70-48f8-a832-d3261c5d2424] project_root.py
+2020-04-10 15:13:44.620 [194/symlink_check_batch/1369 (pid 42662)] [28f3b894-9b70-48f8-a832-d3261c5d2424] sql
+2020-04-10 15:13:44.620 [194/symlink_check_batch/1369 (pid 42662)] [28f3b894-9b70-48f8-a832-d3261c5d2424] src
+2020-04-10 15:13:44.620 [194/symlink_check_batch/1369 (pid 42662)] [28f3b894-9b70-48f8-a832-d3261c5d2424] symbolic_links
+2020-04-10 15:13:44.620 [194/symlink_check_batch/1369 (pid 42662)] [28f3b894-9b70-48f8-a832-d3261c5d2424] test
+2020-04-10 15:13:44.620 [194/symlink_check_batch/1369 (pid 42662)] [28f3b894-9b70-48f8-a832-d3261c5d2424] 0
+2020-04-10 15:13:44.620 [194/symlink_check_batch/1369 (pid 42662)] [28f3b894-9b70-48f8-a832-d3261c5d2424] test_symlink.sl
+2020-04-10 15:13:44.620 [194/symlink_check_batch/1369 (pid 42662)] [28f3b894-9b70-48f8-a832-d3261c5d2424] 0
+2020-04-10 15:13:44.620 [194/symlink_check_batch/1369 (pid 42662)] [28f3b894-9b70-48f8-a832-d3261c5d2424] <flow MockFlow step symlink_check_batch> failed:
+2020-04-10 15:13:44.621 [194/symlink_check_batch/1369 (pid 42662)] [28f3b894-9b70-48f8-a832-d3261c5d2424]     Internal error
+a832-d3261c5d2424] FileNotFoundError: [Errno 2] No such file or directory: 'symbolic_links/test_symlink.sl']
+2020-04-10 15:13:47.752 [194/symlink_check_batch/1369 (pid 42662)] Task failed.
+2020-04-10 15:13:47.752 Workflow failed.
+2020-04-10 15:13:47.752 Terminating 0 active tasks...
+2020-04-10 15:13:47.752 Flushing logs...
+    Step failure:
+    Step symlink_check_batch (task-id 1369) failed.
+```
+
+So it works fine in local 👍
+
+However, you can see here that the symlinked file is not moved to the batch environment. It is not in the root folder, or in the symlink folder.
+
+As an idea, maybe Metaflow can benefit from the Docker/git kind of approach when moving files. So by default, it moves all the files, with exceptions listed in `.metaflowignore`?
+
+
+
+Ah I missed a case. Let me push out a fix.
+
+@kemalty Given that this PR is not a blocker right now for your use case, we are going to punt it at the moment. This needs a bit more thought around packaging (particularly around traversing circular links).
+

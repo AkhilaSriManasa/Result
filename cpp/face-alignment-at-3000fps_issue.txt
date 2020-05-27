@@ -1,0 +1,751 @@
+﻿ Illegal instruction (core dumped)
+ When i train using your source code, I got an error... 
+-> Illegal instruction (core dumped)
+
+I use this parameters: (RAM 8.0G)
+
+local_features_num_: 300
+landmarks_num_per_face_: 68
+regressor_stages_: 6
+tree_depth_: 5
+trees_num_per_forest_: 24
+overlap_: 0.3
+initial_guess_: 1
+local_radius_by_stages_: 0.29 0.21 0.16 0.12 0.08 0.04
+
+-----------------------------------------------------------------------------------------------
+Loading training dataset...
+face detector loaded : 1
+loading images...
+[ INFO:0] Initialize OpenCL runtime...
+100 images loaded
+200 images loaded
+300 images loaded
+400 images loaded
+500 images loaded
+600 images loaded
+700 images loaded
+800 images loaded
+900 images loaded
+1000 images loaded
+1100 images loaded
+1200 images loaded
+1300 images loaded
+1400 images loaded
+1500 images loaded
+1600 images loaded
+1700 images loaded
+get 1798 faces in total
+
+Loading validation dataset...
+face detector loaded : 1
+loading images...
+100 images loaded
+200 images loaded
+get 219 faces in total
+Start training...
+augment data sets
+augmented size: 3596
+training stage: 0 of 6
+calculate regression targets
+train forest of stage:0
+it will take some time to build the Random Forest, please be patient!!!
+landmark: landmark: landmark: 36landmark: 12
+landmark: landmark: landmark: 53
+landmark: build forest of landmark: 53 of stage: 0
+
+42build forest of landmark: 12landmark:  of stage: 0
+58
+build forest of landmark: 58 of stage: 0
+48
+build forest of landmark: 48 of stage: 0
+63
+18build forest of landmark: 42 of stage: 0
+0
+build forest of landmark: 0 of stage: 0
+get pixel differences
+
+
+get pixel differencesbuild forest of landmark: build forest of landmark: 18 of stage: 0
+landmark: 30
+get pixel differencesbuild forest of landmark: 30 of stage: 0
+landmark: 24
+build forest of landmark: 24 of stage: 0
+landmark: build forest of landmark: 6
+get pixel differencesbuild forest of landmark: 6 of stage: 0
+36 of stage: 0
+63 of stage: 0
+
+
+get pixel differences
+get pixel differences
+get pixel differences
+
+get pixel differencesget pixel differences
+
+get pixel differences
+get pixel differences
+get pixel differences
+landmark: 43
+build forest of landmark: 43 of stage: 0
+get pixel differences
+landmark: 25
+build forest of landmark: 25 of stage: 0
+get pixel differences
+landmark: 54
+build forest of landmark: 54 of stage: 0
+get pixel differences
+landmark: 49
+build forest of landmark: 49 of stage: 0
+get pixel differences
+landmark: 13
+build forest of landmark: 13 of stage: 0
+get pixel differences
+landmark: 19
+build forest of landmark: 19 of stage: 0
+get pixel differences
+landmark: 37
+build forest of landmark: 37 of stage: 0
+get pixel differences
+landmark: 1
+build forest of landmark: 1 of stage: 0
+get pixel differences
+landmark: 59
+build forest of landmark: 59 of stage: 0
+get pixel differences
+landmark: 64
+build forest of landmark: 64 of stage: 0
+get pixel differences
+landmark: 31
+build forest of landmark: 31 of stage: 0
+get pixel differences
+landmark: 7
+build forest of landmark: 7 of stage: 0
+get pixel differences
+landmark: 44
+build forest of landmark: 44 of stage: 0
+get pixel differences
+landmark: 55
+build forest of landmark: 55 of stage: 0
+get pixel differences
+landmark: 26
+build forest of landmark: 26 of stage: 0
+get pixel differences
+landmark: 50
+build forest of landmark: 50 of stage: 0
+get pixel differences
+landmark: 20
+build forest of landmark: 20 of stage: 0
+get pixel differences
+landmark: 60
+build forest of landmark: 60 of stage: 0
+get pixel differences
+landmark: 2
+build forest of landmark: 2 of stage: 0
+get pixel differences
+landmark: 38
+build forest of landmark: 38 of stage: 0
+get pixel differences
+landmark: 65
+build forest of landmark: 65 of stage: 0
+get pixel differences
+landmark: 14
+build forest of landmark: 14 of stage: 0
+get pixel differences
+landmark: 8
+build forest of landmark: 8 of stage: 0
+get pixel differences
+landmark: 32
+build forest of landmark: 32 of stage: 0
+get pixel differences
+landmark: 45
+build forest of landmark: 45 of stage: 0
+get pixel differences
+landmark: 27
+build forest of landmark: 27 of stage: 0
+get pixel differences
+landmark: 61
+build forest of landmark: 61 of stage: 0
+get pixel differences
+landmark: 51
+build forest of landmark: 51 of stage: 0
+get pixel differences
+landmark: 56
+build forest of landmark: 56 of stage: 0
+get pixel differences
+landmark: 39
+build forest of landmark: 39 of stage: 0
+get pixel differences
+landmark: 21
+build forest of landmark: 21 of stage: 0
+get pixel differences
+landmark: 3
+build forest of landmark: 3 of stage: 0
+get pixel differences
+landmark: 66
+build forest of landmark: 66 of stage: 0
+get pixel differences
+landmark: 15
+build forest of landmark: 15 of stage: 0
+get pixel differences
+landmark: 9
+build forest of landmark: 9 of stage: 0
+get pixel differences
+landmark: 33
+build forest of landmark: 33 of stage: 0
+get pixel differences
+landmark: 46
+build forest of landmark: 46 of stage: 0
+get pixel differences
+landmark: 40
+build forest of landmark: 40 of stage: 0
+get pixel differences
+landmark: 62
+build forest of landmark: 62 of stage: 0
+get pixel differences
+landmark: 28
+build forest of landmark: 28 of stage: 0
+get pixel differences
+landmark: 52
+build forest of landmark: 52 of stage: 0
+get pixel differences
+landmark: 57
+build forest of landmark: 57 of stage: 0
+get pixel differences
+landmark: 22
+build forest of landmark: 22 of stage: 0
+get pixel differences
+landmark: 4
+build forest of landmark: 4 of stage: 0
+get pixel differences
+landmark: 67
+build forest of landmark: 67 of stage: 0
+get pixel differences
+landmark: 10
+build forest of landmark: 10 of stage: 0
+get pixel differences
+landmark: 34
+build forest of landmark: 34 of stage: 0
+get pixel differences
+landmark: 16
+build forest of landmark: 16 of stage: 0
+get pixel differences
+landmark: 41
+build forest of landmark: 41 of stage: 0
+get pixel differences
+landmark: 47
+build forest of landmark: 47 of stage: 0
+get pixel differences
+landmark: 23
+build forest of landmark: 23 of stage: 0
+get pixel differences
+landmark: 5
+build forest of landmark: 5 of stage: 0
+get pixel differences
+landmark: 29
+build forest of landmark: 29 of stage: 0
+get pixel differences
+landmark: 11
+build forest of landmark: 11 of stage: 0
+get pixel differences
+landmark: 17
+build forest of landmark: 17 of stage: 0
+get pixel differences
+landmark: 35
+build forest of landmark: 35 of stage: 0
+get pixel differences
+Get Global Binary Features
+
+Global Regression of stage 0
+it will take some time to do Linear Regression, please be patient!!!
+regressing ...regressing ...048
+regressing ...24
+
+regressing ...64
+regressing ...8
+regressing ...32
+regressing ...56
+regressing ...16
+regressing ...40
+predict regression targets
+update current shapes
+train regression error: 300.942, mean error: 0.0836881
+Validation at stage: 0
+Validation error: 21.8489, mean error: 0.0997666
+training stage: 1 of 6
+calculate regression targets
+train forest of stage:1
+it will take some time to build the Random Forest, please be patient!!!
+landmark: landmark: 036
+landmark: landmark: 
+build forest of landmark: 36 of stage: landmark: 153
+landmark: 12
+build forest of landmark: 0build forest of landmark:  of stage: 121 of stage: 
+18
+1build forest of landmark: 18 of stage: 1
+
+build forest of landmark: 53 of stage: 1
+landmark: landmark: landmark: 6358
+
+landmark: 24landmark: 
+
+build forest of landmark: 58 of stage: 1
+48landmark: 30
+get pixel differencesbuild forest of landmark: 48 of stage: 
+get pixel differencesget pixel differences
+6build forest of landmark: 30 of stage: 1
+get pixel differences
+42
+
+1
+build forest of landmark: 
+6 of stage: 1
+build forest of landmark: 63 of stage: 1
+get pixel differences
+
+get pixel differencesbuild forest of landmark: 42 of stage: 1
+
+get pixel differences
+get pixel differences
+build forest of landmark: 24 of stage: 1
+get pixel differences
+get pixel differences
+get pixel differences
+get pixel differences
+landmark: 43
+build forest of landmark: 43 of stage: 1
+get pixel differences
+landmark: 1
+build forest of landmark: 1 of stage: 1
+get pixel differences
+landmark: 31
+build forest of landmark: 31 of stage: 1
+get pixel differences
+landmark: 25
+build forest of landmark: 25 of stage: 1
+get pixel differences
+landmark: 7
+build forest of landmark: 7 of stage: 1
+get pixel differences
+landmark: 64
+build forest of landmark: 64 of stage: 1
+get pixel differences
+landmark: 13
+build forest of landmark: 13 of stage: 1
+get pixel differences
+landmark: 54
+build forest of landmark: 54 of stage: 1
+get pixel differences
+landmark: 49
+build forest of landmark: 49 of stage: 1
+get pixel differences
+landmark: 59
+build forest of landmark: 59 of stage: 1
+get pixel differences
+landmark: 37
+build forest of landmark: 37 of stage: 1
+get pixel differences
+landmark: 19
+build forest of landmark: 19 of stage: 1
+get pixel differences
+Illegal instruction (core dumped)
+------------------------------------------------------------------------------------------
+
+
+ modelSize
+ Hi the 68pts model is over 150M, i see the other luoyet-3000fps only 35M ，Why is there such a big difference
+和你的训练数据的多少，以及设置数的数量等有关
+
+如果只训练12个特征点，模型只有6MB多。
+
+68个点准确度很高，　同样训练数据，只使用１２个特征点，　准确度下降厉害
+
+ getSimilarityTransform得到的rotation是谁对谁的？
+ 我单独把getSimilarityTransform的程序来出来跑了一下，发现得到的rotation是 
+shape_to * rotation = shape_from
+从代码里来看，注释写的是
+// get the rotation and scale parameters by transferring shape_from to shape_to, shape_to = M*shape_from
+但是regressor.cpp 108这一段：		
+regression_targets[i] = ProjectShape(augmented_ground_truth_shapes[i], augmented_bboxes[i])
+			- ProjectShape(augmented_current_shapes[i], augmented_bboxes[i]);
+		cv::Mat_<double> rotation;
+		double scale;
+		getSimilarityTransform(params_.mean_shape_, ProjectShape(augmented_current_shapes[i], augmented_bboxes[i]), rotation, scale);
+		cv::transpose(rotation, rotation);
+		regression_targets[i] = scale * regression_targets[i] * rotation;
+		getSimilarityTransform(ProjectShape(augmented_current_shapes[i], augmented_bboxes[i]), params_.mean_shape_, rotation, scale);
+		rotations_[i] = rotation;
+		scales_[i] = scale;
+第一次调用后对求得的rotation进行了转置（求逆），去得到论文中所表示的回归目标，即rotatiaon实际上是 M的逆?而且如果对rotation进行了转置，为何scale没有对应的取倒数？
+rotations_[i]对应的就是第一次调用所求得的rotation的转置，即从projectshape到mean_shape的变换矩阵，这样的话，在后续求解randomforest的时候关系就乱了? 
+ 有测试过在ARM平台下的速度吗？我测试的速度是90ms
+ 
+ About the output
+ Hey,sorry to bother you,thank you for your code. It worked fine. 
+Though I have a question about the output:
+    The output only prints mean error, our messages such as time is not printed. 
+    I read the _README.md_file but didn't find out.
+    How could I change the code and print testing time **per picture**?
+Appreciates you！
+
+ Testing Configuration
+ Hello I am newbie in this research and tools. I have config exactly same with the instruction. I download the model that author given, so the path is `./example/helen_trained_model/helenModel_params.txt` and I have download helen dataset so the path will be `./example/helen/testset/` . After that I am using this command to test the testing data `./application test ../example/helen_test_config_images_without_ground_truth.txt 
+` . However I got the error like in the image, anybody can give suggestions?
+
+I also want to create the runable program which just input the image path, boundingbox coordinate, and the output filename. How can I get something like that?
+
+-Thank you-
+
+![image](https://user-images.githubusercontent.com/2309538/27626982-b064c26c-5c1c-11e7-9c0d-cfaf0406d2f7.png)
+
+
+ Fix broken headings in Markdown files
+ GitHub changed the way Markdown headings are parsed, so this change fixes it.
+
+See [bryant1410/readmesfix](https://github.com/bryant1410/readmesfix) for more information.
+
+Tackles bryant1410/readmesfix#1
+
+ OpenCV Error: Insufficient memory
+ I got this error when I train the model.
+OpenCV Error: Insufficient memory (Failed to allocate 15352004 bytes) in cv::OutOfMemoryError, file C:\builds\2_4_PackSlave-win32-vc12-shared\opencv\modules\core\src\alloc.cpp, line 52
+I change to use libfacedetection library. And I also use 6 cores CPU (12 threads).
+Do you know why it happened? 
+The problem is the 32 bits system. After I change to 64 bits system, there is no error.
+
+ Error Computing
+ Hi freesouls,
+I am not understand that why you calculate test error by divide the distance between eyes? Can you explain your intentions?Furthermore, is it possible to downsize the shape predicator model?Thanks!
+In order to keep consistent with others.
+
+ Is it possible for me to use these code in Android-platform?
+ Is it possible for me to use these code in Android-platform?
+If it is possible, can you tell me specifically how to do that?
+
+ Dataset link is offline.
+ http://ibug.doc.ic.ac.uk/resources/facial-point-annotations/
+It is up again :)
+
+Online on 18/01/2018.
+
+ Pre-trained model link is too slow
+ Consider uploading your pre-made model on other server, because http://pan.baidu.com/s/1eRspt2U is very slow.
+ 以二进制的形式保存和载入训练结果
+ 感谢作者的工作~~！
+以helen训练结果为例，载入需要将近2分钟，在移动端时间就更长了
+我发现代码中提供了一个二进制保存和载入的接口，但是好像存在问题
+是否能检查一下代码？
+请问你找到解决办法了么？
+
+@Oumoxiluoyi 
+https://github.com/lippman1125/face-alignment-at-3000fps
+我加了2进制模型的保存和载入的代码。
+
+ Downloading pre-trained model always fails
+ Whenever I try to download the pre-trained model, it cuts off after 5.5 minutes, around 85-87MB. Is it possible to host the file somewhere else also? Thanks!
+The model link now points to a 404 page.
+
+ #include <omp.h> On   MAC ?????  
+ Users/anthonyyuan/desktop/src/face-alignment-at-3000fps-master 2/main.cpp:10:10: fatal error: 
+      'omp.h' file not found
+**#include <omp.h>**
+         ^
+1 error generated.
+make[2]: **\* [CMakeFiles/application.dir/main.cpp.o] Error 1
+make[1]: **\* [CMakeFiles/application.dir/all] Error 2
+make: **\* [all] Error 2
+
+@anthonyyuan hi, I have a same problem
+How did you resolve this problem?
+
+ fps of testing
+ hi, do you know how fast it is when testing on one image? have you analyse its fps? Thanks!
+
+I have written in README.md
+- The paper claims for 3000fps for very high frame rates for different parameters, while my implementation can achieve **several hundreds** frame rates. What you should be AWARE of is that we both just CALCULATE the time that predicting the landmarks, EXCLUDES the time that detecting faces.
+- If you want to use it for realtime videos, using OpenCV's face detector will achieve about 15fps, since 80% (even more time is used to get the bounding boxes of the faces in an image), so the bottleneck is the speed of face detection, not the speed of landmarks predicting. You are required to find a fast face detector(For example, libfacedetection)
+
+the frame rate varies according to the model complexity. 
+
+
+ 关于特征点数量伸缩
+ _Hi~先谢谢你的代码实现啊，很棒。_
+
+有个问题想请教一下，我打算把helen, lfpw和afw的*.pts中的特征点缩减为5个（鼻尖，两个眼睛的两端），然而训练的结果不尽如人意。  
+已经修改了一些地方，比如utils.cpp中的calculateError中：
+
+``` c++
+double CalculateError(cv::Mat_<double>& ground_truth_shape, cv::Mat_<double>& predicted_shape){
+    // ...
+    //鼻尖为index 0,两个眼睛端点分别为1,2和3,4
+    temp = ground_truth_shape.rowRange(1, 3)-ground_truth_shape.rowRange(3, 5); 
+    //...
+}
+```
+
+这是我用来训练的配置文件和一个缩减过的pts文件：
+
+``` c++
+//train config file(没有做太多修改，正在尝试调参数)
+newModel
+300
+5
+6
+5
+12
+3
+0.3
+0.29
+0.21
+0.16
+0.12
+0.08
+0.04
+2
+./lfpw/
+./lfpw.txt
+./helen/
+./helen.txt
+
+//a sample pts file（afw/134212_1.pts）
+version: 1
+n_points: 5
+{
+766.366 287.332
+730.676 230.253
+764.738 227.763
+813.433 227.625
+855.689 227.233
+}
+```
+
+_这里是我做好的afw,helen和lfpw缩减为5个点的pts文件： http://pan.baidu.com/s/1nvfD9Zr_
+**不知道代码还有哪些地方需要改，我没有注意到？或者train configure文件需要调整？谢谢解答**
+
+ Error doesn't decrease
+ Hi,
+
+First of all, thanks for this implementation.
+I ran and trained successfully the previous version (before refactoring), but now I have troubles with training. As before, I followed the instructions in README, downloaded HELEN dataset, put it in `example/helen`. The reported error rate is:
+
+```
+training stage: 0 of 6
+train regression error: 1071.14, mean error: 0.149516
+Validation at stage: 0
+Validation error: 37.3754, mean error: 0.120178
+
+training stage: 1 of 6
+train regression error: 847.716, mean error: 0.11833
+Validation at stage: 1
+Validation error: 32.5232, mean error: 0.104576
+
+training stage: 2 of 6
+train regression error: 735.792, mean error: 0.102707
+Validation at stage: 2
+Validation error: 30.7561, mean error: 0.0988942
+
+training stage: 3 of 6
+train regression error: 803.279, mean error: 0.112127
+Validation at stage: 3
+Validation error: 36.0491, mean error: 0.115914
+
+training stage: 4 of 6
+train regression error: 752.986, mean error: 0.105107
+Validation at stage: 4
+Validation error: 35.4158, mean error: 0.113877
+
+training stage: 5 of 6
+train regression error: 791.054, mean error: 0.110421
+Validation at stage: 5
+Validation error: 38.1961, mean error: 0.122817
+
+finish training, start to saving the model...
+model name: helenModel
+save the model successfully
+```
+
+Obviously, the quality is then rather poor:
+
+![landmarks](https://cloud.githubusercontent.com/assets/9570420/13630707/c0668b3e-e5f1-11e5-8f51-116ba850ef80.png)
+
+Maybe I'm doing something wrong?
+
+please wait, let me verify this!
+
+
+@freesouls 
+Okay, thank you!
+
+
+Hi, I just clone the codes to a new folder, and run the program(without changing anything), the output is below, I just run 3 stages, it seems the error is decreasing (thought _different from_ the output in `README.md`, because `initial_guess` is **randomly** sampled, `positions` of each pixel difference features are also **randomly** sampled, the `threshold` when spliting nodes in random forest is also **randomly** selected when you run the program)
+
+```
+training stage: 0 of 6
+train regression error: 897.343, mean error: 0.125257
+Validation at stage: 0
+Validation error: 31.7507, mean error: 0.102092
+
+training stage: 1 of 6
+train regression error: 629.442, mean error: 0.0878617
+Validation at stage: 1
+Validation error: 25.116, mean error: 0.0807589
+
+training stage: 2 of 6
+train regression error: 493.326, mean error: 0.0688618
+Validation at stage: 2
+Validation error: 22.7215, mean error: 0.0730595
+```
+
+will you rerun the codes?
+
+
+Hm, let me try this on a different machine in a moment. That run was on a 24-core machine, maybe this caused the problem.
+
+
+My machine is 8-core(the program is running in 8 threads at the same time), but the codes should be OK with 24 threads. Off course, may be there are something wrong with the codes.
+
+
+Hi, before running, set `params.local_features_num_ 
+
+Thank you for helping. I've set local features number to 500. That's very strange: I got it working on the desktop machine, but no effect on the remote one...
+
+For some reason, during training, it reported that it found 1798 faces on desktop, but 1791 on remote! The datasets are bit-for-bit identical.
+
+I'll continue investigating this!
+
+
+sometimes, for the same image, opencv's(even using the same version) face detector will give different results.
+
+
+Dear freesouls:
+
+i try to train a model using your default settings, the training loss seems big(comparing your training log):
+
+train regression error: 575.186, mean error: **0.0799759**
+Validation at stage: 5
+Validation error: 28.2551, mean error: **0.0905614** 
+
+and after the model is generated, i test one picture, it seems the result is not good:
+
+![image](https://cloud.githubusercontent.com/assets/13975044/21496047/97bc7238-cc56-11e6-9daf-f2c84e0db4ed.png)
+
+the whole training log:
+
+[log.txt](https://github.com/freesouls/face-alignment-at-3000fps/files/673852/log.txt)
+
+
+
+
+
+
+Dear freesouls:
+
+i think that there maybe some bug related with openmp or multi-thread, because i disable the openmp in the Cmakelist.txt,   things get better......., by the way, i use a 24-core CPU PC.
+
+do not use multi-thread(openmp):
+
+Global Regression of stage 5
+it will take some time to do Linear Regression, please be patient!!!
+regressing ...0
+regressing ...8
+regressing ...16
+regressing ...24
+regressing ...32
+regressing ...40
+regressing ...48
+regressing ...56
+regressing ...64
+predict regression targets
+update current shapes
+train regression error: 177.771, mean error: 0.0247179
+Validation at stage: 5
+Validation error: 17.5888, mean error: 0.0563745
+finish training, start to saving the model...
+model name: helenModel
+save the model successfully
+
+![default](https://cloud.githubusercontent.com/assets/13975044/21512611/509923f8-ccea-11e6-8566-5440ea2e39e5.jpg)
+
+
+
+ 请问代码里的initial_guess和getsimilarTransform是什么意思？谢谢
+ 如题，谢谢，没有太懂。
+
+initial_guess是我们最开始认为的人脸关键点的位置，一般就是mean shape做最初始的guess，然后一步一步去调整各个点的位置，往关键点真正的坐标位置移动(这个词不是那么贴切)，guess多一点就是增加模型的鲁棒性
+
+getsimilarTransform, 就是我有两个shape A, shape B, 如果我从A变换到B到怎么做，这个函数就是算从A变换到B要转过多少的角度，然后缩小放大的倍数(这两步反一下也没问题)
+
+
+getsimilarTransform我有英语注释：
+// get the rotation and scale parameters by transferring shape_from to shape_to, shape_to = M*shape_from
+其中M是一个变换矩阵，我们要算的就是M里的值
+
+
+那么在程序中getsimilarTransform函数具体有啥作用呢，是否可以直接回归delta S 而不用先Transform再Transform回来呢？
+也就是说
+getSimilarityTransform(params_.mean_shape_, ProjectShape(augmented_current_shapes[i], augmented_bboxes[i]), rotation, scale);
+        cv::transpose(rotation, rotation);
+        regression_targets[i] = scale \* regression_targets[i] \* rotation;
+        getSimilarityTransform(ProjectShape(augmented_current_shapes[i], augmented_bboxes[i]), params_.mean_shape_, rotation, scale);
+        rotations_[i] = rotation;
+        scales_[i] = scale;
+这几句话怎么理解？
+
+
+[这里](https://www.microsoft.com/en-us/research/wp-content/uploads/2013/01/Face-Alignment-by-Explicit-Shape-Regression.pdf)2.1节讲了原因，face-alignment-at-3000fps是在这篇的基础上做的，框架一模一样
+
+
+ @freesouls 麻烦能不能具体分析一下getSimilarityTransform 是如何进行坐标变换的，特别是下面这段代码，取自于utils.cpp的74行到92行。calcCovarMatrix输出的协方差矩阵covariance1维度是(2, 2)， 而均值矩阵mean1 却是一个(68, 1)的矩阵，如果说协方差矩阵是(2, 2)的，这证明这个协方差输出的是人脸坐标点的X坐标和Y坐标的相关性，但是均值却是每个坐标点的X和Y的均值，这点实在有点想不明白。谢谢你啦。
+``` C
+cv::calcCovarMatrix(temp1, covariance1, mean1, cv::COVAR_COLS, CV_64F); //CV_COVAR_COLS
+cv::calcCovarMatrix(temp2, covariance2, mean2, cv::COVAR_COLS, CV_64F);
+
+double s1 = sqrt(norm(covariance1));
+double s2 = sqrt(norm(covariance2));
+scale = s1 / s2;
+temp1 = 1.0 / s1 * temp1;
+temp2 = 1.0 / s2 * temp2;
+
+double num = 0.0;
+double den = 0.0;
+for (int i = 0; i < shape_to.rows; i++){
+        num = num + temp1(i, 1) * temp2(i, 0) - temp1(i, 0) * temp2(i, 1);
+	den = den + temp1(i, 0) * temp2(i, 0) + temp1(i, 1) * temp2(i, 1);
+}
+
+double norm = sqrt(num*num + den*den);
+double sin_theta = num / norm;
+double cos_theta = den / norm;
+```
+
+@gmlyytt-YANG ，请问你找到理论依据了吗?
+@freesouls 大神，能给出一个计算变换矩阵M的公式吗？
+
+ Update utils.cpp
+ Very critical for image resize and training, or the ground truth points will be off
+
+@DoraXingyu thanks for your fix
+
+
+ mean shape的偏移
+ 我训练完模型后，发现利用opencv人脸检测后的box，都成产生了向-y轴偏移，你在训练中有没有碰到过这个问题
+
+如果你在utils.cpp的LoadImage中没有删掉下面几句话是有可能的，因为image在resize的时候除以3后是取整，而shape除以3.0是浮点，可能resize过的ground_truth与图已经有偏移了，我猜测这里有问题。要不你去掉下面的话，要不自己重新resize使它不会有偏移～
+if (image.cols > 2000){
+            cv::resize(image, image, cv::Size(image.rows / 3, image.cols / 3), 0, 0, cv::INTER_LINEAR);
+            ground_truth_shape /= 3.0;
+        }
+        else if (image.cols > 1400 && image.cols <= 2000){
+            cv::resize(image, image, cv::Size(image.rows / 2, image.cols / 2), 0, 0, cv::INTER_LINEAR);
+            ground_truth_shape /= 2.0;
+        }
+
+
+fork了其他的代码，谢谢回答啊。
+
+
+将cv::resize(image, image, cv::Size(image.rows / 3, image.cols / 3), 0, 0, cv::INTER_LINEAR);
+改成cv::resize(image, image, cv::Size(image.cols / 3, image.rows / 3), 0, 0, cv::INTER_LINEAR);就好了
+@NanYoMy 
+
+

@@ -1,0 +1,38 @@
+﻿ eulertest: Improved the status message.
+ P323, P493: Simplified Python solutions by revamping the round-fraction-to-decimal-string algorithm.
+P267: Harmonized the function implementation via simple changes.
+ eulertest, P84, P151, P162, P171, P197, P205, P280, P323, P493: Tweaked Python solutions to use f-strings instead of str.format().
+ eulerlib, P44, P64, P66, P84, P99, P103, P186, P280: Simplified Python solutions by removing unnecessary explicit object superclass.
+ P24, P46, P267: Slightly simplified Python solutions.
+ P7, P37, P46, P47, P77, P130, P132, P211, P267: Removed detection of Python 2 and entailing logic.
+ P14, P30, P34, P35, P36, P40, P44, P50, P71, P92, P135, P150, P173, P174, P179, P182, P211, P216, P347, P357, P549, eulerlib: Removed detection of Python 2 and usage of xrange().
+Readme: Updated text.
+ P59: Clarified Java and Python solutions slightly.
+ P59: Updated input data and answer due to change in the given problem.
+ P211: Updated comments in Java solution.
+Readme: Updated copyright year.
+ P211: Sped up Java solution.
+ P211: Sped up Java solution.
+ P124, P127, P549: Changed word capitalization for consistency.
+ P211: De-optimized and significantly simplified Java solution.
+ Readme: Updated solution count.
+ P57, P58, P73: Added Haskell solutions.
+P100: Added Haskell and Mathematica solutions.
+Readme: Updated solution count.
+ P57, P58, P100: Updated Java and Python solutions.
+Readme: Updated solution count.
+ P45, P46, P587: Added Haskell solutions.
+Readme: Updated solution count.
+ P587: Added explanation and slightly simplified code in all language solutions.
+ P587: Added Mathematica solution.
+ P52: Added Haskell solution, tweaked Java and Python solutions.
+ P105: Added Mathematica solution, tweaked Java and Python solutions for clarity.
+ P106: Added mathematical explanation to all language solutions.
+ P103: Optimized Python solution code and updated explanation, tweaked Java solution.
+ P103: Added pedantic explanation to Java and Python solutions.
+ P71, P145: Tweaked bullet points in Python solution comments for consistency..
+P128: Tweaked bullet points in Haskell solution comments for consistency.
+ P103: Added extensive mathematical explanations and algorithm comments to Java and Python solutions, tweaked code to match math better.
+ P106: Added Java, Python, Mathematica, Haskell solutions.
+ P103: Rewrote Java solution with new algorithms for large speed-up and somewhat simpler logic, added Python solution.
+ P103: Added Java solution.

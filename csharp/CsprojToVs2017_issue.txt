@@ -1,0 +1,1083 @@
+﻿ Question about "It will simplify porting to other runtimes and enable possible .NET SDK tooling improvements"
+ First I would like to thank you for the fantastic work you have done on this tool which I guess saves lots of time to lots of people 👍
+
+I've got several messages like the following one 
+
+> A better way to reference 'Microsoft.CSharp' assembly is using respective 'Microsoft.CSharp' NuGet package. It will simplify porting to other runtimes and enable possible .NET SDK tooling improvements.
+
+I am not sure to understand why there is some advantages, could explain me or point me to some documentation which I couldn't find?
+
+Thanks!
+Forget about my question it is clear now!
+
+ Bug: File Globbing Generates Removes for Referenced Files
+ When converting projects, files that use URL Encoding (e.g. `RelayCommand%28of T%29`) the converter doesn't realize that `RelayCommand(Of T)` is equivalent and so it generates `<Compile RemoveI hadn't come across that style before, can you give us a source project file snippet with it in so we can easily test it
+
+ Support Setting Target Framework in Wizard
+ When using the wizard command there is no option to set the target framework.  The -t argument appears to also be ignored giving no option to interactively convert the project to a new target framework.
+ Unsupported Project
+ I have an older vs 2015 project that I'm trying to get up to 2017 or 2019 and running into all sorts of problems in the migration process.  I found this tool and was hopeful, but both the 2017 and 2019 versions are giving me the same message, that the project is unsupported.
+
+[14:19:19 WRN] Unsupported project[XXXXX] type {8BB2217D-0F2D-49D1-97BC-3654ED321F3B}
+[14:19:19 INF] No projects have been found to match your criteria.
+
+It is an older .NET Core 1.1 ASP.NET project.  Is there a particular reason it is not supported?  Can you think of any other options?  VS2017 itself fails to migrate it because dotnet-migrate is no longer around.
+
+Kind of at a loss right now.
+ Nuspec <dependency/> without version gives null reference exception
+ We have a nuspec file that contains this:
+```    
+<dependencies>
+      <dependency id="dotnet4.7.1" />
+      <dependency id="vfpoledb" version="1.0.0" />
+      <dependency id="vcredist2017" />
+    </dependencies>
+```
+
+The lack of `version` attributes seems to be causing a null ref exception.
+```
+~\Projects\AMS.Eclipse.Agent > dotnet migrate-2019 migrate
+[11:06:17 INF] Reading package info from nuspec C:\Users\jbuedel\Projects\EclipsePro-Design\src\AMS.Eclipse.Agent\eclipse-agent.nuspec.
+[11:06:17 ERR] Project C:\Users\jbuedel\Projects\EclipsePro-Design\src\AMS.Eclipse.Agent\AMS.Eclipse.Agent.csproj parsing has thrown an exception, skipping...
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at void Project2015To2017.Transforms.NuGetPackageTransformation.ConstrainPackageReferences(IReadOnlyList<PackageReference> rawPackageReferences, PackageConfiguration packageConfig)+(XElement dependency) => { } in C:/projects/csprojtovs2017/Project2015To2017.Core/Transforms/NuGetPackageTransformation.cs:line 34
+   at TResult[] System.Linq.Enumerable+SelectListIterator<TSource, TResult>.ToArray()
+   at TSource[] System.Linq.Enumerable.ToArray<TSource>(IEnumerable<TSource> source)
+   at void Project2015To2017.Transforms.NuGetPackageTransformation.ConstrainPackageReferences(IReadOnlyList<PackageReference> rawPackageReferences, PackageConfiguration packageConfig) in C:/projects/csprojtovs2017/Project2015To2017.Core/Transforms/NuGetPackageTransformation.cs:line 34
+   at void Project2015To2017.Transforms.NuGetPackageTransformation.Transform(Project definition) in C:/projects/csprojtovs2017/Project2015To2017.Core/Transforms/NuGetPackageTransformation.cs:line 19
+   at Project Project2015To2017.ProjectConverter.ProcessProjectFile(FileInfo file, Solution solution, ProjectReference reference) in C:/projects/csprojtovs2017/Project2015To2017.Core/ProjectConverter.cs:line 94
+   at (IReadOnlyCollection<Project> projects, IReadOnlyCollection<Solution> solutions) Project2015To2017.MigrationFacility.ParseProjects(IEnumerable<string> items, ITransformationSet transformationSet, ConversionOptions conversionOptions)+ProcessSingleItem(FileInfo file, string extension) in C:/projects/csprojtovs2017/Project2015To2017/MigrationFacility.cs:line 160
+```
+
+While the specs [0] do say that a `version` attribute is required, this .nuspec is used to create a chocolatey package, and I guess chocolatey isn't so strict.
+
+I get it if you don't care to support a non-standard file format. However it would be nice if the tool gave a better message as to the problem.
+
+[0] https://docs.microsoft.com/en-us/nuget/reference/nuspec#dependencies-element
+
+ Feature Request: Reference package instead of referencing Dll files
+ The generated project reference dll files and it's supposed to reference the nuget package
+
+so instead of any dll file  which is defined in HintPath:
+
+```
+<ItemGroup>
+    <Reference Include="Autofac, Version=4.2.1.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Autofac.4.2.1\lib\net45\Autofac.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Net.Http" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Autofac.Extras.Plugins\Autofac.Extras.Plugins.csproj" />
+  </ItemGroup>
+  ```
+  
+ It should be:
+  
+  ```
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.2.1" />
+    <PackageReference Include="Autofac.Extras.Plugins" Version="1.0.0" />
+  </ItemGroup>
+  ```
+ These packages are defined in the file: Packages.config.
+
+ Also, these Assemblies are reference by default in the project, so no need to reference it:
+ 
+ ``` 
+System
+System.Core
+System.Data
+System.Drawing
+System.Io.Compression.FileSystem
+System.Numerics
+System.RunTime.Serialization
+System.Xml
+System.Xml.Linq
+```
+
+@moh-hassan thank you for your report. If I understood you correctly, both of these features are already implemented in this tool. Are they not working correctly? If so, could you please provide the case for us to reproduce the issue?
+
+Thanks @andrew-boyarshin  for reply.
+Here the project in the [attached file](https://github.com/hvanbakel/CsprojToVs2017/files/3967952/CommonComponents.zip) including .csproj and Packages.config
+
+
+When I run the tool on the your test case, I get the following _csproj_ (you've provided a part of the result, I am posting it for further reference):
+
+```xml
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <ProjectGuid>{7238CC8F-C533-4DF5-8770-5D9EF82D91A9}</ProjectGuid>
+    <TargetFramework>net462</TargetFramework>
+    <AssemblyTitle>CommonComponents</AssemblyTitle>
+    <Product>CommonComponents</Product>
+    <Copyright>Copyright ©  2016</Copyright>
+    <OutputPath>bin\$(Configuration)\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugType>full</DebugType>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.2.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Autofac, Version=4.2.1.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Autofac.4.2.1\lib\net45\Autofac.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Net.Http" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Autofac.Extras.Plugins\Autofac.Extras.Plugins.csproj" />
+  </ItemGroup>
+</Project>
+```
+
+The only issue I see here is _Autofac_ assembly being referenced twice: once properly (as _PackageReference_), and once (as _Reference_) erroneously. I'll look into it.
+Do you expect more to be removed? The rest of `Reference`s are not safe to remove.
+
+After a short investigation I consider the _Autofac_ behavior correct. `HintPath` _does_ point at the path outside the project tree. The tool plays it safe. But maybe we should provide the user (of a wizard) the ability to handle these cases manually (like a prompt with a candidate for removal).
+
+I created this feature and it is supposed to look in your NuGet settings (i.e. `nuget.config`) to check that the `packages` folder is the one that you have configured for the solution. If the two match, then it will remove the HintPath as it can be pretty sure that it was managed by NuGet previously.
+
+I haven't checked recently to make sure that it is still working as the newer versions of this migrator seem to have a couple of issues in this area and I ended up using the VS tool to migrate to PackageReference prior to doing a migration with this tool.
+
+Sorry, that's a bit vague, but if you are able to check if your NuGet settings align with the HintPath, then we can establish for sure if it is a bug. There was a unit test for it I believe so perhaps it is still working as originally intended.
+
+I've not got much time to look at this at the mo.
+
+@mungojam 
+The new style SDK projects (2017+) are using `PackageReference` and I think migration should insure converting package.config and drop any dll file (has hint path file) and  have a corresponding package in package.config.
+
+
+@andrew-boyarshin 
+Have a look to the hintPath:
+```xml
+<HintPath>..\..\..\packages\Autofac.4.2.1\lib\net45\Autofac.dll</HintPath>
+```
+The HintPath Point to folder in the format: 
+```
+packages\<packagename>.<version>\lib\FFW\<dll filename>  
+```
+which insure that it's a package.
+In that case it's better to use packageReference than File Reference via HintPath.
+Also that package is included in package.config.
+
+
+
+
+> The new style SDK projects (2017+) are using PackageReference and I think migration should insure converting package.config and drop any dll file (has hint path file) and have a corresponding package in package.config.
+
+It does this, but only if the NuGet package location the `HintPath` matches either:
+
+1. The setting from a nuget.config (either global or in the path hierarchy above the project).
+
+or 
+
+2. The automatic convention of having a `packages` folder alongside the solution. I think for this to work, you need to tell the migrator to migrate the solution file rather than the project file.
+
+I've restructured your example's folder structure and added a nuget.config to demonstrate that it works for case 1 when run with `dotnet migrate-2019 wizard`.
+
+[CommonComponentsWithNugetConfig.zip](https://github.com/hvanbakel/CsprojToVs2017/files/3970419/CommonComponentsWithNugetConfig.zip)
+
+```xml
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <ProjectGuid>{7238CC8F-C533-4DF5-8770-5D9EF82D91A9}</ProjectGuid>
+    <TargetFramework>net462</TargetFramework>
+    <AssemblyTitle>CommonComponents</AssemblyTitle>
+    <Product>CommonComponents</Product>
+    <Copyright>Copyright ©  2016</Copyright>
+    <OutputPath>bin\$(Configuration)\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugType>full</DebugType>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.2.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Net.Http" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Autofac.Extras.Plugins\Autofac.Extras.Plugins.csproj" />
+  </ItemGroup>
+</Project>
+```
+
+@moh-hassan. I meant to ask, which case are you relying on for the packages to work prior to the migration? 1 or 2
+
+@mungojam 
+Neither 1 nor 2
+I used the wizard for a project in the folder without nuget.config. 
+It seem that nuget.config  is needed.
+It's nice if wiki documentation describe the valid ideal environment to run the wizard and the importance of nuget.config.
+
+
+
+
+
+
+
+
+
+If `NuGet.config` file is not found, heuristics are used. If a project is part of the solution, `packages` directory is an immediate child of solution folder. Otherwise, it is the one adjacent to the project folder. The heuristics are sound, even if not overly sophisticated. In your example, the tool correctly follows the heuristics and decides the `HintPath` does _not_ point to a valid NuGet package cache folder.
+A good idea would be to implement additional stage in migration wizard to provide means to force the conversion to `PackageReference` when the heuristics decided `HintPath` to be invalid, but it still contains `packages/$(Id).$(Version)/` pattern. Since this is a potentially breaking migration, it should be opt-in, not opt-out. In my opinion, this issue should be considered a feature request, not a bug report.
+
+>this issue should be considered a feature request, not a bug report
+
+@andrew-boyarshin 
+You are correct. It should be a feature request.
+Some consideration may be taken into account:
+
+- The project may move from one machine to another and  NuGet.config file may not be exist or invalid.
+- The  package directory may be deleted when zipping the project and it shouldn't be considered.
+
+An option in commandline to ignore/use  package directory / or NuGet.config is good.
+
+
+ Can sqlproj files be converted to sdk style too?
+ I am aware that the wizard currently does not convert sqlproj files to the sdk style.
+
+I'm currently tasked with converting the csproj files of a few internal tools we have to the new sdk style and as a first step am using the migration wizard, before doing more changes/fixes by hand.
+
+I now encountered a sqlproj file and was wondering if in theory this could be converted aswell. My google-fu doesn't seem advanced enough to find the answer, so I was wondering if anyone here might have more knowledge and insight on the matter.
+For anyone else wondering: While the tool didn't help in the conversion, I was able to convert it by hand.
+
+@bytefluxio do you have guidance or resources that helped you do this? We have a large sqlproj file that we would like to upgrade but didn't think it was possible!
+
+ Is it possible to leave all cs files in csproj?
+ First of all THANK YOU for this useful tool. Great job!
+
+In my old csproj file I have all cs files to compile specified. When I migrate csproj to new format all cs files disappear and new implicit logic to include cs files to project is used. Is it possible to leave all cs files in csproj for new format as well? Couldn't find any related issue to this one.
+
+Thanks.
+ Project2015To2017.Migrate2019.Library does not exist on nuget.org
+ Hi there, i just tried to create my own tool based on `Project2015To2017.Migrate2019.Library` as the readme describes.
+Sadly `dotnet add package Project2015To2017.Migrate2019.Library` fails because that package does not exist on nuget.org.
+Did i miss something or is it just not available there?
+If it's not available there could you publish it there?
+
+And thanks for this great tool/library!
+I've just hit the same issue too.
+
+I think the code is there but the nuget is not longer published https://github.com/hvanbakel/CsprojToVs2017/tree/master/Project2015To2017.Migrate2017.Library
+
+
+ Inline PackageReference PrivateAssets attribute is removed
+ When upgrading or cleaning up csproj files that have inline PrivateAssets attributes on PackageReference items, the attributes are incorrectly removed.
+
+Example:
+`<PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.6" PrivateAssets="All" />`
+
+becomes:
+`<PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.6" />`
+
+I am not sure if this occurs with any other inline attributes, but all attributes should be preserved on upgrade.
+ Can it migrate PreBuildEvent and PostBuildEvent too
+ Thank you for the tool, it makes a great job.
+
+Could you migrate the PreBuildEvent and PostBuildEvent too? Because without changes no macros like e.g. $(ProjectDir) are replaced anymore. But if you would convert them into tasks then they are replaced again.  
+
+e.g.
+Old:
+```
+<PropertyGroup>
+     <PreBuildEvent>"$(ProjectDir)PreBuildEvent.bat" "$(ProjectDir)..\" "$(ProjectDir)" "$(TargetDir)" 0 />
+</PropertyGroup>
+```
+New:
+```
+<Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+   <Exec Command="&quot;$(ProjectDir)PreBuildEvent.bat&quot; &quot;$(ProjectDir)..\&quot; &quot;$(ProjectDir)&quot; &quot;$(TargetDir)&quot; &quot;$(DevEnvDir)&quot; 0" />
+</Target>
+```
+
+Details can be found  https://github.com/dotnet/project-system/issues/1569
+
+Thank you and best regards
+Helmut
+ Extra properties of items and item nesting are lost
+ Version used: 4.1.2
+
+How to reproduce:
+- Install https://github.com/tom-englert/ProjectMigrationHelper (optional)
+- Open https://github.com/tom-englert/ResXResourceManager sources in Visual Studio
+- Create a fingerprint "before" with ProjectMigrationHelper (optional)
+- Convert ResXResourceManager projects using ```dotnet migrate-2019 wizard```
+- Create a fingerprint "after" with ProjectMigrationHelper (optional)
+- Compare fingerprints (optional, or manually find the changes)
+
+=> File nesting is lost, item properties like ```CustomTool``` are lost.
+
+Root causes:
+1.
+```xml
+    <None Include="Properties\Settings.settings">
+      <Generator>PublicSettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+```
+has been removed at all, but should have been replaced with
+```xml
+    <None Update="Properties\Settings.settings">
+      <Generator>PublicSettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Update="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+```
+2.
+```xml
+    <None Include="Properties\Resources.Designer.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </None>
+```
+has been left unchanged, but should have been replaced with
+```xml
+    <None Update="Properties\Resources.Designer.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </None>
+```
+
+Generally any item with properties should not be removed, but changed from ```Include``` to ```Update```
+@hvanbakel any chance to get this fixed? I had a quick look at the sources, but did'nt find the correct entry point where to start fixing this.
+
+ Consistently getting "Specify which project file to use..."
+ After installing and attempting to run,  I'm consistently getting...
+"Specify which project file to use because this 'D:\ATLASSVN\Common\source\Utilities\Utilities' contains more than one project file."
+
+My command line is: _dotnet migrate-2019 wizard "Utilities.csproj"_
+
+The directory actually only contains one .csproj file.   I've attached my .csproj file and a screenshot of my command window.
+
+If there anything I'm obviously doing wrong?
+
+
+[Utilities.csproj.zip](https://github.com/hvanbakel/CsprojToVs2017/files/3628713/Utilities.csproj.zip)
+
+
+![2019-09-19 11_12_24-Common- Microsoft Visual Studio (Administrator)](https://user-images.githubusercontent.com/5687119/65193459-54f5ef80-dacf-11e9-8d3c-6dffd1bd709b.png)
+
+Your directory is called Utilities.csproj? I would need to test but why
+does your folder have an extension :)
+
+Not saying we shouldn't fix that but it seems weird
+
+On Wed, Sep 18, 2019, 16:27 threadz <notifications@github.com> wrote:
+
+> After installing and attempting to run, I'm consistently getting...
+> "Specify which project file to use because this
+> 'D:\ATLASSVN\Common\source\Utilities\Utilities' contains more than one
+> project file."
+>
+> My command line is: *dotnet migrate-2019 wizard "Utilities.csproj"*
+>
+> The directory actually only contains one .csproj file. I've attached my
+> .csproj file and a screenshot of my command window.
+>
+> If there anything I'm obviously doing wrong?
+>
+> Utilities.csproj.zip
+> <https://github.com/hvanbakel/CsprojToVs2017/files/3628713/Utilities.csproj.zip>
+>
+> [image: 2019-09-19 11_12_24-Common- Microsoft Visual Studio
+> (Administrator)]
+> <https://user-images.githubusercontent.com/5687119/65193459-54f5ef80-dacf-11e9-8d3c-6dffd1bd709b.png>
+>
+> —
+> You are receiving this because you are subscribed to this thread.
+> Reply to this email directly, view it on GitHub
+> <https://github.com/hvanbakel/CsprojToVs2017/issues/265?email_source=notifications&email_token=AA7QKPDLBPFRDZCRBK2TUXTQKK2PJA5CNFSM4IYEWUNKYY3PNVWWK3TUL52HS4DFUVEXG43VMWVGG33NNVSW45C7NFSM4HMIXPMQ>,
+> or mute the thread
+> <https://github.com/notifications/unsubscribe-auth/AA7QKPHXB4ZOZ2VI3FX6S5TQKK2PJANCNFSM4IYEWUNA>
+> .
+>
+
+
+No. Project file in the Utilities directory is called Utilities.csproj.  I was referencing the project file directly from the command line.
+
+It's a .NET Framework 4 class library.
+
+Seemed a weird error message to me too.
+
+@threadz It's strange, to the point of being weird.
+1. There is currently no such string in this project. It's not the message of `dotnet-migrate-2019`.
+2. Even if there were, the wizard should list all ambiguous variants (in case there are less than 5).
+
+1. What is your version of `project2015to2017.migrate2019.tool` (`dotnet tool list -g`)?
+2. Try turning on extreme log verbosity. `dotnet migrate-2019 -v diag wizard "Utilities.csproj"`
+3. Try specifying ".\Utilities.csproj" or full path. Try not specifying anything, it should pick that file, since it's the only project/solution file in the current working directory.
+
+Wow, that is odd then.  Here's the screenshot from the CMD window with your suggestions...
+
+![2019-09-19 15_03_03-C__WINDOWS_system32_cmd exe](https://user-images.githubusercontent.com/5687119/65210271-b8dbe080-daee-11e9-848f-aef2f2d4934a.png)
+
+
+Apparently this error is also run when running `dotnet ef`
+https://github.com/aspnet/EntityFrameworkCore/issues/11315
+
+ logger.LogWarning should log Project
+ For really large projects, it's very difficult to understand where an error is emanating from.  Below is sample output from running the tool with a sln file with 31 projects:
+
+> [14:46:21 WRN] Unsupported project[WixInstallerSetup(2.0.0)] type {930C7802-8A8C-48F9-8165-68863BCCD9DD}
+> [14:46:21 WRN] Could not read assembly information, multiple files found:
+> ..\GlobalAssemblyInfo.cs, Properties\AssemblyInfo.cs
+> [14:46:21 WRN] Could not read assembly information, multiple files found:
+> ..\GlobalAssemblyInfo.cs, Properties\AssemblyInfo.cs
+> [14:46:21 WRN] Could not read assembly information, multiple files found:
+> ..\GlobalAssemblyInfo.cs, Properties\AssemblyInfo.cs
+> [14:46:21 WRN] Could not read assembly information, multiple files found:
+> ..\GlobalAssemblyInfo.cs, Properties\AssemblyInfo.cs
+> [14:46:21 WRN] Could not read assembly information, multiple files found:
+> ..\GlobalAssemblyInfo.cs, Properties\AssemblyInfo.cs
+> [14:46:21 WRN] Could not read assembly information, multiple files found:
+> Properties\GlobalAssemblyInfo.cs, Properties\AssemblyInfo.cs
+> [14:46:21 WRN] Could not read assembly information, multiple files found:
+> ..\GlobalAssemblyInfo.cs, Properties\AssemblyInfo.cs
+> [14:46:21 WRN] Could not read assembly information, multiple files found:
+> ..\GlobalAssemblyInfo.cs, Properties\AssemblyInfo.cs
+> [14:46:21 WRN] Could not read assembly information, multiple files found:
+> ..\GlobalAssemblyInfo.cs, Properties\AssemblyInfo.cs
+> [14:46:21 WRN] Could not read assembly information, multiple files found:
+> ..\GlobalAssemblyInfo.cs, Properties\AssemblyInfo.cs
+> [14:46:21 WRN] Could not read assembly information, multiple files found:
+> ..\GlobalAssemblyInfo.cs, Properties\AssemblyInfo.cs
+> [14:46:21 WRN] Could not read assembly information, multiple files found:
+> ..\GlobalAssemblyInfo.cs, Properties\AssemblyInfo.cs
+> [14:46:21 WRN] Could not read assembly information, multiple files found:
+> Properties\GlobalAssemblyInfo.cs, Properties\AssemblyInfo.cs
+> [14:46:21 WRN] Could not read assembly information, multiple files found:
+> ..\GlobalAssemblyInfo.cs, Properties\AssemblyInfo.cs
+> [14:46:21 WRN] Could not read assembly information, multiple files found:
+> ..\GlobalAssemblyInfo.cs, Properties\AssemblyInfo.cs
+> [14:46:21 WRN] Could not read assembly information, multiple files found:
+> ..\GlobalAssemblyInfo.cs, Properties\AssemblyInfo.cs
+> [14:46:21 WRN] Could not read assembly information, multiple files found:
+> ..\GlobalAssemblyInfo.cs, Properties\AssemblyInfo.cs
+> [14:46:21 WRN] Could not read assembly information, multiple files found:
+> ..\GlobalAssemblyInfo.cs, Properties\AssemblyInfo.cs
+> [14:46:21 WRN] Could not read assembly information, multiple files found:
+> ..\GlobalAssemblyInfo.cs, Properties\AssemblyInfo.cs
+> [14:46:21 WRN] Could not read assembly information, multiple files found:
+> ..\GlobalAssemblyInfo.cs, Properties\AssemblyInfo.cs
+> [14:46:21 WRN] Could not read assembly information, multiple files found:
+> ..\GlobalAssemblyInfo.cs, Properties\AssemblyInfo.cs
+> [14:46:21 WRN] Could not read assembly information, multiple files found:
+> ..\GlobalAssemblyInfo.cs, Properties\AssemblyInfo.cs
+> [14:46:21 WRN] Could not read assembly information, multiple files found:
+> ..\GlobalAssemblyInfo.cs, Properties\AssemblyInfo.cs
+> [14:46:22 WRN] Could not read assembly information, multiple files found:
+> ..\GlobalAssemblyInfo.cs, Properties\AssemblyInfo.cs
+> [14:46:22 WRN] Could not read assembly information, multiple files found:
+> ..\GlobalAssemblyInfo.cs, Properties\AssemblyInfo.cs
+> [14:46:22 ERR] Entity framework was detected. We do not support conversion of these projects.
+> [14:46:22 WRN] Could not read assembly information, multiple files found:
+> ..\GlobalAssemblyInfo.cs, Properties\AssemblyInfo.cs
+> [14:46:22 ERR] Entity framework was detected. We do not support conversion of these projects.
+> [14:46:22 WRN] Could not read assembly information, multiple files found:
+> ..\GlobalAssemblyInfo.cs, Properties\AssemblyInfo.cs
+> [14:46:22 ERR] Entity framework was detected. We do not support conversion of these projects.
+> [14:46:22 WRN] Could not read assembly information, multiple files found:
+> ..\GlobalAssemblyInfo.cs, Properties\AssemblyInfo.cs
+> [14:46:22 ERR] Entity framework was detected. We do not support conversion of these projects.
+> [14:46:22 WRN] Could not read assembly information, multiple files found:
+> ..\GlobalAssemblyInfo.cs, Properties\AssemblyInfo.cs
+> [14:46:22 FTL] Access to the path 'C:\Users\john.zabroski\Application Data' is denied.
+
+Here is an example where ILogger.LogWarning is difficult to read:
+
+https://github.com/hvanbakel/CsprojToVs2017/blob/d7040f870e304e9191e878cdd1b440bc684d1a27/Project2015To2017.Core/Reading/AssemblyInfoReader.cs#L74-L75
+ Multiple AssemblyInfo should be OK
+ What exactly are you trying to guard against here?
+
+In my use case, I have a Linked GlobalAssemblyInfo.cs which contains things like AssemblyCopyright, AssemblyTrademark, AssemblyVersion, AssemblyFileVersion, AssemblyInformationalVersion, AssemblyCulture, AssemblyDescription, etc.
+
+The only things I have in my "normal" AssemblyInfo is AssemblyTitleAttribute, ComVisibleAttribute, and GuidAttribute.
+
+https://github.com/hvanbakel/CsprojToVs2017/blob/d7040f870e304e9191e878cdd1b440bc684d1a27/Project2015To2017.Core/Reading/AssemblyInfoReader.cs#L71-L79
+
+
+
+This functionality also doesn't work right.
+
+My newly generated dotnet SDK project file generates a `<ApplicationVersion>1.0.0.0</ApplicationVersion>` despite also having `<GenerateAssemblyInfo>false</GenerateAssemblyInfo>`
+
+I think if you disable GenerateAssemblyInfo, you shouldnt automatically choose ApplicationVersion.
+
+In general, I think this feature more or less works "correctly" (if in a hacky way), in the sense that if you DO have more than one AssemblyInfo file, chances are you are doing what I am doing.  The only escaped defect is introducing ApplicationVersion element.
+
+Would it be possible to use Roslyn to load all AssemblyInfo files and make sure they're mutually exclusive?
+
+I'm just not sure why you would drop out if you encountered more than one file.
+
+<https://github.com/hvanbakel/CsprojToVs2017/pull/257#issuecomment-517119810>
+
+And regarding the `ApplicationVersion` — I'll look into it.
+
+@jzabroski ApplicationVersion is not related to AssemblyInfo files in CPS (although, of course, it can be specified in such files). The behaviour is intended, no bug here, although it can be a feature request: simplify away this property if default value of `1.0.0.0` is specified (and its variations, like `1.0`). This issue is to be closed and a new one opened for feature request, unless, of course, I've got your comments wrong.
+
+_For future reference:_
+The full list of automatically-generated AssemblyInfo properties:
+```
+AssemblyCompany
+AssemblyConfiguration
+AssemblyCopyright
+AssemblyDescription
+AssemblyFileVersion
+AssemblyInformationalVersion
+AssemblyProduct
+AssemblyTitle
+AssemblyVersion
+NeutralResourcesLanguage
+```
+
+I think you got it wrong.
+
+ApplicationVersion is a SemVer helper and orthogonal to Assembly Info for GREENFIELD projects.
+
+For existing projects, I think Assembly Version Info is correct 
+
+@jzabroski sorry, I still don't follow.
+> My newly generated dotnet SDK project file generates a `<ApplicationVersion>1.0.0.0</ApplicationVersion>` despite also having `<GenerateAssemblyInfo>false</GenerateAssemblyInfo>`
+
+Generated by whom? .NET Core SDK CLI (`dotnet new`) or `dotnet-migrate-201X`?
+
+> ApplicationVersion is a SemVer helper and orthogonal to Assembly Info for GREENFIELD projects.
+
+I assume _GREENFIELD_ is some non-open-source project/organization/company?
+Well, .NET Core SDK 5.0 (nightly) only has one mention of that property in the feature sector I'm not well informed of.
+
+And I'm still not sure what exactly the issue is with `ApplicationVersion` property. Why are you mentioning _AssemblyInfo_ files while they are orthogonal to the property in question?
+
+Sorry, I was not clear.  Hope you can forgive me.  Take 2:
+
+Greenfield is a term for building brand new projects (e.g., `dotnet new`).
+
+Brownfield is a term for maintaining and upgrading existing projects (`dotnet-migrate201x` helps with this).
+
+For an application that is on Version 2.0, it makes little sense for the output to generate `<ApplicationVersion>1.0.0.0</ApplicationVerison>`
+
+I think, if you're manually moving from MSBuild file format to .NET Core Common Project System format, then you're safest bet is to either omit ApplicationVersion or use AssemblyVersionAttribute metadata (especially in the case of an executable target vs. a library).
+
+I don't think `dotnet-migrate-201x` should just throw in ApplicationVersion because that's what `dotnet new` does.  Do you agree or disagree?
+
+I think I implemented this and I did it after establishing the different
+treatment of versions in Assembly info vs. SDK project file.
+
+unfortunately I don't have time to look into it more at the moment but I
+expect it is to do with assembly info falling back on another assembly
+version property when one is missing, while project SDK may default to 1.0
+or 0.0, so to do an accurate migration I had to add the previously missing
+property unless the default matched already
+
+On Wednesday, 18 September 2019, John Zabroski <notifications@github.com>
+wrote:
+
+> Sorry, I was not clear. Hope you can forgive me. Take 2:
+>
+> Greenfield is a term for building brand new projects (e.g., dotnet new).
+>
+> Brownfield is a term for maintaining and upgrading existing projects (
+> dotnet-migrate201x helps with this).
+>
+> For an application that is on Version 2.0, it makes little sense for the
+> output to generate <ApplicationVersion>1.0.0.0</ApplicationVerison>
+>
+> I think, if you're manually moving from MSBuild file format to .NET Core
+> Common Project System format, then you're safest bet is to either omit
+> ApplicationVersion or use AssemblyVersionAttribute metadata (especially in
+> the case of an executable target vs. a library).
+>
+> I don't think dotnet-migrate-201x should just throw in ApplicationVersion
+> because that's what dotnet new does. Do you agree or disagree?
+>
+> —
+> You are receiving this because you are subscribed to this thread.
+> Reply to this email directly, view it on GitHub
+> <https://github.com/hvanbakel/CsprojToVs2017/issues/263?email_source=notifications&email_token=AAYCFSZEWTYKI57HDZ7BX7TQKI6LFA5CNFSM4IXUMM5KYY3PNVWWK3TUL52HS4DFVREXG43VMVBW63LNMVXHJKTDN5WW2ZLOORPWSZGOD7ALGFA#issuecomment-532722452>,
+> or mute the thread
+> <https://github.com/notifications/unsubscribe-auth/AAYCFS2IVQZYJFE27N3RTVLQKI6LFANCNFSM4IXUMM5A>
+> .
+>
+
+
+-- 
+Sent from my mobile
+
+
+So, I searched GitHub to see how people might use my concept of GlobalAssemblyInfo (because I learned it from other developers and assume such practices spread like a virus/meme).  See here: https://github.com/search?p
+It's interesting that a large number of projects put their "Global Assembly Info" data in a special static class and then reference it in their AssemblyInfo.cs.  I don't think this approach is as good as mine because there is overhead associated with loading the second assembly, just for the sake of loading assembly metadata.  In this scenario, @mungojam 's logic doesn't work, either, though.  The irony is that a meta-circular upgrade test would have the same problem: This csproj project has AssemblyInfoReader.cs and AssemblyInfo.cs
+
+ "Entity framework was detected" false positive
+ The following code is extremely annoying for me.  I am the co-maintainer of FluentMigrator, a migration framework that uses a project structure that may or may not contain the folder name Migrations.
+
+What are you trying to achieve here?  Why can't you just check the Project and packages.config for references to the EntityFramework6 package?
+
+https://github.com/hvanbakel/CsprojToVs2017/blob/e33ca10f52c0474b7dc53126cf30911029a0ad72/Project2015To2017.Core/UnsupportedProjectTypes.cs#L33-L38
+
+I also think, if you're going to raise an ERR level here, you should explain what you're checking in the error message.
+Fair point, we should fix this
+
+I have the same issue, could use an override to ignore it. Renaming the folder before converting and back after works though.
+
+Yeah, I rename it to Mygrations, ugh.
+
+If someone plan to work on it then it's worth noting that since EF 6.3 migrating to new .csproj is possible
+
+From https://docs.microsoft.com/en-us/ef/ef6/what-is-new/#ef-630
+> The migrations commands have been rewritten to execute out of process and work with SDK-style projects.
+
+I was able to successfully migrate to new csproj by:
+1. Comment out the code that checks for "Migration" directory or "edmx" files. (If you don't want change CsprojToVs2017 then renaming "Migrations" to "Mygrations" trick should work too)
+2. Running `dotnet .\Project2015To2017.Migrate2017.Tool\bin\Debug\netcoreapp2.1\dotnet-migrate-2017.dll migrate --no-backup C:\projects\MyOldProjectWithOldCsproj`
+3. Removing "<Compile Update=" and "<EmbeddedResource Update=" from project with EF migrations. I used this regexes (replace the match with empty string):
+```
+<Compile Update="Migrations\\(.|[\s\n])+?<\/Compile>[\n\s]+
+<EmbeddedResource Update="Migrations\\(.|[\s\n])+?<\/EmbeddedResource>[\n\s]+
+```
+4. Add `<EmbeddedResourceUseDependentUponConvention>true</EmbeddedResourceUseDependentUponConvention>` to EF's .csproj or `Directory.Build.props` file. Without this change I had this error:
+>"Could not find any resources appropriate for the specified culture or the neutral culture.  Make sure "MyOldProjectWithOldCsproj.Migrations.TestMigrationEmpty.resources" was correctly embedded or linked into assembly "MyOldProjectWithOldCsproj" at compile time, or that all the satellite assemblies required are loadable and fully signed."
+
+And it seems that everything works. When I add migration with `Add-Migration` in VS new migrations files are added without changing .csproj.
+
+Hope this will help some people struggling with migration to new .csproj.
+
+ Fix #260: Crash when project contains NeutralResourcesLanguage attribute
+ Also updated ```TestFiles/Solutions/ClassLibrary/Properties/AssemblyInfo.cs```, however I did not find a test where this is used...
+ Crash when project contains NeutralResourcesLanguage attribute
+ NeutralResourcesLanguage attribute is usually used with two parameters:
+```[assembly: NeutralResourcesLanguage("en-US", UltimateResourceFallbackLocation.MainAssembly)]```
+so this assumption is incorrect:
+https://github.com/hvanbakel/CsprojToVs2017/blob/0e34b50da048413ee50f48ceb342ea9210286d19/Project2015To2017.Core/Definition/AssemblyAttributes.cs#L122-L125
+ This project rocks!!!
+ I just wanted to express how cool this work is. It's great! saves hours of work.!
+
+Big thanks!!
+Thanks for the issue :)
+
+ Transform assembly signing attributes
+ Siging of an assembly can also be done using assembly attributes in the assemblyinfo.cs
+
+[assembly: AssemblyDelaySign(true)]
+[assembly: AssemblyKeyFile(@"..\..\PublicKey.snk")]
+
+With this pull request these attributes get also transformed
+ In cases where AssemblyInfo is being preserved and there are multiple…
+ … AssemblyInfo files present (very common in GitVersion implementations where there is a single common AssemblyInfo file containing version info and an AssemblyInfo file containing library specific details), AssemblyDetails will be null (multiple files not currently supported) but there is no null check in NuGetPackageTransformation. Added null propagation on the assemblyAttributes object. If time allows I will add support for multiple assemblyinfo files but at a minimum this fixes the null reference exception when assembly info details are being preserved.
+@jlegan regarding your wish to improve support for shared (common, global) assemblyinfo files. They are already supported (I regularly test the project on [ConfuserEx](https://github.com/yck1509/ConfuserEx) and [Dopamine](https://github.com/digimezzo/Dopamine), both have shared assemblyinfo files). The degree of that support however is minimal: preserve all assemblyinfo files, do not read information from them. I introduced such behavior back in #139, to not to introduce errors during conversion. There aren't much things that can be done to improve the situation (or they are quite complicated).
+
+- Read all assemblyinfo files and transform read properties into includable MSBuild project with a single `PropertyGroup`.
+- Read shared assemblyinfo files and add specific properties (e.g. `GenerateAssemblyCompanyAttribute`) for each shared property
+
+Note, that these require making a lot of assumptions about the structure of the project. E.g. in ConfuserEx the shared assemblyinfo file might not exist at the time of conversion (it is being generated during build process by one of the projects being built).
+
+Thanks you for your contribution, I can't believe such bug existed and wasn't noticed before.
+
+ Impossible to load assembly or file using dotnet-migrate-2019 v 4.1
+ Hi,
+
+I run the following command :
+dotnet-migrate-2019 migrate "path/to/mysolution/mysolution.sln"
+
+I get the following message : Impossible to load file or assembly ''Microsoft.Extensions.Logging.Abstractions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60'".
+
+How can I solve this issue?
+
+Best regards,
+Maher
+Did you install this as NuGet global tool or from ZIP package from releases?
+
+I'm afraid I can't reproduce the issue under neither Windows (.NET Core 3.0/.NET Framework 4.8) nor Linux (.NET Core 2.2) using both global tool from NuGet and ZIP package from releases. Please, add more information to the issue.
+1. Installation source
+2. OS & OS Version
+3. `dotnet --info`
+4. Installed .NET Framework version if on Windows
+
+And more detailed reproduction steps would be nice to have.
+
+Hi Andrew,
+
+1. I am using the ZIP package from releases.
+2. OS Win 7 and Win 10.
+3. λ dotnet --info
+SDK .NET Core (reflétant tous les global.json) :
+ Version:   3.0.100-preview6-012264
+ Commit:    be3f0c1a03
+
+Environnement d'exécution :
+ OS Name:     Windows
+ OS Version:  6.1.7601
+ OS Platform: Windows
+ RID:         win7-x64
+ Base Path:   C:\Program Files\dotnet\sdk\3.0.100-preview6-012264\
+
+Host (useful for support):
+  Version: 3.0.0-preview6-27804-01
+  Commit:  fdf81c6faf
+
+.NET Core SDKs installed:
+  3.0.100-preview6-012264 [C:\Program Files\dotnet\sdk]
+
+.NET Core runtimes installed:
+  Microsoft.AspNetCore.App 3.0.0-preview6.19307.2 [C:\Program Files\dotnet\shared\Microsoft.AspNetCore.App]
+  Microsoft.NETCore.App 3.0.0-preview6-27804-01 [C:\Program Files\dotnet\shared\Microsoft.NETCore.App]
+  Microsoft.WindowsDesktop.App 3.0.0-preview6-27804-01 [C:\Program Files\dotnet\shared\Microsoft.WindowsDesktop.App]
+
+To install additional .NET Core runtimes or SDKs:
+  https://aka.ms/dotnet-download
+4. .NET Framework 4.7.2 and .NET 4.8
+
+
+To reproduce the issue I cd to the ZIP package then I cd to net461.
+
+I wrote the following command : 
+dotnet-migrate-2019 wizard "path/to/solution.sln"
+
+Thanks, I've reproduced the issue. I'll look into it.
+
+upd: my dev local builds do not exhibit the issue.
+upd: it appears this is a bug in .NET Core 3 SDK. `dotnet-migrate-2019.exe.config` is not generated properly (less assembly redirection entries than there should be). I'm always using latest nightlies of SDK, that's why on local tests I've been unable to detect issue before public release. It also means this bug is fixed some time after preview6.
+upd: replacing `.config` file from the released version with the one from my dev builds fixes the issue for the released binaries.
+
+@MaherJendoubi could you please confirm the issue to be fixed in 4.1.1?
+
+@andrew-boyarshin No, I have now another exception.
+
+![image](https://user-images.githubusercontent.com/1798510/61846949-47463400-aea9-11e9-94e7-5578a091fd2b.png)
+
+
+hi,
+Dependencies libraries of Project2015To2017.Core.dll are not contained in Project2015To2017 nuget package (which itself declare no package dependencies). It could explain why System.Memory.dll is not found  (at least when using Project2015To21017.nupkg in a console app). 
+
+PS : I'm also missing Project2015To2017.Migrate201**9**.Library.dll into Project2015To2017 nuget package
+
+
+
+There are multiple builds with different issues:
+* dotnet global tool — always ideal and tested extensively to work everywhere
+* netcoreapp2.1 from ZIP releases — always ideal, tested on free time basis
+* net461 from ZIP releases — issues with assembly versions (redirections are not being generated due to 3.0 Preview Microsoft.NET.Sdk bug, so, despite the existence of correct assembly file, it's not being picked due to version mismatch), this is what this issue is about
+* All NuGet libraries — issues with dependencies due to another NuGet bug (or, rather, incomplete functionality with Priority 1 issue on their backlog), sometimes workarounds work
+
+@CedricLeblond regarding `Project2015To2017.Migrate2019.Library` absence in `Project2015To2017` — I'm aware of that, that is easy to fix.
+
+hi,
+A nuget package which fix this issue, is it available ?
+
+Regards.
+
+
+the nuspec generate have some dependency to other pacakges which are not publishing:
+```xml
+      <group targetFramework=".NETStandard2.0">
+        <dependency id="Project2015To2017.Core" version="4.1.1" exclude="Build,Analyzers" />
+        <dependency id="Project2015To2017.Migrate2017.Library" version="4.1.1" exclude="Build,Analyzers" />
+      </group>
+```
+so if you also publish all nupkg create in the repository everything should be working.
+
+Regards.
+
+ Create migrate-2019 for 4.1-RC
+ * Refactor `migrate-2017` to reduce code duplication
+* Split large files into multiple small ones
+* Move `Service` item filtering to separate transformation
+* `Service` is an item, not a property (bugfix)
+* Remove duplicates from input paths (e.g. when globbing like `**\*` a single project could be added twice: from actual glob search and from solution traverse)
+* Update MSBuild.Sdk.Extras versions for both .NET Core 2.x & 3.x
+* Update AppVeyor configuration (fix #254)
+
+@hvanbakel one more NuGet package is required for the new `dotnet migrate-2019` global tool. We can't reuse legacy `.Console` API key for obvious reasons.
+@mungojam related to your comment <https://github.com/hvanbakel/CsprojToVs2017/pull/243#issuecomment-487751092>:
+That's strange. My response on that thread was incorrect. You don't need to set target execution moment on your pre/post-transforms passed through `ConversionOptions`, they are executed separately from topologically sorted ones. I believe the reason you saw what you saw on your screenshot is that you've added the same transforms to TransformationSet. It's not necessary. Moreover, this makes your custom pre/post transforms run twice (as part of transformation set and separately from `ConversionOptions`).
+I'd deprecate `PreDefaultTransforms` and `PostDefaultTransforms` at all, and force everything to be part of one transformation plan graph (that is, via `ITransformationSet`). This would remove such ambiguities.
+
+@andrew-boyarshin, by that point I had given up on trying to use the conversion options route as the transforms would get run twice due to the way the Facility class processed things (sorry can't remember exact reason at the moment).
+
+I think the concept of pre and post transforms covers a lot of scenarios, but as long as the way I have put in the readme still works then I'm ok with dropping the ConversionOptions pre/post in order to simplify the logic.
+
+I’ll have a look at it over the weekend, I just tot an email about an expiring NuGet api key anyway so I’ll create the 2019 one too.
+
+The downside from creating a completely new tool though is that users will need a new package to install. And since the problem is not remotely as big as it was for 2015 to 2017 I don’t expect a lot of people to install that. Should we maybe check if one package can contain multiple commands?
+
+@hvanbakel as long as we recommend using `migrate-2019` instead of `migrate-2017` (e.g. in README.md) no further action will be needed. `migrate-2019` is as functional as `migrate-2017`, transformation sets differ only by a single WPF/WinForms transformation, 99% of the code is shared and reused. It is possible to migrate from 2010 to 2019 in a single `migrate-2019` command.
+
+OK then, pending new NuGet package for 4.1 release. Meanwhile, I'll update the README and add some `[Obsolete]` annotations.
+
+New keys are here:
+https://github.com/hvanbakel/CsprojToVs2017/commit/ff1c66c179c526120b4b046aa227d33e18fe8e8f
+
+The 2019 key is in comment to be uncommented here.
+
+ Creating a PR also publishes nuget packages if it contains a revved version
+ 
+ #252 fix
+ 
+and I just learned that PRs also get published so the nuget package is already out there... 
+
+Filing a separate bug for that.
+
+That's a really good point, wasn't around a PC so this was done through the
+web UI :smile: I'll fix that later
+
+On Wed, Jun 26, 2019, 21:51 Andrew Boyarshin <notifications@github.com>
+wrote:
+
+> *@andrew-boyarshin* requested changes on this pull request.
+> ------------------------------
+>
+> In Project2015To2017.Migrate2017.Library/Transforms/FileTransformation.cs
+> <https://github.com/hvanbakel/CsprojToVs2017/pull/253#discussion_r298004939>
+> :
+>
+> > @@ -47,6 +47,11 @@ public FileTransformation(ILogger logger = null)
+>
+>  		public void Transform(Project definition)
+>  		{
+> +			if (definition.IsModernProject)
+>
+> It's better to add ILegacyOnlyProjectTransformation interface to
+> FileTransformation instead of putting an if statement here. This way,
+> user can override this by command-line switch.
+>
+> —
+> You are receiving this because you authored the thread.
+> Reply to this email directly, view it on GitHub
+> <https://github.com/hvanbakel/CsprojToVs2017/pull/253?email_source=notifications&email_token=AA7QKPCFZBIXA6SCCJ4Y5DDP4RBMNA5CNFSM4H3XXWXKYY3PNVWWK3TUL52HS4DFWFIHK3DMKJSXC5LFON2FEZLWNFSXPKTDN5WW2ZLOORPWSZGOB4ZQ5VY#pullrequestreview-255004375>,
+> or mute the thread
+> <https://github.com/notifications/unsubscribe-auth/AA7QKPGYW6GXZWQ6ZJZ5SZLP4RBMNANCNFSM4H3XXWXA>
+> .
+>
+
+
+This is a good reminder I forgot about this one. Do you want me to look at
+it first?
+
+On Thu, Jul 18, 2019, 08:09 Andrew Boyarshin <notifications@github.com>
+wrote:
+
+> *@andrew-boyarshin* commented on this pull request.
+> ------------------------------
+>
+> In Project2015To2017.Migrate2017.Library/Transforms/FileTransformation.cs
+> <https://github.com/hvanbakel/CsprojToVs2017/pull/253#discussion_r304970975>
+> :
+>
+> > @@ -47,6 +47,11 @@ public FileTransformation(ILogger logger = null)
+>
+>  		public void Transform(Project definition)
+>  		{
+> +			if (definition.IsModernProject)
+>
+> It's already ILegacyOnlyProjectTransformation, so the problem is actually
+> more profound. I'm taking over the issue to investigate.
+>
+> —
+> You are receiving this because you authored the thread.
+> Reply to this email directly, view it on GitHub
+> <https://github.com/hvanbakel/CsprojToVs2017/pull/253?email_source=notifications&email_token=AA7QKPBTPGR35XAPUVXN77DQACBTTA5CNFSM4H3XXWXKYY3PNVWWK3TUL52HS4DFWFIHK3DMKJSXC5LFON2FEZLWNFSXPKTDN5WW2ZLOORPWSZGOB64BV6I#discussion_r304970975>,
+> or mute the thread
+> <https://github.com/notifications/unsubscribe-auth/AA7QKPAFEVCGCQD6XA6YJXDQACBTTANCNFSM4H3XXWXA>
+> .
+>
+
+
+@hvanbakel no, see my latest comment to the code line.
+
+Superseded by my latest commit on master branch with a better fix:
+1. Incorrect transformation set used in wizard logic
+2. No guard in `FileTransformation` against default wildcards in modern projects
+
+ Migration removes all .cs files
+ I've used this tool before without issue, but I just ran it on a solution with several projects and encountered a weird issue where it added a line in the modified `.csproj` files that for each `MyFile.cs` it found, it added the line:
+
+```xml
+<Compile Remove="MyFile.cs"/>
+```
+
+which, as the syntax implies, completely removed the files from the project-- they were all empty. It was simple enough to fix, but it seems like something that just shouldn't happen in the first place. This _seems_ like a similar issue to #210, but in my case these were all just class library projects utilized in an `ASP.NET` `MVC` project, not WinForms, and none of the files were `SubType`'d.
+Were the files included in the original project? It's meant to do this just for files that weren't included in the original so that they don't automatically get included in the converted project
+
+I've seen this happen if you run migrate on an already VS2017-style project.
+
+@mungojam No they weren't explicitly referenced in the project, and @superstrom I think that might have been the case. Is there any sort of fix that can be done for that? I had manually updated a few of the projects, and I was hoping to clean up some elements that were still left over from that in the process.
+
+What command did you run to do the conversion and did you use the wizard? I thought it blocked conversions for VS2017 projects and made you run modernise instead
+
+If you're able to share an example that would be really helpful
+
+@andrew-boyarshin 
+
+I can reproduce with
+```
+dotnet new console
+dotnet migrate-2017 wizard
+```
+With Project2015To2017.Migrate2017.Tool-4.0.0
+
+>Project D:\dev\migtest\migtest.csproj is already CPS-based
+It appears you already have everything converted to CPS.
+Would you like to process CPS projects to clean up and reformat them? (Y/n) Yes
+Processing migtest...
+Project migtest has been processed
+Modernization can be progressed a little further but it might lead to unexpected behavioral changes.
+Would you like to modernize projects? (Y/n) Yes
+Would you like to create backups (Y/n) Yes
+Modernizing migtest...
+Backing up to D:\dev\migtest\Backup
+Project migtest has been modernized
+
+```xml
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+     <Compile Remove="Program.cs" />
+  </ItemGroup>
+</Project>
+```
+
+@superstrom Yep, that's basically how it happened for me, and the output looks just like that.
+
+Yeah I think I can see how this happens:
+migrate looks for all the files in the csproj
+there are none, so all the files on disk must be excluded from the project thus insert all those removes 😄 
+
+I guess we can fix that, yes.
+
+Would you mind trying with:
+https://www.nuget.org/packages/Project2015To2017.Migrate2017.Tool/4.1.0-beta.3
+
+It does seem to work for me given the repro case above.
+
+Yeah, the update is working for me.
+
+ Migration remove configs from tests
+ Has test project with configs:
+
+>     <None Include="..\Test.Environment\Services.config">
+>       <Link>Services.config</Link>
+>       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+>       <SubType>Designer</SubType>
+>     </None>
+>     <None Include="..\Test.Environment\_Config.example">
+>       <Link>_Config.example</Link>
+>       <SubType>Designer</SubType>
+>     </None>
+>     <None Include="Domain.config">
+>       <SubType>Designer</SubType>
+>       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+>     </None>
+
+After migration found only one record in project:
+>     <None Include="..\Test.Environment\_Config.example">
+>       <Link>_Config.example</Link>
+>       <SubType>Designer</SubType>
+>     </None>
+
+and configs not copy after build then tests failed.
+Maybe this is related to #266
+
+ Proposal: add "migrate" as tag or in description
+ Hi,
+
+Thanks for this excellent tool :)
+
+I found it a bit hard to find this repo after some long time. The reason? I'm searching for "csproj migrate" 👼 
+
+See these screenshots:
+
+1. search for "csproj migrate"
+
+    ![image](https://user-images.githubusercontent.com/5808377/58838458-ffe8b780-865e-11e9-869c-518f66b11597.png)
+
+
+2. Search for "csproj migration" (that one works!)
+
+    ![image](https://user-images.githubusercontent.com/5808377/58838429-f2333200-865e-11e9-9ff3-c2ec34f432aa.png)
+
+---
+
+So proposal: add "migrate" to the tags or description :)
+
+![image](https://user-images.githubusercontent.com/5808377/58838403-e5aed980-865e-11e9-81e9-f4216ecfc669.png)
+
+Added, thanks for the tip.
+
+ Converted vbproj tells visual studio it is targeting net40, but is actually net472
+ Converting this project https://github.com/rogersachan/mpv.net/tree/patch-1 has resulted in a vbproj file that targets net472 but visual studio is somehow convinced that it is targeting net40. even when you manually change it and unload/reload the project it is still convinced that it is a net40 project
+I see one of your .vbproj files and it has `<TargetFramework>net472</TargetFramework>` which according to the docs is how it should be so I’m not sure how this is a bug in the tool
+
+If you open the `.sln` visual studio will say that the project is targeting net40. I'm not sure how to resolve it or if it is something I need to edit myself.
+
+Try closing VS, deleting the hidden temporary folder at the solution level
+and any obj and bin folders at project level, then reopen the solution
+
+On Friday, 17 May 2019, Roger <notifications@github.com> wrote:
+
+> If you open the .sln visual studio will say that the project is targeting
+> net40. I'm not sure how to resolve it or if it is something I need to edit
+> myself.
+>
+> —
+> You are receiving this because you are subscribed to this thread.
+> Reply to this email directly, view it on GitHub
+> <https://github.com/hvanbakel/CsprojToVs2017/issues/249?email_source=notifications&email_token=AAYCFSZC4D4DGUIJ3JC4PRDPV3HO5A5CNFSM4HNODTAKYY3PNVWWK3TUL52HS4DFVREXG43VMVBW63LNMVXHJKTDN5WW2ZLOORPWSZGODVVD5MY#issuecomment-493502131>,
+> or mute the thread
+> <https://github.com/notifications/unsubscribe-auth/AAYCFS2ORTASK767BXRLK2LPV3HO5ANCNFSM4HNODTAA>
+> .
+>
+
+
+-- 
+Sent from my mobile
+
+
+I attempted that when i first encountered the issue and also outright deleted and cloned the repo again. Still the same issue.
+
+What does the project properties window show and what happens to project file if you change it manually in that window to 4.7.2 and save?
+
+The problem is that you have this:
+```
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+```
+instead of:
+```
+    <TargetFramework>net472</TargetFramework>
+```
+Looking at the code this should be transformed (see [here](https://github.com/hvanbakel/CsprojToVs2017/blob/master/Project2015To2017.Core/Reading/ProjectPropertiesReader.cs#L88)) but maybe that depends on how you call it, did you call it with any particular arguments?
+
+ Just to say thanks
+ I don't have any problems with this tool, just wanted to state my appreciation.
+I'm amazed of how well it works.
+Thanks!!!
+You’re welcome, @mungojam and @andrew-boyarshin have contributed a lot of code too.
+

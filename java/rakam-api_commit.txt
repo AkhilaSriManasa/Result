@@ -1,0 +1,30 @@
+﻿ Update EventCollectionHttpService.java
+ Add event exclude feature
+ Make scalar value to array conversion
+ Use random partition keys in Kinesis
+ Implement automatic type conversions
+ Setup DSN
+ Add extra logging for invisible properties
+ Update WebServiceModule.java
+ Fix dependency issue
+ Merge branch 'master' of https://github.com/rakam-io/rakam
+ Update geoip code
+ Update Dockerfile
+ Update pom.xml
+ Update logging
+ Convert Exception to Throwable
+ Enable logging for Exception
+ Update README.md
+ Update README.md
+ Update README.md
+ Update README.md
+ Update README.md
+ Update README.md
+ Update LogUtil.java
+ Fix sentry issues
+ Fix dependency problem in presto module
+ Parse string values for boolean type
+ Remove TTL in schema cache
+ Update JsonEventDeserializer.java
+ Update JsonEventDeserializer.java
+ Update JsonEventDeserializer.java

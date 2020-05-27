@@ -1,0 +1,42 @@
+﻿ https://github.com/manifold-systems/manifold/issues/185
+- @Jailbreak: handle inner class and array types as method parameters
+ minor JS manifold runtime fix
+ Since "java.version" is 0.0 for Android, include 0 as well as 1 as major versions for Java 8 to support Android as a Java 8 JRE.
+ Move antlr runtime dependency out of manifold-util and into manifold-xml-rt; it is not directly used outside of the xml parser.
+ Add IBootstrap service to enable automatic detection of dynamic/static boot services at runtime.
+ https://github.com/manifold-systems/manifold/issues/181
+- Toward smaller, faster, static Manifold runtime (and Android support). This is the first pass at dividing manifold modules into manifold-xxx and manifold-xxx-rt. Where, if using Manifold statically, declare a dependency on manifold-xxx with a compile-only scope and declare a dependency on manifold-xxx-rt with both compile and runtime scope. Note you can continue to use Manifold dynamically (resource classes compile and load dynamically at runtime) because manifold-xxx modules declare a dependency on their manifold-xxx-rt counterparts i.e., you don't need to separate dependencies because in dynamic mode all of manifold is there at runtime too.
+- Since Android's runtime does not provide classes in the `javax.script` package, replaced usage of `javax.script.Bindings` and `javax.script.ParseException` with Manifold versions `manifold.rt.api.Bindings` and `manifold.rt.api.ScriptException`.
+- A lot of breaking API changes are involved, mostly around moving classes from manifold.xxx to manifold.xxx.rt. These changes are necessary due to Java's JPMS prohibiting package splitting between modules.
+- Removed `IJsonFormatTypeResolver` in favor of a new runtime-friendly interface `IJsonFormatTypeCoercer`. This was necessary to maintain sharing of JSON format type resolvers with GraphQL.
+ docs
+ docs
+ bump version
+ manifold-graphql API modifications to facilitate building more complex systems around GraphQL. Note the changes are non-breaking for most use-cases.
+- Query interfaces are no longer structural (other graphql interfaces remain structural). This means at runtime an instance of a query is no longer the bindings for query variable assignments. Instead the runtime instance concretely implements the query interface and, importantly, maintains its identity as a XxxQuery implementor.
+- Query interfaces define queryDefinition() and fragmentDefinitions() methods to access the corresponding GraphQL def and fragment defs referenced in the query
+- Query interfaces have a root interface: GqlQuery
+ https://github.com/manifold-systems/manifold/issues/179
+- Make dependencies on manifold-strings "optional" to prevent the dependency from being transitively inherited. For instance, a project depending on e.g., the manifold-graphql module, no longer inherits string template processing through manifold-graphql's internal dependency on manifold-strings. If the project wants string template processing, it can declare a dependency on manifold-strings for itself.
+- Moved the DisableStringLiteralTemplates annotation out of manifold-strings so that generated code can be used by a project with or without manifold-strings.
+ https://github.com/manifold-systems/manifold/issues/153
+- ensure instances of DiagnosticHandler are wired to have ManLog_X as their enclosing instance. They can otherwise sneak in via DiagnosticHandler.prev.
+- JavaCompiler#compile2() is exclusive to Java 8, factor out a common method for Java 8 and 9+
+ bump version
+ add new `request` method overload to graphql query interfaces to enable reuse of a configured Request (endpoint, headers, auth, etc.)
+ bump version
+ article
+ favor SI momentum symbol (N⋅s) over SI base units (kg m/s)
+ article
+ article
+ article
+ article
+ article
+ article
+ article
+ article
+ make Dimensions serializable
+ docs
+ typo
+ add manifold group Slack link
+ bump version

@@ -1,0 +1,68 @@
+﻿NUMTopics = 2
+(0, '0.013*"test" + 0.012*"add" + 0.012*"revert" + 0.012*"algorithm" + 0.012*"commit" + 0.012*"line" + 0.012*"prime" + 0.012*"document" + 0.012*"embed" + 0.012*"request"')
+(1, '0.042*"test" + 0.036*"add" + 0.031*"update" + 0.025*"prime" + 0.025*"algorithm" + 0.019*"list" + 0.019*"array" + 0.019*"fix" + 0.019*"turn" + 0.019*"bug"')
+
+------------------------
+NUMTopics = 3
+(0, '0.012*"update" + 0.012*"test" + 0.012*"array" + 0.012*"add" + 0.012*"algorithm" + 0.012*"prime" + 0.012*"bug" + 0.012*"fix" + 0.012*"document" + 0.012*"embed"')
+(1, '0.056*"update" + 0.035*"list" + 0.035*"array" + 0.024*"test" + 0.024*"add" + 0.024*"prime" + 0.024*"fix" + 0.024*"value" + 0.024*"store" + 0.024*"move"')
+(2, '0.054*"test" + 0.044*"add" + 0.034*"algorithm" + 0.034*"revert" + 0.034*"commit" + 0.024*"prime" + 0.024*"embed" + 0.024*"document" + 0.024*"request" + 0.024*"turn"')
+
+------------------------
+NUMTopics = 4
+(0, '0.012*"test" + 0.012*"algorithm" + 0.012*"revert" + 0.012*"add" + 0.012*"commit" + 0.012*"line" + 0.012*"document" + 0.012*"merge" + 0.012*"embed" + 0.012*"output"')
+(1, '0.059*"update" + 0.037*"list" + 0.037*"array" + 0.025*"test" + 0.025*"add" + 0.025*"prime" + 0.025*"value" + 0.025*"store" + 0.025*"fix" + 0.025*"move"')
+(2, '0.057*"test" + 0.046*"add" + 0.035*"algorithm" + 0.035*"commit" + 0.035*"revert" + 0.025*"prime" + 0.025*"document" + 0.025*"embed" + 0.025*"request" + 0.025*"turn"')
+(3, '0.013*"update" + 0.012*"array" + 0.012*"add" + 0.012*"list" + 0.012*"test" + 0.012*"fix" + 0.012*"resource" + 0.012*"prime" + 0.012*"bug" + 0.012*"object"')
+
+------------------------
+NUMTopics = 5
+(0, '0.012*"test" + 0.012*"algorithm" + 0.012*"add" + 0.012*"prime" + 0.012*"document" + 0.012*"resource" + 0.012*"embed" + 0.012*"bug" + 0.012*"request" + 0.012*"new"')
+(1, '0.062*"update" + 0.038*"list" + 0.038*"array" + 0.026*"test" + 0.026*"add" + 0.026*"prime" + 0.026*"value" + 0.026*"store" + 0.026*"move" + 0.026*"fix"')
+(2, '0.059*"test" + 0.048*"add" + 0.037*"algorithm" + 0.037*"revert" + 0.037*"commit" + 0.025*"prime" + 0.025*"document" + 0.025*"embed" + 0.025*"request" + 0.025*"turn"')
+(3, '0.012*"update" + 0.012*"array" + 0.012*"list" + 0.012*"fix" + 0.012*"add" + 0.012*"object" + 0.012*"bug" + 0.012*"prime" + 0.012*"move" + 0.012*"test"')
+(4, '0.012*"test" + 0.012*"add" + 0.012*"revert" + 0.012*"output" + 0.012*"commit" + 0.012*"algorithm" + 0.012*"merge" + 0.012*"request" + 0.012*"embed" + 0.012*"pack"')
+
+------------------------
+NUMTopics = 6
+(0, '0.012*"test" + 0.012*"algorithm" + 0.012*"add" + 0.012*"revert" + 0.012*"document" + 0.012*"prime" + 0.012*"resource" + 0.012*"request" + 0.012*"embed" + 0.012*"commit"')
+(1, '0.013*"update" + 0.013*"test" + 0.013*"list" + 0.013*"add" + 0.013*"prime" + 0.013*"array" + 0.013*"value" + 0.013*"algorithm" + 0.012*"fix" + 0.012*"object"')
+(2, '0.061*"test" + 0.049*"add" + 0.037*"revert" + 0.037*"commit" + 0.037*"algorithm" + 0.026*"line" + 0.026*"document" + 0.026*"prime" + 0.026*"embed" + 0.026*"request"')
+(3, '0.012*"update" + 0.012*"array" + 0.012*"list" + 0.012*"fix" + 0.012*"object" + 0.012*"add" + 0.012*"bug" + 0.012*"value" + 0.012*"prime" + 0.012*"contain"')
+(4, '0.012*"test" + 0.012*"add" + 0.012*"revert" + 0.012*"output" + 0.012*"algorithm" + 0.012*"commit" + 0.012*"merge" + 0.012*"request" + 0.012*"embed" + 0.012*"prime"')
+(5, '0.063*"update" + 0.039*"array" + 0.039*"list" + 0.027*"bug" + 0.027*"move" + 0.027*"add" + 0.027*"test" + 0.027*"prime" + 0.027*"store" + 0.027*"fix"')
+
+------------------------
+NUMTopics = 7
+(0, '0.012*"test" + 0.012*"update" + 0.012*"algorithm" + 0.012*"add" + 0.012*"prime" + 0.012*"document" + 0.012*"resource" + 0.012*"embed" + 0.012*"fix" + 0.012*"bug"')
+(1, '0.013*"update" + 0.013*"test" + 0.013*"add" + 0.013*"list" + 0.013*"prime" + 0.013*"algorithm" + 0.013*"array" + 0.013*"fix" + 0.013*"resource" + 0.013*"object"')
+(2, '0.062*"test" + 0.050*"add" + 0.038*"revert" + 0.038*"commit" + 0.038*"algorithm" + 0.026*"line" + 0.026*"document" + 0.026*"prime" + 0.026*"embed" + 0.026*"turn"')
+(3, '0.012*"add" + 0.012*"test" + 0.012*"resource" + 0.012*"update" + 0.012*"fix" + 0.012*"prime" + 0.012*"revert" + 0.012*"array" + 0.012*"request" + 0.012*"turn"')
+(4, '0.012*"test" + 0.012*"add" + 0.012*"update" + 0.012*"fix" + 0.012*"prime" + 0.012*"request" + 0.012*"revert" + 0.012*"algorithm" + 0.012*"embed" + 0.012*"new"')
+(5, '0.013*"update" + 0.012*"array" + 0.012*"list" + 0.012*"move" + 0.012*"test" + 0.012*"bug" + 0.012*"prime" + 0.012*"add" + 0.012*"store" + 0.012*"fix"')
+(6, '0.064*"update" + 0.039*"array" + 0.039*"list" + 0.027*"add" + 0.027*"bug" + 0.027*"test" + 0.027*"prime" + 0.027*"fix" + 0.027*"move" + 0.027*"value"')
+
+------------------------
+NUMTopics = 8
+(0, '0.012*"test" + 0.012*"update" + 0.012*"add" + 0.012*"algorithm" + 0.012*"document" + 0.012*"prime" + 0.012*"bug" + 0.012*"fix" + 0.012*"resource" + 0.012*"embed"')
+(1, '0.065*"update" + 0.040*"list" + 0.040*"array" + 0.027*"test" + 0.027*"add" + 0.027*"prime" + 0.027*"value" + 0.027*"fix" + 0.027*"store" + 0.027*"object"')
+(2, '0.063*"test" + 0.051*"add" + 0.038*"revert" + 0.038*"commit" + 0.038*"algorithm" + 0.026*"prime" + 0.026*"document" + 0.026*"embed" + 0.026*"line" + 0.026*"request"')
+(3, '0.012*"add" + 0.012*"test" + 0.012*"resource" + 0.012*"revert" + 0.012*"output" + 0.012*"algorithm" + 0.012*"request" + 0.012*"prime" + 0.012*"turn" + 0.012*"commit"')
+(4, '0.012*"test" + 0.012*"add" + 0.012*"update" + 0.012*"fix" + 0.012*"prime" + 0.012*"revert" + 0.012*"request" + 0.012*"algorithm" + 0.012*"embed" + 0.012*"new"')
+(5, '0.012*"test" + 0.012*"add" + 0.012*"update" + 0.012*"algorithm" + 0.012*"prime" + 0.012*"embed" + 0.012*"bug" + 0.012*"resource" + 0.012*"turn" + 0.012*"array"')
+(6, '0.013*"update" + 0.013*"array" + 0.013*"list" + 0.013*"add" + 0.013*"bug" + 0.012*"fix" + 0.012*"prime" + 0.012*"value" + 0.012*"move" + 0.012*"test"')
+(7, '0.013*"update" + 0.013*"array" + 0.013*"list" + 0.012*"move" + 0.012*"test" + 0.012*"bug" + 0.012*"object" + 0.012*"prime" + 0.012*"fix" + 0.012*"add"')
+
+------------------------
+NUMTopics = 9
+(0, '0.012*"test" + 0.012*"algorithm" + 0.012*"update" + 0.012*"add" + 0.012*"prime" + 0.012*"array" + 0.012*"embed" + 0.012*"document" + 0.012*"resource" + 0.012*"revert"')
+(1, '0.013*"test" + 0.013*"add" + 0.013*"algorithm" + 0.013*"update" + 0.013*"prime" + 0.013*"commit" + 0.013*"resource" + 0.013*"document" + 0.013*"turn" + 0.013*"embed"')
+(2, '0.064*"test" + 0.051*"add" + 0.039*"revert" + 0.039*"commit" + 0.039*"algorithm" + 0.026*"line" + 0.026*"document" + 0.026*"embed" + 0.026*"prime" + 0.026*"project"')
+(3, '0.012*"update" + 0.012*"array" + 0.012*"list" + 0.012*"object" + 0.012*"fix" + 0.012*"add" + 0.012*"value" + 0.012*"prime" + 0.012*"bug" + 0.012*"resource"')
+(4, '0.012*"test" + 0.012*"add" + 0.012*"update" + 0.012*"revert" + 0.012*"fix" + 0.012*"embed" + 0.012*"prime" + 0.012*"request" + 0.012*"algorithm" + 0.012*"new"')
+(5, '0.013*"update" + 0.013*"list" + 0.013*"array" + 0.012*"bug" + 0.012*"add" + 0.012*"move" + 0.012*"test" + 0.012*"store" + 0.012*"prime" + 0.012*"value"')
+(6, '0.012*"update" + 0.012*"add" + 0.012*"array" + 0.012*"list" + 0.012*"bug" + 0.012*"test" + 0.012*"prime" + 0.012*"value" + 0.012*"fix" + 0.012*"store"')
+(7, '0.013*"update" + 0.013*"array" + 0.013*"list" + 0.012*"move" + 0.012*"test" + 0.012*"store" + 0.012*"add" + 0.012*"prime" + 0.012*"object" + 0.012*"bug"')
+(8, '0.066*"update" + 0.040*"list" + 0.040*"array" + 0.027*"test" + 0.027*"fix" + 0.027*"bug" + 0.027*"add" + 0.027*"object" + 0.027*"prime" + 0.027*"move"')
+
+------------------------

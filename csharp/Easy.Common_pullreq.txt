@@ -1,0 +1,14 @@
+﻿ Adjust report column name
+  - remove duplicate report line;
+ Replacing NuGet link with badge in README
+ 
+ Calling SPM configuration helper from static ctor
+ 
+ extending RestClient Interface to more closely match that of HttpClient
+ #8 #
+Probably not much to explain other than you might notice that a all of the new methods are not overloads 
+eg GetAsync(string uri) does not call into GetAsync(string uri, CancellationToken cancellationToken) with default parameters. My reason for this is that these methods call into HTTP client methods that are overloads and obviously the .net guys have set what those defaults are. I thought it made more sense to explicity use their defaults rather than setting my own (even if they would be the same). Hope that makes sense and let me know if you agree/disagree 
+ easy
+ 
+ Support types with get only or set only properties
+ Moreover explicitly throw an exception if the user tries to get/set through a property that doesn't have the respective get/set property.

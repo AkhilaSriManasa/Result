@@ -1,0 +1,416 @@
+﻿ BUG IN TWO MOUNT´S
+ **BUG IN TWO MOUNT´S**
+
+CHANGEME Description of the problem or issue here.
+
+**There is no spell or anything.**
+
+**what should happen is there is a spell and be learned after clicking on the item.**
+
+**Steps to reproduce the problem:**
+
+1. .additem 112326
+2. .additem 112327
+3. Try to learn the two mounts.
+
+**SF rev. hash/commit:** 
+
+[MASTER](https://github.com/ProjectSkyfire/SkyFire_548/commit/61490cedefd0aa8f77c075ccc6ae8f752a995b67)
+
+**SFDB version:**  the most up-to-date.
+
+**Operating system:** windows server 2016
+This 2 Mounts were Added in patch 6.0.1.18297 which is the 3rd closed alpha build of the next comming expansion Warlords of Draenor. Thats why they cant be found in 5.4.8.18291 or 5.4.8.18414.
+
+ Compile error ubuntu 18.04lts
+ /root/SkyFire.548/src/server/shared/Database/QueryResult.cpp: In constructor ‘PreparedResultSet::PreparedResultSet(MYSQL_STMT*, MYSQL_RES*, uint64, uint32)’:
+/root/SkyFire.548/src/server/shared/Database/QueryResult.cpp:82:30: error: cannot convert ‘bool*’ to ‘my_bool*’ {aka ‘char*’} in assignment
+   82 |         m_rBind[i].is_null = &m_isNull[i];
+      |                              ^~~~~~~~~~~~
+      |                              |
+      |                              bool*
+i used https://wiki.projectskyfire.org/index.php?title=Installation_(Ubuntu_18.04_LTS) guid. 
+i have mysql 8.0, and gcc g++ 9 why?
+Installation_(Ubuntu_18.04_LTS) guid. 
+That was happening to me too, now I switched to Ubuntu 20.04 and using `mysql  Ver 15.1 Distrib 10.3.22-MariaDB` works fine. :+1: 
+
+ Core:Compile
+ Add work around to fix compile for Visual Studio.
+
+Signed-off-by: SkyFire <admin@projectskyfire.org>
+ Fixed Prince Taldaram unreachable code
+ And also added CLion files to .gitignore.
+ Fixed Prince Taldaram unreachable code.
+ Also added CLion files to .gitignore.
+ [FIX] Update base mana regen
+ The calculations for base mana regen were wrong.
+
+While the MP5 rule was removed from the game (only updating players mana every 5 seconds) in cataclysm, the base mana regen is still calculated with the 5 second increment.
+
+Tested ingame and compared to stable cores like PandaWoW & Tauri.
+this reverts my commit from august 2019
+https://github.com/ProjectSkyfire/SkyFire_548/commit/42b50617f55472841b4ec7e4f1e5c64609860c77
+
+
+Priest Combat Regen 300K * 0.02 = 6000
+
+Before Mists of Pandaria 0.004 would be correct.
+300K * 0.004 = 1200
+
+so i guess tauri or punda didnt updated the formula.
+
+
+
+ pandarian scripts!
+ Where is it pandarian scripts? not on the source?!
+
+SkyFire.548/tree/master/src/server/scripts/Pandaria
+
+ !! ?? !!
+Loremaster cho decided to hide those Ancient Hieroglyphs from the mogu.
+
+.....
+panda on the skyfire don't work?
+
+I have heard they are good cooks.
+
+Where can I find a good project for Panda?
+
+WWF project is good project for Pandas.
+
+link ?
+
+https://wwf.panda.org/
+
+Ari du Spack was is los mit dir?
+
+Du musst kein Arschloch sein. Es ist Aprilscherz.
+
+stfu
+
+ Update zlib to 1.2.11
+ Signed-off-by: SkyFire <admin@projectskyfire.org>
+ Compile error on win10 x64 visual2019
+ Huge wall of useless text.
+https://pastebin.com/CVisLJUe
+The compiler is broken after VS2019 update. Microsoft has to fix it. It's not a skyfire bug.
+
+ok thanks, any other way to compile it ?
+
+i believe you should update ACE to newer version
+
+temporary solved like this, download visual studio 2017 , download ACE from here http://download.dre.vanderbilt.edu/previous_versions/ACE+TAO-6.5.3.zip , compile it in VS2017, find ACE.lib you compiled and put it in skyfire ace folder then go to build skyfire in VS2019 and remove ACE from projects
+
+@kicho  Can you send me your ace.lib? 👯 
+
+This is a known issue. Download the preview version of visual studio. Don't do the hack Kicho suggested. Microsoft issue not SkyFire's. https://visualstudio.microsoft.com/vs/preview/
+
+Thanks, i got it.
+
+See https://github.com/DOCGroup/ACE_TAO/pull/1114 for a fix which will be part of the next ACE release
+
+ Update Gsoap to version 2.8.99
+ Test compile before merging into master
+Signed-off-by: SkyFire <admin@projectskyfire.org>
+ Fixed typo
+ 
+ Scripts/Mulgore: Fix Faction id after respawn
+ 
+ Scripts/Mulgore: Fix Bugs Quest 14491
+ * Fix exploit on SpellHit
+* Add Talk when change faction to 14
+crash
+
+It crashing the server!
+
+> 
+> 
+> crash
+
+
+
+> 
+> 
+> It crashing the server!
+
+Crash not from my codes.
+
+> 00007FF70309B700  0000006A777FF550  CreatureTextLocalizer<CreatureTextBuilder>::operator()+2F0  F:\SkyFire.548\src\server\game\Texts\CreatureTextMgr.h line 163
+> 00007FF703096BBE  0000006A777FF5F0  CreatureTextMgr::SendChatPacket<CreatureTextBuilder>+8E  F:\SkyFire.548\src\server\game\Texts\CreatureTextMgr.h line 196
+> 00007FF70309DAB6  0000006A777FF730  CreatureTextMgr::SendChat+6F6  F:\SkyFire.548\src\server\game\Texts\CreatureTextMgr.cpp line 282
+> 00007FF70316ED97  0000006A777FF7A0  CreatureAI::Talk+57  F:\SkyFire.548\src\server\game\AI\CreatureAI.cpp line 45
+
+this commit fix crash:
+https://github.com/ProjectSkyfire/SkyFire_548/commit/3bb3fec39b138b09891dac670e213109f5b80e5c
+
+ DB/instance_template: Add map instance and fix crash
+ 
+ DB/areatrigger_teleport: Add some teleport instance
+ 
+ Scripts/Quest: Fix Quest 14491 #842
+ 
+ Core/Scripts: npc_skorn_whitecloud gossip moved to DB
+ 
+@AriDEV why closed ?
+
+the whole script can be moved to db no reason to convert just half of it, not even sure if the script is actualy needed could be easy done with conditions
+
+
+> 
+> 
+> the whole script can be moved to db no reason to convert just half of it, not even sure if the script is actualy needed could be easy done with conditions
+
+What your problem ?
+
+Texts should be read from database rather than written into script.
+This should be done to reduce size of core and improve performance, no problems.
+Do you close it without testing it? it is interesting.
+
+Merge this. i want commit new fix in this file.
+
+ DB/Quest: Fix Quest 11129 #842
+ * Delete duplicate Kyle the Frenzied
+* Fix Tender Strider Meat chance drop
+* Fix waypoints Kyle the Frenzied
+* Move from script to DB
+ Compiling on windows
+ <!--- (**********************************)
+      (** Fill in the following fields **)
+      (**********************************) --->
+
+**Description:**
+QueryResult.cpp
+Line 82:  m_rBind[i].is_null = &m_isNull[i];
+can't make a conversion from my_Bool* to Bool*
+
+**Current behaviour:**
+
+![image](https://user-images.githubusercontent.com/2290904/75024338-85d0bb00-5499-11ea-9444-8f748abca61a.png)
+
+**Expected behaviour:**
+
+Compile the software
+
+**SF rev. hash/commit:** 
+https://github.com/ProjectSkyfire/SkyFire_548/commit/bfe42e0ba7420ca04dc24959f9a2ab36b6db6500
+
+**Operating system:** Win10
+skyfire requires mysql 8, read requirements section in readme file https://github.com/ProjectSkyfire/SkyFire_548#requirements
+
+
+ Development
+ Hi, I am a Private Project Developer of Mists of Pandaria and Legion. I have one of the Best Realms of Pandaria at 98%. I can Help You Here in Your Project If You Can Demand Access to Discord and Invitation to the Source to Help You in Development
+My Discord https://discord.gg/RUmg9pF
+
+It's an open community. What you choose to share helps everyone. Just for the repository and you can make a pull request per our guidelines.
+
+ Black Market Auction House (BMAH) NPC <Madam Goya> is not working
+ <!--- (**********************************)
+      (** Fill in the following fields **)
+      (**********************************) --->
+
+**Description:**
+
+Black Market Auction House (BMAH) NPC <Madam Goya> is not working. 
+
+**Current behaviour:**
+
+When you click on NPC nothing happens (No reaction). **Is not opening.** 
+
+**Expected behaviour:**
+
+It should open the Black Market Auction House...
+
+**Steps to reproduce the problem:**
+
+1. Teleport to Pandaria using .tele pandaria 
+2. Travel to "Tavern in the Mists" location and there are two houses with Black Market Auction Houses one of them is Madam Goya NPC and the other I think is broken too. (Both BMAH NPCs are not working).
+Attached image
+https://imgur.com/v4yy2GP
+
+**SF rev. hash/commit:** 
+
+Latest version!
+
+**SFDB version:**  Using World DB: SFDB 548.Release.19.5 (with all updates)
+
+**Operating system:** Linux Ubuntu 18.04 LTS OS 
+
+
+<!--- Notes
+
+--->
+ All NPC and Characters with 1 of HP
+ **Description:**
+
+All the NPC and characters have only one point of health power.
+
+
+**Expected behaviour:**
+
+The NPC should be have the correct HP.
+
+**SF rev. hash/commit:** 
+
+SkyFire 5.x.x rev. 410b7cf7c82c 2020-01-01 07:30:00 -0600 (HEAD branch) (Unix, Release) (authserver)
+
+**SFDB version:**  19.5
+
+**Operating system:** Ubuntu Server 18.04 LTS
+ [Core/SQL] Missing trainer flags and items!
+ Table `(game_event_)npc_vendor` have data for not creature template (Entry: 63367) without vendor flag, ignore
+Table `(game_event_)npc_vendor` has `maxcount` (1) for item 6365 of vendor (Entry: 67181) but `incrtime`=0, ignore
+Table `(game_event_)npc_vendor` for Vendor (Entry: 70436) have in item list non-existed item (102457, type 1), ignore
+Table `(game_event_)npc_vendor` have data for not creature template (Entry: 72007) without vendor flag, ignore
+Table `(game_event_)npc_vendor` have data for not creature template (Entry: 72993) without vendor flag, ignore
+Table `(game_event_)npc_vendor` have data for not creature template (Entry: 73004) without vendor flag, ignore
+Table `(game_event_)npc_vendor` have data for not creature template (Entry: 73010) without vendor flag, ignore
+Table `(game_event_)npc_vendor` have data for not creature template (Entry: 73305) without vendor flag, ignore
+Table `(game_event_)npc_vendor` have data for not creature template (Entry: 73306) without vendor flag, ignore
+Table `(game_event_)npc_vendor` for Vendor (Entry: 73307) have in item list non-existed item (102463, type 1), ignore
+Table `(game_event_)npc_vendor` have data for not creature template (Entry: 73657) without vendor flag, ignore
+Table `(game_event_)npc_vendor` have data for not creature template (Entry: 73812) without vendor flag, ignore
+Table `(game_event_)npc_vendor` have data for not creature template (Entry: 73819) without vendor flag, ignore
+Most of this crap is incorrect. Fix your formatting and open a new pull request. You can't just copy paste things from another project and expect it to work.
+
+> Most of this crap is incorrect. Fix your formatting and open a new pull request. You can't just copy paste things from another project and expect it to work.
+
+Idiot it was made by me stfu noob.
+
+ [Core / MySQL] Incorrect String Value
+ <!--- (**********************************)
+      (** Fill in the following fields **)
+      (**********************************) --->
+
+**Description:**
+By leaving the server with ALT + F4 or Logout you will get this issue.
+```
+SQL(p): REPLACE INTO item_instance (itemEntry, owner_guid, creatorGuid, giftCreatorGuid, count, duration, charges, flags, enchantments, randomPropertyId, reforgeID, transmogrifyId, durability, playedTime, text, guid) VALUES (54443, 1, 0, 0, 1, 0, '0 0 0 0 0 ', 1, '0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ', 0, 0, 0, 0, 14, '▒▒
+ [ERROR]: [1366] Incorrect string value: '\xAB\xD4' for column 'text' at row 1
+Unhandled MySQL errno 1366. Unexpected behaviour possible.
+SQL(p): REPLACE INTO item_instance (itemEntry, owner_guid, creatorGuid, giftCreatorGuid, count, duration, charges, flags, enchantments, randomPropertyId, reforgeID, transmogrifyId, durability, playedTime, text, guid) VALUES (54443, 1, 0, 0, 1, 0, '0 0 0 0 0 ', 1, '0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ', 0, 0, 0, 0, 13, '▒▒
+ [ERROR]: [1366] Incorrect string value: '\xAB\xD4' for column 'text' at row 1
+Unhandled MySQL errno 1366. Unexpected behaviour possible.
+SQL(p): REPLACE INTO item_instance (itemEntry, owner_guid, creatorGuid, giftCreatorGuid, count, duration, charges, flags, enchantments, randomPropertyId, reforgeID, transmogrifyId, durability, playedTime, text, guid) VALUES (54443, 1, 0, 0, 1, 0, '0 0 0 0 0 ', 1, '0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ', 0, 0, 0, 0, 12, '▒▒
+ [ERROR]: [1366] Incorrect string value: '\xAB\xD4' for column 'text' at row 1
+Unhandled MySQL errno 1366. Unexpected behaviour possible.
+SQL(p): REPLACE INTO item_instance (itemEntry, owner_guid, creatorGuid, giftCreatorGuid, count, duration, charges, flags, enchantments, randomPropertyId, reforgeID, transmogrifyId, durability, playedTime, text, guid) VALUES (54443, 1, 0, 0, 1, 0, '0 0 0 0 0 ', 1, '0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ', 0, 0, 0, 0, 11, '▒▒
+ [ERROR]: [1366] Incorrect string value: '\xAB\xD4' for column 'text' at row 1
+Unhandled MySQL errno 1366. Unexpected behaviour possible.
+SQL(p): REPLACE INTO item_instance (itemEntry, owner_guid, creatorGuid, giftCreatorGuid, count, duration, charges, flags, enchantments, randomPropertyId, reforgeID, transmogrifyId, durability, playedTime, text, guid) VALUES (108920, 1, 0, 0, 20, 0, '-1 0 0 0 0 ', 0, '0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ', 0, 0, 0, 0, 15, 'x▒
+ [ERROR]: [1366] Incorrect string value: '\xA9\x01' for column 'text' at row 1
+Unhandled MySQL errno 1366. Unexpected behaviour possible.
+SQL(p): REPLACE INTO item_instance (itemEntry, owner_guid, creatorGuid, giftCreatorGuid, count, duration, charges, flags, enchantments, randomPropertyId, reforgeID, transmogrifyId, durability, playedTime, text, guid) VALUES (49400, 1, 0, 0, 1, 0, '0 0 0 0 0 ', 0, '0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ', 0, 40, 0, 40, 4, '▒▒
+ [ERROR]: [1366] Incorrect string value: '\xF8\xC0' for column 'text' at row 1
+Unhandled MySQL errno 1366. Unexpected behaviour possible.
+SQL(p): REPLACE INTO item_instance (itemEntry, owner_guid, creatorGuid, giftCreatorGuid, count, duration, charges, flags, enchantments, randomPropertyId, reforgeID, transmogrifyId, durability, playedTime, text, guid) VALUES (49401, 1, 0, 0, 1, 0, '0 0 0 0 0 ', 0, '0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ', 0, 25, 0, 25, 6, '▒▒
+ [ERROR]: [1366] Incorrect string value: '\xF9\xC0' for column 'text' at row 1
+Unhandled MySQL errno 1366. Unexpected behaviour possible.
+SQL(p): REPLACE INTO item_instance (itemEntry, owner_guid, creatorGuid, giftCreatorGuid, count, duration, charges, flags, enchantments, randomPropertyId, reforgeID, transmogrifyId, durability, playedTime, text, guid) VALUES (49399, 1, 0, 0, 1, 0, '0 0 0 0 0 ', 0, '0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ', 0, 55, 0, 55, 2, '▒▒
+ [ERROR]: [1366] Incorrect string value: '\xF7\xC0' for column 'text' at row 1
+Unhandled MySQL errno 1366. Unexpected behaviour possible.
+```
+
+**Current behaviour:**
+
+IDK
+
+**Expected behaviour:**
+
+Not that error
+
+**Steps to reproduce the problem:**
+
+Check first Text.
+
+**SF rev. hash/commit:** 
+
+SkyFire 5.x.x rev. f884edf15592 2019-11-25 04:27:41 +0100 (master branch) (Unix, Release) (worldserver-daemon) ready...
+
+**Operating system:** Debian 10
+I also use MySQL 8.0 (NOT Mariadb) with utf8mb and utf8mb_unicode_ci
+<!--- Notes
+- This template is for problem reports. For other types of report, edit it accordingly.
+- For fixes containing C++ changes, create a Pull Request.
+--->
+wrong coalition
+utf8 is an alias for utf8mb3.
+utf8mb = contains 1 byte
+utf8mb2 = contains 2 bytes
+utf8mb3 = contains 3 bytes
+utf8mb4 = contains 4 bytes
+https://wikipedia.org/wiki/UTF-8
+make sure you use utf8mb4 as your char set like the database is and don't use custom char sets.
+https://www.eversql.com/mysql-utf8-vs-utf8mb4-whats-the-difference-between-utf8-and-utf8mb4/
+
+In other words you try to put 2 bytes from the errors above into an 1 byte char set.
+
+ [Core / SQL] Update some SQL stuff.
+ Use MySQL utf8mb4_unicode_ci
+Use issues for SQL related stuff cant review SQL code for each mistake you did/or forgot to add and then fix it in other commit. Closing this Commit Cluster
+
+ Compile error 
+ <!--- (**********************************)
+      (** Fill in the following fields **)
+      (**********************************) --->
+
+can not compile with version as of 18/10/2019
+CHANGEME Description of the problem or issue here.
+
+`/mnt/d/users_sys/games/wow/mangos/git/SkyFire.548/src/server/shared/Database/QueryResult.cpp: In constructor ‘PreparedResultSet::PreparedResultSet(MYSQL_STMT*, MYSQL_RES*, uint64, uint32)’:
+
+/mnt/d/users_sys/games/wow/mangos/git/SkyFire.548/src/server/shared/Database/QueryResult.cpp:82:30: error: cannot convert ‘bool*’ to ‘my_bool*’ {aka ‘char*’} in assignment
+   82 |         m_rBind[i].is_null = &m_isNull[i];
+      |                                           ^~~~~~~~~~~~
+      |                                            |
+      |                                            bool*
+src/server/shared/CMakeFiles/shared.dir/build.make:446: recipe for target 'src/server/shared/CMakeFiles/shared.dir/Database/QueryResult.cpp.o' failed
+
+make[2]: *** [src/server/shared/CMakeFiles/shared.dir/Database/QueryResult.cpp.o] Error 1
+CMakeFiles/Makefile2:671: recipe for target 'src/server/shared/CMakeFiles/shared.dir/all' failed
+
+make[1]: *** [src/server/shared/CMakeFiles/shared.dir/all] Error 2
+Makefile:129: recipe for target 'all' failed
+make: *** [all] Error 2`
+
+
+**Expected behaviour:**
+should compile
+
+**Steps to reproduce the problem:**
+
+I tryed on ubuntu 18.04
+linked to mysql version too old
+
+ Migrate LGTM.com installation from OAuth to GitHub App
+ Hi There,
+
+This project is still using an old implementation of LGTM's automated code review, which has now been disabled. To continue using automated code review, and receive checks on your Pull Requests, please [install the GitHub App](https://github.com/apps/lgtm-com/installations/new) on this repository.
+
+Thanks,
+The LGTM Team
+ mysql help
+ help me where you izmenili 8 mysql I need to make mysql 5.6, so it was easier for me to work with the kernel ?
+Nope. Not supported. Feel free to change the code yourself.
+
+ database world
+ are you using a mariadb database download?
+how to make mysql 5.6 + openSLL 1.0.2+ MS Visual Studiovs 2015, so it was easier for me???
+
+MySQL CMake = 3.13.1/3.5.1 (Windows / Linux)
+OpenSSL = 1.1.1/1.1.0G (Windows / Linux)
+GCC = 8.1.0 (Linux only)
+MS Visual Studio = 16 (2019) (Windows only)
+is only supported.
+
+ error compilation
+ 104 error 
+![2019-09-21_05h23_41](https://user-images.githubusercontent.com/39030731/65366053-1af02f00-dc30-11e9-8b3c-6eae83922f8c.png)
+![2019-09-21_05h22_59](https://user-images.githubusercontent.com/39030731/65366056-1e83b600-dc30-11e9-971a-d0138de1de76.png)
+
+windows 7   64 bit  mysql 8   
+MySQL CMake = 3.13.1/3.5.1 (Windows / Linux)
+OpenSSL = 1.1.1/1.1.0G (Windows / Linux)
+GCC = 8.1.0 (Linux only)
+MS Visual Studio = 16 (2019) (Windows only)
+

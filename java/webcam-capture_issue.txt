@@ -1,0 +1,1581 @@
+﻿ How to set timeout for webCam.open() method ?
+ Is there anyway I can set timeout in milliseconds for `Webcam#open()` method just like `Webcam#getDefault(Long)` ? 
+ When I run webcam-capture-websockets an error occurs.
+ When I run webcam-capture-websockets an error occurs.
+
+![Capture](https://user-images.githubusercontent.com/45443554/82532478-15503d80-9b5f-11ea-9b7f-d67fca5cdf51.PNG)
+
+ When I import this project an error occurs.
+ pom.xml  https://github.com/sarxos/webcam-capture/blob/master/webcam-capture-examples/webcam-capture-websockets/pom.xml
+
+`Cannot resolve plugin org.apache.maven.plugins:maven-site-plugin:3.7.1
+
+Cannot resolve plugin org.codehaus.mojo:versions-maven-plugin:2.7
+
+Cannot resolve plugin org.apache.maven.plugins:maven-deploy-plugin:3.0.0-M1
+
+Cannot resolve plugin org.apache.maven.plugins:maven-javadoc-plugin:3.1.0
+
+Cannot resolve plugin org.codehaus.mojo:cobertura-maven-plugin:2.7
+
+Cannot resolve plugin org.apache.maven.plugins:maven-surefire-plugin:3.0.0-M3
+
+Cannot resolve plugin org.apache.maven.plugins:maven-install-plugin:3.0.0-M1`
+
+
+
+Why this error occurs?
+ Bump jackson-databind from 2.9.10.1 to 2.9.10.4 in /webcam-capture-examples/webcam-capture-websockets
+ Bumps [jackson-databind](https://github.com/FasterXML/jackson) from 2.9.10.1 to 2.9.10.4.
+<details>
+<summary>Commits</summary>
+<ul>
+<li>See full diff in <a href="https://github.com/FasterXML/jackson/commits">compare view</a></li>
+</ul>
+</details>
+<br />
+
+
+[![Dependabot compatibility score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=com.fasterxml.jackson.core:jackson-databind&package-manager=maven&previous-version=2.9.10.1&new-version=2.9.10.4)](https://help.github.com/articles/configuring-automated-security-fixes)
+
+Dependabot will resolve any conflicts with this PR as long as you don't alter it yourself. You can also trigger a rebase manually by commenting `@dependabot rebase`.
+
+[//]: # (dependabot-automerge-start)
+[//]: # (dependabot-automerge-end)
+
+---
+
+<details>
+<summary>Dependabot commands and options</summary>
+<br />
+
+You can trigger Dependabot actions by commenting on this PR:
+- `@dependabot rebase` will rebase this PR
+- `@dependabot recreate` will recreate this PR, overwriting any edits that have been made to it
+- `@dependabot merge` will merge this PR after your CI passes on it
+- `@dependabot squash and merge` will squash and merge this PR after your CI passes on it
+- `@dependabot cancel merge` will cancel a previously requested merge and block automerging
+- `@dependabot reopen` will reopen this PR if it is closed
+- `@dependabot close` will close this PR and stop Dependabot recreating it. You can achieve the same result by closing it manually
+- `@dependabot ignore this major version` will close this PR and stop Dependabot creating any more for this major version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this minor version` will close this PR and stop Dependabot creating any more for this minor version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this dependency` will close this PR and stop Dependabot creating any more for this dependency (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot use these labels` will set the current labels as the default for future PRs for this repo and language
+- `@dependabot use these reviewers` will set the current reviewers as the default for future PRs for this repo and language
+- `@dependabot use these assignees` will set the current assignees as the default for future PRs for this repo and language
+- `@dependabot use this milestone` will set the current milestone as the default for future PRs for this repo and language
+
+You can disable automated security fix PRs for this repo from the [Security Alerts page](https://github.com/sarxos/webcam-capture/network/alerts).
+
+</details>
+
+[![Coverage Status](https://coveralls.io/builds/30824121/badge)](https://coveralls.io/builds/30824121)
+
+Coverage remained the same at 22.39% when pulling **fdfe311ce1e5d42f7d70918de35e6d3a50919027 on dependabot/maven/webcam-capture-examples/webcam-capture-websockets/com.fasterxml.jackson.core-jackson-databind-2.9.10.4** into **3d3fea0e80422864a22b751fdedfbb443288baff on master**.
+
+
+ OpenImaJ device driver - remove delays and allow setting FPS
+ Hi
+I noticed the FPS is not adjustable. Furthermore the 3s delay on opening the device prevents real-time image processing, as always the NEXT instead the LAST frame is read then getting the image.
+
+Suggestions: 
+- remove the delay after opening the device (do-while on line 103)
+- read last frame for getImage (use capture.getLastFrame on line 76)
+- add a method to setFPS (currently on Raspberry Pi 4 I am stuck with 30 as default, could easily go higher from hardware pov)
+
+in
+webcam-capture-drivers/driver-openimaj/src/main/java/com/github/sarxos/webcam/ds/openimaj/OpenImajDevice.java
+ First open webcam always throws exception
+ When I use the application to open the camera for the first time, it always throws an exception, but it is normal to open the program for the second time and the camera afterwards. 
+
+```
+4:30:33.948 [main] INFO com.github.sarxos.webcam.Webcam - WebcamDefaultDriver capture driver will be used
+14:30:33.961 [webcam-discovery-service] DEBUG com.github.sarxos.webcam.ds.buildin.WebcamDefaultDriver - Searching devices
+14:30:34.469 [webcam-discovery-service] DEBUG com.github.sarxos.webcam.ds.buildin.WebcamDefaultDriver - Found device LRCP  USB2.0 /dev/video0
+14:30:34.474 [main] INFO com.lanxincn.wzzxexternal.controller.schedule.CameraSchedule - webcam is Webcam LRCP  USB2.0 /dev/video0
+14:30:34.475 [main] DEBUG com.github.sarxos.webcam.Webcam - Setting new resolution 640x480
+14:30:34.663 [main] DEBUG com.github.sarxos.webcam.WebcamPanel - Starting panel rendering and trying to open attached webcam
+14:30:34.678 [SwingWorker-pool-1-thread-1] DEBUG com.github.sarxos.webcam.WebcamLock - Lock Webcam LRCP  USB2.0 /dev/video0
+14:30:34.682 [atomic-processor-1] INFO com.github.sarxos.webcam.ds.cgt.WebcamOpenTask - Opening webcam LRCP  USB2.0 /dev/video0
+14:30:34.682 [atomic-processor-1] DEBUG com.github.sarxos.webcam.ds.buildin.WebcamDefaultDevice - Opening webcam device LRCP  USB2.0 /dev/video0
+14:30:34.683 [atomic-processor-1] DEBUG com.github.sarxos.webcam.ds.buildin.WebcamDefaultDevice - Webcam device /dev/video0 starting session, size java.awt.Dimension[width=640,height=480]
+libv4l2: error setting pixformat: 输入/输出错误
+14:30:35.168 [SwingWorker-pool-1-thread-1] DEBUG com.github.sarxos.webcam.WebcamLock - Unlock Webcam LRCP  USB2.0 /dev/video0
+14:30:35.168 [webcam-lock-[LRCP  USB2.0 /dev/video0]] DEBUG com.github.sarxos.webcam.WebcamLock - Lock updater has been interrupted
+14:30:35.175 [SwingWorker-pool-1-thread-1] DEBUG com.github.sarxos.webcam.Webcam - Webcam exception when opening
+com.github.sarxos.webcam.WebcamException: Cannot execute task
+	at com.github.sarxos.webcam.WebcamProcessor$AtomicProcessor.process(WebcamProcessor.java:72)
+	at com.github.sarxos.webcam.WebcamProcessor.process(WebcamProcessor.java:140)
+	at com.github.sarxos.webcam.WebcamTask.process(WebcamTask.java:46)
+	at com.github.sarxos.webcam.ds.cgt.WebcamOpenTask.open(WebcamOpenTask.java:20)
+	at com.github.sarxos.webcam.Webcam.open(Webcam.java:295)
+	at com.github.sarxos.webcam.Webcam.open(Webcam.java:250)
+	at com.github.sarxos.webcam.Webcam.open(Webcam.java:236)
+	at com.github.sarxos.webcam.WebcamPanel$1.doInBackground(WebcamPanel.java:840)
+	at com.github.sarxos.webcam.WebcamPanel$1.doInBackground(WebcamPanel.java:833)
+	at javax.swing.SwingWorker$1.call(SwingWorker.java:295)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at javax.swing.SwingWorker.run(SwingWorker.java:334)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: com.github.sarxos.webcam.WebcamException: Cannot start native grabber!
+	at com.github.sarxos.webcam.ds.buildin.WebcamDefaultDevice.open(WebcamDefaultDevice.java:334)
+	at com.github.sarxos.webcam.ds.cgt.WebcamOpenTask.handle(WebcamOpenTask.java:38)
+	at com.github.sarxos.webcam.WebcamProcessor$AtomicProcessor.run(WebcamProcessor.java:81)
+	... 3 common frames omitted
+LOGBACK: No context given for c.q.l.core.rolling.SizeAndTimeBasedRollingPolicy@453211571
+
+```
+
+```
+public class CameraSchedule {
+
+    volatile Webcam webcam;
+
+    public CameraSchedule() {
+        List<Webcam> webcams = Webcam.getWebcams();
+        for (Webcam wb : webcams) {
+            log.info("webcam is {}", wb.toString());
+            if (wb != null && wb.getName().equals(CAMERA_NAME)) {
+                try {
+                    runTask(wb);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    log.warn("open GUI throw exception");
+                }
+            }
+        }
+
+
+    }
+
+    private void runTask(Webcam webcam) {
+//            ExecutorService executorService = Executors.newSingleThreadExecutor();
+//            executorService.submit(() -> {
+
+        webcam.setViewSize(WebcamResolution.VGA.getSize());
+        webcam.open(false);
+
+        WebcamPanel panel = new WebcamPanel(webcam);
+
+
+        panel.setFPSDisplayed(true);
+        panel.setDisplayDebugInfo(true);
+        panel.setImageSizeDisplayed(true);
+        panel.setMirrored(true);
+
+
+        JFrame window = new JFrame("Test webcam panel");
+        window.add(panel);
+        window.setResizable(true);
+        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        window.pack();
+        window.setVisible(true);
+        this.webcam = webcam;
+
+    }
+
+    private static final String CAMERA_NAME = "LRCP  USB2.0 /dev/video0";
+//    private static final String CAMERA_NAME = "LRCP  USB2.0 1";
+//    private static final String CAMERA_NAME = "USB HD WEBCAM 0";
+
+
+    public Webcam getWebcam() {
+        return webcam;
+    }
+
+
+}
+
+public class WzzxExternalApplication {
+
+
+    static Webcam webcam;
+
+
+    public static void main(String[] args) throws Exception {
+        webcam = new CameraSchedule().getWebcam();
+        SpringApplication.run(WzzxExternalApplication.class, args);
+//        System.out.println(ctx.getClass());
+
+    }
+
+ @Bean
+    Webcam webcam() {
+        System.out.println("webcam detail when system start" + webcam.toString());
+        return webcam;
+    }
+
+}
+
+
+@Scheduled(initialDelayString = "${lanxin.notify.fixRate.init}",fixedRateString = "${lanxin.notify.fixRate}")
+    public void checkOrderChainStatus() {
+        if (!webcam.isOpen()) {
+            webcam.open();
+        }
+        if (webcam.isOpen()){
+            BufferedImage image = webcam.getImage();
+            String qrCodeInfo = "";
+            try {
+                qrCodeInfo = ZxingUtil.decodeImg2(image);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            if (!StringUtils.isEmpty(qrCodeInfo)) {
+                log.info("receive String info from qrCode is {}", qrCodeInfo);
+                OrderVO orderVO = JSON.parseObject(qrCodeInfo, OrderVO.class);
+                taskService.carryOrder(orderVO);
+            }
+        }
+}
+```
+
+It is very strange that this exception always appears when I run the program for the first time after restarting the server, and it is always good when running afterwards, but I cannot ask the client to always start the program twice. After restarting the server, I tried The following method does not work
+```
+public boolean open(boolean async) {
+		return open(async, new DefaultDelayCalculator());
+	}
+
+
+ Webcam.setAutoOpenMode(true);
+```
+
+Looking forward to your answers urgently, thanks~👀👀
+ when CamTwist is installed on Mac, WebcamDiscoveryService throws exception
+ When [CamTwist](http://camtwiststudio.com/) is available on the system, WebcamDiscoveryService fails to start webcam.
+```
+Exception in thread "main" com.github.sarxos.webcam.WebcamException: java.util.concurrent.ExecutionException: java.lang.NumberFormatException: For input string: "lloc"
+	at com.github.sarxos.webcam.WebcamDiscoveryService.getWebcams(WebcamDiscoveryService.java:124)
+	at com.github.sarxos.webcam.Webcam.getWebcams(Webcam.java:893)
+	at com.github.sarxos.webcam.Webcam.getDefault(Webcam.java:956)
+	at com.github.sarxos.webcam.Webcam.getDefault(Webcam.java:933)
+	at com.github.sarxos.webcam.Webcam.getDefault(Webcam.java:911)
+	at com.virtualoffice.client.Application.main(Application.java:186)
+Caused by: java.util.concurrent.ExecutionException: java.lang.NumberFormatException: For input string: "lloc"
+	at java.util.concurrent.FutureTask.report(FutureTask.java:122)
+	at java.util.concurrent.FutureTask.get(FutureTask.java:192)
+	at com.github.sarxos.webcam.WebcamDiscoveryService.getWebcams(WebcamDiscoveryService.java:116)
+	... 5 more
+Caused by: java.lang.NumberFormatException: For input string: "lloc"
+	at java.lang.NumberFormatException.forInputString(NumberFormatException.java:65)
+	at java.lang.Integer.parseInt(Integer.java:580)
+	at java.lang.Integer.parseInt(Integer.java:615)
+	at com.github.sarxos.webcam.ds.javacv.JavaCvDriver.getDevicesMacOs(JavaCvDriver.java:89)
+	at com.github.sarxos.webcam.ds.javacv.JavaCvDriver.getDevices(JavaCvDriver.java:115)
+	at com.github.sarxos.webcam.WebcamDiscoveryService$WebcamsDiscovery.call(WebcamDiscoveryService.java:36)
+	at com.github.sarxos.webcam.WebcamDiscoveryService$WebcamsDiscovery.call(WebcamDiscoveryService.java:26)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+```
+ Remove redundant initialization
+ Remove redundant initialization. We don't need to initialize t1 and t2 to a value since below k and p are explicitly defined in for loop and there's no other implicit conditions that may cause an runtime error if t1 and t2 are not initialized
+Remove redundant initialization. We don't need to initialize t1 and t2 to a value since below k and p are explicitly defined in for loop and there's no other implicit conditions that may cause an runtime error if t1 and t2 are not initialized
+
+
+
+[![Coverage Status](https://coveralls.io/builds/30096897/badge)](https://coveralls.io/builds/30096897)
+
+Coverage increased (+0.05%) to 22.436% when pulling **a784665c70ddcc65c8404fbd8c02a1f0dc3aaa8c on ZhongxuanWang:patch-1** into **3d3fea0e80422864a22b751fdedfbb443288baff on sarxos:master**.
+
+
+ java.lang.NoClassDefFoundError: org/slf4j/LoggerFactory in Java Swing SLF4J-simple-1.7.25
+ Recently when I used Sarxos Camera with 'slf4j-api' but there was an error like this
+
+`SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.`
+
+ Compile Webcam Capture API on Java 13
+ 
+Done
+
+ UnsatisfiedLinkError against OpenIMAJGrabber.startSession(IIILorg/bridj/Pointer;)
+ Opening `Webcam` cause this error on Linux machine:
+
+```plain
+21:02:21.519 [SwingWorker-pool-2-thread-1] DEBUG com.github.sarxos.webcam.Webcam - Webcam exception when opening
+com.github.sarxos.webcam.WebcamException: Cannot execute task
+	at com.github.sarxos.webcam.WebcamProcessor$AtomicProcessor.process(WebcamProcessor.java:72) ~[classes/:na]
+	at com.github.sarxos.webcam.WebcamProcessor.process(WebcamProcessor.java:140) ~[classes/:na]
+	at com.github.sarxos.webcam.WebcamTask.process(WebcamTask.java:46) ~[classes/:na]
+	at com.github.sarxos.webcam.ds.cgt.WebcamOpenTask.open(WebcamOpenTask.java:20) ~[classes/:na]
+	at com.github.sarxos.webcam.Webcam.open(Webcam.java:295) [classes/:na]
+	at com.github.sarxos.webcam.Webcam.open(Webcam.java:250) [classes/:na]
+	at com.github.sarxos.webcam.Webcam.open(Webcam.java:236) [classes/:na]
+	at com.github.sarxos.webcam.WebcamPanel$1.doInBackground(WebcamPanel.java:840) [classes/:na]
+	at com.github.sarxos.webcam.WebcamPanel$1.doInBackground(WebcamPanel.java:1) [classes/:na]
+	at javax.swing.SwingWorker$1.call(SwingWorker.java:295) [na:1.8.0_201]
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266) [na:1.8.0_201]
+	at javax.swing.SwingWorker.run(SwingWorker.java:334) [na:1.8.0_201]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149) [na:1.8.0_201]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624) [na:1.8.0_201]
+	at java.lang.Thread.run(Thread.java:748) [na:1.8.0_201]
+Caused by: java.lang.UnsatisfiedLinkError: com.github.sarxos.webcam.ds.buildin.natives.OpenIMAJGrabber.startSession(IIILorg/bridj/Pointer;)Z
+	at com.github.sarxos.webcam.ds.buildin.natives.OpenIMAJGrabber.startSession(Native Method) ~[classes/:na]
+	at com.github.sarxos.webcam.ds.buildin.WebcamDefaultDevice.open(WebcamDefaultDevice.java:332) ~[classes/:na]
+	at com.github.sarxos.webcam.ds.cgt.WebcamOpenTask.handle(WebcamOpenTask.java:38) ~[classes/:na]
+	at com.github.sarxos.webcam.WebcamProcessor$AtomicProcessor.run(WebcamProcessor.java:81) ~[classes/:na]
+	... 3 common frames omitted
+```
+Hi @kkieffer
+
+This issue is caused by a method parameter signature being changed from `double` to `int` in your commit here:
+
+https://github.com/sarxos/webcam-capture/pull/765/files#diff-492ecf2a3cddaf20cf2f0e1a230fa31d.
+
+I initially thought it's a valid change since it's only normal to assume that FPS is `int`, but it looks like BridJ needs it to be double to link correct function exported in native library, thus I'm reverting it back to how it was before.
+
+Can you please test newest `0.3.13-SNAPSHOT` on your MacOS machine to verify if this change works well? I have no access to Apple boxes and can't verify it.
+
+It won't compile correctly if it's a double.  The native code wants an int.  See the native source here, where reqMillisPerFrame is an int:
+
+<img width="730" alt="image" src="https://user-images.githubusercontent.com/33581862/77953729-8d0a9600-729b-11ea-9404-cb884652026a.png">
+
+
+@kkieffer 
+
+Ok, I understand now why you had to change it. Let me check why it's not linking on my Linux box. I suppose there is a bug somewhere else in the code or pom since OpenIMAJ also have `int` in `OpenIMAJGrabber` class.
+
+@kkieffer 
+
+Nailed it. The `so` files for x64 and x86 Linux are outdated (others probably as well). I will update them and change `double` to `int` as it should be.
+
+@kkieffer Thank you for your help. Everything should be working now. Can I ask you one more time to verify if the 0.3.13-SNAPSHOT is working well on Mac? I suppose it should be working but better be safe than sorry :) The latest snapshot is already deployed in Sonatype and available [here](https://oss.sonatype.org/service/local/artifact/maven/redirect?r
+Working!
+
+Great. Thank you!
+
+ Address MacOS Catalina no webcam found issue 
+ This PR attempts to address the issue in #723 
+
+The updated .dylib is from 1.4-SNAPSHOT of OpenIMAJ.  The author has addressed in the issues in Catalina where it is necessary to ask the user's permission to access the camera.  The OpenIMAJGrabber is updated to reflect changes in the native interface.
+
+I have tested this now on Catalina and it does detect all connected webcams.  However there is a problem trying to open the session from java, this error occurs:
+
+This app has crashed because it has a hardened runtime and attempted to access privacy-sensitive data without an entitlement indicating its intent to access this data.  The app must have the 'com.apple.security.device.camera' entitlement.
+
+I suspect if you package your java program into an .app with the correct entitlements it will work.  I haven't tried this because OpenJDK 14 has some trouble with jpackage right now.
+
+
+
+[![Coverage Status](https://coveralls.io/builds/29716018/badge)](https://coveralls.io/builds/29716018)
+
+Coverage decreased (-0.2%) to 22.316% when pulling **3651240e7affd774ddb2a20cfc07814ca15cbe77 on kkieffer:master** into **cd2e89494b3ad37f44f265e52afddb65623129d0 on sarxos:master**.
+
+
+Hi @kkieffer, 
+
+Thank you for this PR. I took a brief look at the `dylib` file and it seems to differ from the one in OpenIMAJ:
+
+I downloaded `dylib` from your PR and from OpenIMAJ master (1.4-SNAPSHOT):
+
+* webcam-capture/src/main/resources/com/github/sarxos/webcam/ds/buildin/lib/darwin_universal/libOpenIMAJGrabber.dylib
+* openimaj/raw/master/hardware/core-video-capture/src/main/resources/org/openimaj/video/capture/nativelib/darwin_universal/libOpenIMAJGrabber.dylib
+
+In bash:
+
+```plain
+$ wget https://github.com/sarxos/webcam-capture/raw/4ead2cf3d848007dff8a0df53a3c2b39e538b0b2/webcam-capture/src/main/resources/com/github/sarxos/webcam/ds/buildin/lib/darwin_universal/libOpenIMAJGrabber.dylib -O libOpenIMAJGrabber.dylib.1
+$ wget https://github.com/openimaj/openimaj/raw/master/hardware/core-video-capture/src/main/resources/org/openimaj/video/capture/nativelib/darwin_universal/libOpenIMAJGrabber.dylib -O libOpenIMAJGrabber.dylib.2
+```
+
+Then calculate md5 sum:
+
+```plain
+$ md5sum libOpenIMAJGrabber.dylib.1 libOpenIMAJGrabber.dylib.2
+46cc65680d3932f3d395676aef782c6e  libOpenIMAJGrabber.dylib.1
+d72965a6298c1f95b0b5cb66bc691c26  libOpenIMAJGrabber.dylib.2
+```
+
+As you can see these files are different. Did you compile it on your own or maybe committed wrong one?
+
+I built the dylib from the Xcode project in openimaj.  Probably, it signed it with my cert instead.
+
+@kkieffer But is there any reason to build it? There is already compiled re-distributable file in OpenIMAJ. I would prefer it to be taken from there since OpenIMAJ version is more mature and tested. It's also smaller in size.
+
+@kkieffer If there is no valid reason to have it compiled, then can you put the OpenIMAJ's file version in this PR, amend commit and push it with --force? Or should I do it?
+
+```
+$ git add libOpenIMAJGrabber.dylib
+$ git commit --amend
+$ git push origin HEAD:master --force
+```
+
+I updated with dylib from openimaj.  Note however this is not signed. I fear, to use this library on Catalina, one will have to unpack the jar, sign the dylib (and notarize), and repack the jar. Apple does not make it easy on Catalina.
+
+Oh I checked the openimaj library works the same as the one I built
+
+@kkieffer That is great. Ok then, I merging your PR. Thank you once again!
+
+ How to perform QR code analysis while displaying camera pictures
+ How to perform QR code analysis while displaying camera pictures，Now I can only display pictures or QR code, but they cannot work at the same time
+Hi @geekeritcom,
+
+> Now I can only display pictures or QR code, but they cannot work at the same time
+
+This is not true. You can display both image from webcam, and QR code. The problem is how you implement this :)
+
+You can for example open camera in async mode so it does not block when you call `getImage()`, pass it to `WebcamPanel`, and use the very same `Webcam` instance in a separate `Thread` to read QR code from image. Both image display and analysis will be done here in parallel.
+
+Another example would be have a custom `WebcamImageTransformer` which reads the code from image before it's returned from `getImage()`, but this solution will most likely drop effective FPS since QR code analysis time will be added to the `getImage()` execution time. QR code analysis and image display will be done here one after the other (and for every image)
+
+Please take a look at this basic example. Here image from webcam id displayed in parallel to the QR code analysis:
+
+https://github.com/sarxos/webcam-capture/blob/master/webcam-capture-examples/webcam-capture-qrcode/src/main/java/com/github/sarxos/example1/WebcamQRCodeExample.java
+
+This example is the embodiment of the the first idea I described above.
+
+Thank you very much for responding so fast. Yesterday I also found a solution by referring to the image of the network camera. I saw your reply code today. Thank you very much. In any case, thank you for your reply and such a great tool.
+
+
+```
+private static void runTask(Webcam webcam) {
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        executorService.submit(() -> {
+            webcam.setViewSize(WebcamResolution.VGA.getSize());
+
+
+            WebcamPanel panel = new WebcamPanel(webcam);
+
+
+            panel.setFPSDisplayed(true);
+            panel.setDisplayDebugInfo(true);
+            panel.setImageSizeDisplayed(true);
+            panel.setMirrored(true);
+
+            Thread thread = new Thread() {
+                @Override
+                public void run() {
+                    while (true) {
+                        if (!webcam.isOpen()) {
+                            webcam.open(true);
+                        }
+                        BufferedImage image = webcam.getImage();
+                        try {
+                            ZxingUtil.decodeImg(image);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        try {
+                            TimeUnit.SECONDS.sleep(1);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            };
+            thread.start();
+
+            JFrame window = new JFrame("Test webcam panel");
+            window.add(panel);
+            window.setResizable(true);
+            window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            window.pack();
+            window.setVisible(true);
+        });
+    }
+```
+
+
+ Name conflict with openCV
+ I'm using `webcam-capture` in order to determine the available web cams.
+
+```
+import com.github.sarxos.webcam.Webcam;
+import java.util.ArrayList;
+import java.util.List;
+
+public class CameraAPI {
+
+    public static List<String> getCameras() {
+        List<Webcam> webCamList = Webcam.getWebcams();
+        List<String> resultList = new ArrayList<String>();
+        for (Webcam webcam : webCamList) {
+            resultList.add(webcam.getName());
+        }
+        return resultList;
+    }
+}
+
+
+```
+
+My pom.xml contains this:
+
+```
+
+    <!-- https://mvnrepository.com/artifact/com.github.sarxos/webcam-capture -->
+    <dependency>
+      <groupId>com.github.sarxos</groupId>
+      <artifactId>webcam-capture</artifactId>
+      <version>0.3.12</version>
+    </dependency>
+
+```
+
+This was working since two years. Today out of the blue I got this warning at console level :
+
+`objc[1942]: Class CaptureDelegate is implemented in both /Users/decades/Documents/dragonflyExternal/opencv-3.4.1/build/lib/libopencv_videoio.3.4.1.dylib (0x12c6efdb8) and /var/folders/7l/rc18f0m564qgtmjlzn6b_n5m0000gn/T/BridJExtractedLibraries9270737780412785296/libOpenIMAJGrabber.dylib (0x1126b29e0). One of the two will be used. Which one is undefined.
+`
+
+And obviously it uses the wrong: The Call does not return any camera information anymore.
+
+The `BridJExtractedblabla` - if I delete it, it will be restored each time. Yes, my project is using OpenCV.
+
+I'm on macOS Catalina, it worked with previous versions of the OS and it works on Linux.
+
+Any idea?
+
+
+Oh... there are a lot of issues with getWebCams on Catalina I see....
+
+
+ Minor updates
+ 
+
+[![Coverage Status](https://coveralls.io/builds/29079316/badge)](https://coveralls.io/builds/29079316)
+
+Coverage decreased (-0.2%) to 22.27% when pulling **051e39c3982f711930abb333f94a38eda2427e08 on Harium:master** into **cd2e89494b3ad37f44f265e52afddb65623129d0 on sarxos:master**.
+
+
+Hi @yuripourre, thank you for this PR!
+
+No problem! Thank you for merging.
+
+ Inconsistent library versions reminder.
+ 
+Hi. I have implemented a tool to detect library version inconsistencies. Your project have 3 inconsistent libraries.
+
+Take org.apache.httpcomponents:httpclient for example, this library is declared as version 4.5.3 in webcam-capture-drivers/driver-ipcam, 4.1.3 in webcam-capture-addons/webcam-capture-addon-spycam and etc... Such version inconsistencies may cause unnecessary maintenance effort in the long run. For example, if two modules become inter-dependent, library version conflict may happen. It has already become a common issue and hinders development progress. Thus a version harmonization is necessary.
+
+Provided we applied a version harmonization, I calculated the cost it may have to harmonize to all upper versions including an up-to-date one. The cost refers to POM config changes and API invocation changes. Take org.apache.httpcomponents:httpclient for example, if we harmonize all the library versions into 4.5.9. The concern is, how much should the project code adapt to the newer library version. We list an effort table to quantify the harmonization cost. 
+
+The effort table is listed below. It shows the overall harmonization effort by modules. The columns represents the number of library APIs and API calls(NA,NAC), deleted APIs and API calls(NDA,NDAC) as well as modified API and API calls(NMA,NMAC). Modified APIs refers to those APIs whose call graph is not the same as previous version. Take the first row for example, if upgrading the library into version 4.5.9. Given that 1 APIs is used in module webcam-capture-drivers/driver-ipcam, 0 of them is deleted in a recommended version(which will throw a NoMethodFoundError unless re-compiling the project),  1 of them is regarded as modified which could break the former API contract.
+
+
+|Index|Module|NA(NAC)|NDA(NDAC)|NMA(NMAC)|
+|-|-|-|-|-|
+|1|webcam-capture-drivers/driver-ipcam|1(1)|0(0)|1(1)|
+|2|webcam-capture-addons/webcam-capture-addon-spycam|0(0)|0(0)|0(0)|
+
+Also we provided another table to show the potential files that may be affected due to library API change, which could help to spot the concerned API usage and rerun the test cases. The table is listed below. 
+
+
+
+
+|Module|File|Type|API|
+|-|-|-|-|
+|webcam-capture-drivers/driver-ipcam|webcam-capture-drivers/driver-ipcam/src/main/java/com/github/sarxos/webcam/ds/ipcam/IpCamAuth.java|modify|org.apache.http.auth.UsernamePasswordCredentials.UsernamePasswordCredentials(java.lang.String,java.lang.String)|
+
+
+If you are interested, you can have a more complete and detailed report in the attached PDF file.
+[sarxos webcam-capture.pdf](https://github.com/sarxos/webcam-capture/files/4272992/sarxos.webcam-capture.pdf)
+
+Hi @calvinhkf, thank you for the pointer :) I updated source code to address detected issues in 6fee1466017d28526a01c36a3da55baeceb54247, ad4e39cb3f6a04f38c4894c3251026a2639a73b2 and ed8f4341eee67f4014ffd00c5cbcf8347e8727ad. May I ask how this report is generated? Is this an open source project?
+
+Thanks! The report is generated based on analysis of project dependencies(as maven does but not totally follow the procedures and output of maven) and extraction of project API usages on dependencies.  The projects is not open-sourced yet. I want to make sure it is really helpful to developers.
+
+Thank you @calvinhkf :) In return let me provide some feedback.
+
+In the _Harmonization Effort_ tables it would be good to have only these modules which has NA/NDA/NMA greater than 0. With a greater number of modules the rows where these stats are 0 (zeros) obscure the table and make it harder to read (too long). It would be nicer to have them filtered out so only these which are greater than 0 are kept, IMO.
+
+In the Files Related, the API column I see something suspicious. It states (or maybe I understood it incorrectly) that the following APIs are modified between 0.3.11 and 0.3.12, and thus harmonization effort is required:
+
+* `com.github.sarxos.webcam.Webcam.getDefault()`
+* `com.github.sarxos.webcam.Webcam.open()`
+* `com.github.sarxos.webcam.Webcam.setViewSize(java.awt.Dimension)`
+* `com.github.sarxos.webcam.Webcam.getImage()`
+* `com.github.sarxos.webcam.Webcam.close()`
+
+But when I look for example at `Webcam.setViewSize(java.awt.Dimension)` I see no difference in the method signature or the method code between version 0.3.11, 0.3.12 and master branch. So I do not fully understand what the _Type_ column with value _Modified_ really means in this context.
+
+_Modified_ means the API signature remains the same, but some of its calling methods that are nodes of the API call graph changes. Those _modified API signatures_ are considered as method _addition_ and _deletion_ in our context. The report didn't include a call chain that relates an API entrance to the modified sub methods. And your confusion is due to my briefing report that didn't include the info as mentioned above(If shown on a PDF report, the tables and lists would be too hard to read). 
+
+But I think both of the report's redundancy and deficiency will be further overcome if the result is shown on an interactive GUI such as web(which is currently on a roadmap).
+
+Thanks for your feedback!   Appreciate it very much!
+
+Ok, I get it now. I'm closing this ticket as resolved. Thank you!
+
+ Raspberry PI, V4l4j. Low fps, cpu load
+ Hi
+
+I started using webcam-capture with v4l4j-driver on raspberry pi 4. I have some trouble with CPU load and low fps.
+Cpu load is over 95%. Fps is around 3-5. 
+
+How I can increase fps and decrease CPU load?
+
+I tried guvcview, which uses v4l2, and it gives me 1920*1080 23-25fps, without CPU load. 
+
+Should I use a web camera with h264 codec onboard?
+I had some performance trouble with v4l4j once, then I created the [ffmpeg driver](https://github.com/sarxos/webcam-capture/tree/master/webcam-capture-drivers/driver-ffmpeg-cli). It runs using Java Process, but it is fast and compatible with Raspberry Pi.
+
+Do you mind trying it?
+https://github.com/sarxos/webcam-capture/tree/master/webcam-capture-drivers/driver-ffmpeg-cli
+
+And if you have any issues please report
+
+@yuripourre thanks for the suggestion. I will try it Monday. 
+
+Is that driver available on maven?
+
+Thanks @qdimka, unfortunately the driver is not available in maven yet, I filled an issue #751 but @sarxos didn't answer.
+
+If you really need a maven artifact I can publish a fork to maven central under my domain (harium.com).
+
+@yuripourre if it's not difficult for you, it would be great
+
+@qdimka Sorry for the late reply, it should be available on maven central soon:
+```
+<dependency>
+    <groupId>com.harium</groupId>
+    <artifactId>webcam-capture-driver-ffmpeg-cli</artifactId>
+    <version>0.3.12</version>
+</dependency>
+```
+
+ How to use webcam-capture-driver-raspberrypi with gradle
+ Hi
+I'm new to the Java world, I'm dotnet guy. 
+
+I'm trying to broadcast a video from my rpi4. Some drivers have the worst performance, also v4l4j  not working ([issue](https://github.com/sarxos/webcam-capture/issues/756)) .
+
+I found webcam-capture-driver-raspberrypi in this repo.
+I'm trying to add this driver to my build.gradle, but nothing to happen.
+
+How can I use it with gradle? Maybe it could be published to maven?
+Part of build.gradle
+```
+repositories {
+    jcenter()
+    mavenCentral()
+    maven {
+        url "http://oss.sonatype.org/content/repositories/snapshots"
+    }
+}
+
+dependencies {
+    compile group: 'com.github.sarxos', name: 'webcam-capture', version:'0.3.12'
+    compile group: 'com.github.sarxos', name: 'webcam-capture-driver-raspberrypi', version: ''
+}
+```
+ [SECURITY] Use HTTPS to resolve dependencies in Maven Build
+ [![mitm_build](https://user-images.githubusercontent.com/1323708/59226671-90645200-8ba1-11e9-8ab3-39292bef99e9.jpeg)](https://medium.com/@jonathan.leitschuh/want-to-take-over-the-java-ecosystem-all-you-need-is-a-mitm-1fc329d898fb?source
+- [Want to take over the Java ecosystem? All you need is a MITM!](https://medium.com/@jonathan.leitschuh/want-to-take-over-the-java-ecosystem-all-you-need-is-a-mitm-1fc329d898fb?source=friends_link&sk=3c99970c55a899ad9ef41f126efcde0e)
+- [Update: Want to take over the Java ecosystem? All you need is a MITM!](https://medium.com/bugbountywriteup/update-want-to-take-over-the-java-ecosystem-all-you-need-is-a-mitm-d069d253fe23?source=friends_link&sk=8c8e52a7d57b98d0b7e541665688b454)
+
+---
+
+This is a security fix for a  vulnerability in your [Apache Maven](https://maven.apache.org/) `pom.xml` file(s).
+
+The build files indicate that this project is resolving dependencies over HTTP instead of HTTPS.
+This leaves your build vulnerable to allowing a [Man in the Middle](https://en.wikipedia.org/wiki/Man-in-the-middle_attack) (MITM) attackers to execute arbitrary code on your or your computer or CI/CD system.
+
+This vulnerability has a CVSS v3.0 Base Score of [8.1/10](https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H).
+
+[POC code](https://max.computer/blog/how-to-take-over-the-computer-of-any-java-or-clojure-or-scala-developer/) has existed since 2014 to maliciously compromise a JAR file in-flight.
+MITM attacks against HTTP are [increasingly common](https://security.stackexchange.com/a/12050), for example [Comcast is known to have done it to their own users](https://thenextweb.com/insights/2017/12/11/comcast-continues-to-inject-its-own-code-into-websites-you-visit/#).
+
+This contribution is a part of a submission to the [GitHub Security Lab](https://securitylab.github.com/) Bug Bounty program.
+
+## Detecting this and Future Vulnerabilities
+
+This vulnerability was automatically detected by [LGTM.com](https://lgtm.com) using this [CodeQL Query](https://lgtm.com/rules/1511115648721/).
+
+As of September 2019 LGTM.com and Semmle are [officially a part of GitHub](https://github.blog/2019-09-18-github-welcomes-semmle/).
+
+You can automatically detect future vulnerabilities like this by enabling the free (for open-source) [LGTM App](https://github.com/marketplace/lgtm).
+
+I'm not an employee of GitHub nor of Semmle, I'm simply a user of [LGTM.com](https://lgtm.com) and an open-source security researcher.
+
+## Source
+
+Yes, this contribution was automatically generated, however, the code to generate this PR was lovingly hand crafted to bring this security fix to your repository.
+
+The source code that generated and submitted this PR can be found here:
+[JLLeitschuh/bulk-security-pr-generator](https://github.com/JLLeitschuh/bulk-security-pr-generator)
+
+## Opting-Out
+
+If you'd like to opt-out of future automated security vulnerability fixes like this, please consider adding a file called
+`.github/GH-ROBOTS.txt` to your repository with the line:
+
+```
+User-agent: JLLeitschuh/bulk-security-pr-generator
+Disallow: *
+```
+
+This bot will respect the [ROBOTS.txt](https://moz.com/learn/seo/robotstxt) format for future contributions.
+
+Alternatively, if this project is no longer actively maintained, consider [archiving](https://help.github.com/en/github/creating-cloning-and-archiving-repositories/about-archiving-repositories) the repository.
+
+## CLA Requirements
+
+_This section is only relevant if your project requires contributors to sign a Contributor License Agreement (CLA) for external contributions._
+
+It is unlikely that I'll be able to directly sign CLAs. However, all contributed commits are already automatically signed-off.
+
+> The meaning of a signoff depends on the project, but it typically certifies that committer has the rights to submit this work under the same license and agrees to a Developer Certificate of Origin 
+> (see [https://developercertificate.org/](https://developercertificate.org/) for more information).
+>
+> \- [Git Commit Signoff documentation](https://developercertificate.org/)
+
+If signing your organization's CLA is a strict-requirement for merging this contribution, please feel free to close this PR.
+
+## Tracking
+
+All PR's generated as part of this fix are tracked here: 
+https://github.com/JLLeitschuh/bulk-security-pr-generator/issues/2
+
+[![Coverage Status](https://coveralls.io/builds/28660260/badge)](https://coveralls.io/builds/28660260)
+
+Coverage decreased (-0.2%) to 22.316% when pulling **cffdd2ad26ab70f477c7771b81d20cd32a4ec10b on JLLeitschuh:fix/JLL/use_https_to_resolve_dependencies** into **cd2e89494b3ad37f44f265e52afddb65623129d0 on sarxos:master**.
+
+
+Hi @JLLeitschuh, thank you for this PR :)
+
+ MAC OS Catalina - No webcams found
+ Hi,
+
+I've been using the framework on an old Macbook Pro, but after changing to a new Macbook Pro running Catalina, the framework no longer finds the connected webcams.
+
+There are currently two working webcams (one internal) connected to the Macbook Pro, both have been verified using Google Hangout, etc.
+
+Mac OS: Catalina Version 10.15.2
+Computer: i9, 32 GB
+
+Code:
+ public BufferedImage takePicture() throws IOException {
+        List<Webcam> webcams = Webcam.getWebcams();
+        log.info("Found {} webcams", webcams.size());
+....
+
+Log:
+2020-01-29 09:46:38.152  INFO 5638 --- [nio-8080-exec-7] d.d.a.a.service.CameraService            : Found 0 webcams
+2020-01-29 09:46:38.153  WARN 5638 --- [nio-8080-exec-7] com.github.sarxos.webcam.Webcam          : No webcam has been detected!
+
+Any chance something has changed with Catalina or something has to be changed?
+
+Br.
+Jakob Maaloe
+I think this is a duplicate of #723
+
+This should already be fixed by commit https://github.com/sarxos/webcam-capture/commit/ae28f268f081f2a1b13f06578a0f4fddb6ffc568 from @kkieffer.
+
+@JakobMaaloe can you please verify this issue with latest 0.3.13-SNAPSHOT which is available [here](https://oss.sonatype.org/service/local/artifact/maven/redirect?r=snapshots&g=com.github.sarxos&a=webcam-capture&v=0.3.13-SNAPSHOT)?
+
+Hi,
+
+No luck I'm afraid. Just downloaded the 0.3.13 snapshot, imported it and ran the code again. Initially it gave me a `ClassNotFoundException (org.bridj.cpp.CPPObject)`.
+
+But after including the bridj jar I still get an error (see below). What am I missing here?
+
+```
+java.lang.UnsatisfiedLinkError: 'org.bridj.Pointer com.github.sarxos.webcam.ds.buildin.natives.OpenIMAJGrabber.getVideoDevices()'
+	at com.github.sarxos.webcam.ds.buildin.natives.OpenIMAJGrabber.getVideoDevices(Native Method) ~[webcam-capture-0.3.13-20200330.202351-7.jar:na]
+	at com.github.sarxos.webcam.ds.buildin.WebcamDefaultDriver$GetDevicesTask.handle(WebcamDefaultDriver.java:93) ~[webcam-capture-0.3.13-20200330.202351-7.jar:na]
+	at com.github.sarxos.webcam.WebcamProcessor$AtomicProcessor.run(WebcamProcessor.java:81) ~[webcam-capture-0.3.13-20200330.202351-7.jar:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:834) ~[na:na]
+```
+
+@JakobMaaloe Thank you. It seems like we did the test after fix in a wrong way so, and I'm sorry for that, this problem is not yet fixed :(
+
+Ok, no problem. I'll be waiting. :-)
+
+Hello,
+just arrived at this point - used 0.3.13-SNAPSHOT; I get this:
+
+```
+Caused by: java.lang.UnsatisfiedLinkError: org.openimaj.video.capture.OpenIMAJGrabber.getVideoDevices()Lorg/bridj/Pointer;
+	at org.openimaj.video.capture.OpenIMAJGrabber.getVideoDevices(Native Method) ~[core-video-capture-1.3.jar:na]
+	at org.openimaj.video.capture.VideoCapture.getVideoDevices(VideoCapture.java:221) ~[core-video-capture-1.3.jar:na]
+	at com.github.sarxos.webcam.ds.openimaj.OpenImajDriver$GetDevicesTask.handle(OpenImajDriver.java:58) ~[webcam-capture-driver-openimaj-0.3.13-20200330.202457-6.jar:na]
+	at com.github.sarxos.webcam.WebcamProcessor$AtomicProcessor.run(WebcamProcessor.java:81) ~[webcam-capture-0.3.13-20200330.202351-7.jar:na]
+	... 3 common frames omitted
+```
+
+and running macOS 10.15.4. No prompt to authorize camera. Any news yet?
+
+
+@thanosa75 you need an updated lib - see end of thread on #723 still working issue
+
+Thanks for the quick reply @kkieffer !
+
+Got to the bottom of this, going through OpenIMAJ tickets and a few from this repo. Simpler solution that WFM 💯  is:
+
+1. include latest snapshot (although may not make a difference) of the artifacts (as in my comment above)
+2. force use of the bridj artifact as such:
+
+a. add repository to pom:
+``` 
+        <repository>
+            <id>bridjhack</id>
+            <url>http://maven.ecs.soton.ac.uk/content/repositories/thirdparty/</url>
+        </repository>
+```
+
+b. add artifacts (no need to exclude transitive one):
+
+```
+         <dependency>
+            <groupId>com.github.sarxos</groupId>
+            <artifactId>webcam-capture-driver-openimaj</artifactId>
+            <version>0.3.13-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.openimaj</groupId>
+                    <artifactId>core-video-capture</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.nativelibs4java</groupId>
+            <artifactId>bridj</artifactId>
+            <version>0.7-20140918-2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openimaj</groupId>
+            <artifactId>core-video-capture</artifactId>
+            <version>1.3.10</version>
+
+            <!-- webcam-capture doesn't need most of the transitive dependencies -->
+            <exclusions>
+                <exclusion>
+                    <artifactId>azure-bing-search-java</artifactId>
+                    <groupId>net.billylieurance.azuresearch</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>snuggletex-core</artifactId>
+                    <groupId>uk.ac.ed.ph.snuggletex</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>snuggletex-upconversion</artifactId>
+                    <groupId>uk.ac.ed.ph.snuggletex</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>snuggletex-jeuclid</artifactId>
+                    <groupId>uk.ac.ed.ph.snuggletex</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>flickrapi</artifactId>
+                    <groupId>com.aetrion.flickr</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>jal</artifactId>
+                    <groupId>vigna.dsi.unimi.it</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>jama</artifactId>
+                    <groupId>jama</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>mtj</artifactId>
+                    <groupId>com.googlecode.matrix-toolkits-java</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>netlib-java</artifactId>
+                    <groupId>com.googlecode.netlib-java</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>JaFaMa</artifactId>
+                    <groupId>net.sf.jafama</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>jgrapht</artifactId>
+                    <groupId>jgrapht</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>MatrixLib</artifactId>
+                    <groupId>ch.akuhn.matrix</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>gov-sandia-cognition-common-core</artifactId>
+                    <groupId>gov.sandia.foundry</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>xstream</artifactId>
+                    <groupId>com.thoughtworks.xstream</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>gov-sandia-cognition-common-data</artifactId>
+                    <groupId>gov.sandia.foundry</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>gov-sandia-cognition-learning-core</artifactId>
+                    <groupId>gov.sandia.foundry</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>gov-sandia-cognition-text-core</artifactId>
+                    <groupId>gov.sandia.foundry</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>gov-sandia-cognition-framework-core</artifactId>
+                    <groupId>gov.sandia.foundry</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>gov-sandia-cognition-framework-learning</artifactId>
+                    <groupId>gov.sandia.foundry</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>core-citation</artifactId>
+                    <groupId>org.openimaj</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>jsoup</artifactId>
+                    <groupId>org.jsoup</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>trove4j</artifactId>
+                    <groupId>net.sf.trove4j</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>colt</artifactId>
+                    <groupId>colt</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>kryo</artifactId>
+                    <groupId>com.esotericsoftware.kryo</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>ant</artifactId>
+                    <groupId>org.apache.ant</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>httpclient</artifactId>
+                    <groupId>org.apache.httpcomponents</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>jmatio</artifactId>
+                    <groupId>net.sourceforge.jmatio</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>BezierUtils</artifactId>
+                    <groupId>com.caffeineowl.graphics</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>jai-core</artifactId>
+                    <groupId>javax.media</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>jai-codec</artifactId>
+                    <groupId>com.sun.media</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+```
+
+ Getting Error in v4l4j driver on raspberry  pi 4...[ v4l4j_ResolutionInfo.c:57 ] [V4L4J] Error looking up the palette with index 74
+ Hi ,
+I am getting below error when using webcam-capture library with driver v4l4j on rpi 4 . in rpi 3 it is working file but in rpi 4 it is not working. please give any solution. 
+
+
+[ libvideo.c:68 ] Using libvideo version 0.9-UNKNOWN
+[ v4l4j_ResolutionInfo.c:57 ] [V4L4J] Error looking up the palette with index 74
+au.edu.jcu.v4l4j.exceptions.JNIException: Error looking up image format
+	at au.edu.jcu.v4l4j.ResolutionInfo.doGetType(Native Method)
+	at au.edu.jcu.v4l4j.ResolutionInfo.<init>(ResolutionInfo.java:145)
+	at au.edu.jcu.v4l4j.ImageFormat.<init>(ImageFormat.java:84)
+	at au.edu.jcu.v4l4j.ImageFormatList.listFormats(Native Method)
+	at au.edu.jcu.v4l4j.ImageFormatList.<init>(ImageFormatList.java:111)
+	at au.edu.jcu.v4l4j.DeviceInfo.getInfo(Native Method)
+	at au.edu.jcu.v4l4j.DeviceInfo.<init>(DeviceInfo.java:254)
+	at au.edu.jcu.v4l4j.VideoDevice.initDeviceInfo(VideoDevice.java:298)
+	at au.edu.jcu.v4l4j.VideoDevice.<init>(VideoDevice.java:274)
+	at com.github.sarxos.webcam.ds.v4l4j.V4l4jDevice.getVideoDevice(V4l4jDevice.java:105)
+	at com.github.sarxos.webcam.ds.v4l4j.V4l4jDevice.<init>(V4l4jDevice.java:89)
+	at com.github.sarxos.webcam.ds.v4l4j.V4l4jDriver.getDevices(V4l4jDriver.java:49)
+	at com.github.sarxos.webcam.WebcamDiscoveryService$WebcamsDiscovery.call(WebcamDiscoveryService.java:36)
+	at com.github.sarxos.webcam.WebcamDiscoveryService$WebcamsDiscovery.call(WebcamDiscoveryService.java:26)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+There was an error checking the supported resolutions.
+Hi @lokendrayadav  did you got any solution?
+
+> Hi @lokendrayadav did you got any solution?
+Hi satishpande,
+No I did not got any solution?
+
+Hi,
+I have the same issue, with v4l4j driver on rpi4.
+
+Full log:
+
+```
+Feb 20, 2020 10:15:19 AM tornadofx.Stylesheet$Companion detectAndInstallUrlHandler
+INFO: Installing CSS url handler, since it was not picked up automatically
+SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+WARNING: An illegal reflective access operation has occurred
+WARNING: Illegal reflective access by com.github.sarxos.v4l4j.NativeUtils (file:/home/pi/Desktop/avastar-device/lib/avastar-device-0.0.jar) to field java.lang.ClassLoader.usr_paths
+WARNING: Please consider reporting this to the maintainers of com.github.sarxos.v4l4j.NativeUtils
+WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
+WARNING: All illegal access operations will be denied in a future release
+[ libvideo.c:68 ] Using libvideo version 0.9-UNKNOWN
+[ v4l4j_ResolutionInfo.c:57 ] [V4L4J] Error looking up the palette with index 74
+au.edu.jcu.v4l4j.exceptions.JNIException: Error looking up image format
+	at au.edu.jcu.v4l4j.ResolutionInfo.doGetType(Native Method)
+	at au.edu.jcu.v4l4j.ResolutionInfo.<init>(ResolutionInfo.java:145)
+	at au.edu.jcu.v4l4j.ImageFormat.<init>(ImageFormat.java:84)
+	at au.edu.jcu.v4l4j.ImageFormatList.listFormats(Native Method)
+	at au.edu.jcu.v4l4j.ImageFormatList.<init>(ImageFormatList.java:111)
+	at au.edu.jcu.v4l4j.DeviceInfo.getInfo(Native Method)
+	at au.edu.jcu.v4l4j.DeviceInfo.<init>(DeviceInfo.java:254)
+	at au.edu.jcu.v4l4j.VideoDevice.initDeviceInfo(VideoDevice.java:298)
+	at au.edu.jcu.v4l4j.VideoDevice.<init>(VideoDevice.java:274)
+	at com.github.sarxos.webcam.ds.v4l4j.V4l4jDevice.getVideoDevice(V4l4jDevice.java:105)
+	at com.github.sarxos.webcam.ds.v4l4j.V4l4jDevice.<init>(V4l4jDevice.java:89)
+	at com.github.sarxos.webcam.ds.v4l4j.V4l4jDriver.getDevices(V4l4jDriver.java:49)
+	at com.github.sarxos.webcam.WebcamDiscoveryService$WebcamsDiscovery.call(WebcamDiscoveryService.java:36)
+	at com.github.sarxos.webcam.WebcamDiscoveryService$WebcamsDiscovery.call(WebcamDiscoveryService.java:26)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:834)
+There was an error checking the supported resolutions.
+Please report this error to thev4l4j mailing list.
+See REAME file for information on reporting bugs
+[ v4l4j_ResolutionInfo.c:57 ] [V4L4J] Error looking up the palette with index 74
+au.edu.jcu.v4l4j.exceptions.JNIException: Error looking up image format
+	at au.edu.jcu.v4l4j.ResolutionInfo.doGetType(Native Method)
+	at au.edu.jcu.v4l4j.ResolutionInfo.<init>(ResolutionInfo.java:145)
+	at au.edu.jcu.v4l4j.ImageFormat.<init>(ImageFormat.java:84)
+	at au.edu.jcu.v4l4j.ImageFormatList.listFormats(Native Method)
+	at au.edu.jcu.v4l4j.ImageFormatList.<init>(ImageFormatList.java:111)
+	at au.edu.jcu.v4l4j.DeviceInfo.getInfo(Native Method)
+	at au.edu.jcu.v4l4j.DeviceInfo.<init>(DeviceInfo.java:254)
+	at au.edu.jcu.v4l4j.VideoDevice.initDeviceInfo(VideoDevice.java:298)
+	at au.edu.jcu.v4l4j.VideoDevice.<init>(VideoDevice.java:274)
+	at com.github.sarxos.webcam.ds.v4l4j.V4l4jDevice.getVideoDevice(V4l4jDevice.java:105)
+	at com.github.sarxos.webcam.ds.v4l4j.V4l4jDevice.<init>(V4l4jDevice.java:89)
+	at com.github.sarxos.webcam.ds.v4l4j.V4l4jDriver.getDevices(V4l4jDriver.java:49)
+	at com.github.sarxos.webcam.WebcamDiscoveryService$WebcamsDiscovery.call(WebcamDiscoveryService.java:36)
+	at com.github.sarxos.webcam.WebcamDiscoveryService$WebcamsDiscovery.call(WebcamDiscoveryService.java:26)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:834)
+There was an error checking the supported resolutions.
+Please report this error to thev4l4j mailing list.
+See REAME file for information on reporting bugs
+[ v4l4j_ResolutionInfo.c:57 ] [V4L4J] Error looking up the palette with index 74
+au.edu.jcu.v4l4j.exceptions.JNIException: Error looking up image format
+	at au.edu.jcu.v4l4j.ResolutionInfo.doGetType(Native Method)
+	at au.edu.jcu.v4l4j.ResolutionInfo.<init>(ResolutionInfo.java:145)
+	at au.edu.jcu.v4l4j.ImageFormat.<init>(ImageFormat.java:84)
+	at au.edu.jcu.v4l4j.ImageFormatList.listFormats(Native Method)
+	at au.edu.jcu.v4l4j.ImageFormatList.<init>(ImageFormatList.java:111)
+	at au.edu.jcu.v4l4j.DeviceInfo.getInfo(Native Method)
+	at au.edu.jcu.v4l4j.DeviceInfo.<init>(DeviceInfo.java:254)
+	at au.edu.jcu.v4l4j.VideoDevice.initDeviceInfo(VideoDevice.java:298)
+	at au.edu.jcu.v4l4j.VideoDevice.<init>(VideoDevice.java:274)
+	at com.github.sarxos.webcam.ds.v4l4j.V4l4jDevice.getVideoDevice(V4l4jDevice.java:105)
+	at com.github.sarxos.webcam.ds.v4l4j.V4l4jDevice.<init>(V4l4jDevice.java:89)
+	at com.github.sarxos.webcam.ds.v4l4j.V4l4jDriver.getDevices(V4l4jDriver.java:49)
+	at com.github.sarxos.webcam.WebcamDiscoveryService$WebcamsDiscovery.call(WebcamDiscoveryService.java:36)
+	at com.github.sarxos.webcam.WebcamDiscoveryService$WebcamsDiscovery.call(WebcamDiscoveryService.java:26)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:834)
+There was an error checking the supported resolutions.
+Please report this error to thev4l4j mailing list.
+See REAME file for information on reporting bugs
+[ v4l4j_ResolutionInfo.c:57 ] [V4L4J] Error looking up the palette with index 74
+au.edu.jcu.v4l4j.exceptions.JNIException: Error looking up image format
+	at au.edu.jcu.v4l4j.ResolutionInfo.doGetType(Native Method)
+	at au.edu.jcu.v4l4j.ResolutionInfo.<init>(ResolutionInfo.java:145)
+	at au.edu.jcu.v4l4j.ImageFormat.<init>(ImageFormat.java:84)
+	at au.edu.jcu.v4l4j.ImageFormatList.listFormats(Native Method)
+	at au.edu.jcu.v4l4j.ImageFormatList.<init>(ImageFormatList.java:111)
+	at au.edu.jcu.v4l4j.DeviceInfo.getInfo(Native Method)
+	at au.edu.jcu.v4l4j.DeviceInfo.<init>(DeviceInfo.java:254)
+	at au.edu.jcu.v4l4j.VideoDevice.initDeviceInfo(VideoDevice.java:298)
+	at au.edu.jcu.v4l4j.VideoDevice.<init>(VideoDevice.java:274)
+	at com.github.sarxos.webcam.ds.v4l4j.V4l4jDevice.getVideoDevice(V4l4jDevice.java:105)
+	at com.github.sarxos.webcam.ds.v4l4j.V4l4jDevice.<init>(V4l4jDevice.java:89)
+	at com.github.sarxos.webcam.ds.v4l4j.V4l4jDriver.getDevices(V4l4jDriver.java:49)
+	at com.github.sarxos.webcam.WebcamDiscoveryService$WebcamsDiscovery.call(WebcamDiscoveryService.java:36)
+	at com.github.sarxos.webcam.WebcamDiscoveryService$WebcamsDiscovery.call(WebcamDiscoveryService.java:26)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:834)
+There was an error checking the supported resolutions.
+Please report this error to thev4l4j mailing list.
+See REAME file for information on reporting bugs
+[ v4l2-input.c:67 ] The device /dev/video12 seems to be a valid V4L2 device but without capture capability.
+[ v4l2-input.c:68 ] Please let the author know about this error.
+[ v4l2-input.c:69 ] See the ISSUES section in the libvideo README file.
+[ v4l2-input.c:70 ] Listing the reported capabilities:
+Failed to get image format.: Invalid argument
+```
+```
+============================================
+Querying general capabilities
+
+Driver name: bcm2835-codec
+Device name: bcm2835-codec-isp
+bus_info: platform:bcm2835-codec
+version: 4.19.97
+Does NOT have capture capability
+Does NOT have output capability
+Does NOT have overlay capability
+Does NOT have VBI capture capability
+Does NOT have VBI output capability
+Does NOT have SLICED VBI capture capability
+Does NOT have SLICED VBI output capability
+Does NOT have RDS capability
+Does NOT have tuner capability
+Does NOT have audio capability
+Does NOT have radio capability
+Does NOT have read/write capability
+Does NOT have asyncIO capability
+Has streaming capability
+
+============================================
+Querying image format
+
+
+============================================
+Querying current image format settings
+
+
+============================================
+Querying supported frame sizes
+
+============================================
+Querying standard controls
+
+Control: id: 0x98090c - name: White Balance, Automatic - min: 0 -max: 1 - step: 1 - type: 2(Boolean) - flags: 0 ()
+Control: id: 0x980910 - name: Gamma - min: 500 -max: 3000 - step: 1 - type: 1(Integer) - flags: 32 (slider )
+Control: id: 0x980914 - name: Horizontal Flip - min: 0 -max: 1 - step: 1 - type: 2(Boolean) - flags: 0 ()
+Control: id: 0x980915 - name: Vertical Flip - min: 0 -max: 1 - step: 1 - type: 2(Boolean) - flags: 0 ()
+============================================
+Querying private controls
+
+we shouldnt be here...
+we shouldnt be here...
+<....>
+we shouldnt be here...
+```
+
+I think I should install additional native libraries. Am I right?
+
+I found a problem.
+
+On rpi4 we have /dev/video0 and /dev/video1 for one web camera. But we can't use /dev/video1 to capture video.
+
+Webcam.getDefault() returns /dev/video1. 
+
+I changed `Webcam.getDefault()` to `Webcam.getWebcamByName("/dev/video0")` and received another error.
+
+```
+Feb 20, 2020 1:55:03 PM tornadofx.Stylesheet$Companion detectAndInstallUrlHandler
+INFO: Installing CSS url handler, since it was not picked up automatically
+SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+WARNING: An illegal reflective access operation has occurred
+WARNING: Illegal reflective access by com.github.sarxos.v4l4j.NativeUtils (file:/home/pi/Desktop/avastar-device/lib/avastar-device-0.0.jar) to field java.lang.ClassLoader.usr_paths
+WARNING: Please consider reporting this to the maintainers of com.github.sarxos.v4l4j.NativeUtils
+WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
+WARNING: All illegal access operations will be denied in a future release
+[ libvideo.c:68 ] Using libvideo version 0.9-UNKNOWN
+[ v4l2-input.c:67 ] The device /dev/video12 seems to be a valid V4L2 device but without capture capability.
+[ v4l2-input.c:68 ] Please let the author know about this error.
+[ v4l2-input.c:69 ] See the ISSUES section in the libvideo README file.
+[ v4l2-input.c:70 ] Listing the reported capabilities:
+Failed to get image format.: Invalid argument
+```
+
+@lokendrayadav, @satispande I found solution. 
+
+I checked `ls /dev/video*` and I found another video device (raspicam - /dev/video12).
+I don't have it and removed it. 
+
+And it all worked out.
+
+ MacOS - Webcam Open Problem 
+ Hi @sarxos;
+On MacOS, we are facing the following exception quite frequently.
+Any idea how to resolve this?
+Thanks.
+
+
+2019-12-03 10:16:26,993 pool-14-thread-2                 ERROR WebcamCaptureTask                 Cannot capture image
+com.github.sarxos.webcam.WebcamException: Cannot execute task
+	at com.github.sarxos.webcam.WebcamProcessor$AtomicProcessor.process(WebcamProcessor.java:72)
+	at com.github.sarxos.webcam.WebcamProcessor.process(WebcamProcessor.java:140)
+	at com.github.sarxos.webcam.WebcamTask.process(WebcamTask.java:46)
+	at com.github.sarxos.webcam.ds.cgt.WebcamOpenTask.open(WebcamOpenTask.java:20)
+	at com.github.sarxos.webcam.Webcam.open(Webcam.java:295)
+	at com.github.sarxos.webcam.Webcam.open(Webcam.java:250)
+	at com.github.sarxos.webcam.Webcam.open(Webcam.java:236)
+	at com.virtualoffice.client.capture.webcam.WebcamCaptureTask.openWebcam(WebcamCaptureTask.java:139)
+	at com.virtualoffice.client.capture.webcam.WebcamCaptureTask.captureImage(WebcamCaptureTask.java:118)
+	at com.virtualoffice.client.capture.webcam.WebcamCaptureTask.capture(WebcamCaptureTask.java:48)
+	at com.virtualoffice.client.capture.webcam.WebcamCaptureTask.execute(WebcamCaptureTask.java:38)
+	at com.virtualoffice.client.capture.webcam.WebcamCapture.capture(WebcamCapture.java:60)
+	at com.virtualoffice.client.capture.webcam.WebcamCapture.capture(WebcamCapture.java:56)
+	at com.virtualoffice.client.datacapture.jobs.WebcamshotJob.saveEvent(WebcamshotJob.java:64)
+	at com.virtualoffice.client.datacapture.jobs.AbstractImageCaptureJob.run(AbstractImageCaptureJob.java:56)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: com.github.sarxos.webcam.WebcamException: org.bytedeco.javacv.FrameGrabber$Exception: read() Error: Could not read frame in start().
+	at com.github.sarxos.webcam.ds.javacv.JavaCvDevice.open(JavaCvDevice.java:200)
+	at com.github.sarxos.webcam.ds.cgt.WebcamOpenTask.handle(WebcamOpenTask.java:38)
+	at com.github.sarxos.webcam.WebcamProcessor$AtomicProcessor.run(WebcamProcessor.java:81)
+	... 3 more
+Caused by: org.bytedeco.javacv.FrameGrabber$Exception: read() Error: Could not read frame in start().
+	at org.bytedeco.javacv.OpenCVFrameGrabber.start(OpenCVFrameGrabber.java:240)
+	at com.github.sarxos.webcam.ds.javacv.JavaCvDevice.open(JavaCvDevice.java:194)
+	... 5 more
+Duplicate of #645 I think.
+
+ MacOS Catalina - Webcam Light Issue
+ Hi @sarxos;
+Normally when we call Webcam#open method and the webcam is opened successfully, we expect the webcam light to be turned on till closure of the webcam (Webcam#close method call).
+
+However, for MacOS Catalina, this is not the case. The webcam light is turned on only when Webcam#getImage is called.
+
+Any idea about what can be done to resolve this?
+Thanks 
+ Webcam.getWebcams() return empty list on macOS
+ If use `com.github.sarxos.webcam.ds.openimaj.OpenImajDriver`:
+
+```
+Exception in thread "Thread-0" com.github.sarxos.webcam.WebcamException: java.util.concurrent.ExecutionException: com.github.sarxos.webcam.WebcamException: Cannot execute task
+  at com.github.sarxos.webcam.WebcamDiscoveryService.getWebcams(WebcamDiscoveryService.java:124)
+  at com.github.sarxos.webcam.Webcam.getWebcams(Webcam.java:893)
+  at com.github.sarxos.webcam.Webcam.getWebcams(Webcam.java:866)
+  at com.github.sarxos.webcam.Webcam.getWebcams(Webcam.java:845)
+  at com.example.test.Main$1.run(Main.java:358)
+Caused by: java.util.concurrent.ExecutionException: com.github.sarxos.webcam.WebcamException: Cannot execute task
+  at java.base/java.util.concurrent.FutureTask.report(FutureTask.java:122)
+  at java.base/java.util.concurrent.FutureTask.get(FutureTask.java:191)
+  at com.github.sarxos.webcam.WebcamDiscoveryService.getWebcams(WebcamDiscoveryService.java:116)
+  ... 4 more
+Caused by: com.github.sarxos.webcam.WebcamException: Cannot execute task
+  at com.github.sarxos.webcam.WebcamProcessor$AtomicProcessor.process(WebcamProcessor.java:72)
+  at com.github.sarxos.webcam.WebcamProcessor.process(WebcamProcessor.java:140)
+  at com.github.sarxos.webcam.WebcamTask.process(WebcamTask.java:46)
+  at com.github.sarxos.webcam.ds.openimaj.OpenImajDriver$GetDevicesTask.getDevices(OpenImajDriver.java:47)
+  at com.github.sarxos.webcam.ds.openimaj.OpenImajDriver.getDevices(OpenImajDriver.java:67)
+  at com.github.sarxos.webcam.WebcamDiscoveryService$WebcamsDiscovery.call(WebcamDiscoveryService.java:36)
+  at com.github.sarxos.webcam.WebcamDiscoveryService$WebcamsDiscovery.call(WebcamDiscoveryService.java:26)
+  at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+  at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+  at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+  at java.base/java.lang.Thread.run(Thread.java:834)
+Caused by: java.lang.UnsatisfiedLinkError: org.openimaj.video.capture.OpenIMAJGrabber.getVideoDevices()Lorg/bridj/Pointer;
+  at org.openimaj.video.capture.OpenIMAJGrabber.getVideoDevices(Native Method)
+  at org.openimaj.video.capture.VideoCapture.getVideoDevices(VideoCapture.java:221)
+  at com.github.sarxos.webcam.ds.openimaj.OpenImajDriver$GetDevicesTask.handle(OpenImajDriver.java:58)
+  at com.github.sarxos.webcam.WebcamProcessor$AtomicProcesso
+```
+@sarxos can you please guide on this?
+
+ Cant access webcam 
+ Hey @sarxos 
+
+Im trying to use the webcam to capture QR. I just used this piece of code:
+
+``` ruby	
+public static void main(String[] args) throws IOException 
+	{
+		Webcam webcam = Webcam.getDefault();
+		webcam.open();
+		BufferedImage image = webcam.getImage();
+		ImageIO.write(image, "PNG", new File("1.png"));
+	}
+```
+It says it's opening the Camera on my Mac but then it doesn't work. I get this output:
+
+```
+[main] INFO com.github.sarxos.webcam.Webcam - WebcamDefaultDriver capture driver will be used
+[atomic-processor-1] INFO com.github.sarxos.webcam.ds.cgt.WebcamOpenTask - Opening webcam FaceTime HD Camera CC25396MW1DG1HNB9
+[frames-refresher-[CC25396MW1DG1HNB9]] ERROR com.github.sarxos.webcam.ds.buildin.WebcamDefaultDevice - Timeout when requesting image!
+[atomic-processor-1] WARN com.github.sarxos.webcam.ds.buildin.WebcamDefaultDevice - Null array pointer found instead of image
+[atomic-processor-1] ERROR com.github.sarxos.webcam.ds.buildin.WebcamDefaultDevice - Images bytes buffer is null!
+Exception in thread "main" java.lang.IllegalArgumentException: image == null!
+	at java.desktop/javax.imageio.ImageTypeSpecifier.createFromRenderedImage(ImageTypeSpecifier.java:925)
+	at java.desktop/javax.imageio.ImageIO.getWriter(ImageIO.java:1608)
+	at java.desktop/javax.imageio.ImageIO.write(ImageIO.java:1540)
+	at App.main(App.java:16)
+[shutdown-hook-1] INFO com.github.sarxos.webcam.WebcamShutdownHook - Automatic FaceTime HD Camera CC25396MW1DG1HNB9 deallocation
+[shutdown-hook-1] INFO com.github.sarxos.webcam.Webcam - Disposing webcam FaceTime HD Camera CC25396MW1DG1HNB9
+[frames-refresher-[CC25396MW1DG1HNB9]] ERROR com.github.sarxos.webcam.ds.buildin.WebcamDefaultDevice - Timeout when requesting image!
+```
+I got the same issue!
+
+I was trying this with Clojure and I also get nil when I try to use .getImage()
+
+see my example:
+
+```
+mygameidea.core=> (let [mycam (Webcam/getDefault)] (.open mycam) (javax.imageio.ImageIO/write (.getImage mycam) "PNG" (java.io.File. "yolo.png")))
+Execution error (IllegalArgumentException) at javax.imageio.ImageTypeSpecifier/createFromRenderedImage (ImageTypeSpecifier.java:925).
+image == null!
+```
+
+
+`(.open mycam)` returns `true` btw
+
+using [com.github.sarxos/webcam-capture "0.3.10"]
+
+Update:
+
+I added [org.slf4j/slf4j-simple "1.6.1"] to my dependencies in clojure and it produced a very different error now!
+
+```mygameidea.core=> (.open mycam)
+14937 [atomic-processor-1] INFO com.github.sarxos.webcam.ds.cgt.WebcamOpenTask - Opening webcam FaceTime HD Camera DJH9076XPLSGJKD1X
+true
+mygameidea.core=> (.getImage mycam)
+49377 [frames-refresher-[DJH9076XPLSGJKD1X]] ERROR com.github.sarxos.webcam.ds.buildin.WebcamDefaultDevice - Timeout when requesting image!
+49378 [atomic-processor-1] WARN com.github.sarxos.webcam.ds.buildin.WebcamDefaultDevice - Null array pointer found instead of image
+49378 [atomic-processor-1] ERROR com.github.sarxos.webcam.ds.buildin.WebcamDefaultDevice - Images bytes buffer is null!
+nil
+mygameidea.core=> 57272 [frames-refresher-[DJH9076XPLSGJKD1X]] ERROR com.github.sarxos.webcam.ds.buildin.WebcamDefaultDevice - Timeout when requesting image!
+65265 [frames-refresher-[DJH9076XPLSGJKD1X]] ERROR com.github.sarxos.webcam.ds.buildin.WebcamDefaultDevice - Timeout when requesting image!```
+
+@pablobonetp UPDATE!!!
+I got it working at last. So there was a really funny issue actually. Two things.
+
+First one - that might not be a problem at all, idk. I had graalvm running for clojure instead of the oracle JDK. I didn't test if graalvm works with this problem or not, but I uninstalled it and made sure that I was running Oracle JDK 1.8.
+
+SECOND and MOST IMPORTANT. I was running my code via the repl built into VSCODE. When I ran outside of VSCODE on my Mac (Mojave) via Terminal, I realized that I suddenly got a popup asking for permission to view the webcam. I clicked OK and it worked like a charm! Not sure why it didn't show up from VSCODE's repl... damn that was a giant waste of time :( But it works yay! 
+
+BTW I found the solution here http://deviatenow.com/ss/viewtopic.php?f=6&t=779&sid=d18dcdd7a55e543420d23c769bcb7e06&start=15
+
+ [Request] Publish ffmpeg driver to maven
+ Hello @sarxos, I've been using the ffmpeg driver for two years now and had no issues so far. Some people reported that it works on Raspberry Pi.
+
+Please, could you publish it to maven?
+
+Thank you in advance
+As a temporary fix, I uploaded the driver under my domain:
+
+```
+<dependency>
+    <groupId>com.harium</groupId>
+    <artifactId>webcam-capture-driver-ffmpeg-cli</artifactId>
+    <version>0.3.12</version>
+</dependency>
+```
+
+Hi @yuripourre There are some fixes and tests I want to perform and if everything is fine I think I will be releasing full set of 0.3.13 artifacts soon.
+
+Thank you @sarxos. Please tell me if I can help with anything.
+
+ Exclude unused transitive dependency
+ Hello, I noticed that the transitive dependency `com.google.android.tools:dx` can be safely excluded from direct dependency `com.nativelibs4java:bridj`  in module `webcam-capture-driver-openimaj`. This makes the dependency tree of the module slimmer.
+
+[![Coverage Status](https://coveralls.io/builds/27097103/badge)](https://coveralls.io/builds/27097103)
+
+Coverage decreased (-0.2%) to 22.316% when pulling **e33b7348709651c3d6aa1dacfeee865fc9516420 on cesarsotovalero:master** into **cd2e89494b3ad37f44f265e52afddb65623129d0 on sarxos:master**.
+
+
+Hi @cesarsotovalero, thank you for this PR :) Indeed I'm not even sure why it was there in the first place. Maybe it was required somewhere in the past but since it build successfully now, it may not be required any more.
+
+ Bump httpclient from 4.1.3 to 4.3.6 in /webcam-capture-addons/webcam-capture-addon-spycam
+ Bumps httpclient from 4.1.3 to 4.3.6.
+
+[![Dependabot compatibility score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=org.apache.httpcomponents:httpclient&package-manager=maven&previous-version=4.1.3&new-version=4.3.6)](https://help.github.com/articles/configuring-automated-security-fixes)
+
+Dependabot will resolve any conflicts with this PR as long as you don't alter it yourself. You can also trigger a rebase manually by commenting `@dependabot rebase`.
+
+[//]: # (dependabot-automerge-start)
+[//]: # (dependabot-automerge-end)
+
+---
+
+<details>
+<summary>Dependabot commands and options</summary>
+<br />
+
+You can trigger Dependabot actions by commenting on this PR:
+- `@dependabot rebase` will rebase this PR
+- `@dependabot recreate` will recreate this PR, overwriting any edits that have been made to it
+- `@dependabot merge` will merge this PR after your CI passes on it
+- `@dependabot squash and merge` will squash and merge this PR after your CI passes on it
+- `@dependabot cancel merge` will cancel a previously requested merge and block automerging
+- `@dependabot reopen` will reopen this PR if it is closed
+- `@dependabot ignore this [patch|minor|major] version` will close this PR and stop Dependabot creating any more for this minor/major version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this dependency` will close this PR and stop Dependabot creating any more for this dependency (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot use these labels` will set the current labels as the default for future PRs for this repo and language
+- `@dependabot use these reviewers` will set the current reviewers as the default for future PRs for this repo and language
+- `@dependabot use these assignees` will set the current assignees as the default for future PRs for this repo and language
+- `@dependabot use this milestone` will set the current milestone as the default for future PRs for this repo and language
+
+You can disable automated security fix PRs for this repo from the [Security Alerts page](https://github.com/sarxos/webcam-capture/network/alerts).
+
+</details>
+
+[![Coverage Status](https://coveralls.io/builds/26961530/badge)](https://coveralls.io/builds/26961530)
+
+Coverage decreased (-0.2%) to 22.316% when pulling **26c048c3d3eb53fc4e429ddf59cf5609fb10a165 on dependabot/maven/webcam-capture-addons/webcam-capture-addon-spycam/org.apache.httpcomponents-httpclient-4.3.6** into **cd2e89494b3ad37f44f265e52afddb65623129d0 on master**.
+
+
+Thank you @dependabot ;)
+
+ Bump jackson-databind from 2.5.1 to 2.9.10.1 in /webcam-capture-examples/webcam-capture-websockets
+ Bumps [jackson-databind](https://github.com/FasterXML/jackson) from 2.5.1 to 2.9.10.1.
+<details>
+<summary>Commits</summary>
+
+- See full diff in [compare view](https://github.com/FasterXML/jackson/commits)
+</details>
+<br />
+
+[![Dependabot compatibility score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=com.fasterxml.jackson.core:jackson-databind&package-manager=maven&previous-version=2.5.1&new-version=2.9.10.1)](https://help.github.com/articles/configuring-automated-security-fixes)
+
+Dependabot will resolve any conflicts with this PR as long as you don't alter it yourself. You can also trigger a rebase manually by commenting `@dependabot rebase`.
+
+[//]: # (dependabot-automerge-start)
+[//]: # (dependabot-automerge-end)
+
+---
+
+<details>
+<summary>Dependabot commands and options</summary>
+<br />
+
+You can trigger Dependabot actions by commenting on this PR:
+- `@dependabot rebase` will rebase this PR
+- `@dependabot recreate` will recreate this PR, overwriting any edits that have been made to it
+- `@dependabot merge` will merge this PR after your CI passes on it
+- `@dependabot squash and merge` will squash and merge this PR after your CI passes on it
+- `@dependabot cancel merge` will cancel a previously requested merge and block automerging
+- `@dependabot reopen` will reopen this PR if it is closed
+- `@dependabot ignore this [patch|minor|major] version` will close this PR and stop Dependabot creating any more for this minor/major version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this dependency` will close this PR and stop Dependabot creating any more for this dependency (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot use these labels` will set the current labels as the default for future PRs for this repo and language
+- `@dependabot use these reviewers` will set the current reviewers as the default for future PRs for this repo and language
+- `@dependabot use these assignees` will set the current assignees as the default for future PRs for this repo and language
+- `@dependabot use this milestone` will set the current milestone as the default for future PRs for this repo and language
+
+You can disable automated security fix PRs for this repo from the [Security Alerts page](https://github.com/sarxos/webcam-capture/network/alerts).
+
+</details>
+
+[![Coverage Status](https://coveralls.io/builds/26956006/badge)](https://coveralls.io/builds/26956006)
+
+Coverage increased (+0.2%) to 22.484% when pulling **70c50816ff7ea4ad8f899032f6291dece3978333 on dependabot/maven/webcam-capture-examples/webcam-capture-websockets/com.fasterxml.jackson.core-jackson-databind-2.9.10.1** into **5874815ca3b66423fef0ad430812bb9b0a0506a0 on master**.
+
+
+ For some reason I can't access my webcam on the Raspberry Pi
+ After a few problems with the api, which i solved successfully, now i really dont know how to fix this:
+If i execute my code without the webcam plugged in everything is working as expected. But with my webcam plugged in i got the following exception:
+
+My code:
+```
+import com.github.sarxos.webcam.Webcam;
+import com.github.sarxos.webcam.ds.v4l4j.V4l4jDriver;
+
+public class DetectWebcamExample {
+	static {
+	     Webcam.setDriver(new V4l4jDriver()); // this is important
+	}
+	public static void main(String[] args) {
+		Webcam webcam = Webcam.getDefault();
+		if (webcam != null) {
+			System.out.println("Webcam: " + webcam.getName());
+		} else {
+			System.out.println("No webcam detected");
+		}
+	}
+}
+```
+
+The output with webcam:
+```
+Exception in thread "main" com.github.sarxos.webcam.WebcamException: java.util.concurrent.ExecutionException: java.lang.UnsatisfiedLinkError: au.edu.jcu.v4l4j.VideoDevice.doInit(Ljava/lang/String;)J
+	at com.github.sarxos.webcam.WebcamDiscoveryService.getWebcams(WebcamDiscoveryService.java:124)
+	at com.github.sarxos.webcam.Webcam.getWebcams(Webcam.java:816)
+	at com.github.sarxos.webcam.Webcam.getDefault(Webcam.java:879)
+	at com.github.sarxos.webcam.Webcam.getDefault(Webcam.java:856)
+	at com.github.sarxos.webcam.Webcam.getDefault(Webcam.java:834)
+	at DetectWebcamExample.main(DetectWebcamExample.java:14)
+Caused by: java.util.concurrent.ExecutionException: java.lang.UnsatisfiedLinkError: au.edu.jcu.v4l4j.VideoDevice.doInit(Ljava/lang/String;)J
+	at java.base/java.util.concurrent.FutureTask.report(FutureTask.java:122)
+	at java.base/java.util.concurrent.FutureTask.get(FutureTask.java:191)
+	at com.github.sarxos.webcam.WebcamDiscoveryService.getWebcams(WebcamDiscoveryService.java:116)
+	... 5 more
+Caused by: java.lang.UnsatisfiedLinkError: au.edu.jcu.v4l4j.VideoDevice.doInit(Ljava/lang/String;)J
+	at au.edu.jcu.v4l4j.VideoDevice.doInit(Native Method)
+	at au.edu.jcu.v4l4j.VideoDevice.<init>(VideoDevice.java:271)
+	at com.github.sarxos.webcam.ds.v4l4j.V4l4jDevice.<init>(V4l4jDevice.java:66)
+	at com.github.sarxos.webcam.ds.v4l4j.V4l4jDriver.getDevices(V4l4jDriver.java:55)
+	at com.github.sarxos.webcam.WebcamDiscoveryService$WebcamsDiscovery.call(WebcamDiscoveryService.java:36)
+	at com.github.sarxos.webcam.WebcamDiscoveryService$WebcamsDiscovery.call(WebcamDiscoveryService.java:26)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1167)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:641)
+	at java.base/java.lang.Thread.run(Thread.java:844)
+
+
+------------------
+(program exited with code: 1)
+Press return to continue
+```
+The Jars i used:
+- slf4j-nop-1.6.1
+- webcam-capture-driver-v4l4j-0.3.10-20140923.154112-11
+- slf4j-api-1.7.2
+- v4l4j-0.9.1-r507
+- webcam-capture-0.3.10
+
+My Hardware:
+ - Logitech C 170 (Im pretty sure its compatible)
+ - Raspberry Pi 3B with Raspbian 9 (stretch)
+
+Thanks for helping 
+
+Edit:
+Yesterday I tried the webcam of an friend and it was the same problem. I just wanted to be sure. 
+I am having the same Problem, could you post yur answer when you find it out ? 
+I am trying to solve this as well
+
+Of course no problem. Could u pls also post it if u find the solution before me?
+
+<sub>Sent with <a href="http://githawk.com">GitHawk</a></sub>
+
+Are you also a student at uiniversity duisburg essen?  
+If yes itr is a wrapper problem. The wrapper we got does not work with webcams ( except for the LegoCams)  
+
+@ysz0507 Would you mind trying the [ffmpeg driver](https://github.com/sarxos/webcam-capture/tree/master/webcam-capture-drivers/driver-ffmpeg-cli)? It was reported to be working with Raspberry Pi.
+
+
+>Are you also a student at uiniversity duisburg essen?   ...
+
+@Grashalmbeisser no sry i‘m not a student. In the moment i‘m visiting the 11th class. But thx for the advice. 
+
+
+>@ysz0507 Would you mind trying the [ffmpeg driver](https://github.com/sarxos/webcam-capture/tree/master/webcam-capture-drivers/driver-ffmpeg-cli)? It was reported to be working with Raspberry Pi.
+
+@yuripourre Sry I’ve just read this jet. Yes for sure, but i‘m not really confident because the same thing was written a few times about the V4L4J-Driver. But we will see maybe it will work. 👌🏻 thx for helping
+
+I belive the FFMpeg drive has more chances to work because it doesn't rely on JNI solutions, it may be less performant but since it uses Java Process it requires less configurations.
+
+If you have issues, please, let me know.
+
+>I belive the FFMpeg drive has more chances to work because it doesn't rely on JNI solutions, it may be less performant but since it uses Java Process it requires less configurations. ...
+
+@yuripourre 
+Yes, it really works as i changed it! 😁😁 Thanks a lot! It was really helpful 😄
+
+@Grashalmbeisser does it also work for your project? 
+

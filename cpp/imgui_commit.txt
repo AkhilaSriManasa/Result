@@ -1,0 +1,39 @@
+﻿ Backends: OpenGL: Fixed loader auto-detection to not interfere with ES2/ES3 defines. (#3246)
+ Commit to facilitate branches merges
+ Examples: GLFW+Vulkan, SDL+Vulkan: Fix for handling of minimized windows. (#3259)
+ CI: Test building without C++ runtime on GCC/Clang.
+ Backends: SDL: Report a zero display-size when window is minimized, consistent with other backends.
+ Backends: Vulkan: Rename internal helper ImGui_ImplVulkanH_CreateWindow to ImGui_ImplVulkanH_CreateOrResizeWindow
+ Minor amend 9028088 (#3261)
+ Backends: OSX: import the glfw workaround to avoid missing mouse clicks. (#3261)
+ Examples: Apple: catch events from the right and other mouse buttons when using Cocoa. (#3260)
+ Moved static array with non-trivial constructors outside of function seems to remove requirement of linking with libstdc++ on some compilers.
+ IO: AddInputCharacters function ignore 0 input. (#3252)
+
+Amend ef13d954 + c8ea0a01 (#2541, #2538, #2815)
+ Backends: Allegro: Don't call AddInputCharacter if the pressed key has no character. (#3252)
+ Examples: Update comments to get SDL2 package with msys2's pacman (#3251)
+ Internals: AddPolyline: Add spaces for consistency, renaming.
+ Fix typo/bug introduced by 0679e056 (#3231, #3209, #1829, #946, #413)
+ Settings: Added ReadInitFn pre-load handler.
+
+(docking branch already has it, so it'll probably conflict with same contents)
+ Update README.md
+ Fix GetGlyphRangesKorean() end-range to end at 0xD7A3 (instead of 0xD79D). (#348, #3217)
+
+https://en.wikipedia.org/wiki/Hangul_Syllables
+ Nav, Menus: Fix vertical wrap-around in menus or popups created with multiple appending calls to  BeginMenu()/EndMenu() or BeginPopup/EndPopup(). (#3223, #1207)
+
+First call to EndPopup() called NavRequestTryWrapWindow() which performed wrap-around operation while we were not done composing menu. This resulted in navigation wrapping around to first item.
+Since wrap-around operation is only valid in last call to EndPopup() and there is no way to know which call is last - this operation is delayed to the end of the frame.
+ FocusWindow(NULL) correctly steal active id from previous window. (#1738) amend b0a9bbf6
+ Backends: OpenGL: On OSX, if unspecified by app, made default GLSL version 150. (#3199)
+ Internals: stand-in for large branches to facilitate merging.
+ Internals: shuffling some sections (2)
+ Internals: shuffling some sections, added index.
+ Comments
+ Fix to facilitate branch merges
+ Metrics: Added Table settings block.
+ Settings: Made it possible to load window .ini data mid-frame. Added clear and post-read handlers. (#2573)
+ Settings: Added Clear Settings in Metrics. (#2188) + Preserve last loaded copy in internal buffer used for save (so it can be browsed easily).
+ Metrics: Added a "Settings" section with some details about persistent ini settings. InputText: Assert early on null buffer.

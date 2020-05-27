@@ -1,0 +1,51 @@
+﻿ 代理类生成过程中字段名添加<>,避免与方法名重复
+ 变更了代理类中三个字段(interceptor,interfaceType,apiMethods)的名称,分别添加了"<>".
+这样可以避免方法名与字段名重名的问题
+ .netcore版本
+ 1. 将System.Text.Json替换Json.net
+2. 提升内置的HttpContent的性能
+3. 移除HttpApiFactory和HttApiConfig功能，使用DI和HttpClientFactory
+4. 移除AOT功能 
+5. 高效的ActionInvoker
+6. 所有特性都基于中间件思想开发
+7. 基于管道编排各个特性中间件
+8. 良好设计的HttpContext、ApiRequestContext、ApiParameterContext和ApiResponseContext
+ Translate Build messages, main api xmldoc and exception messages to english
+ This PR translates to english:
+
+* Build Messages
+* Exceptions Messages
+* Main XmlDoc
+ 添加回复内容与返回值转换功能
+ 
+ IResponseCacheProvider接口中添加上下文信息加强扩展性
+ 同标题
+ Dev
+ 
+ Dev
+ 
+ 增加HttpRequestHeader类型，以兼容旧的Laojiu.WebApiClient
+ 
+ Dev
+ 
+ Dev
+ 
+ 取消MulitpartTextContent对参数值进行编码
+ 
+ Add license scan report and status
+ Your FOSSA integration was successful! Attached in this PR is a badge and license report to track scan status in your README.
+
+Below are docs for integrating FOSSA license checks into your CI:
+
+- [CircleCI](http://fossa.io/docs/integrating-tools/circleci/)
+- [TravisCI](http://fossa.io/docs/integrating-tools/travisci/)
+- [Jenkins](https://github.com/fossas/fossa-jenkins-plugin)
+- [Other](https://github.com/fossas/license-cli)
+ HttpApiConfig新增HttpClientHandler属性来设置HttpMessageHandler
+ HttpApiConfig新增HttpClientHandler属性来设置HttpMessageHandler
+ Create LICENSE
+ 
+ 修复报错"You cannot have more than one dynamic module in each dyna…
+ 修复报错"You cannot have more than one dynamic module in each dynamic assembly in this version of the runtime"
+ 适配NetStandard2.0
+ 

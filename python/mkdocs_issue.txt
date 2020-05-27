@@ -1,0 +1,1133 @@
+﻿ Unable to Create New Page
+ In the `mkdocs.yml` file I put down the following:
+```
+site_name: site
+nav:
+    - Home: index.md
+    - About: about.md
+```
+however, even with this (I've ensured the files are in `docs/`) I'm unable to create new pages. 
+
+Edit: I found out this is an issue with a theme I'm using, therefore I'll ask them about it.
+ How to resolve theme name conflict?
+ mkdocs 1.1.2 pick some theme name conflict on Windows. Anyone had a similar issue?
+
+I think the issue materialised after I upgraded dependencies from mkdocs-material requirements.txt
+
+```
+d:\github\mkdocs-material>pip show mkdocs
+Name: mkdocs
+Version: 1.1.2
+Summary: Project documentation with Markdown.
+Home-page: https://www.mkdocs.org
+Author: Tom Christie
+Author-email: tom@tomchristie.com
+License: BSD
+Location: d:\anaconda3\lib\site-packages
+Requires: Markdown, livereload, click, Jinja2, tornado, lunr, PyYAML
+Required-by: portray, mkdocs-minify-plugin, mkdocs-material
+
+d:\github\mkdocs-material>mkdocs --help
+Traceback (most recent call last):
+  File "d:\anaconda3\lib\runpy.py", line 193, in _run_module_as_main
+    "__main__", mod_spec)
+  File "d:\anaconda3\lib\runpy.py", line 85, in _run_code
+    exec(code, run_globals)
+  File "D:\Anaconda3\Scripts\mkdocs.exe\__main__.py", line 4, in <module>
+  File "d:\anaconda3\lib\site-packages\mkdocs\__main__.py", line 45, in <module>
+    theme_choices = utils.get_theme_names()
+  File "d:\anaconda3\lib\site-packages\mkdocs\utils\__init__.py", line 327, in get_theme_names
+    return get_themes().keys()
+  File "d:\anaconda3\lib\site-packages\mkdocs\utils\__init__.py", line 311, in get_themes
+    "with the same name".format(theme.name, theme.dist.key))
+mkdocs.exceptions.ConfigurationError: The theme mkdocs is a builtin theme but -kdocs provides a theme with the same name
+```
+`mkdocs` works fine in isolated environment, so where is a point for intersection with other themes?
+
+Here is what I have in my global environment:
+
+```python
+for theme in pkg_resources.iter_entry_points(group='mkdocs.themes'): 
+   print(theme.dist.key, theme)
+-kdocs mkdocs = mkdocs.themes.mkdocs
+-kdocs readthedocs = mkdocs.themes.readthedocs
+mkdocs mkdocs = mkdocs.themes.mkdocs
+mkdocs readthedocs = mkdocs.themes.readthedocs
+mkdocs-material material = material
+```
+
+How do I get rid of `-kdocs` on my computer?
+
+Looks like I needed to delete `~kdocs` from `d:\anaconda3\lib\site-packages` 
+
+ Sorting the left-side menu
+ I have a simple setup with `docs` containing three files:
+
+```
+  index.md
+  todo.md
+  abc.md
+```
+
+They appear on the left menu as:
+
+```
+  <header of index.md>
+  <header of abc.md>
+  <header of todo.md>
+```
+
+It seems the order of files is `index.md` first, other files alphabetically by filename.
+
+I do not what the level-one headers to apper on the upper menu yet, just trying to sort the order of files  in left menu.
+
+I can use `nav` in `mkdocs.yaml` that seems to work on both to sort the upper horzontal menu and the leftside menu (is this correct? that seems what documentation suggests).
+
+Mu question is if there is a way to sort the file order on the left menu in specific? 
+
+My ideas: 
+ - other static generators may use mardown file _front matter_ for that, is anything similar available in mkdocs?
+  - rename source files as `01_filename.md`,`02_filename.md`, etc?
+  - some tricky use of `nav` attribute that would take care of left menu sorting, but disable the upper horizontal menu
+
+Many thanks for considering my usecase.
+
+
+
+`nav` just does what I was asking for, not side effect on horizonatl bar! 
+
+ Bump version to 1.1.2.
+ Apparently 1.1.1 is completely useless to those who use MkDocs in a Docker Container. Therefore, we are releasing a fix immediately. Sorry for the inconvenience.
+ Normalize IP addresses and change error to warning
+ All IP addresses passed to `dev_addr` are now normalized.
+`127.000.000.001` is normalized to `127.0.0.1`.
+
+With apologies to docker container users, the address `0.0.0.0`
+no longer raises an error but a warning instead. Apparently,
+docker containers need to use that address, even in dev environments.
+
+Closes #2108.
+Thanks for this @waylan and all your effort maintaining makedocs.
+
+ TypeError using mkdocs serve with 1.1.1
+ I'm getting this when running `mkdocs serve` with the new 1.1.1 release:
+
+```
+Traceback (most recent call last):
+  File "/home/osboxes/ibmq/cloud-deployment/.venv/bin/mkdocs", line 8, in <module>
+    sys.exit(cli())
+  File "/home/osboxes/ibmq/cloud-deployment/.venv/lib/python3.6/site-packages/click/core.py", line 829, in __call__
+    return self.main(*args, **kwargs)
+  File "/home/osboxes/ibmq/cloud-deployment/.venv/lib/python3.6/site-packages/click/core.py", line 782, in main
+    rv = self.invoke(ctx)
+  File "/home/osboxes/ibmq/cloud-deployment/.venv/lib/python3.6/site-packages/click/core.py", line 1259, in invoke
+    return _process_result(sub_ctx.command.invoke(sub_ctx))
+  File "/home/osboxes/ibmq/cloud-deployment/.venv/lib/python3.6/site-packages/click/core.py", line 1066, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+  File "/home/osboxes/ibmq/cloud-deployment/.venv/lib/python3.6/site-packages/click/core.py", line 610, in invoke
+    return callback(*args, **kwargs)
+  File "/home/osboxes/ibmq/cloud-deployment/.venv/lib/python3.6/site-packages/mkdocs/__main__.py", line 136, in serve_command
+    **kwargs
+  File "/home/osboxes/ibmq/cloud-deployment/.venv/lib/python3.6/site-packages/mkdocs/commands/serve.py", line 146, in serve
+    _livereload(host, port, config, builder, site_dir)
+  File "/home/osboxes/ibmq/cloud-deployment/.venv/lib/python3.6/site-packages/mkdocs/commands/serve.py", line 76, in _livereload
+    server = config['plugins'].run_event('serve', server, config=config, builder=builder)
+  File "/home/osboxes/ibmq/cloud-deployment/.venv/lib/python3.6/site-packages/mkdocs/plugins.py", line 94, in run_event
+    result = method(item, **kwargs)
+TypeError: on_serve() got an unexpected keyword argument 'builder'
+```
+
+These are the mkdocs package versions in my environment:
+
+```
+$ pip freeze | grep mkdocs
+mkdocs==1.1.1
+mkdocs-git-revision-date-localized-plugin==0.5.2
+mkdocs-macros-plugin==0.4.7
+mkdocs-material==5.1.5
+mkdocs-material-extensions==1.0
+```
+When I downgraded mkdocs to 1.1 then the error goes away.
+
+This is related to #2071. One of your plugins was not created with a forward-thinking approach. We added the `builder` argument, but apparently the plugin did not include `**kwargs` in the list of arguments it accepts. I suggest determining which plugin is the culprit and reporting the bug to them.
+
+I just checked the documentation and found [this statement][1]:
+
+> It is good practice to accept keyword arguments as `**kwargs`. In the event that additional keywords are provided to an event in a future version of MkDocs, there will be no need to alter your plugin.
+
+That statement is followed by an example which includes the `**kwargs` argument.
+
+My point is that we can't be responsible for plugin developers failing to follow best practices.
+
+[1]: https://www.mkdocs.org/user-guide/plugins/#on_event_name
+
+@waylan ack thanks for the pointer, looks like this is the plugin we're using that's breaking us:
+
+https://github.com/fralau/mkdocs_macros_plugin/blob/02683b3c4e13a8dd2487ae4834d34553f0e45fcb/macros/plugin.py#L386
+
+I'll move the issue there.
+
+> I'll move the issue there.
+
+In case anyone else comes here it looks like there is already an issue:
+
+https://github.com/fralau/mkdocs_macros_plugin/issues/33
+
+The issue on mkdocs/macros is now fixed.
+
+fralau/mkdocs_macros_plugin#33
+
+ Switch to GitHub Actions from Travis
+ This is a work in progress. 
+
+Still need to add a deploy workflow and remove the Travis config.
+
+Addresses #2032.
+@tomchristie I believe you need to enable "Actions" for the entire org. Go to the [mkdocs organization page][1], select the "Settings" tab (which is not available to me), select "Actions" from the sidebar, ensure the "Enable local & third party Actions for this organization" option is checked and click "Save". Note that in another project of mine, the "Enable local & third party Actions for this organization" was already selected, but things didn't work until after I  "saved" it. Once you do that once, it should be good going forward.
+
+Please report back here afterward so I can push another change to trigger a run. Thanks.
+
+[1]: https://github.com/mkdocs
+
+Done. 👍
+Also, we should make you an org admin too.
+
+Switched you to owner on the org too, not sure why we’d not done that before really.
+
+Something is still preventing the actions from running. Not sure what. I don't see any errors in the config file. If anyone else whats to take a look, fell free.
+
+If you were to create a branch directly on the repo does it work?
+
+ Change to prevent `0.0.0.0` makes containerized usage painful
+ The change in 1.1.1 to prevent the usage of `0.0.0.0` makes using MkDocs in a container painful. We have a local development environment used by our developers which spins up a documentation repository that they can live-edit, with MkDocs hosted inside a Docker container. This is now significantly more difficult.
+We do not support using the server on anything except the local machine. We never have and never will. The only change is that we are now enforcing it. In other words, you have not been using the server in a supported way. We have never guaranteed that it would continue to work for you. If you want to use a server on anything other than the local machine, then we have always suggested that you use an appropriate third-party server.
+
+These are used by developers on local machines, just within a Docker container to keep MkDocs isolated from the rest of the environment. We properly use `mkdocs build` when documentation is released, and you are completely correct in your assertion that it should not be used outside a local machine.
+
+This change means we (and anyone else using `mkdocs serve` in a container) need to either maintain a modified version of MkDocs, a configuration file with mangled addresses, or a (moderately, but not extremely) complex script to inspect the local network and determine exactly the right address to bind to every time the container spins up.
+
+Further, I believe this change is fragile - it does not prevent the use of (for example) `0.0.0.00` or `[::0]` as a wildcard bind (even though neither is the most reduced form).
+
+If security is the primary impetus behind this change, adding a banner to the default theme when a wildcard bind is detected (that must then be removed by customizing the theme) or requiring a matching environment variable to permit such binds would probably be better solutions.
+
+> to keep MkDocs isolated from the rest of the environment
+
+If that is all you are doing, a Docker image seems like overkill to me. A Python [venv][1] works great and it what I use.
+
+[1]: https://docs.python.org/3.7/library/venv.html
+
+It's actually part of a larger set of developer tooling:
+
+Developers edit OpenAPI YAML files, which are run through source code generators as well as a [Widdershins](https://github.com/Mermade/widdershins) watcher which generates Markdown. The Markdown is injected into MkDocs so as developers modify API specifications they can review the resulting stubs and documentation before it is committed.
+
+Our developers work on several different platforms and our docker-compose environment ensures everyone can easily have all the tooling at hand to work with our code base - which is not as large as many out there; I'm sure there are many developers using MkDocs' flexibility and and live editing in more complex ways than this as part of a documentation pipeline.
+
+Compatibility with containers is important in modern environments; being flexible on this will endear you to a lot of developers who may well look for another tool if they have to struggle to get this working inside Docker when they want to try MkDocs out.
+
+I agree with this issue -- this makes a docker-compose bind of `127.0.0.1:8080:8080`, which is both non-production and not (external) network accessible, fail to start.
+
+We already use docker for several things, so our limited (1-2 person) multi-hat IT staff already give out machines with docker ready... making it a simple `git clone` and `docker-compose up`... doesn't matter what OS.
+
+while venv is perfectly suitable for programers and IT Ops people, it's not the best for business staff that don't even understand Markdown before approaching this.
+
+If you require a complex environment like that, and have the expertise to get it all working, then adding a third party server to your container should be little trouble for you.
+
+<sub>Sent with <a href="http://githawk.com">GitHawk</a></sub>
+
+Why the hostility towards containerization?  It's here and it governs the world of many in the this industry.  Having it in a Docker along with our other 10+ services that are spun up in our docker-compose environment means that it is just one of a dozen services that are ready to go with a single, simple `docker-compose up`.
+
+> If you require a complex environment like that, and have the expertise to get it all working, then adding a third party server to your container should be little trouble for you.
+
+It's not massive trouble but it's more trouble than zero, which is the way it was until now. I'm kinda speechless that it would be so hard to understand that the feature useful for a lot of people, and the level of hostility in the responses. Using python `venv` is not a solution for a product that has nothing to do with python, but it's about writing docs. In our company we want any engineer to be able to contribute to the docs, and for this they should be able to 1-click start the project, which until now was easily doable with this Dockerfile
+
+```dockerfile
+FROM python:3.7-stretch
+
+WORKDIR /usr/src/app
+
+# Install dependencies and fire server w/ automatic reloading
+CMD [ "sh", "-c", "pip install --cache-dir=.pip -r requirements.txt; mkdocs serve -a 0.0.0.0:8000" ] 
+```
+
+Now I will need to create a docker-compose with some some workaround or nginx just to fake the host which makes zero sense. The only reason to put a `0.0.0.0` validation is to help devs not make mistakes, yet you're making life harder for a subset. 
+
+@inakianduaga I just made a similar change for my employees... Apparently putting it behind a reverse proxy breaks live reloading... They were a bit disappointed.
+
+If you (or anyone) figures out a solution to work around this, I'd love to see how to preserve it behind a reverse proxy
+
+@VTLee If you're on linux you can simply run the container using [host networking](https://docs.docker.com/network/host/) and it should work. We are on macs so that doesn't work. I guess the easiest is to lookup the docker host ip on the host and pass it as an ENV variable to the container on the `docker run` command (passing `host.docker.internal` also doesn't work because it also breaks mkdocs built-in validation)
+
+This change prohibits any usage of the MkDocs dev server inside of Docker and I strongly advocate against this change. Providing MkDocs inside of a Docker image with dependencies preinstalled is a very important and real use case. In fact, the Material for MkDocs [Docker image](https://hub.docker.com/r/squidfunk/mkdocs-material/) has been pulled over 800k times.
+
+Another use case I frequently encounter is when I want to preview the docs on my local machine, as well as on my mobile phone, which `0.0.0.0` makes very convenient.
+
+Please revert to the old behavior. This will cause huge frustration among developers and a flood of incoming issues. I don't understand why this change is necessary.
+
+>  putting it behind a reverse proxy breaks live reloading
+
+This has never worked and results in a constant stream of requests from users. The change under discussion was intended to curtail this requests by informing the user that this is not supported.
+
+> This will cause huge frustration among developers and a flood of incoming issues. I don't understand why this change is necessary.
+
+If a solution can be provided which allows docker containers but does not permit any other use outside of the local machine, I'm willing to listen. Personally, I have never saw any benefit to docker containers and the support requests are a contact burden and annoyance to me. I would prefer that you instead use a third party server.
+
+The only alternate approach I have considered thus far is removing the server altogether. I certainly don't need it, as it is easy enough to use a third party solution. But I'm open to other suggestions.
+
+> the level of hostility in the responses
+
+Sorry, I don't mean to be hostile, but I am extremely annoyed and frustrated that users continue to insist on using the sever in a way that we continue to state is not supported. We have continually insisted that a third party server should be used and yet it has fallen on deaf ears. Personally, I don't have time to support this and no-one else has made themselves available to do so.
+
+> Personally, I have never saw any benefit to docker containers and the support requests are a contact burden and annoyance to me. I would prefer that you instead use a third party server.
+
+You underestimate how many people are not proficient in Python and look for a one-stop solution. There's a large community of technical writers (as [my survey](https://twitter.com/squidfunk/status/1259832077668810752) shows), and from my own experience with Python I can say that setting up a clean environment is far from being easy. There're several methods like `virtualenv`, `pipenv` etc., all with their caveats. Sadly, it's not as easy as `npm`.
+
+Also, how should MkDocs be integrated with a third-party server for serving assets and live-reloading? If you could give some guidance, we can work towards a solution, but just taking this feature away from the users is not so nice.
+
+> Sorry, I don't mean to be hostile, but I am extremely annoyed and frustrated that users continue to insist on using the sever in a way that we continue to state is not supported.
+
+Where's this frustration coming from? Users want to put the development server in production? How about just printing a warning when running on 0.0.0.0 "Warning, this development server is not meant for production use."?
+
+Fully agree with @squidfunk. This change just broke my local (docker-based) development environment without warning. I had been using the same setup for over a year now, working flawlessly.
+
+This change is outright hostile to docker-based setups, and not really effective anyway in what it is trying to do, as @acaos pointed out above. Simply using `--dev-addr 0.0.0.00:8000` (or similar variations) instead still does work.
+
+However, I do understand your frustration and not everyone is into Docker either. Therefor I'd like to suggest to put this change behind another parameter and printing out a big fat warning when used:
+
+~~~
+$ mkdocs serve --livereload --dev-addr 0.0.0.0:8000 --i-know-what-i-am-doing-and-innocent-kittens-may-get-killed-because-of-it
+#################################################################
+### The MkDocs' server is intended for development purposes   ###
+### only. Therefore, '0.0.0.0' is not a supported IP address. ###
+### Please use a third party production-ready server instead. ###
+#################################################################
+INFO    -  Building documentation...
+~~~
+
+The default behavior then could still be the current one.
+
+I'd be fine with a completely obnoxious flag over a flat-out 'crash'...
+
+`mkdocs serve --allow-non-production-and-unsupported-bind-to-all-ips`
+
+really call it what you want -- but if you require them to use a flag like this, I would _hope_ it's fairly obvious that 1) It's unsupported, and 2) it's not for production use
+
+I also would combined this with @michaelkrupp 's suggested output when used
+
+@squidfunk you make some good arguments, however...
+
+> You underestimate how many people... look for a one-stop solution. 
+
+This is part of the problem. We don't offer a one-stop solution. We never have. We offer a local development solution only. Anything outside of that has never been part of MkDocs. The fact that some users have hacked it to be a a risk they took. 
+
+> ... from my own experience with Python I can say that setting up a clean environment is far from being easy.
+
+And a Docker Container is easy? Seems to me like venv is worlds easier to work out that docker. So long as we are talking about docker, this argument will never hold for me.
+
+> There're several methods like virtualenv, pipenv etc., all with their caveats.
+
+And only `venv` is included in the standard lib. Why would you consider anything else? But I digress.
+
+> Also, how should MkDocs be integrated with a third-party server for serving assets and live-reloading? 
+
+I haven't researched the options myself, but the live-reload server is based on a standard (which is not unique to nor originates with our server). If `npm` is so easy, I'm sure there are multiple node servers which would work quite well for this. And they would be better supported. As you are well aware, the python based server we use is currently not being maintained. If we change servers (due to lack of maintenance) we likely would loose the live-reload feature as I'm not aware of any other Python solutions and I don't have the resources to maintain one myself. If that were to happen, I suspect everyone involved in this conversation would move to a third party server anyway. Think of this as a push in that direction.
+
+> Users want to put the development server in production? 
+
+Yes, that is a very common request. We could issue a warning, but given how those users react when they are informed we don't support production use, they would just ignore the warning. Therefore, I was trying to force the issue.
+
+Truth be told, I expected there to be some backlash, but not from those using docker containers. Admittedly, as I don't use docker, it hadn't occurred to me that that would be an issue.
+
+That said, I don't see why we should support them. Our server is not to be used outside the local machine. From one perspective a docker container is not the local machine.
+
+
+@VTLee 
+
+> 
+> 
+> @inakianduaga I just made a similar change for my employees... Apparently putting it behind a reverse proxy breaks live reloading... They were a bit disappointed.
+> 
+> If you (or anyone) figures out a solution to work around this, I'd love to see how to preserve it behind a reverse proxy
+
+You can do this with nginx with a block similar to this:
+
+```
+    location / {
+        add_header Access-Control-Allow-Origin $http_origin;
+        add_header Access-Control-Allow-Methods "GET, POST, OPTIONS";
+
+        proxy_set_header Connection "Upgrade";
+        proxy_set_header Host $http_host;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header X-Forwarded-Port $server_port;
+
+        set $backend "http://127.0.0.1:8080";
+        proxy_pass $backend;
+        proxy_http_version 1.1;
+        proxy_redirect off;
+    }
+```
+
+That or just use `mkdocs serve -a 0.0.0.00:8080`.
+
+I've given this some more thought and I see a few possible solutions, in order of (increasing) severity, although not necessarily order of preference:
+
+- Someone else steps up and volunteers to maintain the server code. Their first commit can be changing the error to a warning. But I expect them to honor their word and stay with the project.
+- The current behavior remains.
+- The server is completely dropped and users are responsible to go find their own solution. Perhaps we could offer a few recommendations in the docs.
+- I walk away from MkDocs.
+
+To be fair, I'm not completely satisfied with any of those myself. But I don't have any other ideas.
+
+> You can do this with nginx with a block similar to this:
+
+@acaos you are perpetuating the problem. We do not support using proxy server with the included server. Every time someone comments with  a "working solution" that is just one more date point which reinforces the need to forcefully disable it.
+
+@waylan you don't understand that people want to run this in a Docker on their local development system SO THAT they don't have to worry about even having Python installed.  With Docker, I can trivially run a local development version on a Windows box using Docker Desktop -- without having to know anything about that Python Jazz.  There are probably another twenty "why this is good to allow us to run your awesome tool in Docker" that we can come up with...
+
+Leave your new behavior as default and add a `--force-insecure-bind-all` command line parameter that allows those of us who know what we're doing to do continue to use it within a Docker on our local development systems.  It's a really simple solution that allows you to have the default behavior *and* you even get to call the feature "insecure" so that nobody can be surprised by it.
+
+> @waylan you don't understand that people want to run this in a Docker on their local development system SO THAT they don't have to worry about even having Python installed. 
+
+If you have such an aversion to Python, then why are you using a Python based tool? There are certainly more than enough competing products to chose from developed in any number of languages. 
+
+In looking at the various options out there, I came across a number of products where the docs basically said: just download and launch this docker container and you get a one-stop solution. All I saw was a mysterious black box. When I found MkDocs, I understood how it worked. I found a product I was willing to use. It seems some of you want the black box. I can't identify with that mindset.
+
+> Leave your new behavior as default and add a `--force-insecure-bind-all` command line parameter that allows those of us who know what we're doing to do continue to use it within a Docker on our local development systems. It's a really simple solution that allows you to have the default behavior and you even get to call the feature "insecure" so that nobody can be surprised by it.
+
+The issue is not that it is "insecure." A more appropriate name for the flag might be `--enable-proxy-connections` which I have repeatedly stated that we have never supported. Either we support a feature or we don't. The fact that a flag exists to enable a behavior suggests that we support it.  And no one is going to accept the 'you can only use that feature if you know what you are doing' response. In other words, adding a flag makes it worse not better as we can no longer claim we don't support that use case.
+
+As I think about it, it occurs to me that anyone who is using a docker container has been using a proxy. Therefore this has always been unsupported. The fact that it worked as all was a coincidence. Even if we removed the forced error, the entire thing could break at any time for any number of reasons. It would be a disservice to our users to suggest otherwise. 
+
+
+> If you have such an aversion to Python, then why are you using a Python based tool? There are certainly more than enough competing products to chose from developed in any number of languages.
+
+You fell into the common trap thinking that people choose solutions because of their underlying technologies. This might be true for developers, who question every layer of the stack, but MkDocs solves problems of non-technical people, i.e. technical writers, who mostly don't care about the underlying technology. Personally, I'm not a fan of Python. I dislike the syntax and the whole environment. However, I built one of the most popular third party themes for a Python-based static site generator, because I believe in its values – not in its technology.
+
+> In looking at the various options out there, I came across a number of products where the docs basically said: just download and launch this docker container and you get a one-stop solution. All I saw was a mysterious black box. When I found MkDocs, I understood how it worked. I found a product I was willing to use. It seems some of you want the black box. I can't identify with that mindset.
+
+It's fine to speak of your own expectations evaluating a new technology, but a project with 10k stars should also consider the expectations of users. To you, Docker is a black box. To me, it is Python. I'm actually more familiar with Docker than Python. Still, I love MkDocs.
+
+> As I think about it, it occurs to me that anyone who is using a docker container has been using a proxy.
+
+This is inaccurate. In fact, in our use, in a Docker, on our local development systems, is doing nothing more than simple port forwarding.  There's no HTTP proxy server in the middle.  This is the standard way for using Docker locally for development and many other things.
+
+This change isn't preventing proxies at all either -- proxies can explicitly route to loopback...  In fact, you're expressly pushing people towards a proxy solution as a work around.
+
+I would like to plead with you to just add `-some-command-line-option` to disable this new default behavior.  It will end a lot of pain for people today and for a long time to come.
+
+@waylan Please reconsider your decision. As stated above, I do understand that you are not familiar with Docker and do not want to use it personally. That is fair, and I have been on the same track couple of years ago.
+
+Fact is though, that docker has become the de-facto standard for many of us. For someone like me it has become indispensable by now, as I do not develop in just one or two language on a daily basis, but somewhere in the ballpark of 25. Maintaining 25 tool-chains on 4 devices is just not practical. With docker I can abstract all of this and just not care about how the internals work. Everything is just a simple `docker pull` away.
+
+Python is my favorite language (and has ever been since 2.3) by a huge margin - I absolutely love it. But its ecosystem currently is just a huge mess and a major pain in the a** to work with. Docker solves this problem for the most part.
+
+The change you made will just spawn work-arounds, of which two have already been posted here.
+Another one would be to simply monkey-patch that config validator method via a mkdocs-plugin. All of those are arguably worse than a clean `--iknowhatiamdoing` command line switch.
+
+People who want to run it in production will do so, no matter how hard you try to stop them. Please do not throw us Docker users under the bus and force us to use ugly hacks just because you get annoyed with people running unsupported configurations.
+
+We all love MkDocs, and we want to keep using it in our Docker environments :heartpulse:
+
+I will add my voice to the requests to please enable `0.0.0.0` as a bind address once again. I work in a polyglot environment and use Docker to provide a consistent developer environment for all team members, regardless of technical background. If my team members are required to become Python developers in order to use mkdocs, they will reject `mkdocs`.
+
+I've created a MkDocs + BrowserSync Docker configuration which can be used for automated reloading. Hopefully this will provide an alternative or template to those who are having issues with `mkdocs serve` in a Docker, and also a backup in case the `serve` functionality breaks or is entirely removed.
+
+It can be found at: <https://github.com/acaos/mkdocs-browsersync>
+
+I still believe it would be ideal to revert this change.
+
+Also: This changes a behavior which is offered by the kernel itself, and people are used to.
+
+Even if it wasn't for to the wide amount of people using docker nowadays, it still makes sense to reconsider your decision and remove this validation (considering it is not covering any edge-cases as you can see here: https://github.com/mkdocs/mkdocs/issues/2108#issuecomment-627562040) as it introduces more frustration, confusion and pain. 
+
+Maybe a sentence or two in the README or github issue-templates would be more beneficial, where you can put an emphasis on the matter, that anything other than localhost is not supported.
+
+
+@waylan it might be tempting to think that such a change will ease maintenance by clearly stating that this behavior is not supported, but as we can see from this issue you'll be explaining the reasoning behind this decision over and over again. It will lead to _more_ issues.
+
+> @waylan it might be tempting to think that such a change will ease maintenance by clearly stating that this behavior is not supported, but as we can see from this issue you'll be explaining the reasoning behind this decision over and over again. It will lead to more issues.
+
+Yes I can see that. I completely underestimated the popularity of docker containers (probably because I have never had a legitimate need for using them). As I stated previously, these are the options I'm willing to consider:
+
+> - Someone else steps up and volunteers to maintain the server code. Their first commit can be changing the error to a warning. But I expect them to honor their word and stay with the project.
+> - The current behavior remains.
+> - The server is completely dropped and users are responsible to go find their own solution. Perhaps we could offer a few recommendations in the docs.
+> - I walk away from MkDocs.
+
+I am leaning very heavily toward the last option. I'm willing to make one final release which restores the behavior and step away. This issue has made it clear that MkDocs is causing me too much stress. The change under discussion was an attempt to reduce that stress but has instead increased it. I don't have any good reason to stay here. I can perhaps use the time to focus on a few other ideas I have't had time to explore.
+
+To be clear, this is not meant as an empty threat to force someone into something. I am simply tired of it. Perhaps after a break I'll come back refreshed, but as of now it is looking like MkDocs could become an unmaintained project.
+
+ Prevent layout shifts by inserting width/height attributes on img/video tags
+ **What is layout shift:**
+
+A "layout shift" is when loading a page, the content moves. For example, linking to the bottom of a long page of documentation with many images will show the correct section until the above images load in, pushing the content further down the view port.
+
+* **More info on cumulative layout shifts:** https://web.dev/cls
+
+* * *
+
+One solution to this is to bake in height/width attributes into the markup.
+
+```html
+<img src="file.png" width="1280" height="720" alt="Example" />
+<video src="file.mp4" width="1280" height="720" controls autoplay loop></video>
+```
+
+In [Firefox 69](https://bugzilla.mozilla.org/show_bug.cgi?id=1547231) and [Chrome 79](https://www.chromestatus.com/feature/5695266130755584), a new feature was added where the browsers will look at these attributes and calculate the correct aspect ratio while doing page layout. This results in the height of the image being predictable prior to any network requests being initiated for the image files. Thus allowing the layout of the page to be determined with just HTML and CSS. Any CSS applied to the element (such as `max-width: 100%` or `width: 300px`) will supersede the inline attributes. The inline attributes are only used for determining initial aspect ratios.
+
+Since mkdocs statically generates the HTML it could look for all images/videos relatively linked in the markdown, then read the image/video files to find the dimensions and insert them into the outputted HTML.
+
+Before switching to MKDocs, I was doing this in Node using the Node modules `image-size` (for png/gif) and `@ffprobe-installer/ffprobe` (for mp4). I assume there are similar Python libraries for detecting file dimensions.
+Interesting. However, the body text of each page is generated by Markdown and Markdown doesn't offer this feature. 
+
+> Since mkdocs statically generates the HTML it could look for all images/videos relatively linked in the markdown, then read the image/video files to find the dimensions and insert them into the outputted HTML.
+
+That would require MkDocs to take the output of Markdown, parse it, then look for images, act on them, and serialize back to a string. Seems like a lot of work. As a reminder, unlike Node, Python doesn't get a built-in DOM for free. Instead we pass around a string of HTML.
+
+Perhaps a better strategy would be to use a [Markdown extension][1]. MkDocs supports using any extension so long as it's installed, so we don't need to do anything here.
+
+[1]: https://www.mkdocs.org/user-guide/configuration/#formatting-options
+
+ Bump version to 1.1.1
+ Also fixed a couple flake8 issues caught by the latest update.
+ Favicon.ico not picked up when using mkdocs serve
+ I set up a minimal project following [the documentation](https://www.mkdocs.org/user-guide/styling-your-docs/#using-the-theme-custom_dir) to overwrite the favicon.
+
+The favicon is overwritten successfully after running `mkdocs build`, but it is not (both not in the tab and in a bookmark) when viewing the site via `mkdocs serve`. I tested this using Firefox.
+Did you clear your browser's cache?
+
+Do you see a request for it in the server logs? What is the response given?
+
+Apparently the cache wasn't cleared, I thought I had done this. Sorry. It is working as expected!
+
+ Broken link in deploying documentation
+ https://www.mkdocs.org/#deploying links to [GitHub project pages](https://help.github.com/articles/creating-project-pages-manually/) which doesn't work anymore. I'm not sure what the correct links is now -- maybe https://pages.github.com/?
+Thanks for the report. GitHub is constantly refactoring their docs. Its hard to maintain a good link.
+
+ Add plugin error exception and event
+ This PR adds a `PluginError` exception to the `mkdocs.exceptions` module to allow plugin writers to cleanly abort a build without showing a traceback.
+
+It also adds an `on_build_error` event that is triggered by such `PluginError` exceptions, that we catch in the `build` command of the `mkdocs.commands.build` module (most of the diff in this module is just indentation in between the try/except, I could not reduce the noise). This event allows to clean things up if needed, just before aborting the build.
+
+I wondered if I should not rename the event `on_plugin_error`, but to me it makes more sense to call it a build error, because it could be triggered in other places as well. Also, if you think the event doesn't have its place in this PR, I'll gladly remove it so we can discuss it a bit more before opening (or not) another PR for it.
+
+Related: #2082 (the issue also asks for a logging error counter, as well as a `get_logger` utility function, so this PR does not resolve it entirely).
+
+TODO:
+
+- [x] add docs: I documented the `on_build_error` event, but not the `PluginError` since I couldn't find an existing page documenting MkDocs exceptions. It's mentioned in the `on_build_error` documentation though.
+- [x] add tests (any advice?)
+Thank you very much for your review! I will add the `Handling Errors` section to the documentation, and I'll happily let you suggest improvements over the text because English is not my native language and I'm not the best technical writer :slightly_smiling_face: 
+
+> Of course, if PluginError was a subclass of BuildError and both were handled by the event, then that would be different. But, as I understand it, that is not the plan (although I suspect perhaps you are hoping future additions go that way). I'm open to suggestions here.
+
+This is a very good idea. I can create this `BuildError` and make `PluginError` a subclass of it. I have no intentions to modify or suggest modifications on how MkDocs is handling its own errors, I just felt that  the name `plugin_error` for the event would be too ambiguous ("what's its purpose??"), whereas `build_error` was very explicit about what it does.
+
+- I tried to be clearer in the description of the event.
+- I added `BuildError`, and `PluginError` is a subclass of it
+- Both types are caught with `except BuildError` in the build command
+- I added a test in `build_tests.py`, because plugins tests were not actually "building" and this was required to check if the exceptions were correctly caught and handled
+
+> Note, I have not carefully reviewed the documentation. I'll do a more thorough review and make my own edits when I have the time.
+
+Of course, no problem :slightly_smiling_face:  
+
+I reviewed the docs and made some adjustments in 6568cc4. @pawamoy what you had was a great start. Its always easier to work off of something than to start with nothing. 
+
+Now that I'm more familiar with the docs, I have a few thoughts:
+
+1. Perhaps we should be catching `MkDocsException` instead, which is more inclusive than `BuildError`.
+2. I keep wondering why we need the `reraise` argument. Just let a non-MkDocs specific error bubble up. Then I remember that only the MkDocs specific errors result in the `on_build_error` event being called. I wonder if we need to make that more clear in the docs.
+
+Also, if you see anything in the docs that I missed, please feel free to make the changes.
+
+ Website generated by mkdocs build not correct (Path issue?)
+ My setting (using Windows 10):
+```
+PS C:\Users\User\Documents\music\tmp> python --version
+Python 3.8.2
+PS C:\Users\User\Documents\music\tmp> mkdocs --version
+mkdocs, version 1.1 from c:\users\user\appdata\local\programs\python\python38-32\lib\site-packages\mkdocs (Python 3.8)
+```
+
+I have a simple `mkdocs.yml` file:
+
+```
+site_name: MkLorum
+nav:
+    - Home: 'index.md'
+    - About: 'about.md'
+```
+
+with the corresponding `md` files.
+
+Running `mkdocs serve` I can view the content of `about.md` at `http://127.0.0.1:8000/about/`.
+
+However, after sucessfully  running `mkdocs build`, `file:///C:/Users/User/Documents/music/tmp/site/about/` (this is where clicking at "About" from the main page takes me) doesn't show any website. Instead it shows a view in which you can navigate the directory structure of the filesystem.
+You have two options:
+
+1. Put your built site behind a server, which will properly serve index files.
+
+    As you are working on your site, we provide a `mkdocs serve` command so that you can browse your site behind a server. Of course, once you upload the built site to a server, that will be a non-issue anyway.
+
+2. Disable the [use_directory_urls][1] config setting so that all files are written to `filename.html` rather than index files (filename/index.html).
+
+    However, if you intend to use the built site without a server, then I should warn you that this is not an officially supported use case for MkDocs. While it will work if you disable `use_directory_urls`, other things will never work properly. For example, due to browser security settings, the search feature will never work without a server involved.
+
+[1]: https://www.mkdocs.org/user-guide/configuration/#use_directory_urls 
+
+I wasn't aware that web servers work this way. I just deployed a test site to Github and I can browse the site there correctly. Thanks for your detailed answer!
+
+ Google Analytics documenation
+ I'm trying to switch from Docsify, where, at runtime I would have this JS run:
+
+```js
+let googleAnalyticsId = 'UA-1234567-50'; // default to dev
+if (window.location.host.includes('apps-test.example.com')) {
+  googleAnalyticsId = 'UA-1234567-59';
+} else if (window.location.host.includes('apps.example.com')) {
+  googleAnalyticsId = 'UA-1234567-51';
+}
+window.$docsify = {
+  ga: googleAnalyticsId,
+};
+```
+
+The documentation is vague and does not explain what the code is, or how it works:
+```yaml
+google_analytics: ['UA-36723568-3', 'mkdocs.org']
+```
+* https://www.mkdocs.org/user-guide/configuration/#google_analytics
+
+Is the second argument a name? Something to match against before analytics are enabled? How would you go about defining which ID to use based on the current environment (dev/test/prod/local)? Can you hook into this on page load (since GA is just running in JS anyway) so the above logic can stay in the JavaScript?
+
+Can the docs be updated to have these answers?
+
+It looks like there is some theme or template file for analytics, but there is no example.
+
+* * *
+
+For others looking for a work around to the lack of proper documentation, here's the best thing I could come up with:
+
+1. In the root of your project create a `theme` folder
+1. Put `footer.html` in the folder
+1. Edit it and add this:
+
+```html
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+let googleAnalyticsId = 'UA-1234567-50'; // default to dev
+if (window.location.host.includes('apps-test.example.com')) {
+  googleAnalyticsId = 'UA-1234567-59';
+} else if (window.location.host.includes('apps.example.com')) {
+  googleAnalyticsId = 'UA-1234567-51';
+}
+
+ga('create', googleAnalyticsId, 'auto');
+ga('send', 'pageview');
+</script>
+```
+In the `mkdocs` theme, those config options are used in the template here: 
+
+https://github.com/mkdocs/mkdocs/blob/a4eb4eb42be5b2b7f401f51baf8c0863f54fe63d/mkdocs/themes/mkdocs/base.html#L44-L56
+
+And for the `readthedocs` theme:
+
+https://github.com/mkdocs/mkdocs/blob/a4eb4eb42be5b2b7f401f51baf8c0863f54fe63d/mkdocs/themes/readthedocs/base.html#L55-L76
+
+Of course, for third-party themes, things may be different.
+
+Regarding the two values, they are the two values passed to `ga(create...)`. Of course, back when the documentation was written, it corresponded with Google documentation and was clear. Google has since changed their documentation which makes ours less clear.
+
+In any event, a PR with suggested changes is always welcome. 
+
+ Make compressed sitemap deterministic
+ Our deployment step for https://datadoghq.dev/integrations-core/ should only trigger when a change occurs in the built site. However, every build was different because gzip includes the timestamp in its header.
+
+cc @waylan since you were involved with https://github.com/mkdocs/mkdocs/pull/1130
+Since #1010 (4 years ago) we support the `SOURCE_DATE_EPOCH` environment variable for this very purpose. The value of that variable is used to set the [build_date_utc][1] variable in the template context. It seems to me that the same should be used for the gzip timestamp. After all, depending in which theme you use, you may need it set for deterministic builds anyway.
+
+That said, I'm curious if perhaps the gzip lib already makes use of the env variable. After all, our users who use the variable have not complained about the sitemap.
+
+Finally, I see that the docs for the `build_date_utc` template context variable does not make mention of `SOURCE_DATE_EPOCH`. That should probably be updated.
+
+[1]: https://www.mkdocs.org/user-guide/custom-themes/#mkdocs_version
+
+Interesting. Where does that date get rendered? Removing the archive makes our builds reproducible without setting that environment variable.
+
+In the builtin themes, the `build_date_utc` gets included in an HTML comment on the homepage only.
+
+`mkdocs` theme:
+
+https://github.com/mkdocs/mkdocs/blob/a4eb4eb42be5b2b7f401f51baf8c0863f54fe63d/mkdocs/themes/mkdocs/base.html#L197-L204
+
+`readthedocs` theme:
+
+https://github.com/mkdocs/mkdocs/blob/a4eb4eb42be5b2b7f401f51baf8c0863f54fe63d/mkdocs/themes/readthedocs/base.html#L156-L163
+
+In both cases, the comment is the past thing after the closing `<html>` tag. On <https://www.mkdocs.org> we see that currently rendered as:
+
+```html
+<!--
+MkDocs version : 1.1
+Build Date UTC : 2020-02-26 23:50:49
+-->
+```
+
+That is the actual date and time the site was built and pushed live, which roughly corresponds with the time of the [last release](https://github.com/mkdocs/mkdocs/releases/tag/1.1).
+
+Ah I see, we minify the html so we have no comments.
+
+@waylan Addressed! FYI a new version of flake8 was released, hence the errors.
+
+> FYI a new version of flake8 was released, hence the errors.
+
+Sigh. Thanks for the heads-up. We can ignore that here as it is unrelated to this change.
+
+<del>However, we do have a [failing test][1] in your code. </del><ins>Looks like you beat me to it.</ins>
+
+Also, we need a note added to the release notes (under [version 1.1.1][2]).
+
+Otherwise, this looks great. Thanks for the work on this.
+
+[1]: https://travis-ci.org/github/mkdocs/mkdocs/jobs/685992944#L268
+[2]: https://github.com/mkdocs/mkdocs/blob/master/docs/about/release-notes.md#version-111-in-development
+
+Done, thank you! Any idea when 1.1.1 will be released?
+
+> Any idea when 1.1.1 will be released?
+
+I expect very soon.
+
+FYI, version 1.1.1 has been released.
+
+Thank you!!!
+
+ ip 2 location 
+ Always looking for new ones
+Always looking for new ones
+
+Always looking for new ones all time
+
+> Always looking for new ones all time
+
+
+
+I have no idea what this is.
+
+ formatting issue in 'Writing Your Docs' section
+ It seems like the 'note' text block in [file layout](https://www.mkdocs.org/user-guide/writing-your-docs/#file-layout) should be formatted like its counterpart in [MultiMarkdown Style Meta-Data](https://www.mkdocs.org/user-guide/writing-your-docs/#multimarkdown-style-meta-data).
+
+The Markdown for each looks the same, so not sure what's up, just wanted to bring it to your attention.
+This is a duplicate of #2060 where it was fixed. The fix will go live on the site with the next release.
+
+ Use python static typing info
+ If your python project uses things such as [mypy](http://mypy-lang.org/) or [pydantic](https://pydantic-docs.helpmanual.io/), or basically any [python types](https://docs.python.org/3/library/typing.html), IMHO mkdocs should render those in the docs. If possible, with links to the classes, at least if defined in this same project.
+I opened the relevant issue at https://github.com/pawamoy/mkdocstrings/issues/106, this one can be closed.
+
+About links to classes, the feature is tracked in https://github.com/pawamoy/pytkdocs/issues/12 and https://github.com/pawamoy/pytkdocs/issues/13
+
+Sorry, but I don't see any actionable item here for MkDocs. You point to the mkdocsstrings plugin, which is one of [many doc generation plugins][1] for MkDocs. Those plugins could certainly add such a feature if they desire, but there is no action for MKDocs to take. Or am I missing something?
+
+[1]: https://github.com/mkdocs/mkdocs/wiki/MkDocs-Plugins#api-documentation-building
+
+No no you're right, that's what I meant by "this one can be closed": you can close this issue, it was supposed to be opened in mkdocstrings :slightly_smiling_face: 
+
+ Three-level navigation expands question
+ ## Details
+
+ when I use the readthedocs  theme and  run at http://127.0.0.1:8000/.
+The three-level navigation expands some levels. The page looks bad.
+
+## Expected Result
+
+*I wanted to expands by default the first item, however, some other items expand*
+
+how can I solve this problem.
+As the [documentation][0] explains, the theme is (emphasis added)...
+
+> A clone of the default theme used by the [Read the Docs[[1] service, which offers the same restricted feature-set as its parent theme. Like its parent theme, **only two levels of navigation are supported**.
+
+That being the case, if yo use 3 or more levels of navigation, nothing will display correctly. You **must** rearrange your navigation to 2 levels or use a different theme.
+
+[0]: https://www.mkdocs.org/user-guide/styling-your-docs/#readthedocs
+[1]: https://readthedocs.org/
+
+ Fix markdownlint test
+ Just experimenting trying to understand why the markdownlint test is failing.
+So Travis is using Node.js version v8.9.1, but `markdownlint-cli` dropped support for version 8 in 0.22.0 (see igorshubovych/markdownlint-cli#93). Apparently, Node doesn't prevent itself from installing incompatible versions as markdownlint-cli version 0.23.0 is installed.
+
+We could force an older version with `npm install -g markdownlint-cli@0.21.0` but I'd rather using a newer version of Node. The Travis [docs][1] only list version 12 through 14, so I don't know why we are getting 8.
+
+[1]: https://docs.travis-ci.com/user/languages/javascript-with-nodejs/#specifying-nodejs-versions
+
+Sigh. So if I set the language to node.js I can get Travis to use a more recent version, but then we run into weird Python errors and we need Python to run tox. I guess I could run the test directly from Travis rather than using tox, but that would be inconsistent with the rest of our tests.
+
+ Exclude theme from watched files by default.
+ Add a `--watch-theme` option which theme devs can enable if needed.
+Most users never modify the theme files and watchers are resource hogs.
+Fixes #2092.
+> Most users never modify the theme files and watchers are resource hogs.
+
+Whatever the reason is, this results in a change of the current behaviour and the current behaviour is _not_ incorrect. The change is therefore not suitable for a bugfix release and that only with a small mention in the release notes.
+
+@froschdesign the "reason" is that in certain situations (as reported elsewhere) the live-reload server is unusable without this change. Therefore, this is a bug fix.
+
+> the "reason" is that in certain situations (as reported elsewhere) the live-reload server is unusable without this change.
+
+Not for you:
+
+> Of course, I'm only ever working on smaller themes with only a few files, **so it's a non-issue for me.**
+
+…and also not for me!
+
+> Therefore, this is a bug fix.
+
+It is a decisive change in behaviour. And if that's the way you want to play it then you should add a better documentation for this change. Otherwise this results in frustration for the user who do not have the problem.
+
+@froschdesign i'm not unsympathetic to your position. It affects me the same. However, at the end of the day the number of users who develop themes is tiny in comparison to those who do not. And for those who do develop themes, they can just use the new flag.
+
+I suppose your objection is based more on the fact that that change in behavior is not properly advertised. 'Hey why did it change, I only upgraded a bug fix release.' But if we wait for the next point release, that could be many months out. For all those (non-theme-dev) users this needs to hit asap. And this became much more pressing now that the latest release of the most popular (by far) theme now is a major factor here.
+
+@waylan 
+I understand your reason but no side should be forgotten.
+
+> And for those who do develop themes, they can just use the new flag.
+
+Document the new behaviour with a warning message, directly below the following sentence in "Getting Started":
+
+> The dev-server also supports auto-reloading, and will rebuild your documentation whenever anything in the configuration file, documentation directory, or theme directory changes.
+
+https://www.mkdocs.org/#getting-started
+
+The release notes as reference is not enough for the change.
+
+Although I don’t understand why there cannot be a minor release (doing lots of those for Material for MkDocs), I advocate for this being released as soon as possible. It’s a really annoying and widespread problem.
+
+I don’t mind it being a patch release either and would also classify it as a bug due to the common use case being authors and not theme developers.
+
+> Document the new behaviour with a warning message, directly below the following sentence in "Getting Started":
+> 
+> > The dev-server also supports auto-reloading, and will rebuild your documentation whenever anything in the configuration file, documentation directory, or theme directory changes.
+> 
+> https://www.mkdocs.org/#getting-started
+
+Ah, it is documented -- in the getting started guide no-less. I was thinking it wasn't mentioned in the documentation. While I am attracted to the idea that this is a bug fix, I think perhaps the right thing to do is delay this until a point release.
+
+@squidfunk I understand your frustration. However, you did release your theme without this change in the works.
+
+My plan is to update this immediately after 1.1.1 is released and add it as the first change in 1.2. Assuming I have the time, I hope get 1.1.1 out the door today.
+
+ Add --wait flag to serve command.
+ This should address #2061. However, I don't perceive any actual delay. Perhaps those who have a need for could report back.
+
+```
+$ mkdocs serve --wait 60
+INFO    -  Building documentation...
+INFO    -  Cleaning site directory
+INFO    -  Documentation built in 0.96 seconds
+[I 200505 14:43:49 server:296] Serving on http://127.0.0.1:8000
+INFO    -  Serving on http://127.0.0.1:8000
+[I 200505 14:43:49 handlers:62] Start watching changes
+INFO    -  Start watching changes
+[I 200505 14:43:49 handlers:64] Start detecting changes
+INFO    -  Start detecting changes
+[I 200505 14:43:53 handlers:135] Browser Connected: http://127.0.0.1:8000/
+INFO    -  Browser Connected: http://127.0.0.1:8000/
+[I 200505 14:44:07 watcher:104] Running task: builder (delay: 60)
+INFO    -  Running task: builder (delay: 60)
+INFO    -  Building documentation...
+[I 200505 14:44:08 handlers:95] Reload 1 waiters: /Users/waylan/Code/mkdocs/docs/index.md
+INFO    -  Reload 1 waiters: /Users/waylan/Code/mkdocs/docs/index.md
+[I 200505 14:44:08 handlers:135] Browser Connected: http://127.0.0.1:8000/
+INFO    -  Browser Connected: http://127.0.0.1:8000/
+```
+
+Note that it took me a few seconds to make a change to the file. However, from the timestamps in the log it took less that 60 seconds from the time it started detecting changes until the entire site was rebuilt. However the log clearly shows that the builder has a delay: `Running task: builder (delay: 60)`.
+
+ High CPU Load
+ A have High CPU Load (> 20 %) with MkDocs + Material on Lenovo T460s (i5-6200U, 20 GB Ram). Notebook is hot, fan is humming and battery discharges quickly. 
+
+High load occurs during `mkdocs serve`. If I use `mkdocs serve --no-livereload`, load is OK.
+
+High load happens even with minimal content.
+
+SITE-TEST:
+```
+    docs:
+        index.md
+    mkdoc.yml
+```
+
+index.md:
+```
+# Hello World
+```
+
+mkdoc.yml
+```
+site_name: Test
+theme:
+    name: material
+    language: cs
+```
+
+Load is normal, if I remove theme material.
+
+My enviroment:
+
+```
+C:\Users\petrm>python --version
+Python 3.8.2
+```
+
+```
+C:\Users\petrm>python -m pip show mkdocs
+Name: mkdocs
+Version: 1.1
+Summary: Project documentation with Markdown.
+Home-page: https://www.mkdocs.org
+Author: Tom Christie
+Author-email: tom@tomchristie.com
+License: BSD
+Location: c:\users\petrm\appdata\roaming\python\python38\site-packages
+Requires: PyYAML, livereload, lunr, Markdown, click, tornado, Jinja2
+Required-by: mkdocs-material
+```
+
+```
+C:\Users\petrm>python -m pip show mkdocs-material
+Name: mkdocs-material
+Version: 5.1.4
+Summary: A Material Design theme for MkDocs
+Home-page: https://squidfunk.github.io/mkdocs-material/
+Author: Martin Donath
+Author-email: martin.donath@squidfunk.com
+License: MIT
+Location: c:\users\petrm\appdata\roaming\python\python38\site-packages
+Requires: pymdown-extensions, mkdocs, Pygments, mkdocs-material-extensions, markdown
+Required-by: mkdocs-material-extensions
+```
+
+```
+C:\Users\petrm>systeminfo
+
+Host Name:                 T460S-WIN
+OS Name:                   Microsoft Windows 10 Pro
+OS Version:                10.0.18362 N/A Build 18362
+OS Manufacturer:           Microsoft Corporation
+OS Configuration:          Standalone Workstation
+OS Build Type:             Multiprocessor Free
+Registered Owner:          Uživatel systému Windows
+Registered Organization:
+Product ID:                00342-50620-20329-AAOEM
+Original Install Date:     29.10.2019, 23:22:13
+System Boot Time:          22.04.2020, 12:13:28
+System Manufacturer:       LENOVO
+System Model:              20FAS47X00
+System Type:               x64-based PC
+Processor(s):              1 Processor(s) Installed.
+                           [01]: Intel64 Family 6 Model 78 Stepping 3 GenuineIntel ~2300 Mhz
+BIOS Version:              LENOVO N1CET45W (1.13 ), 02.06.2016
+Windows Directory:         C:\WINDOWS
+System Directory:          C:\WINDOWS\system32
+Boot Device:               \Device\HarddiskVolume1
+System Locale:             cs;Čeština
+Input Locale:              cs;Čeština
+Time Zone:                 (UTC+01:00) Praha, Bratislava, Budapešť, Bělehrad, Lublaň
+Total Physical Memory:     19 907 MB
+Available Physical Memory: 14 060 MB
+Virtual Memory: Max Size:  22 851 MB
+Virtual Memory: Available: 16 008 MB
+Virtual Memory: In Use:    6 843 MB
+Page File Location(s):     C:\pagefile.sys
+Domain:                    WORKGROUP
+Logon Server:              \\T460S-WIN
+```
+Related to #2061, first discussed in squidfunk/mkdocs-material#1672
+
+> If I use `mkdocs serve --no-livereload`, load is OK.
+>
+> Load is normal, if I remove theme material.
+
+Those are the two factors. The material theme has a lot of files, and watching a lot of files puts extra strain on the system. Especially if the system doesn't have an API for watching files. While Windows does have an API, my understanding is that it is less performant than Linux and Mac and you should expect more strain.
+
+Overall, there is not much we can do. We only provide a light wrapper around [lepture/python-livereload][1]. Any performance issues with the watcher should be addressed there. The theme could reduce the number of files, but then you would loose the features it offers (besides that would be something to discuss with the Material devs, not here). That only leaves #2061 as something we can do. Therefore, I am closing this as a duplicate.
+
+[1]: https://github.com/lepture/python-livereload
+
+Wouldn't it solve the problem if we exclude theme files from `mkdocs serve`?
+
+> Wouldn't it solve the problem if we exclude theme files from `mkdocs serve`?
+
+That is certainly an option. However, when I'm working on a theme (editing templates or CSS) I want to have the theme files watched. Of course, I'm only ever working on smaller themes with only a few files, so it's a non-issue for me.
+
+Perhaps the default should be to not watch theme files. Then we could add an option to include theme files for those occasions were it is desired.
+
+That sounds like a great idea. I think for most of authors, watching theme files isn’t necessary. So I guess this could be implemented as an enhancement?
+
+Actually, I'm going to classify this as a performance improvement and include it in the next buggies release. See #2094.
+
+Thanks you.
+
+ Create and use local plugins
+ As the [documentation](https://www.mkdocs.org/user-guide/plugins/) mentions, the plugin has to be a separate Python package which has to be registered in the `entry_points`.  
+
+In my case, I have a simple script that does some pre-build operations on the documentation sources. The only way to run it automatically, for now - is to create another package that would register itself as the plugin. 
+
+How about allowing to load plugins that are just local files? E.g. `- docs.custom_plugin::MyPluginClass` would load `MyPluginClass` from the `docs/custom_plugin.py`. Of course, the `MyPluginClass` should follow the plugin API by inheriting the `BasePlugin` class.
+
+If we were to support such a feature, it would need to be in a separate directory from the documentation (just like a theme's `custom_dir`). However, it is not much work to make a local package, which ensures the code is on the PYTHONPATH. 
+
+Personally, my vote is to not do this. It is much cleaner with all Python code being installed.
+
+Since the directory containing `mkdocs.yml` is already in `PYTHONPATH`, it should be fairly easy to import local plugins by referencing its path. I don't understand why it has to be a separate directory, I think it can be wherever the user want it.  
+
+I know that creating an installable package is not much work, but it feels a bit unnatural. If you work on a library, you can't add plugin entry point to the `setup.py` of the package to avoid registering (and possibly shadowing) internal plugin in people's environment.
+
+For now, I've created a generic plugin that allows calling any code from within the project as a hook. In case anybody needs it, you can find it here: https://pypi.org/project/mkdocs-simple-hooks/
+
+Awesome. I love this being a plugin. Be sure to add it to the [list on the wiki][1] (if you haven't already).
+
+[1]: https://github.com/mkdocs/mkdocs/wiki/MkDocs-Plugins
+
+ "There is no disk in the drive" error 
+ FYI: I got this error after installing the latest version of mkdocs (1.1) and running the dev server:
+
+    > mkdocs serve
+
+The issue doesn't seem [python related](https://bugs.python.org/issue22739).
+
+The new install included:
+
+    - mkdocs=1.1
+    - mkdocs-material=5.1
+    - mkdocs-material-extensions=1.0b2
+
+Workaround: downgraded to version mkdocs < 1.1 and mkdocs-material < 5.
+
+No errors.
+
+
+
+
+No error.
+Could you please provide the entire error with traceback?
+
+Also, I do not see any relation between this and the linked Python bug report.
+
+There was no traceback; only a popup with the error mentioned.  I've moved on since.  
+
+I submitted the issue so you have the bug documented should another issue arise.
+
+Closing.
+
+
+
+ Ignore IntelliJ IDE conf settings
+ 
+Tool specific items like this should go in the user's [global][1] `.gitignore` file, not in the project file. Not everyone uses the same IDE and there are more IDEs that we could ever account for. In fact, if you include the lines specific to your IDE in your global file, then you only need to do so once rather than in every individual project.
+
+[1]: https://help.github.com/en/github/using-git/ignoring-files#configuring-ignored-files-for-all-repositories-on-your-computer
+
+Oh great, didn't know that, thanks and sorry for the noise
+
+ Navigation and TOC like readthedocs
+ I'm considering switch to mkdocs from sphinx, but cannot solve the navigation issue.
+This is a [sample](https://machine-learning-note.readthedocs.io/en/latest/) built with sphinx + [recommonmark](https://github.com/readthedocs/recommonmark)+ readthedocs theme+ readthedocs host
+readthedocs theme should support 
+1. multi-level nav
+1. clickable index links/page
+1. auto-generate TOC with sub-level
+
+recommonmark do not have nav config. Its TOC is based on list of link inside xxx.md file.  For example, `index.md` points to `generative_models/index.md`, which points to `generative_models/GAN/index.md`, which points to  `generative_models/GAN/GAN_image2image.md` 
+
+If using custom theme that render first index page as clickable link, I still need write the links twice (nav config + index.md).
+Is it possible to generate navigation and TOC like recommonmark does without write links twice?
+Sphinx and MkDocs do some things very differently and features don't always translate well from one to the other. MkDocs navigation is defined in the config file as [documented][1].
+
+[1]: https://www.mkdocs.org/user-guide/writing-your-docs/#configure-pages-and-navigation
+
+ [Feature Request] Hashtags
+ In the hope that his is the correct channel for a feature request :)
+
+A hashtag as in social media, so that writing #whatever in markdown generates an HTML link to a page (say /hashtags/whatever) with a list of pages containing said hashtag. 
+
+The /hashtags/whatever page for a #whatever hashtag would be composed of:
+- The usual navigation, but filtered to only pages with the hashtag
+- In the body:
+      - For each page containing the hashtag, a header
+      - Under the page header, each of the paragraphs containing the hashtag. 
+            - Clicking on them would navigate to said paragraph in the page. 
+            - This would requiere to add a #whatever_number anchor in HTML
+            - _number just in cases there is more than a #whatever in markdown
+- The hashtag pages could be preexisting /hashtags/whatever.md pages that would generate their markdown and then the list of hashtagged pages described above.
+
+Just for fun, /hashtags could show a hashtag cloud, linking to each hashtag page and/or a hashtag list.
+
+I'd like to help with development, but all the Python I've done is Jython for configurin Weblogic :) I have some pseudocode in mind, if this helps.
+
+Thanks for considering.
+Sounds like a great candidate for a Markdown extension and/or MkDocs plugin.
+
+In fact, the Mkdocs documentation makes use of the GitHub specific Markdown extension [Python-Markdown/github-links][1], which offers some of the requested features. See the [config file][2] and the [release notes][3] for the examples of use.
+
+Of course, that doesn't provide a hashtag cloud.  Seems to me something like that would be out-of-scope for a "static site generator" but a MkDoc [plugin][4] could certainly be used. This would need to be a third-party plugin. We will not be adding this to MkDocs directly. 
+
+[1]: https://github.com/Python-Markdown/github-links
+[2]: https://github.com/mkdocs/mkdocs/blob/master/mkdocs.yml#L38-L40
+[3]: https://www.mkdocs.org/about/release-notes/
+[4]: https://www.mkdocs.org/user-guide/plugins/
+
+Thanks for considering, waylan. I'll check that documentation to see if I can get close without touching code. I'm a very senior Java architect, but totally ignorant of Python (unless you count Jython for administering Weblogic ;)
+
+ Prevent capitalisation of directory names in menu
+ I've noticed that when `nav` is not specified and mkdocs generates the navigation for me, it removes underscores (_) and capitalises the first letter. Is there a possibility to prevent this behaviour to happen:
+
+![image](https://user-images.githubusercontent.com/233717/80673605-0e4f8580-8af3-11ea-876e-c40ca74bdd7f.png)
+
+This is what the directory structure looks like:
+
+![image](https://user-images.githubusercontent.com/233717/80673641-27f0cd00-8af3-11ea-88b9-c4cf8ed67868.png)
+
+The only way to control the formatting of section names in the nav is to define them in the config.
+
+@waylan that's not possible for me as the markdown files are auto-generated using a Python script, and hence I don't know how many pages I'm going to have.
+
+I need mkdocs to pick up everything that is generated (which it's doing) but I just don't want mkdocs to change the naming conventions I use (i.e., lower case and non-caps).
+
+Can a flag be added to `mkdocs.yml` to preserve my naming convention?
+
+No, this is not supported.
+
+@waylan do you think we could tweak
+
+```python
+def dirname_to_title(dirname):
+    """ Return a page tile obtained from a directory name. """
+    title = dirname
+    title = title.replace('-', ' ').replace('_', ' ')
+    # Capitalize if the dirname was all lowercase, otherwise leave it as-is.
+    if title.lower() == title:
+        title = title.capitalize()
+
+    return title
+```
+
+so it only modifies the paths when a variable in the config file is set to true?
+
+We try to keep the number of config settings to a minimum. In fact, any recent changes to the config settings have been to remove settings, not add them. I would suggest exploring using a plugin to accomplish what you want.
+
+The current behavior violates the Principle of Least Astonishment, as navigation menu options in the vast majority of English sites (at least) are in proper case instead of sentence case. One expects proper case to be the default behavior if it cannot be configured.
+
+To turn it around, if there is a strong use case for sentence case, perhaps let those people then implement a plugin.
+

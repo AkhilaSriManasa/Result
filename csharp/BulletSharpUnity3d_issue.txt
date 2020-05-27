@@ -1,0 +1,737 @@
+﻿ How to add BBoxShape to physics world?
+ I'm thinking how to add BBoxShape to physics world
+I added rigidbody but I don't know what to do with box shape
+I want to add box with BulletUnity
+Hi,
+
+The setup is similar to adding colliders to rigidbodies in Unity. You need to have a BRigidBody and a BBoxShape on your GameObject. Take a look at the example scene: CollisionCallbacks to see some simple examples.
+
+After adding the BRigidBody, and BBoxShape you probably want something visual to be rendered. You can do this two ways:
+
+- Add a child game object to the BBoxShape and put some MeshRenderer geometry (Cube, Sphere, Capsule). The reason you want to use a child gameObject is so that you can scale the rendererd geometry to match the BBoxShape geometry (BulletUnity does not let you have non 1,1,1 scale on your collision shapes).
+- You could use the BulletForUnity menu. It will generate some primitive shapes for you with geometry for rendering and matching collision shapes. It uses the BPrimitive component to generate a rendering mesh that matches the scale of settings of the CollisionShape.
+
+Your game object should look something like this:
+
+![image](https://user-images.githubusercontent.com/11359505/75177731-95dfd900-56eb-11ea-8cdb-9c7a14592c59.png)
+ 
+
+
+
+ Fix type of Scene/BulletScene
+ Was causing compilation errors in Unity 2019.2
+ My unity3d editor crashes log.
+ 0x000000022E774DDC (Mono JIT Code) (wrapper managed-to-native) BulletSharp.CollisionWorld:btCollisionWorld_delete (intptr)
+0x000000022E77497B (Mono JIT Code) BulletSharp.CollisionWorld:Dispose (bool)
+0x000000022E7731AB (Mono JIT Code) BulletSharp.DynamicsWorld:Dispose (bool)
+0x000000022E772BFC (Mono JIT Code) BulletSharp.CollisionWorld:Finalize ()
+0x00000002FF07B6EC (Mono JIT Code) (wrapper runtime-invoke) object:runtime_invoke_virtual_void__this__ (object,intptr,intptr,intptr)
+
+
+My unity3d editor crashes log. From this, it can be seen that libbulletc.dll causes frequent crashes. Thanks for updating libbulletc.dll.
+What version of Unity/Build platform are you using?
+
+Can you send more info on your setup?
+
+Unity Version, Build Platform, OS, Player Settings (Scripting Backend, API Compatibility Level) anything else that might be different from default settings.
+
+
+> Can you send more info on your setup?
+> 
+> Unity Version, Build Platform, OS, Player Settings (Scripting Backend, API Compatibility Level) anything else that might be different from default settings.
+
+I have tried unity3d editor from 2017 to 2019.3, windows 10 64 bit system.  Now I use unity3d 2019.3.My Player Settings is Default config.Will break down.
+ It's just that I had to hold back from asking questions. Now our company's MMO is going to be tested. This problem is particularly dangerous in the next collapse of a large game project. Therefore, this question has been raised. Thank you very much!!!
+
+Are you able to reproduce this issue consistently? Is it one of the example scenes that is crashing or does it happen randomly?
+
+If it is a certain scene that is causing the crash, can you found out what part of the code is causing the crash? From the code you sent it looks like it is CollisionWorld.Dispose that is crashing. Is it always that method causing the crash or are there other methods causing crashes as well?
+ 
+
+> Are you able to reproduce this issue consistently? Is it one of the example scenes that is crashing or does it happen randomly?
+> 
+> If it is a certain scene that is causing the crash, can you found out what part of the code is causing the crash? From the code you sent it looks like it is CollisionWorld.Dispose that is crashing. Is it always that method causing the crash or are there other methods causing crashes as well?
+
+It's a constant breakdown. As long as you run any example scene, there is a 60% or more probability of a crash. As long as libbulletc.dll is removed, unity3d does not import libbulletc.dll. There will be no breakdown.
+
+> Are you able to reproduce this issue consistently? Is it one of the example scenes that is crashing or does it happen randomly?
+> 
+> If it is a certain scene that is causing the crash, can you found out what part of the code is causing the crash? From the code you sent it looks like it is CollisionWorld.Dispose that is crashing. Is it always that method causing the crash or are there other methods causing crashes as well?
+
+CollisionWorld.Dispose？ It's it. Oh. I guess I didn't dispose of collisionworld in my scene. Does this result in a crash caused by a conflict in the process of importing libbulletc.dll in the process of closing or opening the scene? I'll try and join dispose. Thank you!
+
+I added Dispose to my code, but the crash still exists. Is there any other way? Thank you!
+
+It is the new log
+0x00007FFBC48B3C96 (libbulletc) HACD_HACD_delete
+0x00007FFBC48B3D2C (libbulletc) HACD_HACD_delete
+0x00007FFBC4868ACC (libbulletc) btTranslationalLimitMotor2_getEnableMotor
+0x00007FFBC48A9065 (libbulletc) HACD_HACD_delete
+0x00007FFBC48A9114 (libbulletc) HACD_HACD_delete
+0x00007FFBC48A9AF3 (libbulletc) HACD_HACD_delete
+0x00007FFBC48A90D2 (libbulletc) HACD_HACD_delete
+0x00007FFBC48B47A0 (libbulletc) HACD_HACD_delete
+0x00007FFBC491FD74 (libbulletc) HACD_HACD_delete
+0x00000002B30DECEC (Mono JIT Code) (wrapper managed-to-native) BulletSharp.CollisionWorld:btCollisionWorld_delete (intptr)
+0x00000002B30DE8BB (Mono JIT Code) BulletSharp.CollisionWorld:Dispose (bool)
+0x00000002B30DD0FB (Mono JIT Code) BulletSharp.DynamicsWorld:Dispose (bool)
+0x00000002B30DCB4C (Mono JIT Code) BulletSharp.CollisionWorld:Finalize ()
+0x000000024B40C32C (Mono JIT Code) (wrapper runtime-invoke) object:runtime_invoke_virtual_void__this__ (object,intptr,intptr,intptr)
+0x00007FFBCA213739 (mono-2.0-bdwgc) [c:\build\output\unity-technologies\mono\mono\metadata\gc.c:369] mono_gc_run_finalize 
+0x00007FFBCA2123BE (mono-2.0-bdwgc) [c:\build\output\unity-technologies\mono\mono\metadata\gc.c:863] finalize_domain_objects 
+0x00007FFBCA212625 (mono-2.0-bdwgc) [c:\build\output\unity-technologies\mono\mono\metadata\gc.c:959] finalizer_thread 
+0x00007FFBCA1D5AA8 (mono-2.0-bdwgc) [c:\build\output\unity-technologies\mono\mono\metadata\threads.c:1042] start_wrapper_internal 
+0x00007FFBCA1D5836 (mono-2.0-bdwgc) [c:\build\output\unity-technologies\mono\mono\metadata\threads.c:1101] start_wrapper 
+0x00007FFC2E507BD4 (KERNEL32) BaseThreadInitThunk
+0x00007FFC2F18CE71 (ntdll) RtlUserThreadStart
+
+When the collision world is deleted and there are objects remaining in the world, then Bullet will internally try to access the dispatcher and broadphase objects to clean up any remaining collision pairs between the objects. Since Dispose is not explicitly called on all three of those objects (world, dispatcher, broadphase), then the objects are cleaned up by the garbage collector (Finalize + implicit Dispose) in arbitrary order. If the dispatcher and broadphase happen to be already disposed, then Bullet cannot clean up the collision pairs.
+
+There is a workaround in more recent versions of BulletSharp that prevents this kind of crash, but it's not an ideal solution. See:
+https://github.com/AndresTraks/BulletSharpPInvoke/blob/master/BulletSharp/Collision/CollisionWorld.cs#L738
+https://github.com/Phong13/BulletSharpPInvoke/blob/master/BulletSharpPInvoke/Collision/CollisionWorld.cs#L1040
+
+This might not be the actual cause of the crash, but it was a common one in older versions of BulletSharp. You could get more information about what happens in the destructor by compiling a debug version of libbulletc.dll.
+
+As a solution, you can try to Dispose in this order: 1) collision world, 2) dispatcher, 3) broadphase. Or you can try to remove all collision objects from the world before cleaning up. In any case, you should explicitly Dispose all IDisposable objects that you create in a .NET program. There are no cases where it makes sense to leave it to the garbage collector.
+
+> When the collision world is deleted and there are objects remaining in the world, then Bullet will internally try to access the dispatcher and broadphase objects to clean up any remaining collision pairs between the objects. Since Dispose is not explicitly called on all three of those objects (world, dispatcher, broadphase), then the objects are cleaned up by the garbage collector (Finalize + implicit Dispose) in arbitrary order. If the dispatcher and broadphase happen to be already disposed, then Bullet cannot clean up the collision pairs.
+> 
+> There is a workaround in more recent versions of BulletSharp that prevents this kind of crash, but it's not an ideal solution. See:
+> https://github.com/AndresTraks/BulletSharpPInvoke/blob/master/BulletSharp/Collision/CollisionWorld.cs#L738
+> https://github.com/Phong13/BulletSharpPInvoke/blob/master/BulletSharpPInvoke/Collision/CollisionWorld.cs#L1040
+> 
+> This might not be the actual cause of the crash, but it was a common one in older versions of BulletSharp. You could get more information about what happens in the destructor by compiling a debug version of libbulletc.dll.
+> 
+> As a solution, you can try to Dispose in this order: 1) collision world, 2) dispatcher, 3) broadphase. Or you can try to remove all collision objects from the world before cleaning up. In any case, you should explicitly Dispose all IDisposable objects that you create in a .NET program. There are no cases where it makes sense to leave it to the garbage collector.
+
+Thank you. I'll try again.
+
+
+
+ Libbulletc.dll will cause unit to crash
+ Libbulletc.dll will cause unity Editor to crash. Can you generate a new version of. NETCORE?
+Thanks!
+Will do over the next day or two.
+
+
+
+> Will do over the next day or two.
+
+Thank!!!
+
+I am looking into this but cannot reproduce the crash. Can you provide more details about your setup?
+
+Unity version, OS, Build Platform, Player Settings, Any settings related to the .NET you are using (scripting backend, API Compatibility Level).
+
+Also I noticed you closed this, did the problem go away?
+
+ Adding MultiBody handling and various adjustments
+ Updating to Unity 2019.2
+Adding MLCP solver handling
+Adding multi collision callback capability
+AddImpulse and AddForce with coordinate world type as an option to mimic Unity's API
+Sorry it took me so long to look this over. It was very large so it took a while. 
+
+This looks great! Thanks for all the improvements.
+
+ HelperType  Hi,@Phong13
+## use BThreadedWorldHelper in android crash
+### crash log is here:
+
+10-10 18:05:26.885 E/CRASH   (32646): signal 11 (SIGSEGV), code 1 (SEGV_MAPERR), fault addr 0000000000000000
+
+10-10 18:05:26.885 E/CRASH   (32646): *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** ***
+
+10-10 18:05:26.885 E/CRASH   (32646): Build type 'Release', Scripting Backend 'il2cpp', CPU 'arm64-v8a'
+
+10-10 18:05:26.885 E/CRASH   (32646): Build fingerprint: 'samsung/heroqltezc/heroqltechn:6.0.1/MMB29M/G9300ZCU2APL2:user/release-keys'
+
+10-10 18:05:26.885 E/CRASH   (32646): Revision: '15'
+
+10-10 18:05:26.885 E/CRASH   (32646): pid: 32646, tid: 32726, name: UnityMain  >>> com.xxx.xxx<<<
+
+10-10 18:05:26.885 E/CRASH   (32646):     x0   0000007f85cf6c60  x1   0000000000000000  x2   0000000000000001  x3   0000000000000000
+
+10-10 18:05:26.885 E/CRASH   (32646):     x4   0000007faf3fc000  x5   0000000000000000  x6   0000000000000001  x7   0000007f8970b4f0
+
+10-10 18:05:26.885 E/CRASH   (32646):     x8   000000004180e1c5  x9   000000004167b3f0  x10  00000000c20e9b81  x11  00000000c214fa87
+
+10-10 18:05:26.885 E/CRASH   (32646):     x12  0000007f85cf6c60  x13  000000004056fb70  x14  0000007f85cf3514  x15  0000000000000000
+
+10-10 18:05:26.885 E/CRASH   (32646):     x16  0000000000000038  x17  0000007faf3bb000  x18  0000007f8d5198a0  x19  0000007f85cf3510
+
+10-10 18:05:26.885 E/CRASH   (32646):     x20  0000007f8543ad30  x21  0000007f8a9f6748  x22  0000007f85cf3510  x23  0000007f8a9f6748
+
+10-10 18:05:26.885 E/CRASH   (32646):     x24  0000007f8970b4f0  x25  0000007f89962b80  x26  0000007f899a7c00  x27  00000000021831a0
+
+10-10 18:05:26.885 E/CRASH   (32646):     x28  0000000000000000  x29  0000007f8970af00  x30  0000007f89bec32c
+
+ softbody anchor to Kinematic rigidbody failed, the soft cloth fly away
+ Hi,@Phong13,
+Thanks for your great work.
+I try use your bullet uinty script to simulate a skirt mesh anchor to a Kinematic  rigidboy in hip root bone node.
+Everything was created and seemed very well. Some details are showed as follows:
+![1](https://user-images.githubusercontent.com/4149681/65141019-5e854600-da42-11e9-8936-8f80087b8a8f.jpg)
+
+![2](https://user-images.githubusercontent.com/4149681/65141040-67761780-da42-11e9-868e-abc1b170beec.jpg)
+
+But I stepsimulate and redraw this skirt mesh , it fly away around rigidboy node. 
+![3](https://user-images.githubusercontent.com/4149681/65141096-82e12280-da42-11e9-8fcb-5574e4db7f89.jpg)
+
+So what key points was lost for me?
+ Soft body example scenes are broken since 2019.1.1f1
+ Hi,
+I wanted to make use of your package for soft bodies simulation and I found out that something must have changed between 2018 and 2019 Unity releases.
+See attached image for meaning of "broken":
+![image](https://user-images.githubusercontent.com/8713380/62872890-aec00880-bd1e-11e9-9a4e-0c8a890801c6.png)
+![image](https://user-images.githubusercontent.com/8713380/62930774-60157b80-bdbd-11e9-8335-ceec36633f55.png)
+
+Skinned mesh triangles seems to be quite randomized.
+I've tested it with current master commit and Unity Package's imported one.
+
+2018.4.6f1 is the last release where soft skinned mesh behaves for me correctly.
+Checked on Windows only.
+
+I could not find any related change in changelog... https://unity3d.com/unity/whats-new/2019.1.0
+
+Hi R2RT, I think the problem is that 2019.1 serializes scene data differently than 2018 and 2018- scenes don't always upgrade properly. Some of the example scenes have Meshes generated in the editor in 2017 and these are mangled in 2019.1. They work if you click the button to re-generate the meshes.
+
+For the SoftBody scenes I think you need to click the "Bind Bones To Soft Body & Nodes To Anchor". I think it is the binding data that is corrupt.
+
+I am not sure how to deal with this issue since I don't want to have a branch with duplicate scenes.
+
+Hey, thanks, rebinding anchors solved the issue.
+
+Maybe adding metadata about [Editor version](https://docs.unity3d.com/ScriptReference/Application-unityVersion.html) which created the soft body with custom serializer ([`ISerializationCallbackReceiver`](https://docs.unity3d.com/ScriptReference/ISerializationCallbackReceiver.html)) could be used here? Which emits warning that you should manually rebind using "Bind Bones To Soft Body & Nodes To Anchor" button if version differs "too much" (i.e. pre-2019 vs 2019).
+
+Also, I've noticed that rebinding the bones does not set object as "dirty", so in order to save the scene you have to change some normal property on and off. `UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(sb.gameObject.scene);` right after `sb.BindBonesToSoftBodyAndNodesToAnchors();` line fixes it. I may issue independent PR for this.
+
+
+ Make the BCapsuleShape gizmo work with properly with LocalScaling applied
+ Without this the tube lines don't extend all the way to the end spheres if the capsule is stretched along its vertical axis, and the radius isn't increased with scaling along other axes as it is internally in Bullet.
+> Thanks for the commit. It makes more sense with your latest change.
+> 
+> I am merging it. It looks better than what was there. However I have a question. It doesn't look like it handles the case where the non-up-axis-scales are different. Am I missing something?
+
+Bullet only seems to account for the axis before the up-axis when doing capsule collisions, so I made it reflect that. Sorry, should've mentioned that!
+
+Ahh, Interesting. Thanks for the pull. :)
+
+
+On Sat, Aug 10, 2019 at 12:18 PM Bryan Tabor <notifications@github.com>
+wrote:
+
+> Thanks for the commit. It makes more sense with your latest change.
+>
+> I am merging it. It looks better than what was there. However I have a
+> question. It doesn't look like it handles the case where the
+> non-up-axis-scales are different. Am I missing something?
+>
+> Bullet only seems to account for the axis before the up-axis when doing
+> capsule collisions, so I made it reflect that. Sorry, should've mentioned
+> that!
+>
+> —
+> You are receiving this because you modified the open/close state.
+> Reply to this email directly, view it on GitHub
+> <https://github.com/Phong13/BulletSharpUnity3d/pull/66?email_source=notifications&email_token=ACWVKEMNMH2HCNFHB4MLDQLQD4IB3A5CNFSM4IKPQ2O2YY3PNVWWK3TUL52HS4DFVREXG43VMVBW63LNMVXHJKTDN5WW2ZLOORPWSZGOD4ATNRQ#issuecomment-520173254>,
+> or mute the thread
+> <https://github.com/notifications/unsubscribe-auth/ACWVKEIVN444RGXFTQ3JHYDQD4IB3ANCNFSM4IKPQ2OQ>
+> .
+>
+
+
+-- 
+Ian Deane
+DigitalOpus <http://digitalopus.ca>
+Twitter: @DigitalOpus <https://twitter.com/DigitalOpus>
+
+
+ GooglePlay requires 64bit app
+ https://android-developers.googleblog.com/2019/01/get-your-apps-ready-for-64-bit.html
+
+In this August, Android Apps for Google Play are required 64bit.
+However, this plugin has only 32bit version.
+
+Are there any plans to prepare 64bit plugin?
+or, do I have to build 64bit version from original repository (https://github.com/bulletphysics/bullet3) by myself ?
+Thanks for the heads up. I will build a 64 version and include that in the project.
+
+We need 64bit plugin on my job, so I fixed android makefile.
+https://github.com/Phong13/BulletSharpPInvoke/pull/2
+
+If you would like it, I appreciate for merging this PR.
+Thank you.
+
+ Unity collision shapes
+ Providing enhancement in collision shapes : 
+- cylinder now displays a height and radius in the inspector
+- fix gizmo scaling
+- adding margin edition
+
+I'm not quite sure where to put collision shapes code. It seems some is in Plugins/BulletUnity/BulletSharp/Collision and some in Scripts/CollisionShapes ?
+This is great! Thanks for the commit.
+
+The BulletSharp collision code is from the BulletSharp project. It is pure C# with no dependencies on Unity. The code in Scripts/CollisionShapes wraps the BulletSharp stuff making it into Unity components.
+
+One change that would be nice for the CollisionShapeFromCollider classes is to write some Console Error messages in Start or Awake if there is no MeshCollider component attached. People will try to use those classes with other collider types.
+
+
+ Add access to btConvexHullShape::optimizeConvexHull
+ This can help optimizing convex hull shapes to allow the user to select this option
+Sorry that I have been so slow reviewing these. I am absolutely swampped at the moment at work. Hopefully things should clear up somewhat by the weekend.
+
+
+ Adding Threading capabilities to bullet
+ Adding Threading capabilities to bullet. We needed this on a project where the physics engine had to run at a higher rate than what unity can do
+Note : I'm not completely sure this is not breaking synchronization/interpolation in non-threaded mode
+
+Thanks for submitting this, this looks great!
+
+Sorry for being so slow to review this. I have been swamped with work this past week. This is very interesting. There is a lot of code here so it will take me a little while to look it over.
+
+
+What version of Unity are you using? 
+
+Hi,
+No rush for this, I had time to refine it a bit (and I still am, I might have found a more precise way of scheduling the thread). This was done on 2018.3 I think it requires .net4 is that ok for you? I can adapt the code for .net 3.5
+
+No 2018.3 is good. IMO it is OK not to support very old versions with this. 
+
+I agree with you. We could even pin the last commit as a release and make
+this a new version.
+
+On Tue, May 7, 2019, 19:36 Ian Deane <notifications@github.com> wrote:
+
+> No 2018.3 is good. IMO it is OK not to support very old versions with this.
+>
+> —
+> You are receiving this because you are subscribed to this thread.
+> Reply to this email directly, view it on GitHub
+> <https://github.com/Phong13/BulletSharpUnity3d/pull/62#issuecomment-490177177>,
+> or mute the thread
+> <https://github.com/notifications/unsubscribe-auth/AFMQVZ7WNIAQFYJ42HE4CO3PUG423ANCNFSM4HJK5MTA>
+> .
+>
+
+
+ Remove obsolete functions
+ 
+ Improve inspector
+ Allows multi editing of objects and values will update in the editor while playing.
+
+Currently only PhysicsWorld and RigidBody component are done, but I think we can slowly convert all components.
+Very nicely done!
+
+Great solution combining attributes and property drawers like this.
+
+
+ Editor scaling
+ Updates to scales of shapes from code will be shown in the editor and less duplicate editor code.
+Nice improvement. Thanks for the PR.
+
+There are a few odd things.
+
+Most of the shapes scale nicely, but:
+- BSphereShape didn't work when I tried scaling it 1,3,1
+- BCapsuleShape worked but it local scale was different than scale.
+
+Also, I needed to use the transform scale in order to get the mesh shape to match the physics scale. There are errors in the console about the transform scale not being 1,1,1. Perhaps we should remove the error messages. 
+
+Will look into it!
+
+On Thu, Apr 25, 2019, 07:00 Ian Deane <notifications@github.com> wrote:
+
+> Nice improvement. Thanks for the PR.
+>
+> There are a few odd things.
+>
+> Most of the shapes scale nicely, but:
+>
+>    - BSphereShape didn't work when I tried scaling it 1,3,1
+>    - BCapsuleShape worked but it local scale was different than scale.
+>
+> Also, I needed to use the transform scale in order to get the mesh shape
+> to match the physics scale. There are errors in the console about the
+> transform scale not being 1,1,1. Perhaps we should remove the error
+> messages.
+>
+> —
+> You are receiving this because you authored the thread.
+> Reply to this email directly, view it on GitHub
+> <https://github.com/Phong13/BulletSharpUnity3d/pull/59#issuecomment-486520108>,
+> or mute the thread
+> <https://github.com/notifications/unsubscribe-auth/AFMQVZ7VCFLBXKPY3E6VKELPSE3HLANCNFSM4HHRQWRQ>
+> .
+>
+
+
+I see what you mean. It does however seem to behave exactly the same as before, so it didn't work properly for a longer time.
+
+>BSphereShape didn't work when I tried scaling it 1,3,1
+Very strange, I couldn't find any reason yet why it shouldn't work for spheres, but I'll spend some more time on it.
+
+>BCapsuleShape worked but it local scale was different than scale
+Working on a fix here, but I am not sure if this worked properly before (since it is drawn using spheres).
+
+> I needed to use the transform scale in order to get the mesh shape to match the physics scale
+This is true. I am not completely sure what you'd want instead?
+
+Removing the error messages is a good idea, I'll do that.
+
+
+ Improve performance
+ Improves the performance of SoftBody objects by creating less data objects every frame.
+
+Should be tested properly, to make sure no bugs are created.
+These look like good changes. Nice work.
+
+
+ Add UserObject to rigidbody
+ Allows users to the set UserObject of a collision object of a RigidBody.
+LGTM
+
+ Fix size of box debug drawing
+ 
+LGTM :)
+
+
+ Fix assertion fixedTimeStep
+ Remove the fixedTimeStep assertion. It was legacy code.
+ Improve editor
+ Add support for run-time editing of the mass of nodes of a SoftBody (https://twitter.com/i/status/1102674655872208897). Colours indicate their value.
+ Fix enum flags
+ Use property drawers for enum flags, instead of manually drawing them. 
+Thanks for sending this. I will check it out and look it over tomorrow.
+
+
+Nice Work. Works much better than the old cludge that was there previously.
+
+ Update scripts
+ This removes the 'Update API' popup every time you start Unity after a clone.
+Thanks.
+
+ Removed unnecessary Unity and PInvoke references from BulletSharp
+ Works as before without the attributes, tested on Windows Editor & build with both Mono backing and I2cpp backed scripting and on Linux on Editor with Mono backing scripting. Removed all UnityEngine references
+Thanks for the pull request. Have you tested without the MonoPInvoke callback on iOS and/or Android? I believe those are needed for both those platforms.
+
+
+Works for Android in the Editor & by building and deploying on the phone. 
+I can't test it on IOS as I don't have access to an iphone or a mac.
+
+PS. sorry, pushed some more changes on this branch by mistake, reverted those commits, had to force push to overide
+
+I will give it a test on iOS.
+
+Hello, I tested on iOS, using Unity 2017.3, il2cpp build using backend mono 3.5
+
+The collision callbacks scene gives errors:
+
+NotSupportedException: To marshal a managed method please add an attribute named MonoPInvokeCallback to the method definition.
+
+I think we need to keep the [MonoPInvokeCallback] attributes for iOS support.
+
+ Restructure
+ Instead of a Unity project structure, which is only useful if the user is using it as the base of their project, move it to a submodule structure.
+
+Users will use `git submodule` to clone the BulletSharpUnity3D repo in their own project. This also allows them to easily keep their submodule up-to-date with master, or to create a pull-request from their own changes.
+
+I think this change is required to improve the overal usefulness of the wrapper.
+Thanks for sending the pull request.
+
+I have a question about the Plugins folder. There can be only one Plugins folder per project and it must be an immediate child of Assets. As such, if a user wanted to check this out as a sub-module would the Plugins folder be owned by the BulletUnity submodule?
+
+
+
+BTW: I added the change that should fix the timing issues with FixedUpdate. Every Unity fixed update should match exactly one Bullet fixed update.
+
+
+About the Plugins folder:
+That's a good point. Initially, I was thinking that was the way to go. 
+
+The following [thread](https://forum.unity.com/threads/where-to-install-your-assets-for-scripting-packages-editor-extensions.292674/page-2) is discussing this in more detail. While a 'Plugins' subfolder under BulletSharp is way easier for both users as us (developers), the compile time will increase. We can fix this compile time by using [Assembly definitions](https://blogs.unity3d.com/2017/11/22/unity-2017-3b-feature-preview-assembly-definition-files-and-transform-tool/). I think that's the way to go.
+I haven't tested this or tried this yet. I'll give it a shot when I find some time. 
+
+About FixedUpdate:
+Great! I already noticed, this branch is up-to-date with Master (and thus your latest commit).
+
+I have more features locally that I want to push, but I'd like to have the structure of the project clear first. 
+
+I think the native .dlls might still need to be in the Plugins folder. We could put these in their own folder and include instructions that they should be moved to the Plugins folder. That way BulletUnity wouldn't take control of the Plugins folder of everyone's project.
+
+However the BulletSharp API could probably be moved to a different assembly. There is a line in there that loads the libbulletc library. Hopefully that will still work even if BulletSharp is in a different assembly.
+
+Do your know which version of Unity introduced Assembly Definition files? That would become our new minimum version. I think it was 2017.X. I think it is OK to abandon 5.X at this point.
+
+One thing to look into when you look into the Assembly Definition files. I think there is an option to allow unsafe code in the Assembly Definition file. That might allow us to get rid of the .rsp file.
+
+While it is true that BulletUnity won't take control of the Plugins folder if we put instructions in there to manually copy it over, it would add another step where people could make mistakes. I don't think we should do that. I think those that have multiple submodules and want to control multiple, know what they're doing. 
+
+I'll report back about the Assembly Definition files and hope they're the solution!
+
+For testing, is it enough for me to test whether everything still works on MacOS (and Windows) in editor and Build? I assume if it works for those, it will work for the other existing platforms as well, right?
+
+> While it is true that BulletUnity won't take control of the Plugins folder if we put instructions in there to manually copy it over, it would add another step where people could make mistakes. I don't think we should do that. I think those that have multiple submodules and want to control multiple, know what they're doing.
+> 
+> I'll report back about the Assembly Definition files and hope they're the solution!
+> 
+> For testing, is it enough for me to test whether everything still works on MacOS (and Windows) in editor and Build? I assume if it works for those, it will work for the other existing platforms as well, right?
+
+I think you are correct about multiple submodules. If there is a class about who owns the plugins folder then they can checkout to a separate directory and copy over, or checkout the Plugins/BulletSharp instead of Plugins submodule.
+
+For the Restructure that should be enough. If you change things in the BulletSharp API then you will need to test on all platforms.
+
+Good news! Assembly Definition files seem to be the way to go. I've tested it on OSX, standalone + editor. I'll test Windows coming week, but I don't think that will give any issues.
+The .rsp file is not required anymore, since 'unsafe code' is defined in the Assembly Definition file. 
+
+I think the structure is correct now, but any feedback is welcome! When we are going to use this structure, I will add a little 'Quick start' in the readme on how to add it as a submodule to your existing project.
+
+Sorry for being out of touch for a few days. This looks good. I tested it in 2017.1 and it works. Nice work.
+
+
+
+ FixedUpdate not called in every frame
+ Hey everybody,
+
+first of all thanks to @Phong13 for the awesome work! 
+
+I'm having trouble with a very simple test: I created Scene with BBox and added a Component that just adds an upward force as such: 
+
+```
+public class Float : MonoBehaviour {
+
+    public Vector3 force;
+
+    BRigidBody rb;
+
+    void Start () {
+        rb = GetComponent<BRigidBody>();
+    }
+
+    private void FixedUpdate()
+    {
+        rb.AddForce(force);
+        Debug.Log("Unity: " + Time.frameCount);
+        Debug.Log("bphysics: " + BPhysicsWorld.Get().frameCount);
+    }
+}
+```
+
+the force Vector is set to (0, 10, 0). Gravity in BulletPhysicsWorld is set to -9.81. The mass of the BBox is 1. I expected the box to slowly accelerate up, but it just drops to the floor.
+
+The debug output tells me that both the Unity and the BPhysicsWorld provided frameCount do not increase by 1. Sometimes by 2, sometimes they don't increase. It is possible that I miss some frames? I'm clear on the fact that hovering this object can only work if the force is applied on every frame. As I increased the upward force, at some point there is some jerky movement of the box:
+
+[https://youtu.be/tf4bAij0SAE](https://youtu.be/tf4bAij0SAE)
+
+Please note that the same Script works as expected staying in the Unity PhysX World.
+
+I didn't touch the Script Execution order or anything else. I'm using Unity 2018.2.5f1 Personal and BulletUnity from the Asset Store.
+Hi Tim,
+
+I am working on a new version of the Bullet Unity plugin that always does exactly one Bullet Physics timestep for each Unity fixed timestep. The timing is not 100% accurate but things behave MUCH better. It is not ready for release yet, but you can replace the code in BPhysicsWorldLateUpdateHelper with the code in this thread:
+
+`protected virtual void FixedUpdate()
+        { 
+            if (m_ddWorld != null)
+            {
+                float deltaTime = UnityEngine.Time.time - m_lastSimulationStepTime;
+                if (deltaTime > 0f)
+                {
+                    ///stepSimulation proceeds the simulation over 'timeStep', units in preferably in seconds.
+                    ///By default, Bullet will subdivide the timestep in constant substeps of each 'fixedTimeStep'.
+                    ///in order to keep the simulation real-time, the maximum number of substeps can be clamped to 'maxSubSteps'.
+                    ///You can disable subdividing the timestep/substepping by passing maxSubSteps=0 as second argument to stepSimulation, but in that case you have to keep the timeStep constant.
+                    int numSteps = m_ddWorld.StepSimulation(m_fixedTimeStep, m_maxSubsteps, m_fixedTimeStep);
+                 
+                    m__frameCount += numSteps;
+                    //Debug.Log("FixedUpdate " + numSteps);
+                    m_lastSimulationStepTime = UnityEngine.Time.time;
+                }
+            }
+ 
+            //collisions
+            if (m_collisionEventHandler != null)
+            {
+                m_collisionEventHandler.OnPhysicsStep(m_world);
+            }
+        }
+`
+
+ libbulletc.dll caused an Access Violation
+ Hi, Im get follow error sometimes when run unity.
+
+Unity Editor [version: Unity 2017.2.0f3_46dda1414e51]
+
+libbulletc.dll caused an Access Violation (0xc0000005)
+  in module libbulletc.dll at 0033:e0633cb6.
+
+Error occurred at 2018-04-17_123920.
+D:\Unity2\Unity\Editor\Unity.exe, run by User.
+41% memory in use.
+16325 MB physical memory [9582 MB free].
+32648 MB paging file [24889 MB free].
+8388608 MB user address space [8386418 MB free].
+Read from location 446c1170 caused an access violation.
+
+Context:
+RDI:    0x00000000  RSI: 0x446c0e50  RAX:   0xe070b5e0
+RBX:    0x4379a6c0  RCX: 0x4379a6c0  RDX:   0x446c0e50
+RIP:    0xe0633cb6  RBP: 0x00000000  SegCs: 0x00000033
+EFlags: 0x00010246  RSP: 0x2cfdf940  SegSs: 0x0000002b
+R8:    0x4379a6c0  R9: 0xe070b3f0  R10:   0x30d6cba0
+R11:    0xe05e3a20  R12: 0x00000000  R13:   0x3802ea80
+R14:    0x42f4e180  R15: 0x2cfdfaa8
+
+Bytes at CS:EIP:
+39 aa 20 03 00 00 7e 58 48 8b 05 1b ea 12 00 48 
+
+Stack:
+0x2cfdf940: 2cfdf9a0 00000000 d8334f7e 000007fe ...,....~O3.....
+0x2cfdf950: 00000000 00000000 2c646550 00000000 ........Ped,....
+0x2cfdf960: 446c0e50 00000000 e0633d4c 000007fe P.lD....L=c.....
+0x2cfdf970: 0b6226e0 00000000 4379a6c0 00000000 .&b.......yC....
+0x2cfdf980: 00000080 00000000 32e2f6a0 00000000 ...........2....
+0x2cfdf990: 00000000 00000000 e063fedc 000007fe ..........c.....
+0x2cfdf9a0: 438a2110 00000000 2c646550 00000000 .!.C....Ped,....
+0x2cfdf9b0: 3802ea80 00000000 00000000 00000000 ...8............
+0x2cfdf9c0: fffffffe ffffffff 2c83018f 00000000 ...........,....
+0x2cfdf9d0: 42f4e180 00000000 e0629075 000007fe ...B....u.b.....
+0x2cfdf9e0: 4379a6c0 00000000 0b6226e0 00000000 ..yC.....&b.....
+0x2cfdf9f0: 323ad570 00000000 323ad498 00000000 p.:2......:2....
+0x2cfdfa00: 3950ad50 00000000 e0629124 000007fe P.P9....$.b.....
+0x2cfdfa10: 00000004 00000000 00000000 00000000 ................
+0x2cfdfa20: 00000003 00000000 4082610c 00000001 .........a.@....
+0x2cfdfa30: 00000000 00000000 e0629b03 000007fe ..........b.....
+0x2cfdfa40: 3802ea80 00000000 00000000 00000000 ...8............
+0x2cfdfa50: 00000000 00000000 32e2f6a0 00000000 ...........2....
+0x2cfdfa60: 00000000 00000000 00000000 00000000 ................
+0x2cfdfa70: 0f72af60 00000000 e06290e2 000007fe `.r.......b.....
+0x2cfdfa80: 00000000 00000000 0bfddbb0 00000000 ................
+0x2cfdfa90: 0f62bdc0 00000000 2c646550 00000000 ..b.....Ped,....
+0x2cfdfaa0: fffffffe ffffffff e070b3d8 000007fe ..........p.....
+0x2cfdfab0: 0f72af60 00000000 3950ad50 00000000 `.r.....P.P9....
+0x2cfdfac0: 4379a6c0 00000000 57a6ce94 00008168 ..yC.......Wh...
+0x2cfdfad0: 00000000 00000000 e06347c0 000007fe .........Gc.....
+0x2cfdfae0: 3802ea80 00000000 2cfdfc60 00000000 ...8....`..,....
+0x2cfdfaf0: 00000001 00000000 e069f779 000007fe ........y.i.....
+0x2cfdfb00: fffffffe ffffffff 2c646550 00000000 ........Ped,....
+0x2cfdfb10: 00000000 00000000 2c646550 00000000 ........Ped,....
+0x2cfdfb20: 00000001 00000000 e069f6b4 000007fe ..........i.....
+0x2cfdfb30: 0f62bdc0 00000000 2cfdfc10 00000000 ..b........,....
+0x2cfdfb40: 32e2f6a0 00000000 00000000 00000000 ...2............
+0x2cfdfb50: 0b6226e0 00000000 323ae99b 00000000 .&b.......:2....
+0x2cfdfb60: 3802ea80 00000000 3802ea80 00000000 ...8.......8....
+0x2cfdfb70: 0f62bdc0 00000000 00000000 00000000 ..b.............
+0x2cfdfb80: 0f62bdc0 00000000 00000000 00000000 ..b.............
+0x2cfdfb90: 00000000 00000000 32e2f6a0 00000000 ...........2....
+0x2cfdfba0: 0b0b0000 00000000 2c7d00f0 00000000 ..........},....
+0x2cfdfbb0: 2c7b49c0 00000000 30d6cba0 00000000 .I{,.......0....
+0x2cfdfbc0: 323ae8a9 00000000 3802ea80 00000000 ..:2.......8....
+0x2cfdfbd0: 2cfdfc10 00000000 2cfdfb60 00000000 ...,....`..,....
+0x2cfdfbe0: 00000000 00000000 3802ea80 00000000 ...........8....
+0x2cfdfbf0: 2c646550 00000000 00000000 00000000 Ped,............
+0x2cfdfc00: 0b6226e0 00000000 32e2f6a0 00000000 .&b........2....
+0x2cfdfc10: 2cfdfc60 00000000 323ae57a 00000000 `..,....z.:2....
+0x2cfdfc20: 3802ea80 00000000 2c646550 00000000 ...8....Ped,....
+0x2cfdfc30: 00000000 00000000 00000000 00000000 ................
+0x2cfdfc40: 323ae490 00000000 00000000 00000000 ..:2............
+0x2cfdfc50: 3802ea80 00000000 0b0b0000 00000000 ...8............
+0x2cfdfc60: 2cfdfd10 00000000 323ada67 00000000 ...,....g.:2....
+0x2cfdfc70: 3802ea80 00000000 00000000 00000000 ...8............
+0x2cfdfc80: 3802ea80 00000000 2cfdfa80 00000000 ...8.......,....
+0x2cfdfc90: 2cfdfd70 00000000 00000000 00000000 p..,............
+0x2cfdfca0: 3802ea80 00000000 00000000 00000000 ...8............
+0x2cfdfcb0: 00000000 00000000 00000000 00000000 ................
+0x2cfdfcc0: 00000000 00000000 00000000 00000000 ................
+0x2cfdfcd0: 0b0b0000 00000000 2c646550 00000000 ........Ped,....
+0x2cfdfce0: 00000000 00000000 2cfdfe60 00000000 ........`..,....
+0x2cfdfcf0: 323ad570 00000000 fffffffe ffffffff p.:2............
+0x2cfdfd00: 2cce0000 00000000 323ad570 00000000 ...,....p.:2....
+0x2cfdfd10: 2cfdfd70 00000000 323ad498 00000000 p..,......:2....
+0x2cfdfd20: 0b0b0000 00000000 00000000 00000000 ................
+0x2cfdfd30: 3802ea80 00000000 2c646550 00000000 ...8....Ped,....
+0x2cfdfd40: 00000000 00000000 3802ea80 00000000 ...........8....
+0x2cfdfd50: 0b0b0000 00000000 fffffffe ffffffff ................
+0x2cfdfd60: 2cce0000 00000000 323ad420 00000000 ...,.... .:2....
+0x2cfdfd70: 2cfdfe00 00000000 0b6227e8 00000000 ...,.....'b.....
+0x2cfdfd80: 00000000 00000000 d83eb7ab 000007fe ..........>.....
+0x2cfdfd90: 3802ea80 00000000 2c646d48 00000000 ...8....Hmd,....
+0x2cfdfda0: 00000000 00000000 2cfdfe60 00000000 ........`..,....
+0x2cfdfdb0: 00000000 00000000 3802ea80 00000000 ...........8....
+0x2cfdfdc0: 00000000 00000000 00000000 00000000 ................
+0x2cfdfdd0: 0b0b0000 00000000 00000001 00000000 ................
+0x2cfdfde0: 00000000 00000000 0b6226e0 00000000 .........&b.....
+0x2cfdfdf0: 32e2f6a0 00000000 2c646d48 00000000 ...2....Hmd,....
+0x2cfdfe00: 2c646d48 00000000 d82c8405 000007fe Hmd,......,.....
+0x2cfdfe10: 3802ea80 00000000 00000000 00000000 ...8............
+0x2cfdfe20: 32e2f6a0 00000000 3802ea80 00000000 ...2.......8....
+0x2cfdfe30: 00000000 00000000 00000001 00000000 ................
+0x2cfdfe40: 00002d63 00000000 2c646550 00000000 c-......Ped,....
+0x2cfdfe50: 00016b18 00000000 d82c8619 000007fe .k........,.....
+0x2cfdfe60: 00000000 00000000 4ad64e20 00000000 ........ N.J....
+0x2cfdfe70: 39952750 00000000 00001888 00000000 P'.9............
+0x2cfdfe80: 2c7b4500 00000000 d82c8725 000007fe .E{,....%.,.....
+0x2cfdfe90: 4ad64e20 00000000 d82c8674 000007fe  N.J....t.,.....
+0x2cfdfea0: 00000000 00000000 00000000 00000000 ................
+0x2cfdfeb0: 00000000 00000000 2c7b4500 00000000 .........E{,....
+0x2cfdfec0: 2c64fcf0 00000000 d8333c6b 000007fe ..d,....k<3.....
+0x2cfdfed0: 2c64fcf0 00000000 d82c8674 000007fe ..d,....t.,.....
+0x2cfdfee0: 00000000 00000000 00000000 00000000 ................
+0x2cfdfef0: 00000000 00000000 d83e8921 000007fe ........!.>.....
+0x2cfdff00: 00000000 00000000 00000000 00000000 ................
+0x2cfdff10: 00000000 00000000 00000000 00000000 ................
+0x2cfdff20: 00000000 00000000 d83e8f4f 000007fe ........O.>.....
+0x2cfdff30: 00002168 00000000 00000000 00000000 h!..............
+0x2cfdff40: 2c65bff0 00000000 00000000 00000000 ..e,............
+0x2cfdff50: 00000000 00000000 7744652d 00000000 ........-eDw....
+0x2cfdff60: 2c65bff0 00000000 00000000 00000000 ..e,............
+0x2cfdff70: 00000000 00000000 00000000 00000000 ................
+0x2cfdff80: 00000000 00000000 7757c541 00000000 ........A.Ww....
+0x2cfdff90: 00000000 00000000 00000000 00000000 ................
+0x2cfdffa0: 00000000 00000000 00000000 00000000 ................
+0x2cfdffb0: 774c9300 00000000 774c9300 00000000 ..Lw......Lw....
+0x2cfdffc0: 2cfdeaf0 00000000 00000000 00000000 ...,............
+0x2cfdffd0: 00000000 00000000 00000000 00000000 ................
+0x2cfdffe0: 00000000 00000000 00000000 00000000 ................
+0x2cfdfff0: 00000000 00000000 00000000 00000000 ................
+
+This will be very hard to track down unless I am able to reproduce the problem. A pointer is trying to reference memory that it shouldn't. The pointer could be anywhere in the codebase. Is there any chance you could be using a variable after it has been disposed? Do you have any idea if it is a particular bullet class that causes this?
+
+One way to track this down would be to launch the Unity Editor from the Visual Studio debugger. To do this you will need to clone the https://github.com/Phong13/BulletSharpPInvoke project in github.
+
+Build a debug version of https://github.com/Phong13/BulletSharpPInvoke/libbulletc/Windows. Copy the .dll and .pdb files to the Unity Project Plugins folder. This page has instructions explaining how to launch the Unity Editor from the debugger.
+
+http://digitalopus.ca/site/building-bullet-physics-for-unity/
+
+When you do this, if there is an AccessViolation the Visual Studio Debugger should catch the exception and provide additional information. Specifically which variable was being accessed in the code that caused the violation. If you could let me know what variable is causing the access violation then I should be able to fix it.
+
+
+Thanks for answer, Ian
+
+I`m doing client-server physics simulation. Server side - BulletSharp, client side - BulletSharpUnity3d. Both library .dll separated and havent relation and troubles happens also when I even run only client. Unity can crash event i dont play game (exp return to Unity from browser and so on). But I thinks troubles in disposing object because I carelessly watching for bullet objects.
+
+Ok, Im try debug my problem from the Visual Studio.
+
+ callback like fixedupdate of unity?
+ i would need a callback like fixedupdate from the physics engine. can i just use fixed update or is there something hidden somewhere?
+
+is the BPhysicsWorldLateHelper doing the stepping of the physics engine? but why is it done both in update and fixedupdate?
+Hi Fred, yes, you can used Fixed Update. The design is for BPhysicsWorld to execute early and fire the collision events. Then BPhysicsWorldLateHelper executes late and steps the simulation. You can check the Script Execution Order settings to see.  The Simulation is stepped in Update as well as FixedUpdate for interpolation. Notice that deltaTime is being passed in as the first argument and that StepSimulation returns numSteps. The simulation step only triggers if enough time has elapsed to cross an m_fixedTimeStep boundary. You might have multiple Update called between m_fixedTimeStep calls. Or you might have a very slow frame and StepSimulation needs to do multiple StepSimulation steps to catch up. Calling StepSimulation in Update lets Bullet interpolate the positions. Without it there can be visible jitter caused by Update and FixedUpdate being out of synch.
+
+ Fixed multibody physics world creation
+ In a scene with a PBulletPhysics world and one rigid body, the multibody physics world didn't work as the solver was null. I changed this.
+
+The other two commits are textural, but I don't know how to remove them from the pull request.
+
+Merged changes. Thanks.
+
+ Debug draws of boxes are twice as big
+ https://github.com/Phong13/BulletSharpUnity3d/blob/d3cca380abfb8a96405fcaa6fd781d9d47de549f/UnityProject/Assets/BulletUnity/Scripts/DebugDrawUnity.cs#L29
+
+This size needs to be halved because box size is a half-extent in Bullet:
+`UnityEngine.Vector3 size = (bbMax - bbMin).ToUnity() / 2;`
+Thanks, I will fix.
+
+#56 
+

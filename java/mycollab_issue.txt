@@ -1,0 +1,391 @@
+﻿ Unable to setup : stuck on setting up button....
+ Running from intellij Idea, on `localhost:8080` home page loaded nicely. Added site name database detail(connected successfully). click on setup, stuck with ajax (post request /install sent successfully).
+ No error in intellij console. Just a warning `Cannot authenticate mail server successfully`, since it's optional I skipped it. Is it mandatory now?, or something else I missed?
+Sorry for late reply, github doesn't send the notification. Could you open the browser console and give the log message there?
+
+ Could not build image : Failed to execute goal
+ While building and installing with `mvn install` the following error reported with build failure.
+Could not build image : 
+`Failed to execute goal com.spotify.dockerfile-maven-plugin:1.4.0:build default`
+
+Using latest code from repository.
+I was having Same problem here. But version here is 1.4.10 (build)
+
+Solution was founded here:
+
+https://github.com/spotify/docker-maven-plugin/issues/355
+
+![image](https://user-images.githubusercontent.com/53461211/80497415-ce48a100-8940-11ea-8f94-8652279e7c4e.png)
+
+
+ Docs improvement at readme.md
+ Just practicing thank you.
+ 2F3BD702BB87447504278ED3BED13696.cache.js  not found 
+ [/VAADIN/widgetsets/com.mycollab.widgetset.MyCollabWidgetSet/2F3BD702BB87447504278ED3BED13696.cache.js] not found 
+ Setup Problem
+ When I setup, the log shows that  `You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'INDEX `FK_m_tracker_bug_5` TO `FK_m_prj_bug_5`' at line 1`
+
+```
+15:58:32,164  WARN org.flywaydb.core.internal.sqlscript.DefaultSqlScriptExecutor:53 - DB: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'INDEX `FK_m_tracker_bug_5` TO `FK_m_prj_bug_5`' at line 
+1 (SQL State: 42000 - Error Code: 1064)
+15:58:32,165 ERROR org.flywaydb.core.internal.command.DbMigrate:57 - Migration of schema `mycollab` to version 20190325.1 - Custom Fields failed! Please restore backups and roll back database and code!
+15:58:32,206 ERROR com.mycollab.db.migration.service.DbMigrationRunner:62 - Error while migrate database
+org.flywaydb.core.internal.command.DbMigrate$FlywayMigrateException: 
+Migration V20190325_1__Custom_Fields.sql failed
+-----------------------------------------------
+SQL State  : 42000
+Error Code : 1064
+Message    : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'INDEX `FK_m_tracker_bug_5` TO `FK_m_prj_bug_5`' at line 1
+Location   : db/migration/mysql/V20190325_1__Custom_Fields.sql (/usr/local/MyCollab-7.0.3/file:/usr/local/MyCollab-7.0.3/lib/mycollab-migration-7.0.3.jar!/db/migration/mysql/V20190325_1__Custom_Fields.sql)
+Line       : 34
+Statement  : ALTER TABLE `m_prj_bug` RENAME INDEX `FK_m_tracker_bug_5` TO `FK_m_prj_bug_5`
+```
+
+What is the version of your MySQL?
+
+the version is 5.6.45
+```
+[root@manager-master lib]# mysql --version
+mysql  Ver 14.14 Distrib 5.6.45, for Linux (x86_64) using  EditLine wrapper
+```
+
+
+I use the SQL statement 
+ALTER TABLE `m_prj_bug` RENAME INDEX `FK_m_tracker_bug_5` TO `FK_m_prj_bug_5`; 
+that is only valid from MySQL 5.7+ 
+
+Do you need to use MySQL 5.6? or can upgrade to the higher version then this issue will be gone :)
+
+When I changed the version of MySQL to 8.0.17, it is OK. But there are still some error messages  in the log.
+Maybe you need to modify the requirements version in your document?https://docs.mycollab.com/getting-started/requirements/
+
+Thanks! It is fixed!
+
+ Can you add "set time zone" in setup tutorial?
+ I am using mac OS. While I am installing mycollab. I cannot connect the database and the error says 
+`java.sql.SQLException: The server time zone value 'EDT' is unrecognized or represents more than one time zone.
+`
+During several hours of debug I found that I need to setup timezone in terminal for mysql: `SET GLOBAL time_zone = '-4:00';`
+Can you add this to tutorial?
+Thanks for the report! I'd like to fix in the code that let the user don't do anything
+
+We can add it to the application.properties file with the attribute serverTimezone=UTC (Actually, all time values save into the DB are converted to the UTC timezone to make them independently with database or user timezone).
+
+spring.datasource.url=jdbc:mysql://localhost/<DB>?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&rewriteBatchedStatements=true&useCompression=true&useServerPrepStmts=false&verifyServerCertificate=false&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+
+I will update the code in the next commit.
+
+Cheers,
+Hai Nguyen
+
+ FIX reset or forgot mails
+ 
+ RESEND MAIL - password null error.
+ Resend mail throws a nullPointerException.
+tested and working fine.
+ 有没有中文版本的
+ 有没有中文版本的
+它有
+
+ Setup Problem
+ Hi, I have a question about setting up software, It's always in loading page even one night, the program in IDEA is running well, and no error message in console . And I checked the database connection and SMTP connection is working. But it still can't redirect automatically to the application home page. See pic : 
+![image](https://user-images.githubusercontent.com/26372406/49554582-c1847100-f937-11e8-8f15-214d69fc0ffa.png) .
+![image](https://user-images.githubusercontent.com/26372406/49554595-c9dcac00-f937-11e8-9b5e-a1e69dac38aa.png)
+Thx !
+
+Then I finish it by hand and redeploy project, it show me this error :
+![image](https://user-images.githubusercontent.com/26372406/49557910-2fcf3080-f944-11e8-8c91-b125a874e960.png)
+Waiting for feedbacks, Thank you very much!
+
+
+You should run the maven install under the project mycollab-deployer-community, it will deploy all mycollab sub projects and generate the Vaadin stuffs. Then run the application again, it should run well
+
+ Reference issues and tasks
+ A good feature can be to reference issues and tasks between them. For example, a issue can be blocked by another issue for resolving it.
+
+Also, this can be a good option for creating a task with a list of issues / tasks to be resolved to complete it.
+It is a good idea! We are thinking to combine the meaning of tasks, issues and distinguish them by type, it will help we can multiple configure types and support the dependencies like what this issue describes.
+
+The latest MyCollab release 7.0.2 has this feature!
+
+ Run of Project
+ I can't see com.mycollab.server.DefaultServerRunner class in mycollab-app-community module to run the project
+It should be located in the module 'mycollab-server-runner'. I also updated the document here https://community.mycollab.com/docs/developing-mycollab/setup-mycollab-projects-with-intellij-ide/.
+Thanks
+
+ This feature is not available in your MyCollab instance
+ i use mobile phone to scan mycollab. the page show "This feature is not available in your MyCollab instance" text when i click add project .how can i do?
+How did you ran the project
+
+Some features are available only in the premium distribution.
+
+ Is this project dead?
+ No update for nearly a year...whats up?
+seems quite possible, certainly the code here and the installation instructions don't match up very well
+
+This project is likely keeping it as is. The reason because it takes time while we maintain both premium and open source editions with the different architects, the cloud edition is moving to the microservice architect while the community still is maintained as the monolithic application. It takes us much time to maintain this open source edition in every release for installation testing, integration testing etc. besides functional testing for other editions.
+
+ The SSL certificate for community.mycollab.com has expired
+ The SSL certificate for <https://community.mycollab.com/> expired yesterday.
+thanks, it is solved!
+
+ Startup Failed
+ The project is fine but when I started I met the problem like this. Is the SQL is not right?
+
+
+### SQL: select                      id, topMenuBg, topMenuBgSelected, topMenuText, topMenuTextSelected, vTabsheetBg,      vTabsheetBgSelected, vTabsheetText, vTabsheetTextSelected, actionBtn, actionBtnText,      optionBtn, optionBtnText, clearBtn, clearBtnText, controlBtn, controlBtnText, dangerBtn,      dangerBtnText, toggleBtn, toggleBtnSelected, toggleBtnText, toggleBtnTextSelected,      isDefault, sAccountId         from s_account_theme                         WHERE (  isDefault = ? )
+### Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown column 'clearBtn' in 'field list'
+; bad SQL grammar []; nested exception is com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown column 'clearBtn' in 'field list'
+at org.springframework.jdbc.support.SQLErrorCodeSQLExceptionTranslator.doTranslate(SQLErrorCodeSQLExceptionTranslator.java:231)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:73)
+	at org.mybatis.spring.MyBatisExceptionTranslator.translateExceptionIfPossible(MyBatisExceptionTranslator.java:73)
+	at org.mybatis.spring.SqlSessionTemplate$SqlSessionInterceptor.invoke(SqlSessionTemplate.java:446)
+	at com.sun.proxy.$Proxy92.selectList(Unknown Source)
+	at org.mybatis.spring.SqlSessionTemplate.selectList(SqlSessionTemplate.java:230)
+	at org.apache.ibatis.binding.MapperMethod.executeForMany(MapperMethod.java:137)
+	at org.apache.ibatis.binding.MapperMethod.execute(MapperMethod.java:75)
+	at org.apache.ibatis.binding.MapperProxy.invoke(MapperProxy.java:59)
+	at com.sun.proxy.$Proxy257.selectByExample(Unknown Source)
+	at com.mycollab.community.module.user.service.impl.AccountThemeServiceImpl.findDefaultTheme(AccountThemeServiceImpl.kt:44)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:497)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:333)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:190)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:157)
+	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:92)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)
+	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:213)
+	at com.sun.proxy.$Proxy258.findDefaultTheme(Unknown Source)
+	at com.mycollab.vaadin.ui.ThemeManager.loadDesktopTheme(ThemeManager.kt:115)
+	at com.mycollab.vaadin.AppUI.postSetupApp(AppUI.kt:64)
+	at com.mycollab.web.DesktopApplication.init(DesktopApplication.java:110)
+	at com.vaadin.ui.UI.doInit(UI.java:693)
+	at com.vaadin.server.communication.UIInitHandler.getBrowserDetailsUI(UIInitHandler.java:216)
+	at com.vaadin.server.communication.UIInitHandler.synchronizedHandleRequest(UIInitHandler.java:74)
+	at com.vaadin.server.SynchronizedRequestHandler.handleRequest(SynchronizedRequestHandler.java:41)
+	at com.vaadin.server.VaadinService.handleRequest(VaadinService.java:1422)
+	at com.vaadin.server.VaadinServlet.service(VaadinServlet.java:380)
+	at com.vaadin.addon.touchkit.server.TouchKitServlet.service(TouchKitServlet.java:63)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:729)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:52)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:197)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:198)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:478)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:140)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:80)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:87)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:342)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:799)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:66)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:868)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1457)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Thread.java:745)
+It should be fixed in the next release, we reproduce this issue with the MySQL 8 and one of our fields uses violate with the MySQL preserved keyword
+
+ Error:(61, 5) Kotlin: This property must either have a type annotation, be initialized or be delegated
+ I just do as https://community.mycollab.com/docs/developing-mycollab/setup-mycollab-projects-with-intellij-ide/ but met the problem like this:
+
+/Users/XXX/Documents/MyScrum/mycollab-master/mycollab-core/src/main/java/com/mycollab/core/utils/FileUtils.kt
+Error:(61, 5) Kotlin: This property must either have a type annotation, be initialized or be delegated
+
+it refers to  '@JvmStatic
+    val homeFolder
+        get() = _homeFolder
+'
+
+And how to Fix it, thanks a lot!
+I use maven complie and fix but not intellij build
+
+ Fix license badge and links in README
+ According to LICENSE, it's AGPLv3, not GPLv3.
+ Logo design offer
+ Hello, sir. I want to offer something to you, do you need a new logo for your app? if you want i can make it to your liking
+So please :). You can contact me and discuss further to my email haiphucnguyen@gmail.com. Thanks
+
+ Additional JUnit tests for mycollab.core.utils.StringUtils
+ The test cases contained in this PR were automatically generated by [Diffblue](http://www.diffblue.com)'s [Deeptest](http://www.diffblue.com/papers/overview.pdf) software
+
+Please feel free to merge them into your repository.
+
+Additional generated tests for MyCollab-Core can be viewed at http://diff.blue/demo
+
+We would be delighted with any feedback you have on these tests.
+
+MyCollab forum thread: https://mycollab.userecho.com/communities/3/topics/378-additional-junit-tests-for-mycollabcoreutilsstringutils
+ Bug: mycollab-repo URL no longer accessible to Maven
+ Maven is no longer receiving dependencies from the `jasperreports` repository due to its URL no longer returning a valid result due to Sourceforge being down.
+
+Is there an alternative?
+Perhaps it failed at the time you checked it, I still can access it right now. 
+
+ Breaks spring boot embedded tomcat session
+ Hi,
+
+I have my internal springboot application running on 9095 port in my server. After launching MyCollab on same machine, on 8080 port, my internal application started to kick off (logging out) from it after several second from login action. Could you advise where could be a problem on that? Or maybe there is some more advanced configuration. Thanks
+
+Thanks,
+
+Tomas
+This is the strange issue, and be honest I don't see any source comes from MyCollab or any program. We also use only one port 8080 (or the custom port), and have no specific advance action that runs outside the scope of the JVM. 
+
+Does the server has enough memory for two Java applications? And did you check the log file of the Spring boot application and MyCollab? The log files may tell something to us about what has been happening :)
+
+Close issue while we don't receive the detail information
+
+ ASSIGNMENT:  Develop new features, Documentation Uni-Project
+ Good evening myCollab,
+
+ @(SergiuUngureanu) and I are students of Athens University of Economics and Business in the [Department of Management Science & Technology](https://www.dmst.aueb.gr/index.php/en/). In the context of the course Software Engineering in Practice we will choose a project to contribute in its source code. 
+
+We would like to contribute to myCollab so we can work on developing new features, contribute to documentation or any suggestions.
+
+Thank you in advance,
+Your sincerely,
+Georgopoulos Vassilis
+
+
+
+ Official website not working
+ Hello! At this moment almost all links to your website are not working. Both for Pro and Community editions, link for download, link for documentation, etc. Everywhere I get Nginx error **404 Not Found**
+
+Please fix your website.
+
+Also for such problems - add a tutorial how to install community version (self-hosted) here on GitHub. Otherwise there is no way to install correctly your project
+Thank you. We have the problem with our hosting and the issue is fixed now.
+
+Hai
+
+ exec startup.sh script after ,the soft is Exception
+ main] INFO com.esofthead.mycollab.Executor - Load config variables at /opt/MyCollab-5.3.4/bin/mycollab.ini--true
+[main] INFO com.esofthead.mycollab.Executor - Options in config file: -server -Xms128m -Xmx768m -XX:MaxPermSize=256m -XX:+DisableExplicitGC -XX:+CMSClassUnloadingEnabled -XX:+UseConcMarkSweepGC
+[main] INFO com.esofthead.mycollab.Executor - Start MyCollab server process
+Exception in thread "main" java.net.BindException: Address already in use
+        at java.net.PlainSocketImpl.socketBind(Native Method)
+        at java.net.AbstractPlainSocketImpl.bind(AbstractPlainSocketImpl.java:387)
+        at java.net.ServerSocket.bind(ServerSocket.java:375)
+        at java.net.ServerSocket.<init>(ServerSocket.java:237)
+        at java.net.ServerSocket.<init>(ServerSocket.java:128)
+        at com.esofthead.mycollab.Executor.runServer(Executor.java:122)
+        at com.esofthead.mycollab.Executor.main(Executor.java:213)
+Exception in thread "main" java.net.BindException: Address already in use
+
+The default port 8080 is being used. You can change the port value [here](https://community.mycollab.com/docs/hosting-mycollab-on-your-own-server/frequently-questions-and-answers/#defaultport) 
+
+ Feature: Kanban within a phase/sprint
+ Kanban board should support changing state of tickets within a phase between Open, In Progress, Closed, etc. by dragging them.
+This feature will be added in the next release
+
+Any update?
+
+Any update? 
+
+ Make avatarFolder and logoFolder location configurable
+ Right now I have to use `-Duser.home
+https://github.com/MyCollab/mycollab/blob/2eaaa53/mycollab-config/src/main/java/com/mycollab/configuration/FileStorage.java#L36
+ Gantt Chart ??
+ Hi All,
+
+Question,
+
+I can't find the Gantt Chart view for the project. . . . . do you know how to display that  ? Or is is a Pro Feature only ?
+
+Thanks a lot :)
+
+Hi,
+    This feature belongs to the premium software only.
+
+Regards,
+Hai
+
+
+ Unable to setup MyCollab
+ Hi,
+I'm having the following issue on latest version: After configure MyCollab from the web interface, Jetty is not able to start the app.:
+
+01:12:37,313  INFO c.m.s.JettyServerBasedRunner:261 - Load jar file to classpath /mnt/java/mycollab/lib/mycollab-mobile-5.4.3.jar
+01:12:37,313  INFO c.m.s.JettyServerBasedRunner:261 - Load jar file to classpath /mnt/java/mycollab/lib/mycollab-migration-5.4.3.jar
+01:12:37,314  INFO c.m.s.JettyServerBasedRunner:261 - Load jar file to classpath /mnt/java/mycollab/lib/mycollab-scheduler-community-5.4.3.jar
+01:12:37,314  INFO c.m.s.JettyServerBasedRunner:261 - Load jar file to classpath /mnt/java/mycollab/lib/mycollab-ui-5.4.3.jar
+01:12:37,315  INFO c.m.s.JettyServerBasedRunner:261 - Load jar file to classpath /mnt/java/mycollab/lib/mycollab-esb-5.4.3.jar
+01:12:37,315  INFO c.m.s.JettyServerBasedRunner:261 - Load jar file to classpath /mnt/java/mycollab/lib/mycollab-app-community-5.4.3.jar
+01:12:37,316  INFO c.m.s.JettyServerBasedRunner:261 - Load jar file to classpath /mnt/java/mycollab/lib/mycollab-scheduler-5.4.3.jar
+01:12:37,321  INFO c.m.s.JettyServerBasedRunner:261 - Load jar file to classpath /mnt/java/mycollab/lib/mycollab-config-5.4.3.jar
+01:12:37,325  INFO c.m.s.JettyServerBasedRunner:261 - Load jar file to classpath /mnt/java/mycollab/lib/mycollab-core-5.4.3.jar
+01:12:37,325  INFO c.m.s.JettyServerBasedRunner:261 - Load jar file to classpath /mnt/java/mycollab/lib/mycollab-servlet-5.4.3.jar
+01:12:37,326  INFO c.m.s.JettyServerBasedRunner:261 - Load jar file to classpath /mnt/java/mycollab/lib/mycollab-services-5.4.3.jar
+01:12:37,326  INFO c.m.s.JettyServerBasedRunner:261 - Load jar file to classpath /mnt/java/mycollab/lib/mycollab-server-runner-5.4.3.jar
+01:12:37,327  INFO c.m.s.JettyServerBasedRunner:261 - Load jar file to classpath /mnt/java/mycollab/lib/mycollab-jackrabbit-5.4.3.jar
+01:12:37,327  INFO c.m.s.JettyServerBasedRunner:261 - Load jar file to classpath /mnt/java/mycollab/lib/mycollab-web-community-5.4.3.jar
+01:12:37,328  INFO c.m.s.JettyServerBasedRunner:261 - Load jar file to classpath /mnt/java/mycollab/lib/mycollab-reporting-5.4.3.jar
+01:12:37,336  INFO c.m.s.JettyServerBasedRunner:261 - Load jar file to classpath /mnt/java/mycollab/lib/mycollab-services-community-5.4.3.jar
+01:12:37,337  INFO c.m.s.JettyServerBasedRunner:261 - Load jar file to classpath /mnt/java/mycollab/lib/mycollab-web-5.4.3.jar
+01:12:37,337  INFO c.m.s.JettyServerBasedRunner:261 - Load jar file to classpath /mnt/java/mycollab/lib/mycollab-dao-5.4.3.jar
+01:12:37,338  INFO c.m.s.JettyServerBasedRunner:261 - Load jar file to classpath /mnt/java/mycollab/lib/mycollab-caching-5.4.3.jar
+01:12:37,338  INFO c.m.s.JettyServerBasedRunner:261 - Load jar file to classpath /mnt/java/mycollab/lib/mycollab-localization-5.4.3.jar
+01:12:37,339  INFO c.m.s.JettyServerBasedRunner:279 - Init the datasource
+01:12:37,453  WARN o.e.j.w.WebAppContext:529 - Failed startup of context o.e.j.w.WebAppContext@677d2924{/,file:///mnt/java/mycollab/webapp/,null}{/mnt/java/mycollab/webapp}
+java.util.zip.ZipException: error in opening zip file
+    at java.util.zip.ZipFile.open(Native Method)
+    at java.util.zip.ZipFile.<init>(ZipFile.java:219)
+    at java.util.zip.ZipFile.<init>(ZipFile.java:149)
+    at java.util.jar.JarFile.<init>(JarFile.java:166)
+    at java.util.jar.JarFile.<init>(JarFile.java:103)
+    at sun.net.www.protocol.jar.URLJarFile.<init>(URLJarFile.java:93)
+    at sun.net.www.protocol.jar.URLJarFile.getJarFile(URLJarFile.java:69)
+    at sun.net.www.protocol.jar.JarFileFactory.get(JarFileFactory.java:84)
+    at sun.net.www.protocol.jar.JarURLConnection.connect(JarURLConnection.java:122)
+    at sun.net.www.protocol.jar.JarURLConnection.getJarFile(JarURLConnection.java:89)
+    at org.eclipse.jetty.webapp.MetaInfConfiguration.getTlds(MetaInfConfiguration.java:409)
+    at org.eclipse.jetty.webapp.MetaInfConfiguration.scanForTlds(MetaInfConfiguration.java:326)
+    at org.eclipse.jetty.webapp.MetaInfConfiguration.scanJars(MetaInfConfiguration.java:143)
+    at org.eclipse.jetty.webapp.MetaInfConfiguration.preConfigure(MetaInfConfiguration.java:94)
+    at org.eclipse.jetty.webapp.WebAppContext.preConfigure(WebAppContext.java:483)
+    at org.eclipse.jetty.webapp.WebAppContext.doStart(WebAppContext.java:519)
+    at org.eclipse.jetty.util.component.AbstractLifeCycle.start(AbstractLifeCycle.java:68)
+    at com.mycollab.server.JettyServerBasedRunner$ServerLifeCycleListener.lambda$lifeCycleStarted$2(JettyServerBasedRunner.java:325)
+    at java.lang.Thread.run(Thread.java:745)
+01:12:37,458  INFO o.e.j.s.h.ContextHandler:781 - Started o.e.j.s.ServletContextHandler@75afeca0{/it,null,AVAILABLE}
+01:12:37,465  INFO o.e.j.s.h.ContextHandler:910 - Stopped o.e.j.s.ServletContextHandler@4bbfb90a{/,null,UNAVAILABLE}
+
+Thanks,
+
+-Martin
+
+It seems you download the zip file not completely. You should download the distribution again then see if the problem is persisted.
+
+Regards,
+Hai
+
+
+ok thanks
+
+
+Thanks... that was odd. but indeed re-downloading the zip file worked.
+
+
+Glad to see it works :). In the next release, we will add checksum in the zip file to avoid this issue.
+
+
+ hi,I'm sorry ，  an Idiot question ,please!
+ I usually use maven with muti-module,but I can't find the parent pom.xml which include &lt;module&gt; child-module&lt;/module&gt;  words,then How can I mvn eclipse all module by one command in this project? 
+sorry for idiot question...
+
+We do not use eclipse for any longer. The reason because the product has many sub-projects and it takes a lot of time to build the whole product in Eclipse. This link is helpful if you use the IntelliJ https://community.mycollab.com/docs/developing-mycollab/setup-mycollab-projects-with-intellij-ide/
+
+We also wrote some guidelines in the site community.mycollab.com. If you still have the problem, please post the question to http://support.mycollab.com
+
+

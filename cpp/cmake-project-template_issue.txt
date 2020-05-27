@@ -1,0 +1,40 @@
+﻿ Add git submodule manual steps
+ Alleviates #5
+ Manual build instructions skip submodule step
+ Using a fresh clone of 8c583ca the manual steps don't work:
+
+```
+$ mkdir build && cd build && cmake ..
+CMake Error at test/CMakeLists.txt:4 (add_subdirectory):
+  The source directory
+    /home/nick/dev/libz32/test/lib/googletest
+  does not contain a CMakeLists.txt file.
+-- Configuring incomplete, errors occurred!
+See also "/home/nick/dev/libz32/CMakeFiles/CMakeOutput.log".
+```
+
+Looking a the `build-and-run` script it's missing the submodule checkout step for the googletest library:
+
+`run "git submodule init && git submodule update"`
+
+Will make a PR in a sec.
+ Update README.md
+ In the current version of Clion build project and install are both contained under the Build menu.
+ convert to GitHub template
+ 
+ CLion doesn't have Run -> Install option
+ Maybe I'm just stupid and looking into the wrong menu, but the [README.md](https://github.com/kigster/cmake-project-template/blob/master/README.md#building-in-clion) says the following:
+
+> Select menu option **Run ➜ Build**, and then **Run ➜ Install**.
+
+However, those are the only options shown when I open the project for the first time:
+
+<img width="890" alt="Screen Shot 2019-04-17 at 6 35 57 PM" src="https://user-images.githubusercontent.com/24298790/56325631-e0dea680-6140-11e9-99e4-11f357dcba24.png">
+
+I got the application running after some clicking around, so I just wanted to give a heads up and suggest to change this part of the readme.
+README says **Build → Build Project**, and **Build → Install**.
+
+ Fix unit test compile error
+ 
+Thanks!
+

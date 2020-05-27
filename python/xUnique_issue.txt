@@ -1,0 +1,1526 @@
+﻿ KeyError: 'productName'
+ Uniquify and Sort done
+Uniquify and Sort
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.7/bin/xunique", line 8, in <module>
+    sys.exit(main())
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/xUnique.py", line 546, in main
+    xunique.unique_project()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/xUnique.py", line 188, in unique_project
+    self.__unique_project(self.root_hex)
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/xUnique.py", line 365, in __unique_project
+    self.__set_to_result(project_hex, target_hex, cur_path_key)
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/xUnique.py", line 141, in __set_to_result
+    current_path = '/'.join([str(current_node[i]) for i in current_path_key])
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/xUnique.py", line 141, in <listcomp>
+    current_path = '/'.join([str(current_node[i]) for i in current_path_key])
+KeyError: 'productName'
+it seems your project has no `productName`?
+
+ KeyError: u'productName'
+ I'm trying to run this and I get an error. Any idea what to check?
+
+```
+xunique -v Pods/Pods.xcodeproj
+Uniquify and Sort
+uniquify PBXProject
+uniquify PBX*Group and PBX*Reference*
+uniquify XCConfigurationList
+uniquify XCConfiguration
+Traceback (most recent call last):
+  File "/usr/local/bin/xunique", line 8, in <module>
+    sys.exit(main())
+  File "/usr/local/lib/python2.7/site-packages/xUnique.py", line 546, in main
+    xunique.unique_project()
+  File "/usr/local/lib/python2.7/site-packages/xUnique.py", line 188, in unique_project
+    self.__unique_project(self.root_hex)
+  File "/usr/local/lib/python2.7/site-packages/xUnique.py", line 365, in __unique_project
+    self.__set_to_result(project_hex, target_hex, cur_path_key)
+  File "/usr/local/lib/python2.7/site-packages/xUnique.py", line 141, in __set_to_result
+    current_path = '/'.join([str(current_node[i]) for i in current_path_key])
+KeyError: u'productName'
+```
+ Swift packge manager support
+ 
+```
+Uniquify done
+Following lines were deleted because of invalid format or no longer being used:
+		636D7944239107EC005672E7 /* Yams in Frameworks */ = {isa = PBXBuildFile; productRef = 636D7943239107EC005672E7 /* Yams */; };
+ 				636D7944239107EC005672E7 /* Yams in Frameworks */,
+ 				636D7943239107EC005672E7 /* Yams */,
+ 				636D7942239107EC005672E7 /* XCRemoteSwiftPackageReference "Yams" */,
+ 		636D7942239107EC005672E7 /* XCRemoteSwiftPackageReference "Yams" */ = {
+ 		636D7943239107EC005672E7 /* Yams */ = {
+ 			package = 636D7942239107EC005672E7 /* XCRemoteSwiftPackageReference "Yams" */;
+Sort done
+Uniquify and Sort done
+```
+More details, please
+
+- Create a project with Xcode which version >- Project ==> Swift Packages ==> `+`,
+- Add an arbitrary dependency
+- run `xunique Name.xcodeproj` on your terminal
+Here's a Demo
+[xUniqueDemo.zip](https://github.com/truebit/xUnique/files/3934656/xUniqueDemo.zip)
+
+
+I can assure. xUnique breaks SwiftPM related nodes like the following: 
+```
+/* Begin XCRemoteSwiftPackageReference section */
+		D6B1CDCF2476BE73007A80F8 /* XCRemoteSwiftPackageReference "MBProgressHUD" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/jdg/MBProgressHUD";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.2.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		D6B1CDD02476BE73007A80F8 /* MBProgressHUD */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D6B1CDCF2476BE73007A80F8 /* XCRemoteSwiftPackageReference "MBProgressHUD" */;
+			productName = MBProgressHUD;
+		};
+/* End XCSwiftPackageProductDependency section */
+```
+And removes all the lines related to that dependency you try to use with SwiftPM.
+
+Here is a the output:
+```
+Uniquify...
+Uniquify done
+Following lines were deleted because of invalid format or no longer being used:
+		D6B1CDD12476BE73007A80F8 /* MBProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = D6B1CDD02476BE73007A80F8 /* MBProgressHUD */; };
+ 				D6B1CDD12476BE73007A80F8 /* MBProgressHUD in Frameworks */,
+ 				D6B1CDD02476BE73007A80F8 /* MBProgressHUD */,
+ 				D6B1CDCF2476BE73007A80F8 /* XCRemoteSwiftPackageReference "MBProgressHUD" */,
+ 		D6B1CDCF2476BE73007A80F8 /* XCRemoteSwiftPackageReference "MBProgressHUD" */ = {
+ 		D6B1CDD02476BE73007A80F8 /* MBProgressHUD */ = {
+ 			package = D6B1CDCF2476BE73007A80F8 /* XCRemoteSwiftPackageReference "MBProgressHUD" */;
+Sort...
+Sort done
+File 'project.pbxproj' was modified, please add it and then commit.
+```
+
+ Fix ietf link
+ - Fix ietf link 🛫
+ Made some grammar and block indentation changes
+ 
+LGTM
+
+ Properly handle missing fields
+ CocoaPods 1.6 is writing a new PBXAggregateTarget section which contains node without `productName` key. As a result running xUnique against the Pods.xcodeproj resulted in the following error:
+
+``` 
+  File "build/bdist.macosx-10.12-intel/egg/xUnique.py", line 140, in __set_to_result
+KeyError: u'productName'
+```
+
+The fix modifies the `__set_to_result` method making it (naively) resilient to the missing key.
+Thanks for the PR.
+I saw the `productName`  related code added in #10 .
+Could you please test if this breaks fix in #10
+
+it seems the sample file in #10 all contains `productName`, could you please try to construct a valid project file with multiple PBXAggregateTarget items that contains the possibility of absense of "name" and/or "productName" to see if it works?
+
+The missing `productName` key is only in the aggregateTargets that were added to the Pods.xcodeproj/project.pbxproj by CocoaPods 1.6.
+
+Our project's pbxproj contains targets with `productName` and `name` and everything seems to work even after the fix. I'm don't know how to test the absence of `name` if not by manually removing it from the file and running xunique again which still works
+
+You changed base method  of `__set_to_result`, this is used in all types of PBX items. And `productName` and `name` for `PBXAggregateTarget` is to make the generated item unique.
+As project files varies huge, we could only change specific spot to not break down others.
+
+I prefer only change the logic around [line 338](https://github.com/truebit/xUnique/blob/a42d2fc34369d2f806c21a1616da98a7678b2d0e/xUnique.py#L338).
+Such like trying to get `productName`, if return None, change it to isa type
+
+ Sorting does not seem to be determinate
+ Running the xunique command on a pbxproj for the first time resulted in a file that wasn't completely sorted. Running the xunique command again did not fix the sorting. However, after changing the order of any group in Xcode (by dragging a dropping) and running xunique again, the order of an unrelated build step was fixed. On another project, it took three times (modifying the project each time) to get the Xcode project appropriately sorted.
+I looked into this further. The problem seems to be that not all objects are sorted by the script even though all object UUIDs are changed. Certain unrelated changes to the project in Xcode causes Xcode to sort objects with the new GUID that didn't get sorted by xunique.
+
+Could you send me the .xcodeproj file if it's OK? you could find my email in this project.
+
+ `folder reference` with same name has conflict hash value after xunique
+ to reproduce:
+
+1. in XCode, add folder to a group,
+    choose `Create folder references` instead of the default `Create groups`
+1. add another folder with same name, to the same group
+1. run xunique
+1. the folder reference with same name would result same hash values,
+    cause others disappear from XCode
+
+note: when add same folder ref to different group, this issue won't happen
+
+
+PS:
+
+* why I need folder reference with same name:
+    * add generated source files
+    * add header and sources references for convenient for code browsing,
+        headers and sources are come from many sub modules with same folder structure
+* why not add to different group:
+    * that requires additional group and section names in pbxproj file
+    * when sub modules changes, the pbxproj file changes,
+        further more, the order of the sections in pbxproj file would change,
+        causing the pbxproj file more inconvenient to manage by version control,
+        especially when the pbxproj file are generated by script files
+Sorry for the late reply.
+Do you know what's the entry for `folder references` in Xcode project file? something starts with `PBX???`, like PBXGroup for groups.
+
+
+it's something like this
+
+```
+/* Begin PBXBuildFile section */
+		04FE6AFC20D37C48008D2E1A /* zfsrc in Resources */ = {isa = PBXBuildFile; fileRef = 04FE6AFB20D37C48008D2E1A /* zfsrc */; };
+		04FE6AFE20D37CFC008D2E1A /* zfsrc in Resources */ = {isa = PBXBuildFile; fileRef = 04FE6AFD20D37CFB008D2E1A /* zfsrc */; };
+...
+/* Begin PBXFileReference section */
+		04FE6AFB20D37C48008D2E1A /* zfsrc */ = {isa = PBXFileReference; lastKnownFileType = folder; name = zfsrc; path = ../../../../../ZF/ZFCore/zfsrc; sourceTree = "<group>"; };
+		04FE6AFD20D37CFB008D2E1A /* zfsrc */ = {isa = PBXFileReference; lastKnownFileType = folder; name = zfsrc; path = ../../../../../ZF/ZFAlgorithm/zfsrc; sourceTree = "<group>"; };
+...
+/* Begin PBXGroup section */
+		E26189EC36AF05F05B0E5289D2564D10 /* ProjectFiles */ = {
+			isa = PBXGroup;
+			children = (
+				04FE6AFB20D37C48008D2E1A /* zfsrc */,
+				04FE6AFD20D37CFB008D2E1A /* zfsrc */,
+...
+/* Begin PBXResourcesBuildPhase section */
+		83745D09F71B763541FB81C529246249 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				04FE6AFE20D37CFC008D2E1A /* zfsrc in Resources */,
+				04FE6AFC20D37C48008D2E1A /* zfsrc in Resources */,
+```
+
+note:
+* when added as `folder reference`, it also adds to `Copy Bundle Resources` in `Build Phases`,
+    but for header and source files, it's not we want and typically we would remove it manually in Build Phases
+
+ Added solution to remove blocks correctly
+ Try to addressing #38 by detecting '{\n' in line end if this line wou…ld be removed. and delete all lines when meeting corresponding '};\n'. Matches done by the same count of leading whitespaces.
+
+assuming this to be removed line would start with a UUID with leading whitespaces
+@truebit Any feedback on this?
+
+I found a potential bug on a project file, but have no time to debug on it yet.
+
+ [Question]: How to disable sorting?
+ I just need to check consistency of the project, but do not modify it if there are only sorting changes need to be applied.
+You could just run xunique with -v
+Then see the log if any line was deleted. Then seek them in your original
+file and delete them manually.
+
+Anton Pomozov <notifications@github.com>于2017年9月19日 周二22:03写道：
+
+> I just need to check consistency of the project, but do not modify it if
+> there are only sorting changes need to be applied.
+>
+> —
+> You are receiving this because you are subscribed to this thread.
+> Reply to this email directly, view it on GitHub
+> <https://github.com/truebit/xUnique/issues/45>, or mute the thread
+> <https://github.com/notifications/unsubscribe-auth/AAuE2pTZHvJxzwisf9HbrCKYYsqj4BvTks5sj8lngaJpZM4PccYF>
+> .
+>
+-- 
+Br,
+
+Sean Wang
+Blog: fclef.wordpress.com <http://fclef.wordpress.com/about>
+
+
+And you could use `xunique -u` for only uniquifing without sort. see [Supported argument options](https://github.com/truebit/xUnique#supported-argument-options) for details
+
+ 执行脚本后，虽然做了排序，但是仍然有冲突的问题
+ 如题，在 pre-commit 中添加了执行脚本，但并没有解决冲突问题，还是我的理解有误，这个工具并不是为了解决冲突问题，而只是为了更方便的手动修改 <<<< 和 参考这个issue：https://github.com/truebit/xUnique/issues/26#issuecomment-161174466
+
+ 你好，我这里终端运行之后出现decode错误
+ 终端运行sudo python -mxUnique XXX.xcodeproj，然后出现以下描述
+<img width="571" alt="2017-05-12 12 57 34" src="https://cloud.githubusercontent.com/assets/5466178/25982869/a54069ce-3712-11e7-8ef5-8c0f88237e3d.png">
+问题背景是我这个项目的原因是打不开，原因是
+<img width="423" alt="2017-05-12 1 00 25" src="https://cloud.githubusercontent.com/assets/5466178/25982901/fde1c9e2-3712-11e7-920c-c952b2ed4a4b.png">
+我对Python不懂，感谢您的帮助
+
+
+
+你项目文件本身就有问题还是执行了xunique之后出现的问题？
+
+xcodeproj文件本来就应该是utf8编码的，如果用utf8无法解码，那你的项目文件有问题
+
+Sent from my mobile device.
+
+> 在 2017年5月12日，13:01，DreamParagon <notifications@github.com> 写道：
+> 
+> 终端运行sudo python -mxUnique XXX.xcodeproj，然后出现以下描述
+> 
+> 问题背景是我这个项目的原因是打不开，原因是
+> 
+> 我对Python不懂，感谢您的帮助
+> 
+> —
+> You are receiving this because you are subscribed to this thread.
+> Reply to this email directly, view it on GitHub, or mute the thread.
+> 
+
+
+是这样的，我的项目无法打开，如问题中所示，我Google之后，查到疑似冲突，找到您的这个解决方案，安装并运行终端执行xunique之后发现这个问题，因为项目打不开，Google给出的信息有限，所以暂时不清楚项目本身有什么问题
+
+那你用iconv这类的工具对xcodproj里面的project.pbxproj文件转换成utf8试试吧。不过要先知道它本来是什么编码。
+
+Sent from my mobile device.
+
+> 在 2017年5月13日，13:28，DreamParagon <notifications@github.com> 写道：
+> 
+> 是这样的，我的项目无法打开，如问题中所示，我Google之后，查到疑似冲突，找到您的这个解决方案，安装并运行终端执行xunique之后发现这个问题，因为项目打不开，Google给出的信息有限，所以暂时不清楚项目本身有什么问题
+> 
+> —
+> You are receiving this because you commented.
+> Reply to this email directly, view it on GitHub, or mute the thread.
+> 
+
+
+好的，感谢您的建议，我从同事那里又拷贝一份正常的项目。。。因为我看pbxproj文件头部确实标注的utf8编码，所以正向您说的，可能项目文件本身哪里出现了问题。。
+
+ 用了xUnique还是有冲突，求解决
+ 你好，请教一下
+现在我们公司的需求就是这样的哈，比如我上个版本是2.0，从2.0以后我这一个月做了四大块东西，在4个分支上，可能明天上线的时候只上其中的两个分支，那我就需要让这两个分支合并到主分支上。。。
+因为不确定上线分支，所以不能每次都及时合并到主分支上。。。
+这样的话，合并两个分支到主分支上总会有project文件冲突。。。
+
+我用xunique在将要合并的分支上分别跑了一下xunique命令，然后合并，project文件仍然报错。
+有用的最后一句话的详细bug描述呢？做开发总见过怎么写bug吧…
+
+王颖博 <notifications@github.com>于2017年4月14日 周五15:01写道：
+
+> 你好，请教一下
+>
+> 现在我们公司的需求就是这样的哈，比如我上个版本是2.0，从2.0以后我这一个月做了四大块东西，在4个分支上，可能明天上线的时候只上其中的两个分支，那我就需要让这两个分支合并到主分支上。。。
+> 因为不确定上线分支，所以不能每次都及时合并到主分支上。。。
+> 这样的话，合并两个分支到主分支上总会有project文件冲突。。。
+>
+> 我用xunique在将要合并的分支上分别跑了一下xunique命令，然后合并，project文件仍然报错。
+>
+> —
+> You are receiving this because you are subscribed to this thread.
+> Reply to this email directly, view it on GitHub
+> <https://github.com/truebit/xUnique/issues/42>, or mute the thread
+> <https://github.com/notifications/unsubscribe-auth/AAuE2gCzydGLjwhJsfpUZcaFDmObOLyNks5rvxnfgaJpZM4M9gu0>
+> .
+>
+-- 
+Br,
+
+Sean Wang
+Blog: fclef.wordpress.com <http://fclef.wordpress.com/about>
+
+
+今天试了一下，可以了。
+还有个小问题是，merge以后工程的文件顺序结构跟我merge之前的顺序不一样，是我自己的问题呢还是？
+
+看文档啊同学。
+处理后的Xcode里面的文件显示是按照字母顺序排列的，其中文件夹（group）优先于文件
+
+Sent from my mobile device.
+
+> 在 2017年4月18日，18:57，王颖博 <notifications@github.com> 写道：
+> 
+> 今天试了一下，可以了。
+> 还有个小问题是，merge以后工程的文件顺序结构跟我merge之前的顺序不一样，是我自己的问题呢还是？
+> 
+> —
+> You are receiving this because you commented.
+> Reply to this email directly, view it on GitHub, or mute the thread.
+> 
+
+
+ how to run xunique on non Mac OS X systems?
+ ```Traceback (most recent call last):
+  File "/usr/local/bin/xunique", line 11, in <module>
+    sys.exit(main())
+  File "/usr/local/lib/python2.7/dist-packages/xUnique.py", line 543, in main
+    xunique = XUnique(xcode_proj_path, options.verbose)
+  File "/usr/local/lib/python2.7/dist-packages/xUnique.py", line 105, in __init__
+    self.proj_json = self.pbxproj_to_json()
+  File "/usr/local/lib/python2.7/dist-packages/xUnique.py", line 128, in pbxproj_to_json
+    json_unicode_str = decoded_string(sp_co(pbproj_to_json_cmd))
+  File "/usr/lib/python2.7/subprocess.py", line 567, in check_output
+    process = Popen(stdout=PIPE, *popenargs, **kwargs)
+  File "/usr/lib/python2.7/subprocess.py", line 711, in __init__
+    errread, errwrite)
+  File "/usr/lib/python2.7/subprocess.py", line 1343, in _execute_child
+    raise child_exception
+OSError: [Errno 2] No such file or directory
+```
+
+I have referenced the file using git hook.
+“No such file or directory”, it seems that you did not install `Xcode Command Line Tools`. and make sure 'plutil' could be found in $PATH;
+
+@truebit Well I am unable to do so, since I am running xUnique on my ubuntu and I don't have access to a mac. I have encountered git merge conflict on project.pbxproj file while upgrading my react-native app.
+
+After some searching , [biplist](https://bitbucket.org/wooster/biplist) maybe the only one tool to convert plist binary file to json in linux.
+
+You could adapt `pbxproj_to_json` method to use biplist instead of plutil.
+
+@truebit Does this mean I have to alter the source code to change to biplist and build on my own from source?
+
+Yes. writing a xcode project in non Mac OS X sytems is a very rare case after all.
+
+Well all I tried to do was to develop a react-native app. Hell Hath no fury.
+
+After some trial, I found that there is no tool in linux to parse `.pbxproj` file (a.k.a old-style NeXT ASCII format). all tools are for [modern property list file](https://developer.apple.com/library/content/documentation/General/Conceptual/DevPedia-CocoaCore/PropertyList.html)
+
+So xunique could NOT be supported on Linux
+
+Oh well I guess I have no way out of this mess. Can you help me out and  remove conflicts in my `.pbxproj` file
+
+you could find someone who got a mac...
+
+haha. well highly unlikely in my school. Will try anyways :D
+
+ xunique homework.xcodeproj/project.pbxproj fail
+ I Run ‘xunique homework.xcodeproj/project.pbxproj’ after return below info:
+
+homework.xcodeproj/project.pbxproj: Property List error: Unexpected character / at line 1 / JSON error: JSON text did not start with array or object and option to allow fragments not set.
+
+Please check:
+1. You have installed Xcode Command Line Tools and command 'plutil' could be found in $PATH;
+2. The project file is not broken, such like merge conflicts, incomplete content due to xUnique failure. 
+Did you checked the list it reported?
+Questions without attempt or circumstance description cannot be located
+
+ Xcode project does not open after running xunique
+ After running `xunique <project>` Xcode can no longer open the project.
+
+I can provide a diff of the file, or the original file.
+please send me the original file. My Email could be found in source file.
+
+Sent from my mobile device.
+
+> 在 2017年3月6日，19:37，Chris Harrison <notifications@github.com> 写道：
+> 
+> After running xunique <project> xCode can no longer open the project.
+> 
+> I can provide a diff of the file, or the original file.
+> 
+> —
+> You are receiving this because you are subscribed to this thread.
+> Reply to this email directly, view it on GitHub, or mute the thread.
+> 
+
+
+Thanks @truebit I've sent you the file.
+
+Incidentally, I managed to solve the issue. I've attached the commit of what I did to the previous file in order to get it to work with xunique.
+[commit.txt](https://github.com/truebit/xUnique/files/821081/commit.txt)
+
+
+That's great. But according to the diff and the source file, I cannot find the root cause. 
+Could you please explain a little? Is this the xunique problem or the project file issue?
+
+It seems that you replaced a framework and then the project file works?
+
+I'm seeing something similar, but unfortunately, I don't believe I can share the project file in this case. I tried using the post-build action, and it works on the first build, but the second time, xUnique strips out a bunch of stuff it shouldn't and Xcode can no longer open the project file.
+
+could you please paste your log output with option -v for its first time?
+Sent from my mobile device.
+
+> 在 2017年4月5日，02:32，Brock Boland <notifications@github.com> 写道：
+> 
+> I'm seeing something similar, but unfortunately, I don't believe I can share the project file in this case. I tried using the post-build action, and it works on the first build, but the second time, xUnique strips out a bunch of stuff it shouldn't and Xcode can no longer open the project file.
+> 
+> —
+> You are receiving this because you were mentioned.
+> Reply to this email directly, view it on GitHub, or mute the thread.
+> 
+
+
+Close due to no response for a long time
+
+ Incorrect deletion of unused identifiers
+ When the script deletes unused identifiers it breaks the JSON structure by deleting only a single line and not a whole JSON object.
+
+`Following lines were deleted because of invalid format or no longer being used:`
+`F6DD48671553FA9700A11AA0 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F6DD485D1553FA9700A11AA0 /* Localizable.strings */; };`
+`F6DD48671553FA9700A11AA0 /* Localizable.strings in Resources */,`
+`F6DD485D1553FA9700A11AA0 /* Localizable.strings */ = {`
+
+While leaving:
+`isa = PBXVariantGroup;`
+            `children = (`
+            `);`
+            `name = Localizable.strings;`
+            `path = "/Users/xp/Documents/iphone-app/Resources/Localization/EE";`
+            `sourceTree = "<absolute>";`
+        `};`
+
+yes, it's a known issue. 
+
+Sent from my mobile device.
+
+> 在 2016年9月20日，21:36，Vadim notifications@github.com 写道：
+> 
+> When the script deletes unused identifiers it breaks the JSON structure by deleting only a single line and not a whole JSON object.
+> 
+> Following lines were deleted because of invalid format or no longer being used:
+> F6DD48671553FA9700A11AA0 /\* Localizable.strings in Resources _/ = {isa = PBXBuildFile; fileRef = F6DD485D1553FA9700A11AA0 /_ Localizable.strings _/; };
+> F6DD48671553FA9700A11AA0 /_ Localizable.strings in Resources _/,
+> F6DD485D1553FA9700A11AA0 /_ Localizable.strings */ = {
+> 
+> While leaving:
+> isa = PBXVariantGroup;
+> children = (
+> );
+> name = Localizable.strings;
+> path = "/Users/xp/Documents/iphone-app/Resources/Localization/EE";
+> sourceTree = "<absolute>";
+> };
+> 
+> —
+> You are receiving this because you are subscribed to this thread.
+> Reply to this email directly, view it on GitHub, or mute the thread.
+
+
+Hi @truebit 
+Is it a known issue that has been fixed ?
+
+
+there is an open PR saying fixed this. You could give it a try.
+
+It's a major change, I have no time doing tests.
+
+Sent from my mobile device.
+
+> 在 2016年11月5日，23:06，frranck notifications@github.com 写道：
+> 
+> Hi @truebit 
+> Is it a known issue that has been fixed ?
+> 
+> —
+> You are receiving this because you were mentioned.
+> Reply to this email directly, view it on GitHub, or mute the thread.
+
+
+I tried both the master version and [the PR version](https://github.com/truebit/xUnique/pull/35) and both broke my project.pbxproj :(
+Do you know if your project supports files with similar names but located in different directories for different targets ? 
+
+
+yes，it should support. could you send me your project file？
+
+Sent from my mobile device.
+
+> 在 2016年11月8日，20:53，frranck notifications@github.com 写道：
+> 
+> I tried both the master version and the PR version and both broke my project.pbxproj :(
+> Do you know if your project supports files with similar names but located in directories for different targets ?
+> 
+> —
+> You are receiving this because you were mentioned.
+> Reply to this email directly, view it on GitHub, or mute the thread.
+
+
+This is still an issue. Any movement on this?
+
+@simonayzman Nope. This fix would change the core method to do the replacement, it's a major change. But in `master` branch, I added more logs to indicate that maybe texts needs to be deleted manually
+
+@truebit Do you have a roadmap or suggestions for how you would fix it? In case someone decides to take a crack at it.
+
+Is there anyone knows replacement of this project?
+
+@simonayzman You could try to make a mark if you delete a line ends with character like `(` or `{`, then delete all below lines after that before reach the corresponding  `)` and `}`
+
+I will try to fix it in one or two days. I would need some problematic project file to test.
+
+Not 100% sure about the xcode project file format, but I'm imagine that you'd have to ensure that the parentheses or braces would be balanced.
+
+Try creating a react native project and uniquifying the iOS project?
+
+@simonayzman the leading white spaces are the same. I am working on it. would push to a test branch, you could try it later.
+
+I have push a new branch https://github.com/truebit/xUnique/tree/block_remove to address this issue.
+If anyone got this problem, try this test branch by running the `xUnique.py` file directly to check if it works.
+I do not know if I missed other project file scenarios.
+
+Looks good to me! Works perfectly on my "bad" file.
+
+ Support SVN？
+ git hook support for svn ？
+
+svn also supports hooks like git. just google it.
+
+
+ Should we use xUnique every time before anybody committing anything?
+ Hi, truebit:
+
+thanks for your great tool, it's a huge life-saver!
+
+But I encountered an issue relating the use of xUnique: I once used xUnique from the command line to help fix the duplicate file references in project.pbxproj after git's auto-merging. It worked well and our team just went ahead and leaved xUnique alone, committing as before without setting xUnique a pre-commit hook of git. 
+
+Few days later me and my college wanted to merge commits, then fatal error occurred:  There were still quite a lot of conflicts. After combining both commits the file is completely 'not readable by xcode'. I checked this merged project.pbxproj with bettercompare and found out that the whole structure of this project file had been damaged. 
+
+So it comes up an issue to me: Do we have to use xUnique every time before anybody committing anything just to stay in sync?  Otherwise the whole project file may be damaged due to the inconsistency of inner file layout or something?
+
+Much appreciated.
+
+hw
+
+> Do we have to use xUnique every time before anybody committing anything just to stay in sync? 
+
+Yes. If one used Xunqiue, all project members must use it. because xUnique changed all UUID of the project file
+
+
+wow, thanks for your swift reply!
+
+Besides every project member should use xUnique, my major concern is should **every** member use xUnique to cope with the project file before **every commit**? It seems like if one guy in our team miss one shot of xUnique then the whole team would suffer the  project.pbxproj file structure damages catastrophe.
+
+
+yes, it's better to run xunique after every commit. you could trigger xunique only when project file changes.
+So I suggested using a git commit hook in README
+
+
+Well understood. 
+
+
+ sort sections
+ as #17, I rewrote sort to support sorting sections. This will ease the pain of Xcode reordering sections and causing huge modifications.
+
+@SolaWing hi, sorry for the late reply.
+Thanks for your PR.
+As this one is a major change, have you tested on any project file?
+I think the quick and lazy verification test is to find some complicated project files being xuniqued twice, to see if they were the same without any error exit.
+
+
+not fully tested, but this PR did solve section sorting problem for my case, without any other side effect @truebit 
+
+After the first PR, I also fixed some found problem.
+The final commit has been used in our team  1 year without any problem.
+
+Maybe we should add auto test?
+
+following is our team's precommithook:
+
+```bash
+IFS=$'\n' projs=($(git diff --name-only --cached --diff-filter=ACM | grep -o '[a-zA-Z0-9_./]\+\.xcodeproj/project.pbxproj'))
+if ((${#projs[@]} > 0)); then
+    if command -v python3 >/dev/null 2>&1; then
+        py='python3'
+    else
+        py='python'
+    fi
+    # set -x
+    for proj in ${projs[@]}; do
+        $py xUnique.py -c "$proj";
+        ret=$?
+        if (($ret == 100)); then
+            git add "$proj"
+        elif (($ret > 0)); then
+            echo 'xcodeproj file may broken! check the exception message please'
+            echo 'you may add `--no-verify` option for commit to skip checking xcodeproj'
+            exit 1
+        fi
+    done
+    if [[ ! $(git diff --name-only --cached | grep -o '[a-zA-Z0-9_./]\+\.xcodeproj/project.pbxproj') ]]; then
+        echo 'no changes, commit abort'
+        exit 1
+    fi
+fi
+```
+
+@SolaWing Thanks for the input. 
+auto test is not a very good alternative, as special project files causing problems are normally from private code, those files cannot be included  as a testcase 😟
+
+ File 'project.pbxproj' is broken. Cannot find PBXProject name.
+ The script I use is:
+echo "Running xUnique..."
+xunique "${PROJECT_FILE_PATH}/project.pbxproj"
+xunique "${PODS_ROOT}/Pods.xcodeproj/project.pbxproj"
+
+When added as a build phase the error for Pods.xcodeproj/project.pbxproj is:
+"File 'project.pbxproj' is broken. Cannot find PBXProject name."
+
+When added as the scheme's post build step it ignores Pod.xcodeproj/project.pbxproj completely and doesn't change identifiers.
+
+I suggest using as git hook. Many issues reported that other methods would fail due to project file changing in progress by Xcode and/or cocoapods
+
+Sent from my mobile device.
+
+> 在 2016年6月16日，00:45，Alexander notifications@github.com 写道：
+> 
+> The script I use is:
+> 
+> Uniquify and sort the Xcode project files
+> 
+> echo "Running xUnique..."
+> xunique "${PROJECT_FILE_PATH}/project.pbxproj"
+> xunique "${PODS_ROOT}/Pods.xcodeproj/project.pbxproj"
+> 
+> When added as a build phase the error for Pods.xcodeproj/project.pbxproj is:
+> "File 'project.pbxproj' is broken. Cannot find PBXProject name."
+> 
+> When added as the scheme's post build step it ignores Pod.xcodeproj/project.pbxproj completely and doesn't change identifiers.
+> 
+> —
+> You are receiving this because you are subscribed to this thread.
+> Reply to this email directly, view it on GitHub, or mute the thread.
+
+
+@truebit thanks for prompt reply!
+
+
+@truebit I've tried using pre-commit hook, but I still get the same error. It seems like Pods.xcodeproj/project.pbxproj has different structure in comparison with MyProject.xcodeproj/project.pbxproj:
+
+**MyProject.xcodeproj/project.pbxproj:**
+
+```
+/* Begin PBXProject section */
+        6AE1FE371486FDD200743640 /* Project object */ = {
+            isa = PBXProject;
+            attributes = {
+                        ...
+                        }
+/* End PBXProject section */
+```
+
+**Pods.xcodeproj/project.pbxproj:**
+
+```
+<key>isa</key>
+<string>PBXProject</string>
+```
+
+
+Ah I know. Cocoapods would convert project file to XML format by default. check [this link](https://github.com/CocoaPods/CocoaPods/wiki/Generate-ASCII-format-xcodeproj)
+Maybe you need to convert it back to ASCII format:
+
+> Since CocoaPods 0.24.0 (see CHANGELOG.md, CocoaPods automatically converts the generated xcodeproj file to ASCII format if the [xcproj](https://github.com/0xced/xcproj) is available in the PATH.
+
+
+@truebit that's exactly what I've been looking for! Thanks a lot!
+
+
+ Cannot run after adding new library
+ I have been using xUnique for a while in a project and it works. However, after I added new library to my project and xUnique fails to run. 
+
+Here is the terminal output and the version of xUnique is 4.0.4:
+
+```
+Uniquify and Sort
+uniquify PBXProject
+uniquify PBX*Group and PBX*Reference*
+uniquify XCConfigurationList
+uniquify XCConfiguration
+uniquify Subprojects
+uniquify PBXContainerItemProxy
+Traceback (most recent call last):
+  File "/usr/local/bin/xunique", line 11, in <module>
+    sys.exit(main())
+  File "/Library/Python/2.7/site-packages/xUnique.py", line 546, in main
+    xunique.unique_project()
+  File "/Library/Python/2.7/site-packages/xUnique.py", line 188, in unique_project
+    self.__unique_project(self.root_hex)
+  File "/Library/Python/2.7/site-packages/xUnique.py", line 360, in __unique_project
+    self.__unique_group_or_ref(project_ref_parent_hex, product_group_hex)
+  File "/Library/Python/2.7/site-packages/xUnique.py", line 476, in __unique_group_or_ref
+    self.__unique_group_or_ref(current_hex, child_hex)
+  File "/Library/Python/2.7/site-packages/xUnique.py", line 478, in __unique_group_or_ref
+    self.__unique_container_item_proxy(parent_hex, self.nodes[current_hex]['remoteRef'])
+  File "/Library/Python/2.7/site-packages/xUnique.py", line 414, in __unique_container_item_proxy
+    new_container_item_proxy_hex = self.__set_to_result(parent_hex, container_item_proxy_hex, ('isa', 'remoteInfo'))
+  File "/Library/Python/2.7/site-packages/xUnique.py", line 138, in __set_to_result
+    current_node = self.nodes[current_hex]
+KeyError: u'BA71442ECABF543ABF1A5CE64B2C7E50'
+```
+
+please update your xunique to latest and try again.
+I catched several exception in following versions.
+See https://github.com/truebit/xUnique/releases for more details(notice that 4.1.0 changed generation method of MD5, all md5 would change)
+
+
+I am using version 4.1.4 now but i still get the error message. The key `BA71442ECABF543ABF1A5CE64B2C7E50` is related to ReactiveCocoa.
+
+```
+/* Begin PBXReferenceProxy section */
+        3B91206B9132C26D0861F93834146C87 /* ReactiveCocoa.framework */ = {
+            isa = PBXReferenceProxy;
+            fileType = wrapper.framework;
+            path = ReactiveCocoa.framework;
+            sourceTree = BUILT_PRODUCTS_DIR;
+        };
+        301BF370837AE403CF96799AEBF33B6E /* ReactiveCocoaTests.xctest */ = {
+            isa = PBXReferenceProxy;
+            fileType = wrapper.cfbundle;
+            path = ReactiveCocoaTests.xctest;
+            sourceTree = BUILT_PRODUCTS_DIR;
+        };
+        3B91206B9132C26D0861F93834146C87 /* ReactiveCocoa.framework */ = {
+            isa = PBXReferenceProxy;
+            fileType = wrapper.framework;
+            path = ReactiveCocoa.framework;
+            sourceTree = BUILT_PRODUCTS_DIR;
+        };
+        301BF370837AE403CF96799AEBF33B6E /* ReactiveCocoaTests.xctest */ = {
+            isa = PBXReferenceProxy;
+            fileType = wrapper.cfbundle;
+            path = ReactiveCocoaTests.xctest;
+            sourceTree = BUILT_PRODUCTS_DIR;
+        };
+        3B91206B9132C26D0861F93834146C87 /* ReactiveCocoa.framework */ = {
+            isa = PBXReferenceProxy;
+            fileType = wrapper.framework;
+            path = ReactiveCocoa.framework;
+            sourceTree = BUILT_PRODUCTS_DIR;
+        };
+        3B91206B9132C26D0861F93834146C87 /* ReactiveCocoa.framework */ = {
+            isa = PBXReferenceProxy;
+            fileType = wrapper.framework;
+            path = ReactiveCocoa.framework;
+            remoteRef = BA71442ECABF543ABF1A5CE64B2C7E50 /* PBXContainerItemProxy */;
+            sourceTree = BUILT_PRODUCTS_DIR;
+        };
+```
+
+
+could you please send me your project.xcodeproj file via email? you could find it from LICENSE file
+
+
+According to the project file you sent to me, your project file seems not correct:
+
+```
+/* Begin PBXTargetDependency section */
+    00D4FBB81D1001E80041D56B /* PBXTargetDependency */ = {
+        isa = PBXTargetDependency;
+        name = "ReactiveCocoa-iOS";
+        targetProxy = 00D4FBB71D1001E80041D56B /* PBXContainerItemProxy */;
+    };
+    00D4FBBC1D1001F00041D56B /* PBXTargetDependency */ = {
+        isa = PBXTargetDependency;
+        name = "Result-iOS";
+        targetProxy = 00D4FBBB1D1001F00041D56B /* PBXContainerItemProxy */;
+    };
+    08562BAF75F66FB9EA7BFACB65F67D61 /* PBXTargetDependency */ = {
+        isa = PBXTargetDependency;
+        name = "Result-iOS";
+    };
+    2C5EF3EEAB2EB72A7B590F49401CD7B9 /* PBXTargetDependency */ = {
+        isa = PBXTargetDependency;
+        name = "ZXingObjC-iOS";
+        targetProxy = A57EEEB4D4463277BA533C7BB959C81F /* PBXContainerItemProxy */;
+    };
+    70CE47A366D15A7797019CCE8CAC0365 /* PBXTargetDependency */ = {
+        isa = PBXTargetDependency;
+        name = "ReactiveCocoa-iOS";
+    };
+ /* End PBXTargetDependency section */
+```
+
+`PBXTargetDependency` should contain `targetProxy`, but two of them not
+
+
+If this issue still exists, please comment and open
+
+
+ Property List error
+ Hey there.  I think this project sounds like a HUGE time saver, so I am excited to try it out.  I am trying to investigate how it works, but am not able to open my Xcode project after running xUnique the first time.
+
+My project uses Cocoapods (/Pods is saved in the repo), but I have even tried removing the /Pods folder from the repo to make sure that wasn't the problem.  
+
+I run xunique on my xcodeproj folder, and it does lists some files that were removed since they are either unused or duplicates, which is great.  After I open up my workspace in Xcode afterwords, it cannot read my project anymore.
+- I'm using Xcode 7.3.1 on OSX 10.11.4
+- I have Xcode command line tools installed
+- plutil is accessible and in my $PATH
+- My project works fine before using xUnique
+
+**Here is what I did in my Terminal:**
+<img width="1437" alt="xuniquefailure" src="https://cloud.githubusercontent.com/assets/2142301/15095121/10b4a24c-1487-11e6-84f7-92fecbcb65be.png">
+
+**This is the error I get in Xcode after:**
+<img width="258" alt="xcodefailure" src="https://cloud.githubusercontent.com/assets/2142301/15095120/0b8212e6-1487-11e6-827b-af44e5d09a01.png">
+
+**The error I receive after trying xunique the second time is this:**
+
+Property List error: Unexpected character / at line 1 / JSON error: JSON text did not start with array or object and option to allow fragments not set.
+
+Please check:
+1. You have installed Xcode Command Line Tools and command 'plutil' could be found in $PATH;
+2. The project file is not broken, such like merge conflicts, incomplete content due to xUnique failure. 
+
+*_Can anyone give me any tips on what I can do to fix this? *_
+
+UPDATE: By trying different command line flags, I have narrowed this down to using the -u flag in xunique.  If I use -s or -p I am able to run xunique a second time and open the project in Xcode.
+
+It seems that some of your project file structure was incorrect after applying xunique?
+According to the snapshot you posted, The problem occurs in here : 
+
+```
+022.... ???SignInBenefitsBulletViews.xib = {
+```
+
+were deleted ,but the format of this line ends with only one `{` without any content. 
+You should check lines after this line until you see the corresponding `}`. and delete all of them.
+
+This occurs because xunique only find and remove lines contains UUID, but if this UUID contains a section, it would not delete other contents in the section except the one with the UUID. 
+Here seems the `SignInBenefitsBulletViews.xib = {` contains a section. so you need to remove other contents in the section. a.k.a the contents in the `{}`.
+
+Because this line was deleted, it may not be easy to find the rest of the section. I suggest you could find this line and delete its entire section before executing `xunique`. and then execute xunique would be ok.
+
+Please comment if it works
+
+
+That was it!  
+
+That XIB didn't show up at all in my project strangely enough.  I had to look at the pbxproj file in a text editor to see it, and the reference was an absolute file reference from a develop who worked with us 5 years ago.  I deleted all references to this file inside of my pbxproj and everything is working great now.  
+
+Thank you!
+
+
+Glad it helps :smile:  
+I think we may need more hint when delete a section. I would add the section delete warning sometime.
+
+
+ Project Breaks randomly
+ Hi, 
+
+I added an script in the `Build Phases` in my target with 
+
+```
+xunique -v "${PROJECT_FILE_PATH}/project.pbxproj"
+xunique -v "${PODS_ROOT}/Pods.xcodeproj"
+```
+
+And sometimes when I build my project the script breaks the `project.pbxproj` file and a `project.pbxproj.ubak` file is created
+
+I had the same problem adding the script in the schema.
+
+I'm using XCode 7.2. and I have multiple targets but I apply this to just one target
+
+This is how the file ends
+
+```
+        F3FE3CE444355D7C8F3FB00833AA7C5D /* EPListOfRemindersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EPListOfRemindersViewController.h; sourceTree = "<group>"; };
+        F44FDADA43DF9BF202AC1C0C63C1D58A /* EPSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EPSettings.m; sourceTree = "<group>"; };
+        F4EAAEABEFD7861F9D264F81B2429DCF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/DCAccountProfileRegistrationViewController.xib; sourceTree = "<group>"; };
+        F4FB62A7530350C8B45E5CF75A56FC1C /* EPBloodSugarMantle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EPBloodSugarMantle.h; sourceTree = "<group>"; };
+```
+
+Any idea where is the problem? or if there is a log where I can find why is breaking the project file?
+
+Thanks
+
+I do not think put it in `Build Phases` is a good idea, because the project is being built and you are trying to modify the project file. There could be some conflicts.
+
+Try to put it in `post build action` like it described in README. 
+
+
+@truebit I tried in the `post build action` too and it broke the project too.
+
+To be honest I just need to be pointed where I can find out what's breaking the project and why.
+
+
+Because the project file is different for every project (especially after various merges in the repo, that would contain incorrect structure in the file).
+
+You could execute `xunique -d project.pbxproj` in command line and paste your output here firstly. 
+
+
+mmmm weird I don't have such option:
+
+```
+Usage: xunique [-v][-u][-s][-c][-p] path/to/Project.xcodeproj
+xunique: error: no such option: -d
+```
+
+But it seems upgraded:
+
+```
+pip install xUnique
+Requirement already satisfied (use --upgrade to upgrade): xUnique in /Library/Python/2.7/site-packages
+Cleaning up...
+```
+
+```
+pip install --upgrade xUnique
+Requirement already up-to-date: xUnique in /Library/Python/2.7/site-packages
+Cleaning  @up...
+```
+
+
+Sorry, It should be `-v` instead of `-d`
+
+
+Unfortunately the log seems ok
+
+```
+(xUniqueAvoidingMergeConflicts *+%)$: xunique -v ios/myProject.xcodeproj/project.pbxproj
+Uniquify and Sort
+uniquify PBXProject
+uniquify PBX*Group and PBX*Reference*
+uniquify XCConfigurationList
+uniquify XCConfiguration
+uniquify PBX*Target
+uniquify XCConfiguration
+uniquify all kinds of PBX*BuildPhase
+uniquify PBXBuildFile
+uniquify all kinds of PBX*BuildPhase
+uniquify PBXBuildFile
+uniquify all kinds of PBX*BuildPhase
+uniquify PBXBuildFile
+uniquify all kinds of PBX*BuildPhase
+uniquify PBXBuildFile
+uniquify all kinds of PBX*BuildPhase
+uniquify PBXBuildFile
+uniquify all kinds of PBX*BuildPhase
+uniquify PBXBuildFile
+uniquify all kinds of PBX*BuildPhase
+uniquify PBXBuildFile
+uniquify all kinds of PBX*BuildPhase
+uniquify PBXBuildFile
+uniquify all kinds of PBX*BuildPhase
+uniquify PBXBuildFile
+uniquify all kinds of PBX*BuildPhase
+uniquify PBXBuildFile
+uniquify PBX*Target
+uniquify XCConfiguration
+uniquify PBXTargetDependency
+uniquify PBXContainerItemProxy
+uniquify all kinds of PBX*BuildPhase
+uniquify PBXBuildFile
+uniquify all kinds of PBX*BuildPhase
+uniquify PBXBuildFile
+uniquify all kinds of PBX*BuildPhase
+uniquify PBXBuildFile
+uniquify PBX*Target
+uniquify XCConfiguration
+uniquify all kinds of PBX*BuildPhase
+uniquify PBXBuildFile
+uniquify PBX*Target
+uniquify XCConfiguration
+uniquify all kinds of PBX*BuildPhase
+uniquify PBXBuildFile
+uniquify all kinds of PBX*BuildPhase
+uniquify PBXBuildFile
+uniquify all kinds of PBX*BuildPhase
+uniquify PBXBuildFile
+uniquify all kinds of PBX*BuildPhase
+uniquify PBXBuildFile
+uniquify all kinds of PBX*BuildPhase
+uniquify PBXBuildFile
+uniquify all kinds of PBX*BuildPhase
+uniquify PBXBuildFile
+uniquify all kinds of PBX*BuildPhase
+uniquify PBXBuildFile
+uniquify all kinds of PBX*BuildPhase
+uniquify PBXBuildFile
+uniquify all kinds of PBX*BuildPhase
+uniquify PBXBuildFile
+uniquify PBX*Target
+uniquify XCConfiguration
+uniquify all kinds of PBX*BuildPhase
+uniquify PBXBuildFile
+uniquify all kinds of PBX*BuildPhase
+uniquify PBXBuildFile
+uniquify all kinds of PBX*BuildPhase
+uniquify PBXBuildFile
+uniquify all kinds of PBX*BuildPhase
+uniquify PBXBuildFile
+uniquify all kinds of PBX*BuildPhase
+uniquify PBXBuildFile
+uniquify all kinds of PBX*BuildPhase
+uniquify PBXBuildFile
+uniquify all kinds of PBX*BuildPhase
+uniquify PBXBuildFile
+uniquify all kinds of PBX*BuildPhase
+uniquify PBXBuildFile
+uniquify all kinds of PBX*BuildPhase
+uniquify PBXBuildFile
+uniquify PBX*Target
+uniquify XCConfiguration
+uniquify all kinds of PBX*BuildPhase
+uniquify PBXBuildFile
+uniquify all kinds of PBX*BuildPhase
+uniquify PBXBuildFile
+uniquify all kinds of PBX*BuildPhase
+uniquify PBXBuildFile
+uniquify all kinds of PBX*BuildPhase
+uniquify PBXBuildFile
+uniquify all kinds of PBX*BuildPhase
+uniquify PBXBuildFile
+uniquify all kinds of PBX*BuildPhase
+uniquify PBXBuildFile
+uniquify all kinds of PBX*BuildPhase
+uniquify PBXBuildFile
+uniquify all kinds of PBX*BuildPhase
+uniquify PBXBuildFile
+uniquify all kinds of PBX*BuildPhase
+uniquify PBXBuildFile
+uniquify PBX*Target
+uniquify XCConfiguration
+uniquify all kinds of PBX*BuildPhase
+uniquify PBXBuildFile
+uniquify all kinds of PBX*BuildPhase
+uniquify PBXBuildFile
+uniquify all kinds of PBX*BuildPhase
+uniquify PBXBuildFile
+uniquify all kinds of PBX*BuildPhase
+uniquify PBXBuildFile
+uniquify all kinds of PBX*BuildPhase
+uniquify PBXBuildFile
+uniquify all kinds of PBX*BuildPhase
+uniquify PBXBuildFile
+uniquify all kinds of PBX*BuildPhase
+uniquify PBXBuildFile
+uniquify all kinds of PBX*BuildPhase
+uniquify PBXBuildFile
+uniquify all kinds of PBX*BuildPhase
+uniquify PBXBuildFile
+uniquify PBX*Target
+uniquify XCConfiguration
+uniquify all kinds of PBX*BuildPhase
+uniquify PBXBuildFile
+uniquify all kinds of PBX*BuildPhase
+uniquify PBXBuildFile
+uniquify all kinds of PBX*BuildPhase
+uniquify PBXBuildFile
+uniquify all kinds of PBX*BuildPhase
+uniquify PBXBuildFile
+uniquify all kinds of PBX*BuildPhase
+uniquify PBXBuildFile
+uniquify all kinds of PBX*BuildPhase
+uniquify PBXBuildFile
+uniquify all kinds of PBX*BuildPhase
+uniquify PBXBuildFile
+uniquify all kinds of PBX*BuildPhase
+uniquify PBXBuildFile
+uniquify all kinds of PBX*BuildPhase
+uniquify PBXBuildFile
+Debug result json file has been written to '/Users/myUser/Documents/Projects/myProject/myProject-lib/ios/myProject.xcodeproj/debug_result.json
+replace UUIDs and remove unused UUIDs
+Ignore uniquify, no changes made to "/Users/myUser/Documents/Projects/myProject/myProject-lib/ios/myProject.xcodeproj/project.pbxproj
+sort project.xpbproj file
+Ignore sort, no changes made to "/Users/myUser/Documents/Projects/myProject/myProject-lib/ios/myProject.xcodeproj/project.pbxproj
+Uniquify and Sort done
+
+```
+
+It's weird, it's really random, I run the command and sometimes it breaks the main project, sometimes the Pods project (even without the command pointing to the Pod project ) and sometimes (around 70% of the cases) nothing is broken.
+
+
+Do you mean running the command `xunique -v project.pbxproj` _in terminal_ would sometimes fail?
+If so, please post the error log when it fails, either in main project or cocoapods project. post the fail logs here
+
+
+If it would fail only in xcode build process, you may need to change to use the commit hook method mentioned in README. maybe related to #24 
+
+
+It seems is working with the hook, but I will test it more, because it was random :)
+
+Btw because I'm testing this in a different branch and I want just to be run in that branch I created this script ( in case someone want to do the same :) )
+
+```
+#!/bin/sh
+NAME=$(git branch | grep '*' | sed 's/* //')
+BRANCH_USE_XUNIQU="banch_to_use_XUNIQUE"
+if [ $NAME == $BRANCH_USE_XUNIQU ]
+then
+    echo "Branch name $NAME : Warning xUnique is run"
+    xunique -v ../ios/myProject.xcodeproj/project.pbxproj
+    xunique -v ../ios/Pods/Pods.xcodeproj
+else
+     echo "Branch name $NAME : xUnique is not run"
+fi
+```
+
+Thanks
+
+
+ How revert the changes from xUnique
+ Hi 
+
+Great tool, I'm testing a bit and I think it's really cool.
+
+I want to use it, but I'm a bit afraid that Apple releases in a close future something to deal with the same problem and we need to revert the effect of this tool, so my question is:
+
+How can we revert the effect of this tool so I can force to XCode to regenerate the UDID created initially?
+
+Thanks
+
+Maybe you should run xunique in debug mode the very first time, and save the `debug.json` file that records all the mappings of the original UUID and modified MD5.
+And every time you added entries to the project, you should maintain that file to append new mappings to the file.
+It's kind of troulesome though
+
+
+I guess there is a away to convert that json file to the project file again (with the UDID's) o I will have to do it manually? 
+
+
+You can write a script to search and replace the MD5 with the original UUID in the project file, via the mappings in `debug.json`
+
+
+ Fixes pip install
+ 
+It is common sense when you got permission denied error; But also many guys do not use default Python, so `sudo` is not mandatory.
+
+
+ add python3 compatibility
+ 
+@truebit hope you have time to review this PR :)
+
+
+Hi, @heni 
+Thanks for the PR. It's good to add python3 compatability.
+But IMO, the targeting user (a.k.a iOS developers ) may not be familiar with Python. I do not think that involving a third party package `six` in the installation process is a good idea。
+Could you add python3 compability without 3rd party packages？
+
+
+Ok, I have written all necessary methods from six explicitely
+
+
+Traceback (most recent call last):
+  File "/usr/local/Cellar/python3/3.5.1/Frameworks/Python.framework/Versions/3.5/lib/python3.5/runpy.py", line 170, in _run_module_as_main
+    "__main__", mod_spec)
+  File "/usr/local/Cellar/python3/3.5.1/Frameworks/Python.framework/Versions/3.5/lib/python3.5/runpy.py", line 85, in _run_code
+    exec(code, run_globals)
+  File "/usr/local/lib/python3.5/site-packages/xUnique.py", line 527, in <module>
+    main()
+  File "/usr/local/lib/python3.5/site-packages/xUnique.py", line 504, in main
+    xcode_proj_path = args[0].decode(sys_get_fs_encoding())
+AttributeError: 'str' object has no attribute 'decode'
+
+I got this error with python3. 
+
+
+@riveryan What the command arguments did you use? 
+And please remind, you should try master branch to use python3, instead of the pip version
+
+
+@riveryan I just uploaded new pip version to pypi including this pr. You can update xunique using command: `pip install -U xunique`
+
+
+ Add podspec + shell script, update README
+ This PR:
+- Adds a podspec which only preserves paths (allowing CocoaPods to download files without having them included in your actual project) and a shell script to facilitate running xUnique when installed via CocoaPods
+- Adds instructions for use of the podspec and shell script
+- Does a bit of grammatical cleanup on the rest of the README
+
+Would love to hear any questions or thoughts you have. Thank you!
+
+@truebit do you have any interest in making this available as a CocoaPod? I'll update this PR if you're interested in merging it, but won't spend the time if you don't want it.
+
+
+From my understanding, this is not Objective-C related tool, so I think it's not proper to add it as a Cocoapod. 
+I do not understand why you wrap this tool in Cocoapod. You could install xunique in your $PATH and invoke it as you like.
+
+
+For a single developer, adding it to the PATH makes sense. When working with a team multiple developers, though, it's a lot more convenient to have the project dependencies consolidated in one place, as much as possible. It also makes it a lot easier to hand off a project to a client after completion, since there's one less additional tool they need to worry about installing to continue work on a project. 
+
+
+But it could be installed via pip , just like you have to set up your
+development environment like other tools
+
+2016年8月30日星期二，Brock Boland notifications@github.com 写道：
+
+> For a single developer, adding it to the PATH makes sense. When working
+> with a team multiple developers, though, it's a lot more convenient to have
+> the project dependencies consolidated in one place, as much as possible. It
+> also makes it a lot easier to hand off a project to a client after
+> completion, since there's one less additional tool they need to worry about
+> installing to continue work on a project.
+> 
+> —
+> You are receiving this because you were mentioned.
+> Reply to this email directly, view it on GitHub
+> https://github.com/truebit/xUnique/pull/27#issuecomment-243329267, or mute
+> the thread
+> https://github.com/notifications/unsubscribe-auth/AAuE2s8PV_mrvypEpqBrSm6d4QULcCYQks5qk6__gaJpZM4HUpTi
+> .
+
+## 
+
+Br,
+
+Sean Wang
+Blog: fclef.wordpress.com http://fclef.wordpress.com/about
+
+
+ Only one person can commit project.pbxproj?
+ I used it for my project. I found out that only one person can commit project.pbxproj, but to avoid conflict, other people can only commit .m and .h files . Is that true?
+
+No, all the project members could commit using xUnique. 
+The first statement in README have clarified this already:
+
+> xUnique, is a pure Python script to regenerate project.pbxproj, a.k.a the Xcode project file, and make it unique and same on any machine.
+
+But if you use xUnique in your team, all of your project members must use xUnique to avoid confliction.
+
+
+I follow the step of Xcode "build post-action" correctly, but it was useless when I follow your step 7. So I used /usr/local/bin/xunique -u -s "${PROJECT_FILE_PATH}/project.pbxproj" to instead of your command. My command worked that it could create a new project.pbxproj. While it couldn't avoid confliction when all of my project members used xUnique. 
+
+problem description: 
+I created one file that called add3.m.  The Other people created one file that called add4.m.   He built his project and generated a new project.pbxproj. He commited all of this file to svn.  When I updated the project,  I found it conficted. 
+Here is the infomation of project.pbxproj conflict.
+
+<<<<<<< .mine
+        D319146B28F22877CA52D1990AD54F8D /\* add3.m _/ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = add3.m; sourceTree = "<group>"; };
+ =======
+        B6C7C20E8DE96288E54E462CADD63457 /_ add4.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = add4.m; sourceTree = "<group>"; };
+>>>>>>> .r3100
+
+
+你好：
+       非常感谢你的解答。 我刚刚突然想到了怎么使用xUnique，不知道对不对。
+      每次上传文件前只更新除project.pbxproj以外的文件，在本地工程中选择Add Files to "myproject" 添加新更新的文件到本地工程，然后build本地工程，最后上传所有文件。 这样就不会造成project.pbxproj冲突。（多人开发模式）
+     请你看下这个过程对不对。谢谢！
+
+
+I understand what you mean now. 
+Firstly, you should know what causes a conflict: when two users modified the _same line(area) in the same file_, svn/git would throw a conflict. that is quite right and normal in your case.
+You should know in first place that xUnique _cannot annihilate_ conflict, what it does is trying to make merging more easily and cleanly.
+- **Easily**: You should know that the original project file do not have orders, when it conflicts, it would be a mess to fix the conflicts. You should know what I mean if you merged enough times before using xUnique. After using xUnqiue, all these files are in the same area in any project file, it would be convenient to merge these lines
+- **Cleanly**:  xUnique also help you removing some unused items or duplicated items and get you noticed. those items was the residue the old conflict solving left.
+
+
+不用你说的那么麻烦，因为你举的例子里的冲突是不可避免的。你这种情况之前我提过可以通过`.gitattributes`来处理，不过会引入新的[问题](https://github.com/truebit/xUnique/issues/12)，我把那个配置说明从README删除了
+
+
+非常感谢你的回答。我想我应该知道怎么做了。
+
+> 在 2015年12月2日，下午12:19，Sean Wang notifications@github.com 写道：
+> 
+> 不用你说的那么麻烦，因为你举的例子里的冲突是不可避免的。你这种情况之前我提过可以通过.gitattributes来处理，不过会引入新的问题 https://github.com/truebit/xUnique/issues/12，我把那个配置说明从README删除了
+> 
+> —
+> Reply to this email directly or view it on GitHub https://github.com/truebit/xUnique/issues/26#issuecomment-161176783.
+
+
+这个项目很好用。已经加星了！
+
+> 在 2015年12月2日，下午12:19，Sean Wang notifications@github.com 写道：
+> 
+> 不用你说的那么麻烦，因为你举的例子里的冲突是不可避免的。你这种情况之前我提过可以通过.gitattributes来处理，不过会引入新的问题 https://github.com/truebit/xUnique/issues/12，我把那个配置说明从README删除了
+> 
+> —
+> Reply to this email directly or view it on GitHub https://github.com/truebit/xUnique/issues/26#issuecomment-161176783.
+
+
+Glad it helps😄
+
+
+ xUnique stops with error
+ Log:
+
+MacBook-Pro-anivaros:~ anivaros$ python -mxUnique -v /Users/anivaros/Dropbox/Programming/iOS/DD/git_dags_mer/MER_1_0/ExecutiveWorkspace.xcodeproj/project.pbxproj 
+Uniquify and Sort
+uniquify PBXProject
+uniquify PBX_Group and PBX_Reference*
+uniquify XCConfigurationList
+uniquify XCConfiguration
+uniquify Subprojects
+uniquify PBXContainerItemProxy
+uniquify PBX_Target
+uniquify XCConfiguration
+uniquify PBXTargetDependency
+uniquify PBXContainerItemProxy
+uniquify all kinds of PBX_BuildPhase
+uniquify PBXBuildFile
+uniquify all kinds of PBX_BuildPhase
+uniquify PBXBuildFile
+uniquify all kinds of PBX_BuildPhase
+uniquify PBXBuildFile
+uniquify all kinds of PBX_BuildPhase
+uniquify PBXBuildFile
+uniquify all kinds of PBX_BuildPhase
+uniquify PBXBuildFile
+uniquify all kinds of PBX_BuildPhase
+uniquify PBXBuildFile
+uniquify PBX_Target
+uniquify XCConfiguration
+uniquify PBXTargetDependency
+uniquify PBXContainerItemProxy
+uniquify all kinds of PBX_BuildPhase
+uniquify PBXBuildFile
+uniquify all kinds of PBX_BuildPhase
+uniquify PBXBuildFile
+uniquify all kinds of PBX_BuildPhase
+uniquify PBXBuildFile
+uniquify all kinds of PBX_BuildPhase
+uniquify PBXBuildFile
+uniquify all kinds of PBX_BuildPhase
+uniquify PBXBuildFile
+uniquify all kinds of PBX_BuildPhase
+uniquify PBXBuildFile
+uniquify PBX_Target
+uniquify XCConfiguration
+uniquify PBXTargetDependency
+uniquify PBXContainerItemProxy
+uniquify all kinds of PBX_BuildPhase
+uniquify PBXBuildFile
+uniquify all kinds of PBX_BuildPhase
+uniquify PBXBuildFile
+uniquify all kinds of PBX_BuildPhase
+uniquify PBXBuildFile
+uniquify all kinds of PBX_BuildPhase
+uniquify PBXBuildFile
+uniquify all kinds of PBX_BuildPhase
+uniquify PBXBuildFile
+uniquify all kinds of PBX_BuildPhase
+uniquify PBXBuildFile
+uniquify PBX_Target
+uniquify XCConfiguration
+uniquify PBXTargetDependency
+uniquify PBXContainerItemProxy
+Traceback (most recent call last):
+  File "/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/runpy.py", line 162, in _run_module_as_main
+    "__main__", fname, loader, pkg_name)
+  File "/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/runpy.py", line 72, in _run_code
+    exec code in run_globals
+  File "build/bdist.macosx-10.11-intel/egg/xUnique.py", line 527, in <module>
+  File "build/bdist.macosx-10.11-intel/egg/xUnique.py", line 508, in main
+  File "build/bdist.macosx-10.11-intel/egg/xUnique.py", line 152, in unique_project
+  File "build/bdist.macosx-10.11-intel/egg/xUnique.py", line 339, in __unique_project
+  File "build/bdist.macosx-10.11-intel/egg/xUnique.py", line 365, in __unique_target
+  File "build/bdist.macosx-10.11-intel/egg/xUnique.py", line 381, in __unique_target_dependency
+  File "build/bdist.macosx-10.11-intel/egg/xUnique.py", line 393, in __unique_container_item_proxy
+KeyError: u'3AE310E9195AA1B300E46073'
+
+Could you send me the original pbxproj file to debug via email?
+
+Thanks
+
+—
+Sent from my mobile phone
+
+On Thu, Nov 5, 2015 at 10:37 PM, Anisimov Vasily notifications@github.com
+wrote:
+
+> Log:
+> MacBook-Pro-anivaros:~ anivaros$ python -mxUnique -v /Users/anivaros/Dropbox/Programming/iOS/DD/git_dags_mer/MER_1_0/ExecutiveWorkspace.xcodeproj/project.pbxproj 
+> Uniquify and Sort
+> uniquify PBXProject
+> uniquify PBX_Group and PBX_Reference*
+> uniquify XCConfigurationList
+> uniquify XCConfiguration
+> uniquify Subprojects
+> uniquify PBXContainerItemProxy
+> uniquify PBX_Target
+> uniquify XCConfiguration
+> uniquify PBXTargetDependency
+> uniquify PBXContainerItemProxy
+> uniquify all kinds of PBX_BuildPhase
+> uniquify PBXBuildFile
+> uniquify all kinds of PBX_BuildPhase
+> uniquify PBXBuildFile
+> uniquify all kinds of PBX_BuildPhase
+> uniquify PBXBuildFile
+> uniquify all kinds of PBX_BuildPhase
+> uniquify PBXBuildFile
+> uniquify all kinds of PBX_BuildPhase
+> uniquify PBXBuildFile
+> uniquify all kinds of PBX_BuildPhase
+> uniquify PBXBuildFile
+> uniquify PBX_Target
+> uniquify XCConfiguration
+> uniquify PBXTargetDependency
+> uniquify PBXContainerItemProxy
+> uniquify all kinds of PBX_BuildPhase
+> uniquify PBXBuildFile
+> uniquify all kinds of PBX_BuildPhase
+> uniquify PBXBuildFile
+> uniquify all kinds of PBX_BuildPhase
+> uniquify PBXBuildFile
+> uniquify all kinds of PBX_BuildPhase
+> uniquify PBXBuildFile
+> uniquify all kinds of PBX_BuildPhase
+> uniquify PBXBuildFile
+> uniquify all kinds of PBX_BuildPhase
+> uniquify PBXBuildFile
+> uniquify PBX_Target
+> uniquify XCConfiguration
+> uniquify PBXTargetDependency
+> uniquify PBXContainerItemProxy
+> uniquify all kinds of PBX_BuildPhase
+> uniquify PBXBuildFile
+> uniquify all kinds of PBX_BuildPhase
+> uniquify PBXBuildFile
+> uniquify all kinds of PBX_BuildPhase
+> uniquify PBXBuildFile
+> uniquify all kinds of PBX_BuildPhase
+> uniquify PBXBuildFile
+> uniquify all kinds of PBX_BuildPhase
+> uniquify PBXBuildFile
+> uniquify all kinds of PBX_BuildPhase
+> uniquify PBXBuildFile
+> uniquify PBX_Target
+> uniquify XCConfiguration
+> uniquify PBXTargetDependency
+> uniquify PBXContainerItemProxy
+> Traceback (most recent call last):
+>   File "/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/runpy.py", line 162, in _run_module_as_main
+>     "__main__", fname, loader, pkg_name)
+>   File "/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/runpy.py", line 72, in _run_code
+>     exec code in run_globals
+>   File "build/bdist.macosx-10.11-intel/egg/xUnique.py", line 527, in <module>
+>   File "build/bdist.macosx-10.11-intel/egg/xUnique.py", line 508, in main
+>   File "build/bdist.macosx-10.11-intel/egg/xUnique.py", line 152, in unique_project
+>   File "build/bdist.macosx-10.11-intel/egg/xUnique.py", line 339, in __unique_project
+>   File "build/bdist.macosx-10.11-intel/egg/xUnique.py", line 365, in __unique_target
+>   File "build/bdist.macosx-10.11-intel/egg/xUnique.py", line 381, in __unique_target_dependency
+>   File "build/bdist.macosx-10.11-intel/egg/xUnique.py", line 393, in __unique_container_item_proxy
+> 
+> ## KeyError: u'3AE310E9195AA1B300E46073'
+> 
+> Reply to this email directly or view it on GitHub:
+> https://github.com/truebit/xUnique/issues/25
+
+
+Give me your email pls.
+
+
+You should see it in license file or the code header
+
+—
+Sent from my mobile phone
+
+On Sat, Nov 7, 2015 at 3:58 AM, Anisimov Vasily notifications@github.com
+wrote:
+
+> ## Give me your email pls.
+> 
+> Reply to this email directly or view it on GitHub:
+> https://github.com/truebit/xUnique/issues/25#issuecomment-154516459
+
+
+Sorry for the late response. I'm kind of busy these days.
+I have located the issue. This is all due to your erroneous project.pbxproj file: Your `DigDes.Components.BaseLib.xcodeproj` project does not exists any more, but some of its children `PBXTargetDependency`( and its child `PBXContainerItemProxy`) still exists. That made xunique throw error.
+
+I have partly fixed the error by adding warning output to ask for removing some reduntant sections manually. Currently xunique cannot do that automatically. this is the restrictions of how xunique works: only remove one line when the UUID is not needed. 
+
+In this case, unused `PBXTargetDependency`and its child `PBXContainerItemProxy` also contains other entries in their sections. So below sections needs to be purged:
+
+```
+F154A5DF48FE82A129606A8C489E2AA2 /* PBXTargetDependency */ = {
+    isa = PBXTargetDependency;
+    name = DigDes.Components.BaseLib;
+    targetProxy = EF97FB8FE5C76FD2C148A3893EA32C32 /* PBXContainerItemProxy */;
+};
+```
+
+and 
+
+```
+EF97FB8FE5C76FD2C148A3893EA32C32 /* PBXContainerItemProxy */ = {
+    isa = PBXContainerItemProxy;
+    proxyType = 1;
+    remoteInfo = DigDes.Components.BaseLib;
+};
+```
+
+Although xunique is ok with above erroneous sections, I do not know whether Xcode could open this new project file if you do not remove above sections. Please give a try with the latest `xUnique.py` in master branch, and let me know the result. Thanks!
+
+
+Please reopen this issue if Xcode cannot open the xuniqued project file.
+
+
+#13 was similar with this issue here. xunique would remove some lines but not the entire sections
+
+

@@ -1,0 +1,868 @@
+﻿ Sorry, typo
+ 
+ Fix regex used to check *.gz file extension
+ Search regex should match whether the file path ends with "gz" extension.
+
+Current regex will return true even any of the parent dirs contain "gz" string.
+Thank you
+
+ log files aren't made when run from a script
+ I am running 325 vcftools commands to generate Fst values, which obviously needs to be automated.
+
+An example:
+
+    vcftools --vcf big.vcf --weir-fst-pop pop_lists/pop1.txt --weir-fst-pop pop_lists/pop2.txt  --out weir_fst_results/pop1_vs_pop2
+
+and when I run this job, it works fine when I run it one by one by the command line, i.e. there are two files:
+
+    pop1_vs_pop2.log 
+
+and
+
+    pop1_vs_pop2.weir.fst
+
+I need to get the Fst values from the log file.
+
+The problem is that the log files are not generated when I run from my perl script, even though the commands executed are identical.
+
+This sounds so trivial, but if it's not producing the log file, I'm wasting my time.
+
+How can I get vcftools to produce the log file when executing from a script? why isn't vcftools producing the log file?
+
+the script to run them:
+
+    sub execute {
+    	my $command = shift;
+    	print "Executing: $command\n";
+    	if (system($command) != 0) {
+    		say "$command failed.";
+    		die
+    	}
+    }
+    
+    my @pop = list_regex_files('^[A-Y]{3}\.txt$', 'ethnicity_lists');
+    my $outdir = 'weir_fst_results';
+    if (not -d $outdir) {
+    	mkdir $outdir
+    }
+    my $vcf = 'big.vcf';
+    if (not -e $vcf) {
+    	say "$vcf doesn't exist.";
+    	die
+    }
+    foreach my $pop1 (0..$#pop) {
+    	my $label1;
+    	if ($pop[$pop1] =~ m/^ethnicity_lists\/([A-Y]{3})\.txt$/) {
+          $label1 = $1
+       } else {
+          say "$pop[$pop1] failed regex.";
+          die;
+       }
+    	foreach my $pop2 (($pop1+1)..$#pop) {
+    		my $label2;
+    		if ($pop[$pop2] =~ m/^ethnicity_lists\/([A-Y]{3})\.txt$/) {
+    			$label2 = $1
+    		} else {
+    			say "$pop[$pop2] failed regex.";
+    			die;
+    		}
+    		my $out_prefix = "weir_fst_results/$label1" . "_vs_$label2";
+    		my $cmd = "vcftools --vcf $vcf ";
+    		$cmd .= "--weir-fst-pop $pop[$pop1] --weir-fst-pop $pop[$pop2] ";
+    		$cmd .= " --out $out_prefix > $out_prefix.out";
+    		execute($cmd);
+    	}
+    }
+
+If I try to execute each comparison in a separate directory, with a separate `nohup` command, unfortunately all command output is still routed to the source `nohup.out`, and then the log file is empty, which defeats the purpose of running this.
+ make error on macosx 10.15.2
+ (base) Noahs-MacBook-Pro-2:vcftools noah$ make
+make  all-recursive
+make[1]: Entering directory '/Users/noah/vcftools'
+Making all in src
+make[2]: Entering directory '/Users/noah/vcftools/src'
+Making all in cpp
+make[3]: Entering directory '/Users/noah/vcftools/src/cpp'
+clang -DHAVE_CONFIG_H -I. -I../..   -D_FORTIFY_SOURCE=2 -mmacosx-version-min=10.9  -march=core2 -mtune=haswell -mssse3 -ftree-vectorize -fPIC -fPIE -fstack-protector-strong -O2 -pipe -stdlib=libc++ -fvisibility-inlines-hidden -std=c++14 -fmessage-length=0 -MT vcftools-entry.o -MD -MP -MF .deps/vcftools-entry.Tpo -c -o vcftools-entry.o `test -f 'entry.cpp' || echo './'`entry.cpp
+entry.cpp:32:34: error: use of undeclared identifier 'rpl_malloc'
+        double * het_probs = (double *) malloc((size_t) (rare_copies + 1) * sizeof(double));
+                                        ^
+../../config.h:170:16: note: expanded from macro 'malloc'
+#define malloc rpl_malloc
+               ^
+1 error generated.
+make[3]: *** [Makefile:616: vcftools-entry.o] Error 1
+make[3]: Leaving directory '/Users/noah/vcftools/src/cpp'
+make[2]: *** [Makefile:319: all-recursive] Error 1
+make[2]: Leaving directory '/Users/noah/vcftools/src'
+make[1]: *** [Makefile:362: all-recursive] Error 1
+make[1]: Leaving directory '/Users/noah/vcftools'
+make: *** [Makefile:303: all] Error 2
+(base) Noahs-MacBook-Pro-2:vcftools noah$ 
+
+ Using the --sites-pi parameter with a multisample .vcf file
+ Hi,
+
+I am trying to compute the nucleotide diversity using the "--sites-pi" parameter.
+
+My input file is a multisample .vcf file. In this file, **48** samples are present.
+
+I tried with the command:
+
+vcftools --vcf calls.vcf --pos-pi --out all_samples 
+
+I obtained the file, but I get only one value for each position. I think that I should obtain 48 values for each position, since I have 48 samples.
+
+What I am doing wrong?
+ Cannot compile
+ I've downloded VCF tools and have the automake installed. When I attempt to compile I get the following error: 
+
+[cb2@localhost vcftools]$ ./autogen.sh
+/usr/bin/m4:/tmp/arquxDWd/am4tIPApOB/traces.m4:337: ERROR: end of file in string
+Use of uninitialized value $msg in concatenation (.) or string at /usr/bin/autom4te line 1026.
+Use of uninitialized value $stacktrace in pattern match (m//) at /usr/bin/autom4te line 1026.
+unknown channel _cv_ZLIB_LIBS=`$PKG_CONFIG --libs "zlib" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes ], pkg_failed=yes)
+AC_PROG_CXX],
+		  _AM_DEPENDENCIES([CXX]),
+		  m4_define([AC_PROG_CXX],
+			     m4_defn([AC_PROG_CXX])[_AM_DEPENDENCIES([CXX])]))dnl
+AC_PROVIDE_IFELSE(AC_PROG_OBJC,
+		  _AM_DEPENDENCIES([OBJC]),
+		  m4_define([AC_PROG_OBJC],
+			     m4_defn([AC_PROG_OBJC])[_AM_DEPENDENCIES([OBJC])]))dnl
+AC_PROVIDE_IFELSE(AC_PROG_OBJCXX,
+		  _AM_DEPENDENCIES([OBJCXX]),
+		  m4_define([AC_PROG_OBJCXX],
+			     m4_defn([AC_PROG_OBJCXX])[_AM_DEPENDENCIES([OBJCXX])]))dnl
+])
+ at /usr/share/autoconf/Autom4te/Channels.pm line 638.
+	Autom4te::Channels::msg('_cv_ZLIB_LIBS=`$PKG_CONFIG --libs "zlib" 2>/dev/null`\x{a}\x{9}\x{9}     ...', undef, 'warning: ', 'partial', 0) called at /usr/bin/autom4te line 1026
+aclocal: error: echo failed with exit status: 1
+autoreconf: aclocal failed with exit status: 1
+
+ "make" Issue
+ I have a problem with the Vcftools installation.
+When I run "make" I get the following error: 
+
+./configure: line 4636: syntax error near unexpected token `ZLIB,'
+./configure: line 4636: `PKG_CHECK_MODULES(ZLIB, zlib)'
+(base) apcb730:vcftools myuser$ make
+make: *** No targets specified and no makefile found.  Stop.
+
+Please help.
+Installing pkg-config and re-running autogen.sh fixed this issue for me
+
+ the file of the "--chrom-map" 
+ dear professor, 
+Thanks for the great tools of vcftools, can you give some instructions on how the file under the  this parameter?
+should it be
+ chr1 1
+ chr2 1
+chrn  1
+
+or  be :
+chr1 1
+chr2 2
+chr3 3
+
+does the integer in the 2nd column  affect the result of the  command ,  thanks a lot, best!
+ tab-delimited text file to VCF format conversion
+ # Convert from VCF format to tab-delimited text file
+> zcat file.vcf.gz | vcf-to-tab > out.tab 
+
+It will be nice to have tab-delimited text file to VCF format conversion. Thanks.
+Check `bcftools query` http://samtools.github.io/bcftools/bcftools.html#query
+
+Thanks. This assumes that one knows the format for a vcf file; in this case
+> '%CHROM\t%POS\t%ID\t%REF\t%ALT\t%QUAL\t%FILTER\t%INFO\t%FORMAT\t%GT\n'
+
+Do you know of a tested tool that converts a dna raw-data text file to VCF?
+
+From issue https://github.com/samtools/bcftools/issues/933
+* Make CHROM identifiers in the 23andme file and the ref.fa file the same | Remove "chr" from the ref.fa file.
+
+> bcftools convert -c ID,CHROM,POS,AA --tsv2vcf 23andme.txt --fasta-ref GRCh37.23andme.fa -s mySample -Oz -o mySample.vcf.gz
+
+If anyone has a link to the file 'GRCh37.23andme.fa', please share! Thanks.
+
+I opened an issue at https://github.com/samtools/bcftools/issues/1076.
+
+ convert vcf file from v4.1 to v4.2
+ Hello,
+
+I would like to know if it's possible to convert a vcf file from v4.1 to v4.2 using vcftools. As I understand, vcf-convert only does conversion from VCFv3.3 to VCFv4.0. Is this correct?
+If I remember correctly, it should be able to convert from v4.1 to v4.2 and also the usage page suggests so https://github.com/vcftools/vcftools/blob/master/src/perl/vcf-convert#L30
+
+ Any plan to speed up vcftools?
+ Hi,
+
+I hope there is a plan to speed up vcftools.
+
+Current version took me days to filter a vcf file with 500 samples and 20 million sites, while plink just took several minutes, but plink is not so friendly for non-human species, expecially for scaffold level reference.
+
+Best wishes,
+
+I'm afraid vcftools is not under active development any more. Please
+consider bcftools.
+
+On Mon, Aug 12, 2019 at 00:03, xiekunwhy <notifications@github.com> wrote:
+
+> Hi,
+>
+> I hope there is a plan to speed up vcftools.
+>
+> Current version took me days to filter a vcf file with 500 samples and 20
+> million sites, while plink just took several minutes, but plink is not so
+> friendly for non-human species, expecially for scaffold level reference.
+>
+> Best wishes,
+>
+> —
+> You are receiving this because you are subscribed to this thread.
+> Reply to this email directly, view it on GitHub
+> <https://github.com/vcftools/vcftools/issues/142?email_source=notifications&email_token=ABEVMY6EISO4ZHZM2QUTMB3QEEDM7A5CNFSM4IK6M242YY3PNVWWK3TUL52HS4DFUVEXG43VMWVGG33NNVSW45C7NFSM4HEUQNTQ>,
+> or mute the thread
+> <https://github.com/notifications/unsubscribe-auth/ABEVMY4LPHBYD6C52ZKUX3TQEEDM7ANCNFSM4IK6M24Q>
+> .
+>
+-- 
+Sent from Gmail Mobile
+
+
+ CVE-2019-1010127, CVE-2019-1010129
+ Two CVEs, [CVE-2019-1010127](https://cve.mitre.org/cgi-bin/cvename.cgi?name
+Based on the stack trace provided [here](https://docs.google.com/document/d/e/2PACX-1vQJveVcGMp_NMdBY5Je2K2k63RoCYznvKjJk5u1wJRmLotvwQkG5qiqZjpABcOkjzj49wkwGweiFwrc/pub), this is a very similar issue to CVE-2018-11099, discussed in https://github.com/vcftools/vcftools/issues/109. I believe that the following commits address the issue in v0.1.16:
+
+- https://github.com/vcftools/vcftools/commit/00a5b615a61054f23c01a04ebb6790a55029f695
+- https://github.com/vcftools/vcftools/commit/e94e2992e2c0f4cc95864a42fe470c040f95712e
+- https://github.com/vcftools/vcftools/commit/d657d60e37f5d705f9dbb578b516db6e420fb424
+- https://github.com/vcftools/vcftools/commit/f6453c581b8113053a25689226920f7ded2e8270
+
+MITRE has marked [CVE-2019-1010129](https://cve.mitre.org/cgi-bin/cvename.cgi?name
+What would be the fix commit for the CVE-2019-1010127,  fix released?
+
+ Aborted (out of range)
+ Hi,
+
+I found a bug that causes vcftools (the latest commit `15db94b` on master) to abort. I think it is due to an incomplete patch of #119.
+PoC: https://github.com/strongcourage/PoCs/blob/master/vcftools_15db94b/PoC_aborted
+Command: vcftools --vcf $PoC
+Valgrind says:
+~~~
+Parameters as interpreted:
+	--vcf ./PoC_aborted
+
+terminate called after throwing an instance of 'std::out_of_range'
+  what():  basic_string::substr: __pos (which is 10) > this->size() (which is 9)
+==17315== 
+==17315== Process terminating with default action of signal 6 (SIGABRT)
+==17315==    at 0x598D428: raise (raise.c:54)
+==17315==    by 0x598F029: abort (abort.c:89)
+==17315==    by 0x50ED241: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.26)
+==17315==    by 0x50F8E85: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.26)
+==17315==    by 0x50F8ED0: std::terminate() (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.26)
+==17315==    by 0x50F9104: __cxa_throw (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.26)
+==17315==    by 0x50EF9FA: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.26)
+==17315==    by 0x573437: _M_check (basic_string.h:261)
+==17315==    by 0x573437: substr (basic_string.h:2386)
+==17315==    by 0x573437: header::parse_meta(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, unsigned int&) (header.cpp:42)
+==17315==    by 0x7E1708: read_header (vcf_file.cpp:62)
+==17315==    by 0x7E1708: vcf_file::vcf_file(parameters const&, bool) (vcf_file.cpp:42)
+==17315==    by 0x40660E: main (vcftools.cpp:31)
+~~~
+Thanks,
+Manh Dung
+I committed a fix. Please re-try with the new code.
+
+On Sat, 27 Jul 2019 at 06:58, Manh-Dung Nguyen <notifications@github.com>
+wrote:
+
+> Hi,
+>
+> I found a bug that causes vcftools (the latest commit 15db94b on master)
+> to abort. I think it is due to an incomplete patch of #119
+> <https://github.com/vcftools/vcftools/issues/119>.
+> PoC:
+> https://github.com/strongcourage/PoCs/blob/master/vcftools_15db94b/PoC_aborted
+> Command: vcftools --vcf $PoC
+> Valgrind says:
+>
+> Parameters as interpreted:
+> 	--vcf ./PoC_aborted
+>
+> terminate called after throwing an instance of 'std::out_of_range'
+>   what():  basic_string::substr: __pos (which is 10) > this->size() (which is 9)
+> ==17315==
+> ==17315== Process terminating with default action of signal 6 (SIGABRT)
+> ==17315==    at 0x598D428: raise (raise.c:54)
+> ==17315==    by 0x598F029: abort (abort.c:89)
+> ==17315==    by 0x50ED241: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.26)
+> ==17315==    by 0x50F8E85: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.26)
+> ==17315==    by 0x50F8ED0: std::terminate() (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.26)
+> ==17315==    by 0x50F9104: __cxa_throw (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.26)
+> ==17315==    by 0x50EF9FA: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.26)
+> ==17315==    by 0x573437: _M_check (basic_string.h:261)
+> ==17315==    by 0x573437: substr (basic_string.h:2386)
+> ==17315==    by 0x573437: header::parse_meta(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, unsigned int&) (header.cpp:42)
+> ==17315==    by 0x7E1708: read_header (vcf_file.cpp:62)
+> ==17315==    by 0x7E1708: vcf_file::vcf_file(parameters const&, bool) (vcf_file.cpp:42)
+> ==17315==    by 0x40660E: main (vcftools.cpp:31)
+>
+> Thanks,
+> Manh Dung
+>
+> —
+> You are receiving this because you are subscribed to this thread.
+> Reply to this email directly, view it on GitHub
+> <https://github.com/vcftools/vcftools/issues/140?email_source=notifications&email_token=ABEVMY7PXJ4SMS3BWU3HY7TQBRIBDA5CNFSM4IHJNOWKYY3PNVWWK3TUL52HS4DFUVEXG43VMWVGG33NNVSW45C7NFSM4HB3F5UQ>,
+> or mute the thread
+> <https://github.com/notifications/unsubscribe-auth/ABEVMY7T5CF4G2KVYLDLOM3QBRIBDANCNFSM4IHJNOWA>
+> .
+>
+
+
+-- 
+Adam Auton
+
+
+Thanks @auton1. 954e607 fixed the bug.
+
+ Running so slow under the --snp option
+ ```
+vcftools --gzvcf ALL.chr1_GRCh38.genotypes.20170504.vcf.gz --stdout --snp rs144488117
+```
+
+It took me five minutes to find a single SNP!
+ ./configure.ac: line 8: syntax error near unexpected token `[2.63]' ./configure.ac: line 8: `AC_PREREQ([2.63])'
+ Can anyone help me, I am getting this error while trying to run ./configure.ac file. I was asked to run ./configure file but that is not available in the asked folder rather ./configure.ac file is available
+Sorry I found the solution. Ran the ./autogen.sh and it generated .configure file
+
+ undefined reference gzbuffer
+ I tried all the ways google mention to modify my LIBS & ZLIBS into
+-L/usr/local/lib -lz
+-I/usr/local/include -L/usr/local/lib -lz
+-I/usr/local/zlib-1.2.6/include -L/usr/local/zlib-1.2.6/lib -lz
+
+None of then would work. Then gzbuffer error still pop up.
+I'm using Centos 6. zlib 1.2.6 & all other different version were installed under "/usr/local/"
+ Getting a lot of -nan when calculating FST statistics
+ Hello.
+
+My command is:
+
+`vcftools --gzvcf combi.noSingletons.noMissing.vcf.gz --haploid --weir-fst-pop f1.txt --weir-fst-pop f2.txt --weir-fst-pop f3.txt --weir-fst-pop f4.txt --weir-fst-pop f6.txt --weir-fst-pop fadmix.txt --out pop_k8`
+
+I am getting a lot of "_nan_" for the FST stats
+
+> CHROM   POS     WEIR_AND_COCKERHAM_FST
+> Y       2661617 -nan
+> Y       2661694 -nan
+> Y       2661813 -nan
+> Y       2662214 -nan
+> Y       2662351 -nan
+> Y       2662679 -nan
+> Y       2662740 -nan
+> Y       2662776 -nan
+> Y       2663163 -nan
+> Y       2663704 -nan
+> Y       2663712 0.00281687
+
+For example, out of 44,044 sites, only 3,113 sites have a non-_nan_ value. I used `--max-missing 1` so all samples have a genotype.
+
+Any idea what could be the issue?
+
+Thanks
+ what is the meaning of window-pi ? 
+ Hi Adam,
+Please can you explain what  window-pi means? I found this formula:
+N_pairs = bins[CHROM][s][N_variant_site_pairs] + (N_monomorphic_sites * N_comparisons)  but can not understand. Is it the total length of window ,for example 1000 bp ? or the  SNPs number (N_VARIANTS) in a window in vcf file?
+Sorry for the confusion!
+Cong
+ vcftools Warning: Expected at least 2 parts in FORMAT entry
+ Hi,
+
+I have used the vcftools to filter my vcf file some weeks ago, and it went smoothly. However, I run the vcftools with the same vcf file again recently, it gets the following warnings:
+
+`Using zlib version: 1.2.8
+Warning: Expected at least 2 parts in FORMAT entry: ID=PGT,Number=1,Type=String,Description="Physical phasing haplotype information, describing how the alternate alleles are phased in relation to one another">
+Warning: Expected at least 2 parts in FORMAT entry: ID=PID,Number=1,Type=String,Description="Physical phasing ID information, where each unique ID within a given sample (but not across samples) connects records within a phasing group">
+Warning: Expected at least 2 parts in FORMAT entry: ID=RGQ,Number=1,Type=Integer,Description="Unconditional reference genotype confidence, encoded as a phred quality -10*log10 p(genotype call is wrong)">
+Warning: Expected at least 2 parts in INFO entry: ID=AC,Number=A,Type=Integer,Description="Allele count in genotypes, for each ALT allele, in the same order as listed">
+Warning: Expected at least 2 parts in INFO entry: ID=AC,Number=A,Type=Integer,Description="Allele count in genotypes, for each ALT allele, in the same order as listed">
+Warning: Expected at least 2 parts in INFO entry: ID=AF,Number=A,Type=Float,Description="Allele Frequency, for each ALT allele, in the same order as listed">
+Warning: Expected at least 2 parts in INFO entry: ID=AF,Number=A,Type=Float,Description="Allele Frequency, for each ALT allele, in the same order as listed">
+Warning: Expected at least 2 parts in INFO entry: ID=MLEAC,Number=A,Type=Integer,Description="Maximum likelihood expectation (MLE) for the allele counts (not necessarily the same as the AC), for each ALT allele, in the same order as listed">
+Warning: Expected at least 2 parts in INFO entry: ID=MLEAC,Number=A,Type=Integer,Description="Maximum likelihood expectation (MLE) for the allele counts (not necessarily the same as the AC), for each ALT allele, in the same order as listed">
+Warning: Expected at least 2 parts in INFO entry: ID=MLEAC,Number=A,Type=Integer,Description="Maximum likelihood expectation (MLE) for the allele counts, for each ALT allele, in the same order as listed">
+Warning: Expected at least 2 parts in INFO entry: ID=MLEAC,Number=A,Type=Integer,Description="Maximum likelihood expectation (MLE) for the allele counts, for each ALT allele, in the same order as listed">
+Warning: Expected at least 2 parts in INFO entry: ID=MLEAF,Number=A,Type=Float,Description="Maximum likelihood expectation (MLE) for the allele frequency (not necessarily the same as the AF), for each ALT allele, in the same order as listed">
+Warning: Expected at least 2 parts in INFO entry: ID=MLEAF,Number=A,Type=Float,Description="Maximum likelihood expectation (MLE) for the allele frequency (not necessarily the same as the AF), for each ALT allele, in the same order as listed">
+Warning: Expected at least 2 parts in INFO entry: ID=MLEAF,Number=A,Type=Float,Description="Maximum likelihood expectation (MLE) for the allele frequency, for each ALT allele, in the same order as listed">
+Warning: Expected at least 2 parts in INFO entry: ID=MLEAF,Number=A,Type=Float,Description="Maximum likelihood expectation (MLE) for the allele frequency, for each ALT allele, in the same order as listed">
+Warning: Expected at least 2 parts in INFO entry: ID=culprit,Number=1,Type=String,Description="The annotation which was the worst performing in the Gaussian mixture model, likely the reason why the variant was filtered out">`
+
+Is this means that there is something wrong with my vcf? Or can I ignore these warnings?
+
+It is weird, for I run the vcftools with the same vcf file several weeks before and it just went smoothly.     
+It's just a warning that vcftools doesn't know how to handle the comma
+within the Description tag. If you remove that comma in the description,
+the warning will go away. Otherwise, it can generally be ignored.
+
+On Mon, 27 May 2019 at 18:17, hellozo <notifications@github.com> wrote:
+
+> Hi,
+>
+> I have used the vcftools to filter my vcf file some weeks ago, and it went
+> smoothly. However, I run the vcftools with the same vcf file again
+> recently, it gets the following warnings:
+>
+> Using zlib version: 1.2.8 Warning: Expected at least 2 parts in FORMAT
+> entry: ID=PGT,Number=1,Type=String,Description="Physical phasing haplotype
+> information, describing how the alternate alleles are phased in relation to
+> one another"> Warning: Expected at least 2 parts in FORMAT entry:
+> ID=PID,Number=1,Type=String,Description="Physical phasing ID information,
+> where each unique ID within a given sample (but not across samples)
+> connects records within a phasing group"> Warning: Expected at least 2
+> parts in FORMAT entry:
+> ID=RGQ,Number=1,Type=Integer,Description="Unconditional reference genotype
+> confidence, encoded as a phred quality -10*log10 p(genotype call is
+> wrong)"> Warning: Expected at least 2 parts in INFO entry:
+> ID=AC,Number=A,Type=Integer,Description="Allele count in genotypes, for
+> each ALT allele, in the same order as listed"> Warning: Expected at least 2
+> parts in INFO entry: ID=AC,Number=A,Type=Integer,Description="Allele count
+> in genotypes, for each ALT allele, in the same order as listed"> Warning:
+> Expected at least 2 parts in INFO entry:
+> ID=AF,Number=A,Type=Float,Description="Allele Frequency, for each ALT
+> allele, in the same order as listed"> Warning: Expected at least 2 parts in
+> INFO entry: ID=AF,Number=A,Type=Float,Description="Allele Frequency, for
+> each ALT allele, in the same order as listed"> Warning: Expected at least 2
+> parts in INFO entry: ID=MLEAC,Number=A,Type=Integer,Description="Maximum
+> likelihood expectation (MLE) for the allele counts (not necessarily the
+> same as the AC), for each ALT allele, in the same order as listed">
+> Warning: Expected at least 2 parts in INFO entry:
+> ID=MLEAC,Number=A,Type=Integer,Description="Maximum likelihood expectation
+> (MLE) for the allele counts (not necessarily the same as the AC), for each
+> ALT allele, in the same order as listed"> Warning: Expected at least 2
+> parts in INFO entry: ID=MLEAC,Number=A,Type=Integer,Description="Maximum
+> likelihood expectation (MLE) for the allele counts, for each ALT allele, in
+> the same order as listed"> Warning: Expected at least 2 parts in INFO
+> entry: ID=MLEAC,Number=A,Type=Integer,Description="Maximum likelihood
+> expectation (MLE) for the allele counts, for each ALT allele, in the same
+> order as listed"> Warning: Expected at least 2 parts in INFO entry:
+> ID=MLEAF,Number=A,Type=Float,Description="Maximum likelihood expectation
+> (MLE) for the allele frequency (not necessarily the same as the AF), for
+> each ALT allele, in the same order as listed"> Warning: Expected at least 2
+> parts in INFO entry: ID=MLEAF,Number=A,Type=Float,Description="Maximum
+> likelihood expectation (MLE) for the allele frequency (not necessarily the
+> same as the AF), for each ALT allele, in the same order as listed">
+> Warning: Expected at least 2 parts in INFO entry:
+> ID=MLEAF,Number=A,Type=Float,Description="Maximum likelihood expectation
+> (MLE) for the allele frequency, for each ALT allele, in the same order as
+> listed"> Warning: Expected at least 2 parts in INFO entry:
+> ID=MLEAF,Number=A,Type=Float,Description="Maximum likelihood expectation
+> (MLE) for the allele frequency, for each ALT allele, in the same order as
+> listed"> Warning: Expected at least 2 parts in INFO entry:
+> ID=culprit,Number=1,Type=String,Description="The annotation which was the
+> worst performing in the Gaussian mixture model, likely the reason why the
+> variant was filtered out">
+>
+> Is this means that there is something wrong with my vcf? Or can I ignore
+> these warnings?
+>
+> It is weird, for I run the vcftools with the same vcf file several weeks
+> before and it just went smoothly.
+>
+> —
+> You are receiving this because you are subscribed to this thread.
+> Reply to this email directly, view it on GitHub
+> <https://github.com/vcftools/vcftools/issues/134?email_source=notifications&email_token=ABEVMYYQPU7OYHQQAFJHQLLPXSB4JA5CNFSM4HP7AHK2YY3PNVWWK3TUL52HS4DFUVEXG43VMWVGG33NNVSW45C7NFSM4GWDSHWA>,
+> or mute the thread
+> <https://github.com/notifications/unsubscribe-auth/ABEVMY62HJSIIKML6NLKAFDPXSB4JANCNFSM4HP7AHKQ>
+> .
+>
+
+
+-- 
+Adam Auton
+
+
+> It's just a warning that vcftools doesn't know how to handle the comma within the Description tag. If you remove that comma in the description, the warning will go away. Otherwise, it can generally be ignored.
+> […](#)
+> On Mon, 27 May 2019 at 18:17, hellozo ***@***.***> wrote: Hi, I have used the vcftools to filter my vcf file some weeks ago, and it went smoothly. However, I run the vcftools with the same vcf file again recently, it gets the following warnings: Using zlib version: 1.2.8 Warning: Expected at least 2 parts in FORMAT entry: ID=PGT,Number=1,Type=String,Description="Physical phasing haplotype information, describing how the alternate alleles are phased in relation to one another"> Warning: Expected at least 2 parts in FORMAT entry: ID=PID,Number=1,Type=String,Description="Physical phasing ID information, where each unique ID within a given sample (but not across samples) connects records within a phasing group"> Warning: Expected at least 2 parts in FORMAT entry: ID=RGQ,Number=1,Type=Integer,Description="Unconditional reference genotype confidence, encoded as a phred quality -10*log10 p(genotype call is wrong)"> Warning: Expected at least 2 parts in INFO entry: ID=AC,Number=A,Type=Integer,Description="Allele count in genotypes, for each ALT allele, in the same order as listed"> Warning: Expected at least 2 parts in INFO entry: ID=AC,Number=A,Type=Integer,Description="Allele count in genotypes, for each ALT allele, in the same order as listed"> Warning: Expected at least 2 parts in INFO entry: ID=AF,Number=A,Type=Float,Description="Allele Frequency, for each ALT allele, in the same order as listed"> Warning: Expected at least 2 parts in INFO entry: ID=AF,Number=A,Type=Float,Description="Allele Frequency, for each ALT allele, in the same order as listed"> Warning: Expected at least 2 parts in INFO entry: ID=MLEAC,Number=A,Type=Integer,Description="Maximum likelihood expectation (MLE) for the allele counts (not necessarily the same as the AC), for each ALT allele, in the same order as listed"> Warning: Expected at least 2 parts in INFO entry: ID=MLEAC,Number=A,Type=Integer,Description="Maximum likelihood expectation (MLE) for the allele counts (not necessarily the same as the AC), for each ALT allele, in the same order as listed"> Warning: Expected at least 2 parts in INFO entry: ID=MLEAC,Number=A,Type=Integer,Description="Maximum likelihood expectation (MLE) for the allele counts, for each ALT allele, in the same order as listed"> Warning: Expected at least 2 parts in INFO entry: ID=MLEAC,Number=A,Type=Integer,Description="Maximum likelihood expectation (MLE) for the allele counts, for each ALT allele, in the same order as listed"> Warning: Expected at least 2 parts in INFO entry: ID=MLEAF,Number=A,Type=Float,Description="Maximum likelihood expectation (MLE) for the allele frequency (not necessarily the same as the AF), for each ALT allele, in the same order as listed"> Warning: Expected at least 2 parts in INFO entry: ID=MLEAF,Number=A,Type=Float,Description="Maximum likelihood expectation (MLE) for the allele frequency (not necessarily the same as the AF), for each ALT allele, in the same order as listed"> Warning: Expected at least 2 parts in INFO entry: ID=MLEAF,Number=A,Type=Float,Description="Maximum likelihood expectation (MLE) for the allele frequency, for each ALT allele, in the same order as listed"> Warning: Expected at least 2 parts in INFO entry: ID=MLEAF,Number=A,Type=Float,Description="Maximum likelihood expectation (MLE) for the allele frequency, for each ALT allele, in the same order as listed"> Warning: Expected at least 2 parts in INFO entry: ID=culprit,Number=1,Type=String,Description="The annotation which was the worst performing in the Gaussian mixture model, likely the reason why the variant was filtered out"> Is this means that there is something wrong with my vcf? Or can I ignore these warnings? It is weird, for I run the vcftools with the same vcf file several weeks before and it just went smoothly. — You are receiving this because you are subscribed to this thread. Reply to this email directly, view it on GitHub <#134?email_source=notifications&email_token=ABEVMYYQPU7OYHQQAFJHQLLPXSB4JA5CNFSM4HP7AHK2YY3PNVWWK3TUL52HS4DFUVEXG43VMWVGG33NNVSW45C7NFSM4GWDSHWA>, or mute the thread <https://github.com/notifications/unsubscribe-auth/ABEVMY62HJSIIKML6NLKAFDPXSB4JANCNFSM4HP7AHKQ> .
+> -- Adam Auton
+
+Hi Adam,
+
+Thanks for your help! Its really helpful.
+
+ vcf-consensus: for unphased heterozygous sites, always reports haplotype 1 as REF variant and H2 as ALT
+ It biases the output sequences, which I'm hoping to use for phylogenetics and diversity analyses. I know they won't be perfect under any circumstances (phasing was very imperfect), but I can't have them systematically biased so that one allele in each individual is always much closer to the reference genome. 
+
+I'd suggest the script put in an N (or possibly the correct ambiguity code, though people often don't want those inserted in their data) at all unphased heterozygous sites, or at least give the user that option. 
+
+(Btw, I really appreciate this script tackling alternate references for diploids at all!)
+
+src/perl/vcf-consensus
+Hi, this script is not supported anymore. Please check `bcftools consensus` instead. http://samtools.github.io/bcftools/bcftools.html#consensus
+
+Sweet! Thank you so much! I was about to waste a week or two hacking my way
+around this using the deprecated script.
+
+On Mon, May 20, 2019, 2:45 AM Petr Danecek <notifications@github.com> wrote:
+
+> Hi, this script is not supported anymore. Please check bcftools consensus
+> instead. http://samtools.github.io/bcftools/bcftools.html#consensus
+>
+> —
+> You are receiving this because you authored the thread.
+> Reply to this email directly, view it on GitHub
+> <https://github.com/vcftools/vcftools/issues/133?email_source=notifications&email_token=ACJOCQF6JVLO3BFTPR2IQ43PWJCIRA5CNFSM4HN3HBG2YY3PNVWWK3TUL52HS4DFVREXG43VMVBW63LNMVXHJKTDN5WW2ZLOORPWSZGODVX24ZY#issuecomment-493858407>,
+> or mute the thread
+> <https://github.com/notifications/unsubscribe-auth/ACJOCQHCSLX5D554RLKIIF3PWJCIRANCNFSM4HN3HBGQ>
+> .
+>
+
+
+ Fix FORMAT/FILTER typo in add_FILTER_descriptor()
+ The warning log message in add_FILTER_descriptor() states, "Expected at
+least 2 parts in FORMAT entry". Correct "FORMAT" to "FILTER".
+Thanks!
+
+ vcftools convert genotype of '.|.' to '.'
+ With GenotypeGVCFs of GATK 4.1.1.0 creates genotype (GT) like '.|.'  vcftools (v 0.1.16) seems to convert this into '.'  For example,
+.|.:0,0:.:.:0|1:15530_TTG_T:.:15530
+becomes
+.:0,0:.:.:0|1:15530_TTG_T:.:15530
+
+Then there is also weird conversion happening:
+
+0/0:13,0:13:39:.:.:0,39,547	./.:0,0:0:.:.:.:0,0,0	0/0:1,0:1:3:.:.:0,3,32	0/0:9,0:9:24:.:.:0,24,360
+Qmera81.spades_2325	15525	.	A	G	64.71	.	AC=1;AF=0.125;AN=8;BaseQRankSum=-6.740e-01;DP=27;ExcessHet=3.0103;FS=4.771;MLEAC=1;MLEAF=0.125;MQ=45.89;MQRankSum=-1.383e+00;QD=16.18;ReadPosRankSum=0.431;SOR=2.209	GT:AD:DP:GQ:PGT:PID:PL:PS	0|1:2,2:4:78:0|1:15504_TA_T:78,0,78:15504	
+
+becomes
+ Qmera81.spades_2325	15525	.	A	G	64.71	.	AC=1;AF=0.125;AN=8;BaseQRankSum=-6.740e-01;DP=27;ExcessHet=3.0103;FS=4.771;MLEAC=1;MLEAF=0.125;MQ=45.89;MQRankSum=-1.383e+00;QD=16.18;ReadPosRankSum=0.431;SOR=2.209	GT:AD:DP:GQ:PGT:PID:PL:PS	0|1:2,2:4:78:0|1:15504_TA_T:78,0,78:15504	0/0:13,0:13:39:.:.:0,39,547:.	./.:0,0:0:.:.:.:0,0,0:.	0/0:1,0:1:3:.:.:0,3,32:.	0/0:9,0:9:24:.:.:0,24,360:.
+
+Basically vcftools is adding additional field at the end  of each genotype with '.' as the value.
+
+I'm attaching a test file which causes this problem (only 2 sites extracted from the full vcf), and I used the following command.
+
+vcftools --vcf temp.vcf --recode --recode-INFO-all  --out tempOut
+
+[temp.vcf.txt](https://github.com/vcftools/vcftools/files/3114601/temp.vcf.txt)
+
+
+
+
+Hello, I run into the exact same issue. After I filter and --recode my multisample vcf file, I get all ".|." transformed into "." This messes up my next step which is imputation using BEAGLE, which throws an error when not finding any allele separator in the GT field.
+I read the issue #13 above but it does not seem to offer a solution as filtering out good positions just because very few samples run into this issues seems a pity.
+Has anyone found any solution to this in the meantime?
+
+Solution found! I just manually changed back "." in the genotype field with the original ".|." here is the command (the compressed version requires sometools):
+cat filtered.vcf | sed $'s/\t\.:/\t\.|\.:/g' > filtered_ready.vcf #Uncompressed version
+zcat filtered.vcf.gz | sed $'s/\t\.:/\t\.|\.:/g' | bgzip -c > filtered_ready.vcf.gz #Compressed version
+
+ the formula for calculating nucleotide diversity
+ Hi, 
+
+I used --site-pi and --window-pi to calculate pi value, but they are different, could you show us the formulas used to caculate them ?
+
+Thanks a lot!!
+Hi, 
+
+I am facing the same issue. Can anyone please provide a formula or a reference for those calculations?
+
+ vcf-tools is unable to parse a header when the description field contains a comma
+ Example:
+This line parses normally:
+##FORMAT=<ID=DP,Number=1,Type=Integer,Description="Approximate read depth (reads with MQ=255 or with bad mates are filtered)">
+
+whereas this line:
+##FORMAT=<ID=PL,Number=G,Type=Integer,Description="Normalized, Phred-scaled likelihoods for genotypes as defined in the VCF specification">
+
+results in this error:
+Warning: Expected at least 2 parts in FORMAT entry: ID=PL,Number=G,Type=Integer,Description="Normalized, Phred-scaled likelihoods for genotypes as defined in the VCF specification">
+
+
+
+The problem is the "," character in the description. VCFtools tokenizes the
+string using the comma character, and isn't sophisticated enough to handle
+the fact that that comma is within the description quote marks. This is a
+long standing issue. The warning can be ignored, and will (as far as I
+know) have no effect on downstream analyses.
+
+On Thu, 28 Mar 2019 at 06:12, jgerlach54 <notifications@github.com> wrote:
+
+> Example:
+> This line parses normally:
+> ##FORMAT=<ID=DP,Number=1,Type=Integer,Description="Approximate read depth
+> (reads with MQ=255 or with bad mates are filtered)">
+>
+> whereas this line:
+> ##FORMAT=<ID=PL,Number=G,Type=Integer,Description="Normalized,
+> Phred-scaled likelihoods for genotypes as defined in the VCF specification">
+>
+> results in this error:
+> Warning: Expected at least 2 parts in FORMAT entry:
+> ID=PL,Number=G,Type=Integer,Description="Normalized, Phred-scaled
+> likelihoods for genotypes as defined in the VCF specification">
+>
+> —
+> You are receiving this because you are subscribed to this thread.
+> Reply to this email directly, view it on GitHub
+> <https://github.com/vcftools/vcftools/issues/129>, or mute the thread
+> <https://github.com/notifications/unsubscribe-auth/AElWYw7sbIVDQXgEeVAi7MYkJH8afN23ks5vbKrugaJpZM4cP9Sw>
+> .
+>
+
+
+-- 
+Adam Auton
+
+
+I have the same warning when running the following: 
+
+vcftools --vcf JKH266_merged.vcf --out JKH266_Tajima --TajimaD 1000000
+
+It returns a completely empty Tajima.out file. Any help?
+
+VCF file below - converted to TXT because GitHub doesn't support VCF. 
+
+[JKH266_merged.txt](https://github.com/vcftools/vcftools/files/3566615/JKH266_merged.txt)
+
+
+
+Hi! I've found a problem related with this. When processing a vcf file with a space following the comma, (in my case a FILTER option), it gives an error reporting that there's no description. The solution is to delete the space following the comma. Maybe the parser could handle this.
+
+ sample order in the --keep flag
+ Hi,
+
+I am trying to use vcftools to extract a subset of samples from a all-in-one vcf file. I am doing de novo analysis which the downstream analysis requires samples of a trio in the order of father, mother and child. In the file for the --keep flag, The samples are in the order like:
+
+father_sampleID
+mother_sampleID
+child_sampleID
+
+In the all-in-one vcf file, the sample ID for child is ahead of father and mother, so the extracted subset of vcf files is in the order of child, father and mother. Is there any way can keep the order of samples as in the --keep flag?
+
+thanks,
+
+Shan
+ vcf-convert breaking on Strelka2 indels
+ We are trying to upgrade a Strelka2 file from VCFv4.1 to VCFv4.2. Unfortunately vcftools is randomly breaking on indels.
+
+Command:
+ zcat variants.vcf.gz | /home/vcftools/bin/vcf-convert -r /mnt/data/refData/1055/1055.fa -v 4.2 | bgzip -c > variants42.vcf.gz
+
+vcf-convert error: 
+Sanity check failed: the ref does not agree at chr1:1289367 .. [] in .fa,  [C] in .vcf.
+
+Here are the lines above and below the offending line.
+chr1    1288583 .       C       G       103     LowGQX;NoPassedVariantGTs       SNVHPOL=5;MQ=60 GT:GQ:GQX:DP:DPF:AD:ADF:ADR:SB:FT:PL    1/1:12:12:5:0:0,5:0,3:0,2:-14.2:LowGQX:140,15,0
+chr1    1288823 .       A       G       103     PASS    SNVHPOL=5;MQ=60 GT:GQ:GQX:DP:DPF:AD:ADF:ADR:SB:FT:PL    1/1:21:21:8:0:0,8:0,0:0,8:0.0:PASS:140,24,0
+chr1    1288824 .       G       A       0       LowGQX;NoPassedVariantGTs       SNVHPOL=3;MQ=60 GT:GQ:GQX:DP:DPF:AD:ADF:ADR:SB:FT:PL    0/1:14:0:8:0:7,1:0,0:7,1:0.0:LowGQX:16,0,110
+chr1    1289367 .       CTG     C       3070    PASS    CIGAR=1M2D;RU=TG;REFREP=1;IDREP=0;MQ=60 GT:GQ:GQX:DPI:AD:ADF:ADR:FT:PL  1/1:83:83:32:0,28:0,13:0,15:PASS:999,86,0
+chr1    1289911 .       G       A       62      LowGQX;NoPassedVariantGTs       SNVHPOL=4;MQ=60 GT:GQ:GQX:DP:DPF:AD:ADF:ADR:SB:FT:PL    1/1:10:10:4:0:0,4:0,0:0,4:0.0:LowGQX:99,12,0
+chr1    1290263 .       A       G       0       LowGQX;NoPassedVariantGTs       SNVHPOL=3;MQ=60 GT:GQ:GQX:DP:DPF:AD:ADF:ADR:SB:FT:PL    0/1:3:0:13:0:12,1:2,0:10,1:0.0:LowGQX:3,0,181
+chr1    1290474 .       G       C       0       LowGQX;NoPassedVariantGTs       SNVHPOL=4;MQ=60 GT:GQ:GQX:DP:DPF:AD:ADF:ADR:SB:FT:PL    0/1:5:0:7:0:6,1:1,0:5,1:0.0:LowGQX:5,0,127 
+
+The indel at chr1:1289367 is the 11th indel in the file. On other runs it has made it to the 20th indel before erroring out. The error is always a blank value in the reference and the correct reference in the VCF. This is a valid indel: RS140777846 GRCh37.p13 chr 1 NC_000001.10:g.1289368_1289369delTG.
+
+Any help would be appreciated.
+
+Curt
+
+PS. As a bonus question, I also want to upgrade manta and canvas VCFs to VCFv4.2 which alse causes vcf-convert to throw the same message.
+
+ Plans for parallelization?
+ Hello,
+
+Is anyone aware of a parallelized version of vcftools?  Alternatively, are there any plans to implement multi-threading?
+
+Cheers,
+
+David
+vcftools is no longer being actively developed, so there are no such plans.
+
+I've been looking for a project to get involved in to develop my portfolio - do you know if there would be any objections to my taking a crack at implementing a parallelized version?
+
+Go for it - that's what branching is for :-)
+
+My impression is that the processing is IO bound, so I'd be interested to
+see if parallelization helps at all.
+
+Also, be warned that vcftools isn't under active development.
+
+
+On Thu, May 9, 2019 at 16:36, dminkley <notifications@github.com> wrote:
+
+> I've been looking for a project to get involved in to develop my portfolio
+> - do you know if there would be any objections to my taking a crack at
+> implementing a parallelized version?
+>
+> —
+> You are receiving this because you commented.
+>
+>
+> Reply to this email directly, view it on GitHub
+> <https://github.com/vcftools/vcftools/issues/126#issuecomment-491103757>,
+> or mute the thread
+> <https://github.com/notifications/unsubscribe-auth/ABEVMY255UE5IV7PDEK5DQLPUSYRTANCNFSM4GQGBP3Q>
+> .
+>
+-- 
+Sent from Gmail Mobile
+
+
+ Writing 012 matrix files ... Error: Could not open temporary file.
+ Hi,
+
+I'm trying to make a 012 matrix using VCFTools using these parameters:
+
+--vcf /filepath/snp.vcf
+--012
+--out output_geno.vcf
+
+but I keep receiving this error, and I'm not sure how to resolve the issue:
+
+"After filtering, kept 287 out of 287 Individuals Writing 012 matrix files ... Error: Could not open temporary file."
+
+Any help is greatly appreciated!
+Try adding --temp path-to-temp-location  .
+
+Vcftools is trying to write temporary files, but can't for some reason. This option specifies where these files are written. 
+
+Adam
+
+> On Nov 27, 2018, at 06:37, jmounger <notifications@github.com> wrote:
+> 
+> Hi,
+> 
+> I'm trying to make a 012 matrix using VCFTools using these parameters:
+> 
+> --vcf /filepath/snp.vcf
+> --012
+> --out output_geno.vcf
+> 
+> but I keep receiving this error, and I'm not sure how to resolve the issue:
+> 
+> "After filtering, kept 287 out of 287 Individuals Writing 012 matrix files ... Error: Could not open temporary file."
+> 
+> Any help is greatly appreciated!
+> 
+> —
+> You are receiving this because you are subscribed to this thread.
+> Reply to this email directly, view it on GitHub, or mute the thread.
+
+
+Hi,
+
+I tried that and received a similar error:
+
+Parameters as interpreted:
+
+--vcf /Users/jmounger/Downloads/snp.vcf
+
+--012
+
+--out output_matrix.vcf
+
+--temp /Users/jmounger/Downloads/temp
+
+
+Warning: Expected at least 2 parts in INFO entry:
+ID=I16,Number=16,Type=Float,Description="Auxiliary tag used for calling,
+see description of bcf_callret1_t in bam2bcf.h">
+
+After filtering, kept 287 out of 287 Individuals
+
+Writing 012 matrix files ... Error:  Could not open temporary file.
+
+
+However, my temp folder did fill up with a number of what I assume are
+temporary files.
+
+
+Thank you,
+
+Jeannie
+
+On Tue, Nov 27, 2018 at 11:54 AM Adam Auton <notifications@github.com>
+wrote:
+
+> Try adding --temp path-to-temp-location .
+>
+> Vcftools is trying to write temporary files, but can't for some reason.
+> This option specifies where these files are written.
+>
+> Adam
+>
+> > On Nov 27, 2018, at 06:37, jmounger <notifications@github.com> wrote:
+> >
+> > Hi,
+> >
+> > I'm trying to make a 012 matrix using VCFTools using these parameters:
+> >
+> > --vcf /filepath/snp.vcf
+> > --012
+> > --out output_geno.vcf
+> >
+> > but I keep receiving this error, and I'm not sure how to resolve the
+> issue:
+> >
+> > "After filtering, kept 287 out of 287 Individuals Writing 012 matrix
+> files ... Error: Could not open temporary file."
+> >
+> > Any help is greatly appreciated!
+> >
+> > —
+> > You are receiving this because you are subscribed to this thread.
+> > Reply to this email directly, view it on GitHub, or mute the thread.
+>
+> —
+> You are receiving this because you authored the thread.
+> Reply to this email directly, view it on GitHub
+> <https://github.com/vcftools/vcftools/issues/125#issuecomment-442133683>,
+> or mute the thread
+> <https://github.com/notifications/unsubscribe-auth/AoQ1h8Ls5h4wIgmXbFusHnvRfNS2MJ_aks5uzW5KgaJpZM4Y1nw_>
+> .
+>
+
+
+-- 
+Jeannie Mounger
+PhD Student, Department of Integrative Biology
+University of South Florida
+4202 East Fowler Avenue, SCA120
+Tampa, FL 33620
+
+
+Hi Jeannie,
+
+I'm encountering exactly the same issue. Have you found a solution yet?
+
+Thanks,
+Karlijn
+
+Hi,
+
+In case anyone else runs into the same issue; I haven't found a solution how to fix it in vcftools, but instead I have used vcftools to create plink files (--plink) and created the 012 matrix using --recode A in Plink1.9.
+
+Karlijn
+
+I ran into this same issue (`vcftools` ver 0.1.16 on Mac OSX) and [this fix, increasing the `ulimit`, worked for me](https://www.biostars.org/p/351457/).
+
+ vcf 2 phase ped
+ Hi Sir/Madam,
+
+How to create phased ped from vcf with vcftools? 
+
+vcftools --vcf chr1.vcf.gz --plink --out chr1.phased
+
+I wonder to know whether the above command can creat the ped file with phased information?
+
+Thanks. 
+ Update vcf-merge
+ 
+Thank you for the pull request. What is the motivation for sorting the FORMAT fields? As a side note, I'd strongly urge to switch to `bcftools merge` as it is much faster, has more features, and the perl `vcf-*` scripts are not supported anymore.
+

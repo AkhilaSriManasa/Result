@@ -1,0 +1,56 @@
+﻿ Update of README.md
+ Merge pull request #12 from cnotin/patch-1
+
+ Improve FindFiles() performance by removing unecessary operations
+ Merge pull request #11 from cnotin/patch-6
+
+ListLocalGroupMembers() code factorization, and add handling of unresolved SIDs
+  Improve FindFiles() performance by removing unecessary operations
+ ListLocalGroupMembers() code factorization, and add handling of unresolved SIDs
+ Version 0.2.0
+
+-Added "MasterKeys" check to list user DPAPI master keys
+-Added "CredFiles" check to list user/system DPAPI Credential files
+-Added "RDCManFiles" check to list Remote Desktop Connection Manager settings files
+-Added "CloudCreds" check - integrated @cmaddalena's SharpCloud checks
+-Added service tag resolution for TCP/UDP connections and command line resolution (thanks @tifkin_ :)
+-Slightly refactored @djhohnstein's Vault pull request (from SharpWeb)
+-Added more contextual information for browser triage
+-Added localized name resolution for the "LocalGroupMembers" check
+-Misc. formatting/bug fixes
+ Merge pull request #8 from djhohnstein/WindowsVault
+
+Windows Vault Add-On
+ Merge pull request #2 from ClementNotin/patch-1
+
+Add empty line in output between each mapped drive
+ Merge pull request #3 from ClementNotin/patch-2
+
+Improve error message in ListDNSCache() when using Windows before 8/2012
+ Merge pull request #3 from ClementNotin/patch-2
+
+Improve error message in ListDNSCache() when using Windows before 8/2012
+ Merge pull request #4 from ClementNotin/patch-3
+
+Small typo "Triagechrome" -> "TriageChrome"
+ Merge pull request #5 from ClementNotin/patch-4
+
+Add handling of PathTooLongException in FindFiles()
+ Merge pull request #6 from ClementNotin/patch-5
+
+Create .gitignore with common VS exclusions
+ Readme
+ Added DumpVault to fetch credentials from the Windows Vault
+ Create .gitignore with common VS exclusions
+ Add handling of PathTooLongException in FindFiles()
+
+Happens when the generated path (path+pattern) is too loong
+ Small typo "Triagechrome" -> "TriageChrome"
+ Improve error message in ListDNSCache() when using Windows before 8/2012
+
+The 'MSFT_DNSClientCache' WMI class is unavailable on older Windows versions
+Cf. https://msdn.microsoft.com/en-us/library/hh872334%28v=vs.85%29.aspx?f=255&MSPPError=-2147217396
+ Add empty line in output between each mapped drive
+
+Same as in ListNetworkShares() just after
+ initial commit

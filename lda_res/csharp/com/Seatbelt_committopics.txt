@@ -1,0 +1,68 @@
+﻿NUMTopics = 2
+(0, '0.013*"add" + 0.013*"check" + 0.013*"request" + 0.013*"merge" + 0.013*"pull" + 0.013*"patch" + 0.013*"line" + 0.013*"handle" + 0.013*"improve" + 0.013*"findfile"')
+(1, '0.077*"add" + 0.042*"merge" + 0.037*"request" + 0.032*"patch" + 0.032*"check" + 0.027*"pull" + 0.022*"findfile" + 0.022*"improve" + 0.017*"listdnscache" + 0.017*"error"')
+
+------------------------
+NUMTopics = 3
+(0, '0.013*"request" + 0.013*"add" + 0.013*"merge" + 0.013*"pull" + 0.013*"patch" + 0.013*"message" + 0.013*"improve" + 0.013*"use" + 0.013*"error" + 0.013*"check"')
+(1, '0.049*"add" + 0.049*"request" + 0.049*"merge" + 0.038*"patch" + 0.038*"listdnscache" + 0.038*"error" + 0.038*"use" + 0.038*"message" + 0.026*"improve" + 0.026*"pull"')
+(2, '0.090*"add" + 0.050*"check" + 0.034*"merge" + 0.026*"request" + 0.026*"patch" + 0.026*"pull" + 0.026*"list" + 0.026*"resolution" + 0.018*"findfile" + 0.018*"improve"')
+
+------------------------
+NUMTopics = 4
+(0, '0.013*"request" + 0.013*"merge" + 0.013*"message" + 0.013*"add" + 0.013*"patch" + 0.013*"use" + 0.013*"error" + 0.013*"pull" + 0.013*"path" + 0.013*"common"')
+(1, '0.052*"add" + 0.052*"request" + 0.052*"merge" + 0.040*"patch" + 0.040*"listdnscache" + 0.040*"error" + 0.040*"use" + 0.040*"message" + 0.028*"pull" + 0.028*"common"')
+(2, '0.094*"add" + 0.052*"check" + 0.036*"merge" + 0.027*"request" + 0.027*"patch" + 0.027*"pull" + 0.027*"list" + 0.027*"resolution" + 0.019*"findfile" + 0.019*"improve"')
+(3, '0.013*"check" + 0.013*"add" + 0.013*"resolution" + 0.013*"pull" + 0.013*"patch" + 0.013*"list" + 0.013*"request" + 0.013*"sid" + 0.013*"remove" + 0.013*"merge"')
+
+------------------------
+NUMTopics = 5
+(0, '0.013*"request" + 0.013*"merge" + 0.013*"message" + 0.013*"use" + 0.013*"error" + 0.013*"path" + 0.013*"patch" + 0.013*"add" + 0.013*"pull" + 0.013*"listdnscache"')
+(1, '0.054*"add" + 0.054*"request" + 0.054*"merge" + 0.041*"patch" + 0.041*"listdnscache" + 0.041*"error" + 0.041*"use" + 0.041*"message" + 0.028*"pull" + 0.028*"common"')
+(2, '0.097*"add" + 0.053*"check" + 0.036*"merge" + 0.028*"request" + 0.028*"patch" + 0.028*"pull" + 0.028*"list" + 0.028*"resolution" + 0.019*"findfile" + 0.019*"improve"')
+(3, '0.013*"check" + 0.013*"add" + 0.013*"resolution" + 0.013*"pull" + 0.013*"patch" + 0.013*"request" + 0.013*"list" + 0.013*"sid" + 0.013*"remove" + 0.013*"merge"')
+(4, '0.013*"add" + 0.013*"check" + 0.013*"pull" + 0.013*"request" + 0.013*"merge" + 0.013*"resolution" + 0.013*"patch" + 0.013*"list" + 0.013*"unresolved" + 0.013*"factorization"')
+
+------------------------
+NUMTopics = 6
+(0, '0.013*"request" + 0.013*"merge" + 0.013*"message" + 0.013*"use" + 0.013*"error" + 0.013*"path" + 0.013*"patch" + 0.013*"add" + 0.013*"pull" + 0.013*"listdnscache"')
+(1, '0.055*"add" + 0.055*"request" + 0.055*"merge" + 0.042*"patch" + 0.042*"listdnscache" + 0.042*"error" + 0.042*"use" + 0.042*"message" + 0.029*"pull" + 0.029*"common"')
+(2, '0.099*"add" + 0.054*"check" + 0.037*"merge" + 0.028*"request" + 0.028*"patch" + 0.028*"pull" + 0.028*"list" + 0.028*"resolution" + 0.019*"findfile" + 0.019*"improve"')
+(3, '0.013*"check" + 0.013*"add" + 0.013*"resolution" + 0.013*"pull" + 0.013*"list" + 0.013*"patch" + 0.013*"request" + 0.013*"sid" + 0.013*"remove" + 0.013*"performance"')
+(4, '0.013*"add" + 0.013*"request" + 0.013*"merge" + 0.013*"pull" + 0.013*"patch" + 0.013*"findfile" + 0.013*"map" + 0.013*"improve" + 0.013*"output" + 0.013*"handle"')
+(5, '0.013*"request" + 0.013*"add" + 0.013*"pull" + 0.013*"merge" + 0.013*"patch" + 0.013*"improve" + 0.013*"findfile" + 0.013*"line" + 0.013*"map" + 0.013*"handle"')
+
+------------------------
+NUMTopics = 7
+(0, '0.013*"request" + 0.013*"add" + 0.013*"pull" + 0.013*"merge" + 0.013*"patch" + 0.013*"check" + 0.013*"improve" + 0.013*"findfile" + 0.013*"line" + 0.013*"message"')
+(1, '0.056*"add" + 0.056*"request" + 0.056*"merge" + 0.043*"patch" + 0.043*"listdnscache" + 0.043*"error" + 0.043*"use" + 0.043*"message" + 0.029*"common" + 0.029*"small"')
+(2, '0.100*"add" + 0.055*"check" + 0.037*"merge" + 0.028*"request" + 0.028*"patch" + 0.028*"pull" + 0.028*"list" + 0.028*"resolution" + 0.019*"findfile" + 0.019*"improve"')
+(3, '0.013*"request" + 0.013*"add" + 0.013*"patch" + 0.013*"pull" + 0.013*"merge" + 0.013*"check" + 0.013*"resolution" + 0.013*"findfile" + 0.013*"improve" + 0.013*"listdnscache"')
+(4, '0.013*"add" + 0.013*"request" + 0.013*"merge" + 0.013*"pull" + 0.013*"patch" + 0.013*"findfile" + 0.013*"map" + 0.013*"improve" + 0.013*"listdnscache" + 0.013*"check"')
+(5, '0.013*"add" + 0.013*"request" + 0.013*"pull" + 0.013*"merge" + 0.013*"patch" + 0.013*"improve" + 0.013*"findfile" + 0.013*"error" + 0.013*"line" + 0.013*"use"')
+(6, '0.013*"add" + 0.013*"request" + 0.013*"merge" + 0.013*"patch" + 0.013*"pull" + 0.013*"message" + 0.013*"improve" + 0.013*"check" + 0.013*"path" + 0.013*"findfile"')
+
+------------------------
+NUMTopics = 8
+(0, '0.013*"request" + 0.013*"add" + 0.013*"merge" + 0.013*"pull" + 0.013*"patch" + 0.013*"check" + 0.013*"improve" + 0.013*"message" + 0.013*"line" + 0.013*"findfile"')
+(1, '0.057*"add" + 0.057*"request" + 0.057*"merge" + 0.043*"patch" + 0.043*"listdnscache" + 0.043*"error" + 0.043*"use" + 0.043*"message" + 0.030*"common" + 0.030*"small"')
+(2, '0.101*"add" + 0.056*"check" + 0.038*"merge" + 0.029*"request" + 0.028*"patch" + 0.028*"pull" + 0.028*"resolution" + 0.028*"list" + 0.019*"improve" + 0.019*"findfile"')
+(3, '0.013*"request" + 0.013*"add" + 0.013*"pull" + 0.013*"patch" + 0.013*"check" + 0.013*"merge" + 0.013*"resolution" + 0.013*"listdnscache" + 0.013*"improve" + 0.013*"findfile"')
+(4, '0.013*"add" + 0.013*"check" + 0.013*"pull" + 0.013*"request" + 0.013*"merge" + 0.013*"patch" + 0.013*"resolution" + 0.013*"list" + 0.013*"findfile" + 0.013*"unresolved"')
+(5, '0.013*"add" + 0.013*"request" + 0.013*"pull" + 0.013*"merge" + 0.013*"patch" + 0.013*"improve" + 0.013*"findfile" + 0.013*"error" + 0.013*"use" + 0.013*"message"')
+(6, '0.013*"add" + 0.013*"request" + 0.013*"merge" + 0.013*"patch" + 0.013*"pull" + 0.013*"message" + 0.013*"check" + 0.013*"improve" + 0.013*"path" + 0.013*"error"')
+(7, '0.013*"add" + 0.013*"check" + 0.013*"pull" + 0.013*"request" + 0.013*"merge" + 0.013*"findfile" + 0.013*"patch" + 0.013*"improve" + 0.013*"list" + 0.013*"resolution"')
+
+------------------------
+NUMTopics = 9
+(0, '0.013*"request" + 0.013*"add" + 0.013*"merge" + 0.013*"pull" + 0.013*"patch" + 0.013*"message" + 0.013*"check" + 0.013*"line" + 0.013*"findfile" + 0.013*"error"')
+(1, '0.058*"add" + 0.058*"merge" + 0.058*"request" + 0.044*"patch" + 0.044*"listdnscache" + 0.044*"error" + 0.044*"use" + 0.044*"message" + 0.030*"small" + 0.030*"create"')
+(2, '0.102*"add" + 0.056*"check" + 0.038*"merge" + 0.029*"patch" + 0.029*"request" + 0.029*"list" + 0.029*"pull" + 0.029*"resolution" + 0.019*"handle" + 0.019*"findfile"')
+(3, '0.013*"request" + 0.013*"add" + 0.013*"patch" + 0.013*"pull" + 0.013*"check" + 0.013*"merge" + 0.013*"resolution" + 0.013*"findfile" + 0.013*"listdnscache" + 0.013*"message"')
+(4, '0.013*"add" + 0.013*"request" + 0.013*"merge" + 0.013*"pull" + 0.013*"patch" + 0.013*"findfile" + 0.013*"map" + 0.013*"check" + 0.013*"improve" + 0.013*"listdnscache"')
+(5, '0.013*"add" + 0.013*"request" + 0.013*"merge" + 0.013*"pull" + 0.013*"patch" + 0.013*"findfile" + 0.013*"message" + 0.013*"error" + 0.013*"improve" + 0.013*"use"')
+(6, '0.013*"add" + 0.013*"merge" + 0.013*"request" + 0.013*"message" + 0.013*"pull" + 0.013*"patch" + 0.013*"improve" + 0.013*"path" + 0.013*"error" + 0.013*"use"')
+(7, '0.013*"add" + 0.013*"request" + 0.013*"merge" + 0.013*"pull" + 0.013*"error" + 0.013*"findfile" + 0.013*"patch" + 0.013*"use" + 0.013*"listdnscache" + 0.013*"message"')
+(8, '0.013*"request" + 0.013*"add" + 0.013*"merge" + 0.013*"patch" + 0.013*"pull" + 0.013*"check" + 0.013*"message" + 0.013*"use" + 0.013*"improve" + 0.013*"error"')
+
+------------------------

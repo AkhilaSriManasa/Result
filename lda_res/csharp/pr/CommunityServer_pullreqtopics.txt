@@ -1,0 +1,68 @@
+﻿NUMTopics = 2
+(0, '0.064*"user" + 0.064*"exception" + 0.064*"write" + 0.046*"update" + 0.046*"try" + 0.046*"webdav" + 0.046*"privilege" + 0.046*"create" + 0.028*"file" + 0.028*"readmemd"')
+(1, '0.110*"paragraph" + 0.045*"margin" + 0.032*"empty" + 0.032*"enter" + 0.032*"line" + 0.032*"return" + 0.032*"add" + 0.032*"user" + 0.019*"comment" + 0.019*"link"')
+
+------------------------
+NUMTopics = 3
+(0, '0.072*"user" + 0.072*"exception" + 0.072*"write" + 0.051*"update" + 0.051*"webdav" + 0.051*"try" + 0.051*"privilege" + 0.051*"create" + 0.029*"file" + 0.029*"readmemd"')
+(1, '0.121*"paragraph" + 0.048*"margin" + 0.034*"line" + 0.034*"enter" + 0.034*"empty" + 0.034*"return" + 0.034*"add" + 0.034*"user" + 0.019*"link" + 0.019*"comment"')
+(2, '0.020*"paragraph" + 0.020*"margin" + 0.020*"add" + 0.020*"user" + 0.020*"empty" + 0.020*"enter" + 0.020*"discussion" + 0.020*"processing" + 0.020*"return" + 0.020*"send"')
+
+------------------------
+NUMTopics = 4
+(0, '0.020*"user" + 0.020*"exception" + 0.020*"update" + 0.020*"paragraph" + 0.020*"try" + 0.020*"write" + 0.020*"privilege" + 0.020*"create" + 0.020*"webdav" + 0.020*"file"')
+(1, '0.127*"paragraph" + 0.050*"margin" + 0.035*"line" + 0.035*"enter" + 0.035*"empty" + 0.035*"return" + 0.035*"user" + 0.035*"add" + 0.019*"link" + 0.019*"stack"')
+(2, '0.020*"paragraph" + 0.020*"user" + 0.020*"margin" + 0.020*"update" + 0.020*"readmemd" + 0.020*"empty" + 0.020*"add" + 0.020*"file" + 0.020*"discussion" + 0.020*"enter"')
+(3, '0.078*"user" + 0.078*"write" + 0.077*"exception" + 0.054*"webdav" + 0.054*"create" + 0.054*"update" + 0.054*"privilege" + 0.054*"try" + 0.030*"file" + 0.030*"readmemd"')
+
+------------------------
+NUMTopics = 5
+(0, '0.082*"exception" + 0.082*"user" + 0.081*"write" + 0.056*"update" + 0.056*"try" + 0.056*"privilege" + 0.056*"create" + 0.056*"webdav" + 0.031*"serbian" + 0.031*"permission"')
+(1, '0.132*"paragraph" + 0.051*"margin" + 0.035*"line" + 0.035*"enter" + 0.035*"return" + 0.035*"empty" + 0.035*"user" + 0.035*"add" + 0.019*"link" + 0.019*"stack"')
+(2, '0.020*"paragraph" + 0.020*"margin" + 0.020*"add" + 0.020*"empty" + 0.020*"user" + 0.020*"enter" + 0.020*"discussion" + 0.020*"processing" + 0.020*"send" + 0.020*"otherwise"')
+(3, '0.021*"user" + 0.021*"paragraph" + 0.021*"write" + 0.020*"exception" + 0.020*"webdav" + 0.020*"create" + 0.020*"privilege" + 0.020*"margin" + 0.020*"update" + 0.020*"file"')
+(4, '0.020*"update" + 0.020*"file" + 0.020*"user" + 0.020*"readmemd" + 0.020*"paragraph" + 0.020*"exception" + 0.020*"write" + 0.020*"create" + 0.020*"try" + 0.020*"webdav"')
+
+------------------------
+NUMTopics = 6
+(0, '0.084*"user" + 0.084*"exception" + 0.084*"write" + 0.058*"update" + 0.058*"try" + 0.058*"privilege" + 0.058*"create" + 0.058*"webdav" + 0.031*"serbian" + 0.031*"file"')
+(1, '0.135*"paragraph" + 0.052*"margin" + 0.036*"line" + 0.036*"enter" + 0.036*"empty" + 0.036*"user" + 0.036*"return" + 0.036*"add" + 0.019*"link" + 0.019*"stack"')
+(2, '0.020*"user" + 0.020*"paragraph" + 0.020*"update" + 0.020*"readmemd" + 0.020*"file" + 0.020*"write" + 0.020*"exception" + 0.020*"try" + 0.020*"create" + 0.020*"privilege"')
+(3, '0.021*"paragraph" + 0.021*"user" + 0.020*"write" + 0.020*"exception" + 0.020*"margin" + 0.020*"webdav" + 0.020*"create" + 0.020*"file" + 0.020*"privilege" + 0.020*"readmemd"')
+(4, '0.020*"paragraph" + 0.020*"margin" + 0.020*"line" + 0.020*"return" + 0.020*"add" + 0.020*"enter" + 0.020*"empty" + 0.020*"otherwise" + 0.020*"file" + 0.020*"user"')
+(5, '0.020*"user" + 0.020*"paragraph" + 0.020*"exception" + 0.020*"update" + 0.020*"write" + 0.020*"readmemd" + 0.020*"file" + 0.020*"privilege" + 0.020*"create" + 0.020*"copyright"')
+
+------------------------
+NUMTopics = 7
+(0, '0.087*"exception" + 0.087*"user" + 0.087*"write" + 0.059*"update" + 0.059*"try" + 0.059*"privilege" + 0.059*"create" + 0.059*"webdav" + 0.031*"serbian" + 0.031*"permission"')
+(1, '0.137*"paragraph" + 0.053*"margin" + 0.036*"line" + 0.036*"enter" + 0.036*"return" + 0.036*"user" + 0.036*"empty" + 0.036*"add" + 0.019*"link" + 0.019*"update"')
+(2, '0.021*"paragraph" + 0.020*"margin" + 0.020*"add" + 0.020*"empty" + 0.020*"user" + 0.020*"enter" + 0.020*"discussion" + 0.020*"processing" + 0.020*"return" + 0.020*"send"')
+(3, '0.021*"user" + 0.021*"write" + 0.020*"paragraph" + 0.020*"exception" + 0.020*"webdav" + 0.020*"create" + 0.020*"privilege" + 0.020*"margin" + 0.020*"file" + 0.020*"readmemd"')
+(4, '0.020*"paragraph" + 0.020*"margin" + 0.020*"line" + 0.020*"return" + 0.020*"add" + 0.020*"enter" + 0.020*"empty" + 0.020*"file" + 0.020*"otherwise" + 0.020*"visual"')
+(5, '0.020*"user" + 0.020*"paragraph" + 0.020*"exception" + 0.020*"write" + 0.020*"update" + 0.020*"readmemd" + 0.020*"file" + 0.020*"privilege" + 0.020*"create" + 0.020*"webdav"')
+(6, '0.020*"paragraph" + 0.020*"margin" + 0.020*"add" + 0.020*"return" + 0.020*"empty" + 0.020*"user" + 0.020*"line" + 0.020*"enter" + 0.020*"page" + 0.020*"real"')
+
+------------------------
+NUMTopics = 8
+(0, '0.021*"exception" + 0.021*"user" + 0.021*"update" + 0.021*"write" + 0.021*"try" + 0.021*"privilege" + 0.020*"create" + 0.020*"webdav" + 0.020*"serbian" + 0.020*"permission"')
+(1, '0.139*"paragraph" + 0.054*"margin" + 0.036*"line" + 0.036*"enter" + 0.036*"return" + 0.036*"user" + 0.036*"empty" + 0.036*"add" + 0.019*"link" + 0.019*"stack"')
+(2, '0.020*"paragraph" + 0.020*"margin" + 0.020*"add" + 0.020*"empty" + 0.020*"user" + 0.020*"discussion" + 0.020*"processing" + 0.020*"enter" + 0.020*"send" + 0.020*"return"')
+(3, '0.088*"write" + 0.088*"user" + 0.088*"exception" + 0.060*"webdav" + 0.060*"create" + 0.060*"privilege" + 0.060*"try" + 0.060*"update" + 0.032*"copyright" + 0.032*"well"')
+(4, '0.020*"paragraph" + 0.020*"margin" + 0.020*"line" + 0.020*"add" + 0.020*"return" + 0.020*"enter" + 0.020*"empty" + 0.020*"file" + 0.020*"visual" + 0.020*"otherwise"')
+(5, '0.020*"user" + 0.020*"paragraph" + 0.020*"exception" + 0.020*"write" + 0.020*"update" + 0.020*"readmemd" + 0.020*"privilege" + 0.020*"add" + 0.020*"try" + 0.020*"webdav"')
+(6, '0.020*"user" + 0.020*"paragraph" + 0.020*"try" + 0.020*"exception" + 0.020*"write" + 0.020*"update" + 0.020*"file" + 0.020*"create" + 0.020*"webdav" + 0.020*"add"')
+(7, '0.020*"user" + 0.020*"paragraph" + 0.020*"exception" + 0.020*"update" + 0.020*"write" + 0.020*"create" + 0.020*"try" + 0.020*"privilege" + 0.020*"return" + 0.020*"readmemd"')
+
+------------------------
+NUMTopics = 9
+(0, '0.021*"exception" + 0.021*"user" + 0.021*"update" + 0.021*"write" + 0.021*"try" + 0.020*"privilege" + 0.020*"create" + 0.020*"webdav" + 0.020*"serbian" + 0.020*"permission"')
+(1, '0.141*"paragraph" + 0.054*"margin" + 0.037*"line" + 0.037*"enter" + 0.037*"return" + 0.037*"empty" + 0.037*"user" + 0.037*"add" + 0.019*"link" + 0.019*"update"')
+(2, '0.020*"user" + 0.020*"paragraph" + 0.020*"update" + 0.020*"write" + 0.020*"exception" + 0.020*"try" + 0.020*"readmemd" + 0.020*"create" + 0.020*"privilege" + 0.020*"margin"')
+(3, '0.090*"user" + 0.090*"write" + 0.089*"exception" + 0.061*"webdav" + 0.061*"create" + 0.061*"privilege" + 0.061*"update" + 0.061*"try" + 0.032*"file" + 0.032*"readmemd"')
+(4, '0.020*"paragraph" + 0.020*"update" + 0.020*"user" + 0.020*"exception" + 0.020*"file" + 0.020*"write" + 0.020*"readmemd" + 0.020*"webdav" + 0.020*"create" + 0.020*"try"')
+(5, '0.020*"user" + 0.020*"exception" + 0.020*"paragraph" + 0.020*"update" + 0.020*"write" + 0.020*"readmemd" + 0.020*"privilege" + 0.020*"try" + 0.020*"create" + 0.020*"add"')
+(6, '0.020*"paragraph" + 0.020*"margin" + 0.020*"add" + 0.020*"empty" + 0.020*"return" + 0.020*"user" + 0.020*"line" + 0.020*"enter" + 0.020*"page" + 0.020*"send"')
+(7, '0.020*"user" + 0.020*"paragraph" + 0.020*"update" + 0.020*"exception" + 0.020*"write" + 0.020*"try" + 0.020*"return" + 0.020*"create" + 0.020*"privilege" + 0.020*"readmemd"')
+(8, '0.023*"paragraph" + 0.020*"margin" + 0.020*"user" + 0.020*"empty" + 0.020*"add" + 0.020*"enter" + 0.020*"return" + 0.020*"line" + 0.020*"processing" + 0.020*"lost"')
+
+------------------------

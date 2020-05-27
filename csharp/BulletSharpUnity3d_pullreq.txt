@@ -1,0 +1,82 @@
+﻿ Fix type of Scene/BulletScene
+ Was causing compilation errors in Unity 2019.2
+ Adding MultiBody handling and various adjustments
+ Updating to Unity 2019.2
+Adding MLCP solver handling
+Adding multi collision callback capability
+AddImpulse and AddForce with coordinate world type as an option to mimic Unity's API
+ Make the BCapsuleShape gizmo work with properly with LocalScaling applied
+ Without this the tube lines don't extend all the way to the end spheres if the capsule is stretched along its vertical axis, and the radius isn't increased with scaling along other axes as it is internally in Bullet.
+ Unity collision shapes
+ Providing enhancement in collision shapes : 
+- cylinder now displays a height and radius in the inspector
+- fix gizmo scaling
+- adding margin edition
+
+I'm not quite sure where to put collision shapes code. It seems some is in Plugins/BulletUnity/BulletSharp/Collision and some in Scripts/CollisionShapes ?
+ Adding Threading capabilities to bullet
+ Adding Threading capabilities to bullet. We needed this on a project where the physics engine had to run at a higher rate than what unity can do
+ Remove obsolete functions
+ 
+ Improve inspector
+ Allows multi editing of objects and values will update in the editor while playing.
+
+Currently only PhysicsWorld and RigidBody component are done, but I think we can slowly convert all components.
+ Editor scaling
+ Updates to scales of shapes from code will be shown in the editor and less duplicate editor code.
+ Improve performance
+ Improves the performance of SoftBody objects by creating less data objects every frame.
+
+Should be tested properly, to make sure no bugs are created.
+ Add UserObject to rigidbody
+ Allows users to the set UserObject of a collision object of a RigidBody.
+ Fix size of box debug drawing
+ 
+ Fix assertion fixedTimeStep
+ Remove the fixedTimeStep assertion. It was legacy code.
+ Improve editor
+ Add support for run-time editing of the mass of nodes of a SoftBody (https://twitter.com/i/status/1102674655872208897). Colours indicate their value.
+ Fix enum flags
+ Use property drawers for enum flags, instead of manually drawing them. 
+ Update scripts
+ This removes the 'Update API' popup every time you start Unity after a clone.
+ Removed unnecessary Unity and PInvoke references from BulletSharp
+ Works as before without the attributes, tested on Windows Editor & build with both Mono backing and I2cpp backed scripting and on Linux on Editor with Mono backing scripting. Removed all UnityEngine references
+ Restructure
+ Instead of a Unity project structure, which is only useful if the user is using it as the base of their project, move it to a submodule structure.
+
+Users will use `git submodule` to clone the BulletSharpUnity3D repo in their own project. This also allows them to easily keep their submodule up-to-date with master, or to create a pull-request from their own changes.
+
+I think this change is required to improve the overal usefulness of the wrapper.
+ Fixed multibody physics world creation
+ In a scene with a PBulletPhysics world and one rigid body, the multibody physics world didn't work as the solver was null. I changed this.
+
+The other two commits are textural, but I don't know how to remove them from the pull request.
+
+ fix android DllNotFoundException
+ fix #42 
+ref http://www.mono-project.com/docs/advanced/pinvoke/#library-names
+ Refactored collision flag and clollison filter.
+ 
+ Add linux support!
+ Tested on 64-bit linux editor, 32-bit linux standalone and 64-bit linux standalone. Fixes #38 
+ Pull BCamera for ScreenPointToRay functionality
+ Just a draft, with limited functionality, but works. Thought of as working example which can be improved later on. If it does not suffice quality/content, feel free to reject it.
+
+ Fix bug with checking KinematicObject collision flag in isDynamic met…
+ …hod of BRigidbody.
+
+ Fixed DLL Compilation Error, Improved the BRigidbody editor and added undo to it.
+ 
+ Added SetRotation method to rigidbody
+ 
+ Bullet logo modified, Draw Logo and version modified
+ 
+ Refactorized debug for accept parameters, also changed debugtype to be the first parameter
+ 
+ Changed undo mode for debug system, added debug system to physics world
+ 
+ Debug System refactorized, fixed debug for rigidbody, cleaned code, added helper for enums
+ 
+ Added EditorInterface drawer, added debug mode to rigidbody.
+ 

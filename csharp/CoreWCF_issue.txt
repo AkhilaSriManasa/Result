@@ -1,0 +1,678 @@
+﻿ Fault on different contract and ops test
+ Porting from .NetFramework WCF Test.  
+@mconnew  @honggit
+ Port Contract test cases from .NET Framework tests
+ @mconnew  @HongGit
+[![CLA assistant check](https://cla.dotnetfoundation.org/pull/badge/signed)](https://cla.dotnetfoundation.org/CoreWCF/CoreWCF?pullRequest
+ added fix for net tcp binding linux
+ 
+Just need the comment cleanup then this will be ready to merge
+
+ Adding support to enable Https usage
+ Fixes #32 
+ update to core 3.1 and fix nettcpbinding for linux
+ initial PR for making nettcpbinding  work in linux(using kerbos) and added support for core 3.1.
+.NET Core 3.1 already supports netstandard 2.0. I'm not seeing any conditional code, why are you adding netcoreapp3.1 as a target? A netstandard2.0 library will work on .NET Core 3.1 just fine, in fact all the tests run on it already.  
+Also, don't upgrade to ASP.NET Core 2.**2**. The LTS version which is supported on .NET Framework and will be supported for a long time is 2.**1**. ASP.NET Core 2.**2** is now unsupported and reached EOL in December 2019.
+
+ NetTCPBinding not working in Linux
+ For NetTCPBinding in linux, after server able to authenticate , it's not able to generate remote security causing the authentication mechanism to fall.
+There are few approaches discussed with @mconnew , going to implement one of them.
+
+ 
+fixed part of https://github.com/CoreWCF/CoreWCF/pull/133
+
+ Support ConfigurationManager based config for sharing with .NET Framework
+ I put together a POC a while back on incorporating ConfigurationManager to work for configuration of clients so that code could be shared between .NET Framework and Core easier. I'm opening this to see if there is interest. I put this together before CoreWCF was a thing and not sure if it would be an easy integration or not.
+
+Here's the link: https://github.com/twsouthwick/ServiceModel.Configuration
+
+The API looks like this:
+
+```csharp
+services.AddServiceModelClient()
+  .AddConfigurationManagerFile("wcf.config")
+  .AddDefaultChannel<IRoleService>("roles");
+```
+
+It uses ASP.NET Core IOptions and builds up the services so they can be directly injected. I only know the basics of WCF, though, so not sure how well this would extend to other use cases.
+
+Feel free to close if there's no interest in it. Much of the configuration code for this came from ReferenceSource and has been `#if/#def`'d for types that didn't exist when I was playing with it.
+ Source code not compiling
+ I am trying to download and compile source code. But it is not compiling. anybody can look unto it? @mconnew 
+@KamranShahid, what exactly are the errors you are seeing? You did not provide any details.
+
+I just so happen to have a brand new (Windows 10) computer for working remotely, so I just tried to reproduce any build issues with the CoreWCF repo by doing this:
+
+1. Install git from https://git-scm.com/downloads
+
+2. Install the .NET Core 3.1.101 SDK (as that's the version currently used by CoreWCF) from https://dotnet.microsoft.com/download/dotnet-core/thank-you/sdk-3.1.101-windows-x64-installer
+
+3. Install the .NET 4.7.2 targeting pack (since CoreWCF also builds samples that target .NET 4.7.2) from https://dotnet.microsoft.com/download/dotnet-framework/thank-you/net472-developer-pack-offline-installer
+
+4. Reboot
+
+5. git clone https://github.com/CoreWCF/CoreWCF.git
+
+6. cd .\CoreWCF\src
+
+7. dotnet build .\CoreWCFWithSamples.sln
+
+This built successfully (41 warnings, no errors.)
+
+I have a VS 2019 with Windows 10. And used dozens of projects. I were just downloading from 
+https://github.com/CoreWCF/CoreWCF/archive/master.zip which is the link on main page and tried it from git.
+I have .NET 4.7.2 targeting pack  and .net core 3.1 as well as i am working actively on .net core 3.1 projects. I am getting following when opening the project
+
+![image](https://user-images.githubusercontent.com/2170442/79612052-58a92d80-8115-11ea-920d-39006c692a67.png)
+
+One thing i certainly not have is .net 4.7.2 sdk which i don't think should be necessary as i have .net 4.7.2 targeting pack
+I have verified that i can create any .net 4.7.2 project as well from my VS2019 (version 16.5.4)
+
+What is the output of `dotnet build .\CoreWCFWithSamples.sln` from the command-line?
+
+Just Saw one thing. I have more latest .net core minor version.
+3.1.201 .
+Atleast solution file should have opened properly
+
+Get it building from the command line using just the SDK tools first, then troubleshoot any Visual Studio-specific issues. Failure to load in Visual Studio without giving you an obvious error is most likely a problem with Visual Studio, not something that can be addressed in the CoreWCF code itself.
+
+@Treit  I simply changed the global.json and azure-pipelines.yml with .net core version to 3.1.201 then built started.
+Now getting error
+
+![image](https://user-images.githubusercontent.com/2170442/79613598-48df1880-8118-11ea-992b-bfac6b0f26e4.png)
+
+Looks like there is whole CLI/CD is implemented in that branch. just liked to download simple code base of the implementation
+But checking
+
+Try installing the 3.1.101 version of the .NET Core SDK and reverting your changes. It should build fine with 'dotnet build' of the solution file with that version of the SDK installed.
+
+i were to open the project after minor version change. And even able to compile the project after getting rid of gitversiontask related build item
+Main thing i wanted to see is if there is some implementation for starting service in .net core 3.1
+But Project NetCoreServer is targeting .net core 2.1
+And the NetCoreServer.Startup is not compiling when tried to updrade it to 3.1 as 
+
+If I change NetCoreServer.csproj to this:
+    `<TargetFramework>netcoreapp3.1</TargetFramework>`
+
+it builds fine for me...
+
+I am able to run the the service via 
+
+ app.UseServiceModel(builder =>
+            {
+                builder.AddService<JawwalRecieveApi>();
+                builder.AddServiceEndpoint<MyService, IMyService>(new BasicHttpBinding(), "http://localhost:44387/basichttp", new System.Uri("http://localhost:44387"));
+                //builder.AddServiceEndpoint<EchoService, Contract.IEchoService>(new NetTcpBinding(), "/nettcp");
+            });
+
+Any idea how can i browse my service wsdl?
+
+Generating WSDL from .NET Core is not currently supported, see https://github.com/CoreWCF/CoreWCF/issues/95
+
+Can i somehow reference this service via WCFTestClient? Can any third party access my wsdl directly and reference it?
+I were using SoapCore but struggling  due to quite complex wsdl of third party. 
+
+
+ Any upgrade plan for .net core 3.1
+ Any upgrade plan for .net core 3.1
+Trying sample for server side but it isn't even compiling
+you should be able to compile locally for .net core 3.1, if you have the latest SDK, change the global.json and update package references to support above version
+
+Thanks Biroj Nayak
+I have used soapcore instead.
+
+ Deserialization behavior change in WrapperNamespace
+ There seems to be a change in MessageContract authoring in CoreWCF. 
+ 
+In the following definition of MessageContract, "Id" doesn't deserialized into object. 
+Definition of "Id" is what we use in Production. 
+![image](https://user-images.githubusercontent.com/3484074/79170518-72a8e000-7da4-11ea-8076-7728c36995ef.png)
+
+In C# code, 
+![image](https://user-images.githubusercontent.com/3484074/79170532-7e94a200-7da4-11ea-9af4-3ba0a2f84e6e.png)
+As you can see Id=0. 
+
+Example of message sent via PostMan as follows, 
+![image](https://user-images.githubusercontent.com/3484074/79170552-8f451800-7da4-11ea-8a07-4a7c6190a6e2.png)
+ 
+From trials, it seems, "WrapperNamespace" on "MessageContract" doesn't seem to be propagated to "MessageBodyMember", we have to define "Namespace" explicitly on "MessageBodyMember". (see e.g., Id6)
+
+If we have to use this mitigation, it means we have to update pretty much all the fields in ~400 APIs for CoreWCF.
+
+I repro'd the issue via this sample, 
+https://github.com/AAATechGuy/CoreWCF/blob/master/src/Samples/NetCoreServer/IEchoService.cs
+Output as follows... 
+![image](https://user-images.githubusercontent.com/3484074/79170635-d3d0b380-7da4-11ea-9203-b15f9ede51eb.png)
+
+It seems WCF client is serializing data properly. 
+
+PS, the SOAP envelope is exactly what we log in Production. So, we don't want to upgrade all our clients while doing CoreWCF migration; hence, testing with the same envelope.  
+
+However, when I used the Desktop client, i see that worked, so not sure, if its due to compatibility issue/ logging of envelope from our end. 
+
+PS, we use the following packages to annotate contracts... 
+```
+    <PackageReference Update="System.ServiceModel.Http" Version="4.5.3" />
+    <PackageReference Update="System.ServiceModel.Primitives" Version="4.5.3" />
+    <PackageReference Update="System.ServiceModel.Security" Version="4.5.3" />
+    <PackageReference Update="System.ServiceModel.Duplex" Version="4.5.1" />
+    <PackageReference Update="System.ServiceModel.NetTcp" Version="4.5.3" />
+    <PackageReference Update="System.ServiceModel.Web" Version="1.0.0" />
+```
+
+I found the root cause. It wasn't because of CoreWCF. 
+We had made an interface change to split our monolithic service to micro-services. One of the intermediate interface didn't have the tag ` [ServiceContract(Namespace = Namespaces.Default)]` annotated on the interface contract. this resulted in the error, which is gone, after annotation was done. 
+
+```
+using System.ServiceModel;
+
+namespace Microsoft.Advertising.ClientCenter.MT.Service
+{
+    /// <summary>
+    /// Defines methods exposed by ClientCenter Customer MT microservice.
+    /// </summary>
+    [ServiceContract(Namespace = Namespaces.Default)]
+    public partial interface IClientCenterCustomerMT { }
+
+    /// <summary>
+    /// Defines methods exposed by ClientCenter Customer MT microservice.
+    /// </summary>
+    [ServiceContract(Namespace = Namespaces.Default)]
+    public partial interface IClientCenterCommon { }
+
+    /// <summary>
+    /// Defines methods exposed by the ClientCenter Middle Tier Service, hosted with .NET Framework.
+    /// </summary>
+    [ServiceContract(Namespace = Namespaces.Default)]
+    public partial interface IClientCenterMiddleTier : IClientCenterCustomerMT, IClientCenterCommon { }
+
+    /// <summary>
+    /// Defines methods exposed by the ClientCenter Customer microservice, hosted with .NET Core.
+    /// </summary>
+    [ServiceContract(Namespace = Namespaces.Default)]
+    public interface IClientCenterCustomerManagementMiddleTier : IClientCenterCustomerMT, IClientCenterCommon { }
+}
+```
+
+
+ Production Ready?
+ Hi All,
+Does anyone have an idea on when this library will be production ready?  Also, will it work on .NET 4.x or just .NET core?  I am hopeful .NET 4.x that way we can make a gradual transition to .NET Core / 5.x.
+Can't speak to when it will be production ready, but the CoreWCF libraries target .NET Standard 2, so it can be used from .NET Standard 2 compatible implementations, which includes .NET Framework 4.6.2 and higher. 
+
+ Message object null in HttpChannelHelpers
+ Hi
+
+I'm having an issue in the HttpChannelHelpers.cs file.
+At runtime I'm getting seeing message.IsFault on line 824 fails as message is null.
+If I add a null check, it just fails somewhat further on in the PrepareHttpSend function.
+I see the null is set at line 340 in the HttpRequestContext and provided later on in the SetRequestMessage in the RequestContextBase.
+
+Any idea how to solve this?
+
+```
+        public void ConfigureServices(IServiceCollection services) {
+            services.AddServiceModelServices();
+            services.AddAuthentication(HttpSysDefaults.AuthenticationScheme); // Allow decorating controllers with Authenticate attribute
+            services.AddControllersWithViews();
+
+            // In production, the React files will be served from this directory
+            services.AddSpaStaticFiles(configuration => {
+                configuration.RootPath = "ClientApp/build";
+            });
+        }
+
+            app.UseServiceModel(builder => {
+                builder.AddService<AuthenticateServiceV2>();
+                builder.AddServiceEndpoint<AuthenticateServiceV2, AuthenticateServiceV2>(new BasicHttpBinding(), "2.0/AuthenticateService.fwqs");
+
+                builder.AddService<SessionManagerService>();
+                builder.AddServiceEndpoint<SessionManagerService, SessionManagerService>(new BasicHttpBinding(), "2.0/SessionManagerService.fwqs");
+
+                builder.AddService<ProjectController>();
+            });
+
+        public static IHostBuilder CreateHttpSysBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(webBuilder => {
+                    webBuilder.UseHttpSys(options => {
+                        options.Authentication.Schemes = AuthenticationSchemes.NTLM | AuthenticationSchemes.Negotiate;
+                        options.Authentication.AllowAnonymous = true;
+                        options.AllowSynchronousIO = true;
+                        options.UrlPrefixes.Add("http://*:7000/");
+                        options.UrlPrefixes.Add("http://*:7000/customer/ps");
+                        options.UrlPrefixes.Add("http://*:7000/customer/as");
+                    });
+                    webBuilder.UseStartup<Startup>();
+                });
+```
+I have found 2 ways to simulate this:
+
+1) Omit UseUrls when using HttpSys.
+2) Use a non-root prefix to call the SOAP call, for example "/customer/ps" (prefix) + "/basichttp" ().
+
+        public static IHostBuilder CreateHttpSysBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(webBuilder => {
+                    **webBuilder.UseUrls("http://localhost:7000");**
+                    webBuilder.UseHttpSys(options => {
+                        options.Authentication.Schemes = AuthenticationSchemes.NTLM | AuthenticationSchemes.Negotiate;
+                        options.Authentication.AllowAnonymous = true;
+                        options.AllowSynchronousIO = true;
+                        options.UrlPrefixes.Add("http://*:7000/");
+                        **options.UrlPrefixes.Add("http://*:7000/customer/ps");
+                        options.UrlPrefixes.Add("http://*:7000/customer/as");**
+                    });
+                    webBuilder.UseStartup<StartupTest>();
+                });
+
+ HttpBindingBase contructor
+ Summary of the changes
+ - The HttpsTransportBindingElement was never initialized which causes exceptions when using BasicHttpSecurityMode.Transport.
+ Race condition in ConcurrencyInstanceContextFacet class
+ There is a race condition:
+Function `ConcurrencyInstanceContextFacet.EnqueueNewMessage()` may be called concurrently when 2 WCF requests are processed simultaneously.
+https://github.com/CoreWCF/CoreWCF/blob/81cd42c0122bded56cb658ed99ede7efedb10679/src/CoreWCF.Primitives/src/CoreWCF/Dispatcher/ConcurrencyBehavior.cs#L278
+
+ [FeatureRequest] also catch System.SM.FaultException on Server
+ I had an issue where my custom ``FaultContract`` didn't seem to work, and found that I threw the wrong Exception.
+
+I had forgotten to change it from ``System.ServiceModel.FaultException<T>`` to ``CoreWcf.FaultException<T>``.
+
+It would be great if CoreWCF could work with both.
+
+Note that this is only really relevant for a .net framework server, because on .net core you normally don't have a reference to System.ServiceModel anyway.
+ Allow Kestrel to listen on a random port by delaying CoreWCF initialization
+ This implements option 2 of https://github.com/CoreWCF/CoreWCF/issues/119
+
+There is one big downside: If there is a configuration error in CoreWCF, then it no longer fails at startup time, but when the first request is made.
+
+So I opened this Pull Request more for a discussion ...
+ HttpBindings don't work for minimal app without UseUrls
+ If you have a minimal asp.net core application without either
+
+```c#
+.UseUrls(...)
+```
+
+or
+
+```c#
+.UseKestrel(options => { options.ListenLocalhost(<port>);}
+``` 
+
+then at initialization time, ``app.ServerFeatures.Get<IServerAddressesFeature>().Addresses`` is empty.
+
+This will cause CoreWCF to throw later:
+
+```
+System.InvalidOperationException: 'Could not find a base address that matches scheme http for the endpoint with binding NetHttpBinding. Registered base address schemes are [].'
+```
+
+
+-----------
+
+I found two possible solutions:
+
+1) add ``http://localhost:5000`` as default
+
+In src\CoreWCF.Http\src\CoreWCF\Channels\ServiceModelHttpMiddleware.cs ``BuildBranch`` just add 
+
+```c#
+            if (!serviceBuilder.BaseAddresses.Any())
+            {
+                // https://github.com/aspnet/Announcements/issues/224
+                // The WebHost will no longer add the default server address of http://localhost:5000 to the IServerAddressesFeature when none is specified.
+                serviceBuilder.BaseAddresses.Add(new Uri("http://localhost:5000"));
+                serviceBuilder.BaseAddresses.Add(new Uri("https://localhost:5001"));
+            }
+```
+
+But this is a wild guess that may or may not be correct.
+
+
+<br />
+<br />
+  
+-----------
+  
+
+2) delay CoreWCF initialization until server has been started
+
+After kestrel has been started, ``IServerAddressesFeature.Addresses`` WILL be populated correctly.
+
+In the same file, ``private readonly RequestDelegate _branch;`` could be changed to ``private readonly Lazy<RequestDelegate> _branch;`` and it seems to work.
+
+
+
+------------
+
+Note, there is another issue, where if you call just ``UseNetTcp`` without ``UseUrls``, then it will listen __only__ on the nettcp port, and no longer on 5000/5001.
+
+I've got a fix in the works. The problem is CoreWCF needs to know the URL at service setup as it is used as a parameter for getting tokens from a token provider. But ASP.NET Core doesn't populate the features until after Kestrel is running. I have a fix which lazily creates the service, but I'm getting an intermittent 404 response when testing. Once I've tracked down why I sometimes get a 404, I'll push the fix.
+
+I've been rethinking this and I think my approach is wrong. It shouldn't be lazily created, but retrieving the address can be lazily done. I'm going to revert some of my changes and make the delay happen at the point of use.
+
+ fix for service auth behavior
+ 
+Updated review comments and added more functionalities. NetTCP for linux needs to be fixed (when security is transport), so made few tests Windows only. Once I fix the NetTCP for Linux will enable tests for Linux env.
+
+Just a couple of minor issues to be addressed, then I'll merge.
+
+ Fixed Complex data type sample
+ Fixes #109
+ Support for message contract attribute
+ Support for message contract attribute
+Fixes #104
+[![CLA assistant check](https://cla.dotnetfoundation.org/pull/badge/signed)](https://cla.dotnetfoundation.org/CoreWCF/CoreWCF?pullRequest
+Just a few formatting issues and a couple of minor changes needed, otherwise looks good. Thanks.
+
+> Just a few formatting issues and a couple of minor changes needed, otherwise looks good. Thanks.
+
+thanks, posted another revision incorporating all comments.
+
+ Fix small test race condition
+ 
+ pass through quotas for the NetHttpBinding
+ ref https://github.com/CoreWCF/CoreWCF/issues/113
+
+This is what I changed locally to get it to work. Not quite sure what to do about the BasicHttpBinding.
+
+This isn't quite the correct solution. The full implementation should live on HttpBindingBase. You can find the original code [here](https://referencesource.microsoft.com/#System.ServiceModel/System/ServiceModel/HttpBindingBase.cs,52817be0254871f7). That way you don't need to override it. That code sets it on the text message encoder too so it will apply for BasicHttpBinding too.
+
+Okay I tried to adapt it to be similar to the reference source.
+
+mtom doesn't (yet) seem to be implemented in CoreWCF, whatever it is, and HttpBindingBase._httpsTransport is null, so I just commented that code also out.
+
+I realized this still isn't going to get the job done for you. The SetReaderQuotas method isn't currently being called. I'm working on a set of changes to fix that. The reader quota's are just set on the binary message encoder so today you could just do this:
+```c#
+var netHttpBinding = new NetHttpBinding();
+var customBinding = new CustomBinding(netHttpBinding);
+var bmebe = customBinding.Elements.Find<BinaryMessageEncodingBindingElement>();
+bmebe.ReaderQuotas = myReaderQuotas;
+```
+Then use customBinding for your endpoint. 
+There's an unrelated failing test (InstanceProviderReleaseCalledWithCorrectObjectTest) which is a race condition in the test showing up because of some recent performance improvements so I'm going to merge this as it takes us a step closer even though it doesn't solve your problem fully.
+
+> [...] The SetReaderQuotas method isn't currently being called. [...]
+
+It is called in the setter of HttpBindingBase.ReaderQuotas, so I think it should actually work right now as is, but I didn't test it tbh.
+
+My service seems to work for now, thank you for this project!
+
+ NetHttpBinding: quotas can't be changed
+ 
+
+I am porting a service to CoreWCF / NetHttp and so far it looks good, except for one issue:
+
+> CoreWCF.QuotaExceededException: The maximum message size quota for incoming messages (65536) has been exceeded. To increase the quota, use the MaxReceivedMessageSize property on the appropriate binding element.
+
+I _did_ set the property, but the setter is empty
+
+https://github.com/CoreWCF/CoreWCF/blob/ebb95c7e7d397c843807ea1322e34946a15fd098/src/CoreWCF.Http/src/CoreWCF/HttpBindingBase.cs#L30-L31
+I'm currently testing https://github.com/CoreWCF/CoreWCF/pull/114, so far it seems to work.
+
+ Make IOperationInvoker simpler with ValueTask and expose
+ Fixes #106
+@birojnayak, would you be able to review this change?
+
+sure.. unless you are in a hurry to push the changes.
+
+ Make OperationContext "Channel" property public
+ Please, make Channel property in OperationContext accessible (get only, I mean readonly) from external code.
+Can you explain your use case? I suspect many things you would do with Channel are broken so I want to make sure your specific scenario at least is functioning correctly.
+
+Consider that I have to migrate to .Net Core an existing .NET Framework WCF existing library, possibly limiting effort as much as possible. Anyway in this specific case, Channel property is used to get a number of Channel properties and collect context information:
+
+`        private static IDictionary<string, string> getStandardContextInfo(IDictionary<string, string> infos)
+        {
+            OperationContext op = OperationContext.Current;
+
+            if (op != null)
+            {
+                if (op.Channel != null)
+                {
+                    infos.Add("Channel.LocalAddress", IfNullGetEmpy(op.Channel.LocalAddress.ToString()));
+                }
+                if (op.EndpointDispatcher != null)
+                {
+                    infos.Add("EndpointDispatcher.ContractName", IfNullGetEmpy(op.EndpointDispatcher.ContractName));
+                    infos.Add("EndpointDispatcher.ContractNamespace", IfNullGetEmpy(op.EndpointDispatcher.ContractNamespace));
+                    infos.Add("EndpointDispatcher.EndpointAddress", IfNullGetEmpy(op.EndpointDispatcher.EndpointAddress.ToString()));
+                }
+                infos.Add("SessionId", IfNullGetEmpy(op.Channel.SessionId));
+            }
+
+            ServiceContext sc = ServiceContext.Current;
+            if (sc != null)
+            {
+                if (sc.RequiredExecutionContext != null)
+                {
+                    infos.Add("RequiredExecutionContext.InstituteCode", IfNullGetEmpy(sc.RequiredExecutionContext.InstituteCode));
+                    infos.Add("RequiredExecutionContext.InstituteName", IfNullGetEmpy(sc.RequiredExecutionContext.InstituteName));
+                }
+                if (sc.ClientIdentification != null && sc.ClientIdentification.ApplicationIdentifier != null && sc.ClientIdentification.ApplicationIdentifier.Count > 0)
+                {
+                    infos.Add("ClientIdentification.OriginalApplicationIdentifier", IfNullGetEmpy(sc.ClientIdentification.ApplicationIdentifier[0].ApplicationName));
+                }
+            }
+
+            return infos;
+
+        }
+`
+I suspect that it's because in the overall architecture there's a WCF Router and the server needs to understand from which it's receiving the requests. It's even possible that the reason is only for logging purpose.
+
+I made it public on a local temporary copy of CoreWCF and the entire code builds, but currently I was not still able to test if it also works. There's a lot of other work to do.
+
+ DataContractSerializer failing to serialize the response results in an aborted connection
+ If you create a WCF service method that returns an object with an IEnumerable property, and that property is backed by something DataContractSerializer can't handle, the connection gets aborted.
+
+For instance, create a web service method that returns an object like this:
+
+    [DataContract]
+    public class Stuff
+    {
+        [DataMember]
+        IEnumerable<string> Value { get; set; }
+    }
+
+...but in the service implementation, construct the object like so:
+
+    public Stuff GetStuff(EchoMessage text)
+    {
+        return new Stuff
+        {
+            Value = (new string[] { "A", "B", "C" }).OrderBy(x => x)
+        };
+    }
+
+Attempting to return this to the client will result in this kind of spew from Kestrel:
+
+    info: Microsoft.AspNetCore.Server.Kestrel[34]
+      Connection id "0HLUAOSVM8FV1", Request id "0HLUAOSVM8FV1:00000003": the application aborted the connection.
+
+A .NET 4.7.2 client sees an error stating `The connection was closed unexpectedly.`
+
+I think this should probably look to the client like a 500 error, not an unexpectedly closed connection.
+I checked the behavior compared with .NET Framework and they are very similar. .NET Framework closes the socket without completing the request. The difference in behavior for CoreWCF is it aborts the socket instead. So the client sees a socket reset rather than a socket close. You do get a different exception on the client in the two scenarios, but the server doesn't send a 500 response. It can't as it's already sent the HTTP response headers at that point. Do you want me to work out how to make it close the socket instead of a socket reset?
+
+@mconnew Yes, I just reproduced the same type of exception on our .NET Framework service and also saw the same client behavior. If you don't see any value in changing the behavior I am ok with just punting this.
+
+I think the difference between a reset and a premature close is arbitrary from the c;lients perspective, but a reset uses less server side resources as the socket doesn't linger in TIME_WAIT. I'm closing this issue as I actually prefer the reset response from a resource usage standpoint.
+
+ The 'ComplexEcho' sample does not seem to work properly
+ In the sample EchoService implementation there is an example called 'ComplexEcho' that takes an EchoMessage instead of a string as input.
+
+This sample does not seem to work end-to-end because the client receives null, whereas the intent seems to be for the client to receive a string.
+
+Either there is a bug in CoreWCF or there is a bug in the sample.
+ Fix exception handling when an exception happens after an await in async service
+ Fixes #107 
+ Throwing exceptions from an async service method crashes the process
+ Making a service method async and throwing an exception can lead to the entire process crashing with an unhandled exception.
+
+Here is a version of the sample echo service that reproduces the problem.
+
+
+
+
+```using Contract;
+using CoreWCF;
+using CoreWCF.Channels;
+using CoreWCF.Description;
+using CoreWCF.Dispatcher;
+using System;
+using System.Runtime.Serialization;
+using System.Threading.Tasks;
+namespace NetCoreServer
+{
+    public class SharedErrorHandlerAttribute : Attribute, IErrorHandler, IServiceBehavior
+    {
+        public void ProvideFault(Exception error, MessageVersion version, ref Message fault)
+        {
+            Console.WriteLine(error);
+        }
+        public bool HandleError(Exception error)
+        {
+            return false;
+        }
+        public void ApplyDispatchBehavior(ServiceDescription description, ServiceHostBase serviceHostBase)
+        {
+            foreach (ChannelDispatcherBase channelDispatcherBase in serviceHostBase.ChannelDispatchers)
+            {
+                ChannelDispatcher channelDispatcher = channelDispatcherBase as ChannelDispatcher;
+                channelDispatcher.ErrorHandlers.Add(this);
+            }
+        }
+        public void Validate(ServiceDescription description, ServiceHostBase serviceHostBase)
+        {
+        }
+        public void AddBindingParameters(
+            ServiceDescription description,
+            ServiceHostBase serviceHostBase,
+            System.Collections.ObjectModel.Collection<ServiceEndpoint> endpoints,
+            BindingParameterCollection parameters)
+        {
+        }
+    }
+    [SharedErrorHandler]
+    public class EchoService : Contract.IEchoService
+    {
+        public async Task<string> Echo(string text)
+        {
+            System.Console.WriteLine($"Received {text} from client!");
+            await Task.Delay(100);
+            throw new Exception("Something bad happened");
+        }
+        public string ComplexEcho(EchoMessage text)
+        {
+            System.Console.WriteLine($"Received {text.Text} from client!");
+            return text.Text;
+        }
+    }
+}
+ Make DispatchOperation Invoker public
+ I need to "customize" the Invoker process for a DispatcherOperation but it's internal in CoreWCF implementation.
+I'm asking to make it "public"
+I want to make sure I understand your request. Are you wanting to have [DispatchOperation.Invoker](https://docs.microsoft.com/en-us/dotnet/api/system.servicemodel.dispatcher.dispatchoperation.invoker?view
+Yes. Thanks and sorry if I was not clear
+
+Scarica Outlook per Android<https://aka.ms/ghei36>
+________________________________
+From: Matt Connew <notifications@github.com>
+Sent: Tuesday, March 17, 2020 6:16:01 PM
+To: CoreWCF/CoreWCF <CoreWCF@noreply.github.com>
+Cc: aramacciotti <aramacciotti@hotmail.com>; Author <author@noreply.github.com>
+Subject: Re: [CoreWCF/CoreWCF] Make DispatchOperation Invoker public (#106)
+
+
+I want to make sure I understand your request. Are you wanting to have DispatchOperation.Invoker<https://docs.microsoft.com/en-us/dotnet/api/system.servicemodel.dispatcher.dispatchoperation.invoker?view=netframework-4.8> made public so you can modify the IOperationInvoker behavior?
+
+—
+You are receiving this because you authored the thread.
+Reply to this email directly, view it on GitHub<https://github.com/CoreWCF/CoreWCF/issues/106#issuecomment-600193492>, or unsubscribe<https://github.com/notifications/unsubscribe-auth/ABUCDAR4H263HD6WLBXJ4BTRH6V5DANCNFSM4LFPJENQ>.
+
+
+I've created a PR with the changes. There are a few differences with IOperationInvoker. In my quest to rid CoreWCF of APM, there are two differences in the api. First, IsSynchronous property is gone. Second, Invoke, BeingInvoke and EndInvoke have been replaced with a single InvokeAsync. As you can't return an out parameter from an async method, the outputs array is being returned using a tuple. I suspect you won't need to worry about this as most people use do soemthing before and/or after calling the original invoker. In which case you can implement your method like this:
+```c#
+public async ValueTask<(object returnValue, object[] outputs)> InvokeAsync(object instance, object[] inputs)
+{
+    // Do something before
+    var result = await _innerInvoker.InvokeAsync(instance, inputs);
+    // Do something after
+    return result;
+}
+```
+Let me know if you have any problems with this.
+
+I have a previously developed .NET Framework WCF service in which Invoke method was replaced (as it was “public”) by a custom implementation.
+In order to have the same result, do you mean that I have to set InvokeAsync property (if existing, but it seems to me not)?
+
+Da: Matt Connew <notifications@github.com>
+Inviato: mercoledì 18 marzo 2020 18:54
+A: CoreWCF/CoreWCF <CoreWCF@noreply.github.com>
+Cc: aramacciotti <aramacciotti@hotmail.com>; Author <author@noreply.github.com>
+Oggetto: Re: [CoreWCF/CoreWCF] Make DispatchOperation Invoker public (#106)
+
+
+I've created a PR with the changes. There are a few differences with IOperationInvoker. In my quest to rid CoreWCF of APM, there are two differences in the api. First, IsSynchronous property is gone. Second, Invoke, BeingInvoke and EndInvoke have been replaced with a single InvokeAsync. As you can't return an out parameter from an async method, the outputs array is being returned using a tuple. I suspect you won't need to worry about this as most people use do soemthing before and/or after calling the original invoker. In which case you can implement your method like this:
+
+public async ValueTask<(object returnValue, object[] outputs)> InvokeAsync(object instance, object[] inputs)
+
+{
+
+    // Do something before
+
+    var result = await _innerInvoker.InvokeAsync(instance, inputs);
+
+    // Do something after
+
+    return result;
+
+}
+
+Let me know if you have any problems with this.
+
+—
+You are receiving this because you authored the thread.
+Reply to this email directly, view it on GitHub<https://github.com/CoreWCF/CoreWCF/issues/106#issuecomment-600775788>, or unsubscribe<https://github.com/notifications/unsubscribe-auth/ABUCDAXCY7JFH2VQI6FW6OLRIEDCRANCNFSM4LFPJENQ>.
+
+
+Your existing implementation will derive from System.ServiceModel.Dispatcher.IOperationInvoker. That had two sets of Invoke methods, Invoke for a synchronous implementation, and the paired InvokeBegin/InvokeEnd for APM asynchronous implementation. It also had an IsSynchronous property to direct WCF whether to call Invoke of the InvokeBegin/InvokeEnd pair. To move to CoreWCF, you will need to implement CoreWCF.Dispatcher.IOperationInvoker instead. This has removed the IsSynchronous property, and replaced the two different sets of api's with the single InvokeAsync api. You will need to do a refactor/partial rewrite but it should be minimal changes.  
+So the interface you need to implement has changed from:
+```c#
+    public interface IOperationInvoker
+    {
+        bool IsSynchronous { get; }
+        object[] AllocateInputs();
+        object Invoke(object instance, object[] inputs, out object[] outputs);
+        IAsyncResult InvokeBegin(object instance, object[] inputs, AsyncCallback callback, object state);
+        object InvokeEnd(object instance, out object[] outputs, IAsyncResult result);
+    }
+```
+To this:
+```c#
+    public interface IOperationInvoker
+    {
+        object[] AllocateInputs();
+        ValueTask<(object returnValue, object[] outputs)> InvokeAsync(object instance, object[] inputs);
+    }
+```
+It simplifies things a lot. It hasn't been merged yet so you won't see the new api until it it.
+
+Which is the plan about merging such changes and make it available so I can arrange code accordingly?
+
+This has now been merged. New packages should be available within 30 minutes.
+
+As such I still see the alpha.68 version: is this the new package?
+
+Additonal information as I don't understand how to change the current implementation:
+
+I have a new Attribute that's implementing the interface IOperationBehavior in which in the ApplyDispatchBehavior method I was setting the "Invoker" of the DispatchOperation (that was public).
+
+How can change it with CoreWCF?
+
+It should be alpha.71
+

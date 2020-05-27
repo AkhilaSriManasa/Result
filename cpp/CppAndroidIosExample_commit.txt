@@ -1,0 +1,28 @@
+﻿ Merge pull request #2 from jlundos/android_oct_2018_fix
+
+Android oct 2018 fix
+ Only shrink code size in release builds
+ "Fix" circular dependency problem
+ Update to Android 2018-10 environment to fix error of no mips NDK toolchain
+ Make the conversion more explicit to help the tutorial understanding
+ Add pro guard note
+ Organise the plugins
+ Fix link
+ Add swift images and text
+ Add swift sample
+ Update readme
+ Uses UILabel
+ Fix alignement
+ Add default colours to android text
+ Add Android Sample
+ Fix typo
+ Add iOS sample
+ Add an example of how to use the same core on unix
+ Code cleanup
+ Merge pull request #1 from TeleginS/master
+
+README typo
+ README typo
+ added a screenshot
+ added the project from existing code
+ Initial commit

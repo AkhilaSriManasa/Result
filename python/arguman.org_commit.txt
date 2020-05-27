@@ -1,0 +1,38 @@
+﻿ Merge pull request #385 from ugurarici/master
+
+şifre değil parola
+ Merge pull request #387 from fizyk20/polish-translation
+
+Add a Polish translation
+ Add a Polish translation
+ Delete a 'pl' folder (wasn't Polish)
+ Cachebump the example argument
+ Add files via upload
+ Delete example-argument.png
+ şifre değil parola
+ Update authors
+ Update authors
+ Update authors
+ Update authors
+ Update LICENSE
+ Update README.md
+ Update README.md
+ Add files via upload
+ Update README.md
+ Add files via upload
+ Update README.md
+ Update README.md
+ Add files via upload
+ Update LICENSE
+ Update LICENSE
+ Update LICENSE
+ Update LICENSE
+ Update LICENSE
+ Update requirements.txt
+ Update requirements.txt
+ Merge pull request #362 from kodujdlapolski/feature/347_settingify_default_view
+
+Fix #347 Settingify default view
+ Merge pull request #384 from hasanemrebeyy/master
+
+ X-Forwarded-For allows spoofing client IP address

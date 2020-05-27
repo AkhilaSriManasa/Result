@@ -1,0 +1,380 @@
+﻿ Add changeExtent function to ProjectionMatrix
+ Remove special-case window size handling from RenderGraph and support
+resize of orthographic projections.
+
+# Pull Request Template
+
+## Description
+
+Implementation of changes discussed on vsg-users. This simplifies RenderGraph.
+
+## Type of change
+
+Please delete options that are not relevant.
+
+- [ ] Bug fix (non-breaking change which fixes an issue)
+- [X] New feature (non-breaking change which adds functionality)
+- [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
+- [ ] This change requires a documentation update
+
+## How Has This Been Tested?
+
+Please describe the tests that you ran to verify your changes. Provide instructions so we can reproduce. Please also list any relevant details for your test configuration
+
+Added an --ortho option to vsgviewer.
+
+**Test Configuration**:
+* Firmware version:
+* Hardware:
+* Toolchain: gcc
+* SDK:
+
+## Checklist:
+
+- [X] My code follows the style guidelines of this project
+- [X] I have performed a self-review of my own code
+- [X] I have commented my code, particularly in hard-to-understand areas
+- [ ] I have made corresponding changes to the documentation
+- [X] My changes generate no new warnings
+- [ ] I have added tests that prove my fix is effective or that my feature works
+- [ ] New and existing unit tests pass locally with my changes
+- [ ] Any dependent changes have been merged and published in downstream modules
+
+ declare default operator This silences a spew of gcc warnings (-Wdeprecated-copy).
+
+# Pull Request Template
+
+## Description
+
+It is apparently deprecated to declare a copy constructor without declaring an assignment operator. -Wdeprecated-copy is part of -Wall in gcc 9
+
+Fixes # (issue)
+
+## Type of change
+
+## How Has This Been Tested?
+
+recompiled
+
+**Test Configuration**:
+* Firmware version:
+* Hardware:
+* Toolchain: gcc 9
+* SDK:
+
+## Checklist:
+
+- [X] My code follows the style guidelines of this project
+- [X] I have performed a self-review of my own code
+- [ ] I have commented my code, particularly in hard-to-understand areas
+- [ ] I have made corresponding changes to the documentation
+- [ ] My changes generate no new warnings
+- [ ] I have added tests that prove my fix is effective or that my feature works
+- [ ] New and existing unit tests pass locally with my changes
+- [ ] Any dependent changes have been merged and published in downstream modules
+
+ Support for Secodary CommandBuffers + Execute commands
+ 
+ Multisampling support
+ Using @timoore's multisample branch as a building block and reference implemented mulitsampling support.  To enable multisampling simply set the WindowTraits.samples to the preferred number of samples such as 2, 4, 8.
+ Fix typo in take_when_avilable.
+ # Pull Request Template
+
+## Description
+
+Fixing a typo to change take_when_avilable to take_when_available.
+
+Fixes # (issue)
+
+## Type of change
+
+Please delete options that are not relevant.
+
+- Typo
+
+
+ Add missing initializer
+ # Pull Request Template
+
+## Description
+
+fixes vsgrendertotexture hang
+
+Fixes # (issue)
+
+## Type of change
+
+Please delete options that are not relevant.
+
+- [ ] Bug fix (non-breaking change which fixes an issue)
+- [ ] New feature (non-breaking change which adds functionality)
+- [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
+- [ ] This change requires a documentation update
+
+## How Has This Been Tested?
+
+Please describe the tests that you ran to verify your changes. Provide instructions so we can reproduce. Please also list any relevant details for your test configuration
+
+- [ ] Test A
+- [ ] Test B
+
+**Test Configuration**:
+* Firmware version:
+* Hardware:
+* Toolchain:
+* SDK:
+
+## Checklist:
+
+- [ ] My code follows the style guidelines of this project
+- [ ] I have performed a self-review of my own code
+- [ ] I have commented my code, particularly in hard-to-understand areas
+- [ ] I have made corresponding changes to the documentation
+- [ ] My changes generate no new warnings
+- [ ] I have added tests that prove my fix is effective or that my feature works
+- [ ] New and existing unit tests pass locally with my changes
+- [ ] Any dependent changes have been merged and published in downstream modules
+
+ Complete multisample support in context and compile traversal
+ Change context::graphicsPipelineStates to two vectors,
+defaultPipelineStates and overridePipelineStates, which are applied
+ Moore/multisample
+ # Pull Request Template
+
+## Description
+
+This implements the creation of a multisampled frame buffer for vsg::Viewer. If the new WindowTraits::samples member requests more than 1 bit of sampling, then a render pass and frame buffer are created with a multisampled attachment that automatically resolves, via subpass flags, to the swapchain attachment.
+
+A FrameAssembly class has been added to abstract the interaction between the RenderGraph and a window or render-to-texture frame buffer. If you like the approach, I might add more convenience functions to that class with the objective of supporting multisampling render-to-texture.
+
+An update to vsgviewer in vsgExamples is being submitted as well.
+
+## Type of change
+
+Please delete options that are not relevant.
+
+- [ ] Bug fix (non-breaking change which fixes an issue)
+- [ ] New feature (non-breaking change which adds functionality)
+- [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
+- [X] This change requires a documentation update
+
+ Multi threaded viewer support
+ Implemented multi-threaded record traversals.
+
+Tested using vsgmultigpu and vsgrendertexture examples from vsgExamples.
+ Refactor window initialization
+ Changed vsg::Window Vulkan object setup so that rather it all being done in the constructors that Vulkan objects are initialized just in time/on demand.  This approach allow users to inject their own Vulkan objects when required to customized setup.
+ Window minimized
+ Added support for window minimization so that rendering is switched off when the window is not visible.  Currently only fully support with Xcb_Window.cpp.  The *Window::visible() for Win32, macOS and Android still need to be implemented.
+ Replaced T const& usage with const T& for consistency with rest of VSG
+ Early in the project experimented with T const& usage to see how it natural it would be but have always found it awkward from a natural language perspective so have replaced with const T& usage to keep it consistent with the rest of the VSG.
+ Replace vsg::Result usage with vsg::Exception
+ To streamline the public interface and implementation of Vulkan support the original vsg::Result<> create(..) approach has been replaced by moving the Vulkan intialization into the constructors and throwing vsg::Exception{} on failures.
+ Refactor result
+ # Pull Request Template
+
+## Description
+
+Please include a summary of the change and which issue is fixed. Please also include relevant motivation and context. List any dependencies that are required for this change.
+
+Fixes # (issue)
+
+## Type of change
+
+Please delete options that are not relevant.
+
+- [ ] Bug fix (non-breaking change which fixes an issue)
+- [ ] New feature (non-breaking change which adds functionality)
+- [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
+- [ ] This change requires a documentation update
+
+## How Has This Been Tested?
+
+Please describe the tests that you ran to verify your changes. Provide instructions so we can reproduce. Please also list any relevant details for your test configuration
+
+- [ ] Test A
+- [ ] Test B
+
+**Test Configuration**:
+* Firmware version:
+* Hardware:
+* Toolchain:
+* SDK:
+
+## Checklist:
+
+- [ ] My code follows the style guidelines of this project
+- [ ] I have performed a self-review of my own code
+- [ ] I have commented my code, particularly in hard-to-understand areas
+- [ ] I have made corresponding changes to the documentation
+- [ ] My changes generate no new warnings
+- [ ] I have added tests that prove my fix is effective or that my feature works
+- [ ] New and existing unit tests pass locally with my changes
+- [ ] Any dependent changes have been merged and published in downstream modules
+
+ RenderGraph support for rendering to an explicit FrameBuffer
+ This provides minimal support for rendering to off-screen buffers by
+allowing the VSG objects normally provided by Window to be stored
+directly in the RenderGraph object.
+
+# Pull Request Template
+
+## Description
+
+This is early, yet hopefully useful, work in supporting offscreen rendering for a variety of purposes.
+
+Fixes # (issue)
+New functionality
+## Type of change
+
+Please delete options that are not relevant.
+
+- [ ] New feature (non-breaking change which adds functionality)
+
+## How Has This Been Tested?
+
+Tested with an example that will soon be submitted to vsgExamples
+
+**Test Configuration**:
+* Firmware version:
+* Hardware: NVidia GTX 1070
+* Toolchain: Linux Fedora 31
+* SDK: 1.2.131.2
+
+## Checklist:
+
+- [ ] My code follows the style guidelines of this project
+- [ ] I have performed a self-review of my own code
+- [ ] I have commented my code, particularly in hard-to-understand areas
+- [ ] I have made corresponding changes to the documentation
+- [ ] My changes generate no new warnings
+- [ ] I have added tests that prove my fix is effective or that my feature works
+Submission to vsgExamples will follow
+- [ ] New and existing unit tests pass locally with my changes
+Don't know. vsgExamples Desktop apps work.
+- [ ] Any dependent changes have been merged and published in downstream modules
+
+ Refactored Window instance extension name setup to simplify and make more extensible.
+ 
+ a small fix to CMAKE files to allow proper include paths when VSG is an external lib
+ 
+
+# Pull Request Template
+
+## Description
+
+Please include a summary of the change and which issue is fixed. Please also include relevant motivation and context. List any dependencies that are required for this change.
+
+Fixes # (issue)
+
+## Type of change
+
+- [ ] build system related Bug fix (non-breaking change which fixes an issue)
+
+## How Has This Been Tested?
+- VulkanSceneGraph was added as a sub-module and used externally.
+
+ Restructured commands and staet from vsg/vk directory into vsg/commands, vsg/state directories
+ 
+ Removed CullTraversal as RecordTraversal has taken over it's functionality
+ 
+ vsg::Intersector base class & vsg::LineSegmentIntersector
+ Developed and tested in vsgExamples/Descktop/vsgintersection before being introduced into the VulkanSceneGraph.
+ Window frame refactor
+ Refactored the way that Fence is managed, moving it out from Window::Frame into RecordAndSubmitTask.  Cleaned up associated code.
+ repair the Barrier taking account read accesses
+ following https://github.com/vsg-dev/VulkanSceneGraph/pull/162
+
+## Fixes
+https://github.com/vsg-dev/VulkanSceneGraph/issues/160
+
+## Type of change
+
+Mutex instead of condition
+
+ repair the Barrier
+ Fixes # (issue)
+https://github.com/vsg-dev/VulkanSceneGraph/issues/160
+## Type of change
+
+Muteces instead of atomic int and condition
+
+ Fix getQueueFamily crash on macOS
+ 
+## Description
+
+on macOS, the last `bestFamily` result of PhysicalDevice::getQueueFamily(), the queueFamily with `queueFlags=VK_QUEUE_GRAPHICS_BIT`  contains 0 queue, thus cause crashes. it's solved by using the first best match.
+
+Fixes #157
+
+## Type of change
+
+Please delete options that are not relevant.
+
+- [x] Bug fix (non-breaking change which fixes an issue)
+- [ ] New feature (non-breaking change which adds functionality)
+- [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
+- [ ] This change requires a documentation update
+
+## How Has This Been Tested?
+
+Examples in vsgExamples/Desktop no longer crashes.
+
+**Test Configuration**:
+* Firmware version: macOS 10.15.4
+* Hardware: MacBook Pro (Retina, 13-inch, Early 2015) Intel Iris Graphics 6100 1536 MB
+* Toolchain: XCode
+* SDK: MoltenVK 1.2.135
+
+## Checklist:
+
+- [x] My code follows the style guidelines of this project
+- [x] I have performed a self-review of my own code
+- [x] I have commented my code, particularly in hard-to-understand areas
+- [x] I have made corresponding changes to the documentation
+- [x] My changes generate no new warnings
+- [ ] I have added tests that prove my fix is effective or that my feature works
+- [ ] New and existing unit tests pass locally with my changes
+- [ ] Any dependent changes have been merged and published in downstream modules
+
+ Subpass threading with integration of NextSubPass and ExecuteSecondaryCB
+ one commit stand for a bug fix (MT freeze) https://github.com/mp3butcher/VulkanSceneGraphPrototype/commit/01e1e6cec259178cf543b73829d3f6f5a6a5a823 that may still affect DataPager 
+The bug is present in vsg-dev:subpass_threading and is reproducible by launching lot of instances of the vsgsubpass example (launch 6 instance and swap between windows seems to be a good way to provoke it)
+ Improve CI
+ Relates to #155.
+
+It seems I have to open a new PR as the previous one was automatically closed after merge.
+
+ATM, improvements include:
+- Remove branch constraint on PR builds
+ Add CI using github actions
+ # Add CI using github actions
+
+## Description
+
+Hello,
+This pull request adds automatized builds on push and pull request events, using github actions facilities. Builds are run on Linux, Windows and Mac OS and exit in failure in case of any error. (ATM, build warnings do nothing and I hope to improve that someday but probably not in a v1.)
+
+For build triggered by push on master, documentation is built and published as build artifact.
+
+Vulkan SDK version to use can be set using an environment variable set at the beginning of the workflow yml file.
+
+Currently, the build fails on Mac OS because of a missing namespace in code. I kept this unchanged for now as it is good illustration of this CI workflow.
+
+I hope this help. Any feedback is welcome.
+
+## How Has This Been Tested?
+
+- With cache missing (first run) or with cache hit
+- After changing Vulkan SDK version
+- Building or not documentation, depending on trigger
+
+ Allow multiple consumers command graphs per secondary
+ works but **mandates to duplicate ExecuteCommands in primaries**
+I made an simple 2 primary sharing 1secondary example
+https://github.com/vsg-dev/vsgExamples/pull/42
+
+ Allow multiple consumers command graphs per producer
+ Not sure but should work on the paper :/
+ Allow multiple consumers command graph per producer
+ Allow multiple consumers command graph per producer

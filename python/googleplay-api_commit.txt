@@ -1,0 +1,125 @@
+﻿ Localization
+ Added support for app reviews.
+ Fixed README
+Hi, is there any update about this project recently? I found the Google APIs have updated for several times and I'm studying ur codes. It's so nice of u to make this project and could u tell me if I can run it with the latest Google APIs？
+
+
+Hi,
+
+I unfortunately do not have time to maintain this project anymore. I
+developed this project as a PoC a long time ago and am pretty impressed by
+the number of people still using it. Since the birth of this project Google
+has updated their API as well as their Protobuf structure. The
+GooglePlayDownloader project (
+http://codingteam.net/project/googleplaydownloader) might be more up to
+date.
+You might want to reverse engineer the last version of Google Play app in
+order to document the protobuf structures. This Androguard script (
+https://github.com/bitpew/androguard-protobuf-nano-extractor/tree/master)
+is based on mine, but is supposed to handle Google's new NanoProtobuf
+implementation.
+
+I'm afraid I won't find time to review and merge pull requests, so please
+feel free to fork the project and publish a (much) better and newer version.
+
+Cheers,
+Emilien
+
+Hi, is there any update about this project recently? I found the Google
+APIs have updated for several times and I'm studying ur codes. It's so nice
+of u to make this project and could u tell me if I can run it with the
+latest Google APIs？
+
+—
+Reply to this email directly or view it on GitHub
+https://github.com/egirault/googleplay-api/commit/9cf515f28eec16575ab2f6204cbdd779d2b77613#commitcomment-12561510
+.
+
+
+Hi，
+
+It's very useful, thanks very much~
+
+Best regards
+
+Allen
+
+At 2015-08-06 18:41:38, "egirault" notifications@github.com wrote:
+Hi,
+
+I unfortunately do not have time to maintain this project anymore. I
+developed this project as a PoC a long time ago and am pretty impressed by
+the number of people still using it. Since the birth of this project Google
+has updated their API as well as their Protobuf structure. The
+GooglePlayDownloader project (
+http://codingteam.net/project/googleplaydownloader) might be more up to
+date.
+You might want to reverse engineer the last version of Google Play app in
+order to document the protobuf structures. This Androguard script (
+https://github.com/bitpew/androguard-protobuf-nano-extractor/tree/master)
+is based on mine, but is supposed to handle Google's new NanoProtobuf
+implementation.
+
+I'm afraid I won't find time to review and merge pull requests, so please
+feel free to fork the project and publish a (much) better and newer version.
+
+Cheers,
+Emilien
+
+Hi, is there any update about this project recently? I found the Google
+APIs have updated for several times and I'm studying ur codes. It's so nice
+of u to make this project and could u tell me if I can run it with the
+latest Google APIs？
+
+—
+Reply to this email directly or view it on GitHub
+https://github.com/egirault/googleplay-api/commit/9cf515f28eec16575ab2f6204cbdd779d2b77613#commitcomment-12561510
+.
+
+—
+Reply to this email directly or view it on GitHub.
+
+
+ Fixed a typo
+Switched default debug mode to False
+ fix apk downloading
+ move androidId into config
+ consolidate some imports
+ urllib2 -> python-requests
+ allow exception propagation in download.py
+ ignore apk files
+ more formatting consistency
+ remove executable permission from a few files
+
+Not all files need to be executable.
+ update formatting in androproto tool
+ more formatting changes
+ dos2unix README.md
+ clean up README.md formatting (stray whitespace)
+ consolidate definitions of print_result_line
+ consolidate definitions of print_header_line
+ better config file
+
+The config file now warns the developer if the values haven't been
+configured.
+ dos2unix config.py
+ consolidate definitions of sizeof_fmt
+ formatting fixes
+ initial .gitignore
+ Moved androidId to config.py
+ Added bulkDetails() optimized method to fetch details of N apps in only one request.
+permissions.py now supports multiple apps and uses bulkDetails().
+ Added doc to androproto.py
+ Added an Androguard script used to generate Google Play .proto file
+ Merge pull request #1 from Fuzion24/master
+
+Fixed bug in api login response
+ Fix error when data from URL response is not expected
+
+Traceback (most recent call last):
+  File "search.py", line 64, in <module>
+    api.login(GOOGLE_LOGIN, GOOGLE_PASSWORD, AUTH_TOKEN)
+  File "[...]/googleplay-api/googleplay.py", line 124, in login
+    k, v = d.split("=")
+ValueError: need more than 1 value to unpack
+ Corrected README

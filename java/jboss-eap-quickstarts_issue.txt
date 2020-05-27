@@ -1,0 +1,263 @@
+﻿ fix-issue-2109
+ in this PR a dedicated configuration class is used to activate JSF 2.3 features in JBoss EAP 7.3
+Injection points like FacesContext and ExternalContext work out of the box in JBoss EAP 7.3 with this class.
+
+No manual CDI Produces are necessary and JSF 2.3 works like described in the JSF docs.
+ task-jsf example: JSF 2.3 features does not work on JBoss EAP 7.3
+ In the example task-jsf is a CDI Producer used to generate the FacesContext Injection Point from the static method reference.
+`    @Produces
+    public FacesContext getFacesContext() {
+        return FacesContext.getCurrentInstance();
+    }`
+
+The JSF docs say, the injection from FacesContext and ExternalContext should work out of the box. This does not work in the JBoss EAP 7.3
+
+In my opinion it would be better and easier to understand if a concreate configuration class is used.
+
+In the bug reported for JSF([see here](https://github.com/javaserverfaces/mojarra/issues/4308)) such a class is suggested.
+
+`@FacesConfig(version = Version.JSF_2_3)
+@ApplicationScoped
+public class Config {}`
+
+With this class the example works as designed and all JSF 2.3 features as well.
+
+Best regards
+René Fischer
+I opened a pull request to adress this issue:
+[PR 2110](https://github.com/jboss-developer/jboss-eap-quickstarts/pull/2110)
+
+Best regards
+René Fischer
+
+ add jvm.options for exec
+ This makes it easier to attach a debugger and do something.
+~~~
+mvn exec:exec -Djvm.options="-agentlib:jdwp=transport=dt_socket,address=8787,server=y,suspend=y"
+~~~
+@hokuda hi, this repo is just for publishing EAP Quickstarts released sources, to contribute please create an enhancement JIRA at https://issues.redhat.com/browse/WFLY (component 
+ Openshift
+ 
+Done
+
+I believe this push request was not intended,  changes proposed look like some sort of debug aid?Anyway this repo is read-only for contributions, if you want to contribute please open a WFLY JIRA at https://issues.redhat.com/browse/WFLY , and PR should be done for wildfly/quickstart repo.
+
+My apologies.
+It wasn't intended. Thanks for notifying me.
+
+On Thu, 27 Feb 2020, 14:03 Eduardo Martins, <notifications@github.com>
+wrote:
+
+> I believe this push request was not intended, changes proposed look like
+> some sort of debug aid?Anyway this repo is read-only for contributions, if
+> you want to contribute please open a WFLY JIRA at
+> https://issues.redhat.com/browse/WFLY , and PR should be done for
+> wildfly/quickstart repo.
+>
+> —
+> You are receiving this because you authored the thread.
+> Reply to this email directly, view it on GitHub
+> <https://github.com/jboss-developer/jboss-eap-quickstarts/pull/2107?email_source=notifications&email_token=AD6MVAZUZEPCDOBASJV47QLRE62Y3A5CNFSM4K4BWEY2YY3PNVWWK3TUL52HS4DFVREXG43VMVBW63LNMVXHJKTDN5WW2ZLOORPWSZGOENEJNAQ#issuecomment-591959682>,
+> or unsubscribe
+> <https://github.com/notifications/unsubscribe-auth/AD6MVA46P42YUIEKGGUQ7ALRE62Y3ANCNFSM4K4BWEYQ>
+> .
+>
+
+
+ Minor changes
+ 
+Done
+
+Done
+
+ Fix incorrect template url for CD18
+ https://issues.redhat.com/browse/JBEAP-18693
+ JBEAP-17131: Remove xsi-schemalocation
+ Removed xsi-schemalocation. This issue is resolved in [JBIDE-18319](https://issues.redhat.com/browse/JBIDE-18319). 
+@parsharma all Quickstarts development happens at https://github.com/wildfly/quickstart repo, you should first clone the JBEAP JIRA to WFLY JIRA, and then submit PR to wildfly repo, and in PR description you should include a line "Issue: WFLY_JIRA_URL", please check PRs over there to see how these are done and worked out
+
+@emmartins do you mean first i have to create issue in JIRA for WFLY? and then commit the changes?
+
+
+Yes, this is accomplished by first “clone” the JBEAP jira and then “move”
+that clone to the WFLY jira project. Then your PR at wildfly/QuickStart
+should reference the WFLY issue as shown in other PRs.
+
+On Wed, 29 Jan 2020 at 07:34, parsharma <notifications@github.com> wrote:
+
+> @emmartins <https://github.com/emmartins> do you mean first i have to
+> create issue in JIRA for WFLY? and then commit the changes?
+>
+> —
+> You are receiving this because you were mentioned.
+>
+>
+> Reply to this email directly, view it on GitHub
+> <https://github.com/jboss-developer/jboss-eap-quickstarts/pull/2104?email_source=notifications&email_token=AAEDY6ESF47PQNZPXYPAB3LRAEWPBA5CNFSM4KMNFAE2YY3PNVWWK3TUL52HS4DFVREXG43VMVBW63LNMVXHJKTDN5WW2ZLOORPWSZGOEKGHVGI#issuecomment-579631769>,
+> or unsubscribe
+> <https://github.com/notifications/unsubscribe-auth/AAEDY6ECJKD5GMT4FASZPK3RAEWPBANCNFSM4KMNFAEQ>
+> .
+>
+
+
+@emmartins As you mentioned, I have created the pull request in WFLY: https://github.com/wildfly/quickstart/pull/369
+
+@emmartins Should we close this PR?
+
+yes @parsharma , thanks for reminding me
+
+ JBEAP-17039 added servlet-api-3.1.jar dependency in the pom.xml
+ 
+ v01
+ 
+ Ulttrix69 v.0.01
+ 
+ Add Web Archive (WAR) version of ha-singleton example
+ There are slight differences in how it's packaged for WAR vs JAR, so this is a working example.
+ Mavin requirement link not found.
+ "Configure Maven to Build and Deploy the Quickstarts" referenced in many quickstarts doc are not found.
+
+https://github.com/jboss-developer/jboss-eap-quickstarts/blob/7.2.0.GA/shared-doc/%7BconfigureMavenDocUrl%7D
+ Consider making quickstarts all standalone please
+ Hello, 
+
+I'm a Red Hat consultant. One issue that (me/clients) have with using the quickstarts is that they all reference a parent pom.
+The use case is that we'd like to take a sample, strip out the stuff we don't need and add our own. The tricky part is making the examples standalone so that they don't rely on parent pom. I've seen this done in the 7.1.x-develop branch.
+
+In general, it would be nice if all examples were all standalone instead of using a parent. Or if not, then explain how to make them standalone.
+
+
+WildFly is source of origin for all of these quickstarts. You might want to create this issue there: https://github.com/wildfly/quickstart
+
+
+ Updated the html page
+ 
+ Update README.adoc
+ The project does not contain a jboss-web.xml
+@alteepping : Thanks for submitting this fix! Unfortunately all fixes must be made to the Wildfly repository located here: https://github.com/wildfly/quickstart.
+
+@emmartins will make sure the changes are propagated to this one.
+
+
+ 7.2.0.CD15
+ 
+ Updated link to all quickstarts
+ 
+ messaging-clustering-singleton does not run under Openshift
+ messaging-clustering-singleton needs some update before it can run under OpenShift.
+The postconfigure.sh will be executed automatically after the container will be started. 
+
+please add following two files:
+
+extensions/extensions.cli 
+    ##Batch file to configure the standalone server for the messaging-clustering-singleton quickstart.
+    
+    embed-server --server-config=standalone-openshift.xml 
+    
+    batch
+    
+    # -- The console is disabled by default in the Full HA profile. Enable the console to allow us to view the quickstart output.
+    # /subsystem=logging/console-handler=CONSOLE:add(level=INFO,formatter="%K{level}%d{HH:mm:ss,SSS} %-5p [%c] (%t) %s%E%n")
+    # /subsystem=logging/root-logger=ROOT:add-handler(name="CONSOLE")
+    
+    # -- Enable clustering, and set a cluster password
+    /subsystem=messaging-activemq/server=default:write-attribute(name=cluster-password, value=password)
+
+    # -- Add mdb-delivery-group named "my-mdb-delivery-group"
+    /subsystem=ejb3/mdb-delivery-group=my-mdb-delivery-group:add(active=true)
+    
+    # -- Deploy the messaging-clustering-singleton.war file
+    # deploy /deployments/messaging-clustering-singleton.war
+    
+    # -- Run this batch file
+    run-batch
+    
+    # Reload the server
+    reload
+
+   extensions/postconfigure.sh 
+ 
+    #!/bin/bash
+    
+    echo " "
+    echo "   $0 start"
+    echo " "
+    
+    ${JBOSS_HOME}/bin/jboss-cli.sh --file=${JBOSS_HOME}/extensions/extensions.cli
+   
+    echo " "
+    echo "   $1 end"
+    echo " "
+
+BTW: I was not able to create a pull request.
+This repository is deprecated, you must create a WFLY jira and work with wildfly/quickstart sources for PR
+
+@rbaumgar : 
+
+This is the URL for the WildFly quickstarts: https://github.com/wildfly/quickstart
+
+This is the URL for the WildFly server: https://github.com/wildfly/wildfly
+
+You should be able to test the quickstarts using the master branch.
+
+ 7.2.0.CD14 update
+ 
+ 7.1
+ 
+7.1
+
+ Move EAR file in OpenShift deployment directory manually.
+ Hi guys!
+
+I run the ejb-in-ear sample but when I checked the console log, the ear file was not moved in OpenShift deployment directory, thats why the application server unable to load the project.
+
+Any workaround ?
+
+Thanks,
+Mark
+ update to 7.2.0.CD13 release
+ 
+ EAP7-696 update guava version to pass with latest Arquilian version
+ 
+This follows up on https://github.com/jboss-developer/jboss-eap-boms/pull/97
+
+@tremes : This repository is no longer used for development. If you notice, @ctomc posted the JBoss EAP 7.1 final quickstarts here. We won't be updating the 7.1 quickstarts.
+
+I believe you need to make fixes for the 7.2 quickstarts to the https://github.com/wildfly/quickstart repository. Those fixes are then cherry-picked or merged to the https://github.com/jbossas/eap-quickstarts JBoss EAP product repository.
+
+Let me know if you have any questions.
+
+Hmm ok...thanks for information
+
+ Learning purpose
+ I am downloading this project for EJB jboss learning purpose
+This repository is no longer for JBoss development. Please submit pull requests to the https://github.com/wildfly/quickstart repository.
+
+ Openshift
+ ya
+This PR is not valid and the 7.1 branch of the quickstarts is final.
+
+ 7.2.0.CD12-dev3
+ Move to the 7.2.0.CD12 bom.
+Introduce productization version and repo changes.
+Add the generated README.html files.
+ Generate and add README.html files to the openshift branch. Fix OpenShift template name.
+ @bstansberry : This PR replaces https://github.com/jboss-developer/jboss-eap-quickstarts/pull/2083.
+
+In addition to the generated README.html files, this PR also updates the OpenShift template name to incorporate the unmerged one defined in https://github.com/jboss-developer/jboss-eap-quickstarts/pull/2082: JBoss EAP CD (no https).
+ Generate and add README.html files to the openshift branch
+ 
+ejb-in-war/ejb-in-war-keystore.jks is not in the zip and isn't in the 7.1 branch variant of the QS. I suspect it got in this PR by mistake.
+
+helloworld-ws and tasks are not in this branch so we shouldn't add their README.html
+
+I've compared all the other README.html files here to the equivalents in the qs zip and they match except for the "Last updated..." text. I think that mismatch is ok.
+
+I've corrected the various things I mentioned ^^^ in commits in the branch where I'm reconciling the deltas to the zip: https://github.com/jboss-developer/jboss-eap-quickstarts/compare/openshift...bstansberry:toward-zip
+
+@bstansberry : I cleaned up this PR to remove the keystore and the 2 html files. It still contains the old OpenShift template name. I also created a replacement PR that uses the updated OpenShift template name. See https://github.com/jboss-developer/jboss-eap-quickstarts/pull/2084.
+
+ JBEAP-14544: Update OpenShift template name for the JBoss CD release
+ 
+ Jbeap 9156 and readme html files
+ This PR contains 2 fixes cherry-picked from jbossas/eap-quickstarts.

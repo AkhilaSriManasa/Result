@@ -1,0 +1,565 @@
+﻿ Bump jackson.version from 2.8.1 to 2.11.0
+ Bumps `jackson.version` from 2.8.1 to 2.11.0.
+Updates `jackson-datatype-jdk8` from 2.8.1 to 2.11.0
+
+Updates `jackson-dataformat-cbor` from 2.8.1 to 2.11.0
+<details>
+<summary>Commits</summary>
+<ul>
+<li><a href="https://github.com/FasterXML/jackson-dataformats-binary/commit/bed1cc9912d2df6a0b0677bb377c80d2c748a159"><code>bed1cc9</code></a> [maven-release-plugin] prepare release jackson-dataformats-binary-2.11.0</li>
+<li><a href="https://github.com/FasterXML/jackson-dataformats-binary/commit/27b04f811e07e7447478214b4eaa2a2a4014718a"><code>27b04f8</code></a> Javadoc warning fixes</li>
+<li><a href="https://github.com/FasterXML/jackson-dataformats-binary/commit/4c1db5e4cbcab81110e4c14804fe8fadcfd14cac"><code>4c1db5e</code></a> Merge branch '2.10' into 2.11</li>
+<li><a href="https://github.com/FasterXML/jackson-dataformats-binary/commit/4b4b33caedee81e103d72ad284ee5c0c9d17874a"><code>4b4b33c</code></a> Fix <a href="https://github-redirect.dependabot.com/FasterXML/jackson-dataformats-binary/issues/202">#202</a></li>
+<li><a href="https://github.com/FasterXML/jackson-dataformats-binary/commit/38431a0eab3125530f3e23aea15a6eba8dacbd67"><code>38431a0</code></a> Merge branch '2.10' into 2.11</li>
+<li><a href="https://github.com/FasterXML/jackson-dataformats-binary/commit/8b5e2f5c1c971fc4264e94385e7fdcd7e863022f"><code>8b5e2f5</code></a> Add (failing) unit test for <a href="https://github-redirect.dependabot.com/FasterXML/jackson-dataformats-binary/issues/202">#202</a></li>
+<li><a href="https://github.com/FasterXML/jackson-dataformats-binary/commit/ae1b4f43d5ca2378f1ca2356959b0725403fd64d"><code>ae1b4f4</code></a> More testing, some refactoring wrt <a href="https://github-redirect.dependabot.com/FasterXML/jackson-dataformats-binary/issues/201">#201</a></li>
+<li><a href="https://github.com/FasterXML/jackson-dataformats-binary/commit/6cedcc4d1574b3d91b5ecf5b1efb1f3ea0189fa7"><code>6cedcc4</code></a> Work on fix for <a href="https://github-redirect.dependabot.com/FasterXML/jackson-dataformats-binary/issues/201">#201</a> based on <a href="https://github-redirect.dependabot.com/FasterXML/jackson-dataformats-binary/issues/200">#200</a></li>
+<li><a href="https://github.com/FasterXML/jackson-dataformats-binary/commit/8dfb021a9bf3eacb6ba729960596cbf0e3d4fb79"><code>8dfb021</code></a> minor renaming</li>
+<li><a href="https://github.com/FasterXML/jackson-dataformats-binary/commit/86caeae3a251240906000f769b6c42743fa63b7b"><code>86caeae</code></a> ...</li>
+<li>Additional commits viewable in <a href="https://github.com/FasterXML/jackson-dataformats-binary/compare/jackson-dataformats-binary-2.8.1...jackson-dataformats-binary-2.11.0">compare view</a></li>
+</ul>
+</details>
+<br />
+
+Updates `jackson-datatype-jsr310` from 2.8.1 to 2.11.0
+
+Updates `jackson-core` from 2.8.1 to 2.11.0
+<details>
+<summary>Commits</summary>
+<ul>
+<li><a href="https://github.com/FasterXML/jackson-core/commit/b4a59247007ec65ad1a78bded90b395b3519f3b5"><code>b4a5924</code></a> [maven-release-plugin] prepare release jackson-core-2.11.0</li>
+<li><a href="https://github.com/FasterXML/jackson-core/commit/92c09b79ea8e3c492d711d08809ae0f8f2a8edb5"><code>92c09b7</code></a> Minor javadoc, warning fixes</li>
+<li><a href="https://github.com/FasterXML/jackson-core/commit/b7583889d979eac843116dcd46cc7c481a57f283"><code>b758388</code></a> Prepare for 2.11.0 release</li>
+<li><a href="https://github.com/FasterXML/jackson-core/commit/e1e5e2bf72391c7fae8c2a6f5e958fd0c885ae9c"><code>e1e5e2b</code></a> And finally, async parser tests for <a href="https://github-redirect.dependabot.com/FasterXML/jackson-core/issues/611">#611</a> too</li>
+<li><a href="https://github.com/FasterXML/jackson-core/commit/c1920edca2bc090fc180523888246fd8a41aef67"><code>c1920ed</code></a> More work for <a href="https://github-redirect.dependabot.com/FasterXML/jackson-core/issues/611">#611</a>: only thing missing, verifying async parser</li>
+<li><a href="https://github.com/FasterXML/jackson-core/commit/397bc5b1624808b9d036d91d16cccb9e63199878"><code>397bc5b</code></a> some more <a href="https://github-redirect.dependabot.com/FasterXML/jackson-core/issues/611">#611</a></li>
+<li><a href="https://github.com/FasterXML/jackson-core/commit/9cc36df9d784a5069a625c8d72b54c78f9724917"><code>9cc36df</code></a> more <a href="https://github-redirect.dependabot.com/FasterXML/jackson-core/issues/611">#611</a></li>
+<li><a href="https://github.com/FasterXML/jackson-core/commit/c3a9b5ecda36161a09dea6f161f8f5b7756f0c8c"><code>c3a9b5e</code></a> more work for <a href="https://github-redirect.dependabot.com/FasterXML/jackson-core/issues/611">#611</a></li>
+<li><a href="https://github.com/FasterXML/jackson-core/commit/4cec80a677bce8648063dc66b3007f356a83a88b"><code>4cec80a</code></a> Work on <a href="https://github-redirect.dependabot.com/FasterXML/jackson-core/issues/611">#611</a>, manually merge data-input version first</li>
+<li><a href="https://github.com/FasterXML/jackson-core/commit/ebdc0b51bae7a34676289eaba2ce5ec7776d3ce8"><code>ebdc0b5</code></a> Start merging <a href="https://github-redirect.dependabot.com/FasterXML/jackson-core/issues/611">#611</a> piece by piece</li>
+<li>Additional commits viewable in <a href="https://github.com/FasterXML/jackson-core/compare/jackson-core-2.8.1...jackson-core-2.11.0">compare view</a></li>
+</ul>
+</details>
+<br />
+
+Updates `jackson-databind` from 2.8.1 to 2.11.0
+<details>
+<summary>Commits</summary>
+<ul>
+<li>See full diff in <a href="https://github.com/FasterXML/jackson/commits">compare view</a></li>
+</ul>
+</details>
+<br />
+
+Updates `jackson-annotations` from 2.8.1 to 2.11.0
+<details>
+<summary>Commits</summary>
+<ul>
+<li>See full diff in <a href="https://github.com/FasterXML/jackson/commits">compare view</a></li>
+</ul>
+</details>
+<br />
+
+Updates `jackson-dataformat-csv` from 2.8.1 to 2.11.0
+<details>
+<summary>Commits</summary>
+<ul>
+<li>See full diff in <a href="https://github.com/FasterXML/jackson-dataformats-text/commits/jackson-dataformats-text-2.11.0">compare view</a></li>
+</ul>
+</details>
+<br />
+
+
+Dependabot will resolve any conflicts with this PR as long as you don't alter it yourself. You can also trigger a rebase manually by commenting `@dependabot rebase`.
+
+[//]: # (dependabot-automerge-start)
+[//]: # (dependabot-automerge-end)
+
+---
+
+<details>
+<summary>Dependabot commands and options</summary>
+<br />
+
+You can trigger Dependabot actions by commenting on this PR:
+- `@dependabot rebase` will rebase this PR
+- `@dependabot recreate` will recreate this PR, overwriting any edits that have been made to it
+- `@dependabot merge` will merge this PR after your CI passes on it
+- `@dependabot squash and merge` will squash and merge this PR after your CI passes on it
+- `@dependabot cancel merge` will cancel a previously requested merge and block automerging
+- `@dependabot reopen` will reopen this PR if it is closed
+- `@dependabot close` will close this PR and stop Dependabot recreating it. You can achieve the same result by closing it manually
+- `@dependabot ignore this major version` will close this PR and stop Dependabot creating any more for this major version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this minor version` will close this PR and stop Dependabot creating any more for this minor version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this dependency` will close this PR and stop Dependabot creating any more for this dependency (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot use these labels` will set the current labels as the default for future PRs for this repo and language
+- `@dependabot use these reviewers` will set the current reviewers as the default for future PRs for this repo and language
+- `@dependabot use these assignees` will set the current assignees as the default for future PRs for this repo and language
+- `@dependabot use this milestone` will set the current milestone as the default for future PRs for this repo and language
+
+You can disable automated security fix PRs for this repo from the [Security Alerts page](https://github.com/rakam-io/rakam-api/network/alerts).
+
+</details>
+ Bump jackson.version from 2.8.1 to 2.10.3
+ Bumps `jackson.version` from 2.8.1 to 2.10.3.
+
+Updates `jackson-datatype-jdk8` from 2.8.1 to 2.10.3
+
+Updates `jackson-dataformat-cbor` from 2.8.1 to 2.10.3
+<details>
+<summary>Commits</summary>
+
+- [`f90cd22`](https://github.com/FasterXML/jackson-dataformats-binary/commit/f90cd227d4a68b681a8d1ea9381027121c27fb82) [maven-release-plugin] prepare release jackson-dataformats-binary-2.10.3
+- [`82c1080`](https://github.com/FasterXML/jackson-dataformats-binary/commit/82c108084c5cb27fe885e3c4696d3588e264890c) Prepare for 2.10.3 release
+- [`94f69e4`](https://github.com/FasterXML/jackson-dataformats-binary/commit/94f69e4df17b34b569b34c2cd96639f7ca1bc61e) ...
+- [`794b8d6`](https://github.com/FasterXML/jackson-dataformats-binary/commit/794b8d60010324352a6586a0204a12b9221e1a26) [maven-release-plugin] prepare for next development iteration
+- [`5470ac0`](https://github.com/FasterXML/jackson-dataformats-binary/commit/5470ac023da382afe553035cf30c157e840f067d) [maven-release-plugin] prepare release jackson-dataformats-binary-2.10.2
+- [`7e4672f`](https://github.com/FasterXML/jackson-dataformats-binary/commit/7e4672f6e65afcddc1ad2104c67db33c129648d3) prepare for 2.10.2
+- [`bc79f9d`](https://github.com/FasterXML/jackson-dataformats-binary/commit/bc79f9de42007fbbb96fa73afcbf7c93cd69715b) Update release notes
+- [`5f4ec0e`](https://github.com/FasterXML/jackson-dataformats-binary/commit/5f4ec0ef316d59eaed390e3c531c0129165143d1) Allow IonWriters to be reused.
+- [`312fc6a`](https://github.com/FasterXML/jackson-dataformats-binary/commit/312fc6a7ff15262706055f1f029cc0e2ab6b63fd) ...
+- [`7d1cfa2`](https://github.com/FasterXML/jackson-dataformats-binary/commit/7d1cfa2c5b36c3aeebbf1e6a537abce93d9ab96b) [maven-release-plugin] prepare for next development iteration
+- Additional commits viewable in [compare view](https://github.com/FasterXML/jackson-dataformats-binary/compare/jackson-dataformats-binary-2.8.1...jackson-dataformats-binary-2.10.3)
+</details>
+<br />
+
+Updates `jackson-datatype-jsr310` from 2.8.1 to 2.10.3
+
+Updates `jackson-core` from 2.8.1 to 2.10.3
+<details>
+<summary>Commits</summary>
+
+- [`7cf88c8`](https://github.com/FasterXML/jackson-core/commit/7cf88c8eabc314460cd541a6a6f730e2c85fd283) [maven-release-plugin] prepare release jackson-core-2.10.3
+- [`d71a09c`](https://github.com/FasterXML/jackson-core/commit/d71a09c8179124cef4e087c6e04531674d4463df) Prepare for 2.10.3
+- [`18819b1`](https://github.com/FasterXML/jackson-core/commit/18819b1e58e1fede8ae0f69c73ed22eab5b7bb3b) Backport [#603](https://github-redirect.dependabot.com/FasterXML/jackson-core/issues/603) fix, update release notes
+- [`b2be2c4`](https://github.com/FasterXML/jackson-core/commit/b2be2c472a0cd049ec211a5d8f7141c7f5b8abc3) minor add to dataformat match test
+- [`18c5398`](https://github.com/FasterXML/jackson-core/commit/18c5398430aedc72736f153edfae3abc7549c4ef) Update release notes wrt [#592](https://github-redirect.dependabot.com/FasterXML/jackson-core/issues/592) fix
+- [`e9998bf`](https://github.com/FasterXML/jackson-core/commit/e9998bf7c6d7579a42b92006c5cfbd2f56bc92f6) Fix NPE in DataFormatMatcher#getMatchedFormatName when no match exists ([#591](https://github-redirect.dependabot.com/FasterXML/jackson-core/issues/591))
+- [`dc9c40c`](https://github.com/FasterXML/jackson-core/commit/dc9c40c6d6c00d234590d737030ab5aa4832e860) move to 2.10.3-SNAPSHOT deps
+- [`8f6d905`](https://github.com/FasterXML/jackson-core/commit/8f6d9052b4ec958f5e564f5944234d8d0d61e8a2) [maven-release-plugin] prepare for next development iteration
+- [`35541ca`](https://github.com/FasterXML/jackson-core/commit/35541ca8d7074183ea529c3fb6187709f04359f3) [maven-release-plugin] prepare release jackson-core-2.10.2
+- [`ef009f0`](https://github.com/FasterXML/jackson-core/commit/ef009f0c7ab59a983d7d118d91451b029ca6b7ef) Merge branch '2.10' of github.com:FasterXML/jackson-core into 2.10
+- Additional commits viewable in [compare view](https://github.com/FasterXML/jackson-core/compare/jackson-core-2.8.1...jackson-core-2.10.3)
+</details>
+<br />
+
+Updates `jackson-databind` from 2.8.1 to 2.10.3
+<details>
+<summary>Commits</summary>
+
+- See full diff in [compare view](https://github.com/FasterXML/jackson/commits)
+</details>
+<br />
+
+Updates `jackson-annotations` from 2.8.1 to 2.10.3
+<details>
+<summary>Commits</summary>
+
+- See full diff in [compare view](https://github.com/FasterXML/jackson/commits)
+</details>
+<br />
+
+Updates `jackson-dataformat-csv` from 2.8.1 to 2.10.3
+<details>
+<summary>Commits</summary>
+
+- See full diff in [compare view](https://github.com/FasterXML/jackson-dataformats-text/commits/jackson-dataformats-text-2.10.3)
+</details>
+<br />
+
+Dependabot will resolve any conflicts with this PR as long as you don't alter it yourself. You can also trigger a rebase manually by commenting `@dependabot rebase`.
+
+[//]: # (dependabot-automerge-start)
+[//]: # (dependabot-automerge-end)
+
+---
+
+<details>
+<summary>Dependabot commands and options</summary>
+<br />
+
+You can trigger Dependabot actions by commenting on this PR:
+- `@dependabot rebase` will rebase this PR
+- `@dependabot recreate` will recreate this PR, overwriting any edits that have been made to it
+- `@dependabot merge` will merge this PR after your CI passes on it
+- `@dependabot squash and merge` will squash and merge this PR after your CI passes on it
+- `@dependabot cancel merge` will cancel a previously requested merge and block automerging
+- `@dependabot reopen` will reopen this PR if it is closed
+- `@dependabot close` will close this PR and stop Dependabot recreating it. You can achieve the same result by closing it manually
+- `@dependabot ignore this major version` will close this PR and stop Dependabot creating any more for this major version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this minor version` will close this PR and stop Dependabot creating any more for this minor version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this dependency` will close this PR and stop Dependabot creating any more for this dependency (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot use these labels` will set the current labels as the default for future PRs for this repo and language
+- `@dependabot use these reviewers` will set the current reviewers as the default for future PRs for this repo and language
+- `@dependabot use these assignees` will set the current assignees as the default for future PRs for this repo and language
+- `@dependabot use this milestone` will set the current milestone as the default for future PRs for this repo and language
+
+You can disable automated security fix PRs for this repo from the [Security Alerts page](https://github.com/rakam-io/rakam-api/network/alerts).
+
+</details>
+ Bump jackson.version from 2.8.1 to 2.10.1
+ Bumps `jackson.version` from 2.8.1 to 2.10.1.
+
+Updates `jackson-datatype-jdk8` from 2.8.1 to 2.10.1
+
+Updates `jackson-dataformat-cbor` from 2.8.1 to 2.10.1
+<details>
+<summary>Commits</summary>
+
+- [`ff60ae5`](https://github.com/FasterXML/jackson-dataformats-binary/commit/ff60ae517de6d97fc821b8836a62def14aef8fc9) [maven-release-plugin] prepare release jackson-dataformats-binary-2.10.1
+- [`4c53cec`](https://github.com/FasterXML/jackson-dataformats-binary/commit/4c53cec8a30bfce658662728b2f6b90ecb7273df) prepare for 2.10.1
+- [`dd79fab`](https://github.com/FasterXML/jackson-dataformats-binary/commit/dd79fab5dcd5468c2192964f59c69171f6eadd30) Fix [#188](https://github-redirect.dependabot.com/FasterXML/jackson-dataformats-binary/issues/188) (actual fix in `jackson-databind`; tests for cbor however to verify)
+- [`14ac5b2`](https://github.com/FasterXML/jackson-dataformats-binary/commit/14ac5b24c35dd897fcb50e4ceee5d6900bd46890) Add failing tests for [#188](https://github-redirect.dependabot.com/FasterXML/jackson-dataformats-binary/issues/188)
+- [`3487af1`](https://github.com/FasterXML/jackson-dataformats-binary/commit/3487af19444b5f8e5066acfd44c71de4b4e5a38d) One minor change needed for [#185](https://github-redirect.dependabot.com/FasterXML/jackson-dataformats-binary/issues/185)
+- [`3fc5bb0`](https://github.com/FasterXML/jackson-dataformats-binary/commit/3fc5bb05d1a26290c551ad67241404057f75340e) Merge branch '2.10' of https://github.com/FasterXML/jackson-dataformats-binar...
+- [`eafae59`](https://github.com/FasterXML/jackson-dataformats-binary/commit/eafae5908fcd11f05a697215b415a9f3f7795d7f) fix [#185](https://github-redirect.dependabot.com/FasterXML/jackson-dataformats-binary/issues/185) (possible stackoverflow decoding crafted nested tagged arrays)
+- [`21f8159`](https://github.com/FasterXML/jackson-dataformats-binary/commit/21f815997b999364463568fbd5b21958dbb0fa32) fix travis settings
+- [`ccd0fc4`](https://github.com/FasterXML/jackson-dataformats-binary/commit/ccd0fc4187f9ce5c0aa3b5390ea15888a5d6bedd) Add a failing test for [#185](https://github-redirect.dependabot.com/FasterXML/jackson-dataformats-binary/issues/185)
+- [`148e93c`](https://github.com/FasterXML/jackson-dataformats-binary/commit/148e93c4aafc6d5daa3e04e3e19764971889ec4f) Add javadocs for 2.10
+- Additional commits viewable in [compare view](https://github.com/FasterXML/jackson-dataformats-binary/compare/jackson-dataformats-binary-2.8.1...jackson-dataformats-binary-2.10.1)
+</details>
+<br />
+
+Updates `jackson-datatype-jsr310` from 2.8.1 to 2.10.1
+
+Updates `jackson-core` from 2.8.1 to 2.10.1
+<details>
+<summary>Commits</summary>
+
+- [`60956fc`](https://github.com/FasterXML/jackson-core/commit/60956fccd24d6bdb66abb3182cb2234122039b7a) [maven-release-plugin] prepare release jackson-core-2.10.1
+- [`05a025d`](https://github.com/FasterXML/jackson-core/commit/05a025d16b32bf69184811dcebae9e000a56e0cb) ...
+- [`81a9952`](https://github.com/FasterXML/jackson-core/commit/81a9952a681f6f6e1fab6fa5216749cf75f4a7e9) prepare for 2.10.1
+- [`ce0d5e1`](https://github.com/FasterXML/jackson-core/commit/ce0d5e10ddb290cdc6b107805fb15b5eed97f5f3) revert now unnecessary sonatype deploy plugin
+- [`adf6fd0`](https://github.com/FasterXML/jackson-core/commit/adf6fd02a4aa0ba872f6857c6e1ac38d3b96c9dc) Add Sonatype deploy plugin to simplify releases
+- [`7ca30ec`](https://github.com/FasterXML/jackson-core/commit/7ca30eccc96e8eb02bc6b1a4aab3d78c1bba1388) array index out of bounds in hex lookup ([#578](https://github-redirect.dependabot.com/FasterXML/jackson-core/issues/578))
+- [`da5365e`](https://github.com/FasterXML/jackson-core/commit/da5365edc9b0644ed446ce8b227dadb62a8821e9) Fix [#578](https://github-redirect.dependabot.com/FasterXML/jackson-core/issues/578): non-blocking path still had potential problem, but changed method i...
+- [`db0f586`](https://github.com/FasterXML/jackson-core/commit/db0f5860085425dbe08b3e2b81801fc0e5e62bba) ...
+- [`243fadc`](https://github.com/FasterXML/jackson-core/commit/243fadc879345732a9a5bb18b2d587a0272e5ddc) Fix [#567](https://github-redirect.dependabot.com/FasterXML/jackson-core/issues/567)
+- [`714df7b`](https://github.com/FasterXML/jackson-core/commit/714df7b5f3507d13ba7480c27b30e96d69fc076b) ...
+- Additional commits viewable in [compare view](https://github.com/FasterXML/jackson-core/compare/jackson-core-2.8.1...jackson-core-2.10.1)
+</details>
+<br />
+
+Updates `jackson-databind` from 2.8.1 to 2.10.1
+<details>
+<summary>Commits</summary>
+
+- See full diff in [compare view](https://github.com/FasterXML/jackson/commits)
+</details>
+<br />
+
+Updates `jackson-annotations` from 2.8.1 to 2.10.1
+<details>
+<summary>Commits</summary>
+
+- See full diff in [compare view](https://github.com/FasterXML/jackson/commits)
+</details>
+<br />
+
+Updates `jackson-dataformat-csv` from 2.8.1 to 2.10.1
+<details>
+<summary>Commits</summary>
+
+- See full diff in [compare view](https://github.com/FasterXML/jackson-dataformats-text/commits/jackson-dataformats-text-2.10.1)
+</details>
+<br />
+
+Dependabot will resolve any conflicts with this PR as long as you don't alter it yourself. You can also trigger a rebase manually by commenting `@dependabot rebase`.
+
+[//]: # (dependabot-automerge-start)
+[//]: # (dependabot-automerge-end)
+
+---
+
+<details>
+<summary>Dependabot commands and options</summary>
+<br />
+
+You can trigger Dependabot actions by commenting on this PR:
+- `@dependabot rebase` will rebase this PR
+- `@dependabot recreate` will recreate this PR, overwriting any edits that have been made to it
+- `@dependabot merge` will merge this PR after your CI passes on it
+- `@dependabot squash and merge` will squash and merge this PR after your CI passes on it
+- `@dependabot cancel merge` will cancel a previously requested merge and block automerging
+- `@dependabot reopen` will reopen this PR if it is closed
+- `@dependabot ignore this [patch|minor|major] version` will close this PR and stop Dependabot creating any more for this minor/major version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this dependency` will close this PR and stop Dependabot creating any more for this dependency (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot use these labels` will set the current labels as the default for future PRs for this repo and language
+- `@dependabot use these reviewers` will set the current reviewers as the default for future PRs for this repo and language
+- `@dependabot use these assignees` will set the current assignees as the default for future PRs for this repo and language
+- `@dependabot use this milestone` will set the current milestone as the default for future PRs for this repo and language
+
+You can disable automated security fix PRs for this repo from the [Security Alerts page](https://github.com/rakam-io/rakam/network/alerts).
+
+</details>
+ fix dependency errors
+ 
+ Bump jackson.version from 2.8.1 to 2.10.1
+ Bumps `jackson.version` from 2.8.1 to 2.10.1.
+
+Updates `jackson-datatype-jdk8` from 2.8.1 to 2.10.1
+
+Updates `jackson-datatype-jsr310` from 2.8.1 to 2.10.1
+
+Updates `jackson-core` from 2.8.1 to 2.10.1
+<details>
+<summary>Commits</summary>
+
+- [`60956fc`](https://github.com/FasterXML/jackson-core/commit/60956fccd24d6bdb66abb3182cb2234122039b7a) [maven-release-plugin] prepare release jackson-core-2.10.1
+- [`05a025d`](https://github.com/FasterXML/jackson-core/commit/05a025d16b32bf69184811dcebae9e000a56e0cb) ...
+- [`81a9952`](https://github.com/FasterXML/jackson-core/commit/81a9952a681f6f6e1fab6fa5216749cf75f4a7e9) prepare for 2.10.1
+- [`ce0d5e1`](https://github.com/FasterXML/jackson-core/commit/ce0d5e10ddb290cdc6b107805fb15b5eed97f5f3) revert now unnecessary sonatype deploy plugin
+- [`adf6fd0`](https://github.com/FasterXML/jackson-core/commit/adf6fd02a4aa0ba872f6857c6e1ac38d3b96c9dc) Add Sonatype deploy plugin to simplify releases
+- [`7ca30ec`](https://github.com/FasterXML/jackson-core/commit/7ca30eccc96e8eb02bc6b1a4aab3d78c1bba1388) array index out of bounds in hex lookup ([#578](https://github-redirect.dependabot.com/FasterXML/jackson-core/issues/578))
+- [`da5365e`](https://github.com/FasterXML/jackson-core/commit/da5365edc9b0644ed446ce8b227dadb62a8821e9) Fix [#578](https://github-redirect.dependabot.com/FasterXML/jackson-core/issues/578): non-blocking path still had potential problem, but changed method i...
+- [`db0f586`](https://github.com/FasterXML/jackson-core/commit/db0f5860085425dbe08b3e2b81801fc0e5e62bba) ...
+- [`243fadc`](https://github.com/FasterXML/jackson-core/commit/243fadc879345732a9a5bb18b2d587a0272e5ddc) Fix [#567](https://github-redirect.dependabot.com/FasterXML/jackson-core/issues/567)
+- [`714df7b`](https://github.com/FasterXML/jackson-core/commit/714df7b5f3507d13ba7480c27b30e96d69fc076b) ...
+- Additional commits viewable in [compare view](https://github.com/FasterXML/jackson-core/compare/jackson-core-2.8.1...jackson-core-2.10.1)
+</details>
+<br />
+
+Updates `jackson-databind` from 2.8.1 to 2.10.1
+<details>
+<summary>Commits</summary>
+
+- See full diff in [compare view](https://github.com/FasterXML/jackson/commits)
+</details>
+<br />
+
+Updates `jackson-annotations` from 2.8.1 to 2.10.1
+<details>
+<summary>Commits</summary>
+
+- See full diff in [compare view](https://github.com/FasterXML/jackson/commits)
+</details>
+<br />
+
+Updates `jackson-dataformat-csv` from 2.8.1 to 2.10.1
+<details>
+<summary>Commits</summary>
+
+- See full diff in [compare view](https://github.com/FasterXML/jackson-dataformats-text/commits/jackson-dataformats-text-2.10.1)
+</details>
+<br />
+
+Dependabot will resolve any conflicts with this PR as long as you don't alter it yourself. You can also trigger a rebase manually by commenting `@dependabot rebase`.
+
+[//]: # (dependabot-automerge-start)
+[//]: # (dependabot-automerge-end)
+
+---
+
+<details>
+<summary>Dependabot commands and options</summary>
+<br />
+
+You can trigger Dependabot actions by commenting on this PR:
+- `@dependabot rebase` will rebase this PR
+- `@dependabot recreate` will recreate this PR, overwriting any edits that have been made to it
+- `@dependabot merge` will merge this PR after your CI passes on it
+- `@dependabot squash and merge` will squash and merge this PR after your CI passes on it
+- `@dependabot cancel merge` will cancel a previously requested merge and block automerging
+- `@dependabot reopen` will reopen this PR if it is closed
+- `@dependabot ignore this [patch|minor|major] version` will close this PR and stop Dependabot creating any more for this minor/major version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this dependency` will close this PR and stop Dependabot creating any more for this dependency (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot use these labels` will set the current labels as the default for future PRs for this repo and language
+- `@dependabot use these reviewers` will set the current reviewers as the default for future PRs for this repo and language
+- `@dependabot use these assignees` will set the current assignees as the default for future PRs for this repo and language
+- `@dependabot use this milestone` will set the current milestone as the default for future PRs for this repo and language
+
+You can disable automated security fix PRs for this repo from the [Security Alerts page](https://github.com/rakam-io/rakam/network/alerts).
+
+</details>
+ Clean-up
+ 
+ Bump jackson.version from 2.8.1 to 2.10.0
+ Bumps `jackson.version` from 2.8.1 to 2.10.0.
+
+Updates `jackson-datatype-jdk8` from 2.8.1 to 2.10.0
+
+Updates `jackson-datatype-jsr310` from 2.8.1 to 2.10.0
+
+Updates `jackson-core` from 2.8.1 to 2.10.0
+<details>
+<summary>Commits</summary>
+
+- [`2ce8890`](https://github.com/FasterXML/jackson-core/commit/2ce88904df6c60ef0c4708f6c514885cef850409) [maven-release-plugin] prepare release jackson-core-2.10.0
+- [`0e59212`](https://github.com/FasterXML/jackson-core/commit/0e5921298398d8a4d1410a1b5d7823e619f53353) Prepare for 2.10.0
+- [`e8c9f22`](https://github.com/FasterXML/jackson-core/commit/e8c9f228c057033d205057293ea034bbb4a1c4a1) Merge branch '2.9' into 2.10
+- [`4899c28`](https://github.com/FasterXML/jackson-core/commit/4899c28558e73bed16eddc8013a12def6643f231) [maven-release-plugin] prepare for next development iteration
+- [`d4bfe20`](https://github.com/FasterXML/jackson-core/commit/d4bfe205405caf948de35b4380f2d3221cdad072) [maven-release-plugin] prepare release jackson-core-2.9.10
+- [`b17e3f1`](https://github.com/FasterXML/jackson-core/commit/b17e3f1d4b21d105b443e4f0cc9ea215578415a5) Prepare for 2.9.10
+- [`fc73bee`](https://github.com/FasterXML/jackson-core/commit/fc73bee380444112e9294545d4f0b66094884dab) Fix [#563](https://github-redirect.dependabot.com/FasterXML/jackson-core/issues/563) (async parser, location for array values)
+- [`ce70782`](https://github.com/FasterXML/jackson-core/commit/ce70782781693c8f3410c1ea9f0c6a9f66750523) Start work on [#563](https://github-redirect.dependabot.com/FasterXML/jackson-core/issues/563)
+- [`1c852df`](https://github.com/FasterXML/jackson-core/commit/1c852dfb26f008047b676d435395ced3ebd2946c) ...
+- [`8a0df82`](https://github.com/FasterXML/jackson-core/commit/8a0df820bb997f4e82a1c6859820f39a8652185a) Minor test change
+- Additional commits viewable in [compare view](https://github.com/FasterXML/jackson-core/compare/jackson-core-2.8.1...jackson-core-2.10.0)
+</details>
+<br />
+
+Updates `jackson-databind` from 2.8.1 to 2.10.0
+<details>
+<summary>Commits</summary>
+
+- See full diff in [compare view](https://github.com/FasterXML/jackson/commits)
+</details>
+<br />
+
+Updates `jackson-annotations` from 2.8.1 to 2.10.0
+<details>
+<summary>Commits</summary>
+
+- See full diff in [compare view](https://github.com/FasterXML/jackson/commits)
+</details>
+<br />
+
+Updates `jackson-dataformat-yaml` from 2.8.1 to 2.10.0
+<details>
+<summary>Commits</summary>
+
+- See full diff in [compare view](https://github.com/FasterXML/jackson-dataformats-text/commits/jackson-dataformats-text-2.10.0)
+</details>
+<br />
+
+Updates `jackson-dataformat-csv` from 2.8.1 to 2.10.0
+<details>
+<summary>Commits</summary>
+
+- See full diff in [compare view](https://github.com/FasterXML/jackson-dataformats-text/commits/jackson-dataformats-text-2.10.0)
+</details>
+<br />
+
+Dependabot will resolve any conflicts with this PR as long as you don't alter it yourself. You can also trigger a rebase manually by commenting `@dependabot rebase`.
+
+[//]: # (dependabot-automerge-start)
+[//]: # (dependabot-automerge-end)
+
+---
+
+<details>
+<summary>Dependabot commands and options</summary>
+<br />
+
+You can trigger Dependabot actions by commenting on this PR:
+- `@dependabot rebase` will rebase this PR
+- `@dependabot recreate` will recreate this PR, overwriting any edits that have been made to it
+- `@dependabot merge` will merge this PR after your CI passes on it
+- `@dependabot squash and merge` will squash and merge this PR after your CI passes on it
+- `@dependabot cancel merge` will cancel a previously requested merge and block automerging
+- `@dependabot reopen` will reopen this PR if it is closed
+- `@dependabot ignore this [patch|minor|major] version` will close this PR and stop Dependabot creating any more for this minor/major version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this dependency` will close this PR and stop Dependabot creating any more for this dependency (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot use these labels` will set the current labels as the default for future PRs for this repo and language
+- `@dependabot use these reviewers` will set the current reviewers as the default for future PRs for this repo and language
+- `@dependabot use these assignees` will set the current assignees as the default for future PRs for this repo and language
+- `@dependabot use this milestone` will set the current milestone as the default for future PRs for this repo and language
+
+You can disable automated security fix PRs for this repo from the [Security Alerts page](https://github.com/rakam-io/rakam/network/alerts).
+
+</details>
+ Bump netty-all from 4.0.33.Final to 4.1.42.Final
+ Bumps [netty-all](https://github.com/netty/netty) from 4.0.33.Final to 4.1.42.Final.
+<details>
+<summary>Commits</summary>
+
+- [`bd907c3`](https://github.com/netty/netty/commit/bd907c3b3acf3d746ad1143270224aa0f784cd1b) [maven-release-plugin] prepare release netty-4.1.42.Final
+- [`2791f0f`](https://github.com/netty/netty/commit/2791f0fefac82663ca09dc8aa5dda024152c92f8) Avoid use of global AtomicLong for ScheduledFutureTask ids ([#9599](https://github-redirect.dependabot.com/netty/netty/issues/9599))
+- [`86ff76a`](https://github.com/netty/netty/commit/86ff76a4f77662fe1bf61deeec5f3e39e16d4020) Fix incorrect comment  ([#9598](https://github-redirect.dependabot.com/netty/netty/issues/9598))
+- [`5e69a13`](https://github.com/netty/netty/commit/5e69a13c21bcf89bf26dbf1421c5ec8188561a17) Cleanup JNI code to always correctly free memory when loading fails and also ...
+- [`eb3c4bd`](https://github.com/netty/netty/commit/eb3c4bd926e697da3ea16079a5f4211adb375ea5) ChunkedNioFile can use absolute FileChannel::read to read chunks ([#9592](https://github-redirect.dependabot.com/netty/netty/issues/9592))
+- [`76592db`](https://github.com/netty/netty/commit/76592db0bde9d4908191c2d7e54af3466ffd4673) Close eventfd shutdown/wakeup race by closely tracking epoll edges ([#9586](https://github-redirect.dependabot.com/netty/netty/issues/9586))
+- [`0a2d85f`](https://github.com/netty/netty/commit/0a2d85f1d32749eb278b27502ba7de20de958485) Fix GraalVM native image build error ([#9593](https://github-redirect.dependabot.com/netty/netty/issues/9593))
+- [`dc4de7f`](https://github.com/netty/netty/commit/dc4de7fbb4e17c606c92c542d5015042ada48e38) We need to use NewGloblRef when caching jclass instances ([#9595](https://github-redirect.dependabot.com/netty/netty/issues/9595))
+- [`4499384`](https://github.com/netty/netty/commit/4499384135cdaca5ccdda85b0c9610d4ecd6c3cc) Update to netty-tcnative 2.0.26.Final ([#9589](https://github-redirect.dependabot.com/netty/netty/issues/9589))
+- [`8648171`](https://github.com/netty/netty/commit/8648171abc27497d87a8b47e509e8adabd622f5b) Fix *SslEngineTest to not throw ClassCastException and pass in all cases ([#9588](https://github-redirect.dependabot.com/netty/netty/issues/9588))
+- Additional commits viewable in [compare view](https://github.com/netty/netty/compare/netty-4.0.33.Final...netty-4.1.42.Final)
+</details>
+<br />
+
+[![Dependabot compatibility score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=io.netty:netty-all&package-manager=maven&previous-version=4.0.33.Final&new-version=4.1.42.Final)](https://help.github.com/articles/configuring-automated-security-fixes)
+
+Dependabot will resolve any conflicts with this PR as long as you don't alter it yourself. You can also trigger a rebase manually by commenting `@dependabot rebase`.
+
+[//]: # (dependabot-automerge-start)
+[//]: # (dependabot-automerge-end)
+
+---
+
+<details>
+<summary>Dependabot commands and options</summary>
+<br />
+
+You can trigger Dependabot actions by commenting on this PR:
+- `@dependabot rebase` will rebase this PR
+- `@dependabot recreate` will recreate this PR, overwriting any edits that have been made to it
+- `@dependabot merge` will merge this PR after your CI passes on it
+- `@dependabot squash and merge` will squash and merge this PR after your CI passes on it
+- `@dependabot cancel merge` will cancel a previously requested merge and block automerging
+- `@dependabot reopen` will reopen this PR if it is closed
+- `@dependabot ignore this [patch|minor|major] version` will close this PR and stop Dependabot creating any more for this minor/major version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this dependency` will close this PR and stop Dependabot creating any more for this dependency (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot use these labels` will set the current labels as the default for future PRs for this repo and language
+- `@dependabot use these reviewers` will set the current reviewers as the default for future PRs for this repo and language
+- `@dependabot use these assignees` will set the current assignees as the default for future PRs for this repo and language
+- `@dependabot use this milestone` will set the current milestone as the default for future PRs for this repo and language
+
+You can disable automated security fix PRs for this repo from the [Security Alerts page](https://github.com/rakam-io/rakam/network/alerts).
+
+</details>
+ Requestcontext
+ 
+ Implement Presto 0.190
+ 
+ Fix dependency error
+ 
+ Remove continuous query
+ 
+ Fixes for the populate_values changes
+ Tablesampling for postgresql added. Checks for presto is done, as it is done for postgresql.
+ docker-compose Postgresql healthcheck
+ when running `docker-compose -f docker-compose.yml up -d` using the code in the README, the `rakam-api` container exits with an error because it can't find the `rakam-db` container yet as it is not fully functional yet.
+
+With the given changes to the .yml, the `rakam-api` container waits with connecting until the `rakam-db` container returns a positive for the command "pg_isready". I found this fix/workaround [here](https://github.com/peter-evans/docker-compose-healthcheck#waiting-for-postgresql-to-be-healthy).
+
+I encountered this issue (and fixed it) while working with the Docker for Mac client (Version 17.09.0-ce-mac35 (19611)).
+ Populate values in filter builder backend
+ PrestoRakamRaptor is implemented, it queries mysql first to determine the ratio. Then queries presto. Shouldn't be merged yet. To be reviewed.
+ Presto Approximate
+ I have changed the return value to bigint, started step from 1 (instead of 0) and added a test to check whether it works when dimension is not set.
+ Funneltime
+ To be reviewed, should not be merged.
+ Postgres partitioning
+ 
+ Merge
+ 
+ Push timezone to database
+ 
+ syntax error in funnel_step_time query
+ 
+ Syntax error with funnel_step_time query
+ 
+ COREBI-9 Added sql support to custom mapper
+ 
+ Added MSSQL custom database support
+ 
+ Update README.md
+ Small typo changes
+ full sentence linking to api documentation
+ 
+ sercan's language change
+ 
+ update postgres version to 9.6.1
+ 
+ corrected the readme. Ref #35
+ My 2 cents :)
+
+ Cleanup - squid:S2162 - equals methods should be symmetric and work f…
+ This pull request is focused on resolving occurrences of Sonar rule squid:S2162 - "equals" methods should be symmetric and work for subclasses
+
+You can find more information about the issue here: https://dev.eclipse.org/sonar/coding_rules#q=squid:S2162
+
+Please let me know if you have any questions.
+
+M-Ezzat
+

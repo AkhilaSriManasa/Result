@@ -1,0 +1,416 @@
+﻿ Add collection to shop management enum
+
+Summary: Add new enum for `collections` support that will be kicked off next week.
+
+Differential Revision: D20308716
+
+fbshipit-source-id: d31768818a18f6ee81b5e65e45db7be0eb8bff9f
+ Class retention for annotation to work with modularity
+
+Reviewed By: mgoovaer
+
+Differential Revision: D20308706
+
+fbshipit-source-id: d7629bda63e11b876af36012ae9efc310ea16fea
+ Add JsonAdapter - Add JsonAdapter test
+
+Summary:
+# This stack
+Adds `JsonAdapter`, `FromJson` and `ToJson` annotations to serialize and deserialize types. Currently enabled for enum types whenever no custom custom `valueExtractFormatter`, `serializeCodeFormatter` etc. exists.
+
+This feature is intended to not mess with any existing logic, which is why it bails out when it seems custom formatters. So custom formatters take priority over the adapter, but this covers most of the custom formatters which seems to be used for enums.
+
+This means code goes from (see part 5 of stack for example):
+
+```
+JsonField(
+      fieldName = "review_status",
+      valueExtractFormatter =
+          "ProductReviewStatus.fromServerValue(${parser_object}.getValueAsString())",
+      serializeCodeFormatter =
+          "${generator_object}.writeStringField(\"${json_fieldname}\", "
+              + "${object_varname}.${field_varname}.serverValue)")
+ProductReviewStatus mReviewStatus = ProductReviewStatus.APPROVED;
+```
+
+to
+
+```
+JsonField(fieldName = "review_status")
+ProductReviewStatus mReviewStatus = ProductReviewStatus.APPROVED;
+
+JsonAdapter(adapterClass = ProductReviewStatus.class)
+public enum ProductReviewStatus {
+
+  ...
+
+  FromJson
+  public static ProductReviewStatus fromServerValue(String serverValue) {
+    return ProductReviewStatus.valueOf(serverValue);
+  }
+
+  ToJson
+  public static String toServerValue(ProductReviewStatus productReviewStatus) {
+    return productReviewStatus.serverValue;
+  }
+}
+
+```
+# This diff
+
+Adds tests
+
+Reviewed By: mgoovaer
+
+Differential Revision: D20044218
+
+fbshipit-source-id: 92b5e1222894912b5aff0be2ff46858faae25fd4
+ Add JsonAdapter - Annotation processing and validation
+
+Summary:
+# This stack
+Adds `JsonAdapter`, `FromJson` and `ToJson` annotations to serialize and deserialize types. Currently enabled for enum types whenever no custom custom `valueExtractFormatter`, `serializeCodeFormatter` etc. exists.
+
+This feature is intended to not mess with any existing logic, which is why it bails out when it seems custom formatters. So custom formatters take priority over the adapter, but this covers most of the custom formatters which seems to be used for enums.
+
+This means code goes from (see part 5 of stack for example):
+
+```
+JsonField(
+      fieldName = "review_status",
+      valueExtractFormatter =
+          "ProductReviewStatus.fromServerValue(${parser_object}.getValueAsString())",
+      serializeCodeFormatter =
+          "${generator_object}.writeStringField(\"${json_fieldname}\", "
+              + "${object_varname}.${field_varname}.serverValue)")
+ProductReviewStatus mReviewStatus = ProductReviewStatus.APPROVED;
+```
+
+to
+
+```
+JsonField(fieldName = "review_status")
+ProductReviewStatus mReviewStatus = ProductReviewStatus.APPROVED;
+
+JsonAdapter(adapterClass = ProductReviewStatus.class)
+public enum ProductReviewStatus {
+
+  ...
+
+  FromJson
+  public static ProductReviewStatus fromServerValue(String serverValue) {
+    return ProductReviewStatus.valueOf(serverValue);
+  }
+
+  ToJson
+  public static String toServerValue(ProductReviewStatus productReviewStatus) {
+    return productReviewStatus.serverValue;
+  }
+}
+
+```
+# This diff
+
+This part does the actual annotation processing and validation. It isn't actually that much code, mainly just validating a few cases the user could stumble.
+
+Reviewed By: mgoovaer
+
+Differential Revision: D20045024
+
+fbshipit-source-id: 3d723f81f20483e852861ca22df50e8a0cc18689
+ Add JsonAdapter - Add new fields used by during annotation processing
+
+Summary:
+# This stack
+Adds `JsonAdapter`, `FromJson` and `ToJson` annotations to serialize and deserialize types. Currently enabled for enum types whenever no custom custom `valueExtractFormatter`, `serializeCodeFormatter` etc. exists.
+
+This feature is intended to not mess with any existing logic, which is why it bails out when it seems custom formatters. So custom formatters take priority over the adapter, but this covers most of the custom formatters which seems to be used for enums.
+
+This means code goes from (see part 5 of stack for example):
+
+```
+JsonField(
+      fieldName = "review_status",
+      valueExtractFormatter =
+          "ProductReviewStatus.fromServerValue(${parser_object}.getValueAsString())",
+      serializeCodeFormatter =
+          "${generator_object}.writeStringField(\"${json_fieldname}\", "
+              + "${object_varname}.${field_varname}.serverValue)")
+ProductReviewStatus mReviewStatus = ProductReviewStatus.APPROVED;
+```
+
+to
+
+```
+JsonField(fieldName = "review_status")
+ProductReviewStatus mReviewStatus = ProductReviewStatus.APPROVED;
+
+JsonAdapter(adapterClass = ProductReviewStatus.class)
+public enum ProductReviewStatus {
+
+  ...
+
+  FromJson
+  public static ProductReviewStatus fromServerValue(String serverValue) {
+    return ProductReviewStatus.valueOf(serverValue);
+  }
+
+  ToJson
+  public static String toServerValue(ProductReviewStatus productReviewStatus) {
+    return productReviewStatus.serverValue;
+  }
+}
+
+```
+# This diff
+
+Add new fields used by during annotation processing
+
+Reviewed By: mgoovaer
+
+Differential Revision: D20045009
+
+fbshipit-source-id: b8184423f42e97fd1ba3e43703cf806c8f2a5b9f
+ Add JsonAdapter - Add annotation util
+
+Summary:
+# This stack
+Adds `JsonAdapter`, `FromJson` and `ToJson` annotations to serialize and deserialize types. Currently enabled for enum types whenever no custom custom `valueExtractFormatter`, `serializeCodeFormatter` etc. exists.
+
+This feature is intended to not mess with any existing logic, which is why it bails out when it seems custom formatters. So custom formatters take priority over the adapter, but this covers most of the custom formatters which seems to be used for enums.
+
+This means code goes from (see part 5 of stack for example):
+
+```
+JsonField(
+      fieldName = "review_status",
+      valueExtractFormatter =
+          "ProductReviewStatus.fromServerValue(${parser_object}.getValueAsString())",
+      serializeCodeFormatter =
+          "${generator_object}.writeStringField(\"${json_fieldname}\", "
+              + "${object_varname}.${field_varname}.serverValue)")
+ProductReviewStatus mReviewStatus = ProductReviewStatus.APPROVED;
+```
+
+to
+
+```
+JsonField(fieldName = "review_status")
+ProductReviewStatus mReviewStatus = ProductReviewStatus.APPROVED;
+
+JsonAdapter(adapterClass = ProductReviewStatus.class)
+public enum ProductReviewStatus {
+
+  ...
+
+  FromJson
+  public static ProductReviewStatus fromServerValue(String serverValue) {
+    return ProductReviewStatus.valueOf(serverValue);
+  }
+
+  ToJson
+  public static String toServerValue(ProductReviewStatus productReviewStatus) {
+    return productReviewStatus.serverValue;
+  }
+}
+
+```
+# This diff
+
+Adds util to extract class type mirror. Since annotation processor happens before the class is there, you have to deal with the type mirror versus more traditional reflection calls.
+
+Reviewed By: mgoovaer
+
+Differential Revision: D20044978
+
+fbshipit-source-id: 9fc04c9cc7c3bfe3286812a65e968c19ec65806a
+ Add JsonAdapter - Add new annotations
+
+Summary:
+# This stack
+Adds `JsonAdapter`, `FromJson` and `ToJson` annotations to serialize and deserialize types. Currently enabled for enum types whenever no custom custom `valueExtractFormatter`, `serializeCodeFormatter` etc. exists.
+
+This feature is intended to not mess with any existing logic, which is why it bails out when it seems custom formatters. So custom formatters take priority over the adapter, but this covers most of the custom formatters which seems to be used for enums.
+
+This means code goes from (see part 5 of stack for example):
+
+```
+JsonField(
+      fieldName = "review_status",
+      valueExtractFormatter =
+          "ProductReviewStatus.fromServerValue(${parser_object}.getValueAsString())",
+      serializeCodeFormatter =
+          "${generator_object}.writeStringField(\"${json_fieldname}\", "
+              + "${object_varname}.${field_varname}.serverValue)")
+ProductReviewStatus mReviewStatus = ProductReviewStatus.APPROVED;
+```
+
+to
+
+```
+JsonField(fieldName = "review_status")
+ProductReviewStatus mReviewStatus = ProductReviewStatus.APPROVED;
+
+JsonAdapter(adapterClass = ProductReviewStatus.class)
+public enum ProductReviewStatus {
+
+  ...
+
+  FromJson
+  public static ProductReviewStatus fromServerValue(String serverValue) {
+    return ProductReviewStatus.valueOf(serverValue);
+  }
+
+  ToJson
+  public static String toServerValue(ProductReviewStatus productReviewStatus) {
+    return productReviewStatus.serverValue;
+  }
+}
+
+```
+# This diff
+
+Adds the annotations with doc
+
+Reviewed By: mgoovaer
+
+Differential Revision: D20044185
+
+fbshipit-source-id: 896303f9f68b2beccb37181eb490bd52b9ed4152
+ Merge pull request #58 from knordbo/remove-buck
+
+Remove buck
+ Revert "build from source"
+
+This reverts commit 4cd989e6afab6a7fa3bc16f0330c4c21ac44c47f.
+ Revert "Buck test support"
+
+This reverts commit 6a6dd92e196bcd72e931854678f45f8a0ef31145.
+ Buck test support
+
+Reviewed By: mgoovaer
+
+Differential Revision: D19709396
+
+fbshipit-source-id: c9eec3e358646d5f4c63be65924027ddd7f52be8
+ build from source
+
+Reviewed By: mgoovaer
+
+Differential Revision: D19697871
+
+fbshipit-source-id: 0151ba1fe01ddaae87f2daca51da5aaa4e554c89
+ update travis build tools and sdk
+
+Summary: Updating travis build tools and sdk version
+
+Reviewed By: mgoovaer
+
+Differential Revision: D19697261
+
+fbshipit-source-id: fdcb0fa546ca7fb08c96d1cadd93610282f7c02a
+ Basic kotlin class support
+
+Summary:
+Basic support for kotlin classes which wasn't working previously since fields are private in the bytecode.
+
+It enables code like:
+```
+JsonType
+data class KotlinIsFun(
+    JsonField(fieldName = "data") var data: String = ""
+)
+```
+
+Reviewed By: mgoovaer
+
+Differential Revision: D19643708
+
+fbshipit-source-id: f14938b99f2aae19d0c24ca4a9f7d29898d1dc15
+ playground in the sample app
+
+Summary: Added a playground to the sample, to enable quicker iterations of experimentation.
+
+Reviewed By: mgoovaer
+
+Differential Revision: D19643638
+
+fbshipit-source-id: dd9c205770ac0d8a8b3cddfe91e937077cf0152e
+ update gradle and enable kotlin
+
+Summary: Updated gradle and enabled kotlin in the project.
+
+Reviewed By: mgoovaer
+
+Differential Revision: D19643976
+
+fbshipit-source-id: dc67963fec4692304021ace969be083d1b169bf9
+ Add contributing and license section to readme
+
+Reviewed By: dmueller39
+
+Differential Revision: D19580354
+
+fbshipit-source-id: f940e698fbf0866895c2e57a6ef6e6ff6bb58a4c
+ Update readme formatting
+
+Reviewed By: dmueller39
+
+Differential Revision: D19580355
+
+fbshipit-source-id: e6fd1088830c45a1ee10df110db52d19f01f0059
+ Move code of conduct and contributing file to .github directory
+
+Reviewed By: aimango
+
+Differential Revision: D19558844
+
+fbshipit-source-id: 770e2ccb050c45f535e08b8a730bfc3e28e2ee7a
+ Relicense project to MIT
+
+Summary:
+Relicensing `ig-json-parser` project to MIT
+
+Reviewed By: zertosh
+
+Differential Revision: D19468907
+
+fbshipit-source-id: 015a8f991cac3cc9120cf407994b07ca41f3d3ee
+ Add missing assertEquals imports
+
+Summary:
+Fix missing imports
+
+Reviewed By: zertosh
+
+Differential Revision: D19468848
+
+fbshipit-source-id: 56684b4b9c0c0046761fcb988b23efe6f08e03c2
+ Run lint over repo
+
+Summary:
+Running lint
+
+Reviewed By: dmueller39
+
+Differential Revision: D19447775
+
+fbshipit-source-id: 7ebe2c41b08a8a884ebdf8afccaef6cc0c8a531c
+ Merge pull request #57 from Instagram/automated_fixup_code_of_conduct_file_exists
+
+Adding Code of Conduct file
+ Merge pull request #56 from Instagram/automated_fixup_contributing_file_exists
+
+Adding Contributing file
+ OSS Automated Fix: Addition of Code of Conduct
+ OSS Automated Fix: Addition of Contributing
+ Merge pull request #55 from TurboProgramming/patch-1
+
+Replacement of "compile" with "implementation"
+ Replacement of "compile" with "implementation"
+
+As "compile" is going to be deprecated end-2018, this PR replaces with "implementation" that is the new usage.
+ Merge pull request #52 from jingibus/add_annotation_imports
+
+Add annotation imports
+ Rename formatterImports->typeFormatterImports

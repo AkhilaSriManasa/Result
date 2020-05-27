@@ -1,0 +1,89 @@
+﻿ Core:Compile
+ Add work around to fix compile for Visual Studio.
+
+Signed-off-by: SkyFire <admin@projectskyfire.org>
+ Fixed Prince Taldaram unreachable code
+ And also added CLion files to .gitignore.
+ Fixed Prince Taldaram unreachable code.
+ Also added CLion files to .gitignore.
+ [FIX] Update base mana regen
+ The calculations for base mana regen were wrong.
+
+While the MP5 rule was removed from the game (only updating players mana every 5 seconds) in cataclysm, the base mana regen is still calculated with the 5 second increment.
+
+Tested ingame and compared to stable cores like PandaWoW & Tauri.
+ Update zlib to 1.2.11
+ Signed-off-by: SkyFire <admin@projectskyfire.org>
+ Update Gsoap to version 2.8.99
+ Test compile before merging into master
+Signed-off-by: SkyFire <admin@projectskyfire.org>
+ Fixed typo
+ 
+ Scripts/Mulgore: Fix Faction id after respawn
+ 
+ Scripts/Mulgore: Fix Bugs Quest 14491
+ * Fix exploit on SpellHit
+* Add Talk when change faction to 14
+ DB/instance_template: Add map instance and fix crash
+ 
+ DB/areatrigger_teleport: Add some teleport instance
+ 
+ Scripts/Quest: Fix Quest 14491 #842
+ 
+ Core/Scripts: npc_skorn_whitecloud gossip moved to DB
+ 
+ DB/Quest: Fix Quest 11129 #842
+ * Delete duplicate Kyle the Frenzied
+* Fix Tender Strider Meat chance drop
+* Fix waypoints Kyle the Frenzied
+* Move from script to DB
+ [Core/SQL] Missing trainer flags and items!
+ Table `(game_event_)npc_vendor` have data for not creature template (Entry: 63367) without vendor flag, ignore
+Table `(game_event_)npc_vendor` has `maxcount` (1) for item 6365 of vendor (Entry: 67181) but `incrtime`=0, ignore
+Table `(game_event_)npc_vendor` for Vendor (Entry: 70436) have in item list non-existed item (102457, type 1), ignore
+Table `(game_event_)npc_vendor` have data for not creature template (Entry: 72007) without vendor flag, ignore
+Table `(game_event_)npc_vendor` have data for not creature template (Entry: 72993) without vendor flag, ignore
+Table `(game_event_)npc_vendor` have data for not creature template (Entry: 73004) without vendor flag, ignore
+Table `(game_event_)npc_vendor` have data for not creature template (Entry: 73010) without vendor flag, ignore
+Table `(game_event_)npc_vendor` have data for not creature template (Entry: 73305) without vendor flag, ignore
+Table `(game_event_)npc_vendor` have data for not creature template (Entry: 73306) without vendor flag, ignore
+Table `(game_event_)npc_vendor` for Vendor (Entry: 73307) have in item list non-existed item (102463, type 1), ignore
+Table `(game_event_)npc_vendor` have data for not creature template (Entry: 73657) without vendor flag, ignore
+Table `(game_event_)npc_vendor` have data for not creature template (Entry: 73812) without vendor flag, ignore
+Table `(game_event_)npc_vendor` have data for not creature template (Entry: 73819) without vendor flag, ignore
+ [Core / SQL] Update some SQL stuff.
+ Use MySQL utf8mb4_unicode_ci
+ Pull Request - Eye Of Storm
+ 
+ Core/Build: Downgrade min MSVC to MSVC 2015
+ skyfire can compiled with visual studio 2015
+ Core/Build: Fix finding openssl 1.1 and fix windows build for recent OpenSSL versions
+ …OpenSSL versions
+ Core/Opcode: Sorting spaces
+ 
+ Update spell_shaman.cpp
+ 
+ Update spell_druid.cpp
+ 
+ Update spell_warrior.cpp
+ 
+ Add GitRevision
+ - Division of Responsibilities
+ Add GitRevision
+ 
+ Pandaria Fishing Pools / Loot
+ Adding some fishing loot!
+ CMake: Updated OpenSSL macro to find 32/64bit libraries in default path.
+ Updated to cater for default windows installation paths.
+ Core/Opcodes: Values for CMSG_BATTLE_PAY_GET_PRODUCT_LIST, CMSG_BATTL…
+ …E_PAY_ACK_FAILED_RESPONSE, CMSG_BATTLE_PAY_CONFIRM_PURCHASE_RESPONSE, CMSG_BATTLE_PAY_START_PURCHASE
+ Core/Opcodes: Add value to SMSG_GROUP_UNINVITE
+ 
+ Core/WorldSocket: Implement SMSG_COMPRESSED_PACKET and SMSG_MULTIPLE_…
+ …PACKETS
+
+Not tested ingame
+
+Closes #838
+
+better implementation for SMSG_COMPRESSED_PACKET https://gist.github.com/Artamedes/7f6488b4c681c30b20aea65bdac40f39 (I didn't do it because skyfire's worldsocket.cpp is big mess)

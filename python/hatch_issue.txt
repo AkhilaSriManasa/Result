@@ -1,0 +1,515 @@
+﻿ Can i try making Plugin support?
+ 
+One of the thing I read here on GitHub before working on someone else project and write any code  is talk about want you want to make first in a issue to make sure it be acceptable to there project and that they don't have any better ideas .  So i decided to write this to do just that  
+
+The first thing i want to work on is add support for plugins.
+
+So my first question Would you mind if I try to implement plugin support for Hatch and if so what do you think of my plan below.
+
+1.  Change it so each command (new, install etc.), including there sub commands can be add on throw plugins
+2.  Change hatch new to support sub commands.  I want it to create more then just projects I want it to create plugins, templates and more throw plugins.  So new help would then look like this.
+
+> Plugin --create a new plugin
+> Project  --create new project [default]
+> 
+
+with plugins
+
+>bfst  -- Create a new basic file system template for use with hatch new project.
+>exe -- create a new executable for current project
+> other   --and even more.
+
+ 
+3.  Add 2 new command 
+
+           1.  Add  so i can add plugin and other things to the project 
+           2. Remove so i can remove plugin and other thing from my project
+
+I don't know if all this is possible but that want i want to try to do.
+I would like to do such thing in the future such as 
+
+>hatch new exe myexe1 --and have it create a executable for a project
+>hatch new exe myexe2 --and have it create another executable fro project
+>hatch new bfs -- and have it create a new template for a file system
+do some edit in the file system 
+>hatch bfs save ---save the file system as a reusable templete for when you execute 
+>hatch new proj -- I want it to get a list of basic file system it can make maybe even ones from cookie  throw plugins 
+         
+Thank you for any help.  Please note i am not that good of a programmer(self thought) so don't get you hope up but i am very stubborn. 
+
+
+
+Oh here an egg for you snake 
+.. code-block::
+
+               /^\/^\
+             _|__|  O|
+    \/     /~     \_/ \
+     \____|__________/ \      /========/
+            \_______,   \     \________\
+                    \    \       | |           \
+              _______|    |______===            \\
+             /  ____/    /_______====            \\
+             \  \  /     /       ===              \ \
+              \  \/      /                         \ \           _____             _____
+                \/     /                            \  \        /      \         /       \
+               /     /             _----_            \   \     /\         \     /\       /\
+              /     /           _-~      ~-_         |   |     |v\        /v|   |vvVvVvVvV| 
+             (      (        _-~    _--_    ~-_     _/   |     | \/ \//\vVv/ |  |TT     KK|    
+              \      ~-____-~    _-~    ~-_    ~-_-~    /      |TTT Hatch KKK|  |T Hatch K|
+                ~-_           _-~          ~-_       _-~        \TTT     TTT/    \TTT_TTT/
+                   ~--______-~                ~-___-~             \TTT_TTT/     
+
+
+Hello @frog-o, thank you for being so eager to help! Unfortunately, I don't foresee myself having any time to devote to this project in the coming months.
+
+That is great ascii art, thank you 😃 
+
+That OK. I want to work on it probably without success not for you to do it.  I was told I have to return to work so I am not going to have much time also. I just want to make sure it good enough for you to get merged in with your if i was able to do it and not wasting my time which i don't have much of.  I also wanted to make sure no one has any better ideas with naming and such you todo list is perty empty and dont know your plans going forward. 
+
+ Python 3.9
+ Hello.
+
+Would it make sense to add Python 3.9 to CI and test the compatibility with it before it will be finally released? Alpha 4 should be released today.
+ hatch release: --strict flag is misleading?
+ At the moment --help for `hatch release` says: `-s, --strict          Aborts if a distribution already exists.`.
+
+I expected it to exit with non-zero code if the package already existed.
+However, behaviour seems to be the opposite of what I expect:
+
+```
+$ hatch release 
+Uploading distributions to https://upload.pypi.org/legacy/
+  Skipping cachew-0.6-py2.py3-none-any.whl because it appears to already exist
+(exit code 0)
+$ hatch release --strict 
+Uploading cachew-0.6-py2.py3-none-any.whl
+100%
+(exit code 0)
+```
+
+So instead of aborting, --strict have forced uploading.
+It seems that the option simply forwards to `--skip-existing` of `twine upload`, which means:
+
+```
+--skip-existing       Continue uploading files if one already exists. 
+```
+
+Should the `--strict` flag do exactly the opposite? Also `--abort` normally implies non-zero exit code, I think; is hatch meant to implement this logic?
+
+Happy to open a PR fix it, just not sure what was the original intent. Thanks.
+ Python Upgrade via Homebrew Breaks Virtualenvs
+ After upgrading python via Homebrew on Mac OSX, I get the following error when trying to list virtualenvs with `hatch env -l`:
+
+```
+dyld: Library not loaded: @executable_path/../.Python
+  Referenced from: /Users/kyle/.virtualenvs/nanowire/bin/python
+  Reason: image not found
+Traceback (most recent call last):
+  File "/Users/kyle/.local/bin/hatch", line 8, in <module>
+    sys.exit(hatch())
+  File "/Users/kyle/.local/pipx/venvs/hatch/lib/python3.7/site-packages/click/core.py", line 764, in __call__
+    return self.main(*args, **kwargs)
+  File "/Users/kyle/.local/pipx/venvs/hatch/lib/python3.7/site-packages/click/core.py", line 717, in main
+    rv = self.invoke(ctx)
+  File "/Users/kyle/.local/pipx/venvs/hatch/lib/python3.7/site-packages/click/core.py", line 1135, in invoke
+    sub_ctx = cmd.make_context(cmd_name, args, parent=ctx)
+  File "/Users/kyle/.local/pipx/venvs/hatch/lib/python3.7/site-packages/click/core.py", line 641, in make_context
+    self.parse_args(ctx, args)
+  File "/Users/kyle/.local/pipx/venvs/hatch/lib/python3.7/site-packages/click/core.py", line 940, in parse_args
+    value, args = param.handle_parse_result(ctx, opts, args)
+  File "/Users/kyle/.local/pipx/venvs/hatch/lib/python3.7/site-packages/click/core.py", line 1477, in handle_parse_result
+    self.callback, ctx, self, value)
+  File "/Users/kyle/.local/pipx/venvs/hatch/lib/python3.7/site-packages/click/core.py", line 96, in invoke_param_callback
+    return callback(ctx, param, value)
+  File "/Users/kyle/.local/pipx/venvs/hatch/lib/python3.7/site-packages/hatch/commands/env.py", line 31, in list_envs
+    echo_info('  Version: {}'.format(get_python_version()))
+  File "/Users/kyle/.local/pipx/venvs/hatch/lib/python3.7/site-packages/hatch/env.py", line 17, in get_python_version
+    shell=NEED_SUBPROCESS_SHELL
+  File "/usr/local/Cellar/python/3.7.5/Frameworks/Python.framework/Versions/3.7/lib/python3.7/subprocess.py", line 411, in check_output
+    **kwargs).stdout
+  File "/usr/local/Cellar/python/3.7.5/Frameworks/Python.framework/Versions/3.7/lib/python3.7/subprocess.py", line 512, in run
+    output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['python', '-c', 'import sys;print(".".join(str(i) for i in sys.version_info[:3]))']' died with <Signals.SIGABRT: 6>.
+```
+
+This is because the symlinks are all broken and are pointing to a Python version that no longer exists, because Homebrew has pulled the rug out from under us. 
+
+I would recommend adding a `hatch fix` command, or something to that affect, that scans through all the virtualenvs, locates all the broken symlinks, and relinks to the latest appropriate version (2.x or 3.x, depending on the virtualenv) of python.
+ org-mode support for readme
+ Hello devs, 
+
+I was wondering if you would be interested in support for readme files in org-mode? I have half an implementation (badges do not work but are not crucial for my workflow right now). 
+
+If you are interested, I can wrap it up and prepare a PR soon.
+ Update setup.py
+ 
+ Version 0.22 broken on Ubuntu 18.04.3
+ Hello, 
+
+I think the new update might have broken something on Ubuntu 18.04.3. After a `pip3 install --user hatch` I attempt to run `hatch --help` and get the following error message:
+
+```
+Traceback (most recent call last):
+  File "/home/kyle/.local/bin/hatch", line 5, in <module>
+    from hatch.cli import hatch
+  File "/home/kyle/.local/lib/python3.6/site-packages/hatch/cli.py", line 3, in <module>
+    from hatch.commands import (
+ModuleNotFoundError: No module named 'hatch.commands'
+```
+If I go to `~/.local/lib/python3.6/site-packages/hatch`, here is the output I get from running `tree`:
+
+```
+├── build.py
+├── clean.py
+├── cli.py
+├── conda.py
+├── config.py
+├── create.py
+├── env.py
+├── exceptions.py
+├── grow.py
+├── __init__.py
+├── __main__.py
+├── project.py
+├── __pycache__
+│   ├── build.cpython-36.pyc
+│   ├── clean.cpython-36.pyc
+│   ├── cli.cpython-36.pyc
+│   ├── conda.cpython-36.pyc
+│   ├── config.cpython-36.pyc
+│   ├── create.cpython-36.pyc
+│   ├── env.cpython-36.pyc
+│   ├── exceptions.cpython-36.pyc
+│   ├── grow.cpython-36.pyc
+│   ├── __init__.cpython-36.pyc
+│   ├── __main__.cpython-36.pyc
+│   ├── project.cpython-36.pyc
+│   ├── settings.cpython-36.pyc
+│   ├── shells.cpython-36.pyc
+│   ├── structures.cpython-36.pyc
+│   ├── utils.cpython-36.pyc
+│   └── venv.cpython-36.pyc
+├── settings.py
+├── shells.py
+├── structures.py
+├── utils.py
+└── venv.py
+```
+
+This differs from the output of running `tree` from within the `hatch` directory of a freshly clone git repo, which is 
+
+```
+.
+├── build.py
+├── clean.py
+├── cli.py
+├── commands
+│   ├── build.py
+│   ├── clean.py
+│   ├── conda.py
+│   ├── config.py
+│   ├── env.py
+│   ├── grow.py
+│   ├── __init__.py
+│   ├── init.py
+│   ├── install.py
+│   ├── new.py
+│   ├── pypath.py
+│   ├── python.py
+│   ├── release.py
+│   ├── shed.py
+│   ├── shell.py
+│   ├── test.py
+│   ├── uninstall.py
+│   ├── update.py
+│   └── utils.py
+├── conda.py
+├── config.py
+├── create.py
+├── env.py
+├── exceptions.py
+├── files
+│   ├── ci
+│   │   ├── __init__.py
+│   │   ├── tox.py
+│   │   └── travis.py
+│   ├── coverage
+│   │   ├── codecov.py
+│   │   ├── coveragerc.py
+│   │   └── __init__.py
+│   ├── ignore
+│   │   ├── git.py
+│   │   └── __init__.py
+│   ├── __init__.py
+│   ├── licenses
+│   │   ├── apache2.py
+│   │   ├── cc0.py
+│   │   ├── __init__.py
+│   │   ├── mit.py
+│   │   └── mpl.py
+│   ├── pyproject.py
+│   ├── readme
+│   │   ├── __init__.py
+│   │   ├── markdown.py
+│   │   └── restructuredtext.py
+│   ├── setup.py
+│   └── vc
+│       ├── git.py
+│       └── __init__.py
+├── grow.py
+├── __init__.py
+├── __main__.py
+├── project.py
+├── settings.py
+├── shells.py
+├── structures.py
+├── utils.py
+└── venv.py
+```
+
+The git repo appears to have a `commands` directory, which is a proper module. Maybe something went wrong with the packaging process on PyPI? 
+Update: If I do the following everything seems to work:
+
+```
+cd ~/
+pip3 install --user hatch
+git clone https://github.com/ofek/hatch.git
+rsync -rvtP ~/hatch/hatch/ ~/.local/lib/python3.6/site-packages/hatch/
+```
+
+Then I can run `hatch --help` and it seems to work. Running `cd ~/hatch && pip3 install --user .` also does not work. It seems something is wrong with the installation process, but not the package code itself.
+
+Oof, my apologies. Can you try 0.23.0?
+
+Fixed
+
+Thanks for fixing this! Sorry I didn’t get a chance to test, busy day yesterday. Great tool by the way, it has been immensely useful to me. Thanks for creating it.
+
+No worries, thank you!!!
+
+ Avoid installing tests as a package
+ ## Description
+Prevent setup.py from adding a package for `tests`.
+<!--- A few words to describe your changes -->
+
+This is a fixed version of https://github.com/ofek/hatch/pull/60 , which was abandoned.
+ nox support
+ https://github.com/theacodes/nox is the new tox ;-)
+ Update setup.py
+ 
+ Fix tests
+ 
+ update ci
+ 
+ CI failures with test.pypi.org error
+ CI is failing with
+```console
+HTTPError: 400 Client Error: User 'Ofekmeister' does not have a verified primary email address. Please add a verified primary email before attempting to upload to PyPI. See https://test.pypi.org/help/#verified-email for more information.for more information. for url: https://test.pypi.org/legacy/
+```
+Fixed!
+
+Awesome @ofek - great to see it green again!
+
+ DeprecationWarning: invalid escape sequence
+ pytest reports 1 invalid escape sequence in the code, and lots in the test modules.
+
+```console
+[  345s] hatch/commands/shed.py:49
+[  345s]   /home/abuild/rpmbuild/BUILD/hatch-0.20.0/hatch/commands/shed.py:49: DeprecationWarning: invalid escape sequence \/
+[  345s]     """
+[  345s] 
+[  345s] tests/test_venv.py:117
+[  345s]   /home/abuild/rpmbuild/BUILD/hatch-0.20.0/tests/test_venv.py:117: DeprecationWarning: invalid escape sequence \.
+[  345s]     "    sys.argv[0] = re.sub(r'(-script\.pyw?|\.exe)?$', '', sys.argv[0])\n"
+[  345s] 
+[  345s] tests/test_venv.py:134
+[  345s]   /home/abuild/rpmbuild/BUILD/hatch-0.20.0/tests/test_venv.py:134: DeprecationWarning: invalid escape sequence \.
+[  345s]     "    sys.argv[0] = re.sub(r'(-script\.pyw?|\.exe)?$', '', sys.argv[0])\n"
+[  345s] 
+[  345s] tests/test_venv.py:152
+[  345s]   /home/abuild/rpmbuild/BUILD/hatch-0.20.0/tests/test_venv.py:152: DeprecationWarning: invalid escape sequence \.
+[  345s]     "    sys.argv[0] = re.sub(r'(-script\.pyw?|\.exe)?$', '', sys.argv[0])\n"
+[  345s] 
+[  345s] tests/test_venv.py:169
+[  345s]   /home/abuild/rpmbuild/BUILD/hatch-0.20.0/tests/test_venv.py:169: DeprecationWarning: invalid escape sequence \.
+[  345s]     "    sys.argv[0] = re.sub(r'(-script\.pyw?|\.exe)?$', '', sys.argv[0])\n"
+[  345s] 
+[  345s] tests/test_venv.py:187
+[  345s]   /home/abuild/rpmbuild/BUILD/hatch-0.20.0/tests/test_venv.py:187: DeprecationWarning: invalid escape sequence \.
+[  345s]     "    sys.argv[0] = re.sub(r'(-script\.pyw?|\.exe)?$', '', sys.argv[0])\n"
+[  345s] 
+[  345s] tests/test_venv.py:204
+[  345s]   /home/abuild/rpmbuild/BUILD/hatch-0.20.0/tests/test_venv.py:204: DeprecationWarning: invalid escape sequence \.
+[  345s]     "    sys.argv[0] = re.sub(r'(-script\.pyw?|\.exe)?$', '', sys.argv[0])\n"
+[  345s] 
+[  345s] tests/test_venv.py:222
+[  345s]   /home/abuild/rpmbuild/BUILD/hatch-0.20.0/tests/test_venv.py:222: DeprecationWarning: invalid escape sequence \.
+[  345s]     "    sys.argv[0] = re.sub(r'(-script\.pyw?|\.exe)?$', '', sys.argv[0])\n"
+[  345s] 
+[  345s] tests/test_venv.py:239
+[  345s]   /home/abuild/rpmbuild/BUILD/hatch-0.20.0/tests/test_venv.py:239: DeprecationWarning: invalid escape sequence \.
+[  345s]     "    sys.argv[0] = re.sub(r'(-script\.pyw?|\.exe)?$', '', sys.argv[0])\n"
+```
+Fixed!
+
+ setup.py: Use OR to indicate MIT or Apache-2.0
+ Using `/` is not ambiguous, however `or` is more clear
+and is syntax recognised by packaging tools.
+
+ src layout support
+ Does Hatch support the [`src` layout](https://blog.ionelmc.ro/2014/05/25/python-packaging/) (or any other custom name)?
+
+Because a lot of major Python projects have switched to the `src` layout now:
+
+- [Flask](https://github.com/pallets/flask);
+- [Sentry](https://github.com/getsentry/sentry);
+- [Pillow](https://github.com/python-pillow/Pillow);
+- [Pip](https://github.com/pypa/pip);
+- [Werkzeug](https://github.com/pallets/werkzeug);
+- [GEvent](https://github.com/gevent/gevent);
+- [PyTest](https://github.com/pytest-dev/pytest);
+- [Marshmallow](https://github.com/marshmallow-code/marshmallow);
+- [Twisted](https://github.com/twisted/twisted);
+- [Pyramid](https://github.com/Pylons/pyramid);
+- [Cryptography](https://github.com/pyca/cryptography).
+
+And a few major Python projects have adopted a non-conventional `lib` layout:
+- [Ansible](https://github.com/ansible/ansible);
+- [SQLAlchemy](https://github.com/sqlalchemy/sqlalchemy).
+Both `flit` and `poetry` support the src layout now. I'm currently evaluating between flit, poetry, and hatch and would be sad if the missing `src` layout support would create the perfect (for me) triumvirate of "almost,but not quite" tools that are always missing out on some of my requirements.
+
+I intend to write a blog post about it, but in short:
+
+* poetry: Nice in total, but messes with my conda environments, and can't bumpversion on its own
+* flit: Minimalistic, but doesn't even support a version field in the first place.
+* hatch: not sure yet, still exploring...
+
+ Change location of config
+ Is it possible to change the location of the config file? 
+
+```shell
+hatch config                                                                                                                                                                                                        
+Settings location: /Users/mbaechtold/Library/Application Support/hatch/settings.json
+```
+ Default CLI entry_point
+ When running `hatch new --cli mypackage` the default `entry_point` can conflict with `import mypackage`
+
+[`'console_scripts': ['{pn} = {pnn}.cli:{pnn}']`](https://github.com/ofek/hatch/blob/master/hatch/files/setup.py#L82)
+
+Any thoughts on changing this to `'console_scripts': ['{pn} = {pnn}.cli:cli']` so `__main__` calls `cli()` instead of `mypackage()`?
+
+If so, I can generate a PR and make the default version of `cli.py` a little more `click`-ish
+ Release tagging support
+ ## Feature request / Notes for potential PR
+I'm thinking about automating the process of tagging a release and update git mirrors with something like `hatch tag`
+to basically run the following.
+
+```console
+$ git tag -s 0.1.1
+$ git push gitlab 0.1.1
+$ git push mirror 0.1.1
+```
+
+ PyPI support for README.md
+ As per [SO](https://stackoverflow.com/questions/26737222/pypi-description-markdown-doesnt-work) the following needs to be added to setup() for PyPI to correctly render.
+`long_description_content_type='text/markdown'`
+
+*Update:*
+This solved my PyPI README markdown rendering issue.
+At some point I'll look at putting together a pull request.
+ Initial CHANGELOG support
+ ## Description
+I'm open to implementation feedback on this.
+
+This pull request provides initial [CHANGELOG](https://keepachangelog.com/en/1.0.0/) support and currently defaults to markdown, as per the spec.
+
+I'm not sure if the initial release should default to `{package_url}/compare/{version}...HEAD` as an editable example or just use `{package_url}` and then update it to the diffs once grow is run.
+`Project Initialized` could be `Project Initialized with [hatch](https://github.com/ofek/hatch)` or configurable via `settings.json`. Should there be a setting to write the file out as `CHANGELOG` without an extension?
+
+I think there is going to be a merge conflict with `package_data` from my other pull requests, but I'm happy to rebase if needed.
+
+ Initial Version 0.1.0
+ Looking at the FAQ in the [semver spec](https://semver.org/spec/v2.0.0.html) it looks like the initial version should be `0.1.0` or maybe `0.0.0` and not `0.0.1`  as the initial PATCH level is `0`.
+
+I can create a pull request to implement this.
+ GitHub gitignore
+ ## Description
+Integrating https://raw.githubusercontent.com/github/gitignore/master/Python.gitignore
+into `.gitignore` template
+ Move .gitignore template into package_data
+ ## Description
+This should make it easier to merge something like #58 
+ Support tilde in `extras` globs
+ ## Description
+Support for things like
+```
+"extras": [ "~/.local/share/hatch/CHANGELOG*" ]
+```
+ Location of settings.json
+ Is there a reason the config file is in
+`~/.local/share/hatch/settings.json`
+instead of
+`~/.config/hatch/settings.json` aka `$XDG_CONFIG_HOME/hatch/settings.json`
+
+as per http://standards.freedesktop.org/basedir-spec/latest
+https://github.com/ofek/hatch/blob/51d03f3eb77f7ae11072f1ccd099b730daa6ef06/hatch/config.py#L11
+
+https://github.com/ofek/hatch/blob/51d03f3eb77f7ae11072f1ccd099b730daa6ef06/hatch/settings.py#L12
+
+I was thinking this might be `user_config_dir()` instead so that hatch work more like other programs.
+
+Potential to set the preferred location of the settings file via env `HATCH_SETTINGS_FILE
+With that we can opt to store them in the same (however arbitrary) path on all the different systems/platforms we do our work on.  (I work on osx, windows and a few flavors of linux.)
+
+It would entail a check:
+`SETTINGS_FILE = os.getenv('HATCH_SETTINGS_FILE') or os.path.join(user_data_dir('hatch', ''), 'settings.json')`
+Then obviously adding it to the docs.
+
+ Add more licenses
+ Hatch seems to support a narrow range of licenses, it would be nice if more licenses were included.
+ Support for updating version string in pyproject.toml
+ ## Description
+This patch supports updating the pyproject.toml version string via `hatch grow`
+
+## Feedback Needed
+Some of the tests were straightforward to patch, but I wanted some feedback before I tackled the case where `__init__.py` had an invalid version but `pyproject.toml` had a valid version. It looks like `hatch/grow.py` needs to implement a version consistency check and throw exceptions instead of overloading the return. :thinking:?
+```
+    def test_no_match():
+        with temp_chdir() as d:
+            runner = CliRunner()
+            runner.invoke(hatch, ['init', 'ok', '--basic', '-ne'])
+            with open(os.path.join(d, 'ok', '__init__.py'), 'w') as f:
+                f.write('__version__ = "123"')
+    
+            result = runner.invoke(hatch, ['grow', 'fix'])
+    
+>           assert result.exit_code == 1
+E           assert 0 == 1
+E            +  where 0 = <Result okay>.exit_code
+```
+Any feedback  on this?
+
+@ofek I'm sure you are busy with other things, but is there anything I can do to help get my pull requests merged?
+
+@ofek Is hatch being maintained? Is there anything I can do to help?
+
+ Semver docfix for CONFIG.rst
+ Clarifies operation of the semver configuration in the config file documentation.
+
+## Description
+<!--- A few words to describe your changes -->
+
+
+
+## Checklist
+<!--- We appreciate your help and please add yourself to the AUTHORS file. -->
+
+ fix broken link
+ ## Description
+<!--- A few words to describe your changes -->
+fix a 404
+
+## Checklist
+<!--- We appreciate your help and please add yourself to the AUTHORS file. -->
+nah

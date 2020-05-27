@@ -1,0 +1,890 @@
+﻿ DjangoObjectType duplicate models breaks Relay node resolution
+ I have exactly the same issue as #107.
+
+The proposed solution no longer works
+
+Here is my temporary solution for this bug:
+
+```python
+class FixRelayNodeResolutionMixin:
+    @classmethod
+    def get_node(cls, info, pk):
+        instance = super(FixRelayNodeResolutionMixin, cls).get_node( info, pk)
+        setattr(instance, "graphql_type", cls.__name__)
+        return instance
+
+    @classmethod
+    def is_type_of(cls, root, info):
+        if hasattr(root, "graphql_type"):
+            return getattr(root, "graphql_type") == cls.__name__
+        return super(FixRelayNodeResolutionMixin, cls).is_type_of(root, info)
+
+
+class PublicUserType(FixRelayNodeResolutionMixin, DjangoObjectType):
+    class Meta:
+        model = User
+        interfaces = (graphene.relay.Node,)
+        fields = ['id', 'first_name', 'last_name']
+
+class UserType(FixRelayNodeResolutionMixin, DjangoObjectType):
+    class Meta:
+        model = User
+        interfaces = (graphene.relay.Node,)
+        fields = ['id', 'first_name', 'last_name', 'profile']
+```
+
+ ManyToMany through model handling via edges
+ Reopening with reference to: https://github.com/graphql-python/graphene/issues/83
+
+To quote @adamcharnock from https://github.com/graphql-python/graphene/issues/83
+> When a DjangoConnectionField traverses a many-to-many field it would be nice to have the option to expose the fields of any through-table on the edges of the relationship.
+ fixes minor typo in docs index
+ 
+ Default camelcase errors
+ Copy of https://github.com/graphql-python/graphene-django/pull/789 on top of v3
+
+For some reason @swist I couldn't push changes to your branch so I had to create this new one.
+ Overzealous input validation for batching
+ Is there a valid reason why the GraphQLView input is validated to either only ever accept batched requests or never accept batched requests. Is it not reasonable to accept both?
+
+https://github.com/graphql-python/graphene-django/blob/ee120c48e16dda818cb253fdc36b7053402956b0/graphene_django/views.py#L217
+ Error in signature of callproc() and execute()
+ Fixes #586
+
+The default params `()` in the two `NormalCursorWrapper` methods should be `None` to match what django expects in the code block below. A bare `cursor.execute(sql)` will have `params=()` added to it by the Wrapper which fails to match the `if` in the code block below, causing the IndexError. 
+
+```
+    def execute(self, sql, params=None):
+        self.db.validate_no_broken_transaction()
+        with self.db.wrap_database_errors:
+            if params is None:
+                return self.cursor.execute(sql)
+            else:
+>               return self.cursor.execute(sql, params)
+E               IndexError: tuple index out of range
+
+django/db/backends/utils.py:65: IndexError
+```
+
+This fix was done @kevingill1966 in their fork, I'm just making a PR to have it added =)
+Example of a similar fix I did for the same issue in Scout a few years back, seems a lot of people did it the same way! 
+ DjangoConnectionField slice: use max_limit first, if set
+ I found an interesting performance issue, where if I query without `first` or `last`, and there is a setting for `RELAY_CONNECTION_MAX_LIMIT`, the resolver attempts to pull in the entire queryset.
+
+This is way overkill when there are thousands of items, so it seems wise to use `max_limit` when available.
+
+I opted for optional kwarg in `resolve_connection` to maintain backwards compatibility if anyone overwrote this method, but it would be cleaner to require it, since the calling method `connection_resolver` always has it.
+
+On a query that has multiple nested `DjangoConnectionField`s, I imagine this would reduce queries and data over the SQL wire by a lot.
+This makes sense @pcraciunoiu but can you fix up the tests and add a new one to assert this new behaviour?
+
+@jkimbo updated tests to show the changes (basically with and without max limit). And also fixed a bug in my approach.
+
+ Use psycopg2-binary in tox
+ I tried to use a Dockerfile to run all tox scenarios on my local and the first issue was it needed some extra packages to compile `psycopg2`. This change may not have any important affect on the current workflow but i see no reason to not change it.
+ GraphiQL not loading when using Uvicorn ASGI
+ * **What is the current behavior?**
+When running the site using Uvicorn the graphiql page does not load but the rest of the Django site works fine
+
+```
+[32mINFO[0m:     127.0.0.1:52463 - "GET /static/graphene_django/graphiql.js HTTP/1.1" 404
+Not Found: /static/graphene_django/graphiql.js
+```
+
+
+* **If the current behavior is a bug, please provide the steps to reproduce and if possible a minimal demo of the problem** 
+
+1) Install Django with a graphene endpoint and Uvicorn
+
+2) Run `uvicorn MYSITE.asgi:application` in the command line replacing MYSITE with your site name
+
+3) Navigate to the Graphene endpoint (graphiql terminal page)
+
+4) Check the command line output
+
+* **What is the expected behavior?**
+
+Expected behavior should be the same as when running `python manage.py runserver` you get a POST for the graphql
+
+```
+[13/May/2020 19:53:01] "GET /static/graphene_django/graphiql.js HTTP/1.1" 200 2958
+[13/May/2020 19:53:01] "POST /graphql/ HTTP/1.1" 200 24772
+```
+
+
+* **What is the motivation / use case for changing the behavior?**
+
+Making graphene-django compatible with ASGI
+
+* **Please tell us about your environment:**
+  
+  - Version:  Python 3.82
+
+asgiref==3.2.7
+Django==3.0.5
+django-graphiql==0.4.4
+graphene==2.1.8
+graphene-django==2.9.0
+uvicorn==0.11.3
+
+  - Platform: Windows 10
+
+* **Other information** (e.g. detailed explanation, stacktraces, related issues, suggestions how to fix, links for us to have context, eg. stackoverflow)
+
+Posted Stackoverflow question a month ago [here](https://stackoverflow.com/questions/61286482/django-graphene-graphiql-page-not-loading-when-running-from-uvicorn) with no answer so I suspect it is a bug
+
+@ccsv have you run `./manage.py collectstatic`?
+
+On the GraphiQL page open `console` and check the requests that it makes-- does it return the js/css static files? If not use @jkimbo's suggestion.
+
+ Unable to get absolute path for my django model ImageField
+ **Note: for support questions, please use stackoverflow**. This repository's issues are reserved for feature requests and bug reports.
+
+'ImageFieldFile' object has no attribute 'decode'
+
+I have a model  like this
+
+```
+class User(TimeStampModel, AbstractBaseUser, PermissionsMixin):
+    """ Custom user model """
+    ....
+    avatar = models.ImageField(upload_to='avatars/', null=True, blank=True)
+   ....
+```
+
+```
+def resolve_avatar(self, info):
+        avatar = info.context.build_absolute_uri(self.avatar)
+        return avatar
+```
+
+Expected to get an absolute path to the image.
+
+
+
+ Implementing custom Visitors
+ I'm trying to make usage of the visitor patterns for a project. Just by declaring a Custom visitor, I can see it being registered but I have no idea how to make it visible to the graphene flow so it get's called and runs my enter/leave methods. any help is appreciated.
+
+Thanks
+
+Edit: This added the wrong label as I might have started this in the wrong place. Was trying to change the label to "HELP_NEEDED" but I can't seem to be able to do it. Sorry
+ When using DjangoDebugMiddleware, debug tracking presumes cursor.execute argument is a string, raising an error
+ * **What is the current behavior?**
+
+When using the `DjangoDebugMiddleware`, Graphene Django wraps `cursor.execute` calls in a class that logs the query. Among the properties it logs is `is_select`, which attempts to guess if a query is a select query by looking for "select" in the argument to `cursor.execute`:
+```
+                "is_select": sql.lower().strip().startswith("select"),
+```
+
+When `cursor.execute` is called with a non-string argument, such as a [psycopg2 query template]( https://www.psycopg.org/docs/sql.html#module-psycopg2.sql), this raises an error:
+```python
+from django.db import connection
+from psycopg2 import sql
+
+with connection.cursor() as cursor:
+    query = sql.SQL("SELECT * FROM {table}").format(table=sql.Identifier("my_table"))
+    cursor.execute(query)
+```
+This raises:
+```
+graphql.error.located_error.GraphQLLocatedError: 'Composed' object has no attribute 'lower'
+```
+
+* **What is the expected behavior?**
+Grahene Django should not presume that the argument to `connection.cursor()` will always be a string, and do appropriate string coercion as needed before calling string methods on it.
+
+* **What is the motivation / use case for changing the behavior?**
+Robustness.  It's ideal not to throw exceptions from normal uses of core Django methods which graphene-django monkeypatches.
+
+
+* **Please tell us about your environment:**
+  - Version: graphene-django 2.5.0
+  - Platform: Ubuntu Linux 18.04, Django 2.2.12, graphene 2.1.8
+
+ fix typo
+ changed queryeset to queryset
+
+Thanks! 
+
+ Register decimals as string
+ Fixes #91 
+
+I started this branch as a fix to another project. No review is needed yet but they're always appreciated.
+
+Incoming changes:
+* [ ] Connect this change to a global setting. 
+* [ ] Update tests with that setting.
+* [ ] Update `test_should_query_filter_node_limit` and consider what can be affected.
+ replace relay global id with object id
+ So basically I am trying to query through the objects using relay. when I fetch the id it returns the relay global id.
+```python
+{
+  allShops(first: 1){
+    edges{
+      node{
+        id
+        name
+      }
+    }
+  }
+}
+```
+output 
+```pytho 
+{
+  "data": {
+    "allShops": {
+      "edges": [
+        {
+          "node": {
+            "id": "U2hvcE5vZGU6NTA4NTRhYTUtNzJmZC00NzNmLThhNTEtNmQxNWJjYWUwNjE5",
+            "name": "pops"
+          }
+        }
+      ]
+    }
+  }
+}
+```
+it works just fine , even filtering and stuff. But the problem occurs in mutation i cant pass the relay id while updating or referencing  an entry in django. I want the object id there.
+
+**A workaround I tried**
+Use this function
+```python
+id = from_global_id(id)
+``` 
+its in graphql_relay.node.node
+but the problem is it increases a lot of my code and everywhere I want i have to use this and I have a lot of code to manage already.
+
+**Is there any way to globally replace relay global id with model id,(i am using Django's UUID field)
+keeping two ids is redundant code*
+
+
+
+Hey @ramyak-mehra
+
+Instead of getting rid of Relay global id, btw i think its benetifts are open to discussion but it's a bit overkill, i'd recommend a fix on mutation class.
+
+This is the original code on `BaseDjangoFormMutation`, base of `DjangoModelFormMutation`
+
+```python
+@classmethod
+def get_form_kwargs(cls, root, info, **input):
+    kwargs = {"data": input}
+
+    pk = input.pop("id", None)
+    if pk:
+        instance = cls._meta.model._default_manager.get(pk=pk)
+        kwargs["instance"] = instance
+
+    return kwargs
+```
+
+This code tries to fetch your object with Django PK, which i don't see any logic in it. Maybe this base class has other usages that i don't know, but i started to believe it needs to be changed.
+
+```python
+def get_form_kwargs(cls, root, info, **input):
+    kwargs = {"data": input}
+
+    global_id = input.pop("id", None)
+    if global_id:
+        node_type, pk = from_global_id(global_id)
+        instance = cls._meta.model._default_manager.get(pk=pk)
+        kwargs["instance"] = instance
+
+    return kwargs
+```
+
+I use this code on all mutations. It converts relay global id to Django's PK first, then tries to fetch to object.
+
+@jkimbo ping. 
+
+> DjangoModelFormMutation
+
+so basically if I am understanding correctly you are trying to say i should edit the source files of the graphene?
+sorry if I get it wrong m still new to this technology 
+and also would it affect any other logic ?
+
+
+Just override it in the mutation class you wrote.
+
+this will just be used in the mutation, that purpose of getting it was solved bt the function 
+```python
+id = from_global_id(id)
+```
+what about when I query data and try to get details.
+this is my schema
+```python 
+class ShopTypeFilter(django_filters.FilterSet):
+    class Meta:
+        model = ShopType
+        fields = '__all__'
+        filter_overrides = {
+            models.ImageField :{
+                'filter_class' : django_filters.CharFilter,
+                'extra' : lambda f:{
+                    'lookup_expr': 'icontains'
+                }
+            }
+        }
+class ShopTypeNode(DjangoObjectType):
+    class Meta:
+        model = ShopType
+        interfaces = (graphene.relay.Node , )
+class RelayQuery(graphene.ObjectType):
+    node = node = graphene.relay.Node.Field()
+    all_shops =  DjangoFilterConnectionField(ShopNode , filterset_class=ShopFilter)
+    shop = graphene.relay.Node.Field(ShopNode)
+```
+**i need to return the pk here also,**
+**i heard something about creating a customnode but its confusing and there is no proper** **documentation for it**
+
+
+
+
+I think there 2 issues here which are causing confusion:
+
+### 1. `DjangoFilterConnectionField` returns Relay IDs by default
+
+The documentation doesn't do a good job of differentiating what is a relay only concept and what is not the code often defaults to assumption that you are using relay which is often not the case. The connection pattern (edges, nodes etc) is a relay concept that has been adopted by other graphql client libraries because it allows efficient filtering and pagination of long lists. The Relay Global ID is specific to Relay only and (as far as I know) hasn't been adopted by any other graphql client library and is often very confusing to people who are not using Relay.
+
+The fact that Graphene-Django's API defaults to relay in some places and not others (this issue being a good example) is not great and we should move to default to non relay specific APIs with relay being support being an option. 
+
+In this particular use case the support is there to not return Relay IDs from `DjangoFilterConnectionField`. You can do it by changing the `ShopTypeNode` type to not implement the `relay.Node` interface but instead mark it as a plain connection:
+
+```python
+class ShopTypeNode(DjangoObjectType):
+    class Meta:
+        model = ShopType
+        use_connection = True
+```
+
+This option is not documented and IMO is not very intuitive. I find it confusing that you would "enable the connection" on the ObjectType and I think it makes more sense for you to define a wrapper Connection type like you would do it in graphene: https://docs.graphene-python.org/en/latest/relay/connection/ . For example:
+
+
+```python
+class ShopTypeNode(DjangoObjectType):
+    class Meta:
+        model = ShopType
+
+class ShopTypeConnection(relay.Connection):
+	class Meta:
+		node = ShopTypeNode
+
+class Query(ObjectType):
+	all_shops = DjangoFilterConnectionField(ShopTypeConnection, filterset_class=ShopFilter)
+```
+
+It's more verbose but I think it makes a lot more sense. Feedback welcome.
+
+Additionally I think we should try and add filter support to the plain `DjangoListField` because I don't think you should have to use the connection pattern if you don't want to.
+
+### 2. Support for Relay IDs in `DjangoModelFormMutation`
+
+Again, because the Graphene-Django API is inconsistent it's quite easy to assume that the mutation classes would accept Relay IDs because that is what is being returned by the connection fields. However that is not the case as @ulgens points out. In my opinion it would be better to make relay specific versions of the mutation classes (or at least document how to accept Relay IDs) rather than try and figure out if the ID is a Relay ID or not. Not sure exactly what the API should look like. @ulgens any ideas?
+
+@jkimbo  **the first solution DjangoConnectionField**
+DjangoConnectionField only accepts DjangoObjectType types
+```python 
+class UpdateShop(graphene.relay.ClientIDMutation):
+    shop = graphene.Field(ShopNode)
+    
+    class Input:
+        id = graphene.String()
+        name = graphene.String()
+        about = graphene.String()
+        owner = graphene.String()
+        phone_no = graphene.String()
+        time_open = graphene.types.datetime.Time()
+        delivery = graphene.Boolean()
+        in_campus = graphene.Boolean()
+        stars = graphene.Float()
+        time_close = graphene.types.datetime.Time()
+        paytm_id = graphene.String()
+        location = graphene.String()
+    @classmethod
+    def mutate_and_get_payload(cls,root, info, **input):
+        id = input.get('id')
+        id = from_global_id(id)
+        id = id[1]
+        name = input.get('name')
+        about = input.get('about')
+        delivery = input.get('delivery')
+        in_campus = input.get('in_campus')
+        type = input.get('type')
+        stars = input.get('stars')
+        owner = input.get('owner')
+        phone_no = input.get('phone_no')
+        time_open = input.get('time_open')
+        time_close = input.get('time_close')
+        paytm_id = input.get('paytm_id')
+        location = input.get('location')
+        shop = Shop.objects.get(pk=id)
+        if name:
+            shop.name = name
+        if about:
+            shop.about = about
+        if delivery:
+            shop.delivery = delivery
+        if in_campus:
+            shop.in_campus = in_campus
+        if stars:
+            shop.stars = stars
+        if type:
+            shop.type = type
+        if owner:
+            shop.owner = owner
+        if phone_no:
+            shop.phone_no = phone_no
+        if time_open:
+            shop.time_open = time_open
+        if time_close:
+            shop.time_close = time_close
+        if paytm_id:
+            shop.paytm_id = paytm_id
+        if location:
+            shop.location = location
+        
+        shop.save()
+        return UpdateShop(shop=shop)
+```
+This is my current code for updating a item. I know it's not the perfect but see at the starting of the mutate_get_ payload method.
+This works, but I am not happy with the implementation
+
+@jkimbo What about creating a new issue to discuss relay - non-relay stuff? I think it's doable and i have some ideas, but not sure when / where to implement them. v3 is a good candidate, but it's too late for that version imo, maybe with 3.1. 
+
+ customize response
+ How can we customize the response to get in particular format
+Could you elaborate a little more-- provide the response `graphene-django` returns, and how you would like it to be customized.
+
+In drf we use to get queryset directly if we want to modify we can overwrite list method. We can customize in a way for eg
+
+{
+“Status”:200,
+“Sucess”:true,
+{
+Qs }
+}
+
+
+ Update tests
+ update tests preparing for a functional change.....will pass the AUTH token in the HTTP header, which will require sessions
+ GraphQL django not able to fetch particular ID
+ My node looks like - 
+```
+class CustomNode(graphene.relay.Node):
+    """
+        For fetching object id instead of Node id
+    """
+
+    class Meta:
+        name = 'Node'
+
+    @staticmethod
+    def to_global_id(type, id):
+        return id
+
+
+class ReportFileNode(DjangoObjectType):
+    database_id = graphene.Int()
+
+    class Meta:
+        model = ReportFile
+        interfaces = (CustomNode,)
+        filter_fields: List[str] = ['id']
+        convert_choices_to_enum = False
+```
+And my graphql query schema is like -
+```
+class Query(graphene.ObjectType):
+    all_report_files = DjangoFilterConnectionField(ReportFileNode)
+```
+But when I query like this : 
+```
+query {
+  allReportFiles(id: "367") {
+    edges {
+      node {
+        id
+      }
+    }
+  }
+}
+```
+I get returned all the records and not just the one I queried.
+Also I have one more requirement that I should be able to input a list of ids and only those records should be fetched.
+
+When I don't use the custom node then this query works - 
+```
+query {
+  allReportFiles(id: ["UmVwb3J0RmlsZU5vZGU6MzY1", "UmVwb3J0RmlsZU5vZGU6MzY3"]) {
+    edges {
+      node {
+        id
+      }
+    }
+  }
+}
+```
+But I need the global IDs to be displayed and used.
+ Graphene returns null when DjangoForm is invalid instead of reporting error
+ I'm using the DjangoFormMutation class, here's my code:
+
+```
+class CreateDeveloperMutation(DjangoFormMutation):
+	class Meta:
+		form_class = ProfileForm
+
+	developer = graphene.Field(DeveloperNode)
+```
+the ProfileForm is defined here:
+ I was testing the form validation (hence the Exception raised at the save method)
+
+```
+class ProfileForm(forms.Form):
+	firstName = forms.CharField(max_length=40)
+	lastName = forms.CharField(max_length=40)
+	password = forms.CharField(widget=forms.PasswordInput, validators=[validate_password])
+	email = forms.EmailField()
+
+	def save(self):
+		raise Exception('Form Validated')
+```
+While testing I inserted a wrong value in the email field and the response was null, instead of raising a graphql error and outputting the validation error
+ GraphQlView: Do not 'instantiate_middleware' if middleware is already a MiddlewareManager
+ In graphq-core 2, the `MiddlewareManager` can have a `wrap_in_promise` boolean passed to activate/deactivate wrapping the middleware's result into a promise. This has a big performance impact on large requests.
+https://github.com/graphql-python/graphql-core-legacy/blob/52e030bbc6001fd378515600f81ccea0e360131b/graphql/execution/middleware.py#L25
+
+The executor is instantiating the middleware as a `MiddlewareManager` if it's anything else than already a `MiddlewareManager`:
+https://github.com/graphql-python/graphql-core-legacy/blob/52e030bbc6001fd378515600f81ccea0e360131b/graphql/execution/executor.py#L102
+
+So in `graphene_django/views.py` by always converting middleware into a list, it breaks the ability to passe the argument to the `MiddlewareManager` and always default to `wrap_in_promise=True`.
+
+This PR simply checks if the middleware is already a `MiddlewareManager` and pass it without pre-processing, allowing the end-user to define it themselves.
+
+ graphql 3.0 and graphene 3.0 final rebase
+ I rebased almost all change to their original author: form #905 and #774.
+@jkimbo I reviewed the PR with my college @winged.
+
+* I will fix setup.py
+
+* And move the relevant commit messages from all the v3-attempts into the main-commit
+
+Then we think, it can be merged into v3. Then I try v3 with caluma.
+
+@ganwell I've just merged the github actions migration into v3 so you'll have to rebase this change on top of that (sorry)
+
+@jkimbo this is hopfully the final rebase. I rebased all original commits from @ktosiek and @ulgens in to this PR. The diff to the version that was reviewed is trivial: https://git.io/Jfsh3
+
+ How to create a reusable/inherited Mutation class in Graphene?
+ I have a large project with 1000 new Models. I need to create individual Mutations for each of them. I am looking for a solution to create a Parent Class and inherit that to create each Mutations with different Models attributes. Is it possible and how? Can anyone share an example?
+ Error in GraphQL Mutation Expected value of type ID
+ Model
+```python
+class Series(models.Model):
+    title = models.CharField(max_length=255, unique=True, db_index=True)
+    desc = RichTextUploadingField(verbose_name="Description", default= "Coming Soon...", max_length=10000)
+    series_type = models.ForeignKey(SeriesType, on_delete=models.CASCADE)
+    SERIES_STATUS = (
+        (0, 'Not Yet Released'),
+        (1, 'Done')
+    )
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    status = models.PositiveSmallIntegerField(choices=SERIES_STATUS, default=0)
+```
+
+
+Schema
+```python
+class SeriesNode(DjangoObjectType):
+
+    class Meta:
+        model = models.Series
+        filter_fields = ['title', 'alt']
+        interfaces = (relay.Node, )
+
+class SeriesMutation(DjangoModelFormMutation):
+    series = graphene.Field(SeriesNode)
+
+    class Meta:
+        form_class = forms.AdvancedAddSeries
+
+class Mutation(graphene.ObjectType):
+    create_series = SeriesMutation.Field()
+```
+Query Mutation
+```gql
+mutation CreateSeries($input: SeriesMutationInput!){
+  createSeries(input:$input){
+    series{
+      title
+      desc
+      seriesType{
+        id
+      }
+      
+    }
+    errors{
+      field
+      messages
+    }
+  }
+}
+```
+
+Query Variables
+```json
+{
+  "input": {
+    "title": "Series1",
+    "desc": "to be updated",
+    "seriesType": {
+      	"id": "U2VyaWVzVHlwZU5vZGU6Mg=="
+    },
+    "user": {
+      "id": "VXNlck5vZGU6MQ=="
+    },
+    "status": "A_0"
+  }
+}
+```
+Image of Error
+![Image of Error](https://i.imgur.com/X9e6jiq.png)
+
+Reply
+```json
+{
+  "data": {
+    "createSeries": {
+      "series": null,
+      "errors": [
+        {
+          "field": "series_type",
+          "messages": [
+            "Select a valid choice. That choice is not one of the available choices."
+          ]
+        },
+        {
+          "field": "status",
+          "messages": [
+            "Select a valid choice. A_0 is not one of the available choices."
+          ]
+        },
+        {
+          "field": "user",
+          "messages": [
+            "Select a valid choice. That choice is not one of the available choices."
+          ]
+        }
+      ]
+    }
+  }
+}
+```
+I also had one more thing to ask, why are the fields in errors not matching the fields that are found in graphql documentation, an example from above is `series_type` is the declaration in models.py, but in graphql it's converted to `seriesType`, if im to write a form in frontend using name `seriesType` (same as the name of react state that would be used) and then when the error is returned I would have to check which is `series_type` and it would be useless. If it's vice versa, then it would still be the same.
+
+Your id is composed by characters that aren't numbers, but in your input form, the id type is composed only by numbers. You should set the id type like 'string' or use only numbers in the id.
+
+I switched to rest api, since i'm not yet that experienced in using graphql in both front and backend, so i'm closing this issue.
+
+ SerilizerMutation error on ListField of ListField
+ Error:
+Graphene setting 'SCHEMA'. AttributeError: 'tuple' object has no attribute 'name'.
+
+Serializer for SerilizerMutation:
+```
+class PointSerializer(serializers.Serializer):
+    monday = serializers.ListField(
+        child=serializers.ListField(
+            child=serializers.TimeField(), min_length=2, max_length=2
+        )
+    )
+```
+ Add GitHub actions
+ Replace travis with github actions. It's faster and it's nicely integrated with github.
+ How can the mutation return be a required variable.
+ ```
+mutation {
+    addNumber{
+        number
+    }
+}
+```
+How can I make `number` required?
+What is your schema? Did you try adding `required
+yeah figured it out. Forgot to close the issue.
+
+ Do not access the internals of `SimpleLazyObject`
+ This API is not meant to be used, and it breaks when double-wrapped lazy objects occur, which appears to be a long standing practice.
+
+See original issue in django-otp https://github.com/django-otp/django-otp/pull/36
+
+This was introduced a long time ago, in v1.1.0, surprised it hasn't come up before?
+https://github.com/graphql-python/graphene-django/commit/d73f4aa23581d7604cd92a80e8890ad490170094
+
+At any rate, if you have both `AuthenticationMiddleware` and Django OTP, this will blow up with:
+
+```
+Exception: Received incompatible instance
+```
+For context, see also Django source code, which implies `__class__` is the right way to check the class of a lazy object:
+https://github.com/django/django/blob/4b146e0c83891fc67a422aa22f846bb7654c4d38/django/utils/functional.py#L332
+
+@jkimbo any thoughts on this? It's a fairly small change and tests pass.
+
+@pcraciunoiu sorry for the delay. Could you add a test to this PR to show the changes working?
+
+Here you go. Before the changes, the test results in:
+
+```
+=============================================== FAILURES ================================================
+_____________________________ test_should_query_wrapped_simplelazy_objects ______________________________
+
+    def test_should_query_wrapped_simplelazy_objects():
+        class ReporterType(DjangoObjectType):
+            class Meta:
+                model = Reporter
+                fields = ("id",)
+    
+        class Query(graphene.ObjectType):
+            reporter = graphene.Field(ReporterType)
+    
+            def resolve_reporter(self, info):
+                return SimpleLazyObject(lambda: SimpleLazyObject(lambda: Reporter(id=1)))
+    
+        schema = graphene.Schema(query=Query)
+        query = """
+            query {
+              reporter {
+                id
+              }
+            }
+        """
+        result = schema.execute(query)
+>       assert not result.errors
+E       assert not [Exception('Received incompatible instance " ".',)]
+E        +  where [Exception('Received incompatible instance " ".',)] = <graphql.execution.base.ExecutionResult object at 0x7f434877bdc8>.errors
+
+graphene_django/tests/test_query.py:84: AssertionError
+------------------------------------------- Captured log call -------------------------------------------
+ERROR    graphql.execution.utils:utils.py:155 Traceback (most recent call last):
+  File "/home/paul/.local/share/virtualenvs/graphene-django-aq2KKQnM/lib/python3.6/site-packages/graphql/execution/executor.py", line 481, in complete_value_catching_error
+    exe_context, return_type, field_asts, info, path, result
+  File "/home/paul/.local/share/virtualenvs/graphene-django-aq2KKQnM/lib/python3.6/site-packages/graphql/execution/executor.py", line 572, in complete_value
+    exe_context, return_type, field_asts, info, path, result
+  File "/home/paul/.local/share/virtualenvs/graphene-django-aq2KKQnM/lib/python3.6/site-packages/graphql/execution/executor.py", line 712, in complete_object_value
+    if return_type.is_type_of and not return_type.is_type_of(result, info):
+  File "/home/paul/Projects/graphene-django/graphene_django/types.py", line 277, in is_type_of
+    raise Exception(('Received incompatible instance "{}".').format(root))
+Exception: Received incompatible instance " ".
+```
+
+I tried setting up the middleware to do it, but there's no pattern of tests that use Django's middleware yet, so I hope this will suffice. Lazy should be allowed to work when they're chained and now that part's tested.
+
+Thank you too @jkimbo can you say if this will make it into graphene-django 2 as well as 3?
+
+Ah looks like I just missed today's release :/ hope there will be one in the next couple of weeks.
+
+@pcraciunoiu yep I'll release this as part of v2.10.1 soon. I was just going to wait a couple of days to see if there are any issues that come up as a result of the v2.10.0 release.
+
+@jkimbo thoughts on a release with the fix this week?
+
+@pcraciunoiu sorry for the delay. Just released v2.10.1 with your fix: https://github.com/graphql-python/graphene-django/releases/tag/v2.10.1
+
+ How to generate non nullable queries?
+ This is my model and schema:
+```python
+class AccountRegion(models.Model):
+    name = models.CharField(_('name'), max_length=128)
+
+class AccountRegionType(DjangoObjectType):
+    class Meta:
+        model = AccountRegion
+
+class Query(graphene.ObjectType):
+    account_regions = graphene.List(AccountRegionType)
+
+    def resolve_account_regions(self, info):
+        return AccountRegion.objects.all()
+```
+
+When generating the GraphQL schema using the `graphql_schema` management command, I get this output:
+```graphql
+schema {
+  query: Query
+}
+
+type AccountRegionType {
+  id: String!
+  name: String!
+}
+
+type Query {
+  accountRegions: [AccountRegionType]
+}
+```
+
+What I need is to generate the query so it looks like this (notice the double `!`):
+```graphql
+...
+type Query {
+  accountRegions: [AccountRegionType!]!
+}
+```
+
+If I modify my query like this:
+```python
+class Query(graphene.ObjectType):
+    account_regions = graphene.List(AccountRegionType, required=True)
+    ...
+```
+
+I'm able to generate this schema:
+```graphql
+...
+type Query {
+  accountRegions: [AccountRegionType]!
+}
+```
+
+But I'm not sure how to specify that within the `accountRegions` result array, the full `AccountRegionType` object will be present.
+@honi you need to wrap the type with `NonNull`:
+
+```python
+class Query(graphene.ObjectType):
+    account_regions = graphene.List(graphene.NonNull(AccountRegionType), required=True)
+```
+
+See https://docs.graphene-python.org/en/latest/types/list-and-nonnull/#nonnull-lists
+
+Awesome, thank you very much sir.
+
+ Date type not accepting ISO DateTime string.
+ This causes error
+![Screenshot from 2020-04-21 10-55-09](https://user-images.githubusercontent.com/16081083/79829710-71d60680-83c1-11ea-8ac7-a56c53760752.png)
+But this works fine
+![Screenshot from 2020-04-21 10-55-54](https://user-images.githubusercontent.com/16081083/79830046-3a1b8e80-83c2-11ea-8715-77b23497d7f6.png)
+
+Is it a bug or feature?
+
+@a-c-sreedhar-reddy this is expected: If you are expecting datetimes as inputs then you need to use the DateTime type.
+
+ DjangomodelFormMutation Authorization
+ I'm able to use DjangoModelFormMutation but am curious of how to limit mutation access along with query access similar to https://docs.graphene-python.org/projects/django/en/latest/authorization/ 
+
+Currently I simply have a class inheriting from DjangoModelFormMutation. I want to be able to restrict access to the owners of the Model Objects, and possibly do other filter on based on user for querying.
+
+This is currently how I am handling it and fine to keep doing this if this is the best practice.
+
+``` 
+   @classmethod
+    def mutate_and_get_payload(cls, root, info, **input):
+        user = info.context.user
+
+        # TODO add a check to see if user has access
+        if not user.is_authenticated:
+            raise GraphQLError("Unauthorized")
+
+        return super().mutate_and_get_payload(root, info, **input)
+```
+Thanks for the help.

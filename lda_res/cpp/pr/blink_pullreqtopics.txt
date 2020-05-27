@@ -1,0 +1,68 @@
+﻿NUMTopics = 2
+(0, '0.029*"build" + 0.024*"source" + 0.024*"visual" + 0.024*"studio" + 0.024*"cmake" + 0.019*"link" + 0.019*"file" + 0.013*"request" + 0.013*"would" + 0.013*"blink"')
+(1, '0.055*"file" + 0.026*"object" + 0.017*"add" + 0.017*"source" + 0.017*"fix" + 0.017*"coff" + 0.017*"check" + 0.012*"find" + 0.012*"blink" + 0.012*"line"')
+
+------------------------
+NUMTopics = 3
+(0, '0.033*"build" + 0.027*"source" + 0.027*"visual" + 0.027*"studio" + 0.027*"cmake" + 0.021*"file" + 0.021*"link" + 0.014*"would" + 0.014*"blink" + 0.014*"request"')
+(1, '0.062*"file" + 0.029*"object" + 0.018*"source" + 0.018*"add" + 0.018*"fix" + 0.018*"coff" + 0.018*"check" + 0.013*"find" + 0.013*"blink" + 0.013*"would"')
+(2, '0.007*"build" + 0.007*"source" + 0.007*"studio" + 0.007*"visual" + 0.007*"cmake" + 0.007*"link" + 0.007*"file" + 0.007*"request" + 0.007*"add" + 0.007*"find"')
+
+------------------------
+NUMTopics = 4
+(0, '0.007*"file" + 0.007*"source" + 0.007*"visual" + 0.007*"studio" + 0.007*"build" + 0.007*"would" + 0.007*"cmake" + 0.007*"object" + 0.007*"blink" + 0.007*"add"')
+(1, '0.066*"file" + 0.031*"object" + 0.019*"add" + 0.019*"source" + 0.019*"coff" + 0.019*"fix" + 0.019*"check" + 0.013*"find" + 0.013*"line" + 0.013*"blink"')
+(2, '0.007*"build" + 0.007*"source" + 0.007*"studio" + 0.007*"visual" + 0.007*"cmake" + 0.007*"link" + 0.007*"file" + 0.007*"request" + 0.007*"window" + 0.007*"also"')
+(3, '0.035*"build" + 0.028*"source" + 0.028*"cmake" + 0.028*"studio" + 0.028*"visual" + 0.022*"file" + 0.022*"link" + 0.015*"add" + 0.015*"blink" + 0.015*"would"')
+
+------------------------
+NUMTopics = 5
+(0, '0.007*"file" + 0.007*"visual" + 0.007*"source" + 0.007*"build" + 0.007*"studio" + 0.007*"cmake" + 0.007*"would" + 0.007*"link" + 0.007*"add" + 0.007*"request"')
+(1, '0.069*"file" + 0.032*"object" + 0.020*"add" + 0.020*"coff" + 0.020*"source" + 0.020*"fix" + 0.020*"check" + 0.014*"find" + 0.014*"classid" + 0.014*"line"')
+(2, '0.007*"build" + 0.007*"source" + 0.007*"studio" + 0.007*"visual" + 0.007*"cmake" + 0.007*"link" + 0.007*"file" + 0.007*"request" + 0.007*"window" + 0.007*"also"')
+(3, '0.037*"build" + 0.030*"source" + 0.030*"cmake" + 0.030*"studio" + 0.030*"visual" + 0.023*"file" + 0.023*"link" + 0.016*"add" + 0.016*"find" + 0.016*"would"')
+(4, '0.007*"file" + 0.007*"object" + 0.007*"source" + 0.007*"blink" + 0.007*"cmake" + 0.007*"build" + 0.007*"would" + 0.007*"add" + 0.007*"check" + 0.007*"visual"')
+
+------------------------
+NUMTopics = 6
+(0, '0.007*"visual" + 0.007*"studio" + 0.007*"build" + 0.007*"source" + 0.007*"cmake" + 0.007*"file" + 0.007*"link" + 0.007*"would" + 0.007*"issue" + 0.007*"request"')
+(1, '0.071*"file" + 0.033*"object" + 0.020*"add" + 0.020*"source" + 0.020*"coff" + 0.020*"fix" + 0.020*"check" + 0.014*"find" + 0.014*"classid" + 0.014*"would"')
+(2, '0.007*"build" + 0.007*"studio" + 0.007*"visual" + 0.007*"source" + 0.007*"cmake" + 0.007*"link" + 0.007*"window" + 0.007*"request" + 0.007*"also" + 0.007*"file"')
+(3, '0.038*"build" + 0.031*"source" + 0.030*"studio" + 0.030*"cmake" + 0.030*"visual" + 0.023*"file" + 0.023*"link" + 0.016*"add" + 0.016*"directory" + 0.016*"find"')
+(4, '0.007*"file" + 0.007*"source" + 0.007*"object" + 0.007*"cmake" + 0.007*"build" + 0.007*"visual" + 0.007*"studio" + 0.007*"blink" + 0.007*"would" + 0.007*"pull"')
+(5, '0.007*"file" + 0.007*"object" + 0.007*"check" + 0.007*"coff" + 0.007*"header" + 0.007*"source" + 0.007*"add" + 0.007*"multiple" + 0.007*"structure" + 0.007*"line"')
+
+------------------------
+NUMTopics = 7
+(0, '0.007*"visual" + 0.007*"build" + 0.007*"studio" + 0.007*"source" + 0.007*"file" + 0.007*"cmake" + 0.007*"link" + 0.007*"would" + 0.007*"issue" + 0.007*"request"')
+(1, '0.072*"file" + 0.033*"object" + 0.020*"add" + 0.020*"source" + 0.020*"coff" + 0.020*"fix" + 0.020*"check" + 0.014*"find" + 0.014*"classid" + 0.014*"would"')
+(2, '0.007*"build" + 0.007*"source" + 0.007*"studio" + 0.007*"visual" + 0.007*"cmake" + 0.007*"link" + 0.007*"window" + 0.007*"request" + 0.007*"file" + 0.007*"also"')
+(3, '0.039*"build" + 0.031*"source" + 0.031*"studio" + 0.031*"cmake" + 0.031*"visual" + 0.024*"file" + 0.024*"link" + 0.016*"add" + 0.016*"find" + 0.016*"blink"')
+(4, '0.007*"source" + 0.007*"file" + 0.007*"build" + 0.007*"cmake" + 0.007*"visual" + 0.007*"studio" + 0.007*"object" + 0.007*"blink" + 0.007*"pull" + 0.007*"would"')
+(5, '0.007*"file" + 0.007*"object" + 0.007*"check" + 0.007*"coff" + 0.007*"header" + 0.007*"source" + 0.007*"add" + 0.007*"multiple" + 0.007*"structure" + 0.007*"line"')
+(6, '0.007*"file" + 0.007*"object" + 0.007*"source" + 0.007*"add" + 0.007*"check" + 0.007*"blink" + 0.007*"line" + 0.007*"project" + 0.007*"solution" + 0.007*"studio"')
+
+------------------------
+NUMTopics = 8
+(0, '0.007*"file" + 0.007*"source" + 0.007*"visual" + 0.007*"studio" + 0.007*"cmake" + 0.007*"build" + 0.007*"add" + 0.007*"would" + 0.007*"object" + 0.007*"find"')
+(1, '0.074*"file" + 0.034*"object" + 0.021*"coff" + 0.021*"fix" + 0.021*"add" + 0.021*"source" + 0.021*"check" + 0.014*"classid" + 0.014*"command" + 0.014*"actual"')
+(2, '0.007*"build" + 0.007*"studio" + 0.007*"source" + 0.007*"visual" + 0.007*"cmake" + 0.007*"file" + 0.007*"link" + 0.007*"request" + 0.007*"window" + 0.007*"add"')
+(3, '0.007*"file" + 0.007*"source" + 0.007*"build" + 0.007*"cmake" + 0.007*"studio" + 0.007*"visual" + 0.007*"add" + 0.007*"link" + 0.007*"find" + 0.007*"directory"')
+(4, '0.007*"file" + 0.007*"object" + 0.007*"source" + 0.007*"blink" + 0.007*"cmake" + 0.007*"check" + 0.007*"add" + 0.007*"find" + 0.007*"would" + 0.007*"pull"')
+(5, '0.007*"file" + 0.007*"object" + 0.007*"check" + 0.007*"coff" + 0.007*"header" + 0.007*"source" + 0.007*"add" + 0.007*"multiple" + 0.007*"structure" + 0.007*"project"')
+(6, '0.007*"file" + 0.007*"object" + 0.007*"add" + 0.007*"source" + 0.007*"check" + 0.007*"blink" + 0.007*"line" + 0.007*"studio" + 0.007*"cmake" + 0.007*"request"')
+(7, '0.039*"build" + 0.032*"visual" + 0.032*"source" + 0.032*"studio" + 0.032*"cmake" + 0.024*"link" + 0.024*"file" + 0.016*"useful" + 0.016*"would" + 0.016*"also"')
+
+------------------------
+NUMTopics = 9
+(0, '0.007*"visual" + 0.007*"studio" + 0.007*"cmake" + 0.007*"build" + 0.007*"source" + 0.007*"file" + 0.007*"link" + 0.007*"request" + 0.007*"issue" + 0.007*"would"')
+(1, '0.075*"file" + 0.034*"object" + 0.021*"add" + 0.021*"coff" + 0.021*"fix" + 0.021*"source" + 0.021*"check" + 0.014*"classid" + 0.014*"actual" + 0.014*"command"')
+(2, '0.007*"file" + 0.007*"source" + 0.007*"object" + 0.007*"add" + 0.007*"find" + 0.007*"studio" + 0.007*"build" + 0.007*"request" + 0.007*"link" + 0.007*"pull"')
+(3, '0.007*"source" + 0.007*"file" + 0.007*"build" + 0.007*"cmake" + 0.007*"studio" + 0.007*"visual" + 0.007*"add" + 0.007*"link" + 0.007*"find" + 0.007*"directory"')
+(4, '0.007*"file" + 0.007*"object" + 0.007*"check" + 0.007*"source" + 0.007*"fix" + 0.007*"blink" + 0.007*"header" + 0.007*"add" + 0.007*"class" + 0.007*"look"')
+(5, '0.007*"file" + 0.007*"object" + 0.007*"check" + 0.007*"coff" + 0.007*"header" + 0.007*"source" + 0.007*"add" + 0.007*"structure" + 0.007*"multiple" + 0.007*"line"')
+(6, '0.007*"cmake" + 0.007*"studio" + 0.007*"visual" + 0.007*"build" + 0.007*"source" + 0.007*"file" + 0.007*"solution" + 0.007*"pull" + 0.007*"issue" + 0.007*"directory"')
+(7, '0.040*"build" + 0.032*"visual" + 0.032*"source" + 0.032*"studio" + 0.032*"cmake" + 0.024*"link" + 0.024*"file" + 0.016*"would" + 0.016*"useful" + 0.016*"solution"')
+(8, '0.007*"build" + 0.007*"cmake" + 0.007*"visual" + 0.007*"studio" + 0.007*"source" + 0.007*"file" + 0.007*"link" + 0.007*"window" + 0.007*"pull" + 0.007*"issue"')
+
+------------------------

@@ -1,0 +1,97 @@
+﻿ Bump version to 1.1.2.
+ Normalize IP addresses and change error to warning
+
+All IP addresses passed to `dev_addr` are now normalized.
+`127.000.000.001` is normalized to `127.0.0.1`.
+
+With apologies to docker container users, the address `0.0.0.0`
+no longer raises an error but a warning instead. Apparently,
+docker containers need to use that address, even in dev environments.
+
+Closes #2108.
+ Bump version to 1.1.1.
+ Flake8 cleanup.
+
+It appears that the latest version of flake8 caught a couple more things.
+ Make compressed sitemap deterministic (#2100)
+ Fix markdownlint test (#2095)
+
+Travis only gives us Node.js version 8 so we must use an older
+version of markdownlint. To declare a newer node.js version we
+lose the ability to have Python as the lang and install tox.
+If/when the default node version gets updated, remove the
+version restriction on markdownlint.
+ Use README.md as index.html when use_directory_urls is false
+ Ignore links which start with a backslash.
+
+Fixes #1680.
+ Pass builder to on_serve event.
+
+Every call to `server.watch` requires `builder` to be passed in. If
+users are to add their own watched files, then they need access to
+`builder`. Fixes #1952.
+ Remove deprecated theme_dir option from CLI.
+
+This should have been removed some time ago. Fixes #2042.
+ Set dependency to `lunr[languages]
+Lunr.py version 0.5.8 maintains compatability with Lunr.js 2.3.8, but
+restricts its dependnecy to nltk>=3.2.5,<3.5, which avoids installation
+issues on some Docker images. Fixes #2062.
+ Fix typo
+ Remove disable_unicode_literals_warning config
+ Correct error message
+
+Fixes #2009
+ Update docs to reflect supported versions.
+ Fix readthedocs code colors
+
+Fixes #2027.
+ Add minimum search length configuration parameter.
+
+Allow users to set their own minimum search term length.  Fixes #2014.
+ Clean up `dev_addr` validation and disallow `0.0.0.0`
+
+MkDocs has never supported using the included server for production.
+However, some users have been using it that way. This would prevent that.
+
+We also actually validate IP addresses now.
+ Ensure bdist_wheel no longer creates a universal wheel
+
+MkDocs no longer suports Python 2. Therefore, a universal wheel would be
+innapropriate as it results in `py2.py3`.
+ Correct the block name of the search box in the doc
+
+As mentionned here: https://github.com/mkdocs/mkdocs/issues/1142#issuecomment-282899537
+I just correct the name in the documentation
+ Use type search for search input
+
+doesn't make a difference to how it works but is more semantically correct.
+ Fix a minimum dependency description
+
+Markdown package require 3.2.1 at mkdocs 1.1
+ Bump version to 1.1
+ Ensure lunr.py version matches lunr.js
+
+Each version of lunr.py only works with a specific version of lunr.js.
+Therefore we must hardcode the specific version of lunr.py in our
+requirements. As we recently updated to lunr.js version 2.3.8 (#1995),
+that coincides with lunr.py version 0.5.6. See the lunr.py CHANGELOG for
+coinciding versions: https://github.com/yeraydiazdiaz/lunr.py/blob/master/CHANGELOG.md
+ Fix simple typo: seperate -> separate
+
+Closes #1997
+ Put the mobile menu button for the mkdocs theme on the right
+
+This behavior matches MkDocs 1.0 as well as the examples on the Bootswatch
+site.
+ Nested dropdowns *are* supported in the mkdocs theme
+
+Despite Bootswatch not supporting nested dropdowns, the theme-specific CSS for
+the mkdocs theme does add support for it, so we can remove the warning from
+the release notes.
+ Update to lunr.js 2.3.8; resolves #1989
+ Fix indent width in mkdocs/themes/mkdocs/css/base.css
+ Update to lunr-languages v1.4.0; resolves #1729
+
+This renames the Dutch language code to `nl`, the Japanese code to `ja`, and
+adds support for Arabic (`ar`) and Vietnamese (`vi`).

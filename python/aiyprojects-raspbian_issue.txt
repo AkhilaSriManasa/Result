@@ -1,0 +1,934 @@
+﻿ Command: assistant_library_demo.py for Voice 1.0 not working
+ Um I may have done this issue thing wrong but I’ve set up my voice kit and am trying to run the demo on it. But keep giving me the same error code.
+![E1E11298-A46C-4111-B63A-EE98346F5B4A](https://user-images.githubusercontent.com/51388643/82743042-ec7ca380-9d2a-11ea-8f14-ee6bd8727ab4.jpeg)
+I’ve asked a relative for help who’s a programmer but we haven’t been able to solve the issue.
+ Disabling activate listening ?
+ Is it possible to disable the activate fonction listening and just to start the AIY only with the button ?
+
+Thank you
+@koolnino Demo https://github.com/google/aiyprojects-raspbian/blob/v20191113/src/examples/voice/assistant_grpc_demo.py this only works if you press the button. It doesn't get activate on hotwords like "Okay Google". 
+
+Thank you. Works perfect 
+
+ AIY Voice Kit V1 - Is it possible start in local commands only?
+ 
+My V1 been in cupboard a while but now got working although getting it to work complicated by issues with finding right versions of software and instructions.  (Will be posting in [my repository](https://github.com/grayerbeard/aiy) once fully sorted).
+My issue now is that its hard to get "Local commands" to be reliable when using (say) "OK Google House Temperatures" to speak temperature readings fed in by MQTT from other R Pis.
+Often its mis-heard and instead I get a long spoken answer to the mis interpreted question, in this case often the local weather.
+
+So
+
+Could I start in Local Commands only mode and only switch in to the full "Assistant mode" if I ask for it?   Anyone figured out how to do that ?   
+
+@grayerbeard Are you talking about the "local command" demo given at : https://github.com/google/aiyprojects-raspbian/blob/aiyprojects/src/examples/voice/assistant_library_with_local_commands_demo.py#L51 ?
+
+Yes could be would have to deviise a way to switch modes using the two different demos as a basis.
+
+I have had a go with the "assistant_library_with_local_commands_demo.py" but every time you say one of your special commands you have a high risk that Google will misinterpret it as a request for info on something.  So for example I have other Pis monitoring controlling temperatures in the house.  If I say "OK Google House Temperatures" instead of getting the info I want soften it just tells me the weather report.    So it would be nice to be able to switch mode out of general assistant into a "My commands only mode".
+
+So what I would love to manage is to switch between a mode where it only reacts to my limited list of commands and a mode where it will behave like a normal Google Assistant. i.e. at start you might say "OK Google Special Only" then it would only react to a limited list of my own commands until I say "OK Google Back to normal" when it would revert telling me tomorrows weather etc.
+
+I am posting my attempts at [grayerbeard/aiy]( https://github.com/grayerbeard/aiy)
+
+ Error in Training embedded_ssd_mobilenet_v1_coco.config 
+ Hey there! I'm trying to train embedded_ssd_mobilenet_v1_coco.config with Tensorflow using tutorial by EdjeElectronics and fine_tune_checkpoints by zhoujustin (all links down below) in order to fit 256x256 and depth_multiplier 
+D:\ObjectDetection\models\research\object_detection>python train.py --logtostderr --train_dir=training/ --pipeline_config_path=training/embedded_ssd_mobilenet_v1_coco.config
+WARNING:tensorflow:From D:\ObjectDetection\models\research\object_detection\trainer.py:210: create_global_step (from tensorflow.contrib.framework.python.ops.variables) is deprecated and will be removed in a future version.
+Instructions for updating:
+Please switch to tf.train.create_global_step
+INFO:tensorflow:depth of additional conv before box predictor: 0
+INFO:tensorflow:depth of additional conv before box predictor: 0
+INFO:tensorflow:depth of additional conv before box predictor: 0
+INFO:tensorflow:depth of additional conv before box predictor: 0
+INFO:tensorflow:depth of additional conv before box predictor: 0
+Traceback (most recent call last):
+  File "train.py", line 163, in <module>
+    tf.app.run()
+  File "C:\Users\Asus\AppData\Local\Programs\Python\Python36\lib\site-packages\tensorflow\python\platform\app.py", line 124, in run
+    _sys.exit(main(argv))
+  File "train.py", line 159, in main
+    worker_job_name, is_chief, FLAGS.train_dir)
+  File "D:\ObjectDetection\models\research\object_detection\trainer.py", line 228, in train
+    clones = model_deploy.create_clones(deploy_config, model_fn, [input_queue])
+  File "D:\ObjectDetection\models\research\slim\deployment\model_deploy.py", line 193, in create_clones
+    outputs = model_fn(*args, **kwargs)
+  File "D:\ObjectDetection\models\research\object_detection\trainer.py", line 167, in _create_losses
+    losses_dict = detection_model.loss(prediction_dict)
+  File "D:\ObjectDetection\models\research\object_detection\meta_architectures\ssd_meta_arch.py", line 474, in loss
+    location_losses, cls_losses, prediction_dict, match_list)
+  File "D:\ObjectDetection\models\research\object_detection\meta_architectures\ssd_meta_arch.py", line 640, in _apply_hard_mining
+    match_list=match_list)
+  File "D:\ObjectDetection\models\research\object_detection\core\losses.py", line 515, in __call__
+    location_losses = tf.unstack(location_losses)
+  File "C:\Users\Asus\AppData\Local\Programs\Python\Python36\lib\site-packages\tensorflow\python\ops\array_ops.py", line 1054, in unstack
+    (axis, -value_shape.ndims, value_shape.ndims))
+ValueError: axis = 0 not in [0, 0)
+
+Can you guys help me? Thanks.
+
+Links
+Config files: https://github.com/tensorflow/models/blob/master/research/object_detection/samples/configs/embedded_ssd_mobilenet_v1_coco.config
+Tensorflow tutorial by EdjeElectronics: https://github.com/EdjeElectronics/TensorFlow-Object-Detection-API-Tutorial-Train-Multiple-Objects-Windows-10
+fine_tune_checkpoint by zhoujustin: https://drive.google.com/file/d/1_MeZ8kvmpNibPZvSJGnwKNRATeuyxNtu/view
+Which version of TF are you working with ?
+
+Doesn't matter. I've found the solution in https://github.com/datitran/raccoon_dataset/issues/45#issuecomment-371041130
+
+ documentation for pwm-aiy-io module
+ Hello! I am learning through trial and error that the AIY Vision Bonnet's pins have different permissible values for the PWM frequency, at least as set through the Python AIY libraries. 
+
+I can set PIN_A. PIN_C, PIN_D to 1000hz PWM but PIN_B only accepts 100hz. And it seems like particular values are permissible and other values are not, e.g. 2000hz. 
+
+Is there documentation for the pwm-aiy-io module? I searched this repository and looked at Google's other AIY projects repos, and couldn't find anything.
+
+Example of bad value's error output:
+
+```
+OSError: [Errno 22] Invalid argument
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "metertest.py", line 12, in <module>
+    ledb = PWMLED(PIN_B, frequency=1000)
+  File "/usr/lib/python3/dist-packages/gpiozero/devices.py", line 124, in __call__
+    self = super(GPIOMeta, cls).__call__(*args, **kwargs)
+  File "/usr/lib/python3/dist-packages/gpiozero/output_devices.py", line 418, in __init__
+    self.pin.frequency = frequency
+  File "/usr/lib/python3/dist-packages/gpiozero/pins/__init__.py", line 358, in <lambda>
+    lambda self, value: self._set_frequency(value),
+  File "/home/pi/AIY-projects-python/src/aiy/pins.py", line 600, in _set_frequency
+    self.pwm_pin.set_period_ns(_NS_PER_SECOND / frequency)
+  File "/home/pi/AIY-projects-python/src/aiy/pins.py", line 358, in set_period_ns
+and here's the code, for reference:
+
+```
+from gpiozero import PWMLED 
+from aiy.pins import PIN_A, PIN_B
+
+a = PWMLED(PIN_A, frequency=1000) #works
+b = PWMLED(PIN_B, frequency=1000) #fails
+b = PWMLED(PIN_B, frequency=100)  #works
+
+```
+
+I think I had it open in two processes. Would still love some documentation for pwm-aiy-io module! Thanks!
+
+ Error when trying to play radio with MPD
+ Hello,
+
+Following the website instructions I have changed the `cloudspeech_demo.py` file to play a radio station using MDP and the `python-mpd2` library.
+
+It turns out that no sound is coming out, and when I check MDP status I get the following error message: `Failed to open "My ALSA Device" (alsa); Failed to open ALSA device "plug:dmix": Device or resource busy`.
+
+After some internet research I found that there is way to make ALSA play sound from different sources (in my case would be Google Voice Kit and MPD). I came across to the following configuration in my `/etc/asound.conf` file (maybe it helps to ilustrate the problem):
+
+I am using a raspberry pi zero w with a waveshare WM8960-Audio-HAT.
+
+`pcm.dmixed {
+    type asym
+    playback.pcm {
+        type dmix
+            ipc_key 5678293
+            ipc_perm 0660
+            ipc_gid audio
+
+			slave {
+                    channels 2 # make 6 or 5.1 channel
+                    pcm {
+                            format S16_LE # S32_LE
+                            rate 44100 # can also be 44100
+                            type hw
+                            card 1 # your card
+                            device 7 # your device
+                            subdevice 0 #important?
+                        }
+
+                        period_size 1024
+                        buffer_size 8192
+                }
+
+                bindings {
+                        0 0
+                        1 1
+
+                }
+        }
+        capture.pcm "hw:0"
+}
+
+pcm.!default {
+        type plug
+        slave.pcm "dmixed"
+}`
+
+Can someone out there please help me? Thanks!
+I just found the solution myself - not that difficult, to be honest:
+
+1) New, cleaner `/etc/asound.conf` file with "dmix" ALSA plugin:
+```
+pcm.!default {
+        type plug
+        slave.pcm "dmixer"
+}
+
+pcm.default {
+        type plug
+        slave.pcm "dmixer"
+}
+
+pcm.dmixer  {
+        type dmix
+        ipc_key 1024
+        ipc_key_add_uid false
+        ipc_perm 0666            # mixing for all users
+        slave {
+                pcm "hw:0,0"
+                period_time 0
+                period_size 1024
+                buffer_size 4096
+                rate 44100
+        }
+        bindings {
+                0 0
+                1 1
+        }
+}
+
+ctl.dmixer {
+        type hw
+        card 0
+}
+```
+
+2) Change device to "plug:dmix" in the `audio.py` and `tts.py` files .
+
+
+ Error while running tts.py using sudo
+ Hi,
+
+As per this document, executed 'python ~/AIY-projects-python/src/aiy/voice/tts.py "hello world" to convert text to speech, but failing when I run in sudo root privilege.
+https://aiyprojects.readthedocs.io/en/latest/aiy.voice.tts.html
+Tried python3 too.
+Any insights on this ?
+Thanks.
+
+```
+pi@raspberrypi:~ $ python ~/AIY-projects-python/src/aiy/voice/tts.py "hello world"
+pi@raspberrypi:~ $ 
+pi@raspberrypi:~ $ 
+pi@raspberrypi:~ $ sudo python ~/AIY-projects-python/src/aiy/voice/tts.py "hello world"
+Traceback (most recent call last):
+  File "/home/pi/AIY-projects-python/src/aiy/voice/tts.py", line 72, in <module>
+    _main()
+  File "/home/pi/AIY-projects-python/src/aiy/voice/tts.py", line 68, in _main
+    device=args.device)
+  File "/home/pi/AIY-projects-python/src/aiy/voice/tts.py", line 52, in say
+    with tempfile.NamedTemporaryFile(suffix='.wav', dir=RUN_DIR) as f:
+  File "/usr/lib/python2.7/tempfile.py", line 475, in NamedTemporaryFile
+    (fd, name) = _mkstemp_inner(dir, prefix, suffix, flags)
+  File "/usr/lib/python2.7/tempfile.py", line 244, in _mkstemp_inner
+    fd = _os.open(file, flags, 0600)
+OSError: [Errno 2] No such file or directory: '/run/user/0/tmpC3KxCi.wav'
+pi@raspberrypi:~ $ 
+pi@raspberrypi:~ $ sudo python ~/AIY-projects-python/src/aiy/voice/tts.py "hello world"
+Traceback (most recent call last):
+  File "/home/pi/AIY-projects-python/src/aiy/voice/tts.py", line 72, in <module>
+    _main()
+  File "/home/pi/AIY-projects-python/src/aiy/voice/tts.py", line 68, in _main
+    device=args.device)
+  File "/home/pi/AIY-projects-python/src/aiy/voice/tts.py", line 52, in say
+    with tempfile.NamedTemporaryFile(suffix='.wav', dir=RUN_DIR) as f:
+  File "/usr/lib/python2.7/tempfile.py", line 475, in NamedTemporaryFile
+    (fd, name) = _mkstemp_inner(dir, prefix, suffix, flags)
+  File "/usr/lib/python2.7/tempfile.py", line 244, in _mkstemp_inner
+    fd = _os.open(file, flags, 0600)
+OSError: [Errno 2] No such file or directory: '/run/user/0/tmpQLiULx.wav'
+pi@raspberrypi:~ $ 
+pi@raspberrypi:~ $ python ~/AIY-projects-python/src/aiy/voice/tts.py "hello world"
+pi@raspberrypi:~ $ 
+```
+
+
+Update:
+I've created '/run/user/0/' folder and ran via sudo, it worked.
+```
+sudo mkdir -p /run/user/0/
+sudo python ~/AIY-projects-python/src/aiy/voice/tts.py "hello world"
+```
+Thanks.
+
+ Problemas con el vision kit AIY
+ Hola a todos, después de construir el vision kit y conectarlo por SSH va todo perfecto pero cuando intento cargar un programa python de la camara me indica este error:
+
+pi@ibruno:~/AIY-projects-python/src/examples/vision $ ./image_classification_camera.py
+mmal: mmal_vc_component_create: failed to create component 'vc.ril.camera' (1:ENOMEM)
+mmal: mmal_component_create_core: could not create component 'vc.ril.camera' (1)
+Traceback (most recent call last):
+File "/usr/lib/python3/dist-packages/picamera/camera.py", line 456, in _init_camera
+self._camera = mo.MMALCamera()
+File "/usr/lib/python3/dist-packages/picamera/mmalobj.py", line 2279, in init
+super(MMALCamera, self).init()
+File "/usr/lib/python3/dist-packages/picamera/mmalobj.py", line 633, in init
+prefix="Failed to create MMAL component %s" % self.component_type)
+File "/usr/lib/python3/dist-packages/picamera/exc.py", line 184, in mmal_check
+raise PiCameraMMALError(status, prefix)
+picamera.exc.PiCameraMMALError: Failed to create MMAL component b'vc.ril.camera': Out of memory
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+File "./image_classification_camera.py", line 64, in
+main()
+File "./image_classification_camera.py", line 54, in main
+with PiCamera(sensor_mode=4, framerate=30) as camera,
+File "/usr/lib/python3/dist-packages/picamera/camera.py", line 431, in init
+self._init_camera(camera_num, stereo_mode, stereo_decimate)
+File "/usr/lib/python3/dist-packages/picamera/camera.py", line 460, in _init_camera
+"Camera is not enabled. Try running 'sudo raspi-config' "
+picamera.exc.PiCameraError: Camera is not enabled. Try running 'sudo raspi-config' and ensure that the camera has been enabled.
+
+La camara está en enable y no la reconoce.
+Alguien me puede ayudar por favor??
+Is this issue still reproducible ? ENOMEM generally says no memory left on the device. 
+
+ assistant_library only works with ethernet
+ I'm a beginner, I've been having a heck of a time trying to get this V1 Voice Kit to work. The 2019-11-13 release wasn't working for me so I switched to the 2018-11-16 release. Had lots of issues connecting to the WIFI. It just wouldn't connect. I tried multiple solutions on the internet. Finally it just connected one night out of the blue. I then came across the Google Assistant depreciation so I installed an earlier version with `pip3 install google-assistant-library
+
+`Traceback (most recent call last):
+  File "./assistant_library_demo.py", line 66, in <module>
+    main()
+  File "./assistant_library_demo.py", line 59, in main
+    credentials = auth_helpers.get_assistant_credentials()
+  File "/opt/aiy/projects-python/src/aiy/assistant/auth_helpers.py", line 132, in get_assistant_credentials
+    return _try_to_get_credentials(credentials_file)
+  File "/opt/aiy/projects-python/src/aiy/assistant/auth_helpers.py", line 100, in _try_to_get_credentials
+    return _load_credentials(_ASSISTANT_CREDENTIALS)
+  File "/opt/aiy/projects-python/src/aiy/assistant/auth_helpers.py", line 63, in _load_credentials
+    credentials.refresh(http_request)
+  File "/home/pi/.local/lib/python3.5/site-packages/google/oauth2/credentials.py", line 183, in refresh
+    self._scopes,
+  File "/home/pi/.local/lib/python3.5/site-packages/google/oauth2/_client.py", line 248, in refresh_grant
+    response_data = _token_endpoint_request(request, token_uri, body)
+  File "/home/pi/.local/lib/python3.5/site-packages/google/oauth2/_client.py", line 105, in _token_endpoint_request
+    response = request(method="POST", url=token_uri, headers=headers, body=body)
+  File "/home/pi/.local/lib/python3.5/site-packages/google/auth/transport/requests.py", line 181, in __call__
+    method, url, data=body, headers=headers, timeout=timeout, **kwargs
+  File "/home/pi/.local/lib/python3.5/site-packages/requests/sessions.py", line 530, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/home/pi/.local/lib/python3.5/site-packages/requests/sessions.py", line 643, in send
+    r = adapter.send(request, **kwargs)
+  File "/home/pi/.local/lib/python3.5/site-packages/requests/adapters.py", line 449, in send
+    timeout=timeout
+  File "/home/pi/.local/lib/python3.5/site-packages/urllib3/connectionpool.py", line 672, in urlopen
+    chunked=chunked,
+  File "/home/pi/.local/lib/python3.5/site-packages/urllib3/connectionpool.py", line 376, in _make_request
+    self._validate_conn(conn)
+  File "/home/pi/.local/lib/python3.5/site-packages/urllib3/connectionpool.py", line 994, in _validate_conn
+    conn.connect()
+  File "/home/pi/.local/lib/python3.5/site-packages/urllib3/connection.py", line 300, in connect
+    conn = self._new_conn()
+  File "/home/pi/.local/lib/python3.5/site-packages/urllib3/connection.py", line 157, in _new_conn
+    (self._dns_host, self.port), self.timeout, **extra_kw
+  File "/home/pi/.local/lib/python3.5/site-packages/urllib3/util/connection.py", line 74, in create_connection
+    sock.connect(sa)`
+
+
+
+I then moved locations in the house and connected to ethernet. Now it works perfect. As soon as I disconnect from ethernet, not even moving locations, It doesn't work. I have downloaded everything correctly as far as I can tell.
+Is this issue still reproducible ? 
+
+ Visual Response
+ Hello,
+I was wondering how I could implement the "Visual Response" feature that is in the Google Assistant SDK. 
+
+If you do not know what I am referring to, you can click the link below:
+https://developers.google.com/assistant/sdk/guides/service/python/embed/next-steps
+Bump
+
+Have you tried to follow the instructions given at : https://github.com/googlesamples/assistant-sdk-python/tree/master/google-assistant-sdk/googlesamples/assistant/grpc#python-samples-for-the-google-assistant-grpc-api and https://github.com/googlesamples/assistant-sdk-python/blob/master/google-assistant-sdk/googlesamples/assistant/grpc/textinput.py#L149
+
+ AIY Case
+ Hello,
+Can someone explain me where to get a new AIY cardboard Case ? a new one or only the opensource drawings so that I'll print them by myself.
+
+best regards. julien
+![product_voice@1x](https://user-images.githubusercontent.com/49123814/76416516-87f0b000-639b-11ea-9c75-ac5331588038.png)
+
+Reach out to support-aiyprojects@google.com for your requirement. 
+
+ Error trying to run cloudspeech_demo.py in AIY Voice Kit
+ Hello, 
+
+My voice kit was working perfectly and I had written custom scripts based on the cloudspeech_demo.py example and everything was working perfectly until two weeks ago that suddenly nothing was running and I kept getting errors without any changes.
+
+I am now trying to run the basic cloudspeech_demo.py script from here: https://github.com/google/aiyprojects-raspbian/blob/aiyprojects/src/examples/voice/cloudspeech_demo.py and I keep getting this error:
+
+Traceback (most recent call last):
+  File "./cloudspeech_demo.py", line 71, in <module>
+    main()
+  File "./cloudspeech_demo.py", line 41, in main
+    parser.add_argument('--language', default=locale_language())
+  File "./cloudspeech_demo.py", line 34, in locale_language
+    language, _ = locale.getdefaultlocale()
+  File "/usr/lib/python3.5/locale.py", line 558, in getdefaultlocale
+    return _parse_localename(localename)
+  File "/usr/lib/python3.5/locale.py", line 486, in _parse_localename
+    raise ValueError('unknown locale: %s' % localename)
+ValueError: unknown locale: UTF-8
+
+Any suggestions?
+Solved by opening: nano ~/.bash_profile 
+
+Adding:
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+
+Saving it and then running the script seems to have made the trick.
+
+ Captured image is dark due to backlight. Option to adjust camera settings 
+ Hello,
+
+During the image captured with external light at back, which is too bright. Not able to get clear image of closer one.
+
+Is it possible to adjust camera settings like shutter speed, brightness, ISO etc.
+You can adjust camera settings any way you like. For example, picamera python library can do [brightness](https://github.com/waveform80/picamera/blob/42d6eb02940f8cc2afd5ea4724fe49ba6e2837eb/picamera/camera.py#L2907) adjustments.
+
+ -bash: voice/assistant_grpc_demo.py: No such file or directory ???
+ Hello good people, having a little trouble getting  google pi voice project to run, any sugestions much appreciated :)
+pi@raspberrypi:~ $ nano assistant.json
+pi@raspberrypi:~ $ ls
+AIY-projects-python   assistant.json  Documents  MagPi   Music     Public     Videos
+AIY-voice-kit-python  Desktop         Downloads  models  Pictures  Templates
+pi@raspberrypi:~ $ cd ~/AIY-projects-python
+pi@raspberrypi:~/AIY-projects-python $ ls
+CHANGES.md   CONTRIBUTING.md  HACKING.md  Makefile     README.md   scripts   src
+checkpoints  docs             LICENSE     MANIFEST.in  schematics  setup.py  stdeb.cfg
+pi@raspberrypi:~/AIY-projects-python $ voice/assistant_grpc_demo.py
+-bash: voice/assistant_grpc_demo.py: No such file or directory
+Run the command : "cd ~/AIY-projects-python/src/examples/voice"
+Then run "./assistant_grpc_demo.py"
+
+ AIY Vision Kit compilation error (bonnet_model_compiler)
+ Hi,
+
+I've trained the model you can see at the end of this comment and it works (I tested the frozen model with an image and everything was fine), but when I try to compile for the AIY I get this error message:
+```
+...
+2020-02-27 19:59:27.446585: I external/org_tensorflow/tensorflow/contrib/lite/toco/import_tensorflow.cc:1268] Converting unsupported operation: AddV2
+2020-02-27 19:59:27.446601: I external/org_tensorflow/tensorflow/contrib/lite/toco/import_tensorflow.cc:1268] Converting unsupported operation: Unpack
+2020-02-27 19:59:27.446633: I external/org_tensorflow/tensorflow/contrib/lite/toco/import_tensorflow.cc:1268] Converting unsupported operation: AddV2
+2020-02-27 19:59:27.446644: I external/org_tensorflow/tensorflow/contrib/lite/toco/import_tensorflow.cc:1268] Converting unsupported operation: AddV2
+2020-02-27 19:59:27.446665: I external/org_tensorflow/tensorflow/contrib/lite/toco/import_tensorflow.cc:1268] Converting unsupported operation: AddV2
+2020-02-27 19:59:27.446678: I external/org_tensorflow/tensorflow/contrib/lite/toco/import_tensorflow.cc:1268] Converting unsupported operation: AddV2
+2020-02-27 19:59:27.461698: F external/org_tensorflow/tensorflow/contrib/lite/toco/tooling_util.cc:822] Check failed: d >= 1 (0 vs. 1)
+```
+
+I'm using these input arguments for the compiler:
+```
+  --input_tensor_name=image_tensor \
+  --output_tensor_names=raw_detection_boxes \
+  --input_tensor_size=256 \
+```
+
+I went through bonnet_model_compiler.par (unzipped, modified the python2.7 code, etc), but the important piece of code that is generating the error is **tool_a.bin** (```b'\x7fELF\x02\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00...```). Which part of my graph is generating the error? Is it the op that comes just after that AddV2? Is it too big? Is it too ugly? :)
+
+Any help will be very much appreciated ;)
+
+Cheers,
+
+Ricardo 
+
+P.S. the config file for the model:
+```
+# SSDLite with Mobilenet v3 small feature extractor.
+# Trained on VOC2012, initialized from scratch.
+
+# Users should configure the fine_tune_checkpoint field in the train config as
+# well as the label_map_path and input_path fields in the train_input_reader and
+# eval_input_reader. Search for "PATH_TO_BE_CONFIGURED" to find the fields that
+# should be configured.
+
+model {
+  ssd {
+    inplace_batchnorm_update: true
+    freeze_batchnorm: false
+    num_classes: 20 # number of classes available on VOC2012
+    box_coder {
+      faster_rcnn_box_coder {
+        y_scale: 10.0
+        x_scale: 10.0
+        height_scale: 5.0
+        width_scale: 5.0
+      }
+    }
+    matcher {
+      argmax_matcher {
+        matched_threshold: 0.5
+        unmatched_threshold: 0.5
+        ignore_thresholds: false
+        negatives_lower_than_unmatched: true
+        force_match_for_each_row: true
+        use_matmul_gather: true
+      }
+    }
+    similarity_calculator {
+      iou_similarity {
+      }
+    }
+    encode_background_as_zeros: true
+    anchor_generator {
+      ssd_anchor_generator {
+        num_layers: 6
+        min_scale: 0.2
+        max_scale: 0.95
+        aspect_ratios: 1.0
+        aspect_ratios: 2.0
+        aspect_ratios: 0.5
+        aspect_ratios: 3.0
+        aspect_ratios: 0.3333
+      }
+    }
+    image_resizer {
+      fixed_shape_resizer {
+        height: 256 # I will be using picamera and this size is fast.
+        width: 256
+      }
+    }
+    box_predictor {
+      convolutional_box_predictor {
+        min_depth: 0
+        max_depth: 0
+        num_layers_before_predictor: 0
+        use_dropout: false
+        dropout_keep_probability: 0.8
+        kernel_size: 3
+        use_depthwise: true
+        box_code_size: 4
+        apply_sigmoid_to_scores: false
+        class_prediction_bias_init: -4.6
+        conv_hyperparams {
+          activation: RELU_6,
+          regularizer {
+            l2_regularizer {
+              weight: 0.00004
+            }
+          }
+          initializer {
+            random_normal_initializer {
+              stddev: 0.03
+              mean: 0.0
+            }
+          }
+          batch_norm {
+            train: true,
+            scale: true,
+            center: true,
+            decay: 0.97,
+            epsilon: 0.001,
+          }
+        }
+      }
+    }
+    feature_extractor {
+      type: 'ssd_mobilenet_v3_small'
+      min_depth: 16
+      depth_multiplier: 0.125 # 
+      use_depthwise: true
+      conv_hyperparams {
+        activation: RELU_6,
+        regularizer {
+          l2_regularizer {
+            weight: 0.00004
+          }
+        }
+        initializer {
+          truncated_normal_initializer {
+            stddev: 0.03
+            mean: 0.0
+          }
+        }
+        batch_norm {
+          train: true,
+          scale: true,
+          center: true,
+          decay: 0.97,
+          epsilon: 0.001,
+        }
+      }
+      override_base_feature_extractor_hyperparams: true
+    }
+    loss {
+      classification_loss {
+        weighted_sigmoid_focal {
+          alpha: 0.75,
+          gamma: 2.0
+        }
+      }
+      localization_loss {
+        weighted_smooth_l1 {
+          delta: 1.0
+        }
+      }
+      classification_weight: 1.0
+      localization_weight: 1.0
+    }
+    normalize_loss_by_num_matches: true
+    normalize_loc_loss_by_codesize: true
+    post_processing {
+      batch_non_max_suppression {
+        score_threshold: 1e-8
+        iou_threshold: 0.6
+        max_detections_per_class: 100
+        max_total_detections: 100
+        use_static_shapes: true
+      }
+      score_converter: SIGMOID
+    }
+  }
+}
+
+
+train_config: {
+  batch_size: 256 # if you are running out of memory, reduce this value.
+  sync_replicas: true
+  startup_delay_steps: 0
+  replicas_to_aggregate: 32
+  num_steps: 800000 # limits the training process to 800K steps. 
+                    # Not sure which number would be the best here...
+  data_augmentation_options {
+    random_horizontal_flip {
+    }
+  }
+  data_augmentation_options {
+    ssd_random_crop {
+    }
+  }
+  data_augmentation_options {
+    random_black_patches {
+    }
+  }
+  data_augmentation_options {
+    random_distort_color{
+    }
+  }
+  data_augmentation_options {
+    random_jitter_boxes{
+    }
+  } 
+  optimizer {
+    momentum_optimizer: {
+      learning_rate: {
+        cosine_decay_learning_rate {
+          learning_rate_base: 0.4
+          total_steps: 800000
+          warmup_learning_rate: 0.13333
+          warmup_steps: 2000
+        }
+      }
+      momentum_optimizer_value: 0.9
+    }
+    use_moving_average: false
+  }
+  max_number_of_boxes: 10 # it was 100, but I really don't want to detect 100 things at once
+  unpad_groundtruth_tensors: false
+}
+
+train_input_reader: {
+  tf_record_input_reader {
+    input_path: "pascal_train.record"
+  }
+  label_map_path: "object_detection/data/pascal_label_map.pbtxt"
+  queue_capacity: 50 
+}
+
+eval_input_reader: {
+  tf_record_input_reader {
+    input_path: "pascal_val.record"
+  }
+  label_map_path: "object_detection/data/pascal_label_map.pbtxt"
+  shuffle: false
+  num_readers: 1
+}
+```
+Ok, if nobody from Google wants to help or simply doesn't have time to help, why don't you release the full source code for the bonnet_model_compiler? 
+
+ password not working 
+ default password 'raspberry' doesnt work.
+
+ssh pi@192.168.11.xx
+Password:
+Password:
+Password:
+pi@192.168.11.xx's password: 
+Permission denied, please try again.
+pi@192.168.11.xx's password: 
+Permission denied, please try again.
+pi@192.168.11.xx's password: 
+Received disconnect from 192.168.11.xx port 22:2: Too many authentication failures
+Authentication failed.
+
+Is this issue still reproducible ? 
+The default password for user 'pi' is 'raspberry' only. 
+
+ Vision bonnet blocks GPIO pins 14 & 15. How can I connect to these?
+ I was thinking about soldering wires to the back side of the pins on the bonnet but would that cause any issues? They appear to be unused: https://pinout.xyz/pinout/aiy_vision_bonnet
+
+There's also the possibility of creating another UART interface using the expansion GPIO pins, but that seems really tricky: https://raspberrypi.stackexchange.com/questions/24019/can-the-gpios-pins-be-used-as-another-rx-and-tx/24039
+
+Hopefully the maintainers can figure out a solution or the product people can provide access in future versions of the hardware. Thanks!
+Is there a specific requirement of soldering the wires on the back side of Bonnet ? You can solder on the back side of the PI too right ? 
+
+ Compare two faces in AIY vision kit
+ Hello,
+
+Is it possible to compare two faces in the AIY vision kit by tweaking the existing models or features available for the same? If yes, how to do it.
+As of now, only face detections demos are available. face_comparison or face_recognition demos haven't been documented for AIY kits yet. 
+
+ NEED HELP WITH BUTTON
+ We have an issue with our google voice kit led light button. Why isn't the Led Light button of the google voice kit not working or cutting on even after programming and hacking? We have replaced the voice kit once already and bought a new raspberry.
+Can you contact the support team via support-aiyprojects@google.com ? Did you try to reflash the board with the latest AIY build that is available at https://github.com/google/aiyprojects-raspbian/releases/tag/v20191113 ?
+
+ BUTTON BROKE
+ We have an issue with our google voice kit led light button. Why isn't the Led Light button of the google voice kit not working or cutting on even after programming and hacking? We have replaced the voice kit once already and bought a new raspberry.
+Duplicate of https://github.com/google/aiyprojects-raspbian/issues/670
+
+ HELP
+ We have an issue with our google voice kit led light button. Why isn't the Led Light button of the google voice kit not working or cutting on even after programming and hacking? We have replaced the voice kit once already and bought a new raspberry.
+Duplicate of https://github.com/google/aiyprojects-raspbian/issues/670
+
+We have an issue with our google voice kit led light button. Why isn't the Led Light button of the google voice kit not working or cutting on even after programming and hacking? We have replaced the voice kit once already and bought a new raspberry.
+
+
+
+ VOICE KIT ISSUE
+ We have an issue with our google voice kit led light button. Why isn't the Led Light button of the google voice kit not working or cutting on even after programming and hacking? We have replaced the voice kit once already and bought a new raspberry.
+Duplicate of https://github.com/google/aiyprojects-raspbian/issues/670
+
+ Led light/Voice kit issue
+ We have an issue with our google voice kit led light button. Why isn't the Led Light button of the google voice kit not working or cutting on even after programming and hacking? We have replaced the voice kit once already and bought a new raspberry.
+how can we fix this problem? ^^^
+
+ Can't use joy_detection_demo.py with 270 deg rotation
+ Hi.
+
+I bought Vision kit, and I want use joy_detection_demo.py with 270 deg rotation.
+So, I added 1 line code
+
+`camera.rotation=270`
+
+after
+
+https://github.com/google/aiyprojects-raspbian/blob/adb1fa483423a12b87e44343c488b2c9e32c338e/src/examples/vision/joy/joy_detection_demo.py#L291
+
+but, cannot rotate... Effective only at 180 deg.
+How can i rotate this detection program?
+ bad audio out after connecting servo
+ audio check is ok. audio out is loud and clear. mic is very low even input device set on 150% (maximum).
+when using tts.say (imported from aiy.voice) audio is horrible. very high background noise (sounds as if voice gone throu a blender), almost impossible to hear the sentence read out. this behaviour usually does not happen after reboot. it happens all the time after connecting and controlling servos through the Voice HAT. it happened after using I2C to control PCA9685 driver and also after connecting a servo directly to servo pins of the HAT.
+
+![20200117_171434](https://user-images.githubusercontent.com/25052915/72623133-3c96c400-394d-11ea-8328-59a0f085f68f.jpg)
+
+The audio is being directed to the external speaker or to the 3.5 mm jack ?
+Are you powering up the kit with at least 2.1 amp of power adaptor ?
+
+ google_assistant.service: Failed with result 'exit-code
+ Hi all,
+
+Very happy with this so far! I was thinking of adding my own led to the Raspberry Pi 4 i got, i am using the voice hat.
+
+So i just connected the button, as i figured i could use those wires to add my own LED strips later on.
+All works good, as soon as i use the "hotword" OK google it respons right away flashing.
+
+Update:
+
+I changed to code to this and it works, but i ran into something weird.
+I only change led.state from BEACON_DARK too OFF on the first and last event.
+If i change it back from OFF to BEACON_DARK it seems to work again.
+
+```
+
+    if event.type == EventType.ON_START_FINISHED:
+        led.state = Led.OFF  # Ready.
+        logging.info('Say "OK, Google" then speak, or press Ctrl+C to quit...')
+
+    elif event.type == EventType.ON_CONVERSATION_TURN_STARTED:
+        led.state = Led.ON  # Listening.
+
+    elif event.type == EventType.ON_END_OF_UTTERANCE:
+        led.state = Led.PULSE_QUICK  # Thinking.
+
+    elif (event.type == EventType.ON_CONVERSATION_TURN_FINISHED
+          or event.type == EventType.ON_CONVERSATION_TURN_TIMEOUT
+          or event.type == EventType.ON_NO_RESPONSE):
+        led.state = Led.OFF
+```
+
+Doing a reboot just to see it starts as it should but it refuses to start by itself, but if i do a
+sudo systemctl start google_assistant i dont get any error and i can use it as normal.
+
+Anyone know why i only get this error on reboot?
+
+```
+pi@raspberrypi:~ $ sudo systemctl status google_assistant
+* google_assistant.service - Google Assistant
+   Loaded: loaded (/etc/systemd/system/google_assistant.service; enabled; vendor preset: enabled)
+   Active: failed (Result: exit-code) since Sun 2020-01-05 20:04:56 CET; 2min 46s ago
+  Process: 924 ExecStart=/home/pi/AIY-projects-python/src/examples/voice/main.py (code=exited, st
+ Main PID: 924 (code=exited, status=1/FAILURE)
+
+Jan 05 20:04:56 raspberrypi systemd[1]: google_assistant.service: Service RestartSec=100ms expire
+Jan 05 20:04:56 raspberrypi systemd[1]: google_assistant.service: Scheduled restart job, restart
+Jan 05 20:04:56 raspberrypi systemd[1]: Stopped Google Assistant.
+Jan 05 20:04:56 raspberrypi systemd[1]: google_assistant.service: Start request repeated too quic
+Jan 05 20:04:56 raspberrypi systemd[1]: google_assistant.service: Failed with result 'exit-code'.
+Jan 05 20:04:56 raspberrypi systemd[1]: Failed to start Google Assistant.
+```
+
+From var/log/syslog
+
+```
+Jan  5 20:13:27 raspberrypi systemd[1]: google_assistant.service: Main process exited, code=exited, status=1/FAILURE
+Jan  5 20:13:27 raspberrypi systemd[1]: google_assistant.service: Failed with result 'exit-code'.
+Jan  5 20:13:27 raspberrypi systemd[1]: google_assistant.service: Service RestartSec=100ms expired, scheduling restart.
+Jan  5 20:13:27 raspberrypi systemd[1]: google_assistant.service: Scheduled restart job, restart counter is at 5.
+Jan  5 20:13:27 raspberrypi systemd[1]: Stopped Google Assistant.
+Jan  5 20:13:27 raspberrypi systemd[1]: google_assistant.service: Start request repeated too quickly.
+Jan  5 20:13:27 raspberrypi systemd[1]: google_assistant.service: Failed with result 'exit-code'.
+Jan  5 20:13:27 raspberrypi systemd[1]: Failed to start Google Assistant.
+Jan  5 20:13:29 raspberrypi systemd[1]: systemd-rfkill.service: Succeeded.
+```
+
+My .service file:
+
+```
+[Unit]
+Description=Google Assistant
+After=network.target ntpdate.service
+
+[Service]
+Environment=DISPLAY=:0
+Type=simple
+ExecStart=/home/pi/AIY-projects-python/src/examples/voice/main.py
+Restart=on-failure
+User=pi
+Group=pi
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=google_assistant
+
+[Install]
+WantedBy=multi-user.target
+
+
+```
+
+
+ Use as posture detector?
+ Hello!  I love the AIY kit, and it's worked perfectly as a smile detector.  I'm wondering how I can program it to become a correct posture detector?  There are models online that detect a person's estimated limb positions, neck, head, etc.  Can I reprogram my AIY to do that limb position estimation, and to alert me when my posture is sub-optimal?
+This can be useful for you https://www.hackster.io/dvillevald/hand-command-recognizer-on-google-aiy-vision-kit-3786f6. This is not exactly posture detection but somehow related to it. I haven't tested this demo though. 
+
+This is perfect, thank you!
+
+On Tue, Feb 18, 2020 at 10:27 PM Manoj <notifications@github.com> wrote:
+
+> This can be useful for you
+> https://www.hackster.io/dvillevald/hand-command-recognizer-on-google-aiy-vision-kit-3786f6.
+> This is not exactly posture detection but somehow related to it. I haven't
+> tested this demo though.
+>
+> —
+> You are receiving this because you authored the thread.
+> Reply to this email directly, view it on GitHub
+> <https://github.com/google/aiyprojects-raspbian/issues/662?email_source=notifications&email_token=AJ6H6YNU7FVLJCOBTWBTKKLRDTGO7A5CNFSM4KB7BCN2YY3PNVWWK3TUL52HS4DFVREXG43VMVBW63LNMVXHJKTDN5WW2ZLOORPWSZGOEMGQYQA#issuecomment-588057664>,
+> or unsubscribe
+> <https://github.com/notifications/unsubscribe-auth/AJ6H6YLWS3JMBUCITH2VDLTRDTGO7ANCNFSM4KB7BCNQ>
+> .
+>
+
+
+ Polish Language for Google Assistant AIYProject
+ Hello,
+
+The Google Assistant has become available in Poland lately, however I noticed it is not supported on API level though (https://developers.google.com/assistant/sdk/reference/rpc/languages).
+
+Is there any chance that support for polish can be added? Please let me know if this is not the right place to ask such question, and kindly ask to point me out the right channel.
+
+Thank you,
+Roman
+IMHO preferred way should be to directly reach out to the Assistant SDK team for additional language support.  
+
+ Segmentation fault with assistant_library_demo.py
+ I am running the AIY Kit V1 with a Raspberry Pi 3 Model B Rev 1.2 and debian 10.2 (just ran the update after flashing aiyprojects-2019-11-13.img.xz).
+After allowing the google assistant api to access my google account in the browser, the demo apps quit with a seg fault.
+pi@aiy:~/AIY-projects-python/src/examples/voice $ ./assistant_library_demo.py 
+Segmentation fault
+Did I miss something? Thank you!
+> I am running the AIY Kit V1 with a Raspberry Pi 3 Model B Rev 1.2 and debian 10.2 (just ran the update after flashing aiyprojects-2019-11-13.img.xz).
+> After allowing the google assistant api to access my google account in the browser, the demo apps quit with a seg fault.
+> pi@aiy:~/AIY-projects-python/src/examples/voice $ ./assistant_library_demo.py
+> Segmentation fault
+> Did I miss something? Thank you!
+
+I just had the same issue. so I decided to try the original "VoiceKit Classic Image 2017-09-11" and it thank G-d worked perfectly . happy to help
+
+`pip3 install google-assistant-library`pip3 install google-assistant-library`
+
+Using the image from 2019-11-13 I needed to run those commands as the pi user or the assistant_library_demo.py would just seg fault
+
+I have a V1 Voice Kit and installing the earlier version of the library fixed it for me.
+
+Which version exactly?
+
+On Tue, 14 Jan 2020 at 20:20, Luke Berndt <notifications@github.com> wrote:
+
+> I have a V1 Voice Kit and installing the earlier version of the library
+> fixed it for me.
+>
+> —
+> You are receiving this because you commented.
+> Reply to this email directly, view it on GitHub
+> <https://github.com/google/aiyprojects-raspbian/issues/660?email_source=notifications&email_token=AL6NSS4G3BPX36ECOALVRZLQ5ZQFVA5CNFSM4KA6TPQKYY3PNVWWK3TUL52HS4DFVREXG43VMVBW63LNMVXHJKTDN5WW2ZLOORPWSZGOEI6W4RY#issuecomment-574451271>,
+> or unsubscribe
+> <https://github.com/notifications/unsubscribe-auth/AL6NSS4N2R3AZC7RJF67EBTQ5ZQFVANCNFSM4KA6TPQA>
+> .
+>
+
+
+I used this command: 
+`pip3 install google-assistant-library==1.0.0`
+
+Thank You very much.
+From: Luke Berndt
+Sent: Tuesday, January 14, 2020 9:19 PM
+To: google/aiyprojects-raspbian
+Cc: pythonmoti; Comment
+Subject: Re: [google/aiyprojects-raspbian] Segmentation fault withassistant_library_demo.py (#660)
+
+I used this command:
+pip3 install google-assistant-library==1.0.0
+—
+You are receiving this because you commented.
+Reply to this email directly, view it on GitHub, or unsubscribe.
+
+
+
+I have the same and solve it with the older version. It is kind sucks that "support" for the V1 version has been "stopped"
+
+Check out my writeup on how to get it working and update stretch. https://medium.com/@michaeldbrewer/aiy-voice-deprecation-workaround-bd07559403df
+
+`pip3 install google-assistant-libraryresolved the problem.
+
+ Vision kit: problems with boot, sd card and connnection.
+ Hi. I'm starting with my new vision kit and i have some problems.
+
+Firstly, when i boot up the vision kit i not hear any beep. I can see the gren led, but the push button start to shine with a intermittent red colour. I have try with differetnts usb power supply, between 2.0 and 2.5 Amp, all with same result.
+
+Secondly, i can't flash the new image on the sd card because my laptop don't recognize it.
+
+And finally i try to connect my vision kit by AIY app and my laptop, but when i used the Secure Shell Extension in Chrome, appears "port 22: connection refused. NaCl complement has been closed with status code 225"
+
+Can someone help me?
+The first issue : "Blinking red LED" indicates that joy_demo has crashed. Most probably due to camera connection being loose. 
+
+

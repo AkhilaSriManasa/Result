@@ -1,0 +1,75 @@
+﻿ Merge pull request #70 from flonou/master
+
+Adding MultiBody handling and various adjustments
+ Adding MLCP solver handling
+Adding MultiBody handling
+Adding multi collision callback capability
+AddImpulse and AddForce with coordinate type as an option to mimic Unity's API
+ Minor changes
+ Updating Unity version to 2019.2.12f1
+ Merge branch 'master' of https://github.com/flonou/BulletSharpUnity3d
+
+# Conflicts:
+#	Examples/Scenes/CollisionCallbacks/CollisionCallbacksNormalsThreaded.unity
+#	Scripts/BGameObjectMotionState.cs
+#	Scripts/BPhysicsWorld.cs
+#	Scripts/BRigidBody.cs
+#	Scripts/BasePhysicsWorldHelper.cs
+#	Scripts/CollisionShapes/BCollisionShapeFromCollider.cs
+#	Scripts/Editor/BCylinderShapeEditor.cs
+ Merge pull request #66 from raisinrand/capsule-gizmo-fix
+
+Make the BCapsuleShape gizmo work with properly with LocalScaling applied
+ fixed typo
+ made capsule gizmo work with localscaling
+ Revert "made capsule gizmo work with localscaling"
+ made capsule gizmo work with localscaling
+ Merge pull request #62 from flonou/Threading
+
+Adding Threading capabilities to bullet
+
+Finally had a chance to carefully look this over. Nice work. I am merging it but plan to make a few changes.
+
+1) The coroutine in BTypedConstraint, I think this should be yeild WaitForFixedUpdate() instead of yeild null. Yield null always happens in Update, most likely this stuff should be added in FixedUpdate.
+2) In BGameObjecMotionState.GetWorldTransform, I think the pos and rot still need to be assigned from the transform. If the user is moving a kinematic rigid body then it should be the transform rot and pos that bullet is reading.
+3) I see that BGameObjectMotionState has an Update that is called from the BRigidBody. I think that there should be a similar FixedUpdate method that does the same thing, so the BRigidBody position is also updated on FixedUpdate.
+ Merge pull request #64 from flonou/Unity_collision_shapes
+
+Unity collision shapes,
+ Adding margin edition capability to collision shapes
+ - Using new MicroTimer class for higher time precision
+- Adding graph for thread precision debug
+ Sometimes gizmo scaling is wrong, ensure it is
+ Using slerp for rotation interpolation makes more sense
+ removing debug logs
+ Forgot to call a method
+ Fixing constraint addition issue using a coroutine
+Changing the quaternion calculation of constraint using global rotation instead of local
+ Enhancing cylinder shape parameters names
+Adding ability to create collision shape from unity colliders and from multiple subcolliders
+ Adding Threading capabilities to bullet
+ removing extrapolation
+ Merge branch 'master' of https://github.com/Phong13/BulletSharpUnity3d
+
+# Conflicts:
+#	Scripts/BPhysicsWorld.cs
+#	Scripts/BRigidBody.cs
+#	Scripts/CollisionShapes/BConvexHullShape.cs
+#	Scripts/CollisionShapes/BCylinderShape.cs
+#	Scripts/Editor/BPhysicsWorldEditor.cs
+#	Scripts/Editor/BRigidBodyEditor.cs
+ Merge pull request #60 from WeersProductions/improve_inspector
+
+Improve inspector
+ Merge pull request #61 from WeersProductions/remove_warnings
+
+Remove obsolete functions
+
+LGTM
+ Merge pull request #59 from WeersProductions/editor_scaling
+
+Editor scaling
+ Fixing various issues and adding collision functionnalities
+ Fix RigidBody inspector
+ Remove obsolete functions
+ Fix PhysicsWorld inspector

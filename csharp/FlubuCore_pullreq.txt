@@ -1,0 +1,99 @@
+﻿ Set up CI with Azure Pipelines
+ 
+
+ Resolving FileStream.Lock issue on OSX
+ The issue seems resolved after LiteDB is updated from v4 to v5, and used up-to-date version of Serilog.Sinks.LiteDB package from nuget feed.
+ Resolve issue #318: Wrong log info about executing npm process
+ - Fixed Log content.
+- Exclude Deploy folder from Build.csproj.
+- Removed invalid items from csproj file.
+
+ NugetPublishTask takes version quality into consideration
+ 
+
+ Update Microsoft.Extensions.Logging to v3.1.3
+ 
+ Synchronize translate README from English to Chinese
+ 
+ Fixes Build summary is incorrect when build with default target
+ When running a build with default targets, the build summary should be correct now.
+ Resolving #303: change status name 'Finished' to 'Succeeded'
+ p.s. I smuggled one test script in this PR :)
+ Resolving #302: DependsOnAsync tasks always show "Not Ran" 
+ While fixing this bug, one idea popped up:
+
+The tasks configured with `DependsOnAsync` method are actually executed with `Task.Run`, which is arguably not asynchronous calls. I mean the following code in TaskBase.cs:
+
+```
+protected virtual async Task<TResult> DoExecuteAsync(ITaskContextInternal context)
+{
+    return await Task.Run(() => DoExecute(context));
+}
+```
+
+Having said that, I don't have better ideas to run those "Async" tasks simply because we don't know what those user-defined tasks really do (could be CPU-bound or I/O bound).
+
+I'm just feel that `DependsOnAsync` might mislead people, make them think that those tasks are executed with C# asynchronous calls.
+ 
+So one possible change is to rename `DependsOnAsync` to something else, maybe `DependsOnParallel` or `DependsOnConcurrently` ?
+
+I may be wrong or missed something though. So this is just a note. No further action requested. (discussions are welcomed) 
+ Resolving #299: obsolete warnings about IHostingEnvironment and IApplication…
+ I know this issue is targeting milestone 6.0. 
+However, I try to make the changes to support ASP.NET Core 2.x, 3.x, and ASP.NET 4.6.
+One reason being that, even in FlubuCore v6, we might still need to support ASP.NET Core 2.x.
+So I think maybe it can be merged to develop branch? Not sure though.
+Please help me make the decision. If these changes should still go to milestone 6, I'll close this PR and create a new one targeting v6.
+ Flubu-5.0.5
+ 
+
+ Resolving #293: change method names
+ Method names changed and done.
+ Resolving #283 update dependent packages
+ There are 3 components left for update in the future:
+
+- LiteDB
+- Swashbuckle (updated to v4)
+- Microsoft.Extensions.Logging 
+
+Note for LiteDB: when update from v4 to v5, we might need to add `Connection=Shared` and `Upgrade=true` in connection string. (Some changes are preserved in branch [f283-update-dependent-packages-bak](https://github.com/huanlin/FlubuCore/tree/f283-update-dependent-packages-bak))
+ Update index.md
+ fixed a tiny typo.
+ Update README.md
+ fixed a tiny typo.
+ Resolving #279 - improve build summary
+ 
+ Resolving #280 - Dropping support for .NET Standard 1.6
+ Removed conditional directives and code related to NETCOREAPP1_0, NETCOREAPP1_1, NETSTANDARD1_4, and NETSTANDARD1_6.
+ Resolving #280 - Dropping support for .NET Standard 1.6 
+ Removed conditional directives and code related to NETCOREAPP1_0, NETCOREAPP1_1, NETSTANDARD1_4, and NETSTANDARD1_6.
+ Resolves #279 Improve build summary
+ Target summary table is done and ready for review.
+ Improve RunProgramTask command text while running a program
+ * Display complete command text while running a program.
+* Removed a space before colon, and append NewLine to the command text.
+  Store json configuration file path to .flubu file 
+ Fixes #261 
+
+ Fixed command history 
+ Fixes #260 
+ BuildVersionWithQuality should add back the separator (-).
+  The separator gets removed when parsing build version in FetchBuildVersionFromFileTask. The BuildVersion.BuildVersionWithQuality Should add it back.
+ Flubu 4.3
+ 
+ Update Chinese version documentation.
+ #248 
+
+The typographical error of the readme file has been fixed in the Chinese version.
+ Update mkdocs-zh.yml
+ 
+ WIP: Chinese Translated Version of Documentation
+ This PR contains a part of Chinese translated version of the documentation.
+
+This is not the finished version and then merged after the translation is completed.
+ Update Chinese version of README.MD
+ 
+ Move readme.zh.cn.md to lang/chinese and rename file to README.md
+ 
+ Translate Readme.md from English to Chinese
+ #218 

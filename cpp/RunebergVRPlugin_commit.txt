@@ -1,0 +1,34 @@
+﻿ Update Readme
+ Updates for 4.22 support
+ Remove zipped code package bound for UE Marketplace in Repo
+ Fix incorrect reference to ModuleManager in previous commit.
+ Ensure Preproc can see ModuleInterface.h
+ Merge branch '4.21'
+ v3.0.6 - (PR from laggyluk) Hotfix for Teleport Component not working properly if BeamHitNavMeshTolerance is set beyond FVector::ZeroVector
+ v3.0.6 - (PR from laggyluk) Hotfix for Teleport Component not working properly if BeamHitNavMeshTolerance is set beyond FVector::ZeroVector
+ Upgrade to 4.21
+ Merge pull request #18 from laggyluk/my_master
+
+Fix for teleporter randomly not working with multiple supported nav agents defined
+ Fix for teleporter randomly not working with multiple supported nav agents defined.
+ 4.20: Upgrade binaries to 4.20.0
+ Merge branch '4.20'
+ Upgrade to 4.20, fix NavSystem changes
+ Update README.md
+ Add 6DOF in movement map
+ Add nav mesh detection to 360 movement, add this to 3_Movement map via thumbstick (6DOF), fine tune hand mesh sizes
+ Merge branch '4.19'
+ Compiled against 4.19 release
+ upgrade project code & assets to 4.19, remove deprecated EController references and use new MotionSource Ids, test  build (runtime untested)
+ Update readme and uplugin version references
+ Update README.md
+ 3.0.4:
+- Fix Oculus Teleport custom height offset not being applied (Teleporter)
+- Set default pawn spawn collision to ignore any colliding assets within the level (VRPawn)
+ Update 3.0.3: IWYU Compliance
+ Merge branch 'master' into 4.18
+ precompiled editor dlls for 4.18
+ Fresh compile using 4.18 release version for the Marketplace
+ Merge branch '4.18'
+ 3.0.2: Gaze category fix, change default rift height offsets, minor refactor
+ Merge branch '4.17'

@@ -1,0 +1,644 @@
+﻿ Meta Tag Crawling
+ This feature adds functionality allowing the crawler to process links obtained from inside an HTML `<meta>` tag. The URL is then added to the list of links which can then be further processed.
+
+I have created a new property in Abot2, `CrawlConfiguration.cs`, named `FollowMetaRedirects` defaulting to false.
+ Fix missing Read with encoding in abot2
+ 
+Thanks for the contribution. Used this pr as a patch and commited here... https://github.com/sjdirect/abot/commit/c486132d73118bb96bd73ff3f54887c38f571d34 Couldn't accept the pr because it was missing a using statement that added on top of the patch.
+
+Also created [nuget package 2.0.55](https://www.nuget.org/packages/Abot/2.0.55) that has this fix
+
+ Subdomains links are treated as external links
+ When crawling a page with links pointing to the same domain but with different subdomain, they are considered as external links and are excluded and not crawled. The only option is to enable IsExternalPageCrawlingEnabled, but it could be dangerous in some scenarios.
+[This example](https://groups.google.com/forum/#%21searchin/abot-web-crawler/IsInternalUri/abot-web-crawler/EOdKQK0d_5U/KMuI53msTBgJ) demonstrates how to use the a delegate that can customize what is considered internal to the root domain. Let me know if that works for you.
+
+
+
+
+ Encoding not applied when getting content from response on Abot2
+ On Abot2, the content from the response is obtained before resolving charset encoding. As a result, the content presents issues with special characters on none UTF8 charsets. For instance, getting content with charset windows-1252. At the meantime, I'm overwriting WebContentExtractor with the Abot implementation.
+
+The trick in the classic Abot implementation was passing the encoding (e) to the StreamReader. This is not currently done in the Abot2 implementation:
+
+`using (StreamReader sr = new StreamReader(memoryStream, e))`
+Fixed in [nuget version 2.0.55](https://www.nuget.org/packages/Abot/2.0.55)
+
+ Getting remote server error 430 whenever I run, tried on few websites.
+ 
+I'm unable to reproduce this. Can you give some more detail on what sites you are trying to run, what your configuration is, the platform you are running on please?
+
+Feel free to reopen if you have more info to add.
+
+ Abot as Static Site Generator
+ I want to convert my dynamic web site to static web site.  What is your opinion about that? Is "abot" is 
+a good starting point to do this requirement.
+Yes, I you can use Abot to do this if your pages are rendered by the server. If they are rendered by clientside javascript then you would need to use AbotX's js rendering capability. Either approach would just have to save the the fully rendered page to disk as an html file using the data in the e.CrawledPage.Content object that is accessible from the Abot/AbotX events.
+
+ Documentation out of date and demo project doesn't compile
+ We're upgrading from Abot 1.x to 2., and I'm trying to see how the new 2.x version should work. I tried copying code from the Readme where `ShouldCrawlPage` is called on `PoliteWebCrawler`, but it doesn't compile for me because `ShouldCrawlPage` is inaccessible:
+
+```csharp
+var crawler = new PoliteWebCrawler();
+
+crawler.ShouldCrawlPage((pageToCrawl, crawlContext) => 
+{
+	var decision = new CrawlDecision{ Allow = true };
+	if(pageToCrawl.Uri.Authority == "google.com")
+		return new CrawlDecision{ Allow = false, Reason = "Dont want to crawl google pages" };
+	
+	return decision;
+});
+```
+
+I also tried copying code from the demo project, but it doesn't appear to have been upgraded for Abot 2.x and doesn't compile out of the box. Updating this project to 2.x would be helpful because I could then learn from the changes that you make during the upgrade.
+There is a project called Abot2.Demo that exercises Abot2 lib code and the Abot.Demo exercises the older version. ShouldCrawlPage has been renamed to ShouldCrawlPageDecisionMaker in Abot2.
+
+I'll update the docs, i can see why that is confusing. Thanks for reporting.
+
+Updated docs and added warning at the top of Abot.Demo.Program.cs pointing out that demo exercises old code and the newer code is exercised in the Abot2.Demo project.
+
+ Remove Async events from readme example
+ 
+ Cannot access Async events in newest version
+ ![image](https://user-images.githubusercontent.com/33587721/70455508-0de61d80-1a72-11ea-833f-62e4663f6ef8.png)
+
+
+Async events are gone after version 2.0. The syncronous events should be
+used instead. Too many issues with users getting into trouble with the
+async versions. Specifically the most common problem is that the async
+processors (users code) would fall so far behind the crawl of large sites
+that they were encountering memory issues.
+
+On Mon, Dec 9, 2019, 8:53 AM JulioPablo <notifications@github.com> wrote:
+
+> [image: image]
+> <https://user-images.githubusercontent.com/33587721/70455508-0de61d80-1a72-11ea-833f-62e4663f6ef8.png>
+>
+> —
+> You are receiving this because you are subscribed to this thread.
+> Reply to this email directly, view it on GitHub
+> <https://github.com/sjdirect/abot/issues/207?email_source=notifications&email_token=AA5C3YUSXSKW2XL3ACDQUO3QXZZYPA5CNFSM4JYMU5LKYY3PNVWWK3TUL52HS4DFUVEXG43VMWVGG33NNVSW45C7NFSM4H7EKMPQ>,
+> or unsubscribe
+> <https://github.com/notifications/unsubscribe-auth/AA5C3YSS7KJHZIOA3X2WVM3QXZZYPANCNFSM4JYMU5LA>
+> .
+>
+
+
+Closing since the removal was by design
+
+Gotcha, the documentation is outdated, the examples show usage of these.
+
+ Abot Crawler Cancellation Not Working As Per README.md
+ `using Abot2.Crawler;
+using Abot2.Poco;
+using NUglify;
+using Serilog;
+using SODExtraction.Classes;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+using TikaOnDotNet.TextExtraction;
+
+namespace SODExtraction
+{
+    /// <summary>
+    /// Interaction logic for MainWindow.xaml
+    /// </summary>
+    public partial class MainWindow : Window
+    {
+        public static string UrlWords { get; set; }
+
+        public static long PageCount { get; set; }
+        public static long PageCompleted { get; set; }
+        public static long PageSuccess { get; set; }
+        public static long PageException { get; set; }
+
+        CancellationTokenSource cancellationTokenSource;
+
+
+        public MainWindow()
+        {
+            InitializeComponent();
+
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Information()
+                .WriteTo.Console()
+                .CreateLogger();
+
+            Log.Logger.Information("Demo starting up!");
+
+            onlineSearchResults = new List<OnlineSearchResult>();
+
+            PageCount = 0;
+            PageCompleted = 0;
+            PageSuccess = 0;
+            PageException = 0;
+        }
+
+        private void LeftSideBarMenuList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            int index = LeftSideBarMenuList.SelectedIndex;
+
+            switch (index)
+            {
+                case 0:
+                    if (GridAdvancedSearch != null)
+                        GridAdvancedSearch.Visibility = Visibility.Visible;
+                    if (GridUpdateDatabase != null)
+                        GridUpdateDatabase.Visibility = Visibility.Collapsed;
+                    if (GridSearchHistory != null)
+                        GridSearchHistory.Visibility = Visibility.Collapsed;
+
+                    MoveCursorMenu(0);
+
+                    break;
+                case 1:
+                    GridAdvancedSearch.Visibility = Visibility.Collapsed;
+                    GridUpdateDatabase.Visibility = Visibility.Visible;
+                    GridSearchHistory.Visibility = Visibility.Collapsed;
+
+                    MoveCursorMenu(1);
+
+                    break;
+
+                case 2:
+                    GridAdvancedSearch.Visibility = Visibility.Collapsed;
+                    GridUpdateDatabase.Visibility = Visibility.Collapsed;
+                    GridUpdateDatabase.Visibility = Visibility.Visible;
+
+                    MoveCursorMenu(2);
+
+                    break;
+
+                default:
+                    GridAdvancedSearch.Visibility = Visibility.Visible;
+                    GridAdvancedSearch.Visibility = Visibility.Collapsed;
+                    GridUpdateDatabase.Visibility = Visibility.Collapsed;
+
+                    MoveCursorMenu(0);
+                    break;
+            }
+        }
+
+        private void MoveCursorMenu(int index)
+        {
+            TrainsitionigContentSlide.OnApplyTemplate();
+            GridCursor.Margin = new Thickness(0, (50 * index), 0, 0);
+        }
+
+        private async void BtnSearch_Click(object sender, RoutedEventArgs e)
+        {
+
+            if (BtnSearch.Content.ToString() == "Search")
+            {
+                PageCount++;
+
+                UrlWords = TxtboxUrlWords.Text;
+
+                var config = new CrawlConfiguration
+                {
+                    MaxPagesToCrawl = int.MaxValue,
+                    UserAgentString = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36",
+                    MaxCrawlDepth = int.Parse(TxtboxMaxCrawlDepth.Text),
+                    MinCrawlDelayPerDomainMilliSeconds = 3000
+                };
+
+                var crawler = new PoliteWebCrawler(config);
+
+                crawler.PageCrawlCompleted += PageCrawlCompleted;
+                crawler.ShouldCrawlPageDecisionMaker += ShouldCrawlPageDecisionMaker;
+
+                cancellationTokenSource = new CancellationTokenSource();
+                BtnSearch.Content = "Cancel";
+
+                var crawlResult = await crawler.CrawlAsync(new Uri(TxtboxUrl.Text), cancellationTokenSource);
+            }
+            else
+            {
+                try
+                {
+                    cancellationTokenSource.Cancel();
+                    BtnSearch.Content = "Search";
+                }
+                catch (OperationCanceledException ex)
+                {
+                }
+            }
+        }
+
+        private CrawlDecision ShouldCrawlPageDecisionMaker(PageToCrawl arg1, CrawlContext arg2)
+        {
+            CrawlDecision ret = new CrawlDecision();
+
+            bool check = false;
+            foreach (var word in UrlWords.Split(';').ToArray())
+                if (arg1.Uri.AbsoluteUri.Contains(word))
+                    check = true;
+
+            if (check == false)
+            {
+                ret.Allow = false;
+                return ret;
+            }
+            else
+            {
+                ret.Allow = true;
+                return ret;
+            }
+        }
+
+        private void PageCrawlCompleted(object sender, PageCrawlCompletedArgs e)
+        {
+            PageCompleted++;
+
+            if (e.CrawledPage.HttpRequestException != null || e.CrawledPage.HttpResponseMessage.StatusCode != HttpStatusCode.OK)
+            {
+                PageException++;
+                return;
+            }
+
+            PageSuccess++;
+
+            if(e.CrawledPage.ParsedLinks != null)
+            {
+                PageCount += e.CrawledPage.ParsedLinks.Count();
+            }
+        }
+    }
+}
+`
+
+
+I am trying to count pages that have specific words in the url.
+when the crawler is working, i need to cancel it with all it's threads so i used the CancellationTokenSource as per README.md in you github https://github.com/sjdirect/abot
+
+`CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+
+var crawler = new PoliteWebCrawler();
+var result = await crawler.CrawlAsync(new Uri("addurihere"), cancellationTokenSource);`
+
+but it does not working! it throw exception 
+"System.OperationCanceledException: 'The operation was canceled.'" attached picture.
+
+https://ibb.co/HXVQ5wC
+
+You should be able to  F5 past that. Abot will catch that exception and stop the crawl as expected. You can see the integration test below that exercises this code. Also check your logs for a message like "Crawl cancellation requested for site".
+
+```
+[TestMethod]
+public async Task Crawl_Synchronous_CancellationTokenCancelled_StopsCrawl()
+{
+	var cancellationTokenSource = new CancellationTokenSource();
+	var timer = new System.Timers.Timer(800);
+	timer.Elapsed += (o, e) =>
+	{
+		cancellationTokenSource.Cancel();
+		timer.Stop();
+		timer.Dispose();
+	};
+	timer.Start();
+
+	var crawler = new PoliteWebCrawler();
+	var result = await crawler.CrawlAsync(new Uri("http://localhost.fiddler:1111/"), cancellationTokenSource);
+
+	Assert.IsTrue(result.ErrorOccurred);
+	Assert.IsTrue(result.ErrorException is OperationCanceledException);
+}
+```
+
+ Can't install package in VS 2017
+ > Error		Could not install package 'Abot 2.0.47'. You are trying to install this package into a project that targets '.NETFramework,Version
+You are trying to install a dotnet standard 2 project into a project that targets .net 4.5. If your project targets .net 4.6.1 or greater it should work. If you can't change the target of your project you can just install abot nuget versions less than version 2.0 and you should be good since those target .net 4.0 which is backwards compatible with 4.5.
+
+ abot vs abot v2?
+ What is the difference between abot and abot v2?
+
+is abot 2 GA?
+v2 targets dotnet standard 2.0 and is where all new development is going.
+Anything in the Abot/Abotx nuget version >= 2.0 will be using v2 as the
+source.
+
+On Sun, Oct 13, 2019 at 6:06 AM firat <notifications@github.com> wrote:
+
+> What is the difference between abot and abot v2?
+>
+> —
+> You are receiving this because you are subscribed to this thread.
+> Reply to this email directly, view it on GitHub
+> <https://github.com/sjdirect/abot/issues/204?email_source=notifications&email_token=AA5C3YS5JC2ZYATHFQ24AH3QOMMOZA5CNFSM4JAG5C22YY3PNVWWK3TUL52HS4DFUVEXG43VMWVGG33NNVSW45C7NFSM4HRN4DUA>,
+> or unsubscribe
+> <https://github.com/notifications/unsubscribe-auth/AA5C3YRIXWIMSPRIEKXF6PDQOMMOZANCNFSM4JAG5C2Q>
+> .
+>
+
+
+ Library does not work when link crawled is very slow
+ When the library is used on a link that is very slow the work threads count goes to zero and the threadmanager closes as there wasn't enough time for the links to be scheduled. 
+
+The delay added to wait for the list to be built is not enough
+
+ Log.Debug("Waiting for links to be scheduled...");
+ await Task.Delay(2500).ConfigureAwait(false);
+Can confirm, abot2 just does not work at all... Recommend you stick with abot1 💯  
+
+Can you give me some example sites/pages please?
+
+http://zalahat.com
+
+Is an example. I have more.
+
+On Sun, Oct 6, 2019 at 4:22 PM Steven <notifications@github.com> wrote:
+
+> Can you give me a some examples sites/pages please?
+>
+> —
+> You are receiving this because you authored the thread.
+> Reply to this email directly, view it on GitHub
+> <https://github.com/sjdirect/abot/issues/203?email_source=notifications&email_token=AD7XTOBJVSCHJPZNWS4QBWDQNHYC7A5CNFSM4I32VE3KYY3PNVWWK3TUL52HS4DFVREXG43VMVBW63LNMVXHJKTDN5WW2ZLOORPWSZGOEAOLHCA#issuecomment-538751880>,
+> or mute the thread
+> <https://github.com/notifications/unsubscribe-auth/AD7XTOBR4VAJWKG6OWVSTFLQNHYC7ANCNFSM4I32VE3A>
+> .
+>
+
+
+Appreciate it. Yes a few more world be helpful as well.
+
+gamble1x2.com
+casinosms.pl
+centrodeapostas.com
+
+Anything slower than 3 seconds will not be parsed.
+
+On Sun, Oct 6, 2019 at 5:10 PM Steven <notifications@github.com> wrote:
+
+> Appreciate it. Yes a few more world be helpful as well.
+>
+> —
+> You are receiving this because you authored the thread.
+> Reply to this email directly, view it on GitHub
+> <https://github.com/sjdirect/abot/issues/203?email_source=notifications&email_token=AD7XTOBLLD2ANKLJUETFS3TQNH5XNA5CNFSM4I32VE3KYY3PNVWWK3TUL52HS4DFVREXG43VMVBW63LNMVXHJKTDN5WW2ZLOORPWSZGOEAOMJTI#issuecomment-538756301>,
+> or mute the thread
+> <https://github.com/notifications/unsubscribe-auth/AD7XTOD3ZNTD74QLKKDDNC3QNH5XNANCNFSM4I32VE3A>
+> .
+>
+
+
+Instead of just waiting longer I reverted back to the old way of blocking the thread with Thread.Sleep.
+
+@sbonello @erherhh4herh Can you both verify this has been fixed with nuget version 2.0.45?
+
+Nope same issue. If the site takes longer than 2.5 seconds to load it will
+not be parsed.
+
+Simon
+
+On Sun, Oct 6, 2019 at 5:01 PM Simon Bonello <sbonello@gmail.com> wrote:
+
+> http://zalahat.com
+>
+> Is an example. I have more.
+>
+> On Sun, Oct 6, 2019 at 4:22 PM Steven <notifications@github.com> wrote:
+>
+>> Can you give me a some examples sites/pages please?
+>>
+>> —
+>> You are receiving this because you authored the thread.
+>> Reply to this email directly, view it on GitHub
+>> <https://github.com/sjdirect/abot/issues/203?email_source=notifications&email_token=AD7XTOBJVSCHJPZNWS4QBWDQNHYC7A5CNFSM4I32VE3KYY3PNVWWK3TUL52HS4DFVREXG43VMVBW63LNMVXHJKTDN5WW2ZLOORPWSZGOEAOLHCA#issuecomment-538751880>,
+>> or mute the thread
+>> <https://github.com/notifications/unsubscribe-auth/AD7XTOBR4VAJWKG6OWVSTFLQNHYC7ANCNFSM4I32VE3A>
+>> .
+>>
+>
+
+
+Am able to reproduce and have a fix i'm still testing. Bear with me, hopefully i can polish it up tomorrow.
+
+I believe I fixed the issue. Even added some integration tests to make sure Zalahat is crawled correctly. The latest nuget package (2.0.46) should be up to date. Please verify whether it works or does not for you. 
+
+Assuming the silence means its working as expected. 
+
+ Dotnet standard
+ Creation of Abot2 namespace (nuget v2.0.41 and beyond).
+ Fails to load some websites
+ Hi Steven,
+
+This is a great website crawler. 
+
+Recently I come across this website which ABot fails to load. 
+
+https://shop.coles.com.au/a/a-national/everything/browse
+
+Do you have any idea how I can scrape this?
+
+Thanks
+Mohsin
+Hi Mohsin, 
+
+Not nearly enough information for anyone to help you with here. You would need to dig in a big and give some examples of what you see vs what you expect. Closing this ticket but free to reopen or create another one if you have more details..
+
+ Status on dotnet standard and dotnet core support 
+ I see you have created a new branch for dotnet standard. 
+
+What is the status of your work there? Is abot expected to be compatible with dotnet core anytime soon? 
+
+I'm sorry if I've missed if you already mentioned this somewhere, but I have not been able to find any comments on the work you've done on this branch
+
+Thank you for a great piece of software. 
+Hi Silas,
+
+Yes, planning on chipping away at the the dotnet standard branch. It will be a while before I have something that is prime time ready. As, I get closer to a stable version I'll begin communicating to you all. Glad you like using Abot. Hoping to get this version out and tested this year.
+
+That sounds really good :-)
+Are you facing any specific challenges at the moment that you'd like to share with us?
+
+Just lack of time/priority :)
+
+.net standard now supported with version 2.0 and beyond!
+
+ Change visibility of method GetRawData
+ It is necessary in order to reuse this method in inherited classes.
+ Abot is incompatible with 1.6.0.15 with AngleSharp 0.10.0
+ Abot requires AngleSharp 0.9.9.1 or higher, which has the namespace `AngleSharp.Dom.Html` in e.g. the `CrawledPage` type. Starting with AngleSharp 0.10.0 this namespace should now be `AngleSharp.Html.Dom`.
+ Spelling corrections.
+ New to Abot, was exploring the code for a bit and thought I might as well fix some spelling errors in the comments, because why not :D
+Appreciate the contribution @dougouk.
+
+ Changed visibility in some class fields
+ - Added `protected` keyword to `_rateLimiterLookUp` dictionary in `DomainRateLimiter` class, because that dictionary needs to be visible in case the `GetRateLimiter` method is overridden by a subclass (see pull request https://github.com/sjdirect/abot/pull/194)
+- Added `virtual` keyword to HTML document properties in `CrawledPage` to make it possible to override them in a custom subclass.
+Thx for contributing!
+
+You're welcome! 😄
+Thanks for the PR approval! 👍 
+
+ Workaround for using standard HtmlAgilityPack library
+ * Set custom library field using reflection
+* Made rate limiter dictionary visible to sub-classes
+ Make method `GetRateLimiter` overridable
+ - Fixed small typo
+- Converted `GetRateLimiter` from private to protected virtual
+Just please removed the newline formatting changes and then I can accept it. thx.
+
+@sjdirect , I don't understand... I don't think I've made newline formatting changes. 
+I've just changed the method name and the calls to it because it was originally written `GetRateLimter` (without the second `i`) instead of `GetRateLimiter`. 
+I may have deleted an extra line above the method signature, too. Would that be it?
+
+Thanks 😉👍
+
+ UseDefaultCredentials possibility
+ Added UseDefaultCredentials for WebRequest object (app.config field)
+@sjdirect done :)
+
+ HtmlAgilityPack Assembly Version
+ Point 1
+HtmlAgilityPack isn't listed as an Abot dependency and it is.
+
+Point 2
+HtmlAgillityPack Version 1.4.7 is not longer available via nuget which Abot has a dependency on
+
+Can you upgrade the Abot dependency to latest HtmlAgilityPack please. 
+
+I cannot. See issue #21 for the details. High level, there is a patched version of html agility pack that is used for a good reason. There are unit tests that prove/exercise it. There have been at least 4-5 github issues created where people are requesting what you are asking but every time i investigate it, the same problem persists. 
+
+Reopening this so people see the issue and do not create another ticket unless they have addressed by original concerns.
+
+Hap is no longer a dependency since version 2.0.
+
+ Request aborted: Failed to create SSL/TLS secure channel.
+ https://www.zimt-und-zunder.de
+ Cannot crawl on specific site
+ I've been using ABOT on multiple sites successfully, but for some reason it doesn't find any links to crawl on when dealing with:
+https://www.accessdata.fda.gov/scripts/cder/ob/search_patent.cfm?listed=new
+
+Is it related to the TLS 1.2 issue? 
+
+Thanks,
+Guy
+After further investigation, it looks like the reason the crawler does not proceed further is due to the use of relative addresses 
+
+results_product.cfm?Appl_Type=N&Appl_No=022156 
+instead of 
+https://www.accessdata.fda.gov/scripts/cder/ob/results_product.cfm?Appl_Type=N&Appl_No=022156
+
+Suggestions for a solution are welcome.
+
+ Is AbotX supported on .NET Core?
+ Or is only the basic version ported to .NET Core?
+Hello, 
+AbotX is not currently supported on .net core. That may change in the near future but no active development is happening at the moment.
+
+Abot now targets .NET standard 2.0. I'm planning on porting AbotX as well so then it will be supported on .net core.
+
+AbotX now targets .net standard 2!!!
+
+ AccessViolationException thrown while crawling
+ Hi,
+
+while crawling https://www.ikk-classic.de/ the following exception is thrown and the process crashes immediately:
+```
+An unhandled exception of type 'System.AccessViolationException' occurred in System.dll
+   at System.Net.UnsafeNclNativeMethods.OSSOCK.recv(IntPtr socketHandle, Byte* pinnedBuffer, Int32 len, SocketFlags socketFlags)
+   at System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags, SocketError& errorCode)
+   at System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   at System.Net.Sockets.NetworkStream.Read(Byte[] buffer, Int32 offset, Int32 size)
+   at System.Net.FixedSizeReader.ReadPacket(Byte[] buffer, Int32 offset, Int32 count)
+   at System.Net.Security._SslStream.StartFrameBody(Int32 readBytes, Byte[] buffer, Int32 offset, Int32 count, AsyncProtocolRequest asyncRequest)
+   at System.Net.Security._SslStream.StartFrameHeader(Byte[] buffer, Int32 offset, Int32 count, AsyncProtocolRequest asyncRequest)
+   at System.Net.Security._SslStream.StartReading(Byte[] buffer, Int32 offset, Int32 count, AsyncProtocolRequest asyncRequest)
+   at System.Net.Security._SslStream.ProcessRead(Byte[] buffer, Int32 offset, Int32 count, AsyncProtocolRequest asyncRequest)
+   at System.Net.TlsStream.Read(Byte[] buffer, Int32 offset, Int32 size)
+   at System.Net.PooledStream.Read(Byte[] buffer, Int32 offset, Int32 size)
+   at System.Net.Connection.SyncRead(HttpWebRequest request, Boolean userRetrievedStream, Boolean probeRead)
+   at System.Net.ConnectStream.ProcessWriteCallDone(ConnectionReturnResult returnResult)
+   at System.Net.ConnectStream.CallDone(ConnectionReturnResult returnResult)
+   at System.Net.ConnectStream.CloseInternal(Boolean internalCall, Boolean aborting)
+   at System.Net.ConnectStream.System.Net.ICloseEx.CloseEx(CloseExState closeState)
+   at System.Net.HttpWebRequest.EndWriteHeaders_Part2()
+   at System.Net.HttpWebRequest.EndWriteHeaders(Boolean async)
+   at System.Net.HttpWebRequest.WriteHeadersCallback(WebExceptionStatus errorStatus, ConnectStream stream, Boolean async)
+   at System.Net.ConnectStream.WriteHeaders(Boolean async)
+   at System.Net.HttpWebRequest.EndSubmitRequest()
+   at System.Net.Connection.CompleteConnection(Boolean async, HttpWebRequest request)
+   at System.Net.Connection.CompleteStartConnection(Boolean async, HttpWebRequest httpWebRequest)
+   at System.Net.Connection.CompleteStartRequest(Boolean onSubmitThread, HttpWebRequest request, TriState needReConnect)
+   at System.Net.Connection.SubmitRequest(HttpWebRequest request, Boolean forcedsubmit)
+   at System.Net.ServicePoint.SubmitRequest(HttpWebRequest request, String connName)
+   at System.Net.HttpWebRequest.SubmitRequest(ServicePoint servicePoint)
+   at System.Net.HttpWebRequest.GetResponse()
+   at Abot.Core.PageRequester.MakeRequest(Uri uri, Func`2 shouldDownloadContent) in D:\Documents\Projects\abot\Abot\Core\PageRequester.cs:line 87
+   at Abot.Crawler.WebCrawler.CrawlThePage(PageToCrawl pageToCrawl) in D:\Documents\Projects\abot\Abot\Crawler\WebCrawler.cs:line 884
+   at AbotX.Crawler.CrawlerX.CrawlThePage(PageToCrawl pageToCrawl) in D:\Documents\Projects\abotx\AbotX\Crawler\CrawlerX.cs:line 206
+   at Abot.Crawler.WebCrawler.ProcessPage(PageToCrawl pageToCrawl) in D:\Documents\Projects\abot\Abot\Crawler\WebCrawler.cs:line 671
+   at Abot.Crawler.WebCrawler.<CrawlSite>b__68_0() in D:\Documents\Projects\abot\Abot\Crawler\WebCrawler.cs:line 539
+   at Abot.Util.ThreadManager.RunAction(Action action, Boolean decrementRunningThreadCountOnCompletion) in D:\Documents\Projects\abot\Abot\Util\ThreadManager.cs:line 113
+   at Abot.Util.TaskThreadManager.<>c__DisplayClass5_0.<RunActionOnDedicatedThread>b__0() in D:\Documents\Projects\abot\Abot\Util\TaskThreadManager.cs:line 43
+   at System.Threading.Tasks.Task.Execute()
+Google is your friend on this one... "handling System.AccessViolationException" should give you some options.
+
+I did, but none of them are working in this case, because the exception is thrown in a thread started by Abot/AbotX. I dont want to catch corrupted state exceptions globally. To catch them locally, i need to annotate the catching method. Since none of my methods is in the stack trace i see no way to do so.
+
+You can take a look at [Abot.Util.TaskThreadManager.cs](https://github.com/sjdirect/abot/blob/master/Abot/Util/TaskThreadManager.cs) implementation. There is some basic exception handling happening there that you might be able to alter to do what you are trying to do. If you extend/override and plug in your imple IThreadManager you can hook into it.
+
+I'll take a look at this next week. Thank you for your help.
+
+ Abot is getting "Request aborted" on responses that should be standard http 404 status
+ https://thedma.org/innovation-awards/
+https://emeraldcoastjourneypure.com/aaa
+https://antennainternational.com/partner
+https://www.immaculata.edu/calendar/date/2017-12-19?date=2016-03-30&year=2015
+https://northshoreadvisory.com/blog/business-credit-blog/
+
+The following urls get the request aborted exception instead of the typical System.Net.WebException Not found exception.
+See fidler .saz file attached (remove the .zip part of the extension then open in fiddler) to see the raw request/responses from the server.
+[404s.saz.zip](https://github.com/sjdirect/abot/files/2020957/404s.saz.zip)
+
+Noticed that most of the domains above are served by nginx. This appears to be an issue with the HttpWebRequest object interacting with some mystery set of configurations available in nginx. System.Net.Http.HttpClient does NOT have an issue with these requests but would hate to pull in dependencies to use this lib.
+
+Found [this blog post](https://briancaos.wordpress.com/2012/06/15/an-existing-connection-was-forcibly-closed-by-the-remote-host/) which suggested a few properties on the HttpWebRequest object. Turns out this simple setting solved this PITA of a problem. Looks like nginx didn't like communicating over http1.1 protocol (which is default of the HttpWebRequest object). When the default protocol version is set to 1.0 explicitly then nginx behaves.
+
+`request.ProtocolVersion = HttpVersion.Version10;`
+
+Commit https://github.com/sjdirect/abot/commit/7356d06445f78bf31d92c60918b2e024969fa52d appears to fix this issue. Available fix in Nuget package [1.6.0.3](https://www.nuget.org/packages/Abot/1.6.0.3)
+
+Rolled back this change. Will see if I can find other workarounds. Defaulting back to http 1.0 caused other problems.
+
+A work around for a client was to create a CustomPageRequester : IPageRequester that handles retrying using http 1.0 if there is a request abort webexception. See attachment...
+[CustomPageRequester.cs.txt](https://github.com/sjdirect/abot/files/2385995/CustomPageRequester.cs.txt)
+
+
+
+
+
+
+This workaround is the best way to go if you can't upgrade to Abot v2.0 or greater which targets .net standard 2 and uses the newer httpclient that does not have this issue.
+
+ Slash in robot txt is misinterpreted.
+ The two lines below are included in robots.txt:
+Disallow: /om/work-at-abc/lediga-jobb/
+Disallow: /om/work-at-abc/lediga-jobb?
+
+Consequently, this page is incorrectly disallowed:  
+https://www.abc.se/om/work-at-abc/lediga-jobb
+
+Log:
+[https://www.abc.se/om/work-at-abc/lediga-jobb] not crawled, [Disallowed by robots.txt file]
+
+Kind Regards,
+Ola
+Moved to https://github.com/sjdirect/nrobots/issues/10
+

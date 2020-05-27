@@ -1,0 +1,59 @@
+﻿ Source for the public
+
+For educational purpose
+Project is not operational
+ Update README.md
+ Update README.md
+ Merge pull request #2258 from pedrohcavalcante/patch-1
+
+Translations to PT-BR
+ Translations to PT-BR
+
+I'm a brazilian guy, student of Information Technology. Trying to help the translation to be more clear to a brazilian.
+ Update API_version.json
+ Merge pull request #2221 from gungsan0/patch-8
+
+Update translation.kr.json
+ Update translation.kr.json
+ Update latest.version
+New update?
+
+ Update latest.version
+ Merge pull request #2190 from fantomeus/patch-6
+
+Messages changes
+ Messages changes
+
+Messages changes
+ New Keys
+ Merge pull request #2178 from andreaz98/patch-8
+
+General corrections
+ new messages
+ General corrections
+ Update latest.version
+ Update 繁體中文.json
+ Update 繁體中文.json
+ Update Italiano.json
+ Update Español.json
+ Update 한국어.json
+ Merge pull request #2174 from fantomeus/patch-4
+
+update english for " needed
+ Merge pull request #2175 from fantomeus/patch-5
+
+update french need 17 lines from english
+ update french need 17 lines from english
+
+update french need 17 lines from english
+ update english for " needed
+
+update english for " needed
+ Merge pull request #2165 from gungsan0/patch-7
+
+Update 한국어.json
+ Merge pull request #2166 from pupu2314/patch-5
+
+Update 繁體中文.json
+ Update 繁體中文.json
+ Update 한국어.json

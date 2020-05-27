@@ -1,0 +1,684 @@
+﻿ Did not consider the ServicePoint be removed from the servicepointmanager and it's resource get released after a timeout period
+ https://github.com/NimaAra/Easy.Common/blob/master/Easy.Common/RestClient.cs
+
+You used Hashset in AddConnectionLeaseTimeout  to check whether the service pointhas been set to the ConnectionLeaseTimeout to 1  min. 
+
+But as this https://stackoverflow.com/questions/53653640/net-servicepoint-object-lifecycle says, servicePoint object will be removed from the servicepointmanager and it's resource will get released after a timeout period, so seems your implementation did not consider this. 
+
+Actually, I am wondering have you ever met the issue with the link above said, since from the code I think you will just meet same issue.
+Two things to consider here:
+
+1. `AddConnectionLeaseTimeout` is invoked before every request so even if it is removed it will be added again.
+
+2. None of this is relevant in _.NET Core_ anymore.
+
+I really don't get it why you closed the issue.
+
+> AddConnectionLeaseTimeout is invoked before every request so even if it is removed it will be added again.
+
+I think you did not get my question at all..  
+You used hashset and the key is defined by yourself, so even if the servicepoint object removed underneath, you don't know it since you find the key you created yourself exists, you will ignore and skipping finding the servicepoint and skipping setting the ConnectionLeasetimeout,  so this statement is not correct..
+
+
+> None of this is relevant in .NET Core anymore.
+
+
+Your code have if/else, which include net framework version, even net core have no problem with this, why you don't care net framework?? 
+
+
+
+ CountLines does not reliably support encodings other than UTF-8 / ASCII
+ Here is an example using UTF-16:
+
+    [Test]
+    public void CountLinesTest()
+    {
+        byte[] bytes = Encoding.BigEndianUnicode.GetBytes(" ਊ ");
+        var stream = new MemoryStream(bytes);
+        Assert.AreEqual(1, Easy.Common.Extensions.StreamExtensions.CountLines(stream));
+    }
+
+Results in:
+
+    Expected: 1
+    But was:  3
+
+The character I used is U+0a0a which is interpreted as two line feeds by CountLines. Basically any character in the form U+xx0A or U+xx0D or U+0Axx or U+0Dxx can be misinterpreted as an extra line.
+
+I would suggest renaming the method to CountLinesUtf8 or similar.
+
+Or pass in an Encoding / TextReader but then it won't be as fast.
+
+Thank you for reporting.
+
+Passing a `TextReader` would not address this particular example as the input is too short and the reader cannot correctly identify the encoding.
+
+I prefer the user supplying the encoding with default being _UTF-8_.
+
+This should now be fixed as of [3.7.0](https://www.nuget.org/packages/Easy.Common/3.7.0)
+
+ .NET Core returns "<INVALID>" Processor Name
+ Thanks for the great tool! It's been a great help for getting system info for cross-platform .NET programs we're writing.
+
+I've noticed what I think is a bug in getting the processor name in Windows in .NET Core applications. 
+
+https://github.com/NimaAra/Easy.Common/blob/c33434d16eee0a602816a63945192280a37d82dc/Easy.Common/DiagnosticReport/DiagnosticReport.cs#L769
+
+This code block checks for .NET framework or .NET standard targets and returns <INVALID> if the application is not targeted to one of those two. Unfortunately this means that .NET Core applications return "< INVALID >", even though lines 772-773 would work perfectly fine. Can you either remove the targeting requirement, or include .NET Core in the conditional? Or wrap in a try/catch block?
+
+Another request - can you make methods like `GetProcessorName()` and `GetInstalledMemoryInGigaBytes()` `public`? It would be nice to be able to display these outside of your diagnostic report.
+
+I'd be happy to make a pull request - let me know if I should.
+Thanks for reporting.
+
+This should be fixed as of [v3.6.0](https://www.nuget.org/packages/Easy.Common/3.6.0)
+
+With regards to making `GetProcessorName()` and `GetInstalledMemoryInGigaBytes()` public, I prefer them to stay private and internal to the report. 
+
+You have the option of generating specific _SystemDetails_ report by passing the appropriate flag (`DiagnosticReportType.System`) to the `Generate` method. Alternatively you can take those methods and put them into a helper class suitable for your use-case.
+
+ Question: How to support headers and cookies with IoC container set to per request?
+ Hello,
+
+Sorry for not coming up with a more succinct title. 
+
+I have wrapped the RestClient in a service that will perform 4 HTTP requests serially and need to preserve some of the headers and cookies during these calls. My service will be injected into the web API controller via constructor injection and invoked from an API route. My container is Autofac and I have set my service and RestClient to be InstancePerRequest. So now that I have that out of the way, I was wondering about how to persist headers and cookies across the 4 calls?  Also wondering if you have any feedback on the life-time of the RestClient given my requirements?
+
+Thanks in advance Nima!
+
+-Stephen 
+
+
+`RestClient` is merely a wrapper around `HttpClient`.  I suggest asking this question on _Stack Overflow_. As far as the instance resolution is concerned, I advise against an instance per request model as you will end up exhausting the available ports once you start getting many requests. I suggest you have a singleton _RestClient_/_HttpClient_ specific to your service.
+
+ IDGenerator for long values
+ IDGenerator geenerate the string ID's. Is there a way to generate the long values?
+You can simply base it on: `DateTime.UtcNow.Ticks` and keep incrementing it.
+
+It's not safe to run on cluster nodes
+
+Which is why you need a string id :-)
+
+Based on your implementation and CorrelationIdGenerator of asp.net core  I've created my version of IdGenerator
+https://gist.github.com/ifle/9328949346d1a616d115f3642ec08e79
+
+Thanks
+
+ ReadLineCounter
+ I reviewed the readline code, and you should probably just fix your code to do that because there is nothing to be gained here.
+Please do not open duplicate issues (#23). 
+
+ LineCounter doesn't work correctly for eveonline log files
+ I looked into trying to use this for eveonline log files, and the filecount was incorrect with compared to looping through readline on a StreamReader:
+
+You can reference this project and the monitor.cs file
+https://github.com/evetoolsblue/EveIntelReader
+
+Using dotnet core 3.0
+
+
+Please provide a sample log reproducing the bug. Thanks.
+
+https://github.com/foxjazz/EasyNotWorking
+
+
+Thank you for the repro.
+
+The provided `Intel.txt` uses a mixture of `LF` and `CRLF` which in my opinion is pure wrong and should not be supported.
+
+IMO, a file must have a single line separator and use that consistently for the rest of the file.
+
+The provided file starts with `CRLF` then changes to `LF` (to print the header) and then switches back to `CRLF` for the rest of the file.
+
+You have the option to ignore the header section and count the actual log files as before.
+
+I think you need to write it so it's CRLF or CR or LF  This would work better. I didn't look too deep into it, just needed something to work.
+Also, why don't you look at what readline actually does and do that.
+
+I will fork and create a PR for you.
+
+The code as is, supports all three line endings as long as they are consistent throughout the file. As mentioned before, I am not going to support different line endings in a file, if that is what you need then you can do any of the following:
+
+* Ignore the header in your file
+* Use ReadLine
+* Modify the code to fit your need
+
+ Add support for SocketsHttpHandler in RestClient
+ _netcoreapp2.1_ added [`SocketsHttpHandler`](https://apisof.net/catalog/System.Net.Http.SocketsHttpHandler); This is a new type which leverages the rewritten [`HttpMessageHandler`](https://docs.microsoft.com/en-us/dotnet/core/whats-new/dotnet-core-2-1).
+
+One important feature of this type is the ability to set the [ConnectionLifeTime](https://apisof.net/catalog/System.Net.Http.SocketsHttpHandler.PooledConnectionLifetime) without having to keep track of each endpoint and setting the `ConnectionLeaseTimeout` on the `ServicePoint`.
+ Memory leak in RestClient
+ Hello,
+
+The RestClient implementation seems to be leaking memory, fairly slowly in our case to be honest. Unfortunately, we have now switched to core 2.1 and httpClientFactory, which fixed the leak, so didn't look into the issue thoroughly enough. I suspect it is related to keeping the endpoints in memory. Hope this helps, let me know if I can provide any more useful info.
+Thank you for reporting this.
+
+Can I assume you were using a version older than [2.9.9](https://www.nuget.org/packages/Easy.Common/2.9.9)? I fixed #18 which I think was the cause of the leak among other issues.
+
+No worries. I was using the latest version so 2.9.9. To be honest, looking at the code, I couldn't see how a memory leak could happen unless there was an unlimited amount of endpoints to which the app would send requests. In any case, the data suggest that there was a leak that stopped as soon as I removed RestClient. It might be a good idea to limit the size of the endpoint cache to make memory consumption predictable.  
+
+I am not convinced that the leak was due to the endpoint caching unless you were hitting a very large amount of endpoints which are unique across the _scheme_|_dns-name_|_port_ which I don't think you were.
+
+I am in the process of making further changes to the `RestClient` to bring it inline with `HttpClientFactory` introduced in `netcoreapp2.1` which eliminates the need for endpoint caching altogether (#22) but it would be useful if you could provide a repro so that I can investigate the behaviour across platforms other than `netcoreapp2.1`.
+
+ RestClient's AddConnectionLeaseTimeout method - redux
+ Finding a service endpoint and then setting its `ConnectionLeaseTimeout` value within the SPM for each and every full URI that `RestClient` talks to is potentially wasteful, since - as you say - "the method only cares about the host, schema and port everything else is ignored".
+
+So say the caller of `RestClient` talks to a single API whose base URI is `https://myapi.com/v1/ `. Say you hit this API a 1000 times. `RestClient` will set `ConnectionLeaseTimeout` a 1000 times, but it only needs to do so once.
+Also my other point is that the method is badly named as setting `ConnectionLeaseTimeout` is not all it does.
+
+Should it even do the two things that it does?  (single responsibility principle, and all that)
+
+The method could be called `AddToEndpointHistoryAndSetConnectionLeaseTimeout`
+
+Or... these two things could be split out into separate methods.
+
+But this is a minor point compared to my main point, which is described in the comment above.
+
+Sorry if neither of these points was clear in my original issue.
+
+
+This is a re-open of https://github.com/NimaAra/Easy.Common/issues/18
+
+Closing this as duplicate. Re-opening #18.
+
+ Extend IRestClient to enable per request timeouts.
+ `IRestClient` currently relies on `HttpClient` default timeout which is _100_ seconds. One can currently issue a different timeout per request by executing the following:
+
+```csharp
+var cts = new CancellationTokenSource(TimeSpan.FromSeconds(15));
+await client.GetAsync("http://localhost", cts.Token);
+```
+
+This should be made easier by exposing an overload accepting a `Timespan` as timeout for each of the following:
+
+```
+GetAsync
+GetStringAsync
+GetStreamAsync
+GetByteArrayAsync
+DeleteAsync
+PostAsync
+PutAsync
+```
+
+It is also important to note in order for this per request timeout to be effective, the default timeout must be set to infinite. So `RestClient` by default will set the timeout of its internal `HttpClient` to: `System.Threading.Timeout.InfiniteTimeSpan` unless a different value is provided via the constructor.
+ RestClient's AddConnectionLeaseTimeout method
+ `AddConnectionLeaseTimeout` is confused.
+
+First of all, it doesn't **only** "add connection lease timeout".  It also adds to the collection of "all of the endpoints which this instance has sent a request to", which is returned by the public `Endpoints` property.
+
+Secondly, since you note correctly regarding `ServicePointManager.FindServicePoint(endpoint)` that "the method only cares about the host, schema and port everything else is ignored", then it is redundant to perform:-
+
+    ServicePointManager.FindServicePoint(endpoint).ConnectionLeaseTimeout = <value>;
+
+for each full URI.  It is only necessary to do this once for any URI's host+schema+port.  For some use cases of the `RestClient` class, this could result in a significant saving.
+
+Of course, you'd need a second, purely-internal `HashSet<Uri>` in which to record the shortened URIs on which you've set `ConnectionLeaseTimeout`.
+
+I am having difficulty understanding your point here. Can you kindly explain more?
+
+I am going to close this issue as I have not heard back from you. Feel free to re-open.
+
+@NimaAra - sorry, due to being crazy-busy at work, I've only had time to get round to this now.
+
+My main point is that finding a service endpoint and then setting its `ConnectionLeaseTimeout` value within the SPM for each and every full URI that `RestClient` talks to is potentially wasteful, since - as you say - "the method only cares about the host, schema and port everything else is ignored".
+
+So say the caller of `RestClient` talks to a single API whose base URI is `https://myapi.com/v1/` .  Say you hit this API a 1000 times.  `RestClient` will set `ConnectionLeaseTimeout` a 1000 times, but it only needs to do so once.
+
+
+This is not exactly how it works. `RestClient` is currently holding a cache of Uris to which it has previously sent a request. It is only when a new Uri does not exist in that cache the _SPM_ is set.
+
+So in your example, invoking the uri `https://myapi.com/v1/` a 1000 times only results in a single _SPM_ invocation.
+
+What is missing right now though is that given the following uris:
+
+`http://example.com/api/1` and `http://example.com/api/2`, the _SPM_ is set twice. What can be improved is to make the cache also aware of the following segments of the Uri:
+
+* `Uri.Scheme` e.g. _http_
+* `Uri.DnsSafeHot` e.g. _example.com_
+* `Uri.Port` e.g. _80_
+
+I have already started the work to address that part.
+
+> `http://example.com/api/1` and `http://example.com/api/2`, the SPM is set twice.
+
+Yes, that is what I meant, but didn't explain it well.  You could hit a 1000 _different_ URIs (i.e. different paths appended to the same base URI) and it would set `ConnectionLeaseTimeout` a 1000 times, whereas it only needed to once.  An extreme example, perhaps.
+
+Thanks for the fix.
+
+
+No problem. Thank you for bringing this to my attention. This should now be fixed as of [2.9.9](https://www.nuget.org/packages/Easy.Common/2.9.9).
+
+ RestClient vs gzip
+ Hi @NimaAra , as title,  does RestClient support gzip
+
+```csharp
+var defaultHeaders = new Dictionary<string, string>
+{
+   {"Accept", "application/json"},
+   {"User-Agent", "foo-bar"},
+   {"Accept-Encoding", "gzip" },  // <===================
+};
+
+using (IRestClient client = new RestClient(defaultHeaders, timeout: 15.Seconds()))
+{
+   // ....
+}
+```
+
+if it support gzip, how to unzip 
+thank you
+nevermind, I think I figured it out 
+```csharp
+var handler = new HttpClientHandler
+{
+   AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
+};
+
+using (IRestClient client = new RestClient(handler: handler))
+{
+   // ...
+}
+```
+
+ Adjust report column name
+  - remove duplicate report line;
+ Replacing NuGet link with badge in README
+ 
+ Calling SPM configuration helper from static ctor
+ 
+Excellent, thank you.
+
+ Real world production
+ Do  you use Easy.Common in real world production environments and projects ?
+Yes.
+
+ You probably want to memcmp instead of memcopy?
+ https://github.com/NimaAra/Easy.Common/blob/a685ce179531adcf386859355dbb694bb471f1eb/Easy.Common/Extensions/ByteExtensions.cs#L19
+ FQDN and Machine Name seem to be swapped when formatting the System report.
+ https://github.com/NimaAra/Easy.Common/blob/a685ce179531adcf386859355dbb694bb471f1eb/Easy.Common/DiagnosticReport/DiagnosticReport.cs#L396
+Thanks for the find, this has now been pushed to _NuGet_ as [v2.8.3](https://www.nuget.org/packages/Easy.Common/2.8.3)
+
+ [Clock] Unable to load DLL 'Kernel32.dll' on Linux
+ Hi thanks for this library, stumbled upon it recently and it's got some great stuff in there 👍 
+
+Just an issue I encountered with a .NET Core 2 app on a Raspberry Pi running Raspbian Linux (could be an issue on other linux distro's too?)
+
+```
+Unhandled Exception: System.DllNotFoundException: Unable to load DLL 'Kernel32.dll': The specified module or one of its dependencies could not be found.
+
+ (Exception from HRESULT: 0x8007007E)
+   at Easy.Common.NativeMethods.GetSystemTimePreciseAsFileTime(Int64& filetime)
+   at Easy.Common.Clock..ctor()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitCreateInstance(CreateInstanceCallSite createInstanceCallSite, ServiceProvider provider)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSite(IServiceCallSite callSite, TArgument argument)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitScoped(ScopedCallSite scopedCallSite, ServiceProvider provider)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitSingleton(SingletonCallSite singletonCallSite, ServiceProvider provider)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSite(IServiceCallSite callSite, TArgument argument)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.<>c__DisplayClass22_0.<RealizeService>b__0(ServiceProvider provider)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.GetService(Type serviceType)
+   at Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetService[T](IServiceProvider provider)
+   at MyApp.Program.<Main>d__1.MoveNext() in D:\Workspace\my-app-raspberry-pi\src\MyApp\Program.cs:line 33
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at MyApp.Program.<Main>(String[] args)
+```
+
+Basically when I build my Service Provider, the above error occurs, so it can't fall back to non precise time. I've worked around it by copying the `Clock.cs` source code in my project and using that without `GetSystemTimePreciseAsFileTime(out preciseTime);`. Am I missing a nuget package or is there some additional work required to not throw that error on startup?
+
+Cheers
+Thanks for reporting this.
+
+The issue has now been fixed as part of [v2.8.2](https://github.com/NimaAra/Easy.Common/releases/tag/Easy.Common-release-v2.8.2) and has also been pushed to _NuGet_ @ [Easy.Common-release-v2.8.2](https://www.nuget.org/packages/Easy.Common/2.8.2).
+
+Please validate.
+
+Yep it works now. Thank's for the quick turnaround.
+
+Hi, i am unable to use Kernel32.dll in Ubuntu  with a .NET Core 2.o(C# Console). Please help. And also i just install Easy.Common dll but no use. Thank you.
+
+![image](https://user-images.githubusercontent.com/36952287/38452092-8a4dfc8e-3a5a-11e8-9eed-d2af1f401599.png)
+
+
+@PNAVYAREDDY1 
+* What version of the library are you using?
+* What are you trying to do which causes the error?
+
+Am also facing the same issue, while creating a file am checking the safeFileHandle, there am importing this kernel32.dll. Local run i dont find any issue, i have published in docker container. When i run this through the container IP am getting the issue.
+
+  "errorMessage": "Unable to load DLL 'kernel32.dll': The specified module or one of its dependencies could not be found.\n (Exception from HRESULT: 0x8007007E)"
+
+
+  [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+        static extern SafeFileHandle CreateFile(string lpFileName, uint dwDesiredAccess, uint dwShareMode, IntPtr lpSecurityAttributes, uint dwCreationDisposition, uint dwFlagsAndAttributes, IntPtr hTemplateFile);
+
+ extending RestClient Interface to more closely match that of HttpClient
+ #8 #
+Probably not much to explain other than you might notice that a all of the new methods are not overloads 
+eg GetAsync(string uri) does not call into GetAsync(string uri, CancellationToken cancellationToken) with default parameters. My reason for this is that these methods call into HTTP client methods that are overloads and obviously the .net guys have set what those defaults are. I thought it made more sense to explicity use their defaults rather than setting my own (even if they would be the same). Hope that makes sense and let me know if you agree/disagree 
+Thanks for the _PR_ and the comprehensive tests. There are just a few minor bits I would encourage you to revisit.
+
+The code can be greatly reduced by basing every method (_PUT_, _DELETE_, etc) and overload on the `SendAsync` alone. Here is an example:
+```csharp
+        /// <summary>
+        /// Sends an HTTP request as an asynchronous operation.
+        /// </summary>
+        /// <exception cref="ArgumentNullException"/>
+        public Task<HttpResponseMessage> SendAsync(HttpRequestMessage message) 
+            => SendAsync(message, HttpCompletionOption.ResponseContentRead, CancellationToken.None);
+
+        /// <summary>
+        /// Sends an HTTP request as an asynchronous operation.
+        /// </summary>
+        /// <exception cref="ArgumentNullException"/>
+        public Task<HttpResponseMessage> SendAsync(HttpRequestMessage message, CancellationToken cToken) 
+            => SendAsync(message, HttpCompletionOption.ResponseContentRead, cToken);
+
+        /// <summary>
+        /// Sends an HTTP request as an asynchronous operation.
+        /// </summary>
+        /// <exception cref="ArgumentNullException"/>
+        public Task<HttpResponseMessage> SendAsync(HttpRequestMessage message, HttpCompletionOption option)
+             => SendAsync(message, option, CancellationToken.None);
+
+        /// <summary>
+        /// Sends an HTTP request as an asynchronous operation.
+        /// </summary>
+        /// <exception cref="ArgumentNullException"/>
+        public Task<HttpResponseMessage> SendAsync(HttpRequestMessage message, HttpCompletionOption option, CancellationToken cToken)
+        {
+            Ensure.NotNull(message, nameof(message));
+            AddConnectionLeaseTimeout(message.RequestUri);
+            return _client.SendAsync(message, option, cToken);
+        }
+        
+        /// You get the idea...
+        public Task<HttpResponseMessage> PutAsync(Uri requestUri, HttpContent content,
+            CancellationToken cancellationToken)
+        {
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Put, requestUri);
+            request.Content = content;
+            return SendAsync(request, cancellationToken);
+        }
+```
+
+You can take a look at the source of the [`HttpClient`](https://github.com/dotnet/corefx/blob/master/src/System.Net.Http/src/System/Net/Http/HttpClient.cs) for more details, in fact you can just repeat the pattern there.
+
+Cheers!
+
+
+Yeah happy to make those changes. My initial thoughts was to let the HttpClient implementation deal with the defaults for overloads but thinking about it, I doubt they are going to change that any time soon ;)
+
+Refactored all the methods apart from GetStringAsync, GetBytesAsync, GetStreamAsync as it seems silly to re do all the extracting of the stream, string, or byte array when the HttpClient does all that for us
+
+It appears your changes to the read me have ended up in my PR. I've no idea how that's happened. Let me know if you need to me take that out too
+
+hmm weird yeah please take the `README.md` out as well.
+
+ Extending Rest Client to expose more method on HttpClient so interfaces are more similar
+ Hello!
+
+I commented on your blog post about this and you suggested I should contribute, so here I am, hello :)
+
+Extending the class is simple enough, however I just wanted to get your thoughts on the IRestClient Interface. There is only one implementation in this library but could people have created their own implementations? Extending the interface could break their code which is not good.
+
+My plan b is implement the 'missing' methods as extension methods of IRestClient - this would then not break any existing implementations of IRestClient.
+
+What are you're thoughts?
+Good point, I doubt anyone would have created an implementation even though it is a perfectly reasonable assumption to make. Despite this, I prefer your enhancements to be added to the interface rather than extension methods.
+
+Thanks.
+
+Sounds good to me! I'll get a pull request in asap
+
+I'm trying to get the Unit tests running and I am having some issues. Is this anything you've experienced? Is there something particular I need to do?
+
+What is the issue?
+
+Its swapping between either not discovering the tests or the while trying to discover the tests the output window says there is an invalid operation exception
+
+I use the _Resharper_ test runner and/or _NCrunch_ to run the tests. I know that the project does not work with the _Visual Studio_ test runner.
+
+Alternatively you can point the _NUnit Console_ app to the test assembly and make sure the tests are passed.
+
+Cool I've used NCrunch and got them running. Without any of my changes I've got 7 tests failed:
+
+- ActiveDirectoryHelperTests
+
+     - When_getting_groups_for_the_current_user:
+`An exception was thrown in the Task Environment: System.Net.HttpListenerException (0x80004005): Access is denied
+   at System.Net.HttpListener.AddAllPrefixes()
+   at System.Net.HttpListener.Start()
+   at Easy.Common.Tests.Unit.RestClient.SimpleHttpListener.<ListenAsyncImpl>d__6.MoveNext()`
+
+EDIT: Removed the bit about the RestClientTests this was due to not running with admin rights. Still having issues with AD test but I'm not doing anything effecting that so it won't hold me up
+
+
+
+Yes `HttpListener` uses _HTTP.sys_ which requires you to either pre-register the _URL_ prefixes as explained [HERE](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/servers/httpsys#preregister-url-prefixes-and-configure-ssl) or run _VS_ as _Admin_.
+
+If you haven't modified the `ActiveDirectoryHelperTests` then submit the _PR_.
+
+Looking forward to it! :-)
+
+Excellent! Once again thank you for the _PR_, I will do a release with your changes in the next couple of days.
+
+No worries. I Enjoyed it. Hopefully I can contribute more in the future. Thanks for letting me help out!
+
+ Is it a better way?
+ Hi
+
+Thanks for the effort.
+
+I don't want to fiddle with ConnectionLeaseTimeout . So is it a better way to create a cache of httpclients based on base uri's. Each unique base uri will have it's own HttpClient. If we have 5 unique uri's we will have 5 items in the cache. URI is our key.
+
+Do you think this is a better approach?
+
+Thanks again!!!
+Okay, and what problem would that solve?
+
+I am closing this issue but feel free to continue your reply on this thread.
+
+ DiagnosticReport Throws System.NullReferenceException in PowerShell Core Beta 9
+ This is a great little library!
+
+My interest in this is related to PowerShell Core development (PowerShell Core is the .Net 2.0 App that can run on almost any OS, as opposed to Windows PowerShell, which is the .Net Framework App that comes installed on Windows by default). Right now, there are a lot of basic cmdlets missing from PowerShell Core (like Get-NetIPAddress for network info), and this report can help fill-in the gaps until the PowerShell community gets around to creating some of the missing cmdlets.
+
+Since PowerShell Core is a .Net 2.0 App, it should be able to load and use the netstandard2.0 assembly. I can load the assembly without issue, but running Generate() throws the below error:
+
+```
+PowerShell v6.0.0-beta.9
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+PS C:\Users\testadmin> Add-Type -Path "C:\Users\testadmin\.nuget\packages\Easy.Common.2.6.1\lib\netstandard2.0\Easy.Common.dll"
+PS C:\Users\testadmin> [Easy.Common.DiagnosticReport]::Generate()
+Unable to generate the Diagnostic Report. Error:
+        System.NullReferenceException: Object reference not set to an instance of an object.
+   at Easy.Common.DiagnosticReport.<AddProcess>g__Format17_1(String key, Object value, <>c__DisplayClass17_0& )
+   at Easy.Common.DiagnosticReport.AddProcess(StringBuilder builder)
+   at Easy.Common.DiagnosticReport.GenerateImpl(DiagnosticReportType type)
+   at Easy.Common.DiagnosticReport.Generate(DiagnosticReportType type)
+```
+
+(As an FYI, the net45 assembly works fine in Windows PowerShell 5.1 - i.e. the .Net Framework App).
+
+(Also, if you haven't worked with PowerShell Core before, you can grab an installer from here: https://github.com/PowerShell/PowerShell/releases)
+
+Thanks again for making this!
+Thanks for reporting this. Here are some questions for you:
+
+1. Is generating the report running on a NON .NET Core app on the same machine successful?
+2. Can you try generating the report on the same machine but this time running on a .NET Core app?
+
+Thanks.
+
+Regarding 1) yes, the report works fine on the non .Net Core App (i.e. .Net Framework App) Windows PowerShell 5.1.
+
+For 2), I can't actually load the .dll in the .Net Core App (i.e. PowerShell Core 6 beta 9), so I can't even attempt to generate a report. The error message when I try to load the netstandard2.0 .dll in PowerShell Core is in my original post. I think the stacktrace is pretty descriptive, but I haven't really done a deep dive into your code.
+
+Let me know if you have any other questions. Thanks again for looking at this!
+
+
+At this stage I am not at all interested in _PowerShell_, can you simply create a _.NET Core Console_ application and try generating the report. I just did the same and had no problem generating a report.
+
+The error which you have posted does not relate to _loading_ the dll, the dll has been loaded but the generation of the report seems to have problems; My hunch is _PowerShell Core_ perhaps does not support an _API_ which I am using to generate the report. Hence my request to try this with a working _.NET Core_ app rather than using _PowerShell_.
+
+You should be able to create a _.NET Core Console_ app and reference the _NuGet_ package which will use the _NetStandard2.0_ dll.
+
+You're right, about the dll loading. I wasn't thinking.
+
+Creating a .Net Core Console App does, indeed, work.
+
+Oh well, maybe I'll dig into `Easy.Common.DiagnosticReport.<AddProcess>` at some point and inspect further.
+
+Yeah I suspected the problem would be coming from incomplete _API_ in _PowerShell Core_. I am closing this for now as there is not much I can do but feel free to reopen once you have it investigated.
+
+This should now be fixed in: [v2.6.7](https://github.com/NimaAra/Easy.Common/releases/tag/Easy.Common-release-v2.6.7). Please try again and report back if still a problem.
+
+ DiagnosticReport report in json format
+ I love the idea behind the DiagnosticReport but would it be possible to return in a JSON string rather than a "prettified" report? I love all the information but my logging system wouldn't take in that very well as a preformatted string.
+
+Thanks.
+I am not too keen on returning _JSON_ what I can do for you however, is return a rich _object_ instead of `string` whose `ToString()` returns the current _prettified_ report; You can then choose to serialize the object however you see fit.
+
+How does that sound?
+
+I have a function somewhat similar to this and I return a string that is json inside it. See below. (I've censored/removed anything sensitive.) (I also return with the json inside not prettified, i just prettified it below so you can easily see how the sections/data can be nested).
+
+```
+{
+	"CommandLine": "c:\\windows\\system32\\inetsrv\\w3wp.exe -morestuff",
+	"CurrentDirectory": "c:\\windows\\system32\\inetsrv",
+	"CurrentManagedThreadId": "63",
+	"Is64BitOperatingSystem": "True",
+	"Is64BitProcess": "True",
+	"MachineName": "serverNameHere",
+	"OSVersion": "Microsoft Windows",
+	"ProcessorCount": "2",
+	"UserDomainName": "DOMAINNAME",
+	"UserName": "server_name",
+	"Version": "4.0.30319.42000",
+	"ServerCurrentTime": "1/1/2011 1:11:11 PM",
+	"SystemUptime": "1.11:11:11.11111111",
+	"ScriptTimeout": "00:11:11",
+	"Trust Level": "Unrestricted",
+	"EnvironmentVariables": {
+		"ALLUSERSPROFILE": "C:\\ProgramData",
+		"APP_POOL_ID": "app",
+		"APPDATA": "C:\\Windows\\system32\\config\\systemprofile\\AppData\\Roaming",
+		"CommonProgramFiles": "C:\\Program Files\\Common Files",
+		"COMPUTERNAME": "serverNameHere",
+		"ComSpec": "C:\\Windows\\system32\\cmd.exe",
+		"FP_NO_HOST_CHECK": "NO",
+		"NUMBER_OF_PROCESSORS": "8",
+		"OS": "Windows_NT",
+		"Path": "C:\\Windows\\system32;C:\\Windows;C:\\Windows\\System32\\Wbem",
+		"PATHEXT": ".COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC",
+		"PROCESSOR_ARCHITECTURE": "AMD64",
+		"PROCESSOR_IDENTIFIER": "Intel64 Family 6 Model 45 Stepping 2, GenuineIntel",
+		"PROCESSOR_LEVEL": "6",
+		"PROCESSOR_REVISION": "2d02",
+		"ProgramData": "C:\\ProgramData",
+		"ProgramFiles": "C:\\Program Files",
+		"ProgramFiles(x86)": "C:\\Program Files (x86)",
+		"ProgramW6432": "C:\\Program Files",
+		"PSModulePath": "C:\\Windows\\system32\\WindowsPowerShell\\v1.0\\Modules\\",
+		"PUBLIC": "C:\\Users\\Public",
+		"SystemDrive": "C:",
+		"SystemRoot": "C:\\Windows",
+		"TEMP": "C:\\Windows\\TEMP",
+		"TMP": "C:\\Windows\\TEMP",
+		"USERDOMAIN": "DOMAINNAME",
+		"USERNAME": "username$",
+		"USERPROFILE": "C:\\Windows\\system32\\config\\systemprofile",
+		"windir": "C:\\Windows"
+	},
+	"ServerProcessor": {
+		"Number of Processors": "8",
+		"Processor Id": "Intel64 Family 6 Model 45 Stepping 2, GenuineIntel",
+		"Processor Type": "255",
+		"Processor Level": "8",
+		"Processor OEM Id": "9",
+		"Page Size": "4096"
+	},
+	"MemoryInfo": {
+		"CurrentWorkingSet": "1,206.05 MB",
+		"Physical Memory Size": "4,095.55 MB",
+		"Physical Free Memory Size": "23 bytes",
+		"PageFile Size": "3,480.06 MB",
+		"Available PageFile Size": "2 bytes",
+		"Virtual Memory Size": "4,095.55 MB",
+		"Available Memory Size": "27 bytes",
+		"Memory Load": "88.00 %"
+	},
+	"Session": {
+		"SessionToken1": "SomeData"
+	}
+}
+```
+
+I understand but I do not want the library to concern itself with any serialization logic hence my suggestion for a rich object which you can serialize and get the similar format you have pasted.
+
+Perhaps that would work then? So your rich object would contain the different sections in them and I could enumerate through to format appropriately?
+
+It will be something like:
+
+```csharp
+
+public sealed class Report
+{
+	public KeyValuePair<string, string>[] System { get; set; }
+	public KeyValuePair<string, string>[] Process { get; set; }
+	public AssemblyDetail[] Assemblies {get; set;}
+	...
+}
+
+public sealed class AssemblyDetail
+{
+	public string Name { get; set; }
+	public bool IsGAC { get; set; }
+	...	
+}
+```
+
+That would be perfect! For the more complex ones, feel free to use string[] or nested Dictionary<string, string> for multiple values coming back.
+
+Okay, cool. Leave it with me and I will add it in the next release hopefully by next ~~_Monday_~~ week.
+
+Awesome! This is exactly what I came to the Issues section to see (I'm /u/fourierswager on reddit). Thanks again for creating this!
+
+This is now available in: [v2.6.7](https://github.com/NimaAra/Easy.Common/releases/tag/Easy.Common-release-v2.6.7)
+
+ easy
+ 
+ How do you test this RestClient ConnectionLeaseTimeout behavior?
+ Hi,
+
+Sorry to use this Issues channel as I didn't see any other ways to communicate. I am not using this library directly but I need to set this ServicePointManager.ConnectionLeaseTimeout property. However in my test environment it doesn't work as expected. Do you have any experience on this one? like how to verify behavior?
+
+Thanks
+Chunyuan
+
+Hi,
+
+Take a look at [THIS](http://naeem.khedarun.co.uk/blog/2016/11/30/httpclient-dns-settings-for-azure-cloud-services-and-traffic-manager-1480285049222).
+
+Alternatively you can do an integration/end-2-end test by setting up a test environment on Azure.
+
+Hope this helps.
+
+Based on what you observed, so even though there're active transaction though this singleton http client, the physically connection will always be reset in every 1 minute? Per  MSDN, client will add NO keep-alive in http header, is that true? or it's a TCP level close action?
+
+ I was testing locally against another service hosted in Azure however I didn't see the connection(TCP) get reset even though the DnsRefreshTimeout and ConnectionLeaseTimeout are set to 5 seconds. There is another property called MaxIdleTime in ServicePoint works after being inactive for 100 seconds (default) . 
+
+So I am not sure whether the ConnectionLeaseTimeout is really working.
+
+ Support types with get only or set only properties
+ Moreover explicitly throw an exception if the user tries to get/set through a property that doesn't have the respective get/set property.
+ TryParseAsBool should not throw if the input is an empty or white-space string
+ Currently the [method](https://github.com/NimaAra/Easy.Common/blob/master/Easy.Common/Extensions/StringExtensions.cs#L79) is checking if the given input is not Null, Empty or Whitespace, this should be changed to only check for Null.

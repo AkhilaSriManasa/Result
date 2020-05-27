@@ -1,0 +1,81 @@
+﻿ Release v2020.05.03
+
+Signed-off-by: Haru <haru@dotalux.com>
+ Merge pull request #2188 from bWolfie/cell_noskill
+
+Adds 'cell_noskill' which blocks skill usage.
+ Merge pull request #1304 from inhyositsu/master
+
+Fix some skills bugs
+ HPM Hooks Update
+
+Signed-off-by: HerculesWSAPI <dev@herc.ws>
+ Merge pull request #2710 from MishimaHaruna/fix-skill-idx
+
+Fix skill idx
+ Merge pull request #2062 from AnnieRuru/36-PCBLOCK_COMMANDS
+
+Fix *atcommand cannot be use when PCBLOCK_COMMANDS is true
+ Merge pull request #2696 from Kenpachi2k13/sc_nochat_fix
+
+Make SC_NOCHAT gets affected by battle config changes
+ HPM Hooks Update
+
+Signed-off-by: HerculesWSAPI <dev@herc.ws>
+ Merge pull request #2695 from 4144/updatepackets
+
+Update packets up to 2020-04-14
+ Add Assert_report to generate a backtrace on any skill_get_index failures
+
+Signed-off-by: Haru <haru@dotalux.com>
+ Sanitize the use of the enum e_skill_flag values, especially SKILL_FLAG_REPLACED_LV_0
+
+This ensures that a negative level is never saved to the database and
+hopefully helps catching any coding errors that would lead to that.
+
+Signed-off-by: Haru <haru@dotalux.com>
+ Refactor the Bard/Dancer Soul Link temporary skill granting code
+
+The code no longer relies on invalid assumptions about the mapping between skill IDs and indices
+
+Fixes #2670
+
+Signed-off-by: Haru <haru@dotalux.com>
+ Add packet ZC_LAPINEUPGRADE_RESULT
+ Add packet CZ_LAPINEUPGRADE_MAKE_ITEM (unimplimented)
+ Add packet CZ_LAPINEUPGRADE_CLOSE
+ Add packet ZC_LAPINEUPGRADE_OPEN
+ Fix security check in lapin ack packet handler
+ Update packet keys and shuffle packets
+ Use enum spirit_charm_types for charm type field
+ Add missing functions for name ack packets
+ Dont validate packet in login_char_server_connection_status
+
+This will hide packet error on wrong password between login and char servers.
+ Improve warnings in skill_get_index, to detect the use of unhandled skill ranges
+
+Signed-off-by: Haru <haru@dotalux.com>
+ Make the skill_get_index function easier to understand by using a struct for the ranges
+
+Signed-off-by: Haru <haru@dotalux.com>
+ Merge pull request #2680 from Zarbony/doc-mob_skill_db.conf
+
+New Doc: mob_skill_db.conf
+ Constants Documentation Sync
+
+Signed-off-by: HerculesWSAPI <dev@herc.ws>
+ HPM Hooks Update
+
+Signed-off-by: HerculesWSAPI <dev@herc.ws>
+ Merge pull request #2691 from Kenpachi2k13/mob_skill_db
+
+Extend and clean up monster skill DB code
+ Merge pull request #2693 from Kenpachi2k13/pet_ai_fix
+
+Fix conditions for calling pet_ai_sub_hard()
+ Merge pull request #2690 from Kenpachi2k13/operator_use_fix
+
+Fix usage of *= operator
+ Constants Documentation Sync
+
+Signed-off-by: HerculesWSAPI <dev@herc.ws>

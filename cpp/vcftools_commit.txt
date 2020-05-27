@@ -1,0 +1,71 @@
+﻿ Merge pull request #151 from ravihansa3000/master
+
+Fix regex used to check *.gz file extension
+ Fix regex used to check *.gz file extension
+ Update header.cpp
+
+Catch malformed headers with no data.
+ Merge pull request #132 from mssalvatore/format-filter-typo
+
+Fix FORMAT/FILTER typo in add_FILTER_descriptor()
+ Fix FORMAT/FILTER typo in add_FILTER_descriptor()
+
+The warning log message in add_FILTER_descriptor() states, "Expected at
+least 2 parts in FORMAT entry". Correct "FORMAT" to "FILTER".
+ Fix FORMAT/FILTER typo in add_FILTER_descriptor()
+
+The warning log message in add_FILTER_descriptor() states, "Expected at
+least 2 parts in FORMAT entry". Correct "FORMAT" to "FILTER".
+least 2 parts in FORMAT entry". Correct "FORMAT" to "FILTER".
+ Update vcftools.1
+ Update .tarball-version
+ Update vcf_file.cpp
+
+Remove error code 0
+ Update vcf_entry.cpp
+
+Remove error code 0
+ Update variant_file_output.cpp
+
+Remove error code 0
+ Update entry_filters.cpp
+
+Remove error code 0
+ Update bcf_file.cpp
+
+Remove error code 0
+ Update bcf_entry.cpp
+
+Remove error code 0.
+ Update parameters.h
+
+Set default error code to 1.
+ Update entry.cpp
+
+Replace exit statements with errors.
+ Update bcf_file.cpp
+
+read_size must be positive. (Possibly this should actually error if encountered.)
+ Update vcf_file.cpp
+
+Check header line is of valid length.
+ Update bcf_entry_setters.cpp
+
+Add check on number of alleles.
+ Increment version number
+ Update .tarball-version
+ Just warning, don't fail, if tokens don't meet expectations.
+ Additional tokenize checks
+
+In reference to https://github.com/vcftools/vcftools/issues/109#issuecomment-406562590
+ Added error if entries fail length expectations.
+
+In response to CVEs (c.f. https://github.com/vcftools/vcftools/issues/109#issuecomment-406562590)
+ Merge pull request #106 from soybase/issue/vcf-haplotypes
+
+Fix usage & set executable bit for vcf-haplotypes
+ Fix usage & set executable bit for vcf-haplotypes
+ Fix chr naming convention. Resolves #98
+ Fix validator for Number Remove email address.
+ Minor log file fix.
+ Check for LAPACK if requested.

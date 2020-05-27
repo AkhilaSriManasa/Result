@@ -1,0 +1,1547 @@
+﻿ Fix typo in README.md
+ Hey,
+
+This tiny PR will fix : 
+
+- 1 typo in `README.md`
+
+
+
+Bye! :robot:
+ Remove buck
+ Removing buck files. Keeping the open source project to only one build system. If we fully move to BUCK we should remove gradle. But for now it is gradle compatible.
+why?
+
+@ttung I updated the description. We don't want to have a confusing setup for open source contributors where we have both BUCK and gradle lingering around. For now it is gradle compatible :)
+
+ Adding Code of Conduct file
+ This is pull request was created automatically because we noticed your project was missing a Code of Conduct file.
+
+Code of Conduct files facilitate respectful and constructive communities by establishing expected behaviors for project contributors.
+
+This PR was crafted with love by Facebook's Open Source Team.
+ Adding Contributing file
+ This is pull request was created automatically because we noticed your project was missing a Contributing file.
+
+CONTRIBUTING files explain how a developer can contribute to the project - which you should actively encourage.
+
+This PR was crafted with love by Facebook's Open Source Team.
+ Replacement of "compile" with "implementation"
+ As "compile" is going to be deprecated end-2018, this PR replaces with "implementation" that is the new usage.
+@kangzhang @tkieft 
+
+
+ Filter token expansion for serializeCodeFormatter
+ This PR prevents `JsonType.serializeCodeFormatter` from expanding collection- or field-specific tokens supported by `JsonField.serializeCodeFormatter`, and prevents `JsonField.serializeCodeFormatter` from expanding the generic `${subobject}` token.
+
+This is a big semantic change for code formatters. Previously, code formatters did not need to be opinionated about which tokens they would accept. Now, they do. So a simple `String` no longer works: an object is required to keep track of which tokens are valid. Therefore, all code formatter strings have been changed into `CodeFormatter` instances.
+thanks for putting this up, looks great! 
+
+ Add subobject name serializer param
+ Adds a `${subobject}` parameter for `serializeCodeFormatter`. For objects, this parameter is equivalent to `${object_varname}.${field_varname}` in a field context, or `${iterator}` in a collection context.
+
+This is much needed by the interface PR; without a feature like this, it's impossible to write one `serializeCodeFormatter` that can be used in both collections and field references.
+
+If a better name is possible for this parameter, it can easily be extended to scalars, since the idea is the same. But with the name `${subobject}`, those did not seem to be appropriate semantics.
+
+This PR also includes a fix in import generation in `JsonParserClassData.getJsonCode` that was breaking list references in the test code.
+Looks good! Per offline discussion, we may want to differentiate the `serializeCodeFormatter`'s behavior in JsonType and JsonField to avoid some potential confusion. It can be tracked separately. 
+
+ Add annotation imports
+ Another small feature addition while i'm ramped up on this codebase.
+
+This adds two parameters to `@JsonType`: `imports`, and `calleeImports`.
+
+`imports` is straightforward: anything in `imports` goes into the imports section in generated code. This helps clean up custom code specified in `@JsonField`:
+
+```
+@JsonType(imports = "java.util.Formatter")
+public class ImportsUUT {
+
+    @JsonField(fieldName = "string_field",
+            valueExtractFormatter =
+                "new Formatter().format(\":%%s\", ${parser_object}.getText()).toString()")
+    public String mStringField;
+}
+```
+
+`calleeImports` is the same thing, but for custom code specified on `@JsonType`. The usage is clearer than the mechanism, so here's a usage example:
+
+```
+@JsonType(
+    valueExtractFormatter = "CalleeImportsCompanionUUT__JsonHelper.parseFromJson(${parser_object})",
+    calleeImports = {
+        "com.instagram.common.json.annotation.processor.parent.CalleeImportsCompanionUUT__JsonHelper"
+    })
+public class CalleeImportsUUT {
+  @JsonField(fieldName = "string_field")
+  public String mString;
+}
+```
+
+These imports are needed whenever the `valueExtractFormatter` is used, so they are added in generated classes that refer to this class.
+I like this API, it will make code easier to read. A couple thoughts:
+
+1) maybe `formatterImports` v.s. `helperImports/imports` (wondering how we can make it easier to understand)? 
+2) not sure if it's possible in Annotation, but the javapoet API which references class directly(as opposed to String), feels more refactor friendly. E.g. is something like following possible at all?
+
+```
+JsonType(
+  formatterImports = [DateTime.class];
+)
+```
+
+1. I like `s/calleeImports/formatterImports/`. I can clarify the docs with that name, too, I think.
+2. :+1: I thought `String` would make static imports possible, but it doesn't.
+
+Here's my revised documentation:
+
+```
+   * Additional imports to include in generated code for this class. These imports are visible
+   * from formatter code on {@link JsonField}.
+   * They will not be visible from formatters on {@link JsonType}.
+   *
+   * <p>These imports will be unconditionally added to this class's generated JsonHelper.</p>
+   */
+  String [] imports() default {};
+
+  /**
+   * Additional import to include in generated code that refers to this class. These imports are
+   * visible from formatter code on {@link JsonType}. They will not be visible from formatters
+   * on {@link JsonField}.
+   *
+   */
+  String [] formatterImports() default {};
+```
+
+Writing this documentation, the thought occurred to me that the names `fieldImports` and `typeImports` might be clearer. 
+
+Unfortunately, the `Class<?>` type will not work. Classes are not available at annotation processing time. (writing `ClassName.class.getName()` in the annotation won't work, either)
+
+gotcha, thanks for digging into it! 
+
+perhaps we could add some sanity check for the string to make sure it's valid import statement, wondering if the compile error will be harder to read otherwise. 
+
+i can merge as it is, but looks like there are merge conflicts. could you rebase this one to master?
+
+
+`JavaWriter` already sanity checks those strings for us. Not perfect, but this will get errored out at annotation processing time. Example error message: 
+
+```
+12:32:37.072 [ERROR] [system.err] warning: ERROR: annotation exception: java.lang.IllegalArgumentException: com   .instagram.common.json.annotation.processor.parent.TypeFormatterImportsCompanionUUT__JsonHelper cause: java.lang.IllegalArgumentException: com   .instagram.common.json.annotation.processor.parent.TypeFormatterImportsCompanionUUT__JsonHelper
+
+...[giant obscure stack trace from JsonParserClassData]...
+```
+
+
+Looks great, thanks for all unit tests! 
+
+ Add the ability for serializers/parsers to refer to interfaces
+ Per discussion on #50, here is a dramatically stripped down implementation. 
+
+This adds support for `serializeCodeFormatter` on `JsonType` for all types, and allows `JsonType` to annotate interfaces. Interfaces will not generate a JsonHelper implementation, but they can be referred to by other parsers.
+Putting this up for discussion, but I plan on adding example code for the easier scenarios we discussed. The test code goes with the simplest scenario — using a default implementation, but only exposing an interface API.
+
+Okay, I think I'm totally happy now. Some nontrivial changes in response to your remarks, so I will wait for a thumbs up before a merge.
+
+Note that I've included my pet dynamic dispatch code, but it's all living in test. So now I'm sure that this API will work for my use case, I've made the thing that I will need, and other people can use it if they like, too. 
+
+(let me know if you need help to merge this, I'm assuming you have the access to merge button)
+
+I do not. Halp
+
+ Add support for serializing/deserializing interfaces
+ This PR adds support for serializing objects from an interface reference. Using this, you can serialize out e.g. a list of heterogenous object types.
+
+## Using the Public API
+
+Say you have a field that refers to an instance of `MyInterface`. 
+
+```
+@JsonType
+public class MySerializableObject {
+  @JsonField(fieldName = "my_interface")
+  MyInterface mMyInterface;
+}
+```
+
+First step is to add a method to the interface to return the type name:
+
+```
+@JsonType
+public interface MyInterface {
+  @JsonTypeName
+  String getTypeName();
+}
+```
+
+Then in your implementation of that interface, you yield the type name:
+
+```
+@JsonType
+public class MyImplementation implements MyInterface {
+  public static final String TYPE_NAME = "MyImplementation";
+  @Override
+  public String getTypeName() {
+    return TYPE_NAME;
+  }
+}
+```
+
+Then before you serialize, you register a serialization handler with the generated code:
+
+```
+MyInterface__JsonHelper.registerHandler(
+  MyImplementation.TYPE_NAME,
+  new JsonSerializationHandler<MyInterface>() {
+    @Override
+    public void serializeToJson(JsonGenerator generator, MyInterface object)
+                      throws IOException {
+      MyImplementation__JsonHelper
+          .serializeToJson(generator, (MyImplementation)object, true);
+    }
+    public MyInterface parseFromJson(JsonParser parser) throws IOException {
+      return MyImplementation__JsonHelper.parseFromJson(parser);
+    }
+  });
+```
+
+With that, `MySerializableObject` can successfully serialize and deserialize:
+
+```
+String json = MySerializableObject__JsonHelper.serializeToJson(object);
+MySerializableObject deserialized = MySerializableObject__JsonHelper.parseFromJson(json);
+```
+
+## Under the Hood
+
+Not seen above is the JSON representation. For this to work, the type has to be represented in the serialized JSON. Not only that, but some ordering must be guaranteed if we want to go with the existing single-pass parse style. This is because we must read in the type first before we dispatch to that specific type's parser.
+
+The only JSON aggregate that guarantees ordering is the list. So interfaces are represented as lists, where the first entry is the type information, and the second entry is the object data:
+
+```
+[
+  "InterfaceImplementationUUT",
+  {
+    "stringField":"testValue"
+  }
+]
+```
+cc: @kangzhang @tkieft 
+
+Almost forgot. Here's a link to example generated source: [https://gist.github.com/jingibus/b877e28c376cc64b5b77ac7328e8214c](https://gist.github.com/jingibus/b877e28c376cc64b5b77ac7328e8214c)
+
+hey @jingibus, thanks for putting up the PR! 
+
+The logic looks solid but the API diverge a bit from our current design: we are trying to have more work done in compile time and avoid centralized bottleneck that may not scale well when the number of types increases(e.g. the `registerHandler` logic). 
+
+May I know more about the problem that you are trying to solve so that we can explore the best solution for it? E.g. Is it mostly for heterogenous types or you have some other constraint?
+
+If it's just for heterogenous types, wondering if you have tried using custom serializer & 
+deserializer(which the library already support) and how does it work for you usecase? E.g.
+ 
+
+```
+
+interface Bar {
+}
+
+@JsonType
+class Foo {
+  @JsonField(valueExtractFormatter="BarDeserializer", serializeCodeFormatter="BarSerializer")
+  Bar bar;
+}
+```
+
+Thanks for taking the time to consider these changes! Here's a tl;dr version of the problem: 
+
+I work on a module that needs to be able to serialize objects that are passed in from client modules. These objects need to store the client module's data, so our module can't refer to their serializers statically.
+
+I'll go into more detail on the problem in a second, but first, to address your concerns:
+
+1. I do not believe that this can be achieved with static references. If client code depends on our code to store its objects, and we then have a static reference to the client serialization code, a circular reference is created. So I believe that some runtime dispatch is required.
+2. For performance, two points:
+  a. This is not going to perform as well as the existing statically dispatched parse graph. That's just how it is. There are a lot of tools we use that don't perform as well as other tools. I think it's enough overhead to wire up that people will at least not blindly use it, though.
+  b. I am skeptical of the claim that a `HashMap` with a `String` key will not scale. Maybe I have more to learn about the kinds of scale folks are putting this library through. If this is a serious concern, though, we can talk about addressing it.
+3. Custom serializers and deserializers do work. That was how I implemented my prototype. This approach is better than that one in a couple of ways:
+  a. This is more elegant. With a custom serializer/deserializer, you have to have a different bit of code for a field reference vs. a Map reference vs a List reference, etc. Here, you define the code for the interface, and everywhere you use the interface it Just Works.
+  b. Other people who are in the same situation I'm in won't have to reinvent this wheel.
+
+Okay, now the longer explanation. I work on a module in an Android app, we can call the module Arthur, that has a serialized object store at its heart. A client makes a request, the request goes into Arthur's store, and at some later date the request is serviced. This is currently based on ig-json-parser.
+
+Each client that depends on Arthur needs to stash their own client-specific data in the store. The way we handle this right now is that each client adds a reference to the data they need inside the store's main model object.
+
+This is causing two problems:
+
+1. The main model object is getting more and more cluttered
+2. Client logic is started to accumulate in Arthur
+
+To cut Arthur away from the clients, clients have to be able to build their own objects and save them in our store. Right now, that's not possible in a graceful way.
+
+
+
+Cool, yeah, if you need to avoid the dependency from the model Interface to the model implementation, some runtime registration is necessary.
+
+The current solution ties a bit too close to your current approach(the idea to use runtime binding, the idea to separate model interface and model implementation, the idea to do lookahead parsing). I hope the framework could be flexible on these decisions and allow people to make their own choices. Different approaches could be provided as patterns(e.g. we can provide documentation and examples following your approach) instead of features.
+
+It looks like custom serializer and deserializer can get you almost there, except that we have to duplicate the annotations(and properties) between different reference point of `ModelInterface`.  
+
+To fix the problem, I'm wondering if we could just support interface as `JsonType` and allow(/require) people to provide custom serializer and deserializer for it. E.g.
+
+```
+
+@JsonType(
+  valueExtractFormatter = "BarHelper.read(jsonParser)",
+  serializeCodeFormatter = "BarHelper.write(jsonParser)"
+)
+interface Bar{
+}
+```
+
+This way the serializer and deserializer values don't have to be repeated in different `@JsonField` annotations. 
+
+The runtime binding logic will be moved to `BarHelper`. If people can afford hard referencing to the implementation class, they can avoid the runtime binding as well. 
+
+Similarly, the lookahead parsing will also be optional/configurable. 
+
+The other unspoken benefit is performance and cleanness. The `Bar__JsonHelper` we generate will be virtually a pointer to the actual implementation. Sophisticate post processing tools(proguard/dexguard/redex) can likely remove these classes and functions which means almost zero overhead introduced.  
+
+Thoughts?
+
+You have a good point about configurability. I think that proposal should be easy enough to add to the PR. Would it make sense to respect that attribute everywhere, not just in interfaces? At a glance, I don't see why not.
+
+Now: should there be an out-of-the-box implementation, or not? If the library shouldn't have one, then the quality of this implementation is beside the point. Here's why I think it would be good to have one:
+
+This is a non-trivial integration. This scenario can't be solved by any programmer without at the very least serializing out the type name and reading it in from JSON. They don't have to do it this way, of course, but they must decide on an object format, they must figure out how to use Jackson's JsonGenerator to save it out, and they must figure out how to use JsonParser and the JsonHelper API style to read it back in. They must also implement some kind of type dispatch.
+
+So this is an integration that requires reaching much further under the hood and building more moving pieces than you need for, say, enums. The API will be useless without an implementation, and the example code will have a lot of boilerplate. The implementation can always be omitted if `valueExtractFormatter` etc are provided on `@JsonType`, of course.
+
+Re: this implementation, one minor point: I think this is just a terminological issue, but for the sake of clarity: there is no lookahead in this implementation. Dispatch is implemented the exact same way the current parser handles field parsing: by reading in a string from the JSON stream, and then using that string to choose the parsing code to switch over to. The difference is that this format is implementation-specific, while the field format is a JSON standard.
+
+Ah, sorry that I overlooked the sample JSON payload and thought you were using lookahead parsing. You are right, it's still streaming!
+
+I might be biased since I know how the code generation works internally, but it does feel like some thing that can be reused thru patterns and helper classes easily. I might be missing something, but I'm not sure if code generation logic is necessary to make all this possible. E.g. following code could almost achieve the same thing?
+
+```
+// in priviate module, which we don't want people to reference to
+@JsonType
+class BarA implements Bar{
+}
+
+@JsonType
+class BarB implements Bar {
+}
+
+@JsonType
+class BarWrapper{
+  @JsonField("fooBar")
+  BarA mBarA;
+
+  @JsonField("barFoo")
+  BarB mBarB;
+
+  Bar getBar() {
+    if (mBarA) {
+      return mBarA;
+    }
+    return mBarB;
+  }
+}
+
+// in public module
+@JsonType(
+  valueExtractFormatter = "BarWrapper__Helper.read(jsonParser).getBar()",
+  serializeCodeFormatter = "BarWrapper__Helper.write(jsonParser)"
+)
+interface Bar{
+}
+```
+
+The other feedback is that I still think the proposed approach is too tied to your specific use case. Maybe a few examples(in my imagine) could illustrate things better:
+
+1) when there is an 1 to 1 mapping between interface and model, and people just want to hide the model implementation. 
+
+```
+// package visibility, external classes can't access
+@JsonType
+class BarImpl {}
+@JsonType(
+  valueExtractFormatter = "BarImpl__Helper.read(jsonParser)",
+  serializeCodeFormatter = "BarImpl__Helper.write(jsonParser)"
+)
+interface Bar{
+}
+```
+
+2) when people wants to use lookahead parsing to handle heterogenous types. 
+
+In these cases, the payload structure will be different from your proposal here. 
+
+I think supporting interface is going to be useful and will unblock all these use cases. Instead of supporting all of them in ig-json-parser, I'm more leaning towards letting developers to decide for now. If we do see one or many use cases to appear a lot, we can revisit and build support in ig-json-parser? Happy to discuss more. 
+
+Interesting. From a data standpoint, for my scenario, this does work:
+
+```
+package com.uber.android;
+
+@JsonType
+class CarRequest implements Request {
+}
+
+package com.foursquare.android;
+
+@JsonType
+class RestaurantRequest implements Request {
+}
+
+package com.requestqueue;
+
+@JsonType
+class RequestWrapper {
+  @JsonField("fooBar")
+  CarRequest mBarA;
+
+  @JsonField("barFoo")
+  RestaurantRequest mBarB;
+
+  Bar getBar() {
+    if (mBarA) {
+      return mBarA;
+    }
+    return mBarB;
+  }
+}
+
+package com.requestqueue;
+
+@JsonType(
+  valueExtractFormatter = "RequestWrapper__Helper.read(jsonParser).getBar()",
+  serializeCodeFormatter = "RequestWrapper__Helper.write(jsonParser)"
+)
+interface Request {
+}
+```
+
+If this were a public library, then obviously this would break. But it's not, so it can probably work.
+
+There's one more thing the dynamic implementation enables that this does not, though, which is freedom for callbacks. `CarRequest` cannot have any code that calls back into the `requestqueue` system here. This would be very nice to have for my scenario, as it opens up the API design a bit.
+
+I'm sold that your proposed API is useful enough on its own. One last counterproposal:
+
+My implementation can be modified to avoid code generation and hook into your proposed mechanism. The result would be two files: a `DynamicDispatch<T>` class that would contain the code that's currently generated, and a `TypeNameProvider` interface with at `getTypeName` that would take the place of the `JsonTypeName` attribute. And then it could be wired up like so:
+
+```
+public class RequestHelper {
+  public static final DynamicDispatch<Request> DISPATCH = new DynamicDispatch<>();
+  ...
+}
+
+@JsonType(
+  valueExtractFormatter = "RequestHelper.DISPATCH.read(jsonParser)",
+  serializeCodeFormatter = "RequestHelper.DISPATCH.write(jsonParser)"
+)
+interface Request {
+}
+```
+
+I'll go ahead and make the change to strip out the existing generated code in favor of the `valueExtractFormatter`/`serializeCodeFormatter` API.
+
+The new approach is sufficiently different that I'm going to close this PR. I'll have a new one up soon.
+
+ list jackson as dep of the annotation processor
+ to fix the dependency issue caused by gradle 4.0 upgrade
+
+tested with https://gist.github.com/kangzhang/ad2b99d5ea2e492370efc09707fa40f0
+ upgrade the demo project to Android studio 3
+ 
+ using with annotationProcessor from android studio 3.0
+ Hi,
+
+In the new version of gradle, the 'android-apt'-pligin is no longer compatible.
+
+now you have to user 'annotationProcessor' instatof 'apt'
+
+so far so good. 
+
+I do the folowing:
+
+1) Remove the class path for the apt from the build.gradle (Project: MyApplication)
+`classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'`
+
+2) Remove the plug in from the build.gradle (Module: app)
+`apply plugin: 'android-apt'`
+
+3) Change the dependencies from apt to the new annotationProcessor
+`annotationProcessor 'com.github.instagram.ig-json-parser:processor:master-SNAPSHOT'`
+
+gradle sync workes so far but the *__JsonHelper are not beeing generadet anymore!
+
+Help?
+hey André, I just took a look of the issue and tried to reproduce it on my end. I did hit some dependency issues but after fixing that everything seems working fine.
+
+I've committed fixes for the deps issue and included some instructions in the ReadMe file about Android Studio 3.0+ integrations. Could you give it a try and let me know if it works for you now? 
+
+P.S.
+
+Make sure you use `--refresh-dependencies` when you rebuild the project, otherwise the cached artifacts from jitpack may confuse gradle. 
+
+it workes
+nice job
+
+cool, closing! 
+
+ Update README.md
+ include jitpack instructions
+ add jitpack support
+ Switch from maven to jitpack, which is easier to manage. 
+Test plan:
+
+cd jitpack-example; gradle assemble
+
+ Update README.md to include build status
+ 
+ Update the CI config to switch to jdk 8
+ Looks like jdk7 is no longer supported, let's switch to jdk8. travis-ci/travis-ci#7884
+Kang
+
+Also, I think you're pretty much on your own here.  YOLO MERGE.
+
+Yeah, let's wait for the CI result. lol
+
+WTF.  Kang makes no mistakes.
+
+ Support upcoming "source abi" feature of Buck
+ 
+I think @tkieft or @Kang need to approve this. 
+
+The changes look good! I'll try merging this later. 
+
+Could we add some tests for it? 
+
+ 
+
+Sure.  I'll need to run the AP with that special parameter added.  Do you know where would be the best place to integrate it?
+
+Ah, yeah, I think it could be added in compiler args. e.g. https://github.com/Instagram/ig-json-parser/blob/master/processor/testuut/noserializers/build.gradle#L7
+
+The ci config on master was broken due to changes on travis ci. I just updated the config and if you rebase the ci build should work again. 
+
+Thanks for the pointer!  Updated the first commit with tests based on the noserializers tests.  The second one can't really be tested fully without the javac plugin in Buck.
+
+Thanks for adding the test! Merging now. 
+
+ JDK Compatibility Error
+ Hi there
+I'm facing an error, maybe someone can help. 
+To reproduce the error:
+-Create a new project. 
+-Add the dependency (`compile group: 'com.instagram', name: 'ig-json-parser-processor', version: '0.0.6+'`)
+-Run the app.
+My result: the gradle task ends with an error, aborting.
+
+Here a screenshot:
+
+![image](https://cloud.githubusercontent.com/assets/7153136/21374754/d939924e-c707-11e6-8809-0795a1638005.png)
+
+I'm using Android Studio 2.2
+- compileSdkVersion 25
+- buildToolsVersion "25.0.1"
+- Java 1.8
+
+I tried the solution of the screenshot but no luck. 
+
+Thanks in advice!
+
+@kangzhang i think the maven artifacts need to be updated.
+
+@kangzhang update the damn artifacts Kang
+
+@kangzhang KANG!!
+
+Of course I opted several months ago to change the library! Good luck and nice work
+
+ retrofit 2 integration ?
+ Does this lib integrate with retrofit 2 ? if not are there plans to do it ?
+never used retrofit.  does it not work together?
+
+Have not tried to be honest. i will check it out and let you know. I thought you guys had that knowledge already
+
+can't possibly try every library out there in existence. :)
+
+@Zeyad-37 does it work?
+
+Any solution for this ? 
+
+Guys, Sorry i didnt try and most probably wont. I am not interested in this library anymore. So if you guys want to find it out if it works go for it yourselves. My guess would be it would need a custom adapter so it would integrate with retrofit.
+
+@ttung Which Http library Instagram uses ? 
+
+It uses a custom http library.  As far as I know, it's not open sourced.
+
+ Make processor output deterministic
+ The processor was creating a HashMap of classes and then iterating over
+it in order to generate output. This means that the order that output
+classes were generated is non-deterministic (because Element.hashCode
+is just Object.hashCode). This then determines the order that the files
+end up in the jar.
+
+Use a LinkedHashMap instead to get deterministic iteration order.
+ This library is not compatible JDK7 anymore
+ As per gradle dependencies versions :
+
+```
+|    +--- com.instagram:ig-json-parser-processor:0.0.6
+|    |    +--- com.fasterxml.jackson.core:jackson-core:[2.2.3,) -> 2.9.0-SNAPSHOT
+|    |    +--- com.google.guava:guava:[12.0.1,) -> 21.0-SNAPSHOT
+|    |    \--- org.apache.commons:commons-lang3:[3.1,) -> 3.5
+```
+
+ig-json-parser now will get Guava 21 which is only JDK8 compatible :
+_The coming release (21.0) will require JDK 1.8, but we will begin providing a backport soon thereafter._
+(see https://github.com/google/guava).
+
+It totally breaks apps running on JDK7.
+
+Is this an issue?  The processor can run on JDK8+ but the runtime library doesn't depend on Guava.
+
+
+What errors are you seeing?
+
+________________________________
+From: nacho007 <notifications@github.com>
+Sent: Tuesday, December 20, 2016 2:42:20 PM
+To: Instagram/ig-json-parser
+Cc: Tony Tung; Comment
+Subject: Re: [Instagram/ig-json-parser] This library is not compatible JDK7 anymore (#38)
+
+
+Please fix!!! This is no longer compatible with JDK7!!!
+
+-
+You are receiving this because you commented.
+Reply to this email directly, view it on GitHub<https://github.com/Instagram/ig-json-parser/issues/38#issuecomment-268380492>, or mute the thread<https://github.com/notifications/unsubscribe-auth/AARJXBi_Uzvv1pe6tU21alTW2CGxZFh9ks5rKFnMgaJpZM4KrH4m>.
+
+
+What error messages do you see? Can you post an example project?
+
+________________________________
+From: nacho007 <notifications@github.com>
+Sent: Tuesday, December 20, 2016 3:22:19 PM
+To: Instagram/ig-json-parser
+Cc: Tony Tung; Comment
+Subject: Re: [Instagram/ig-json-parser] This library is not compatible JDK7 anymore (#38)
+
+
+Cant use it. Says i need to support Java 1.7 but when I put the backward compatibility in gradle file nothing happens and doesnt compile. Try the JAR but with no luck!
+
+-
+You are receiving this because you commented.
+Reply to this email directly, view it on GitHub<https://github.com/Instagram/ig-json-parser/issues/38#issuecomment-268388376>, or mute the thread<https://github.com/notifications/unsubscribe-auth/AARJXInNFkuaz_Ofkiw_fmKkHCWY_703ks5rKGMrgaJpZM4KrH4m>.
+
+
+we have updated the gradle configuration. closing, feel free to re-open if the error is still there. 
+
+ Support sub types?
+ Currently with jackson subtypes it is possible to use for polymorphic structure. I don't see equivalent feature in ig-json. Is this achievable in some other ways or any workaround?
+
+Jackson example:
+
+```
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY)
+@JsonSubTypes({
+    @JsonSubTypes.Type(value = Dog.class, name = "Dog"),
+    @JsonSubTypes.Type(value = Cat.class, name = "Cat") }
+)
+public abstract class Animal {
+
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+}
+```
+
+Then
+
+```
+public class Dog extends Animal {
+
+    private String breed;
+
+    public Dog() {
+
+    }
+
+    public Dog(String name, String breed) {
+        setName(name);
+        setBreed(breed);
+    }
+
+    public String getBreed() {
+        return breed;
+    }
+
+    public void setBreed(String breed) {
+        this.breed = breed;
+    }
+}
+
+public class Cat extends Animal {
+
+    public String getFavoriteToy() {
+        return favoriteToy;
+    }
+
+    public Cat() {}
+
+    public Cat(String name, String favoriteToy) {
+        setName(name);
+        setFavoriteToy(favoriteToy);
+    }
+
+    public void setFavoriteToy(String favoriteToy) {
+        this.favoriteToy = favoriteToy;
+    }
+
+    private String favoriteToy;
+
+}
+```
+
+And then:
+
+```
+public class Test {
+
+    public static void main(String[] args) {
+
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        Animal myDog = new Dog("ruffus","english shepherd");
+
+        Animal myCat = new Cat("goya", "mice");
+
+        try {
+            String dogJson = objectMapper.writeValueAsString(myDog);
+
+            System.out.println(dogJson);
+
+            Animal deserializedDog = objectMapper.readValue(dogJson, Animal.class);
+
+            System.out.println("Deserialized dogJson Class: " + deserializedDog.getClass().getSimpleName());
+
+            String catJson = objectMapper.writeValueAsString(myCat);
+
+            Animal deseriliazedCat = objectMapper.readValue(catJson, Animal.class);
+
+            System.out.println("Deserialized catJson Class: " + deseriliazedCat.getClass().getSimpleName());
+
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+}
+```
+
+Can you give an example of how this would look like serialized?
+
+
+@ttung It would look like this:
+
+```
+{"@type":"Dog","name":"ruffus","breed":"english shepherd"}
+{"@type":"Cat","name":"goya","favoriteToy":"mice"}
+```
+
+
+This is fundamentally impossible to do because we have an one-pass parser for performance reasons.  json does not guarantee the ordering of fields, and as such, we could not guarantee that we parse `@type` before we hit the other fields.  
+
+
+@kangzhang / @tkieft not sure if you guys have any thoughts on this.
+
+
+Yeah, what @ttung said, it's impossible since it needs to do look ahead parsing. 
+
+There are two work around for this issue:
+
+1) Use a union class to wrap all possible subclasses: 
+
+```
+@JsonType
+class AnimalUnion {
+   @JsonField
+   Cat mCat;
+   @JsonField
+   Dog mDog;
+   Animal getAnimal() {
+     if (mCat != null) {
+      return mCat;
+     }
+     // similar for dog
+   }
+}
+```
+
+2) If you can guarantee that the `type` field always appears at the beginning of the token stream, then you can implement a look ahead parser manually. (Implement a custom JsonParse using `JsonParserDelegate` to cache the first few tokens, check the `type` field to decide which subclass parser to use). If you use a little bit reflection with this approach, you can make this pretty flexible as well, but in that case you would have comprised performance already.  We can consider to add an example to demo this approach in the repo. 
+
+
+ Added code syntax highlighting to Readme
+ 
+ Failing build
+ Hi 
+
+I am trying to build the project but getting the below error:
+
+1 warning
+:util:processTestResources UP-TO-DATE
+:util:testClasses
+:util:test
+:util:check
+:util:build
+:processorJar
+:processorJavadoc
+/home/ubuntu/projects/ig-json-parser/common/src/main/java/com/instagram/common/json/JsonFactoryHolder.java:5: error: package com.fasterxml.jackson.core does not exist
+import com.fasterxml.jackson.core.JsonFactory;
+                                 ^
+/home/ubuntu/projects/ig-json-parser/common/src/main/java/com/instagram/common/json/JsonFactoryHolder.java:11: error: cannot find symbol
+  public static final JsonFactory APP_FACTORY = new JsonFactory();
+                      ^
+  symbol:   class JsonFactory
+  location: class JsonFactoryHolder
+/home/ubuntu/projects/ig-json-parser/util/src/main/java/com/instagram/common/json/annotation/util/Console.java:5: error: package javax.annotation.concurrent does not exist
+import javax.annotation.concurrent.GuardedBy;
+                                  ^
+/home/ubuntu/projects/ig-json-parser/processor/src/main/java/com/instagram/common/json/annotation/processor/JsonParserClassData.java:31: error: package com.fasterxml.jackson.core does not exist
+import com.fasterxml.jackson.core.JsonGenerator;
+                                 ^
+/home/ubuntu/projects/ig-json-parser/processor/src/main/java/com/instagram/common/json/annotation/processor/JsonParserClassData.java:32: error: package com.fasterxml.jackson.core does not exist
+import com.fasterxml.jackson.core.JsonParser;
+                                 ^
+/home/ubuntu/projects/ig-json-parser/processor/src/main/java/com/instagram/common/json/annotation/processor/JsonParserClassData.java:33: error: package com.fasterxml.jackson.core does not exist
+import com.fasterxml.jackson.core.JsonToken;
+                                 ^
+/home/ubuntu/projects/ig-json-parser/processor/src/main/java/com/instagram/common/json/annotation/processor/StrFormat.java:8: error: package org.apache.commons.lang3.text does not exist
+import org.apache.commons.lang3.text.StrSubstitutor;
+                                    ^
+/home/ubuntu/projects/ig-json-parser/util/src/main/java/com/instagram/common/json/annotation/util/Console.java:33: error: cannot find symbol
+  @GuardedBy("Console.class")
+   ^
+  symbol:   class GuardedBy
+  location: class Console
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:77: warning: no @param for packageName
+  public JavaWriter emitPackage(String packageName) throws IOException {
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:77: warning: no @return
+  public JavaWriter emitPackage(String packageName) throws IOException {
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:77: warning: no @throws for java.io.IOException
+  public JavaWriter emitPackage(String packageName) throws IOException {
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:96: warning: no @param for types
+  public JavaWriter emitImports(String... types) throws IOException {
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:96: warning: no @return
+  public JavaWriter emitImports(String... types) throws IOException {
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:96: warning: no @throws for java.io.IOException
+  public JavaWriter emitImports(String... types) throws IOException {
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:104: warning: no @param for types
+  public JavaWriter emitImports(Class<?>... types) throws IOException {
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:104: warning: no @return
+  public JavaWriter emitImports(Class<?>... types) throws IOException {
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:104: warning: no @throws for java.io.IOException
+  public JavaWriter emitImports(Class<?>... types) throws IOException {
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:116: warning: no @param for types
+  public JavaWriter emitImports(Collection<String> types) throws IOException {
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:116: warning: no @return
+  public JavaWriter emitImports(Collection<String> types) throws IOException {
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:116: warning: no @throws for java.io.IOException
+  public JavaWriter emitImports(Collection<String> types) throws IOException {
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:136: warning: no @param for types
+  public JavaWriter emitStaticImports(String... types) throws IOException {
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:136: warning: no @return
+  public JavaWriter emitStaticImports(String... types) throws IOException {
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:136: warning: no @throws for java.io.IOException
+  public JavaWriter emitStaticImports(String... types) throws IOException {
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:144: warning: no @param for types
+  public JavaWriter emitStaticImports(Collection<String> types) throws IOException {
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:144: warning: no @return
+  public JavaWriter emitStaticImports(Collection<String> types) throws IOException {
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:144: warning: no @throws for java.io.IOException
+  public JavaWriter emitStaticImports(Collection<String> types) throws IOException {
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:175: warning: no @param for type
+  public String compressType(String type) {
+                ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:175: warning: no @return
+  public String compressType(String type) {
+                ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:243: warning: no @return
+  public JavaWriter beginInitializer(boolean isStatic) throws IOException {
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:243: warning: no @throws for java.io.IOException
+  public JavaWriter beginInitializer(boolean isStatic) throws IOException {
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:256: warning: no @return
+  public JavaWriter endInitializer() throws IOException {
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:256: warning: no @throws for java.io.IOException
+  public JavaWriter endInitializer() throws IOException {
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:268: warning: no @param for type
+  public JavaWriter beginType(String type, String kind) throws IOException {
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:268: warning: no @return
+  public JavaWriter beginType(String type, String kind) throws IOException {
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:268: warning: no @throws for java.io.IOException
+  public JavaWriter beginType(String type, String kind) throws IOException {
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:277: warning: no @param for type
+  public JavaWriter beginType(String type, String kind, Set<Modifier> modifiers)
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:277: warning: no @param for modifiers
+  public JavaWriter beginType(String type, String kind, Set<Modifier> modifiers)
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:277: warning: no @return
+  public JavaWriter beginType(String type, String kind, Set<Modifier> modifiers)
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:277: warning: no @throws for java.io.IOException
+  public JavaWriter beginType(String type, String kind, Set<Modifier> modifiers)
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:288: warning: no @param for type
+  public JavaWriter beginType(String type, String kind, Set<Modifier> modifiers, String extendsType,
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:288: warning: no @param for modifiers
+  public JavaWriter beginType(String type, String kind, Set<Modifier> modifiers, String extendsType,
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:288: warning: no @param for implementsTypes
+  public JavaWriter beginType(String type, String kind, Set<Modifier> modifiers, String extendsType,
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:288: warning: no @return
+  public JavaWriter beginType(String type, String kind, Set<Modifier> modifiers, String extendsType,
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:288: warning: no @throws for java.io.IOException
+  public JavaWriter beginType(String type, String kind, Set<Modifier> modifiers, String extendsType,
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:317: warning: no @return
+  public JavaWriter endType() throws IOException {
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:317: warning: no @throws for java.io.IOException
+  public JavaWriter endType() throws IOException {
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:326: warning: no @param for type
+  public JavaWriter emitField(String type, String name) throws IOException {
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:326: warning: no @param for name
+  public JavaWriter emitField(String type, String name) throws IOException {
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:326: warning: no @return
+  public JavaWriter emitField(String type, String name) throws IOException {
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:326: warning: no @throws for java.io.IOException
+  public JavaWriter emitField(String type, String name) throws IOException {
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:331: warning: no @param for type
+  public JavaWriter emitField(String type, String name, Set<Modifier> modifiers)
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:331: warning: no @param for name
+  public JavaWriter emitField(String type, String name, Set<Modifier> modifiers)
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:331: warning: no @param for modifiers
+  public JavaWriter emitField(String type, String name, Set<Modifier> modifiers)
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:331: warning: no @return
+  public JavaWriter emitField(String type, String name, Set<Modifier> modifiers)
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:331: warning: no @throws for java.io.IOException
+  public JavaWriter emitField(String type, String name, Set<Modifier> modifiers)
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:337: warning: no @param for type
+  public JavaWriter emitField(String type, String name, Set<Modifier> modifiers,
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:337: warning: no @param for name
+  public JavaWriter emitField(String type, String name, Set<Modifier> modifiers,
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:337: warning: no @param for modifiers
+  public JavaWriter emitField(String type, String name, Set<Modifier> modifiers,
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:337: warning: no @param for initialValue
+  public JavaWriter emitField(String type, String name, Set<Modifier> modifiers,
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:337: warning: no @return
+  public JavaWriter emitField(String type, String name, Set<Modifier> modifiers,
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:337: warning: no @throws for java.io.IOException
+  public JavaWriter emitField(String type, String name, Set<Modifier> modifiers,
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:372: warning: no @return
+  public JavaWriter beginMethod(String returnType, String name, Set<Modifier> modifiers,
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:372: warning: no @throws for java.io.IOException
+  public JavaWriter beginMethod(String returnType, String name, Set<Modifier> modifiers,
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:390: warning: no @return
+  public JavaWriter beginMethod(String returnType, String name, Set<Modifier> modifiers,
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:390: warning: no @throws for java.io.IOException
+  public JavaWriter beginMethod(String returnType, String name, Set<Modifier> modifiers,
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:448: warning: no @param for javadoc
+  public JavaWriter emitJavadoc(String javadoc, Object... params) throws IOException {
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:448: warning: no @param for params
+  public JavaWriter emitJavadoc(String javadoc, Object... params) throws IOException {
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:448: warning: no @return
+  public JavaWriter emitJavadoc(String javadoc, Object... params) throws IOException {
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:448: warning: no @throws for java.io.IOException
+  public JavaWriter emitJavadoc(String javadoc, Object... params) throws IOException {
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:468: warning: no @param for comment
+  public JavaWriter emitSingleLineComment(String comment, Object... args) throws IOException {
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:468: warning: no @param for args
+  public JavaWriter emitSingleLineComment(String comment, Object... args) throws IOException {
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:468: warning: no @return
+  public JavaWriter emitSingleLineComment(String comment, Object... args) throws IOException {
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:468: warning: no @throws for java.io.IOException
+  public JavaWriter emitSingleLineComment(String comment, Object... args) throws IOException {
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:492: warning: no @param for name
+  public JavaWriter emitEnumValue(String name, boolean isLast) throws IOException {
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:492: warning: no @param for isLast
+  public JavaWriter emitEnumValue(String name, boolean isLast) throws IOException {
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:492: warning: no @return
+  public JavaWriter emitEnumValue(String name, boolean isLast) throws IOException {
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:492: warning: no @throws for java.io.IOException
+  public JavaWriter emitEnumValue(String name, boolean isLast) throws IOException {
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:504: warning: no @param for names
+  public JavaWriter emitEnumValues(Iterable<String> names) throws IOException {
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:504: warning: no @return
+  public JavaWriter emitEnumValues(Iterable<String> names) throws IOException {
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:504: warning: no @throws for java.io.IOException
+  public JavaWriter emitEnumValues(Iterable<String> names) throws IOException {
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:520: warning: no @param for annotation
+  public JavaWriter emitAnnotation(String annotation) throws IOException {
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:520: warning: no @return
+  public JavaWriter emitAnnotation(String annotation) throws IOException {
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:520: warning: no @throws for java.io.IOException
+  public JavaWriter emitAnnotation(String annotation) throws IOException {
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:525: warning: no @param for annotationType
+  public JavaWriter emitAnnotation(Class<? extends Annotation> annotationType) throws IOException {
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:525: warning: no @return
+  public JavaWriter emitAnnotation(Class<? extends Annotation> annotationType) throws IOException {
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:525: warning: no @throws for java.io.IOException
+  public JavaWriter emitAnnotation(Class<? extends Annotation> annotationType) throws IOException {
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:536: warning: no @param for annotationType
+  public JavaWriter emitAnnotation(Class<? extends Annotation> annotationType, Object value)
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:536: warning: no @return
+  public JavaWriter emitAnnotation(Class<? extends Annotation> annotationType, Object value)
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:536: warning: no @throws for java.io.IOException
+  public JavaWriter emitAnnotation(Class<? extends Annotation> annotationType, Object value)
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:548: warning: no @param for annotation
+  public JavaWriter emitAnnotation(String annotation, Object value) throws IOException {
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:548: warning: no @return
+  public JavaWriter emitAnnotation(String annotation, Object value) throws IOException {
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:548: warning: no @throws for java.io.IOException
+  public JavaWriter emitAnnotation(String annotation, Object value) throws IOException {
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:560: warning: no @param for annotationType
+  public JavaWriter emitAnnotation(Class<? extends Annotation> annotationType,
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:560: warning: no @param for attributes
+  public JavaWriter emitAnnotation(Class<? extends Annotation> annotationType,
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:560: warning: no @return
+  public JavaWriter emitAnnotation(Class<? extends Annotation> annotationType,
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:560: warning: no @throws for java.io.IOException
+  public JavaWriter emitAnnotation(Class<? extends Annotation> annotationType,
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:572: warning: no @param for annotation
+  public JavaWriter emitAnnotation(String annotation, Map<String, ?> attributes)
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:572: warning: no @return
+  public JavaWriter emitAnnotation(String annotation, Map<String, ?> attributes)
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:572: warning: no @throws for java.io.IOException
+  public JavaWriter emitAnnotation(String annotation, Map<String, ?> attributes)
+                    ^
+/home/ubuntu/projects/ig-json-parser/javawriter/src/main/java/com/instagram/javawriter/JavaWriter.java:661: warning: no @param for args
+  public JavaWriter emitStatement(String pattern, Object... args) throws IOException {
+                    ^
+/home/ubuntu/projects/ig-json-parser/util/src/main/java/com/instagram/common/json/annotation/util/ProcessorClassData.java:44: error: reference not found
+- {@link Class#getQualifiedName()}.
+          ^
+  /home/ubuntu/projects/ig-json-parser/util/src/main/java/com/instagram/common/json/annotation/util/TypeUtils.java:207: error: self-closing element not allowed
+- <p/>
+   ^
+  /home/ubuntu/projects/ig-json-parser/common/src/main/java/com/instagram/common/json/annotation/JsonField.java:89: error: no summary or caption for table
+- </table>
+   ^
+  /home/ubuntu/projects/ig-json-parser/common/src/main/java/com/instagram/common/json/annotation/JsonField.java:95: error: self-closing element not allowed
+- <p/>
+   ^
+  /home/ubuntu/projects/ig-json-parser/common/src/main/java/com/instagram/common/json/annotation/JsonField.java:133: error: self-closing element not allowed
+- <p/>
+   ^
+  /home/ubuntu/projects/ig-json-parser/common/src/main/java/com/instagram/common/json/annotation/JsonField.java:148: error: invalid entity &#x2714;
+-     <td>&#x2714;</td>
+           ^
+  /home/ubuntu/projects/ig-json-parser/common/src/main/java/com/instagram/common/json/annotation/JsonField.java:149: error: invalid entity &#x2714;
+-     <td>&#x2714;</td>
+           ^
+  /home/ubuntu/projects/ig-json-parser/common/src/main/java/com/instagram/common/json/annotation/JsonField.java:150: error: invalid entity &#x2714;
+-     <td>&#x2714;</td>
+           ^
+  /home/ubuntu/projects/ig-json-parser/common/src/main/java/com/instagram/common/json/annotation/JsonField.java:151: error: invalid entity &#x2717;
+-     <td>&#x2717;</td>
+           ^
+  /home/ubuntu/projects/ig-json-parser/common/src/main/java/com/instagram/common/json/annotation/JsonField.java:152: error: invalid entity &#x2714;
+-     <td>&#x2714;</td>
+           ^
+  /home/ubuntu/projects/ig-json-parser/common/src/main/java/com/instagram/common/json/annotation/JsonField.java:153: error: invalid entity &#x2717;
+-     <td>&#x2717;</td>
+           ^
+  /home/ubuntu/projects/ig-json-parser/common/src/main/java/com/instagram/common/json/annotation/JsonField.java:157: error: invalid entity &#x2714;
+-     <td>&#x2714;</td>
+           ^
+  /home/ubuntu/projects/ig-json-parser/common/src/main/java/com/instagram/common/json/annotation/JsonField.java:158: error: invalid entity &#x2714;
+-     <td>&#x2714;</td>
+           ^
+  /home/ubuntu/projects/ig-json-parser/common/src/main/java/com/instagram/common/json/annotation/JsonField.java:159: error: invalid entity &#x2714;
+-     <td>&#x2714;</td>
+           ^
+  /home/ubuntu/projects/ig-json-parser/common/src/main/java/com/instagram/common/json/annotation/JsonField.java:160: error: invalid entity &#x2717;
+-     <td>&#x2717;</td>
+           ^
+  /home/ubuntu/projects/ig-json-parser/common/src/main/java/com/instagram/common/json/annotation/JsonField.java:161: error: invalid entity &#x2717;
+-     <td>&#x2717;</td>
+           ^
+  /home/ubuntu/projects/ig-json-parser/common/src/main/java/com/instagram/common/json/annotation/JsonField.java:162: error: invalid entity &#x2714;
+-     <td>&#x2714;</td>
+           ^
+  /home/ubuntu/projects/ig-json-parser/common/src/main/java/com/instagram/common/json/annotation/JsonField.java:166: error: invalid entity &#x2714;
+-     <td>&#x2714;</td>
+           ^
+  /home/ubuntu/projects/ig-json-parser/common/src/main/java/com/instagram/common/json/annotation/JsonField.java:167: error: invalid entity &#x2717;
+-     <td>&#x2717;</td>
+           ^
+  /home/ubuntu/projects/ig-json-parser/common/src/main/java/com/instagram/common/json/annotation/JsonField.java:168: error: invalid entity &#x2717;
+-     <td>&#x2717;</td>
+           ^
+  /home/ubuntu/projects/ig-json-parser/common/src/main/java/com/instagram/common/json/annotation/JsonField.java:169: error: invalid entity &#x2714;
+-     <td>&#x2714;</td>
+           ^
+  /home/ubuntu/projects/ig-json-parser/common/src/main/java/com/instagram/common/json/annotation/JsonField.java:170: error: invalid entity &#x2717;
+-     <td>&#x2717;</td>
+           ^
+  /home/ubuntu/projects/ig-json-parser/common/src/main/java/com/instagram/common/json/annotation/JsonField.java:171: error: invalid entity &#x2717;
+-     <td>&#x2717;</td>
+           ^
+  /home/ubuntu/projects/ig-json-parser/common/src/main/java/com/instagram/common/json/annotation/JsonField.java:175: error: invalid entity &#x2714;
+-     <td>&#x2714;</td>
+           ^
+  /home/ubuntu/projects/ig-json-parser/common/src/main/java/com/instagram/common/json/annotation/JsonField.java:176: error: invalid entity &#x2717;
+-     <td>&#x2717;</td>
+           ^
+  /home/ubuntu/projects/ig-json-parser/common/src/main/java/com/instagram/common/json/annotation/JsonField.java:177: error: invalid entity &#x2717;
+-     <td>&#x2717;</td>
+           ^
+  /home/ubuntu/projects/ig-json-parser/common/src/main/java/com/instagram/common/json/annotation/JsonField.java:178: error: invalid entity &#x2714;
+-     <td>&#x2714;</td>
+           ^
+  /home/ubuntu/projects/ig-json-parser/common/src/main/java/com/instagram/common/json/annotation/JsonField.java:179: error: invalid entity &#x2717;
+-     <td>&#x2717;</td>
+           ^
+  /home/ubuntu/projects/ig-json-parser/common/src/main/java/com/instagram/common/json/annotation/JsonField.java:180: error: invalid entity &#x2714;
+-     <td>&#x2714;</td>
+           ^
+  /home/ubuntu/projects/ig-json-parser/common/src/main/java/com/instagram/common/json/annotation/JsonField.java:182: error: no summary or caption for table
+- </table>
+   ^
+  /home/ubuntu/projects/ig-json-parser/common/src/main/java/com/instagram/common/json/annotation/JsonField.java:183: error: self-closing element not allowed
+- <p/>
+   ^
+  /home/ubuntu/projects/ig-json-parser/common/src/main/java/com/instagram/common/json/annotation/JsonField.java:49: error: reference not found
+- This string allows consumers to override how we extract the value from the {@link JsonParser}
+                                                                                     ^
+  /home/ubuntu/projects/ig-json-parser/common/src/main/java/com/instagram/common/json/annotation/JsonField.java:54: error: reference not found
+-     <td>the instance of {@link JsonParser} being read from
+                                  ^
+  /home/ubuntu/projects/ig-json-parser/common/src/main/java/com/instagram/common/json/annotation/JsonField.java:67: error: no summary or caption for table
+- </table>
+   ^
+  /home/ubuntu/projects/ig-json-parser/common/src/main/java/com/instagram/common/json/annotation/JsonField.java:22: error: reference not found
+- occurred, so we are forced to throw a {@link JsonException}.
+                                                ^
+  /home/ubuntu/projects/ig-json-parser/common/src/main/java/com/instagram/common/json/JsonFactoryHolder.java:8: error: reference not found
+  - Holds the {@link JsonFactory} singleton.
+                  ^
+    36 errors
+    100 warnings
+    :processorJavadoc FAILED
+
+FAILURE: Build failed with an exception.
+- What went wrong:
+  Execution failed for task ':processorJavadoc'.
+  
+  > Javadoc generation failed. Generated Javadoc options file (useful for troubleshooting): '/home/ubuntu/projects/ig-json-parser/build/tmp/processorJavadoc/javadoc.options'
+- Try:
+  Run with --stacktrace option to get the stack trace. Run with --info or --debug option to get more log output.
+
+BUILD FAILED
+
+Thank you
+Farid
+
+Hi @mfarid - Are you using the provided gradle wrapper? It invokes gradle 2.2. The project builds fine for me (although there are some warnings) by running `./gradlew build`
+
+If this does not work for you, can you try running with --stacktrace or --info or --debug to get more logging output? And/or pasting in the generated javadoc options file referenced at the bottom of the output?
+
+
+Were you by any chance using jdk8?  The project doesn't play well with JDK8, but I'm fixing that in an upcoming patch.
+
+
+doesn't seem we have a repro step, let's close this one? 
+
+I think it was fixed in https://github.com/Instagram/ig-json-parser/commit/88161d8fce27ac75af9672fd944c347574e65ee0
+
+ Change retention policy for JsonField from class to source
+ Changes the retention from source to class. Source retention is being kept at jar compilation time, but android dx is not smart enough and keeps it in final apk, where we don't need one. This can impact apk size. 
+
+ Switch the demo project to use android-apt
+ Summary:
+
+Right now the demo app declares the annotation processor as a direct dependency. This pulls guava and all other unnecessary dependencies to the demo app.
+
+This diff switches the demo app to use https://bitbucket.org/hvisser/android-apt, which makes sure the annotation processors are not pulled in as dependencies.
+
+We should have a runtime artifact in maven() later and update our readme file.
+
+Test Plan:
+
+1) ./gradlew :demo:installDebug
+2) use the demo app and everything works.
+
+are the changes in demo/src/main/java/com/instagram/common/json/app/BenchmarkActivity.java related?
+
+
+yeah, it won't compile without the change to remove guava from the activity. 
+
+
+i'll update the diff.
+
+
+any plans to ever get this to master?
+
+
+let's merge this one now? we also need to split our artifacts on maven to have separate jars for runtime and processor. but that can be done separately. 
+
+ok cool.
+
+ The Guava Dependency adds 15k methods, can you reduce this?
+ Currently this parser has a dependency on Google's guava library that adds 15082 methods to any project that uses it. Given that the limit for a dex file is only 65k, is there any way you guys can reduce this? If not, can you at least give better proguard documentation? The current documentation for proguard does not seem to work, and neither does the proguard config file in the demo application.
+
+@aneemtalukder The annotation processor's dependency shouldn't be added the app. The ig-json-parser have two jars, one for the annotation processor and another one for actual runtime. The app should only need the runtime jar (which has only two classes). Are you including the annotation processor jar in your app?
+
+
+Oh interesting, I am using gradle and simply adding the parser to my dependencies:
+
+compile 'com.instagram:ig-json-parser-processor:0.0.6'
+
+
+@kangzhang @ttung  would you happen to know of a way using gradle that I can prevent the downloading of guava?
+
+
+yeah, looks like our current gradle setup pulled the dependency of the annotation processor into the app. I'll send a fix to split the runtime and the processor in our demo app.
+
+in the meanwhile, could you try compile the lib as prebuilt jars and integrate into your project using apt? https://bitbucket.org/hvisser/android-apt
+
+
+I started working on this and got the demo app to use android-apt https://github.com/Instagram/ig-json-parser/pull/32
+
+We also need to add a new runtime artifact to the maven repo, and update the readme file with instructions to use android-apt. 
+
+
+great, thanks! i'll switch over to apt later on this week, hopefully there will be a runtime artifact down the line
+
+
+@kangzhang I think I'm close, but in this way, where do you specify the generate files directory? (after deleting, i can no longer regenerate)
+
+
+@aneemtalukder how's your build.gradle looks like? if you are using apt, shouldn't need to specify the generate source dir. (apt takes care of it automatically)
+
+
+@kangzhang my issues are with compiling, in this form:
+
+Error:(7, 51) error: package com.model.json.responses does not exist 
+
+(this package is the module that contains all my json models for the instagram parser)
+
+this is my build.gradle:
+
+```
+apply plugin: 'com.android.library'
+apply plugin: 'com.neenbedankt.android-apt'
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.2"
+    sourceCompatibility = 1.7
+    targetCompatibility = 1.7
+
+    sourceSets {
+        main {
+            manifest {
+                srcFile "AndroidManifest.xml"
+            }
+            java {
+                srcDir 'src/main/java'
+            }
+        }
+    }
+}
+
+dependencies {
+    compile files('libs/common.jar')
+    apt files('libs/processor.jar')
+}
+```
+
+
+the gradle file looks alright, the error message sounds like the model lib module doesn't point to the correct source code directory. (are all java source in `src/main/java` folder?).
+
+could you put a minimal repro on github so that we can take a look?   
+
+
+I have created a minimal project that compiles with the jars, but crashes on launch, please have a look: https://github.com/aneemtalukder/AptTest
+
+I believe the jars are creating a dex issue, not exactly sure though. This is the log:
+
+11-13 10:54:52.936 4584-4584/? E/AndroidRuntime: FATAL EXCEPTION: main
+11-13 10:54:52.936 4584-4584/? E/AndroidRuntime: Process: com.demo.apttest, PID: 4584
+11-13 10:54:52.936 4584-4584/? E/AndroidRuntime: java.lang.RuntimeException: Unable to instantiate activity ComponentInfo{com.demo.apttest/com.demo.apttest.MainActivity}: java.lang.ClassNotFoundException: Didn't find class "com.demo.apttest.MainActivity" on path: DexPathList[[zip file "/data/app/com.demo.apttest-1/base.apk"],nativeLibraryDirectories=[/vendor/lib, /system/lib]]
+11-13 10:54:52.936 4584-4584/? E/AndroidRuntime:     at android.app.ActivityThread.performLaunchActivity(ActivityThread.java:2546)
+11-13 10:54:52.936 4584-4584/? E/AndroidRuntime:     at android.app.ActivityThread.handleLaunchActivity(ActivityThread.java:2758)
+11-13 10:54:52.936 4584-4584/? E/AndroidRuntime:     at android.app.ActivityThread.access$900(ActivityThread.java:177)
+11-13 10:54:52.936 4584-4584/? E/AndroidRuntime:     at android.app.ActivityThread$H.handleMessage(ActivityThread.java:1448)
+11-13 10:54:52.936 4584-4584/? E/AndroidRuntime:     at android.os.Handler.dispatchMessage(Handler.java:102)
+11-13 10:54:52.936 4584-4584/? E/AndroidRuntime:     at android.os.Looper.loop(Looper.java:145)
+11-13 10:54:52.936 4584-4584/? E/AndroidRuntime:     at android.app.ActivityThread.main(ActivityThread.java:5942)
+11-13 10:54:52.936 4584-4584/? E/AndroidRuntime:     at java.lang.reflect.Method.invoke(Native Method)
+11-13 10:54:52.936 4584-4584/? E/AndroidRuntime:     at java.lang.reflect.Method.invoke(Method.java:372)
+11-13 10:54:52.936 4584-4584/? E/AndroidRuntime:     at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:1399)
+11-13 10:54:52.936 4584-4584/? E/AndroidRuntime:     at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:1194)
+11-13 10:54:52.936 4584-4584/? E/AndroidRuntime:  Caused by: java.lang.ClassNotFoundException: Didn't find class "com.demo.apttest.MainActivity" on path: DexPathList[[zip file "/data/app/com.demo.apttest-1/base.apk"],nativeLibraryDirectories=[/vendor/lib, /system/lib]]
+11-13 10:54:52.936 4584-4584/? E/AndroidRuntime:     at dalvik.system.BaseDexClassLoader.findClass(BaseDexClassLoader.java:56)
+11-13 10:54:52.936 4584-4584/? E/AndroidRuntime:     at java.lang.ClassLoader.loadClass(ClassLoader.java:511)
+11-13 10:54:52.936 4584-4584/? E/AndroidRuntime:     at java.lang.ClassLoader.loadClass(ClassLoader.java:469)
+11-13 10:54:52.936 4584-4584/? E/AndroidRuntime:     at android.app.Instrumentation.newActivity(Instrumentation.java:1079)
+11-13 10:54:52.936 4584-4584/? E/AndroidRuntime:     at android.app.ActivityThread.performLaunchActivity(ActivityThread.java:2536)
+11-13 10:54:52.936 4584-4584/? E/AndroidRuntime:     at android.app.ActivityThread.handleLaunchActivity(ActivityThread.java:2758) 
+11-13 10:54:52.936 4584-4584/? E/AndroidRuntime:     at android.app.ActivityThread.access$900(ActivityThread.java:177) 
+11-13 10:54:52.936 4584-4584/? E/AndroidRuntime:     at android.app.ActivityThread$H.handleMessage(ActivityThread.java:1448) 
+11-13 10:54:52.936 4584-4584/? E/AndroidRuntime:     at android.os.Handler.dispatchMessage(Handler.java:102) 
+11-13 10:54:52.936 4584-4584/? E/AndroidRuntime:     at android.os.Looper.loop(Looper.java:145) 
+11-13 10:54:52.936 4584-4584/? E/AndroidRuntime:     at android.app.ActivityThread.main(ActivityThread.java:5942) 
+11-13 10:54:52.936 4584-4584/? E/AndroidRuntime:     at java.lang.reflect.Method.invoke(Native Method) 
+11-13 10:54:52.936 4584-4584/? E/AndroidRuntime:     at java.lang.reflect.Method.invoke(Method.java:372) 
+11-13 10:54:52.936 4584-4584/? E/AndroidRuntime:     at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:1399) 
+11-13 10:54:52.936 4584-4584/? E/AndroidRuntime:     at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:1194) 
+11-13 10:54:52.936 4584-4584/? E/AndroidRuntime:    Suppressed: java.lang.ClassNotFoundException: com.demo.apttest.MainActivity
+11-13 10:54:52.936 4584-4584/? E/AndroidRuntime:     at java.lang.Class.classForName(Native Method)
+11-13 10:54:52.936 4584-4584/? E/AndroidRuntime:     at java.lang.BootClassLoader.findClass(ClassLoader.java:781)
+11-13 10:54:52.936 4584-4584/? E/AndroidRuntime:     at java.lang.BootClassLoader.loadClass(ClassLoader.java:841)
+11-13 10:54:52.936 4584-4584/? E/AndroidRuntime:     at java.lang.ClassLoader.loadClass(ClassLoader.java:504)
+11-13 10:54:52.936 4584-4584/? E/AndroidRuntime:            ... 13 more
+11-13 10:54:52.936 4584-4584/? E/AndroidRuntime:  Caused by: java.lang.NoClassDefFoundError: Class not found using the boot class loader; no stack available
+
+
+yeah, it looks like you were using the wrong jar files. (We should use the jar in `build` folder, generated by `./gradlew build` ) 
+
+I created a patch at https://github.com/aneemtalukder/AptTest/pull/1 , which should fix the issue. 
+
+
+ahh great, thank you! @kangzhang as expected, the sample project AptTest compiles - however this was without any annotated classes in the models module. 
+
+I have added a class ExampleResponse into the project AptTest, and now does not compile with the following failure (I have pushed these changes to master at https://github.com/aneemtalukder/AptTest):
+
+Warning:(9, 8) ERROR: Unable to generate injector for @JsonType.
+
+java.lang.annotation.IncompleteAnnotationException: com.instagram.common.json.annotation.JsonType missing element generateSerializer
+at sun.reflect.annotation.AnnotationInvocationHandler.invoke(AnnotationInvocationHandler.java:80)
+at com.sun.proxy.$Proxy123.generateSerializer(Unknown Source)
+at com.instagram.common.json.annotation.processor.JsonAnnotationProcessor.processClassAnnotation(JsonAnnotationProcessor.java:194)
+at com.instagram.common.json.annotation.processor.JsonAnnotationProcessor.gatherClassAnnotations(JsonAnnotationProcessor.java:140)
+at com.instagram.common.json.annotation.processor.JsonAnnotationProcessor.process(JsonAnnotationProcessor.java:104)
+at com.sun.tools.javac.processing.JavacProcessingEnvironment.callProcessor(JavacProcessingEnvironment.java:793)
+at com.sun.tools.javac.processing.JavacProcessingEnvironment.discoverAndRunProcs(JavacProcessingEnvironment.java:722)
+at com.sun.tools.javac.processing.JavacProcessingEnvironment.access$1700(JavacProcessingEnvironment.java:97)
+at com.sun.tools.javac.processing.JavacProcessingEnvironment$Round.run(JavacProcessingEnvironment.java:1029)
+at com.sun.tools.javac.processing.JavacProcessingEnvironment.doProcessing(JavacProcessingEnvironment.java:1163)
+at com.sun.tools.javac.main.JavaCompiler.processAnnotations(JavaCompiler.java:1108)
+at com.sun.tools.javac.main.JavaCompiler.compile(JavaCompiler.java:824)
+at com.sun.tools.javac.main.Main.compile(Main.java:439)
+at com.sun.tools.javac.api.JavacTaskImpl.call(JavacTaskImpl.java:132)
+at org.gradle.api.internal.tasks.compile.JdkJavaCompiler.execute(JdkJavaCompiler.java:45)
+at org.gradle.api.internal.tasks.compile.JdkJavaCompiler.execute(JdkJavaCompiler.java:33)
+at org.gradle.api.internal.tasks.compile.NormalizingJavaCompiler.delegateAndHandleErrors(NormalizingJavaCompiler.java:101)
+at org.gradle.api.internal.tasks.compile.NormalizingJavaCompiler.execute(NormalizingJavaCompiler.java:50)
+at org.gradle.api.internal.tasks.compile.NormalizingJavaCompiler.execute(NormalizingJavaCompiler.java:36)
+at org.gradle.api.internal.tasks.compile.CleaningJavaCompilerSupport.execute(CleaningJavaCompilerSupport.java:34)
+at org.gradle.api.internal.tasks.compile.CleaningJavaCompilerSupport.execute(CleaningJavaCompilerSupport.java:25)
+at org.gradle.api.tasks.compile.JavaCompile.performCompilation(JavaCompile.java:157)
+at org.gradle.api.tasks.compile.JavaCompile.compile(JavaCompile.java:137)
+at org.gradle.api.tasks.compile.JavaCompile.compile(JavaCompile.java:91)
+at sun.reflect.GeneratedMethodAccessor886.invoke(Unknown Source)
+at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+at java.lang.reflect.Method.invoke(Method.java:606)
+at org.gradle.internal.reflect.JavaMethod.invoke(JavaMethod.java:75)
+at org.gradle.api.internal.project.taskfactory.AnnotationProcessingTaskFactory$IncrementalTaskAction.doExecute(AnnotationProcessingTaskFactory.java:243)
+at org.gradle.api.internal.project.taskfactory.AnnotationProcessingTaskFactory$StandardTaskAction.execute(AnnotationProcessingTaskFactory.java:219)
+at org.gradle.api.internal.project.taskfactory.AnnotationProcessingTaskFactory$IncrementalTaskAction.execute(AnnotationProcessingTaskFactory.java:230)
+at org.gradle.api.internal.project.taskfactory.AnnotationProcessingTaskFactory$StandardTaskAction.execute(AnnotationProcessingTaskFactory.java:208)
+at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.executeAction(ExecuteActionsTaskExecuter.java:80)
+at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.executeActions(ExecuteActionsTaskExecuter.java:61)
+at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.execute(ExecuteActionsTaskExecuter.java:46)
+at org.gradle.api.internal.tasks.execution.PostExecutionAnalysisTaskExecuter.execute(PostExecutionAnalysisTaskExecuter.java:35)
+at org.gradle.api.internal.tasks.execution.SkipUpToDateTaskExecuter.execute(SkipUpToDateTaskExecuter.java:64)
+at org.gradle.api.internal.tasks.execution.ValidatingTaskExecuter.execute(ValidatingTaskExecuter.java:58)
+at org.gradle.api.internal.tasks.execution.SkipEmptySourceFilesTaskExecuter.execute(SkipEmptySourceFilesTaskExecuter.java:42)
+at org.gradle.api.internal.tasks.execution.SkipTaskWithNoActionsExecuter.execute(SkipTaskWithNoActionsExecuter.java:52)
+at org.gradle.api.internal.tasks.execution.SkipOnlyIfTaskExecuter.execute(SkipOnlyIfTaskExecuter.java:53)
+at org.gradle.api.internal.tasks.execution.ExecuteAtMostOnceTaskExecuter.execute(ExecuteAtMostOnceTaskExecuter.java:43)
+at org.gradle.api.internal.AbstractTask.executeWithoutThrowingTaskFailure(AbstractTask.java:310)
+at org.gradle.execution.taskgraph.AbstractTaskPlanExecutor$TaskExecutorWorker.executeTask(AbstractTaskPlanExecutor.java:79)
+at org.gradle.execution.taskgraph.AbstractTaskPlanExecutor$TaskExecutorWorker.processTask(AbstractTaskPlanExecutor.java:63)
+at org.gradle.execution.taskgraph.AbstractTaskPlanExecutor$TaskExecutorWorker.run(AbstractTaskPlanExecutor.java:51)
+at org.gradle.execution.taskgraph.DefaultTaskPlanExecutor.process(DefaultTaskPlanExecutor.java:23)
+at org.gradle.execution.taskgraph.DefaultTaskGraphExecuter.execute(DefaultTaskGraphExecuter.java:88)
+at org.gradle.execution.SelectedTaskExecutionAction.execute(SelectedTaskExecutionAction.java:37)
+at org.gradle.execution.DefaultBuildExecuter.execute(DefaultBuildExecuter.java:62)
+at org.gradle.execution.DefaultBuildExecuter.access$200(DefaultBuildExecuter.java:23)
+at org.gradle.execution.DefaultBuildExecuter$2.proceed(DefaultBuildExecuter.java:68)
+at org.gradle.execution.DryRunBuildExecutionAction.execute(DryRunBuildExecutionAction.java:32)
+at org.gradle.execution.DefaultBuildExecuter.execute(DefaultBuildExecuter.java:62)
+at org.gradle.execution.DefaultBuildExecuter.execute(DefaultBuildExecuter.java:55)
+at org.gradle.initialization.DefaultGradleLauncher.doBuildStages(DefaultGradleLauncher.java:149)
+at org.gradle.initialization.DefaultGradleLauncher.doBuild(DefaultGradleLauncher.java:106)
+at org.gradle.initialization.DefaultGradleLauncher.run(DefaultGradleLauncher.java:86)
+at org.gradle.launcher.exec.InProcessBuildActionExecuter$DefaultBuildController.run(InProcessBuildActionExecuter.java:90)
+at org.gradle.tooling.internal.provider.runner.BuildModelActionRunner.run(BuildModelActionRunner.java:54)
+at org.gradle.launcher.exec.ChainingBuildActionRunner.run(ChainingBuildActionRunner.java:35)
+at org.gradle.launcher.exec.InProcessBuildActionExecuter.execute(InProcessBuildActionExecuter.java:41)
+at org.gradle.launcher.exec.InProcessBuildActionExecuter.execute(InProcessBuildActionExecuter.java:28)
+at org.gradle.launcher.daemon.server.exec.ExecuteBuild.doBuild(ExecuteBuild.java:49)
+at org.gradle.launcher.daemon.server.exec.BuildCommandOnly.execute(BuildCommandOnly.java:36)
+at org.gradle.launcher.daemon.server.api.DaemonCommandExecution.proceed(DaemonCommandExecution.java:120)
+at org.gradle.launcher.daemon.server.exec.WatchForDisconnection.execute(WatchForDisconnection.java:37)
+at org.gradle.launcher.daemon.server.api.DaemonCommandExecution.proceed(DaemonCommandExecution.java:120)
+at org.gradle.launcher.daemon.server.exec.ResetDeprecationLogger.execute(ResetDeprecationLogger.java:26)
+at org.gradle.launcher.daemon.server.api.DaemonCommandExecution.proceed(DaemonCommandExecution.java:120)
+at org.gradle.launcher.daemon.server.exec.RequestStopIfSingleUsedDaemon.execute(RequestStopIfSingleUsedDaemon.java:34)
+at org.gradle.launcher.daemon.server.api.DaemonCommandExecution.proceed(DaemonCommandExecution.java:120)
+at org.gradle.launcher.daemon.server.exec.ForwardClientInput$2.call(ForwardClientInput.java:74)
+at org.gradle.launcher.daemon.server.exec.ForwardClientInput$2.call(ForwardClientInput.java:72)
+at org.gradle.util.Swapper.swap(Swapper.java:38)
+at org.gradle.launcher.daemon.server.exec.ForwardClientInput.execute(ForwardClientInput.java:72)
+at org.gradle.launcher.daemon.server.api.DaemonCommandExecution.proceed(DaemonCommandExecution.java:120)
+at org.gradle.launcher.daemon.server.health.DaemonHealthTracker.execute(DaemonHealthTracker.java:47)
+at org.gradle.launcher.daemon.server.api.DaemonCommandExecution.proceed(DaemonCommandExecution.java:120)
+at org.gradle.launcher.daemon.server.exec.LogToClient.doBuild(LogToClient.java:66)
+at org.gradle.launcher.daemon.server.exec.BuildCommandOnly.execute(BuildCommandOnly.java:36)
+at org.gradle.launcher.daemon.server.api.DaemonCommandExecution.proceed(DaemonCommandExecution.java:120)
+at org.gradle.launcher.daemon.server.exec.EstablishBuildEnvironment.doBuild(EstablishBuildEnvironment.java:71)
+at org.gradle.launcher.daemon.server.exec.BuildCommandOnly.execute(BuildCommandOnly.java:36)
+at org.gradle.launcher.daemon.server.api.DaemonCommandExecution.proceed(DaemonCommandExecution.java:120)
+at org.gradle.launcher.daemon.server.health.HintGCAfterBuild.execute(HintGCAfterBuild.java:41)
+at org.gradle.launcher.daemon.server.api.DaemonCommandExecution.proceed(DaemonCommandExecution.java:120)
+at org.gradle.launcher.daemon.server.exec.StartBuildOrRespondWithBusy$1.run(StartBuildOrRespondWithBusy.java:50)
+at org.gradle.launcher.daemon.server.DaemonStateCoordinator$1.run(DaemonStateCoordinator.java:246)
+at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:54)
+at org.gradle.internal.concurrent.StoppableExecutorImpl$1.run(StoppableExecutorImpl.java:40)
+at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
+at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)
+at java.lang.Thread.run(Thread.java:745)
+
+
+I was able to bring the changes to my main project, and indeed, 15k methods have been cut. thanks for the support @kangzhang !
+
+
+ Add enclosing import support and writing nulls
+ Add support for importing inner classes in other packages and writing nulls.
+
+Not relevant. 
+
+ Add JsonHelper interface
+ Summary:
+
+We run into this issue recently that we can't make a strong typed API to enforce type checking on the generated helper class.
+
+In the following API:
+
+  new AutoJsonParser<Foo>(Foo__JsonHelper.class)
+
+We can't avoid people passing in Bar__JsonHelper.class instead of Foo__JsonHelper.class
+
+Test Plan:
+
+1) unittest
+
+Totally, it would be nice if we can have a fully strong typed interface!
+
+I'm less worried about changing from static method to member method. How to make it work cleanly with optional serializer/deserializer function is another question. (create interface for each function?)
+
+
+i guess an interface for each function that can be enabled?
+
+or you can wait on the need for creating those interfaces.
+
+
+Nice!
+
+

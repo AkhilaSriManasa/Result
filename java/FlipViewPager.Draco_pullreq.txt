@@ -1,0 +1,13 @@
+﻿ Some improvement for RecycleView usage and completing the sample
+ 
+ Update README.md
+ 
+ Feature/setting height to static
+ 
+ Made views inside the FlipViewPager clickable and updated to API 23
+ 
+ Replacing the deprecated <ActionBarActivity> with <AppCompatActivity>
+ Replacing the deprecated <ActionBarActivity> with <AppCompatActivity>
+
+ Enable syntax highlighting for code snippets. Improve formatting.
+ 

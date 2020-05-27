@@ -1,0 +1,1138 @@
+﻿ unable install on win10
+ C:\Users\pc\Desktop\glove_python-0.1.0>python setup.py install
+running install
+running bdist_egg
+running egg_info
+writing glove_python.egg-info\PKG-INFO
+writing dependency_links to glove_python.egg-info\dependency_links.txt
+writing requirements to glove_python.egg-info\requires.txt
+writing top-level names to glove_python.egg-info\top_level.txt
+reading manifest file 'glove_python.egg-info\SOURCES.txt'
+writing manifest file 'glove_python.egg-info\SOURCES.txt'
+installing library code to build\bdist.win-amd64\egg
+running install_lib
+running build_py
+running build_ext
+building 'glove.glove_cython' extension
+D:\Dev-Cpp\MinGW64\bin\gcc.exe -mdll -O -Wall -DMS_WIN64 -IC:\Users\pc\Anaconda3\include -IC:\Users\pc\Anaconda3\include -c glove/glove_cython.c -o build\temp.win-amd64-3.7\Release\glove\glove_cython.o -fopenmp -ffast-math -march=native
+glove/glove_cython.c: In function '__Pyx_ExceptionSave':
+glove/glove_cython.c:16753:19: error: 'PyThreadState' has no member named 'exc_type'
+how to slove this error? and  i have installed cpython and remove "stdc++" in code
+
+@cdhx 
+1. Put stdc++ back into the code. It is there for a reason.
+2. Run `python setup.py cythonize` to regenerate the Cython output files for your version of Python (you'll need to have cython installed)
+3. Run `python setup.py install`
+
+@cdhx Alternatively, download the attached .zip file and install it by running `pip install glove_python-0.1.0-cp37-cp37m-win_amd64.zip`
+
+
+[glove_python-0.1.0-cp37-cp37m-win_amd64.zip](https://github.com/maciejkula/glove-python/files/4622557/glove_python-0.1.0-cp37-cp37m-win_amd64.zip)
+
+@IronFarm thank you for your reply ! i just found it is cython not cpython.
+
+follow your step, still the same error，
+
+and when i run `python setup.py cythonize` got this waring
+
+another question, avaliable in python3?
+```
+G:\毕业设计\code\data\glove_python\glove-python-master>python setup.py cythonize
+running cythonize
+Compiling glove/corpus_cython.pyx because it depends on C:\Users\pc\Anaconda3\lib\site-packages\Cython\Includes\libcpp\vector.pxd.
+[1/1] Cythonizing glove/corpus_cython.pyx
+C:\Users\pc\Anaconda3\lib\site-packages\Cython\Compiler\Main.py:369: FutureWarning: Cython directive 'language_level' not set, using 2 for now (Py2). This will change in a later release! File: G:\毕业设计\code\data\glove_python\glove-python-master\glove\corpus_cython.pyx
+  tree = Parsing.p_module(s, pxd, full_module_name)
+```
+
+@cdhx that looks good. Can you compile it now?
+
+@IronFarm 
+`python setup.py cythonize` works well
+but when i run `python setup.py` got the same error as i first ask
+`error: command 'D:\\Dev-Cpp\\MinGW64\\bin\\gcc.exe' failed with exit status 1`
+
+ Bug in binary search
+ https://github.com/maciejkula/glove-python/blob/master/glove/corpus_cython.pyx#L35 should be `> Fail to use it in Google Colab
+ Hello, 
+Thank you for your effort at doing this python version.
+I am struggling to run the first example.
+
+My code (just 3 lines of code) can be reproduced with [this notebook](https://colab.research.google.com/drive/1bij-gbY7Qrrlp297tl_suUD9fMauNxcI) 
+
+Can you please help me to understand what is wrong?
+
+Thank you!
+Hi
+
+L.19 in example.py only works in python 2.
+Try replacing `yield line.lower().translate(None, delchars).split(' ')`
+with `yield line.lower().translate({ord(x): None for x in delchars}).split(' ')`
+
+You're probably going to run into more issues down the line though as this code was written for python 2 and appears to be no longer maintained.
+
+Cheers
+
+(The issue further down in your code is because model.fit() expects a list of lists, not a list of strings. Each document should be represented as a list of words.)
+
+Now working as expected!
+Thank you
+
+I paste my solved code here for future references to readers.
+```
+!pip install glove_python
+!curl -o my_corpus.txt https://norvig.com/big.txt
+
+from glove import Corpus, Glove
+
+#Creating a corpus object
+corpus = Corpus() 
+
+""" The learner "model.fit()" expects a list of (list of string),
+  not a big string nor a list of strings. 
+  Each document should be represented as a list of words: [[doc1],[doc2]...]
+  Next code will turn a txt file into this format.
+  However it should have more efficient alternatives """
+
+with open("my_corpus.txt",'r') as f:  
+    lines = f.read().split()  
+
+num_docs = 10
+doc_list = []
+last_index = 0
+for i in range(num_docs):
+  upper_index= (int(len(lines)/num_docs))*(i+1) #probably lossing last lines
+  newdoc = lines[last_index:upper_index]
+  doc_list.append(newdoc)
+
+print("number of docs in doc_list:",len(doc_list))
+print("first doc fragment:", doc_list[0][0:11])
+
+
+#Training the corpus to generate the co occurence matrix which is used in GloVe
+corpus.fit(doc_list, window=10)
+glove = Glove(no_components=5, learning_rate=0.05) 
+glove.fit(corpus.matrix, epochs=30, no_threads=1, verbose=True)
+glove.add_dictionary(corpus.dictionary)
+glove.save('glove.model')
+
+glove = Glove.load('glove.model')
+x = glove.most_similar("Sherlock", number=10)
+x
+```
+
+ Failed installing Glove_python on linux 
+  Complete output (6 lines):
+  usage: setup.py [global_opts] cmd1 [cmd1_opts] [cmd2 [cmd2_opts] ...]
+     or: setup.py --help [cmd1 cmd2 ...]
+     or: setup.py --help-commands
+     or: setup.py cmd --help
+
+  error: option --all not recognized
+  ----------------------------------------
+  ERROR: Failed cleaning build dir for glove-python
+Failed to build glove-python
+Installing collected packages: glove-python
+    Running setup.py install for glove-python ... error
+    ERROR: Command errored out with exit status 1:
+     command: /root/anaconda3/envs/sccheng-el/bin/python -u -c 'import sys, setuptools, tokenize; sys.argv[0] = '"'"'/tmp/pip-install-1nhacle1/glove-python/setup.py'"'"'; __file__='"'"'/tmp/pip-install-1nhacle1/glove-python/setup.py'"'"';f=getattr(tokenize, '"'"'open'"'"', open)(__file__);code=f.read().replace('"'"'\r\n'"'"', '"'"'\n'"'"');f.close();exec(compile(code, __file__, '"'"'exec'"'"'))' install --record /tmp/pip-record-cm1k1n02/install-record.txt --single-version-externally-managed --compile --install-headers /root/anaconda3/envs/sccheng-el/include/python3.6m/glove-python
+         cwd: /tmp/pip-install-1nhacle1/glove-python/
+    Complete output (8 lines):
+    running install
+    running build
+    running build_py
+    running build_ext
+    building 'glove.glove_cython' extension
+    gcc -pthread -B /root/anaconda3/envs/sccheng-el/compiler_compat -Wl,--sysroot=/ -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -Wstrict-prototypes -fPIC -I/root/anaconda3/envs/sccheng-el/include/python3.6m -c glove/glove_cython.c -o build/temp.linux-x86_64-3.6/glove/glove_cython.o -fopenmp -ffast-math
+    unable to execute 'gcc': No such file or directory
+    error: command 'gcc' failed with exit status 1
+    ----------------------------------------
+ERROR: Command errored out with exit status 1: /root/anaconda3/envs/sccheng-el/bin/python -u -c 'import sys, setuptools, tokenize; sys.argv[0] = '"'"'/tmp/pip-install-1nhacle1/glove-python/setup.py'"'"'; __file__='"'"'/tmp/pip-install-1nhacle1/glove-python/setup.py'"'"';f=getattr(tokenize, '"'"'open'"'"', open)(__file__);code=f.read().replace('"'"'\r\n'"'"', '"'"'\n'"'"');f.close();exec(compile(code, __file__, '"'"'exec'"'"'))' install --record /tmp/pip-record-cm1k1n02/install-record.txt --single-version-externally-managed --compile --install-headers /root/anaconda3/envs/sccheng-el/include/python3.6m/glove-python Check the logs for full command output.
+
+It seems you don't have GCC installed. GCC is a C(++) compiler which this package needs to compile. Try installing GCC.
+https://linuxize.com/post/how-to-install-gcc-compiler-on-ubuntu-18-04/
+
+@Jim0530 I've tried pre-compiling the binaries. Could you try running `pip install glove_python_binary`?
+
+ Unable to install glove_python in virtual environment
+ Hi, I'm trying to install glove_python with pip like this (in a virtual env):
+
+pip install glove_python
+
+I get an error every time that ends like this:
+
+\VC\\BIN\\cl.exe' failed with exit status 2
+
+I'm attaching a log to show what it looks like.
+
+Platform: Windows 10 (x64)
+
+I've seen several people with this problem and they have suggested the following 3 things:
+* Install VS CPP build tools (I've done this to no avail)
+* Install glove like: pip install glove==1.0.0 (This is a different package I don't want)
+* Remove "stdc++" from the libraries array in setup.py line 42 and install manually (Doesn't work)
+
+Is this something that has been fixed or being worked on?
+
+Thanks,
+Ravi
+
+[glove_python-InstallLog.log](https://github.com/maciejkula/glove-python/files/4446878/glove_python-InstallLog.log)
+
+Could you try the Windows Installation steps outlined in the wiki?
+https://github.com/maciejkula/glove-python/wiki/Installation-on-Windows
+
+ Compile error in Linux Anaconda installation
+ I'm trying to install in an Anaconda environment using `anaconda3/bin/pip install glove-python` 
+I installed gcc and Cython via `conda install -c anaconda` and also tried following the steps set out in issue #96 [https://github.com/maciejkula/glove-python/issues/96#issuecomment-499840851]. In this case, running `python3 setup.py install` or `make` returns the following:
+
+`running install
+running bdist_egg
+running egg_info
+writing glove_python.egg-info/PKG-INFO
+writing dependency_links to glove_python.egg-info/dependency_links.txt
+writing requirements to glove_python.egg-info/requires.txt
+writing top-level names to glove_python.egg-info/top_level.txt
+reading manifest file 'glove_python.egg-info/SOURCES.txt'
+writing manifest file 'glove_python.egg-info/SOURCES.txt'
+installing library code to build/bdist.linux-x86_64/egg
+running install_lib
+running build_py
+running build_ext
+building 'glove.glove_cython' extension
+gcc -pthread -B /home/mrim/manniona/anaconda3/compiler_compat -Wl,--sysroot=/ -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -Wstrict-prototypes -fPIC -I/home/mrim/manniona/anaconda3/include/python3.7m -c glove/glove_cython.c -o build/temp.linux-x86_64-3.7/glove/glove_cython.o -fopenmp -ffast-math -march=native
+glove/glove_cython.c: In function ‘__pyx_pf_5glove_12glove_cython_fit_vectors._omp_fn.0’:
+glove/glove_cython.c:2447:29: warning: ‘__pyx_v_word_b’ may be used uninitialized in this function [-Wmaybe-uninitialized]
+                     #pragma omp for lastprivate(__pyx_v_count) lastprivate(__pyx_v_entry_weight) lastprivate(__pyx_v_gradient) lastprivate(__pyx_v_i) firstprivate(__pyx_v_j) lastprivate(__pyx_v_j) lastprivate(__pyx_v_learning_rate) lastprivate(__pyx_v_loss) lastprivate(__pyx_v_prediction) lastprivate(__pyx_v_shuffle_index) lastprivate(__pyx_v_word_a) lastprivate(__pyx_v_word_b) schedule(dynamic)
+                             ^
+glove/glove_cython.c:2333:7: note: ‘__pyx_v_word_b’ was declared here
+   int __pyx_v_word_b;
+       ^
+glove/glove_cython.c:2447:29: warning: ‘__pyx_v_word_a’ may be used uninitialized in this function [-Wmaybe-uninitialized]
+                     #pragma omp for lastprivate(__pyx_v_count) lastprivate(__pyx_v_entry_weight) lastprivate(__pyx_v_gradient) lastprivate(__pyx_v_i) firstprivate(__pyx_v_j) lastprivate(__pyx_v_j) lastprivate(__pyx_v_learning_rate) lastprivate(__pyx_v_loss) lastprivate(__pyx_v_prediction) lastprivate(__pyx_v_shuffle_index) lastprivate(__pyx_v_word_a) lastprivate(__pyx_v_word_b) schedule(dynamic)
+                             ^
+glove/glove_cython.c:2332:7: note: ‘__pyx_v_word_a’ was declared here
+   int __pyx_v_word_a;
+       ^
+glove/glove_cython.c:2447:29: warning: ‘__pyx_v_shuffle_index’ may be used uninitialized in this function [-Wmaybe-uninitialized]
+                     #pragma omp for lastprivate(__pyx_v_count) lastprivate(__pyx_v_entry_weight) lastprivate(__pyx_v_gradient) lastprivate(__pyx_v_i) firstprivate(__pyx_v_j) lastprivate(__pyx_v_j) lastprivate(__pyx_v_learning_rate) lastprivate(__pyx_v_loss) lastprivate(__pyx_v_prediction) lastprivate(__pyx_v_shuffle_index) lastprivate(__pyx_v_word_a) lastprivate(__pyx_v_word_b) schedule(dynamic)
+                             ^
+glove/glove_cython.c:2342:7: note: ‘__pyx_v_shuffle_index’ was declared here
+   int __pyx_v_shuffle_index;
+       ^
+glove/glove_cython.c:2447:29: warning: ‘__pyx_v_prediction’ may be used uninitialized in this function [-Wmaybe-uninitialized]
+                     #pragma omp for lastprivate(__pyx_v_count) lastprivate(__pyx_v_entry_weight) lastprivate(__pyx_v_gradient) lastprivate(__pyx_v_i) firstprivate(__pyx_v_j) lastprivate(__pyx_v_j) lastprivate(__pyx_v_learning_rate) lastprivate(__pyx_v_loss) lastprivate(__pyx_v_prediction) lastprivate(__pyx_v_shuffle_index) lastprivate(__pyx_v_word_a) lastprivate(__pyx_v_word_b) schedule(dynamic)
+                             ^
+glove/glove_cython.c:2337:10: note: ‘__pyx_v_prediction’ was declared here
+   double __pyx_v_prediction;
+          ^
+glove/glove_cython.c:2447:29: warning: ‘__pyx_v_loss’ may be used uninitialized in this function [-Wmaybe-uninitialized]
+                     #pragma omp for lastprivate(__pyx_v_count) lastprivate(__pyx_v_entry_weight) lastprivate(__pyx_v_gradient) lastprivate(__pyx_v_i) firstprivate(__pyx_v_j) lastprivate(__pyx_v_j) lastprivate(__pyx_v_learning_rate) lastprivate(__pyx_v_loss) lastprivate(__pyx_v_prediction) lastprivate(__pyx_v_shuffle_index) lastprivate(__pyx_v_word_a) lastprivate(__pyx_v_word_b) schedule(dynamic)
+                             ^
+glove/glove_cython.c:2339:10: note: ‘__pyx_v_loss’ was declared here
+   double __pyx_v_loss;
+          ^
+glove/glove_cython.c:2447:29: warning: ‘__pyx_v_learning_rate’ may be used uninitialized in this function [-Wmaybe-uninitialized]
+                     #pragma omp for lastprivate(__pyx_v_count) lastprivate(__pyx_v_entry_weight) lastprivate(__pyx_v_gradient) lastprivate(__pyx_v_i) firstprivate(__pyx_v_j) lastprivate(__pyx_v_j) lastprivate(__pyx_v_learning_rate) lastprivate(__pyx_v_loss) lastprivate(__pyx_v_prediction) lastprivate(__pyx_v_shuffle_index) lastprivate(__pyx_v_word_a) lastprivate(__pyx_v_word_b) schedule(dynamic)
+                             ^
+glove/glove_cython.c:2335:10: note: ‘__pyx_v_learning_rate’ was declared here
+   double __pyx_v_learning_rate;
+          ^
+glove/glove_cython.c:2447:29: warning: ‘__pyx_v_i’ may be used uninitialized in this function [-Wmaybe-uninitialized]
+                     #pragma omp for lastprivate(__pyx_v_count) lastprivate(__pyx_v_entry_weight) lastprivate(__pyx_v_gradient) lastprivate(__pyx_v_i) firstprivate(__pyx_v_j) lastprivate(__pyx_v_j) lastprivate(__pyx_v_learning_rate) lastprivate(__pyx_v_loss) lastprivate(__pyx_v_prediction) lastprivate(__pyx_v_shuffle_index) lastprivate(__pyx_v_word_a) lastprivate(__pyx_v_word_b) schedule(dynamic)
+                             ^
+glove/glove_cython.c:2340:7: note: ‘__pyx_v_i’ was declared here
+   int __pyx_v_i;
+       ^
+glove/glove_cython.c:2447:29: warning: ‘__pyx_v_gradient’ may be used uninitialized in this function [-Wmaybe-uninitialized]
+                     #pragma omp for lastprivate(__pyx_v_count) lastprivate(__pyx_v_entry_weight) lastprivate(__pyx_v_gradient) lastprivate(__pyx_v_i) firstprivate(__pyx_v_j) lastprivate(__pyx_v_j) lastprivate(__pyx_v_learning_rate) lastprivate(__pyx_v_loss) lastprivate(__pyx_v_prediction) lastprivate(__pyx_v_shuffle_index) lastprivate(__pyx_v_word_a) lastprivate(__pyx_v_word_b) schedule(dynamic)
+                             ^
+glove/glove_cython.c:2336:10: note: ‘__pyx_v_gradient’ was declared here
+   double __pyx_v_gradient;
+          ^
+glove/glove_cython.c:2447:29: warning: ‘__pyx_v_entry_weight’ may be used uninitialized in this function [-Wmaybe-uninitialized]
+                     #pragma omp for lastprivate(__pyx_v_count) lastprivate(__pyx_v_entry_weight) lastprivate(__pyx_v_gradient) lastprivate(__pyx_v_i) firstprivate(__pyx_v_j) lastprivate(__pyx_v_j) lastprivate(__pyx_v_learning_rate) lastprivate(__pyx_v_loss) lastprivate(__pyx_v_prediction) lastprivate(__pyx_v_shuffle_index) lastprivate(__pyx_v_word_a) lastprivate(__pyx_v_word_b) schedule(dynamic)
+                             ^
+glove/glove_cython.c:2338:10: note: ‘__pyx_v_entry_weight’ was declared here
+   double __pyx_v_entry_weight;
+          ^
+glove/glove_cython.c:2447:29: warning: ‘__pyx_v_count’ may be used uninitialized in this function [-Wmaybe-uninitialized]
+                     #pragma omp for lastprivate(__pyx_v_count) lastprivate(__pyx_v_entry_weight) lastprivate(__pyx_v_gradient) lastprivate(__pyx_v_i) firstprivate(__pyx_v_j) lastprivate(__pyx_v_j) lastprivate(__pyx_v_learning_rate) lastprivate(__pyx_v_loss) lastprivate(__pyx_v_prediction) lastprivate(__pyx_v_shuffle_index) lastprivate(__pyx_v_word_a) lastprivate(__pyx_v_word_b) schedule(dynamic)
+                             ^
+glove/glove_cython.c:2334:10: note: ‘__pyx_v_count’ was declared here
+   double __pyx_v_count;
+          ^
+gcc -pthread -shared -B /home/mrim/manniona/anaconda3/compiler_compat -L/home/mrim/manniona/anaconda3/lib -Wl,-rpath=/home/mrim/manniona/anaconda3/lib -Wl,--no-as-needed -Wl,--sysroot=/ build/temp.linux-x86_64-3.7/glove/glove_cython.o -o build/lib.linux-x86_64-3.7/glove/glove_cython.cpython-37m-x86_64-linux-gnu.so -fopenmp
+/home/mrim/manniona/anaconda3/compiler_compat/ld: cannot find -lpthread
+/home/mrim/manniona/anaconda3/compiler_compat/ld: cannot find -lc
+collect2: error: ld returned 1 exit status
+error: command 'gcc' failed with exit status 1`
+
+And I still get the following error from `anaconda3/bin/pip install glove-python`:
+
+`Collecting glove-python
+  Using cached https://files.pythonhosted.org/packages/3e/79/7e7e548dd9dcb741935d031117f4bed133276c2a047aadad42f1552d1771/glove_python-0.1.0.tar.gz
+Requirement already satisfied: numpy in ./anaconda3/lib/python3.7/site-packages (from glove-python) (1.17.2)
+Requirement already satisfied: scipy in ./anaconda3/lib/python3.7/site-packages (from glove-python) (1.3.1)
+Building wheels for collected packages: glove-python
+  Building wheel for glove-python (setup.py) ... error
+  ERROR: Command errored out with exit status 1:
+   command: /home/mrim/manniona/anaconda3/bin/python -u -c 'import sys, setuptools, tokenize; sys.argv[0] = '"'"'/tmp/pip-install-xqc8h49a/glove-python/setup.py'"'"'; __file__='"'"'/tmp/pip-install-xqc8h49a/glove-python/setup.py'"'"';f=getattr(tokenize, '"'"'open'"'"', open)(__file__);code=f.read().replace('"'"'\r\n'"'"', '"'"'\n'"'"');f.close();exec(compile(code, __file__, '"'"'exec'"'"'))' bdist_wheel -d /tmp/pip-wheel-fskh814v --python-tag cp37
+       cwd: /tmp/pip-install-xqc8h49a/glove-python/
+  Complete output (82 lines):
+  running bdist_wheel
+  running build
+  running build_py
+  creating build
+  creating build/lib.linux-x86_64-3.7
+  creating build/lib.linux-x86_64-3.7/glove
+  copying glove/corpus.py -> build/lib.linux-x86_64-3.7/glove
+  copying glove/__init__.py -> build/lib.linux-x86_64-3.7/glove
+  copying glove/glove.py -> build/lib.linux-x86_64-3.7/glove
+  running build_ext
+  building 'glove.glove_cython' extension
+  creating build/temp.linux-x86_64-3.7
+  creating build/temp.linux-x86_64-3.7/glove
+  gcc -pthread -B /home/mrim/manniona/anaconda3/compiler_compat -Wl,--sysroot=/ -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -Wstrict-prototypes -fPIC -I/home/mrim/manniona/anaconda3/include/python3.7m -c glove/glove_cython.c -o build/temp.linux-x86_64-3.7/glove/glove_cython.o -fopenmp -ffast-math -march=native
+  glove/glove_cython.c: In function ‘__Pyx_ExceptionSave’:
+  glove/glove_cython.c:16753:19: error: ‘PyThreadState’ has no member named ‘exc_type’
+> /home/mrim/manniona/anaconda3/compiler_compat/ld: cannot find -lpthread /home/mrim/manniona/anaconda3/compiler_compat/ld: cannot find -lc
+
+You seem to be missing libpthread and libc. Try installing them using your Linux distro's package manager.
+
+I've the exact same error and I've no luck with installing these two packages on ubuntu:
+
+* libpthread-stubs0-dev
+* libc6-dev
+
+Any other packages needed to be installed?
+
+@jk does compilation still not work with those libs installed?
+Which ubuntu version? Which python version?
+
+> @jk does compilation still not work with those libs installed?
+
+@IronFarm Sadly yes, I doesn't work
+
+> Which ubuntu version? Which python version?
+
+Ubuntu: 18.04
+Python (/usr/bin/python) 2.7.17 and (/opt/conda/bin/python3) 3.7.6
+
+I'm building a Docker Image here, so you can take a look: https://gist.github.com/jk/dbdd67adb4e703f7f6d89587bbcee73a
+
+@jk your anaconda installation is python 3.7 so some of the glove-python files need to be re-compiled.
+
+1. Remove glove_python from your environment.yaml
+2. Add these lines to your Dockerfile immediately after creating the conda env:
+```dockerfile
+# Download glove
+RUN curl -o glove_python.zip -OL https://github.com/maciejkula/glove-python/archive/master.zip
+RUN unzip glove_python.zip
+# Re-compile cython code
+WORKDIR /glove-python-master
+RUN /opt/conda/envs/wiki/bin/cythonize -X language_level=3 -f -i glove/corpus_cython.pyx
+RUN /opt/conda/envs/wiki/bin/cythonize -X language_level=3 -f -i glove/glove_cython.pyx
+RUN /opt/conda/envs/wiki/bin/cythonize -X language_level=3 -f -i glove/metrics/accuracy_cython.pyx
+# Install glove-python
+RUN /opt/conda/envs/wiki/bin/pip install .
+```
+
+@IronFarm I really appreciate your quick response. It now works, thanks a lot. 
+
+A short remark, if someone else also wants to use this:
+
+I've updated the gist: https://gist.github.com/jk/dbdd67adb4e703f7f6d89587bbcee73a#file-dockerfile-L40-L50
+
+```dockerfile
+RUN cd /tmp \
+  && curl -o glove_python.zip -OL https://github.com/maciejkula/glove-python/archive/master.zip \
+  && unzip glove_python.zip \
+  && rm -f glove_python.zip \
+  && cd glove-python-master \
+  && /opt/conda/envs/wiki/bin/cythonize -X language_level=3 -f -i glove/corpus_cython.pyx \
+  && /opt/conda/envs/wiki/bin/cythonize -X language_level=3 -f -i glove/glove_cython.pyx \
+  && /opt/conda/envs/wiki/bin/cythonize -X language_level=3 -f -i glove/metrics/accuracy_cython.pyx \
+  && /opt/conda/envs/wiki/bin/pip install . \
+  && cd .. \
+  && rm -rf glove-python-master
+```
+
+Better write it like that. It only adds one layer to the docker image and saves some disk space, when removing unnecessary files within the same layer (files can't be removed in following layers).
+
+Glad to have helped and thanks for the mini-docker tutorial in return 😄 
+
+ Does Glove have this function ? 
+ Does Glove have this function ? 
+can we use glove to calculate the probability that a input text as a real/resonable sentence base on the corpus we trained
+ Glove on multipe documents
+ I have a corpus of multiple documents.
+How to fit the model on such a corpus.
+
+I read somewhere that if I create a single document with all documents separated by an empty line, it would work. What to do when we have documents where there may be empty lines in between?
+ install glove-python on linux 
+ hi，if you install glove-python on linux you can try some steps as:
+1. install gcc  , "yum install gcc"
+2. install cython ， pip , python or conda install cython and make sure cython.version>0.29
+3. cython **. pyx ，just looke this https://github.com/maciejkula/glove-python/issues/96#issuecomment-483561454
+4. over write setup.py and https://github.com/maciejkula/glove-python/issues/42#issuecomment-325650191
+5. the last python setup.py install ,it would be ok.
+Hi, 
+after doing all the above procedures as said. I am getting the following error
+>>> from glove import Glove
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "/home/zaland/glove-python/glove/__init__.py", line 1, in <module>
+    from .corpus import Corpus
+  File "/home/zaland/glove-python/glove/corpus.py", line 10, in <module>
+    from .corpus_cython import construct_cooccurrence_matrix
+ModuleNotFoundError: No module named 'glove.corpus_cython'
+>>> exit()
+
+
+@obaidullahzaland if you installed Glove by deleting the `stdc++` dependency then Glove will **not work**. The dependency is there because it is needed.
+
+ Support for python 3.7.4
+ Getting issues while installing Glove with python3:
+Tried out all the possibilities given in the Github issues
+
+`Collecting glove-python
+  Using cached https://files.pythonhosted.org/packages/3e/79/7e7e548dd9dcb741935d031117f4bed133276c2a047aadad42f1552d1771/glove_python-0.1.0.tar.gz
+Requirement already satisfied: numpy in /home/a/miniconda3/envs/py3/lib/python3.7/site-packages (from glove-python) (1.17.2)
+Requirement already satisfied: scipy in /home/a/miniconda3/envs/py3/lib/python3.7/site-packages (from glove-python) (1.3.1)
+Building wheels for collected packages: glove-python
+  Building wheel for glove-python (setup.py) ... error
+  ERROR: Command errored out with exit status 1:
+   command: /home/a/miniconda3/envs/py3/bin/python -u -c 'import sys, setuptools, tokenize; sys.argv[0] = '"'"'/tmp/pip-install-g_2imyih/glove-python/setup.py'"'"'; __file__='"'"'/tmp/pip-install-g_2imyih/glove-python/setup.py'"'"';f=getattr(tokenize, '"'"'open'"'"', open)(__file__);code=f.read().replace('"'"'\r\n'"'"', '"'"'\n'"'"');f.close();exec(compile(code, __file__, '"'"'exec'"'"'))' bdist_wheel -d /tmp/pip-wheel-k3yjef31 --python-tag cp37
+       cwd: /tmp/pip-install-g_2imyih/glove-python/
+  Complete output (103 lines):
+  running bdist_wheel
+  running build
+  running build_py
+  creating build
+  creating build/lib.linux-x86_64-3.7
+  creating build/lib.linux-x86_64-3.7/glove
+  copying glove/glove.py -> build/lib.linux-x86_64-3.7/glove
+  copying glove/corpus.py -> build/lib.linux-x86_64-3.7/glove
+  copying glove/__init__.py -> build/lib.linux-x86_64-3.7/glove
+  running build_ext
+  building 'glove.glove_cython' extension
+  creating build/temp.linux-x86_64-3.7
+  creating build/temp.linux-x86_64-3.7/glove
+  gcc -pthread -B /home/a/miniconda3/envs/py3/compiler_compat -Wl,--sysroot=/ -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -Wstrict-prototypes -fPIC -I/home/a/miniconda3/envs/py3/include/python3.7m -c glove/glove_cython.c -o build/temp.linux-x86_64-3.7/glove/glove_cython.o -fopenmp -ffast-math -march=native
+  glove/glove_cython.c: In function ‘__Pyx_ExceptionSave’:
+  glove/glove_cython.c:16753:21: error: ‘PyThreadState {aka struct _ts}’ has no member named ‘exc_type’; did you mean ‘curexc_type’?
+Same error to me, i didn't find a solution...
+
+I have tried in google colab with installing using pip. It worked.
+
+Use python 3.6
+
+> Use python 3.6
+
+It worked with python 3.6.9
+
+ 美女bnh/m
+ 
+ Unable to install on Oracle Linux 
+ I am getting the following error when installing this software. I am running
+
+`pip3.6 install glove_python`
+
+In a dockerfile. After building an image from this file and its context (after installing python3.6, pip3.6, and pip installing libgcc) I get the following error:
+
+```Sending build context to Docker daemon 50.29 MB
+Step 1 : FROM scratch
+ ---> 
+Step 2 : MAINTAINER Oracle Linux Product Team <ol-ovm-info_ww@oracle.com>
+ ---> Using cache
+ ---> 7972e50aba9c
+Step 3 : ADD oraclelinux-7.6-rootfs.tar.xz /
+ ---> Using cache
+ ---> 0fead478a299
+Step 4 : CMD /bin/bash
+ ---> Using cache
+ ---> fbf26b9c9495
+Step 5 : ENV PACKAGES "    dumb-init     musl     libc6-compat     linux-headers     build-base     bash     git     ca-certificates     freetype     libgfortran     libgcc     libstdc++     openblas     tcl     tk     libssl1.0 "
+ ---> Using cache
+ ---> 5f827eba6fab
+Step 6 : ENV ENV_PACKAGES "    bash     libgcc     libstdc++     openblas "
+ ---> Using cache
+ ---> a544aa698208
+Step 7 : ENV PYTHON_PACKAGES "    numpy     matplotlib     scipy     scikit-learn     pandas     nltk     gensim     lifetimes  "
+ ---> Using cache
+ ---> 5a91158b336d
+Step 8 : RUN yum install -y yum-utils
+ ---> Using cache
+ ---> d550bcf76592
+Step 9 : RUN yum -y groupinstall development
+ ---> Using cache
+ ---> 34ed3eb3fed0
+Step 10 : RUN yum-config-manager --enable *EPEL
+ ---> Using cache
+ ---> ea8b13bfe626
+Step 11 : RUN rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+ ---> Using cache
+ ---> 2d3771bd8805
+Step 12 : RUN yum -y install https://centos7.iuscommunity.org/ius-release.rpm
+ ---> Using cache
+ ---> 927358d96fb3
+Step 13 : RUN yum -y install python36u
+ ---> Using cache
+ ---> d7b602b2c6b9
+Step 14 : RUN yum -y install python36u-pip
+ ---> Using cache
+ ---> c97ec152dd63
+Step 15 : RUN pip3.6 install --upgrade pip
+ ---> Using cache
+ ---> f83fa339e019
+Step 16 : RUN pip3.6 install --no-cache-dir $PYTHON_PACKAGES
+ ---> Using cache
+ ---> 4bcb96d53cac
+Step 17 : RUN yum install libgcc
+ ---> Using cache
+ ---> e59943e62202
+Step 18 : RUN pip3.6 install glove==1.0.2
+ ---> Running in 8808a6be47d1
+Collecting glove==1.0.2
+  Downloading https://files.pythonhosted.org/packages/8a/c9/17c400d0c29746162bd47fc719bf3212b2b031949d41d712e9bdef11ae03/glove-1.0.2.tar.gz (44kB)
+Requirement already satisfied: numpy in /usr/lib64/python3.6/site-packages (from glove==1.0.2) (1.16.4)
+Installing collected packages: glove
+  Running setup.py install for glove: started
+    Running setup.py install for glove: finished with status 'error'
+    ERROR: Complete output from command /usr/bin/python3.6 -u -c 'import setuptools, tokenize;__file__='"'"'/tmp/pip-install-8ijni_j2/glove/setup.py'"'"';f=getattr(tokenize, '"'"'open'"'"', open)(__file__);code=f.read().replace('"'"'\r\n'"'"', '"'"'\n'"'"');f.close();exec(compile(code, __file__, '"'"'exec'"'"'))' install --record /tmp/pip-record-1ubja0hq/install-record.txt --single-version-externally-managed --compile:
+    ERROR: running install
+    running build
+    running build_py
+    creating build
+    creating build/lib.linux-x86_64-3.6
+    creating build/lib.linux-x86_64-3.6/glove
+    copying glove/__init__.py -> build/lib.linux-x86_64-3.6/glove
+    copying glove/glove.py -> build/lib.linux-x86_64-3.6/glove
+    running egg_info
+    writing glove.egg-info/PKG-INFO
+    writing dependency_links to glove.egg-info/dependency_links.txt
+    writing requirements to glove.egg-info/requires.txt
+    writing top-level names to glove.egg-info/top_level.txt
+    reading manifest file 'glove.egg-info/SOURCES.txt'
+    reading manifest template 'MANIFEST.in'
+    writing manifest file 'glove.egg-info/SOURCES.txt'
+    error: Error: setup script specifies an absolute path:
+    
+        /tmp/pip-install-8ijni_j2/glove/glove/glove_inner.cpp
+    
+    setup() arguments must *always* be /-separated paths relative to the
+    setup.py directory, *never* absolute paths.
+    
+    ----------------------------------------
+ERROR: Command "/usr/bin/python3.6 -u -c 'import setuptools, tokenize;__file__='"'"'/tmp/pip-install-8ijni_j2/glove/setup.py'"'"';f=getattr(tokenize, '"'"'open'"'"', open)(__file__);code=f.read().replace('"'"'\r\n'"'"', '"'"'\n'"'"');f.close();exec(compile(code, __file__, '"'"'exec'"'"'))' install --record /tmp/pip-record-1ubja0hq/install-record.txt --single-version-externally-managed --compile" failed with error code 1 in /tmp/pip-install-8ijni_j2/glove/
+```
+ Error compiling cython file on Windows 10, python 3.6
+ I tried to import two library Corpus and Glove from the package glove but it said: Error compiling file/Operation only allowed in C++. Can somebody help me resolve the problem? Thank you!
+Which python version? Have you followed the installation documentation?
+
+# https://github.com/maciejkula/glove-python/wiki/Installation-on-Windows
+
+ Duplicate index in Corpus
+ I think the index in corpus.matrix is duplicate.
+For example: 
+![image](https://user-images.githubusercontent.com/26026602/58747183-2b6e7500-849a-11e9-9b0b-4012d0531dc7.png)
+Two data in corpus.matrix have same row and col.
+I think it's a bug.
+And I wonder If I should just add two data. 
+ Solving #50
+ This is a simple pull request for these two lines that I almost always must change whenever I'm using glove-python.
+ Error Installing with Python 3.7
+ When running `pip install python` on Linux Mint 19:
+
+> running bdist_wheel
+  running build
+  running build_py
+  creating build
+  creating build/lib.linux-x86_64-3.7
+  creating build/lib.linux-x86_64-3.7/glove
+  copying glove/glove.py -> build/lib.linux-x86_64-3.7/glove
+  copying glove/corpus.py -> build/lib.linux-x86_64-3.7/glove
+  copying glove/__init__.py -> build/lib.linux-x86_64-3.7/glove
+  running build_ext
+  building 'glove.glove_cython' extension
+  creating build/temp.linux-x86_64-3.7
+  creating build/temp.linux-x86_64-3.7/glove
+  gcc -pthread -B /home/rjhubba2/anaconda3/compiler_compat -Wl,--sysroot=/ -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -Wstrict-prototypes -fPIC -I/home/rjhubba2/anaconda3/include/python3.7m -c glove/glove_cython.c -o build/temp.linux-x86_64-3.7/glove/glove_cython.o -fopenmp -ffast-math -march=native
+  glove/glove_cython.c: In function ‘__Pyx_ExceptionSave’:
+  glove/glove_cython.c:16753:21: error: ‘PyThreadState’ {aka ‘struct _ts’} has no member named ‘exc_type’; did you mean ‘curexc_type’?
+Hello,
+
+I got the exact same error when trying to install this repo with python3.7
+
+I went through this by recompiling all .pyx files of the project, with cython>=0.29.X installed.
+```
+cython glove_cython.pyx
+cythonize glove_cython.pyx
+
+cython metrics/accuracy_cython.pyx
+cythonize metrics/accuracy_cython.pyx
+
+cython corpus_cython.pyx
+cythonize corpus_cython.pyx
+```
+
+When it comes to "corpus_cython.pyx" you must get some synthax errors on c++. I did not know how to fix them, so I just removed the lines concerned. Then it worked.
+However, you may not be able to use corpus... It would be good to fix these errors and propose a solution.
+
+Hi,
+Might be a bit too late for you, but I found the solution to this problem with c++ errors.
+Do what @ftorregrossa said, but when it comes to `cython corpus_cython.pyx`, run `cython --cplus corpus_cython.pyx` instead.
+After that, `cd ..` then `python setup.py cythonize`, as written under **Development** in README.
+Then, just running `make` should work.
+
+ Support for python 3
+ Getting issues while installing Glove with python3:
+
+```
+/usr/bin/gcc -DNDEBUG -g -fwrapv -O3 -Wall -Wstrict-prototypes -Wa,-q -fPIC -I/home/neerajsonaniya/anaconda3/include/python3.7m -c glove/glove_cython.c -o build/temp.linux-x86_64-3.7/glove/glove_cython.o -fopenmp -ffast-math -march=native
+  glove/glove_cython.c: In function ‘__Pyx_ExceptionSave’:
+  glove/glove_cython.c:16753:21: error: ‘PyThreadState’ {aka ‘struct _ts’} has no member named ‘exc_type’; did you mean ‘curexc_type’?
+What command did you run?
+
+I think the cython files were "cythonized" with a version of cython which is now outdated. Perhaps you could run `python setup.py cythonize` to regenerate the required files first?
+
+Solved using downgrading `conda python`
+
+ gcc: error trying to exec 'cc1plus': execvp: No such file or directory
+ I am trying to install glove-python on RHEL 7.
+I am using Python 2.7.5
+I have GCC version 4.8.5 installed on my machine.
+
+When I run `pip install glove-python==0.1.0`, I get the following error:
+
+```
+  Running setup.py install for glove-python ... error
+    Complete output from command /home/vaibhavtulsyan/mar_12/my-dir/.pyenv/bin/python2.7 -u -c "import setuptools, tokenize;__file__='/tmp/pip-install-9Uc3Dm/glove-python/setup.py';f=getattr(tokenize, 'open', open)(__file__);code=f.read().replace('\r\n', '\n');f.close();exec(compile(code, __file__, 'exec'))" install --record /tmp/pip-record-pSuN67/install-record.txt --single-version-externally-managed --compile --install-headers /home/vaibhavtulsyan/mar_12/my-dir/.pyenv/include/site/python2.7/glove-python:
+    running install
+    running build
+    running build_py
+    running build_ext
+    building 'glove.corpus_cython' extension
+    gcc -pthread -fno-strict-aliasing -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector-strong --param=ssp-buffer-size=4 -grecord-gcc-switches -m64 -mtune=generic -D_GNU_SOURCE -fPIC -fwrapv -DNDEBUG -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector-strong --param=ssp-buffer-size=4 -grecord-gcc-switches -m64 -mtune=generic -D_GNU_SOURCE -fPIC -fwrapv -fPIC -I/usr/include/python2.7 -c glove/corpus_cython.cpp -o build/temp.linux-x86_64-2.7/glove/corpus_cython.o -fopenmp -ffast-math -march=native
+    gcc: error trying to exec 'cc1plus': execvp: No such file or directory
+    error: command 'gcc' failed with exit status 1
+```
+
+Output of `gcc -v`:
+
+```
+Using built-in specs.
+COLLECT_GCC=gcc
+COLLECT_LTO_WRAPPER=/usr/libexec/gcc/x86_64-redhat-linux/4.8.5/lto-wrapper
+Target: x86_64-redhat-linux
+Configured with: ../configure --prefix=/usr --mandir=/usr/share/man --infodir=/usr/share/info --with-bugurl=http://bugzilla.redhat.com/bugzilla --enable-bootstrap --enable-shared --enable-threads=posix --enable-checking=release --with-system-zlib --enable-__cxa_atexit --disable-libunwind-exceptions --enable-gnu-unique-object --enable-linker-build-id --with-linker-hash-style=gnu --enable-languages=c,c++,objc,obj-c++,java,fortran,ada,go,lto --enable-plugin --enable-initfini-array --disable-libgcj --with-isl=/builddir/build/BUILD/gcc-4.8.5-20150702/obj-x86_64-redhat-linux/isl-install --with-cloog=/builddir/build/BUILD/gcc-4.8.5-20150702/obj-x86_64-redhat-linux/cloog-install --enable-gnu-indirect-function --with-tune=generic --with-arch_32=x86-64 --build=x86_64-redhat-linux
+Thread model: posix
+gcc version 4.8.5 20150623 (Red Hat 4.8.5-36) (GCC)
+```
+
+1. How can I install glove-python on RHEL 7 now?
+2. Is a shared object (binary) of glove-python available that I can directly import?
+Update: Installing `gcc-c++` allowed me to install successfully.
+
+ [Discussion] Motivation
+ Hi Maciej!
+
+Thanks for sharing this project; I've been pursuing the idea of wrapping the reference stanfordnlp/GloVe source code as a Cython extension. Your library has been very useful in learning more about Cython! 
+
+I just wanted to ask what your motivation was for writing the algorithm from scratch, and what you would think of trying to thinly-wrap the original distribution. Thanks!
+ New method to get the word vector representation
+ This method turns using Glove easier to use in machine learning method that requires the vector representation.
+
+Don't know if the name ```word_vector_by_word``` is the best name, please suggest me another if its a not a good one.
+ Unable to install glove_python with pip on macos:Mojave 10.14.2
+ Errors:
+-Failed building wheel for glove-python
+-Failed cleaning build dir for glove-python
+-twisted 18.7.0 requires PyHamcrest>=1.9.0, which is not installed.
+Are you using python 3.7? If yes, then you should downgrade to 3.6 first and then install glove_python. There is some compatibility issue with 3.7 and the glove.
+
+Not working
+@angao94 
+
+ Get loss of word vector fitting
+ Hello. 
+
+I would like to see the loss of the vector optimization procedure to see if my glove model has relatively converged  (and add a tolerance to make an early stopping). All I would need is the loss from the call to the cython module/function fit_vectors. I guess you would need to modify the C code of glove and somehow return the loss. Is there any easy way to achieve this? 
+
+Thanks in advance
+i have the same problem 
+
+ added init_epoch to Glove.fit
+ Each time that we called the fit method, the weights were randomly initiated, not allowing a warm start. Therefore, we just added a way to allow the model to resume the training.
+Regards
+ What is the purpose of having the transform_paragraph in transform_paragraph?
+ I see that in glove.py there is a transform_paragraph function, which as the name suggests transforms a paragraph into a vector. However, at the end of the function I see it calling another transform_paragraph, this time from glove_cython.pyx. What is the purpose of this last call, it seems to be working without the call just as well. 
+ Add gensim dependency
+ 
+ Min word count while creating vocab
+ I was trying to train the latest Wikipedia dump size 15gb, obviously it has large corpus and token count (approx 360m). Since the co-occurrence matrix need to live in the memory, I want to provide a min number for Freq count of the word while creating vocab which in turn creates the co-occurrence matrix. I could not find any parameter for that. Also the code is in cython so it's hard to understand for noob like me. Any idea how can I create vocab and co-occurrence making it memory efficient?
+I am still looking for a solution for this issue, did you find how you can do this ?
+
+ glove/glove_cython.c:262:10: fatal error: omp.h: No such file or directory
+ I was trying to install glove on an ec2 instance. I have python3.6 and have already installed gcc. Even then, it is failing to install. The displayed message is:
+ 
+glove/glove_cython.c:262:10: fatal error: omp.h: No such file or directory
+     #include <omp.h>
+              ^~~~~~~
+    compilation terminated.
+    error: command 'gcc' failed with exit status 1
+
+ Added function return_word_vector(self,word)...
+ ...to Glove class to retrieve vector from loaded model
+example usage : 
+glove_model=Glove.load('path/to/model')
+glove_model.return_word_vector('physics')
+ Problem with the _model.add_dictionary(corpus.dictionary)_
+ Hi all,
+
+Thanks for this nice implementation. However, the dict constructed from the input data by the _Corpus()_ method has a shape:
+```
+{
+word_1: ID_1,
+word_2: ID_2 ... }
+```
+
+So, **what about a word appearing often in the corpus ? The last ID is just replaced ? It should be a list no ?**
+
+And one more, when **training on multiple chunks of documents**, the method _add_dictionary()_ simply replace the old dict created on the chunk No 1 by the one created with the No 2. Do you want me to pull a new version who will merge the two dicts instead ?
+
+This is more RAM-friendly to interate through a generator when the input corpus is huge as hell ...
+
+Thanks !
+ install issue on windows 10
+ I am running the command **pip install glove_python**
+
+ C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Tools\MSVC\14.13.26128\bin\HostX86\x86\link.exe /nologo /INCREMENTAL:NO /LTCG /nodefaultlib:libucrt.lib ucrt.lib /DLL /MANIFEST:EMBED,ID=2 /MANIFESTUAC:NO /LIBPATH:c:\users\hi5an\appdata\local\programs\python\python35-32\libs /LIBPATH:c:\users\hi5an\appdata\local\programs\python\python35-32\PCbuild\win32 "/LIBPATH:C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Tools\MSVC\14.13.26128\Lib\x86" "/LIBPATH:C:\Program Files (x86)\Windows Kits\10\lib\10.0.16299.0\um\x86" /LIBPATH:C:\WINDOWS\Microsoft.NET\Framework\v4.0.30319 "/LIBPATH:C:\Program Files (x86)\Windows Kits\10\lib\10.0.16299.0\ucrt\x86" stdc++.lib /EXPORT:PyInit_corpus_cython build\temp.win32-3.5\Release\glove/corpus_cython.obj /OUT:build\lib.win32-3.5\glove\corpus_cython.cp35-win32.pyd /IMPLIB:build\temp.win32-3.5\Release\glove\corpus_cython.cp35-win32.lib -fopenmp -ffast-math -march=native
+    LINK : warning LNK4044: unrecognized option '/fopenmp'; ignored
+    LINK : warning LNK4044: unrecognized option '/ffast-math'; ignored
+    LINK : warning LNK4044: unrecognized option '/march=native'; ignored
+    LINK : fatal error LNK1181: cannot open input file 'stdc++.lib'
+    error: command 'C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\BuildTools\\VC\\Tools\\MSVC\\14.13.26128\\bin\\HostX86\\x86\\link.exe' failed with exit status 1181
+
+
+
+**Complete logs in the attached file**
+[log.txt](https://github.com/maciejkula/glove-python/files/1948786/log.txt)
+
+Hi ssditeam9,
+I have the same error, i found this https://github.com/maciejkula/glove-python/issues/42, rahul4tripathi2 gives a solution, it doesn't work for me but maybe for you yes.
+
+Could you try following my installation instructions I added to the wiki?
+https://github.com/maciejkula/glove-python/wiki/Installation-on-Windows
+
+I am trying to install glove-python on windows 10, using Anaconda. 
+I tried:
+pip install glove-python
+python setup.py install (in the cloned directory)
+Both give errors.
+
+Then I followed the instructions in the wiki (https://github.com/maciejkula/glove-python/wiki/Installation-on-Windows) but this does not work neither (full log attached):
+
+(base) C:\glove-python-master>python setup.py build_ext --compiler=mingw32
+running build_ext
+building 'glove.glove_cython' extension
+creating build
+creating build\temp.win-amd64-3.7
+creating build\temp.win-amd64-3.7\Release
+creating build\temp.win-amd64-3.7\Release\glove
+C:\mingw-w64\i686-8.1.0-posix-dwarf-rt_v6-rev0\mingw32\bin\gcc.exe -mdll -O -Wall -DMS_WIN64 -IC:\Users\Peter\Anaconda3\include -IC:\Users\Peter\Anaconda3\include -c glove/glove_cython.c -o build\temp.win-amd64-3.7\Release\glove\glove_cython.o -fopenmp -ffast-math -march=native
+glove/glove_cython.c: In function '__Pyx_ExceptionSave':
+glove/glove_cython.c:16753:21: error: 'PyThreadState' {aka 'struct _ts'} has no member named 'exc_type'; did you mean 'curexc_type'?
+     *type = tstate->exc_type;
+                     ^~~~~~~~
+                     curexc_type
+glove/glove_cython.c:16754:22: error: 'PyThreadState' {aka 'struct _ts'} has no member named 'exc_value'; did you mean 'curexc_value'?
+     *value = tstate->exc_value;
+                      ^~~~~~~~~
+                      curexc_value
+[... many more lines...]
+glove/glove_cython.c:16847:13: error: 'PyThreadState' {aka 'struct _ts'} has no member named 'exc_traceback'; did you mean 'curexc_traceback'?
+     tstate->exc_traceback = *tb;
+             ^~~~~~~~~~~~~
+             curexc_traceback
+error: command 'C:\\mingw-w64\\i686-8.1.0-posix-dwarf-rt_v6-rev0\\mingw32\\bin\\gcc.exe' failed with exit status 1
+
+[log.txt](https://github.com/maciejkula/glove-python/files/2850767/log.txt)
+
+@p-nice It seems the version of Cython this repository uses is incompatible with Python 3.7. I've replicated your issue with Python 3.7 and verified that downgrading to Python 3.6 works correctly.
+
+Please
+1. Downgrade to Python 3.6 `conda install "python<3.7"`
+2. Run the build command again `python setup.py build_ext --compiler=mingw32`
+
+I'll update the wiki to reflect the incompatibility.
+
+> Could you try following my installation instructions I added to the wiki?
+> https://github.com/maciejkula/glove-python/wiki/Installation-on-Windows
+
+Hi, I can't seem to pip install libpython - it doesn't appear to exist in pypi repo.
+And am on Python 3.6
+
+@barnabychan yes it seems you're right. `libpython` is only available through conda. There may be a workaround if you're not using conda but I'm not sure.
+
+I've updated the wiki to reflect this.
+
+@IronFarm  I followed the instructions in the wiki (https://github.com/maciejkula/glove-python/wiki/Installation-on-Windows) but this does not work neither
+python 3.6.2 and I install glove-python on windows 10, using Anaconda.
+I get errors when I run `python setup.py build_ext --compiler=mingw32`
+
+`
+running build_ext
+Traceback (most recent call last):
+  File "setup.py", line 155, in <module>
+    ext_modules=define_extensions()
+  File "C:\UserApp\Anaconda\envs\tf-gpu\lib\site-packages\setuptools\__init__.py", line 129, in setup
+    return distutils.core.setup(**attrs)
+  File "C:\UserApp\Anaconda\envs\tf-gpu\lib\distutils\core.py", line 148, in setup
+    dist.run_commands()
+  File "C:\UserApp\Anaconda\envs\tf-gpu\lib\distutils\dist.py", line 955, in run_commands
+    self.run_command(cmd)
+  File "C:\UserApp\Anaconda\envs\tf-gpu\lib\distutils\dist.py", line 974, in run_command
+    cmd_obj.run()
+  File "C:\UserApp\Anaconda\envs\tf-gpu\lib\site-packages\setuptools\command\build_ext.py", line 78, in run
+    _build_ext.run(self)
+  File "C:\UserApp\Anaconda\envs\tf-gpu\lib\site-packages\Cython\Distutils\old_build_ext.py", line 186, in run
+    _build_ext.build_ext.run(self)
+  File "C:\UserApp\Anaconda\envs\tf-gpu\lib\distutils\command\build_ext.py", line 308, in run
+    force=self.force)
+  File "C:\UserApp\Anaconda\envs\tf-gpu\lib\distutils\ccompiler.py", line 1031, in new_compiler
+    return klass(None, dry_run, force)
+  File "C:\UserApp\Anaconda\envs\tf-gpu\lib\distutils\cygwinccompiler.py", line 285, in __init__
+    CygwinCCompiler.__init__ (self, verbose, dry_run, force)
+  File "C:\UserApp\Anaconda\envs\tf-gpu\lib\distutils\cygwinccompiler.py", line 129, in __init__
+    if self.ld_version >= "2.10.90":
+TypeError: '>=' not supported between instances of 'NoneType' and 'str'
+`
+
+@seeyourmind It looks like it isn't using your install of MinGW. What is the output of the command `where gcc.exe`?
+
+@IronFarm `C:\UserApp\mingw64\bin\gcc.exe` is my install path of MinGW
+
+@seeyourmind but does the Windows terminal correctly detect it when you type `gcc.exe` in another directory?
+
+@IronFarm I run the code in the root directory,and the teminal can detect the path of mingw correctly.
+
+@IronFarm it also can be recognised if I changed into another path
+
+What is the full log from the `build_ext` command? e.g. when I run mine prints
+```
+running build_ext
+building 'glove.glove_cython' extension
+creating build\temp.win-amd64-3.6
+creating build\temp.win-amd64-3.6\Release
+creating build\temp.win-amd64-3.6\Release\glove
+E:\mingw64\bin\gcc.exe -mdll -O -Wall -DMS_WIN64 -IE:\Anaconda2\envs\glove-compi
+le\include -IE:\Anaconda2\envs\glove-compile\include -c glove/glove_cython.c -o
+build\temp.win-amd64-3.6\Release\glove\glove_cython.o -fopenmp -ffast-math
+```
+
+This demonstrates it's correctly using `gcc.exe`.
+
+@IronFarm oh sorry，they are all the logs in my first message I send to you.
+I executed the command of build_ext in my enviroment of tensorflow which I configured in anaconda,and then I got all the error logs as follows 
+`running build_ext Traceback (most recent call last): File "setup.py", line 155, in <module> ext_modules=define_extensions() File "C:\UserApp\Anaconda\envs\tf-gpu\lib\site-packages\setuptools\__init__.py", line 129, in setup return distutils.core.setup(**attrs) File "C:\UserApp\Anaconda\envs\tf-gpu\lib\distutils\core.py", line 148, in setup dist.run_commands() File "C:\UserApp\Anaconda\envs\tf-gpu\lib\distutils\dist.py", line 955, in run_commands self.run_command(cmd) File "C:\UserApp\Anaconda\envs\tf-gpu\lib\distutils\dist.py", line 974, in run_command cmd_obj.run() File "C:\UserApp\Anaconda\envs\tf-gpu\lib\site-packages\setuptools\command\build_ext.py", line 78, in run _build_ext.run(self) File "C:\UserApp\Anaconda\envs\tf-gpu\lib\site-packages\Cython\Distutils\old_build_ext.py", line 186, in run _build_ext.build_ext.run(self) File "C:\UserApp\Anaconda\envs\tf-gpu\lib\distutils\command\build_ext.py", line 308, in run force=self.force) File "C:\UserApp\Anaconda\envs\tf-gpu\lib\distutils\ccompiler.py", line 1031, in new_compiler return klass(None, dry_run, force) File "C:\UserApp\Anaconda\envs\tf-gpu\lib\distutils\cygwinccompiler.py", line 285, in __init__ CygwinCCompiler.__init__ (self, verbose, dry_run, force) File "C:\UserApp\Anaconda\envs\tf-gpu\lib\distutils\cygwinccompiler.py", line 129, in __init__ if self.ld_version >= "2.10.90": TypeError: '>=' not supported between instances of 'NoneType' and 'str'
+`
+
+I don't understand why it mentions cygwin in the output if it's using MinGW. Can you print the FULL output of the command `where gcc.exe`?
+
+@IronFarm only one line of output
+`C:\UserApp\mingw64\bin\gcc.exe`
+
+I really have no idea. Are you using cygwin or cmd to run the commands? What version of libpython did you install with conda (you can use `conda list` to find this out)?
+
+@IronFarm conda list as follows:
+ Name                    Version                   Build  Channel
+absl-py                   0.7.0                     <pip>
+astor                     0.7.1                     <pip>
+blas                      1.0                         mkl     
+boto                      2.48.0                   py36_0     
+bz2file                   0.98                     py36_0     
+certifi                   2016.2.28                py36_0     
+Cython                    0.29.7                    <pip>
+gast                      0.2.2                     <pip>
+gensim                    2.3.0               np113py36_0     
+grpcio                    1.19.0                    <pip>
+h5py                      2.9.0                     <pip>
+Keras                     2.2.4                     <pip>
+Keras-Applications        1.0.7                     <pip>
+Keras-Preprocessing       1.0.9                     <pip>
+libpython                 1.0                       <pip>
+Markdown                  3.0.1                     <pip>
+mingw                     4.7                           1     
+mkl                       2017.0.3                      0     
+numpy                     1.14.5                    <pip>
+numpy                     1.13.1                   py36_0     
+pandas                    0.24.2                    <pip>
+pip                       9.0.1                    py36_1     
+protobuf                  3.7.0                     <pip>
+python                    3.6.2                         0     
+python-dateutil           2.8.0                     <pip>
+pytz                      2019.1                    <pip>
+PyYAML                    5.1                       <pip>
+requests                  2.14.2                   py36_0     
+scikit-learn              0.20.3                    <pip>
+scipy                     1.2.1                     <pip>
+scipy                     0.19.1              np113py36_0     
+setuptools                39.1.0                    <pip>
+setuptools                36.4.0                   py36_1     
+six                       1.12.0                    <pip>
+six                       1.10.0                   py36_0     
+sklearn                   0.0                       <pip>
+smart_open                1.5.3                    py36_0     
+tensorboard               1.10.0                    <pip>
+tensorflow-gpu            1.10.0                    <pip>
+termcolor                 1.1.0                     <pip>
+vc                        14                            0     
+vs2015_runtime            14.0.25420                    0     
+Werkzeug                  0.14.1                    <pip>
+wheel                     0.29.0                   py36_0     
+wheel                     0.33.2                    <pip>
+wincertstore              0.2                      py36_0     
+
+@IronFarm and Thank you for your timely reply. I haven't found a solution to this problem yet, so I'm still using `gensim.word2vec.`
+
+The environment I use has libpython 2.10, yours has libpython 1.0. That could explain your original error message as the version it requires is also 2.10. Could you upgrade libpython to the latest version using anaconda?
+
+@IronFarm Thank you very much！ I upgraded `libpython,` and installed `glove-python` successfully.
+
+Great to hear. I'll update the wiki to reflect this.
+
+Hey, I am getting the following with trying to install glove, any idea
+```
+(myenv) PS C:\glove-python> python setup.py build_ext --compiler=mingw32
+running build_ext
+building 'glove.corpus_cython' extension
+C:\ProgramData\chocolatey\lib\mingw\tools\install\mingw64\bin\gcc.exe -mdll -O -Wall -DMS_WIN64 -IC:\anaconda\envs\myenv\include -IC:\anaconda\envs\myenv\include -c glove/corpus_cython.cpp -o build\temp.win-amd64-3.6\Release\glove\corpus_cython.o -fopenmp -ffast-math
+In file included from C:/ProgramData/chocolatey/lib/mingw/tools/install/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/math.h:36,
+                 from C:\anaconda\envs\myenv\include/pyport.h:194,
+                 from C:\anaconda\envs\myenv\include/Python.h:53,
+                 from glove/corpus_cython.cpp:26:
+C:/ProgramData/chocolatey/lib/mingw/tools/install/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/cmath:1121:11: error: '::hypot' has not been declared
+   using ::hypot;
+           ^~~~~
+glove/corpus_cython.cpp: In function 'void __pyx_f_5glove_13corpus_cython_increment_matrix(__pyx_t_5glove_13corpus_cython_SparseRowMatrix*, int, int, float)':
+glove/corpus_cython.cpp:1894:31: warning: comparison of integer expressions of different signedness: 'int' and 'std::vector<std::vector<int> >::size_type' {aka 'long long unsigned int'} [-Wsign-compare]
+     __pyx_t_1 = ((__pyx_v_row >= __pyx_v_mat->indices->size()) != 0);
+                   ~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+glove/corpus_cython.cpp:2036:29: warning: comparison of integer expressions of different signedness: 'int' and 'std::vector<int>::size_type' {aka 'long long unsigned int'} [-Wsign-compare]
+   __pyx_t_1 = ((__pyx_v_idx == __pyx_v_row_indices->size()) != 0);
+                 ~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+glove/corpus_cython.cpp: In function 'int __pyx_f_5glove_13corpus_cython_matrix_nnz(__pyx_t_5glove_13corpus_cython_SparseRowMatrix*)':
+glove/corpus_cython.cpp:2225:33: warning: comparison of integer expressions of different signedness: 'int' and 'size_t' {aka 'long long unsigned int'} [-Wsign-compare]
+   for (__pyx_t_2 = 0; __pyx_t_2 < __pyx_t_1; __pyx_t_2+=1) {
+                       ~~~~~~~~~~^~~~~~~~~~~
+glove/corpus_cython.cpp: In function 'PyObject* __pyx_f_5glove_13corpus_cython_matrix_to_coo(__pyx_t_5glove_13corpus_cython_SparseRowMatrix*, int)':
+glove/corpus_cython.cpp:2496:37: warning: comparison of integer expressions of different signedness: 'int' and 'size_t' {aka 'long long unsigned int'} [-Wsign-compare]
+     for (__pyx_t_11 = 0; __pyx_t_11 < __pyx_t_10; __pyx_t_11+=1) {
+                          ~~~~~~~~~~~^~~~~~~~~~~~
+error: command 'C:\\ProgramData\\chocolatey\\lib\\mingw\\tools\\install\\mingw64\\bin\\gcc.exe' failed with exit status 1
+```
+
+@AHAMES which version of python are you using? If you have Cython installed then re-generating the `.cpp` files may fix your issue. You can do this by running the command `python setup.py cythonize`.
+
+Hello,
+
+I followed what was in this wiki. 
+When I tried this line              python setup.py build_ext --compiler=mingw32
+I got this error 
+
+(Glove3.6) c:\glove-python>python setup.py build_ext --compiler=mingw32
+running build_ext
+Traceback (most recent call last):
+  File "setup.py", line 155, in <module>
+    ext_modules=define_extensions()
+  File "D:\Anaconda3\envs\Glove3.6\lib\site-packages\setuptools\__init__.py", line 144, in setup
+    return distutils.core.setup(**attrs)
+  File "D:\Anaconda3\envs\Glove3.6\lib\distutils\core.py", line 148, in setup
+    dist.run_commands()
+  File "D:\Anaconda3\envs\Glove3.6\lib\distutils\dist.py", line 955, in run_commands
+    self.run_command(cmd)
+  File "D:\Anaconda3\envs\Glove3.6\lib\distutils\dist.py", line 974, in run_command
+    cmd_obj.run()
+  File "D:\Anaconda3\envs\Glove3.6\lib\site-packages\setuptools\command\build_ext.py", line 87, in run
+    _build_ext.run(self)
+  File "D:\Anaconda3\envs\Glove3.6\lib\site-packages\Cython\Distutils\old_build_ext.py", line 186, in run
+    _build_ext.build_ext.run(self)
+  File "D:\Anaconda3\envs\Glove3.6\lib\distutils\command\build_ext.py", line 308, in run
+    force=self.force)
+  File "D:\Anaconda3\envs\Glove3.6\lib\distutils\ccompiler.py", line 1031, in new_compiler
+    return klass(None, dry_run, force)
+  File "D:\Anaconda3\envs\Glove3.6\lib\distutils\cygwinccompiler.py", line 285, in __init__
+    CygwinCCompiler.__init__ (self, verbose, dry_run, force)
+  File "D:\Anaconda3\envs\Glove3.6\lib\distutils\cygwinccompiler.py", line 129, in __init__
+    if self.ld_version >= "2.10.90":
+TypeError: '>=' not supported between instances of 'NoneType' and 'str'
+
+
+Kindly advise me what to do. 
+
+Here is my conda list
+
+(Glove3.6) c:\glove-python>conda list
+# packages in environment at D:\Anaconda3\envs\Glove3.6:
+#
+# Name                    Version                   Build  Channel
+atomicwrites              1.3.0                    py36_1
+attrs                     19.3.0                     py_0
+blas                      1.0                         mkl
+ca-certificates           2020.1.1                      0
+certifi                   2019.11.28               py36_0
+colorama                  0.4.3                      py_0
+cycler                    0.10.0           py36h009560c_0
+cython                    0.29.15          py36ha925a31_0
+freetype                  2.9.1                ha9979f8_1
+icc_rt                    2019.0.0             h0cc432a_1
+icu                       58.2                 ha66f8fd_1
+implicit                  0.4.2            py36he350917_0    conda-forge
+importlib_metadata        1.5.0                    py36_0
+intel-openmp              2020.0                      166
+jpeg                      9b                   hb83a4c4_2
+kiwisolver                1.1.0            py36ha925a31_0
+libpng                    1.6.37               h2a8f88b_0
+libpython                 2.1                      py36_0
+matplotlib                3.1.3                    py36_0
+matplotlib-base           3.1.3            py36h64f37c6_0
+mkl                       2020.0                      166
+mkl-service               2.3.0            py36hb782905_0
+mkl_fft                   1.0.15           py36h14836fe_0
+mkl_random                1.1.0            py36h675688f_0
+more-itertools            8.2.0                      py_0
+numpy                     1.18.1           py36h93ca92e_0
+numpy-base                1.18.1           py36hc3f5095_1
+openssl                   1.1.1d               he774522_4
+packaging                 20.1                       py_0
+pip                       20.0.2                   py36_1
+pluggy                    0.13.1                   py36_0
+py                        1.8.1                      py_0
+pyparsing                 2.4.6                      py_0
+pyqt                      5.9.2            py36h6538335_2
+pytest                    5.3.5                    py36_0
+python                    3.6.10               h9f7ef89_0
+python-dateutil           2.8.1                      py_0
+qt                        5.9.7            vc14h73c81de_0
+scipy                     1.4.1            py36h9439919_0
+setuptools                45.2.0                   py36_0
+sip                       4.19.8           py36h6538335_0
+six                       1.14.0                   py36_0
+sqlite                    3.31.1               he774522_0
+tornado                   6.0.3            py36he774522_3
+tqdm                      4.43.0                     py_0    conda-forge
+vc                        14.1                 h0510ff6_4
+vs2015_runtime            14.16.27012          hf0eaf9b_1
+wcwidth                   0.1.8                      py_0
+wheel                     0.34.2                   py36_0
+wincertstore              0.2              py36h7fe50ca_0
+zipp                      2.2.0                      py_0
+zlib                      1.2.11               h62dcd97_3
+
+> Hello,
+> 
+> I followed what was in this wiki.
+> When I tried this line python setup.py build_ext --compiler=mingw32
+> I got this error
+> 
+> (Glove3.6) c:\glove-python>python setup.py build_ext --compiler=mingw32
+> running build_ext
+> Traceback (most recent call last):
+> File "setup.py", line 155, in
+> ext_modules=define_extensions()
+> File "D:\Anaconda3\envs\Glove3.6\lib\site-packages\setuptools__init__.py", line 144, in setup
+> return distutils.core.setup(**attrs)
+> File "D:\Anaconda3\envs\Glove3.6\lib\distutils\core.py", line 148, in setup
+> dist.run_commands()
+> File "D:\Anaconda3\envs\Glove3.6\lib\distutils\dist.py", line 955, in run_commands
+> self.run_command(cmd)
+> File "D:\Anaconda3\envs\Glove3.6\lib\distutils\dist.py", line 974, in run_command
+> cmd_obj.run()
+> File "D:\Anaconda3\envs\Glove3.6\lib\site-packages\setuptools\command\build_ext.py", line 87, in run
+> _build_ext.run(self)
+> File "D:\Anaconda3\envs\Glove3.6\lib\site-packages\Cython\Distutils\old_build_ext.py", line 186, in run
+> _build_ext.build_ext.run(self)
+> File "D:\Anaconda3\envs\Glove3.6\lib\distutils\command\build_ext.py", line 308, in run
+> force=self.force)
+> File "D:\Anaconda3\envs\Glove3.6\lib\distutils\ccompiler.py", line 1031, in new_compiler
+> return klass(None, dry_run, force)
+> File "D:\Anaconda3\envs\Glove3.6\lib\distutils\cygwinccompiler.py", line 285, in **init**
+> CygwinCCompiler.**init** (self, verbose, dry_run, force)
+> File "D:\Anaconda3\envs\Glove3.6\lib\distutils\cygwinccompiler.py", line 129, in **init**
+> if self.ld_version >= "2.10.90":
+> TypeError: '>=' not supported between instances of 'NoneType' and 'str'
+> 
+> Kindly advise me what to do.
+> 
+> Here is my conda list
+> 
+> (Glove3.6) c:\glove-python>conda list
+> 
+> # packages in environment at D:\Anaconda3\envs\Glove3.6:
+> # Name Version Build Channel
+> atomicwrites 1.3.0 py36_1
+> attrs 19.3.0 py_0
+> blas 1.0 mkl
+> ca-certificates 2020.1.1 0
+> certifi 2019.11.28 py36_0
+> colorama 0.4.3 py_0
+> cycler 0.10.0 py36h009560c_0
+> cython 0.29.15 py36ha925a31_0
+> freetype 2.9.1 ha9979f8_1
+> icc_rt 2019.0.0 h0cc432a_1
+> icu 58.2 ha66f8fd_1
+> implicit 0.4.2 py36he350917_0 conda-forge
+> importlib_metadata 1.5.0 py36_0
+> intel-openmp 2020.0 166
+> jpeg 9b hb83a4c4_2
+> kiwisolver 1.1.0 py36ha925a31_0
+> libpng 1.6.37 h2a8f88b_0
+> libpython 2.1 py36_0
+> matplotlib 3.1.3 py36_0
+> matplotlib-base 3.1.3 py36h64f37c6_0
+> mkl 2020.0 166
+> mkl-service 2.3.0 py36hb782905_0
+> mkl_fft 1.0.15 py36h14836fe_0
+> mkl_random 1.1.0 py36h675688f_0
+> more-itertools 8.2.0 py_0
+> numpy 1.18.1 py36h93ca92e_0
+> numpy-base 1.18.1 py36hc3f5095_1
+> openssl 1.1.1d he774522_4
+> packaging 20.1 py_0
+> pip 20.0.2 py36_1
+> pluggy 0.13.1 py36_0
+> py 1.8.1 py_0
+> pyparsing 2.4.6 py_0
+> pyqt 5.9.2 py36h6538335_2
+> pytest 5.3.5 py36_0
+> python 3.6.10 h9f7ef89_0
+> python-dateutil 2.8.1 py_0
+> qt 5.9.7 vc14h73c81de_0
+> scipy 1.4.1 py36h9439919_0
+> setuptools 45.2.0 py36_0
+> sip 4.19.8 py36h6538335_0
+> six 1.14.0 py36_0
+> sqlite 3.31.1 he774522_0
+> tornado 6.0.3 py36he774522_3
+> tqdm 4.43.0 py_0 conda-forge
+> vc 14.1 h0510ff6_4
+> vs2015_runtime 14.16.27012 hf0eaf9b_1
+> wcwidth 0.1.8 py_0
+> wheel 0.34.2 py36_0
+> wincertstore 0.2 py36h7fe50ca_0
+> zipp 2.2.0 py_0
+> zlib 1.2.11 h62dcd97_3
+
+Here is my complete documentation of what happened
+
+[Errors when attempting to install glove_python.docx](https://github.com/maciejkula/glove-python/files/4281542/Errors.when.attempting.to.install.glove_python.docx)
+
+
+@sheilaabad your stacktrace suggests its using the Cygwin compiler, not MinGW.
+
+Are you using the Cygwin command prompt to compile it? I see in your .docx file that you ran `where gcc.exe` in the normal Windows command prompt but ran the `build_ext` command from a different prompt.
+
+What happens if you run `where gcc.exe` immediately before running `python setup.py build_ext --compiler=mingw32`?
+

@@ -1,0 +1,68 @@
+﻿NUMTopics = 2
+(0, '0.068*"stable" + 0.068*"branch" + 0.040*"merge" + 0.032*"issue" + 0.025*"fix" + 0.025*"correct" + 0.018*"optimization" + 0.018*"package" + 0.018*"add" + 0.018*"change"')
+(1, '0.015*"branch" + 0.015*"stable" + 0.015*"merge" + 0.015*"grammar" + 0.015*"improve" + 0.015*"issue" + 0.015*"miss" + 0.015*"correct" + 0.015*"remove" + 0.015*"correction"')
+
+------------------------
+NUMTopics = 3
+(0, '0.073*"stable" + 0.073*"branch" + 0.042*"merge" + 0.034*"issue" + 0.026*"fix" + 0.026*"correct" + 0.018*"optimization" + 0.018*"package" + 0.018*"change" + 0.018*"net"')
+(1, '0.015*"branch" + 0.015*"grammar" + 0.015*"issue" + 0.015*"remove" + 0.015*"stable" + 0.015*"miss" + 0.015*"merge" + 0.015*"improve" + 0.015*"correct" + 0.015*"correction"')
+(2, '0.016*"correct" + 0.016*"improve" + 0.016*"sentence" + 0.016*"branch" + 0.016*"minor" + 0.016*"grammar" + 0.016*"miss" + 0.016*"correction" + 0.015*"stable" + 0.015*"remove"')
+
+------------------------
+NUMTopics = 4
+(0, '0.106*"stable" + 0.091*"branch" + 0.062*"merge" + 0.033*"issue" + 0.033*"optimization" + 0.033*"fix" + 0.033*"package" + 0.018*"net" + 0.018*"change" + 0.018*"start"')
+(1, '0.015*"grammar" + 0.015*"branch" + 0.015*"issue" + 0.015*"correct" + 0.015*"improve" + 0.015*"miss" + 0.015*"remove" + 0.015*"net" + 0.015*"correction" + 0.015*"stable"')
+(2, '0.015*"correct" + 0.015*"branch" + 0.015*"improve" + 0.015*"sentence" + 0.015*"grammar" + 0.015*"stable" + 0.015*"minor" + 0.015*"miss" + 0.015*"issue" + 0.015*"correction"')
+(3, '0.046*"branch" + 0.046*"correct" + 0.032*"stable" + 0.032*"remove" + 0.032*"correction" + 0.032*"miss" + 0.032*"minor" + 0.032*"sentence" + 0.032*"issue" + 0.032*"improve"')
+
+------------------------
+NUMTopics = 5
+(0, '0.110*"stable" + 0.095*"branch" + 0.064*"merge" + 0.034*"issue" + 0.034*"fix" + 0.034*"optimization" + 0.034*"package" + 0.018*"net" + 0.018*"change" + 0.018*"start"')
+(1, '0.015*"branch" + 0.015*"issue" + 0.015*"stable" + 0.015*"merge" + 0.015*"net" + 0.015*"grammar" + 0.015*"change" + 0.015*"fix" + 0.015*"start" + 0.015*"improve"')
+(2, '0.015*"stable" + 0.015*"branch" + 0.015*"merge" + 0.015*"package" + 0.015*"fix" + 0.015*"optimization" + 0.015*"specify" + 0.015*"overwrite" + 0.015*"issue" + 0.015*"pull"')
+(3, '0.048*"branch" + 0.048*"correct" + 0.033*"stable" + 0.033*"remove" + 0.033*"correction" + 0.033*"sentence" + 0.033*"minor" + 0.033*"improve" + 0.033*"miss" + 0.033*"issue"')
+(4, '0.016*"stable" + 0.016*"branch" + 0.016*"merge" + 0.015*"fix" + 0.015*"package" + 0.015*"optimization" + 0.015*"issue" + 0.015*"master" + 0.015*"unleashed" + 0.015*"add"')
+
+------------------------
+NUMTopics = 6
+(0, '0.113*"stable" + 0.098*"branch" + 0.066*"merge" + 0.034*"issue" + 0.034*"fix" + 0.034*"optimization" + 0.034*"package" + 0.019*"net" + 0.019*"change" + 0.019*"start"')
+(1, '0.015*"branch" + 0.015*"merge" + 0.015*"stable" + 0.015*"issue" + 0.015*"net" + 0.015*"fix" + 0.015*"change" + 0.015*"start" + 0.015*"add" + 0.015*"grammar"')
+(2, '0.015*"stable" + 0.015*"branch" + 0.015*"merge" + 0.015*"package" + 0.015*"fix" + 0.015*"specify" + 0.015*"optimization" + 0.015*"overwrite" + 0.015*"runtime" + 0.015*"issue"')
+(3, '0.049*"branch" + 0.049*"correct" + 0.033*"remove" + 0.033*"correction" + 0.033*"sentence" + 0.033*"minor" + 0.033*"improve" + 0.033*"stable" + 0.033*"miss" + 0.033*"grammar"')
+(4, '0.016*"stable" + 0.015*"merge" + 0.015*"branch" + 0.015*"fix" + 0.015*"package" + 0.015*"optimization" + 0.015*"issue" + 0.015*"master" + 0.015*"add" + 0.015*"unleashed"')
+(5, '0.015*"branch" + 0.015*"stable" + 0.015*"issue" + 0.015*"add" + 0.015*"merge" + 0.015*"fix" + 0.015*"start" + 0.015*"net" + 0.015*"change" + 0.015*"grammar"')
+
+------------------------
+NUMTopics = 7
+(0, '0.116*"stable" + 0.100*"branch" + 0.067*"merge" + 0.035*"issue" + 0.035*"fix" + 0.035*"optimization" + 0.035*"package" + 0.019*"net" + 0.019*"change" + 0.019*"start"')
+(1, '0.015*"branch" + 0.015*"stable" + 0.015*"merge" + 0.015*"issue" + 0.015*"fix" + 0.015*"net" + 0.015*"change" + 0.015*"start" + 0.015*"grammar" + 0.015*"add"')
+(2, '0.015*"stable" + 0.015*"branch" + 0.015*"merge" + 0.015*"fix" + 0.015*"issue" + 0.015*"add" + 0.015*"correct" + 0.015*"net" + 0.015*"start" + 0.015*"improve"')
+(3, '0.050*"branch" + 0.049*"correct" + 0.034*"remove" + 0.034*"correction" + 0.034*"sentence" + 0.034*"stable" + 0.034*"minor" + 0.034*"improve" + 0.034*"miss" + 0.034*"grammar"')
+(4, '0.015*"stable" + 0.015*"merge" + 0.015*"branch" + 0.015*"fix" + 0.015*"package" + 0.015*"optimization" + 0.015*"issue" + 0.015*"master" + 0.015*"add" + 0.015*"unleashed"')
+(5, '0.015*"branch" + 0.015*"stable" + 0.015*"issue" + 0.015*"merge" + 0.015*"add" + 0.015*"fix" + 0.015*"start" + 0.015*"net" + 0.015*"grammar" + 0.015*"change"')
+(6, '0.016*"branch" + 0.016*"correct" + 0.015*"issue" + 0.015*"minor" + 0.015*"miss" + 0.015*"improve" + 0.015*"sentence" + 0.015*"remove" + 0.015*"correction" + 0.015*"grammar"')
+
+------------------------
+NUMTopics = 8
+(0, '0.118*"stable" + 0.102*"branch" + 0.068*"merge" + 0.035*"issue" + 0.035*"fix" + 0.035*"optimization" + 0.035*"package" + 0.019*"net" + 0.019*"change" + 0.019*"add"')
+(1, '0.015*"branch" + 0.015*"stable" + 0.015*"merge" + 0.015*"issue" + 0.015*"fix" + 0.015*"net" + 0.015*"grammar" + 0.015*"package" + 0.015*"correct" + 0.015*"start"')
+(2, '0.015*"stable" + 0.015*"branch" + 0.015*"merge" + 0.015*"package" + 0.015*"fix" + 0.015*"specify" + 0.015*"overwrite" + 0.015*"optimization" + 0.015*"runtime" + 0.015*"add"')
+(3, '0.050*"branch" + 0.050*"correct" + 0.034*"remove" + 0.034*"correction" + 0.034*"sentence" + 0.034*"minor" + 0.034*"improve" + 0.034*"miss" + 0.034*"grammar" + 0.034*"stable"')
+(4, '0.015*"stable" + 0.015*"branch" + 0.015*"merge" + 0.015*"issue" + 0.015*"fix" + 0.015*"add" + 0.015*"correct" + 0.015*"net" + 0.015*"grammar" + 0.015*"improve"')
+(5, '0.015*"branch" + 0.015*"stable" + 0.015*"issue" + 0.015*"add" + 0.015*"merge" + 0.015*"fix" + 0.015*"grammar" + 0.015*"start" + 0.015*"correct" + 0.015*"net"')
+(6, '0.015*"branch" + 0.015*"correct" + 0.015*"issue" + 0.015*"minor" + 0.015*"miss" + 0.015*"improve" + 0.015*"sentence" + 0.015*"remove" + 0.015*"correction" + 0.015*"grammar"')
+(7, '0.015*"stable" + 0.015*"branch" + 0.015*"merge" + 0.015*"fix" + 0.015*"issue" + 0.015*"add" + 0.015*"change" + 0.015*"net" + 0.015*"package" + 0.015*"correct"')
+
+------------------------
+NUMTopics = 9
+(0, '0.080*"stable" + 0.080*"branch" + 0.045*"merge" + 0.036*"issue" + 0.027*"fix" + 0.027*"correct" + 0.019*"optimization" + 0.019*"package" + 0.019*"change" + 0.019*"net"')
+(1, '0.015*"branch" + 0.015*"merge" + 0.015*"stable" + 0.015*"fix" + 0.015*"issue" + 0.015*"net" + 0.015*"grammar" + 0.015*"package" + 0.015*"improve" + 0.015*"change"')
+(2, '0.015*"stable" + 0.015*"branch" + 0.015*"merge" + 0.015*"fix" + 0.015*"correct" + 0.015*"add" + 0.015*"package" + 0.015*"issue" + 0.015*"improve" + 0.015*"net"')
+(3, '0.016*"branch" + 0.015*"remove" + 0.015*"correct" + 0.015*"correction" + 0.015*"minor" + 0.015*"improve" + 0.015*"sentence" + 0.015*"miss" + 0.015*"stable" + 0.015*"grammar"')
+(4, '0.015*"stable" + 0.015*"branch" + 0.015*"merge" + 0.015*"fix" + 0.015*"issue" + 0.015*"add" + 0.015*"grammar" + 0.015*"improve" + 0.015*"correct" + 0.015*"master"')
+(5, '0.015*"branch" + 0.015*"stable" + 0.015*"issue" + 0.015*"merge" + 0.015*"add" + 0.015*"fix" + 0.015*"correct" + 0.015*"package" + 0.015*"start" + 0.015*"grammar"')
+(6, '0.015*"branch" + 0.015*"correct" + 0.015*"minor" + 0.015*"remove" + 0.015*"miss" + 0.015*"improve" + 0.015*"issue" + 0.015*"sentence" + 0.015*"correction" + 0.015*"grammar"')
+(7, '0.016*"stable" + 0.016*"branch" + 0.016*"merge" + 0.015*"fix" + 0.015*"package" + 0.015*"issue" + 0.015*"add" + 0.015*"optimization" + 0.015*"update" + 0.015*"overwrite"')
+(8, '0.016*"sentence" + 0.016*"correction" + 0.016*"correct" + 0.016*"miss" + 0.016*"improve" + 0.015*"branch" + 0.015*"issue" + 0.015*"grammar" + 0.015*"minor" + 0.015*"remove"')
+
+------------------------

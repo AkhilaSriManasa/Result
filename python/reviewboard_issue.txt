@@ -1,0 +1,310 @@
+﻿ About 3.0.6
+ Hi, when I commit a review request, I specify the reviewer people ping.ni, but another people jun.he can ship it. I do not know why, can you give me the answer. 
+Thank you for your attention.
+![clipboard](https://user-images.githubusercontent.com/20962153/39297992-91f75710-4977-11e8-84b8-84c84d9a520e.png)
+
+
+You probably wanted to post to our [community support list](https://groups.google.com/group/reviewboard/pendmsg), not open a pull request.
+
+The short answer is that the Reviewers list is for specifying people you want to review your code, but does not restrict reviews to those users. We provide an inclusive model where anyone with feedback can contribute to the review process. Companies that want to restrict things can lock down with private repositories, invite-only groups, or extensions that alter the review behavior (this is a more advanced capability).
+
+ Mercurial is not a module anymore (b51e201)
+ 
+ Fix ticket 4438: email header is too large for big file changesets
+ Fix for ticket-4438:
+Email header is too large when too many changed files
+https://hellosplat.com/s/beanbag/tickets/4438/
+Hi. We don't use pull requests. Please post this on https://reviews.reviewboard.org/
+
+ Debian
+ 
+ Release 3.0.x
+ 
+ Add zh_CN po
+ Hi reviewboard developers,
+
+I added zh_CN po, please merge it, thanks a lot!
+
+Regards,
+Leslie Zhai
+
+merge add zh_CN po
+
+
+Hi,
+
+We don't use pull requests. For code changes we use https://reviews.reviewboard.org, and for translations we use https://www.transifex.com/reviewboard/reviewboard/
+
+Can you submit this on transifex?
+
+Thanks!
+
+
+Hi @gyw040518 it is rough translation, please help me to smooth it ;-)
+
+@davidt I have registered an account [xiangzhai](https://www.transifex.com/user/profile/xiangzhai/) for transifex, but waiting for your guys' approve to **_Join team**_
+
+And thanks again for ReviewBoard developers' great job, KDE use it ;P https://git.reviewboard.kde.org/users/lesliezhai/
+
+
+ Patch for ticket 4009
+ Changed default value for branch as the None value will be inserted to MySQL if it's not sent when creating a review. I tried this change on our server and it looks to fix the null exception.
+
+This is to try and solve the ticket 4009
+
+Thanks for posting this. However, we don't accept pull requests (we do our code reviews on https://reviews.reviewboard.org).
+
+We're going to be reverting the patch that caused this issue and releasing 2.5.2 later tonight.
+
+Sorry for the inconvenience.
+
+
+ok, as long as it starts working I'm ok with it :)
+
+On 4 November 2015 at 08:28, Barret Rennie notifications@github.com wrote:
+
+> Closed #38 https://github.com/reviewboard/reviewboard/pull/38.
+> 
+> —
+> Reply to this email directly or view it on GitHub
+> https://github.com/reviewboard/reviewboard/pull/38#event-454125183.
+
+
+ groups view: display members usernames
+ groups view: display members usernames
+
+Signed-off-by: Vivien LEONARD vivien.leonard@gmail.com
+
+Hi,
+
+We don't use pull requests. Can you please post this on https://reviews.reviewboard.org/ ?
+
+Thanks!
+
+
+ Changed versionadded in docs for the new HostingServiceHook to prepare f...
+ ...or its release in version 2.0.12.
+
+We don't use pull requests.
+
+
+ Fixed sphinx issues when building docs involving short overline, short u...
+ ...nderline, and unknown target.
+
+We don't use pull requests.
+
+
+ Addins doc
+ 
+We don't use pull requests.
+
+
+ Hosting service sandbox
+ 
+We don't use pull requests.
+
+
+ Widget sandbox
+ 
+We don't use pull requests.
+
+
+ Attempt to fix bug #3625 by fixing the missing field exception
+ 
+Here is the bug https://code.google.com/p/reviewboard/issues/detail?id
+
+We don't accept pull requests. Can you put this on https://reviews.reviewboard.org? Thanks!
+
+
+ remove needless ":"
+ remove needless ":"
+
+Hi!
+
+We don't accept pull requests. Can you post this on https://reviews.reviewboard.org/ ?
+
+Thanks!
+
+
+ Changed Content-Disposition from inline to attachment for raw diff download
+ Fixes bug #3384.  https://reviews.reviewboard.org/r/5893/ 
+
+We don't use pull requests. I see that you also put this up on review Board. Thanks!
+
+
+ Update settings_local.py.tmpl
+ The cache setting has been moved into a dictionary variable in django 1.3.
+
+We don't accept pull requests. Please post this on https://reviews.reviewboard.org/
+
+
+ Restore the extensions documentation for 1.7.
+ We moved the extensions docs out of the codebase docs, but this left 1.7
+users with no way to get to the new docs. This restores the old docs,
+but under the 1.7 manual.
+
+We don't accept pull requests, but I don't understand the point of this pull request anyway. Extension documentation for 2.0 is already in the correct location for the 2.0 manual (under the Extending Review Board section), and the old docs for 1.7 were already restored.
+
+
+ Add latest Diff timestamp. Review last activity does not represent dif...
+ Hi!
+
+Please add latest Diff timestamp. Review last activity does not represent Diff activity. It is good to know if the 
+diff was updated last.
+
+We don't accept pull requests. Please post contributions to https://reviews.reviewboard.org/ 
+
+Thanks!
+
+
+ (enhancement) allow management commands inside RB extensions
+ Now rbsite picks up management commands only from installed applications, i.e. rbsite doesn't take extensions into account. To fix it, rbsite can load all extensions before generating list of management commands.
+
+We don't accept pull requests. Please post patches to https://reviews.reviewboard.org/
+
+
+ Make crypto_utils backwards compatible with python-crypto
+ shipped on CentOS 6.4
+
+This resolves GoogleCode Issue 3110.
+
+Sponsored-by: Zonar Systems, Inc
+Signed-off-by: Garrett Cooper yanegomi@gmail.com
+
+Please post patches to https://reviews.reviewboard.org/
+
+
+ Make crypto_utils backwards compatible with python-crypto shipped on CentOS 6.4
+ This resolves GoogleCode Issue 3110.
+
+Signed-off-by: Garrett garrett.cooper@zonarsystems.com
+
+ add custom "X-ReviewRepository" email header containing repository name; useful for filtering
+ **Description:**
+
+Our RB instance has many repositories and I like to have email filters to divide my incoming requests into sub-folders.  Having filters based on headers instead of the contents of the message is preferable.
+
+I'm happy to change the header name to something else.  "X-ReviewBoard-Repository" maybe?
+
+**Testing Done:**
+
+Visual.
+
+been reading that I should not submit pull requests... closing this.
+
+
+ Change max value of hosting_url to 255
+ The current value (256) makes the size of the row too big for MySQL InnoDB engine, resulting in this error:
+
+django.db.utils.DatabaseError: Specified key was too long; max key length is 767 bytes
+
+As the RFC (http://www.ietf.org/rfc/rfc1035.txt) fix this value to 255 as bigger, and it is enough to avoid the issue with InnoDB, it would be great to change it.
+
+Thank you in advance.
+
+Please post patches to http://reviews.reviewboard.org/
+
+Thanks.
+
+
+ Fix a major boo-boo in the 1.7.7 release
+ The port being an integer blows up as the regex expects a string resulting in a TypeError.
+
+When _not_ specifying the port via rb-site install, it blows up.
+
+``` python
+* Installing the site...
+Building site directories ... OK
+Building site configuration files ... Traceback (most recent call last):
+  File "/home/venvs/bin/rb-site", line 8, in <module>
+    load_entry_point('ReviewBoard==1.7.7', 'console_scripts', 'rb-site')()
+  File "/home/venvs/lib/python2.7/site-packages/ReviewBoard-1.7.7-py2.7.egg/reviewboard/cmdline/rbsite.py", line 1937, in main
+    command.run()
+  File "/home/venvs/lib/python2.7/site-packages/ReviewBoard-1.7.7-py2.7.egg/reviewboard/cmdline/rbsite.py", line 1405, in run
+    self.show_install_status()
+  File "/home/venvs/lib/python2.7/site-packages/ReviewBoard-1.7.7-py2.7.egg/reviewboard/cmdline/rbsite.py", line 1682, in show_install_status
+    site.generate_config_files)
+  File "/home/venvs/lib/python2.7/site-packages/ReviewBoard-1.7.7-py2.7.egg/reviewboard/cmdline/rbsite.py", line 885, in step
+    func()
+  File "/home/venvs/lib/python2.7/site-packages/ReviewBoard-1.7.7-py2.7.egg/reviewboard/cmdline/rbsite.py", line 290, in generate_config_files
+    os.path.join(conf_dir, web_conf_filename))
+  File "/home/venvs/lib/python2.7/site-packages/ReviewBoard-1.7.7-py2.7.egg/reviewboard/cmdline/rbsite.py", line 626, in process_template
+    template)
+  File "/home/venvs/lib/python2.7/re.py", line 151, in sub
+    return _compile(pattern, flags).sub(repl, string, count)
+TypeError: sequence item 1: expected string, int found
+```
+
+I verified this patch works as expected with the port. For kicks, I added a cast to str for the site_id, but that is just for good measure. The port is what blows up for me.
+
+My invocation of rb-site:
+
+``` bash
+rb-site install \
+  --copy-media \
+  --noinput \
+  --domain-name="${vhost}.${domain}" \
+  --site-root=/ \
+  --static-url=static/ \
+  --media-url=media/ \
+  --db-type=mysql \
+  --db-name="$database" \
+  --db-host=localhost \
+  --db-user="$team" \
+  --db-pass="$password" \
+  --cache-type=memcached \
+  --cache-info="localhost:11211" \
+  --web-server-type=apache \
+  --python-loader=wsgi \
+"${basedir}/$vhost"
+```
+
+Superceded by: http://reviews.reviewboard.org/r/4074/
+
+
+ svn hook for new apy
+ I just altered the svn hook to work with the new api.
+This drops support for the 1.5 => api.
+
+Please submit this to http://reviews.reviewboard.org/
+
+
+http://reviews.reviewboard.org/r/3909/
+
+
+ don't expect script to be executable
+ When installing from pip, the `build-media.py` script is not executable, so we invoke Python explicitly.
+
+Please submit patches to http:/reviews.reviewboard.org/
+
+
+ Added new option to send mail for a ship-it
+ Added an option to allow to send or not an email when a reviewer marks a review as shippable.
+
+Please submit patches to http:/reviews.reviewboard.org/
+
+
+ Be able to select both versions of diff to compare to
+ The itch that I wanted to scratch was that it was impossible when looking at diff 3, to look between the diffs 1 and 2 without needing a double refresh (or some intimate URL knowledge).
+
+Didn't want to change too much at the start, since I was unfamiliar with the project. Based on the feedback I got from the review I ended up changing a little bit more: I merged the "Jump to revision" and the "Changes between rX and" buttons.
+
+Looks a lot cleaner. Anyway, check the review for some screenshots:
+
+http://reviews.reviewboard.org/r/3477/diff/#index_header
+
+ Make Chrome wrap very long lines with no spaces
+ Chrome does not currently wrap very long lines with no spaces (though
+Firefox does).
+
+This makes the diff view unusable since one such line will cause all
+other long lines to also not break, even if they do have spaces. The
+result is that  you have to scroll to read every line that is longer than
+what fits in the split diff view.
+
+(I agree that in a perfect world all code would be hard-wrapped at
+80 characters, and there would be no long lines without spaces.)
+
+Please submit patches to http:/reviews.reviewboard.org/
+
+

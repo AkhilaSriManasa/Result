@@ -1,0 +1,283 @@
+﻿ Cannot create Extension methods
+ I would like to use a custom extension method for example in this complify: https://compilify.net/3jp/2 but looks like I can't since all classes are nested.
+
+ How to reference System.Xml?
+ I can't seem to reference `System.Xml` or `System.Xml.Linq` at [compilify.net](https://compilify.net/).  I get:
+
+> The type or namespace name 'Xml' does not exist in the namespace 'System' (are you missing an assembly reference?)
+
+Am I doing something wrong?
+
+I'm pretty sure this is because System.Xml is defined in System.Xml.Dll and the only assemblies referenced by Complify when compiling your code are listed here: https://github.com/Compilify/Compilify/blob/master/LanguageServices/LanguageServices/CSharpCompiler.cs#L39
+See #28 for discussion of allowing custom assembly references.
+
+
+ 500 on some saved items
+ I just saved this last night, and am getting a 500 when loading it.
+
+See https://compilify.net/2y8
+
+ Enable the user to navigate to definition
+ When the user executes the "Go To Definition" command on something declared in the .NET framework, the MSDN documentation for that member should be opened in a new browser tab. Otherwise, the cursor should be moved to the definition in the user's code. If the cursor is already at the definition, or if the definition cannot be resolved, we should do nothing.
+
+Also, it should be clear to the user that attempting to navigate to the definition of a framework member will open up a new browser tab.
+
+
+I'll take a look at this for you. Do you have an opinion on how this should be invoked? I think perhaps a combination of a button at the top (maybe at the top of each code pane) combined with a shortcut might be good.
+
+
+@dpen2000 I agree. F12 would make sense since that's what Visual Studio uses - if it's possible to bind to that.
+
+
+> Also, it should be clear to the user that attempting to navigate to the definition of a framework member will open up a new browser tab.
+
+Could this merely be some static text saying "Attempting to navigate to the definition of a framework member will open up a new browser tab."? Or how did you envision this working?
+If it was wanting to dynamically indicate to the user that the current focused item would cause a new browser tab to open, we'd probably want to know in advance the locations of framework members.
+
+I think I have two possible implementation approaches in general. One is generating a map of cursor positions to their definitions on every Validate and returning this back. This makes it easy to tell the user that clicking Go to Definition would result in a new browser window. It's also means we can move the user's cursor within documents quickly. But the disadvantage would be larger code will result in a bigger map being sent back on each Validate.
+The other approach I'm considering is to go to server for the semantic information about the syntax the user has their cursor over only when they invoke the Go to Definition command. This would result in slower operation but is perhaps more efficient.
+Are either of this approaches how you'd envision it working? I'm leaning towards the latter approach now. 
+
+
+ Cool examples link are not working - Getting 500 errors
+ There are few cool examples link in the about section, however when i click them i got 500 errors.
+
+Thanks
+Adeel
+
+Check out these cool examples:
+
+FizzBuzz
+Fibonacci Sequence
+Slug Generator
+
+Combining this issue with #65.
+
+
+ 500 Internal server error on save
+ Whenever I save today, I get a 500.
+This seems to be regardless of content - even the default content throws a 500.
+
+This appears to have been caused by an upgrade performed by MongoHQ that broke compatibility with the version of mongocsharpdriver installed.
+
+
+Fixed in 8c2e1e95253a732512e2dcfe31b08099a183bf3a.
+
+
+ Support autocompletion
+ I think it would be very helpful if at least some primitive form of autocompletion was supported. I realize that this might not be a simple task, but I believe Roslyn does have some support for that already, so it might not be that hard.
+
+ Some errors don't have a visual representation in the editor.
+ Example: remove the semicolon at the end of a statement. The error counter will correctly show that there is an error, but nothing will be highlighted in the editor.
+
+ Merge the vNext changes into master.
+ 
+ Saving a project does not update the URL for the user.
+ 
+ The execution area's width should be bound to the extent of the user's browser window.
+ It is currently possible to resize the execution area to a position outside of the user's browser window. If this occurs, the area becomes inaccessible to the user without a page refresh.
+
+ The references listed in the sidebar should accurately reflect the references used to build the project.
+ The references currently listed in the sidebar are incomplete. It should also include 'System', and 'System.Core'.
+
+ There shouldn't be a drop down menu on the Main tab.
+ The Main tab cannot be removed or renamed. Therefore, the drop down menu containing those options should be removed.
+
+ An error indicator should be added to the tabs.
+ If a user makes a breaking change to their code in one tab, it should be clear to them at a glance which tabs contain errors that need to be fixed before their code can be executed.
+
+ The status bar should change color while the code is executing.
+ There needs to be visual feedback during the delay when the site is actively processing the user's code. During this time, the color of the status bar should change (and maybe a loading indicator should be displayed) to indicate to the user that the application is processing their request.
+
+ Replace Redis with RabbitMQ
+ 
+ Enable keep-alive for connections to Redis
+ Booksleeve's API exposes a `SetKeepAlive` method that, once called, pings the Redis server at a set interval. Calling this would, at minimum, alleviate the slight delay that occurs when a user attempts to execute code after a period of inactivity on the site, and potentially improve the reliability of the connections.
+
+This is no longer valid since the change to MassTransit and RabbitMQ.
+
+
+ Display a message when the execution service can't be reached.
+ If an error occurs during the SignalR request to execute the code, an error message should be displayed to the user letting them know that code execution services are having temporary problems.
+
+This message should be friendly and unobtrusive.
+
+Alternatively, an indicator could be added to the page to display the "health" of the workers. For example, a small circle that is red to indicate code execution is not available (ex. workers aren't responding), yellow to indicate that there may be a delay while executing code (ex. workers are under heavy load), or green to indicate that everything should be working normally.
+
+But, the aim of the service is to make execution feel as instantaneous as possible, and an indicator like this might betray that illusion.
+
+
+ Restyle the user interface
+ A prototype of the new design:
+
+![The new interface](http://i.imgur.com/QGxex.png)
+
+Benefits of the new design that will be realized immediately include a tabbed interface with the ability to add, remove, and rename "documents", and a sidebar that includes an area to manage the project's references.
+
+Some things that have changed or will change from the screenshot include:
+- Executable code (represented by the "execute" textarea in the current design and the textarea on the right in the above screenshot) will be replaced with a special tab that cannot be renamed or closed.
+- The execution results will span the bottom of the document area. The user will be able to adjust the height to their preference, or hide it entirely until the next execution.
+- Double-clicking on a document's tab will pop-up the dialog box to rename it.
+
+ Replace MongoDB with RavenDB
+ RavenDB offers a cleaner API and indexing features that can be implemented with little additional work. Due to the significance of the changes being made to the data model in order to accomodate other new features, this is a good time to switch.
+
+There are two ways to model the idea of a project in RavenDB. I'm not sure which one to pick but I think I'm leaning towards the second.
+
+First Method:
+
+```
+public class Project {
+    public Id { get; set }
+    public IList<Document> Documents { get;set; }
+}
+```
+
+Second Method:
+
+```
+public class Project {
+    public string Id { get;set; }
+}
+
+public class Document {
+    public string Id { get;set; }
+    public string ProjectId { get; set; }
+}
+```
+
+The reason I am leaning towards the second is because you can update individual documents from the client a lot easier, but then you can use a projection to return the full project.
+
+Projection [ map / reduce]
+
+```
+ map => documents => from d in documents
+                                   select new {  d.ProjectId, document = d }
+
+ reduce => results => from r in results
+                                group r by r.ProjectId into g
+                                select new  Project { Id = g.Key, Documents = g.Select(x => x.document) }
+```
+
+What do you think?
+
+
+The documents have little meaning by themselves. Only basic lexical and syntactical analysis can be performed on a standalone document. The entire project that it belongs to is needed to perform semantic analysis and code navigation. I would favor just loading the entire project with all of its documents so that we can perform as much validation as we can after each change.
+
+
+ Project ID should be assigned in a cookie when the user first visits the site
+ By storing the ID of the project that user is currently working on in a cookie, they will be able to work on the project from multiple tabs or come back to the project after closing it for a brief period.
+
+ Support latest Roslyn CTP
+ Move to Roslyn CTP3 to support C# 3.0 features.
+
+What features of C# 3.0 are you missing?  
+
+
+Don't bother upgrading.  They are distributing .NET 4.5 compiled libraries as .NET 4.0 libraries in the NuGet package.  Causing me a major headache.
+
+
+Damn inplace upgrade...
+
+
+Missing features. You got me. Last time I tried Compilify LINQ was not working, now it seems it's ok. Sorry.
+
+
+LINQ missing was most likely related to a namespace not being included.
+
+
+But output was complaining about Expression trees.
+
+
+@rarous Can you link to a post that reproduces the issues you're referring to?
+
+
+@nberardi Compilify is already updated to .NET 4.5, so that won't be a problem. 
+
+
+@JRusbatch didn't see that commit you made a couple weeks back.
+
+
+Updated Roslyn to CTP3 with commit 2f6ebc6ac79aa35d7f2f5fa7d4e1b3ca1455ec21.
+
+
+ Use RuntimeHelpers.EnsureSufficientExecutionStack to gracefully handle stack overflows
+ A call to [`RuntimeHelpers.EnsureSufficientExecutionStack`](http://msdn.microsoft.com/en-us/library/system.runtime.compilerservices.runtimehelpers.ensuresufficientexecutionstack.aspx) could be inserted before each method call in the user's code to trigger an [`InsufficientExecutionStackException`](http://msdn.microsoft.com/en-us/library/system.insufficientexecutionstackexception.aspx) if the call could cause a stack overflow. Unlike a `StackOverflowException`, the `InsufficientExecutionStackException` can be handled gracefully.
+
+Very interesting.  Would you have to do it before each method or just Script.Eval()?
+
+
+Before each method call, so the users code would need to be rewritten to facilitate this.
+
+
+Not sure the risk is worth the effort of rewriting the user's code for this. Shelving for now.
+
+
+ Re factoring of Language Services To Rely Less on Message Bus
+ As I promised here is my re-factoring that I did to make language services less reliant on the appharbor/compilify.net web front end and backend worker message bus infrastructure.  Let me know of any problems you have with the code and I will try to address them before the pull request is accepted.
+
+I cherry-picked 3272a0d into master (43dcc4d1e356fdc3bf2ace7f6f0493a5f2ea0917).
+
+I tend to avoid using NuGet to manage JS/CSS frameworks for a few reasons:
+- I keep all JS/CSS files in an "Assets" folder in my web projects, instead of the default "Script" and "Content" folders. 
+- It usually takes more effort to test a JS/CSS update than it does to test updates to an assembly I depend on.
+- Unless NuGet is the framework's primary distribution channel, the owner of the NuGet package for a JS/CSS framework usually isn't the actual author, so there's no guarantee of if or when it will be updated after an update to the framework itself. For example, jQuery v1.8.0 was released a few days ago, but the NuGet package wasn't updated to 1.7.2 until yesterday.
+
+Thanks for the refactoring, it looks much nicer!
+
+
+I avoid NuGet for JS/CSS, I usually add them though to act as a notification system of when a new release is out.  I usually then move around the JS and just delete the Scripts and Content folder
+
+
+ Isn't Your Base32Encoder a Base36Encoder?
+ I think you Base32Encoder is actually a Base36Encoder. Because you have the 26 characters of the alphabet plus the 10 numbers.
+
+Base2 = 0 ... 1
+Base8 = 0 ... 7
+Base16 = 0 ... 9 A ... F
+Base64 = 0 ... 9 A ... Z a ... z and equal (=) and slash (/)
+
+Yours only goes
+
+0 ... 9 a ... z
+
+I know it doesn't really matter, just though I would point this out.
+
+You're right, I did misname it! Thanks!
+
+
+ Isn't Your Base32Encoder a Base36Encoder?
+ I think you Base32Encoder is actually a Base36Encoder.  Because you have the 26 characters of the alphabet plus the 10 numbers.  
+
+Base2 = 0 ... 1
+Base8 = 0 ... 7
+Base16 = 0 ... 9 A ... F
+Base64 = 0 ... 9 A ... Z a ... z and equal (=) and slash (/)
+
+Yours only goes
+
+0 ... 9 a ... z 
+
+I know it doesn't really matter, just though I would point this out.
+
+ Update to Roslyn CTP v2
+ Aside from the API changes, it also appears as though the structure of the code generated in a compilation has changed.
+
+ allow users to optionally reference predefined libraries
+ something like http://jsfiddle.net/ which includes list of well known libraries like jquery, mootools.
+
+You can then add libraries like Facebook C# SDK.  https://github.com/facebook-csharp-sdk/facebook-csharp-sdk and then we can use classes from Facebook library. 
+
+There are lots of time when I need to test the fb request and test on the browser without creating a new console app.
+
+There's another issue open requesting the ability to reference third-party libraries. I think it would be really useful if users could "install" packages from NuGet directly into their posts. That would let you reference the library, but the actions you perform with it would still be limited by the sandbox your code is executed in. Network requests would result in a security exception. 
+
+
+Making issue #28 the primary issue for this.
+
+
+ Allow Forking
+ It's handy in JSFiddle
+
+ Limit number of characters displayed for console output
+ 

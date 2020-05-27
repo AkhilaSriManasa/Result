@@ -1,0 +1,68 @@
+﻿NUMTopics = 2
+(0, '0.008*"fix" + 0.008*"version" + 0.008*"add" + 0.008*"file" + 0.008*"vcxproj" + 0.008*"whole" + 0.008*"support" + 0.008*"path" + 0.008*"conditional" + 0.008*"option"')
+(1, '0.047*"add" + 0.039*"fix" + 0.024*"version" + 0.021*"file" + 0.017*"project" + 0.017*"support" + 0.013*"archive" + 0.013*"script" + 0.013*"sharpmake" + 0.013*"platform"')
+
+------------------------
+NUMTopics = 3
+(0, '0.008*"add" + 0.008*"whole" + 0.008*"fix" + 0.008*"support" + 0.008*"script" + 0.008*"sharpmake" + 0.008*"archive" + 0.008*"set" + 0.008*"sdk" + 0.008*"case"')
+(1, '0.056*"add" + 0.022*"project" + 0.022*"support" + 0.022*"script" + 0.022*"sharpmake" + 0.022*"archive" + 0.022*"whole" + 0.016*"file" + 0.016*"android" + 0.016*"method"')
+(2, '0.067*"fix" + 0.045*"version" + 0.031*"add" + 0.024*"file" + 0.024*"vcxproj" + 0.024*"path" + 0.017*"platform" + 0.017*"option" + 0.017*"write" + 0.017*"non"')
+
+------------------------
+NUMTopics = 4
+(0, '0.008*"fix" + 0.008*"version" + 0.008*"add" + 0.008*"vcxproj" + 0.008*"whole" + 0.008*"path" + 0.008*"support" + 0.008*"file" + 0.008*"option" + 0.008*"script"')
+(1, '0.060*"add" + 0.023*"project" + 0.023*"support" + 0.023*"script" + 0.023*"archive" + 0.023*"sharpmake" + 0.023*"whole" + 0.016*"file" + 0.016*"android" + 0.016*"find"')
+(2, '0.072*"fix" + 0.048*"version" + 0.033*"add" + 0.025*"file" + 0.025*"vcxproj" + 0.025*"path" + 0.017*"platform" + 0.017*"write" + 0.017*"non" + 0.017*"option"')
+(3, '0.008*"add" + 0.008*"whole" + 0.008*"script" + 0.008*"sharpmake" + 0.008*"support" + 0.008*"method" + 0.008*"sdk" + 0.008*"generate" + 0.008*"late" + 0.008*"archive"')
+
+------------------------
+NUMTopics = 5
+(0, '0.008*"whole" + 0.008*"add" + 0.008*"sharpmake" + 0.008*"script" + 0.008*"support" + 0.008*"archive" + 0.008*"set" + 0.008*"sdk" + 0.008*"make" + 0.008*"case"')
+(1, '0.062*"add" + 0.024*"project" + 0.024*"support" + 0.024*"script" + 0.024*"sharpmake" + 0.024*"archive" + 0.024*"whole" + 0.017*"file" + 0.017*"android" + 0.017*"build"')
+(2, '0.075*"fix" + 0.050*"version" + 0.034*"add" + 0.026*"file" + 0.026*"vcxproj" + 0.026*"path" + 0.018*"platform" + 0.018*"write" + 0.018*"non" + 0.018*"win"')
+(3, '0.008*"whole" + 0.008*"add" + 0.008*"sharpmake" + 0.008*"script" + 0.008*"method" + 0.008*"support" + 0.008*"sdk" + 0.008*"generate" + 0.008*"late" + 0.008*"archive"')
+(4, '0.008*"fix" + 0.008*"add" + 0.008*"version" + 0.008*"file" + 0.008*"vcxproj" + 0.008*"platform" + 0.008*"whole" + 0.008*"path" + 0.008*"support" + 0.008*"depend"')
+
+------------------------
+NUMTopics = 6
+(0, '0.008*"add" + 0.008*"whole" + 0.008*"script" + 0.008*"sharpmake" + 0.008*"set" + 0.008*"archive" + 0.008*"support" + 0.008*"case" + 0.008*"lead" + 0.008*"build"')
+(1, '0.012*"add" + 0.009*"fix" + 0.009*"project" + 0.009*"file" + 0.009*"script" + 0.009*"support" + 0.009*"archive" + 0.009*"sharpmake" + 0.009*"version" + 0.008*"multithreaded"')
+(2, '0.077*"fix" + 0.052*"version" + 0.035*"add" + 0.027*"file" + 0.027*"vcxproj" + 0.027*"path" + 0.018*"non" + 0.018*"platform" + 0.018*"write" + 0.018*"win"')
+(3, '0.008*"fix" + 0.008*"add" + 0.008*"file" + 0.008*"platform" + 0.008*"option" + 0.008*"version" + 0.008*"support" + 0.008*"project" + 0.008*"whole" + 0.008*"allow"')
+(4, '0.008*"fix" + 0.008*"version" + 0.008*"vcxproj" + 0.008*"file" + 0.008*"path" + 0.008*"platform" + 0.008*"add" + 0.008*"depend" + 0.008*"mark" + 0.008*"conditional"')
+(5, '0.064*"add" + 0.025*"whole" + 0.025*"support" + 0.025*"sharpmake" + 0.025*"archive" + 0.025*"script" + 0.025*"project" + 0.017*"sdk" + 0.017*"generate" + 0.017*"method"')
+
+------------------------
+NUMTopics = 7
+(0, '0.008*"fix" + 0.008*"add" + 0.008*"version" + 0.008*"support" + 0.008*"file" + 0.008*"vcxproj" + 0.008*"path" + 0.008*"option" + 0.008*"whole" + 0.008*"allow"')
+(1, '0.065*"add" + 0.025*"project" + 0.025*"support" + 0.025*"script" + 0.025*"sharpmake" + 0.025*"archive" + 0.025*"whole" + 0.017*"file" + 0.017*"android" + 0.017*"build"')
+(2, '0.079*"fix" + 0.053*"version" + 0.036*"add" + 0.027*"file" + 0.027*"vcxproj" + 0.027*"path" + 0.018*"write" + 0.018*"non" + 0.018*"win" + 0.018*"conditional"')
+(3, '0.008*"add" + 0.008*"fix" + 0.008*"version" + 0.008*"file" + 0.008*"support" + 0.008*"platform" + 0.008*"vcxproj" + 0.008*"whole" + 0.008*"option" + 0.008*"path"')
+(4, '0.008*"fix" + 0.008*"version" + 0.008*"vcxproj" + 0.008*"path" + 0.008*"file" + 0.008*"add" + 0.008*"platform" + 0.008*"depend" + 0.008*"mark" + 0.008*"conditional"')
+(5, '0.009*"add" + 0.008*"whole" + 0.008*"support" + 0.008*"sharpmake" + 0.008*"archive" + 0.008*"sdk" + 0.008*"generate" + 0.008*"script" + 0.008*"method" + 0.008*"make"')
+(6, '0.009*"add" + 0.008*"whole" + 0.008*"archive" + 0.008*"sharpmake" + 0.008*"script" + 0.008*"support" + 0.008*"project" + 0.008*"method" + 0.008*"set" + 0.008*"sdk"')
+
+------------------------
+NUMTopics = 8
+(0, '0.008*"fix" + 0.008*"add" + 0.008*"version" + 0.008*"support" + 0.008*"file" + 0.008*"vcxproj" + 0.008*"path" + 0.008*"whole" + 0.008*"option" + 0.008*"archive"')
+(1, '0.022*"add" + 0.013*"fix" + 0.012*"file" + 0.012*"project" + 0.012*"default" + 0.011*"extension" + 0.011*"option" + 0.011*"support" + 0.010*"script" + 0.010*"sharpmake"')
+(2, '0.080*"fix" + 0.054*"version" + 0.036*"add" + 0.027*"file" + 0.027*"vcxproj" + 0.027*"path" + 0.019*"write" + 0.019*"non" + 0.019*"win" + 0.019*"conditional"')
+(3, '0.008*"add" + 0.008*"fix" + 0.008*"file" + 0.008*"version" + 0.008*"vcxproj" + 0.008*"support" + 0.008*"whole" + 0.008*"platform" + 0.008*"option" + 0.008*"allow"')
+(4, '0.008*"fix" + 0.008*"version" + 0.008*"vcxproj" + 0.008*"path" + 0.008*"file" + 0.008*"platform" + 0.008*"add" + 0.008*"depend" + 0.008*"mark" + 0.008*"conditional"')
+(5, '0.008*"add" + 0.008*"whole" + 0.008*"support" + 0.008*"sharpmake" + 0.008*"archive" + 0.008*"sdk" + 0.008*"generate" + 0.008*"script" + 0.008*"method" + 0.008*"make"')
+(6, '0.066*"add" + 0.026*"whole" + 0.026*"archive" + 0.026*"sharpmake" + 0.026*"script" + 0.025*"support" + 0.025*"project" + 0.017*"sdk" + 0.017*"method" + 0.017*"set"')
+(7, '0.008*"fix" + 0.008*"add" + 0.008*"file" + 0.008*"version" + 0.008*"conditional" + 0.008*"support" + 0.008*"platform" + 0.008*"script" + 0.008*"vcxproj" + 0.008*"option"')
+
+------------------------
+NUMTopics = 9
+(0, '0.008*"fix" + 0.008*"add" + 0.008*"version" + 0.008*"path" + 0.008*"file" + 0.008*"vcxproj" + 0.008*"support" + 0.008*"allow" + 0.008*"prebuild" + 0.008*"android"')
+(1, '0.067*"add" + 0.026*"project" + 0.026*"support" + 0.026*"script" + 0.026*"sharpmake" + 0.026*"archive" + 0.026*"whole" + 0.017*"file" + 0.017*"android" + 0.017*"build"')
+(2, '0.081*"fix" + 0.055*"version" + 0.037*"add" + 0.028*"file" + 0.028*"vcxproj" + 0.028*"path" + 0.019*"non" + 0.019*"write" + 0.019*"win" + 0.019*"platform"')
+(3, '0.008*"add" + 0.008*"fix" + 0.008*"support" + 0.008*"whole" + 0.008*"version" + 0.008*"file" + 0.008*"vcxproj" + 0.008*"win" + 0.008*"allow" + 0.008*"target"')
+(4, '0.008*"fix" + 0.008*"add" + 0.008*"file" + 0.008*"version" + 0.008*"whole" + 0.008*"platform" + 0.008*"support" + 0.008*"vcxproj" + 0.008*"android" + 0.008*"allow"')
+(5, '0.009*"add" + 0.008*"whole" + 0.008*"support" + 0.008*"sharpmake" + 0.008*"archive" + 0.008*"sdk" + 0.008*"script" + 0.008*"generate" + 0.008*"project" + 0.008*"method"')
+(6, '0.009*"add" + 0.008*"whole" + 0.008*"archive" + 0.008*"fix" + 0.008*"sharpmake" + 0.008*"script" + 0.008*"support" + 0.008*"project" + 0.008*"set" + 0.008*"method"')
+(7, '0.008*"fix" + 0.008*"version" + 0.008*"conditional" + 0.008*"vcxproj" + 0.008*"add" + 0.008*"file" + 0.008*"path" + 0.008*"target" + 0.008*"depend" + 0.008*"write"')
+(8, '0.008*"add" + 0.008*"script" + 0.008*"whole" + 0.008*"support" + 0.008*"archive" + 0.008*"sharpmake" + 0.008*"multithreaded" + 0.008*"make" + 0.008*"late" + 0.008*"case"')
+
+------------------------

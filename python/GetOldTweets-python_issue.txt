@@ -1,0 +1,499 @@
+﻿ Mentioned Tweets
+ Is there any way to extract mention tweets of a particular account.
+Like the account Netflix 
+When it is mentioned can we extract that tweets?
+You can set the Username to only fetch tweets of a particular userID By 
+
+setUsername (str): An optional specific username from a twitter account. Without "@".
+
+ Saving the tweets 
+ How to save the tweets after this?  I want to save not only the 4th tweets but all tweets.
+
+import GetOldTweets3 as got
+tweetCriteria = got.manager.TweetCriteria().setQuerySearch('covid')\
+                                           .setSince("2020-03-11")\
+                                           .setUntil("2020-05-22")
+                                           
+tweet = got.manager.TweetManager.getTweets(tweetCriteria)[3]
+print(tweet.text)
+ Added setNear and setWithin
+ 
+ setNear and setWithin ?
+ have these been removed from Tweet criteria? They are still written on the README
+https://github.com/Jefferson-Henrique/GetOldTweets-python/commit/94fc3b3f116eeee14555697c829db424d4adc296
+
+try this out.
+
+ HTTP Error 429 when fetching tweets
+ I have a long list of keywords (around 700). I want to fetch all of them since February, without any other criterias. Now, I immediately get struck with "An error occured during an HTTP request: HTTP Error 429: Too Many Requests", and when I open given in link browser, everything works fine. 
+I tried to fetch for 1 day periods only (for example 01-02-2020 to 02-02-2020, etc.), but it still doesn't work (because of the same error). Any ideas how to solve it? I tried to sleep the script after such error, but even an hour of waiting doesn't seem to affect it in any way. 
+
+After some waiting, the script runs for around 10% of the tweets, and gets the error again.
+I have the same problem with this and all other non-API tweet scrapers at the moment. You can collect about 14,000 tweets before hitting the request limit. 
+
+Same problem here, do you happen to know after how much time that number resets? @rbkhb 
+
+Haven't figured that out, no
+
+I have the same problem and can confirm the 14000 tweets limit. I was able to retry after a couple of minutes (5 or less) need to check the exact time.
+
+I found a solution, not ideal but it works, maybe you can help me make it better:
+
+``` python
+# Date to start from
+date_upper = datetime.datetime(2020, 3, 1)
+date_lower = datetime.datetime(2020, 2, 29)
+
+date_until = date_upper
+date_start = date_lower
+
+start_string = date_start.strftime("%Y-%m-%d")
+until_string = date_until.strftime("%Y-%m-%d")
+
+for i in range(29):
+    # Create a custom search term and define the number of tweets
+    tweetCriteria = got.manager.TweetCriteria().setQuerySearch(
+        'Coronavirus').setSince(start_string).setUntil(until_string).setLang('it').setMaxTweets(count)
+    # Call getTweets and saving in tweets
+    print('--- Starting query... ---')
+    tweets = got.manager.TweetManager.getTweets(tweetCriteria)
+    print('--- Adding to list... ---')
+    add_to_list()
+    print('--- Writing JSON... ---')
+    # Saving list to JSON file
+    json.dump(tweet_list, open('./JSON/saver_output.json', 'w'))
+    print('--- Going to sleep... ---\n\n')
+    time.sleep(60*5)
+    # Add 1 to date after each passage
+    date_start += datetime.timedelta(days=1)
+    date_until += datetime.timedelta(days=1)
+    # Convert dates to string
+    start_string = date_start.strftime("%Y-%m-%d")
+    until_string = date_until.strftime("%Y-%m-%d")
+```
+
+Doing like so i was able to retrieve almost 120k tweets in a night sleep without any hiccups, i know the code could be much shorter but i wrote it just before going to bed.
+
+> I found a solution, not ideal but it works, maybe you can help me make it better:
+> 
+> ```python
+> # Date to start from
+> date_upper = datetime.datetime(2020, 3, 1)
+> date_lower = datetime.datetime(2020, 2, 29)
+> 
+> date_until = date_upper
+> date_start = date_lower
+> 
+> start_string = date_start.strftime("%Y-%m-%d")
+> until_string = date_until.strftime("%Y-%m-%d")
+> 
+> for i in range(29):
+>     # Create a custom search term and define the number of tweets
+>     tweetCriteria = got.manager.TweetCriteria().setQuerySearch(
+>         'Coronavirus').setSince(start_string).setUntil(until_string).setLang('it').setMaxTweets(count)
+>     # Call getTweets and saving in tweets
+>     print('--- Starting query... ---')
+>     tweets = got.manager.TweetManager.getTweets(tweetCriteria)
+>     print('--- Adding to list... ---')
+>     add_to_list()
+>     print('--- Writing JSON... ---')
+>     # Saving list to JSON file
+>     json.dump(tweet_list, open('./JSON/saver_output.json', 'w'))
+>     print('--- Going to sleep... ---\n\n')
+>     time.sleep(60*5)
+>     # Add 1 to date after each passage
+>     date_start += datetime.timedelta(days=1)
+>     date_until += datetime.timedelta(days=1)
+>     # Convert dates to string
+>     start_string = date_start.strftime("%Y-%m-%d")
+>     until_string = date_until.strftime("%Y-%m-%d")
+> ```
+> 
+> Doing like so i was able to retrieve almost 120k tweets in a night sleep without any hiccups, i know the code could be much shorter but i wrote it just before going to bed.
+
+Hi, 
+I think you have search for coronavirus and u have datam can u please send to me 
+Thanks in advance
+ajithex@gmail.com
+
+> 
+> 
+> > I found a solution, not ideal but it works, maybe you can help me make it better:
+> > ```python
+> > # Date to start from
+> > date_upper = datetime.datetime(2020, 3, 1)
+> > date_lower = datetime.datetime(2020, 2, 29)
+> > 
+> > date_until = date_upper
+> > date_start = date_lower
+> > 
+> > start_string = date_start.strftime("%Y-%m-%d")
+> > until_string = date_until.strftime("%Y-%m-%d")
+> > 
+> > for i in range(29):
+> >     # Create a custom search term and define the number of tweets
+> >     tweetCriteria = got.manager.TweetCriteria().setQuerySearch(
+> >         'Coronavirus').setSince(start_string).setUntil(until_string).setLang('it').setMaxTweets(count)
+> >     # Call getTweets and saving in tweets
+> >     print('--- Starting query... ---')
+> >     tweets = got.manager.TweetManager.getTweets(tweetCriteria)
+> >     print('--- Adding to list... ---')
+> >     add_to_list()
+> >     print('--- Writing JSON... ---')
+> >     # Saving list to JSON file
+> >     json.dump(tweet_list, open('./JSON/saver_output.json', 'w'))
+> >     print('--- Going to sleep... ---\n\n')
+> >     time.sleep(60*5)
+> >     # Add 1 to date after each passage
+> >     date_start += datetime.timedelta(days=1)
+> >     date_until += datetime.timedelta(days=1)
+> >     # Convert dates to string
+> >     start_string = date_start.strftime("%Y-%m-%d")
+> >     until_string = date_until.strftime("%Y-%m-%d")
+> > ```
+> > 
+> > 
+> > Doing like so i was able to retrieve almost 120k tweets in a night sleep without any hiccups, i know the code could be much shorter but i wrote it just before going to bed.
+> 
+> Hi,
+> I think you have search for coronavirus and u have datam can u please send to me
+> Thanks in advance
+> [ajithex@gmail.com](mailto:ajithex@gmail.com)
+
+Hi, 
+
+I think I find a solution to get more than 14000 tweets per day with a small change in the package themself. You only have to install a sleeping time after 14000 tweets. In combination with a loop over the dates and rotation over proxy, this works for me very well. 
+
+
+Hey @p-dre, that's a nice solution. However, I've encountered another problem - what if given query search, on one day, exceeds the 14k limit?
+
+> > > I found a solution, not ideal but it works, maybe you can help me make it better:
+> > > ```python
+> > > # Date to start from
+> > > date_upper = datetime.datetime(2020, 3, 1)
+> > > date_lower = datetime.datetime(2020, 2, 29)
+> > > 
+> > > date_until = date_upper
+> > > date_start = date_lower
+> > > 
+> > > start_string = date_start.strftime("%Y-%m-%d")
+> > > until_string = date_until.strftime("%Y-%m-%d")
+> > > 
+> > > for i in range(29):
+> > >     # Create a custom search term and define the number of tweets
+> > >     tweetCriteria = got.manager.TweetCriteria().setQuerySearch(
+> > >         'Coronavirus').setSince(start_string).setUntil(until_string).setLang('it').setMaxTweets(count)
+> > >     # Call getTweets and saving in tweets
+> > >     print('--- Starting query... ---')
+> > >     tweets = got.manager.TweetManager.getTweets(tweetCriteria)
+> > >     print('--- Adding to list... ---')
+> > >     add_to_list()
+> > >     print('--- Writing JSON... ---')
+> > >     # Saving list to JSON file
+> > >     json.dump(tweet_list, open('./JSON/saver_output.json', 'w'))
+> > >     print('--- Going to sleep... ---\n\n')
+> > >     time.sleep(60*5)
+> > >     # Add 1 to date after each passage
+> > >     date_start += datetime.timedelta(days=1)
+> > >     date_until += datetime.timedelta(days=1)
+> > >     # Convert dates to string
+> > >     start_string = date_start.strftime("%Y-%m-%d")
+> > >     until_string = date_until.strftime("%Y-%m-%d")
+> > > ```
+> > > 
+> > > 
+> > > Doing like so i was able to retrieve almost 120k tweets in a night sleep without any hiccups, i know the code could be much shorter but i wrote it just before going to bed.
+> > 
+> > 
+> > Hi,
+> > I think you have search for coronavirus and u have datam can u please send to me
+> > Thanks in advance
+> > [ajithex@gmail.com](mailto:ajithex@gmail.com)
+> 
+> Hi,
+> 
+> I think I find a solution to get more than 14000 tweets per day with a small change in the package themself. You only have to install a sleeping time after 14000 tweets. In combination with a loop over the dates and rotation over proxy, this works for me very well.
+> 
+> Because I am going to write my masterthesis about coronavirus with Twitter data, I am interested to know what your plan is. So maybe contact me
+> [paul.drecker@stud.uni-due.de](mailto:paul.drecker@stud.uni-due.de)
+
+Can u please share how you uses proxies and which proxy provider.
+
+@erno98 If you inside the package you will find a loop over the batches. I at a sleep time after 14000 tweets
+
+ how to scrape a large body of tweets (e.g. a million)?
+ I wanted to know what exactly the criteria are for the extracted Toptweets? Is it the likes or the number of retweets?
+And also, is it possible to extract a large body of tweets (e.g. a million tweets) using this library?
+I tried it for almost 800K tweets, but it neither respond nor it did error!
+hey @aliiabbasi 
+
+I am currently trying to scrape tweets containing the word "coronavirus" for sentiment analysis purposes and I can explain my workaround, maybe it could give you some advices :) 
+
+I tried to download every tweets since January but it didn't work well... 24h wasn't enough and maybe splitting the request for each day is the great way to do it but I don't want to wait approximately 2 days (the full request for one day lasted 1h!). So what I am doing now is scraping each day 1000 "top tweets"
+
+What I'm observing is :
+
+- when I set the date to January 22 i first get tweets from january 22 late at night, then tweets earlier that day until 00:00
+- when I set topTweets argument to "True", I only get tweets with high retweets and favorite numbers, and it's still in the same order.
+
+example :
+
+<img width="288" alt="image" src="https://user-images.githubusercontent.com/26651960/76704139-31ef7580-66d7-11ea-8579-b1cdf04eb427.png">
+
+- When there is no top tweets left to scrape, the other tweets are just all the tweets the request would find if i didnt specify "topTweets"
+
+<img width="288" alt="image" src="https://user-images.githubusercontent.com/26651960/76704189-724ef380-66d7-11ea-8fda-e9858c62358a.png">
+
+I'm still trying to find ways to analyze covid-19 related tweets though, if you find better ways to scrape a lot of tweets don't hesitate to comment
+
+How is the topTweets criteria calculated? Is it a direct sort of retweets or a combination of retweets, favourites and replies?
+@aliiabbasi
+
+ Hashtags 
+ I was trying to get certain hashtags, the others in the example all worked, and I use this format in terminal 
+python Exporter.py --hashtags "#everyday" --maxtweets 10
+
+It returns me this error:
+Traceback (most recent call last):
+  File "Exporter.py", line 79, in <module>
+    main(sys.argv[1:])
+  File "Exporter.py", line 75, in main
+    outputFile.close()
+UnboundLocalError: local variable 'outputFile' referenced before assignment
+
+How can I solve this?
+
+Thanks
+
+Make sure that there is no other CSV file called "output_got.csv" in the folder where is Exporter.py. Pardon for my english.
+
+I think you should use --querysearch instead of --hashtags, it will work for sure
+
+ Parsing the text field
+ I was hoping someone could help. I am trying to find all the problems associated with Windows 10 versions so for example I run the code: python Exporter.py --querysearch "Windows 10 & 1909 & problems" --maxtweets 100. This returns the CSV output file and everything is in the text column. I would like to seperate them so that Windows 10 is in one column, 1909 (or any other version I query) is in another column and lastly, so the problems are listed in another separate column. Is this possible? The date is the only other thing that I need, I don't need username, geo, ID, etc 
+I don't think it's a Windows bug. Try opening CSV with LibreOffice Calc for example - Choose coma as separator and you will have your columns
+
+ limit of crawling
+ please what is the limit of crawling using advanced search,when we do we need to use proxy to avoid block our request from twitter?
+thanks.
+What I do is to surround (tweets 
+Alternatively you can use a proxy as shown in this commit: https://github.com/Jefferson-Henrique/GetOldTweets-python/pull/49
+
+
+ retrieving tweets with particular account mention
+ I just wanted to confirm whether can we extract tweets with some mention.Lets say I want all tweets covering global warming mentioning "Barack Obama". Is there any way possible
+ Older Tweets
+ For some reason, GetOldTweets has stopped returning older tweets. It only returns a few recent tweets (for any handle). Not sure if one gets such an issue for overusing this API.
+Get old tweets doesn't use the Twitter API (if that is what you mean by API). However, You may have been blocked by Twitter for overusing the script. Better use a VPN tool and change locations every now and then. 
+
+p.s I created a tool inspired by Henrique's script that integrates all the options provided by Twitter's advanced search. It has a GUI as well. It is available at https://github.com/yiannakasgeorge/pythonGUI-twitter-advanced-search
+
+Thank you, both!
+
+ List of retweeters
+ Hi, along with all the components(mentioned in README) for a query I also want to get the list of usernames who have retweeted a specific tweet, is there a way to do that? 
+
+Thanks in advance :)
+ urlopen error [Errno 11001] getaddrinfo failed
+ Hi, 
+
+I'm trying the following: 
+
+`import GetOldTweets3 as got`
+`tweetCriteria = got.manager.TweetCriteria().setQuerySearch("Trump").setMaxTweets(200)`
+`got.manager.TweetManager.getTweets(tweetCriteria)`
+
+However I get the following error: 
+`An error occured during an HTTP request: <urlopen error [Errno 11001] getaddrinfo failed>
+Try to open in browser: https://twitter.com/search?q=Trump&src=typd
+An exception has occurred, use %tb to see the full traceback.`
+
+This error is noticed only on a Windows 10 machine. When I run the same code on my Ubuntu machine, it works fine. 
+
+The Windows 10 machine is a work machine, however, I am connected to the internet from my home (where the Ubuntu machine is as well). So I'm trying to understand why I would still get this error message. 
+
+Thanks in advance for any help on this. 
+Hi @akshaykatre   Well i've not come accross this issue before. But i guess that's because i use an improvement-fork to this package, which was written in python3 my Dmitry Mottl, which i later optimised to work seamlessly on Windows CMD and Ubuntu terminal. I've been downloading twitter data with ease since last July when i had this problem. 
+I have the improvement fork on my github, Just follow the readme. here's a link to it 
+
+
+https://github.com/marquisvictor/Optimized-Modified-GetOldTweets3-OMGOT
+
+thank me later. :)
+
+Hi @marquisvictor - thanks for your reply. Unfortunately the fork still gives me the exact same error. I followed the prerequisites and have lxml, pyquery installed. 
+
+
+How does
+`import GetOldTweets3 as got`
+even work!?!
+I had to change it to
+`import got3 as GetOldTweets3`
+
+ unboundlocal error
+ local variable 'outputFile' referenced before assignment
+
+i m trying to extract historical tweets for a college project
+HI @mahimarathi have you been able to resolve it yet? 
+
+
+ print f.read() SyntaxError: invalid syntax
+ I got SyntaxError: invalid syntax in print f.read(). how is the solution ?
+Edit line 16 of Exporter.py to `print(f.read())`
+
+ return tweet do not contain the specific word but the username
+ i set the query to "toyota" but this app return a tweet which do not contain toyouta but the username of  this tweet contain toyouta!! how to avoid this happen?
+I have noticed the same issue: if the username (screen name) contains the keyword you're searching for, the resulting tweets set will include tweets that don't have the keyword (they get matched only because the username contains the keyword!) Very serious problem here!
+
+Hi @masepehr  and @alig110  Well i've not come accross this issue before. But i guess that's because i use an improvement-fork to this package, which was written in python3 my Dmitry Mottl, which i later optimised to work seamlessly on Windows CMD and Ubuntu terminal. I've been downloading twitter data with ease since last July when i had this problem. 
+I have the improvement fork on my github, here's a link to it 
+https://github.com/marquisvictor/Optimized-Modified-GetOldTweets3-OMGOT
+
+thank me later. :)
+
+Make sure to follow the readme instructions 
+
+
+@marquisvictor 
+thanks for reply and modification the code! i will examine your new code and let you know the result ;)
+
+> 
+> 
+> Hi @masepehr and @alig110 Well i've not come accross this issue before. But i guess that's because i use an improvement-fork to this package, which was written in python3 my Dmitry Mottl, which i later optimised to work seamlessly on Windows CMD and Ubuntu terminal. I've been downloading twitter data with ease since last July when i had this problem.
+> I have the improvement fork on my github, here's a link to it
+> https://github.com/marquisvictor/Optimized-Modified-GetOldTweets3-OMGOT
+> 
+> thank me later. :)
+
+Thank you @marquisvictor, but I'm noticing the same problem: I get tweets that do not contain my keyword, only because the username does!
+
+ Download proper link to image
+ Hi!
+How to download proper link to image in tweet? I didn't find it.
+
+I got:
+
+
+`katlinegrey | 26.07.2019 23:50 | pic.twitter.com/4hwBCdpP6d | https://twitter.com/katlinegrey/status/1154871564053176325`
+
+
+not
+
+`katlinegrey | 26.07.2019 23:50 | https://pbs.twimg.com/media/EAbtjdIXkAM5exc?format=jpg&name=900x900 | https://twitter.com/katlinegrey/status/1154871564053176325`
+
+Any hint how to make it?
+
+ Update Exporter.py to be compatible with Python 3
+ Small fix with parentecies added to the print statement.
+ Update TweetCriteria.py
+ 
+ HTTP request: HTTP Error 503: Service Temporarily Unavailable
+ It was working fine till last week. All of a sudden I get this error. Does anybody face this problem?
+
+An error occured during an HTTP request: HTTP Error 503: Service Temporarily Unavailable
+Try to open in browser: https://twitter.com/search?q=cristianoronaldo%20since%3A2019-05-04%20until%3A2019-05-05&src=typd
+Check your Internet and Try again. 
+
+ Add comments parameter of each tweet
+ Proposal to add comments parameter on each tweet metric. 
+
+I have not used nor revised the got3 code, so it might be needed to modify the code there.
+ Fixes on CSV, Twitter Username, and Emoji
+ I'm using python csv module, and added the emoji. I'm also fixes the username not being pulled into Tweet class.
+i think the development of this repository is over
+
+ QuerySearch for URLs contained in User's Tweet 
+ I am being able to generate results with QuerySearch being simple text terms, and hashtags, but was wondering if it is possible to search for URLs contained in the tweet, maybe some Filters or Regular Expressions etc.  For example, I want to search for, All Tweets with a Link from Amazon Domain, which might expand to anything else  : 
+`tweetCriteria.since="2019-03-10"
+        tweetCriteria.until="2012-01-01"
+        tweetCriteria.setUsername(ht)
+        tweetCriteria.setQuerySearch("https://amazon.com/")`
+I doubt it's not returning result due to not matching exactly the same URL . Do I have to use some regular expression mechanism , or is it not possible at all ? 
+ Encoding issue with french special characters (Accents)
+ Great work, i have an issue with extracting tweets in french, espcially with the encoding. I don't get accents in french. Instead I get @!
+Is there an argument to add or a particular encoding that would fix this issue  ?
+
+Thank you.
+may I ask how you solved this? I have the same issue with Italian. sorry for reopening an old post!
+
+ Arabic Tweets
+ I want only to extract Arabic tweets that has a certain English hash tag. So the tweet is in Arabic but the hashtag is in English. How can I get this please??
+Thanks
+
+With [GetOldTweets3](https://github.com/Mottl/GetOldTweets3) as simple as
+ ```GetOldTweets3 --querysearch "#yourtag" --lang ar```
+
+ Get tweets by multiple Usernames
+ Hi.
+I want to obtain the tweets of a lot of usernames. But I don't want to write the comand in the terminal a lot of times. I try this:
+
+usernames = ["name1", "name2", ..... "nameX"]
+
+for i in usernames:
+     tweetCriteria.username = i
+     got.manager.TweetManager.getTweets(tweetCriteria, receiveBuffer)
+
+But doesn't work, the output.csv result is empty. Any idea?
+Thank You.
+Or there is a way to write all the names in one comand?
+Something like this:
+python Exporter.py --username "barackobama, name2, name3, ...,  nameX" --since 2015-09-10 --until 2015-09-12
+
+
+Make your own script and write:
+
+```
+subprocess.Popen("C:\Python27\python.exe Exporter.py --username \"SpaceXDragon\" --since " + since + " --until " + until + "  --maxtweets 100")
+subprocess.Popen("C:\Python27\python.exe Exporter.py --username \"SpaceX\" --since " + since + " --until " + until + "  --maxtweets 100")
+```
+
+... etc
+
+ Get Replies of a Particular Tweet , By tweet Id 
+ Great Library of Immense Utility by the Creators !! 
+Wanted to know if we could also get replies to a particular tweet when we have the id of the tweet available, which I think might be a critical use case for collecting data.
+Regards, 
+I want it too
+
+ Username returning empty
+ Here is an example of what is returned as a tweet:
+
+{'id': '815709183261769729', 'permalink': 'https://twitter.com/rachaelsibs/status/815709183261769729', 'username': '', 'text': "so no they don't all count... that's just a total number of white men who died in the civil war.", 'date': datetime.datetime(2017, 1, 1, 18, 59, 59), 'formatted_date': 'Sun Jan 01 18:59:59 +0000 2017', 'retweets': 0, 'favorites': 0, 'mentions': '', 'hashtags': '', 'geo': '', 'urls': '', 'author_id': 799595761004662784}
+
+
+Not all tweets are geotagged but all tweets should have a username.
+This is the same problem for me. I got tweets with empty username
+
+Seems like this only happens for the Python 3 version:
+
+`python2 Exporter.py --querysearch "query" --maxtweets 10 --until 2016-01-01`  works.
+`python3 Exporter.py --querysearch "query" --maxtweets 10 --until 2016-01-01` -> empty usernames.
+
+Btw I had to fix one line of Exporter.py from Python 2 `print` syntax to Python 3 syntax.
+
+---
+[This PR](https://github.com/Jefferson-Henrique/GetOldTweets-python/pull/193) fixes it for me.
+
+ Geo column returns empty
+ Hi!
+First, thanks a lot for this great project!
+I did use the script several times to collect tweets from a query search. 
+Each time, the ‘geo’ column returns empty, do you have any idea of the problem?
+
+Thanks a lot!
+Very few tweets have geo information. So it's very usual to see that field empty even if you collect a few thousand tweets. 
+
+The location feature is used by API only, which means you won't see much change on the Twitter home page right now. Therefore, you can't crawl the location on the home page, you need to get it through the API.
+
+So isn't there no way possible to get location(location that is present in profile will also work) from this script ?
+
+ Python 2.7 Anaconda-VS Code. Not able to download tweets in csv 
+ 
+Hi,
+I am tryin to use Exporter.py code in Anaconda - VS code with python version 2.7 . However, when I use
+
+**python Exporter.py --username "barackobama" --maxtweets 1**
+the output_got.csv file is all empty.
+
+Can anyone help me in what could have gone wrong.
+

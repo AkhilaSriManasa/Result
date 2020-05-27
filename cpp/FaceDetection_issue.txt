@@ -1,0 +1,503 @@
+﻿ mac make issue
+ i'm using mac v10.14.4
+i build tensorflow with the command shown on readme(bazel build --config=opt //tensorflow/tools/lib_package:libtensorflow) and when i do 'make -j4' i get 
+**ld: symbol(s) not found for architecture x86_64
+clang: error: linker command failed with exit code 1 (use -v to see invocation)**
+this error. 
+
+i have opencv v4.1.0 and tensorflow v1.12
+
+
+
+
+
+
+
+exact output is ***********************
+
+g++ -Wall -O2 -ggdb -std=c++11 -I/Users/angie/Desktop/FaceDetection/include `pkg-config --cflags /usr/local/Cellar/opencv/4.1.0_1/lib/pkgconfig/opencv4.pc` -I/Users/angie/Desktop/vision-2d/tf_standalone/include -c camera.cpp -o camera.o
+g++ -fpic -shared -o libmtcnn.so mtcnn.os comm_lib.os utils.os tensorflow_mtcnn.os
+g++ -Wall -O2 -ggdb -std=c++11 -I/Users/angie/Desktop/FaceDetection/include `pkg-config --cflags /usr/local/Cellar/opencv/4.1.0_1/lib/pkgconfig/opencv4.pc` -I/Users/angie/Desktop/vision-2d/tf_standalone/include -c mtcnn.cpp -o mtcnn.o
+g++ -Wall -O2 -ggdb -std=c++11 -I/Users/angie/Desktop/FaceDetection/include `pkg-config --cflags /usr/local/Cellar/opencv/4.1.0_1/lib/pkgconfig/opencv4.pc` -I/Users/angie/Desktop/vision-2d/tf_standalone/include -c comm_lib.cpp -o comm_lib.o
+Undefined symbols for architecture x86_64:
+  "_TF_CloseSession", referenced from:
+      tf_mtcnn::~tf_mtcnn() in tensorflow_mtcnn.os
+  "_TF_DeleteGraph", referenced from:
+      tf_mtcnn::~tf_mtcnn() in tensorflow_mtcnn.os
+  "_TF_DeleteSession", referenced from:
+      tf_mtcnn::~tf_mtcnn() in tensorflow_mtcnn.os
+  "_TF_DeleteStatus", referenced from:
+      tf_mtcnn::~tf_mtcnn() in tensorflow_mtcnn.os
+      tf_mtcnn::load_model(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&) in tensorflow_mtcnn.os
+      tf_mtcnn::run_PNet(cv::Mat const&, scale_window&, std::__1::vector<face_box, std::__1::allocator<face_box> >&) in tensorflow_mtcnn.os
+      tf_mtcnn::run_RNet(cv::Mat const&, std::__1::vector<face_box, std::__1::allocator<face_box> >&, std::__1::vector<face_box, std::__1::allocator<face_box> >&) in tensorflow_mtcnn.os
+      tf_mtcnn::run_ONet(cv::Mat const&, std::__1::vector<face_box, std::__1::allocator<face_box> >&, std::__1::vector<face_box, std::__1::allocator<face_box> >&) in tensorflow_mtcnn.os
+  "_TF_DeleteTensor", referenced from:
+      tf_mtcnn::run_PNet(cv::Mat const&, scale_window&, std::__1::vector<face_box, std::__1::allocator<face_box> >&) in tensorflow_mtcnn.os
+      tf_mtcnn::run_RNet(cv::Mat const&, std::__1::vector<face_box, std::__1::allocator<face_box> >&, std::__1::vector<face_box, std::__1::allocator<face_box> >&) in tensorflow_mtcnn.os
+      tf_mtcnn::run_ONet(cv::Mat const&, std::__1::vector<face_box, std::__1::allocator<face_box> >&, std::__1::vector<face_box, std::__1::allocator<face_box> >&) in tensorflow_mtcnn.os
+  "_TF_Dim", referenced from:
+      tf_mtcnn::run_PNet(cv::Mat const&, scale_window&, std::__1::vector<face_box, std::__1::allocator<face_box> >&) in tensorflow_mtcnn.os
+  "_TF_GetCode", referenced from:
+      tf_mtcnn::load_model(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&) in tensorflow_mtcnn.os
+      tf_mtcnn::run_PNet(cv::Mat const&, scale_window&, std::__1::vector<face_box, std::__1::allocator<face_box> >&) in tensorflow_mtcnn.os
+      tf_mtcnn::run_RNet(cv::Mat const&, std::__1::vector<face_box, std::__1::allocator<face_box> >&, std::__1::vector<face_box, std::__1::allocator<face_box> >&) in tensorflow_mtcnn.os
+      tf_mtcnn::run_ONet(cv::Mat const&, std::__1::vector<face_box, std::__1::allocator<face_box> >&, std::__1::vector<face_box, std::__1::allocator<face_box> >&) in tensorflow_mtcnn.os
+  "_TF_GraphImportGraphDef", referenced from:
+      tf_mtcnn::load_model(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&) in tensorflow_mtcnn.os
+  "_TF_GraphOperationByName", referenced from:
+      tf_mtcnn::run_PNet(cv::Mat const&, scale_window&, std::__1::vector<face_box, std::__1::allocator<face_box> >&) in tensorflow_mtcnn.os
+      tf_mtcnn::run_RNet(cv::Mat const&, std::__1::vector<face_box, std::__1::allocator<face_box> >&, std::__1::vector<face_box, std::__1::allocator<face_box> >&) in tensorflow_mtcnn.os
+      tf_mtcnn::run_ONet(cv::Mat const&, std::__1::vector<face_box, std::__1::allocator<face_box> >&, std::__1::vector<face_box, std::__1::allocator<face_box> >&) in tensorflow_mtcnn.os
+  "_TF_ImportGraphDefOptionsSetPrefix", referenced from:
+      tf_mtcnn::load_model(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&) in tensorflow_mtcnn.os
+  "_TF_Message", referenced from:
+      tf_mtcnn::load_model(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&) in tensorflow_mtcnn.os
+  "_TF_NewGraph", referenced from:
+      tf_mtcnn::load_model(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&) in tensorflow_mtcnn.os
+  "_TF_NewImportGraphDefOptions", referenced from:
+      tf_mtcnn::load_model(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&) in tensorflow_mtcnn.os
+  "_TF_NewSession", referenced from:
+      tf_mtcnn::load_model(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&) in tensorflow_mtcnn.os
+  "_TF_NewSessionOptions", referenced from:
+      tf_mtcnn::load_model(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&) in tensorflow_mtcnn.os
+  "_TF_NewStatus", referenced from:
+      tf_mtcnn::~tf_mtcnn() in tensorflow_mtcnn.os
+      tf_mtcnn::load_model(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&) in tensorflow_mtcnn.os
+      tf_mtcnn::run_PNet(cv::Mat const&, scale_window&, std::__1::vector<face_box, std::__1::allocator<face_box> >&) in tensorflow_mtcnn.os
+      tf_mtcnn::run_RNet(cv::Mat const&, std::__1::vector<face_box, std::__1::allocator<face_box> >&, std::__1::vector<face_box, std::__1::allocator<face_box> >&) in tensorflow_mtcnn.os
+      tf_mtcnn::run_ONet(cv::Mat const&, std::__1::vector<face_box, std::__1::allocator<face_box> >&, std::__1::vector<face_box, std::__1::allocator<face_box> >&) in tensorflow_mtcnn.os
+  "_TF_NewTensor", referenced from:
+      tf_mtcnn::run_PNet(cv::Mat const&, scale_window&, std::__1::vector<face_box, std::__1::allocator<face_box> >&) in tensorflow_mtcnn.os
+      tf_mtcnn::run_RNet(cv::Mat const&, std::__1::vector<face_box, std::__1::allocator<face_box> >&, std::__1::vector<face_box, std::__1::allocator<face_box> >&) in tensorflow_mtcnn.os
+      tf_mtcnn::run_ONet(cv::Mat const&, std::__1::vector<face_box, std::__1::allocator<face_box> >&, std::__1::vector<face_box, std::__1::allocator<face_box> >&) in tensorflow_mtcnn.os
+  "_TF_SessionRun", referenced from:
+      tf_mtcnn::run_PNet(cv::Mat const&, scale_window&, std::__1::vector<face_box, std::__1::allocator<face_box> >&) in tensorflow_mtcnn.os
+      tf_mtcnn::run_RNet(cv::Mat const&, std::__1::vector<face_box, std::__1::allocator<face_box> >&, std::__1::vector<face_box, std::__1::allocator<face_box> >&) in tensorflow_mtcnn.os
+      tf_mtcnn::run_ONet(cv::Mat const&, std::__1::vector<face_box, std::__1::allocator<face_box> >&, std::__1::vector<face_box, std::__1::allocator<face_box> >&) in tensorflow_mtcnn.os
+  "_TF_TensorData", referenced from:
+      tf_mtcnn::run_PNet(cv::Mat const&, scale_window&, std::__1::vector<face_box, std::__1::allocator<face_box> >&) in tensorflow_mtcnn.os
+      tf_mtcnn::run_RNet(cv::Mat const&, std::__1::vector<face_box, std::__1::allocator<face_box> >&, std::__1::vector<face_box, std::__1::allocator<face_box> >&) in tensorflow_mtcnn.os
+      tf_mtcnn::run_ONet(cv::Mat const&, std::__1::vector<face_box, std::__1::allocator<face_box> >&, std::__1::vector<face_box, std::__1::allocator<face_box> >&) in tensorflow_mtcnn.os
+  "cv::copyMakeBorder(cv::_InputArray const&, cv::_OutputArray const&, int, int, int, int, int, cv::Scalar_<double> const&)", referenced from:
+      copy_one_patch(cv::Mat const&, face_box&, float*, int, int) in tensorflow_mtcnn.os
+  "cv::Mat::deallocate()", referenced from:
+      set_input_buffer(std::__1::vector<cv::Mat, std::__1::allocator<cv::Mat> >&, float*, int, int) in comm_lib.os
+      std::__1::__split_buffer<cv::Mat, std::__1::allocator<cv::Mat>&>::~__split_buffer() in comm_lib.os
+      tf_mtcnn::run_PNet(cv::Mat const&, scale_window&, std::__1::vector<face_box, std::__1::allocator<face_box> >&) in tensorflow_mtcnn.os
+      copy_one_patch(cv::Mat const&, face_box&, float*, int, int) in tensorflow_mtcnn.os
+      tf_mtcnn::detect(cv::Mat&, std::__1::vector<face_box, std::__1::allocator<face_box> >&) in tensorflow_mtcnn.os
+      cv::MatExpr::~MatExpr() in tensorflow_mtcnn.os
+  "cv::Mat::updateContinuityFlag()", referenced from:
+      set_input_buffer(std::__1::vector<cv::Mat, std::__1::allocator<cv::Mat> >&, float*, int, int) in comm_lib.os
+      copy_one_patch(cv::Mat const&, face_box&, float*, int, int) in tensorflow_mtcnn.os
+  "cv::Mat::copySize(cv::Mat const&)", referenced from:
+      set_input_buffer(std::__1::vector<cv::Mat, std::__1::allocator<cv::Mat> >&, float*, int, int) in comm_lib.os
+      void std::__1::vector<cv::Mat, std::__1::allocator<cv::Mat> >::__push_back_slow_path<cv::Mat const&>(cv::Mat const&&&) in comm_lib.os
+      std::__1::vector<cv::Mat, std::__1::allocator<cv::Mat> >::__swap_out_circular_buffer(std::__1::__split_buffer<cv::Mat, std::__1::allocator<cv::Mat>&>&) in comm_lib.os
+  "cv::Mat::Mat(cv::Mat const&, cv::Range const&, cv::Range const&)", referenced from:
+      copy_one_patch(cv::Mat const&, face_box&, float*, int, int) in tensorflow_mtcnn.os
+  "cv::error(int, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&, char const*, char const*, int)", referenced from:
+      set_input_buffer(std::__1::vector<cv::Mat, std::__1::allocator<cv::Mat> >&, float*, int, int) in comm_lib.os
+      copy_one_patch(cv::Mat const&, face_box&, float*, int, int) in tensorflow_mtcnn.os
+  "cv::resize(cv::_InputArray const&, cv::_OutputArray const&, cv::Size_<int>, double, double, int)", referenced from:
+      tf_mtcnn::run_PNet(cv::Mat const&, scale_window&, std::__1::vector<face_box, std::__1::allocator<face_box> >&) in tensorflow_mtcnn.os
+      copy_one_patch(cv::Mat const&, face_box&, float*, int, int) in tensorflow_mtcnn.os
+  "cv::cvtColor(cv::_InputArray const&, cv::_OutputArray const&, int, int)", referenced from:
+      tf_mtcnn::detect(cv::Mat&, std::__1::vector<face_box, std::__1::allocator<face_box> >&) in tensorflow_mtcnn.os
+  "cv::fastFree(void*)", referenced from:
+      set_input_buffer(std::__1::vector<cv::Mat, std::__1::allocator<cv::Mat> >&, float*, int, int) in comm_lib.os
+      std::__1::__split_buffer<cv::Mat, std::__1::allocator<cv::Mat>&>::~__split_buffer() in comm_lib.os
+      tf_mtcnn::run_PNet(cv::Mat const&, scale_window&, std::__1::vector<face_box, std::__1::allocator<face_box> >&) in tensorflow_mtcnn.os
+      copy_one_patch(cv::Mat const&, face_box&, float*, int, int) in tensorflow_mtcnn.os
+      tf_mtcnn::detect(cv::Mat&, std::__1::vector<face_box, std::__1::allocator<face_box> >&) in tensorflow_mtcnn.os
+      cv::MatExpr::~MatExpr() in tensorflow_mtcnn.os
+  "cv::operator-(cv::Mat const&, cv::Scalar_<double> const&)", referenced from:
+      tf_mtcnn::detect(cv::Mat&, std::__1::vector<face_box, std::__1::allocator<face_box> >&) in tensorflow_mtcnn.os
+  "cv::operator*(cv::MatExpr const&, double)", referenced from:
+      tf_mtcnn::detect(cv::Mat&, std::__1::vector<face_box, std::__1::allocator<face_box> >&) in tensorflow_mtcnn.os
+  "cv::Mat::t() const", referenced from:
+      tf_mtcnn::detect(cv::Mat&, std::__1::vector<face_box, std::__1::allocator<face_box> >&) in tensorflow_mtcnn.os
+  "cv::Mat::convertTo(cv::_OutputArray const&, int, double, double) const", referenced from:
+      tf_mtcnn::detect(cv::Mat&, std::__1::vector<face_box, std::__1::allocator<face_box> >&) in tensorflow_mtcnn.os
+ld: symbol(s) not found for architecture x86_64
+clang: error: linker command failed with exit code 1 (use -v to see invocation)
+make[1]: *** [libmtcnn.so] Error 1
+make[1]: *** Waiting for unfinished jobs....
+camera.cpp:101:71: warning: implicit conversion from 'double' to 'int' changes value from 1.8 to 1 [-Wliteral-conversion]
+                        box.landmark.y[l]), 1, cv::Scalar(0, 0, 255), 1.8);
+                                                                      ^~~
+1 warning generated.
+make: *** [libs] Error 2
+ Where is CAFFE_ROOT.
+ Hi, 
+A quick question. We have to edit CAFFE_ROOT in Makefile, but i am not able to see this parameter in Makefile. Also its not there in MXNet-HRT/Makefile.
+Any suggestion?
+Thanks
+
+
+
+
+ Caffe is faster than tensorflow ?
+ The caffe runs faster than the tensorflow version,  and caffe need less GPU memory.  Is that right ? 
+ error while loading shared librarie
+ compile whit the "make problem #2" suggestions, the compilation was successful but when running test or camera I get:
+"error while loading shared libraries: libmtcnn.so: cannot open shared object file: No such file or directory"
+
+how can I fix this?
+
+ fix tensorflow setting
+ 
+ Face alignment
+ Can I please know how to align face in c++ after detection as done in https://github.com/davidsandberg/facenet/blob/master/src/align/align_dataset_mtcnn.py
+@ashokbugude 
+
+The align face in align_dataset_mtcnn.py is just cropping and resizing.  Please refers to the  alignment algorithm in face recognition project.
+
+Thanks
+Haitao
+
+ make error with tensorflow
+ I am working with tensorflow and success in bazel build. 
+I do have libtensorflow_framework.so  libtensorflow.so in  /usr/local/lib/
+and I verify this with a toy .c file with 
+
+```
+#include <stdio.h>
+#include <tensorflow/c/c_api.h>
+
+int main() {
+  printf(“Hello from TensorFlow C library version %s\n”, TF_Version());
+  return 0;
+}
+```
+and gcc -I/usr/local/include -L/usr/local/lib hello_tf.c -ltensorflow
+and it runs as expected
+
+but in this project, I got these errors like:
+
+g++ -Wall -O2 -ggdb -std=c++11 -I/home/sensetime/miaospace/FaceDetection/include `pkg-config --cflags opencv` -I/usr/local//include -c test.cpp -o test.o
+make[1]: Entering directory `/home/sensetime/miaospace/FaceDetection/libmtcnn'
+g++ -fpic -shared -Wall -O2 -ggdb -std=c++11 -I/home/sensetime/miaospace/FaceDetection/include `pkg-config --cflags opencv` -I/usr/local//include -c mtcnn.cpp -o mtcnn.os
+g++ -fpic -shared -Wall -O2 -ggdb -std=c++11 -I/home/sensetime/miaospace/FaceDetection/include `pkg-config --cflags opencv` -I/usr/local//include -c comm_lib.cpp -o comm_lib.os
+g++ -fpic -shared -Wall -O2 -ggdb -std=c++11 -I/home/sensetime/miaospace/FaceDetection/include `pkg-config --cflags opencv` -I/usr/local//include -c utils.cpp -o utils.os
+g++ -fpic -shared -Wall -O2 -ggdb -std=c++11 -I/home/sensetime/miaospace/FaceDetection/include `pkg-config --cflags opencv` -I/usr/local//include -c tensorflow_mtcnn.cpp -o tensorflow_mtcnn.os
+g++ -fpic -shared -o libmtcnn.so mtcnn.os comm_lib.os utils.os tensorflow_mtcnn.os
+g++ -Wall -O2 -ggdb -std=c++11 -I/home/sensetime/miaospace/FaceDetection/include `pkg-config --cflags opencv` -I/usr/local//include -c mtcnn.cpp -o mtcnn.o
+g++ -Wall -O2 -ggdb -std=c++11 -I/home/sensetime/miaospace/FaceDetection/include `pkg-config --cflags opencv` -I/usr/local//include -c comm_lib.cpp -o comm_lib.o
+g++ -Wall -O2 -ggdb -std=c++11 -I/home/sensetime/miaospace/FaceDetection/include `pkg-config --cflags opencv` -I/usr/local//include -c utils.cpp -o utils.o
+g++ -Wall -O2 -ggdb -std=c++11 -I/home/sensetime/miaospace/FaceDetection/include `pkg-config --cflags opencv` -I/usr/local//include -c tensorflow_mtcnn.cpp -o tensorflow_mtcnn.o
+ar -rcv libmtcnn.a mtcnn.o comm_lib.o utils.o tensorflow_mtcnn.o
+a - mtcnn.o
+a - comm_lib.o
+a - utils.o
+a - tensorflow_mtcnn.o
+make[1]: Leaving directory `/home/sensetime/miaospace/FaceDetection/libmtcnn'
+g++ -Wall -O2 -ggdb -std=c++11 -I/home/sensetime/miaospace/FaceDetection/include `pkg-config --cflags opencv` -I/usr/local//include test.o -o test -L/home/sensetime/miaospace/FaceDetection/libmtcnn -lmtcnn `pkg-config --libs opencv` `pkg-config --libs computelibrary`
+Package computelibrary was not found in the pkg-config search path.
+Perhaps you should add the directory containing `computelibrary.pc'
+to the PKG_CONFIG_PATH environment variable
+No package 'computelibrary' found
+/home/sensetime/miaospace/FaceDetection/libmtcnn/libmtcnn.so: undefined reference to `TF_ImportGraphDefOptionsSetPrefix'
+/home/sensetime/miaospace/FaceDetection/libmtcnn/libmtcnn.so: undefined reference to `TF_NewStatus'
+/home/sensetime/miaospace/FaceDetection/libmtcnn/libmtcnn.so: undefined reference to `TF_CloseSession'
+/home/sensetime/miaospace/FaceDetection/libmtcnn/libmtcnn.so: undefined reference to `TF_NewImportGraphDefOptions'
+/home/sensetime/miaospace/FaceDetection/libmtcnn/libmtcnn.so: undefined reference to `TF_TensorData'
+/home/sensetime/miaospace/FaceDetection/libmtcnn/libmtcnn.so: undefined reference to `TF_DeleteTensor'
+/home/sensetime/miaospace/FaceDetection/libmtcnn/libmtcnn.so: undefined reference to `TF_SessionRun'
+/home/sensetime/miaospace/FaceDetection/libmtcnn/libmtcnn.so: undefined reference to `TF_NewTensor'
+/home/sensetime/miaospace/FaceDetection/libmtcnn/libmtcnn.so: undefined reference to `TF_DeleteStatus'
+/home/sensetime/miaospace/FaceDetection/libmtcnn/libmtcnn.so: undefined reference to `TF_GetCode'
+/home/sensetime/miaospace/FaceDetection/libmtcnn/libmtcnn.so: undefined reference to `TF_Dim'
+/home/sensetime/miaospace/FaceDetection/libmtcnn/libmtcnn.so: undefined reference to `TF_NewSessionOptions'
+/home/sensetime/miaospace/FaceDetection/libmtcnn/libmtcnn.so: undefined reference to `TF_GraphImportGraphDef'
+/home/sensetime/miaospace/FaceDetection/libmtcnn/libmtcnn.so: undefined reference to `TF_Message'
+/home/sensetime/miaospace/FaceDetection/libmtcnn/libmtcnn.so: undefined reference to `TF_DeleteGraph'
+/home/sensetime/miaospace/FaceDetection/libmtcnn/libmtcnn.so: undefined reference to `TF_GraphOperationByName'
+/home/sensetime/miaospace/FaceDetection/libmtcnn/libmtcnn.so: undefined reference to `TF_NewGraph'
+/home/sensetime/miaospace/FaceDetection/libmtcnn/libmtcnn.so: undefined reference to `TF_DeleteSession'
+/home/sensetime/miaospace/FaceDetection/libmtcnn/libmtcnn.so: undefined reference to `TF_NewSession'
+collect2: error: ld returned 1 exit status
+make: *** [test] Error 1
+
+I think there is something missing in linking tensorflow in test.o 
+see my patch on makefile.mk below. It solves my problem on my ubuntu16.04
+
+@@ -12,9 +12,9 @@ CXXFLAGS += -I$(TOPDIR)/include
+ 
+ ARFLAGS = -rcv
+ 
+-CAFFE_ON = 1
++CAFFE_ON = 0
+ MXNET_ON = 0
+-TF_ON = 0
++TF_ON = 1
+ 
+ #MTCNN_LDFLAGS = -L$(MTCNNLIBDIR) -Wl,--whole-archive -lmtcnn -Wl,--no-whole-archive
+ LDFLAGS += -L$(MTCNNLIBDIR) -lmtcnn
+@@ -42,14 +42,17 @@ endif
+ 
+ #  tensorflow settings
+ ifeq ($(TF_ON), 1)
++   TENSORFLOW_ROOT = "PATH to your TF LIB" 
+
+    TENSORFLOW_INCS += -I$(TENSORFLOW_ROOT)/include
+    LIBS+=-Wl,-rpath,$(TENSORFLOW_ROOT)/lib -L$(TENSORFLOW_ROOT)/lib -ltensorflow
+ 
+    CXXFLAGS +=$(TENSORFLOW_INCS)
++   LDFLAGS  += $(LIBS)
+ endif
+ 
+ # arm compute library setting
+-LDFLAGS += `pkg-config --libs computelibrary`
++# LDFLAGS += `pkg-config --libs computelibrary`
+
+
+@ybao2016 thanks for your reply, in face, I switch to [ this repo ](https://github.com/cyberfire/tensorflow-mtcnn/tree/master/cpp/standalone)and  it works .
+
+@ybao2016 thanks for your reply, in face, I switch to [ this repo ](https://github.com/cyberfire/tensorflow-mtcnn/tree/master/cpp/standalone)and  it works .
+
+ where is tensorflow model comes from?
+ Thanks for the code. I am wondering where this  mtcnn_frozen_model.pb comes from? I need details of how is freeze and the layer names setup, cause I am training my own mtcnn tensorflow models.
+
+Thanks again.
+The model is from this project 
+https://github.com/davidsandberg/facenet
+
+
+
+
+ when make -j4,  occure an error "fatal error: caffe/caffe.hpp : No such file or directory".But the caffe.hpp was already existed in CaffeOnACL
+ 
+Have you solved the problem? I had the same one.
+
+ How can I use GPU+NEON to test mtcnn?
+ Hi, thank you sharing the code ,Now I can  use CPU to run the mtcnn ,How can I use GPU+NEON to test mtcnn? THX
+It depends on the caffe/mxnet/ tendorflow in your machine
+
+
+
+ It seems that modifying the code doesn't work
+ ```c++
+int caffe_mtcnn::load_model(const std::string &proto_model_dir)
+{
+
+	Caffe::set_mode(Caffe::GPU); //use GPU mode
+
+	//load pre_trained model
+	//first param is file path, second represent the net is used for test
+	PNet_=new Net<float>(( "./models/det111.prototxt"), caffe::TEST);
+	PNet_->CopyTrainedLayersFrom(proto_model_dir + "/det1.caffemodel");
+
+
+	RNet_=new Net<float>((proto_model_dir + "/det2.prototxt"), caffe::TEST);
+	RNet_->CopyTrainedLayersFrom(proto_model_dir + "/det2.caffemodel");
+
+
+	ONet_=new Net<float>((proto_model_dir + "/det3.prototxt"), caffe::TEST);
+	ONet_->CopyTrainedLayersFrom(proto_model_dir + "/det3.caffemodel");
+
+	return 0;
+}
+```
+
+I have modified the caffe_mtcnn::load_model() method like above, you can see i changed the mode but after recompiling the project, it still run in cpu mode.
+And i modified the model's file name to det111.prototxt , but the log info still shows that the Net load the model lwhich is called det1.prototxt.
+## I wish you can help me!  Thank you! 
+
+### Here are part of the console log info 
+```
+mtcnn git:(master) ✗ ./test      
+1
+WARNING: Logging before InitGoogleLogging() is written to STDERR
+I1123 20:26:12.290751 14968 upgrade_proto.cpp:67] Attempting to upgrade input file specified using deprecated input fields: ./models/det1.prototxt
+I1123 20:26:12.290843 14968 upgrade_proto.cpp:70] Successfully upgraded file specified using deprecated input fields.
+W1123 20:26:12.290848 14968 upgrade_proto.cpp:72] Note that future Caffe releases will only support input layers and not input fields.
+I1123 20:26:12.290976 14968 net.cpp:51] Initializing net from parameters: 
+name: "PNet"
+ make problem
+ Hi everyone,
+
+I want to tensorflow and have built the libtensorflow.so myself. I have the following error when `make`:
+
+Undefined symbols for architecture x86_64:
+  "_TF_CloseSession", referenced from:
+      tf_mtcnn::~tf_mtcnn() in tensorflow_mtcnn.os
+  "_TF_DeleteGraph", referenced from:
+      tf_mtcnn::~tf_mtcnn() in tensorflow_mtcnn.os
+  "_TF_DeleteSession", referenced from:
+      tf_mtcnn::~tf_mtcnn() in tensorflow_mtcnn.os
+  "_TF_DeleteStatus", referenced from:
+      tf_mtcnn::~tf_mtcnn() in tensorflow_mtcnn.os
+      tf_mtcnn::load_model(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&) in tensorflow_mtcnn.os
+      tf_mtcnn::run_PNet(cv::Mat const&, scale_window&, std::__1::vector<face_box, std::__1::allocator<face_box> >&) in tensorflow_mtcnn.os
+      tf_mtcnn::run_RNet(cv::Mat const&, std::__1::vector<face_box, std::__1::allocator<face_box> >&, std::__1::vector<face_box, std::__1::allocator<face_box> >&) in tensorflow_mtcnn.os
+      tf_mtcnn::run_ONet(cv::Mat const&, std::__1::vector<face_box, std::__1::allocator<face_box> >&, std::__1::vector<face_box, std::__1::allocator<face_box> >&) in tensorflow_mtcnn.os
+  "_TF_DeleteTensor", referenced from:
+      tf_mtcnn::run_PNet(cv::Mat const&, scale_window&, std::__1::vector<face_box, std::__1::allocator<face_box> >&) in tensorflow_mtcnn.os
+      tf_mtcnn::run_RNet(cv::Mat const&, std::__1::vector<face_box, std::__1::allocator<face_box> >&, std::__1::vector<face_box, std::__1::allocator<face_box> >&) in tensorflow_mtcnn.os
+      tf_mtcnn::run_ONet(cv::Mat const&, std::__1::vector<face_box, std::__1::allocator<face_box> >&, std::__1::vector<face_box, std::__1::allocator<face_box> >&) in tensorflow_mtcnn.os
+  "_TF_Dim", referenced from:
+      tf_mtcnn::run_PNet(cv::Mat const&, scale_window&, std::__1::vector<face_box, std::__1::allocator<face_box> >&) in tensorflow_mtcnn.os
+  "_TF_GetCode", referenced from:
+      tf_mtcnn::load_model(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&) in tensorflow_mtcnn.os
+      tf_mtcnn::run_PNet(cv::Mat const&, scale_window&, std::__1::vector<face_box, std::__1::allocator<face_box> >&) in tensorflow_mtcnn.os
+      tf_mtcnn::run_RNet(cv::Mat const&, std::__1::vector<face_box, std::__1::allocator<face_box> >&, std::__1::vector<face_box, std::__1::allocator<face_box> >&) in tensorflow_mtcnn.os
+      tf_mtcnn::run_ONet(cv::Mat const&, std::__1::vector<face_box, std::__1::allocator<face_box> >&, std::__1::vector<face_box, std::__1::allocator<face_box> >&) in tensorflow_mtcnn.os
+  "_TF_GraphImportGraphDef", referenced from:
+      tf_mtcnn::load_model(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&) in tensorflow_mtcnn.os
+  "_TF_GraphOperationByName", referenced from:
+      tf_mtcnn::run_PNet(cv::Mat const&, scale_window&, std::__1::vector<face_box, std::__1::allocator<face_box> >&) in tensorflow_mtcnn.os
+      tf_mtcnn::run_RNet(cv::Mat const&, std::__1::vector<face_box, std::__1::allocator<face_box> >&, std::__1::vector<face_box, std::__1::allocator<face_box> >&) in tensorflow_mtcnn.os
+      tf_mtcnn::run_ONet(cv::Mat const&, std::__1::vector<face_box, std::__1::allocator<face_box> >&, std::__1::vector<face_box, std::__1::allocator<face_box> >&) in tensorflow_mtcnn.os
+  "_TF_ImportGraphDefOptionsSetPrefix", referenced from:
+      tf_mtcnn::load_model(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&) in tensorflow_mtcnn.os
+  "_TF_Message", referenced from:
+      tf_mtcnn::load_model(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&) in tensorflow_mtcnn.os
+  "_TF_NewGraph", referenced from:
+      tf_mtcnn::load_model(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&) in tensorflow_mtcnn.os
+  "_TF_NewImportGraphDefOptions", referenced from:
+      tf_mtcnn::load_model(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&) in tensorflow_mtcnn.os
+  "_TF_NewSession", referenced from:
+      tf_mtcnn::load_model(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&) in tensorflow_mtcnn.os
+  "_TF_NewSessionOptions", referenced from:
+      tf_mtcnn::load_model(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&) in tensorflow_mtcnn.os
+  "_TF_NewStatus", referenced from:
+      tf_mtcnn::~tf_mtcnn() in tensorflow_mtcnn.os
+      tf_mtcnn::load_model(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&) in tensorflow_mtcnn.os
+      tf_mtcnn::run_PNet(cv::Mat const&, scale_window&, std::__1::vector<face_box, std::__1::allocator<face_box> >&) in tensorflow_mtcnn.os
+      tf_mtcnn::run_RNet(cv::Mat const&, std::__1::vector<face_box, std::__1::allocator<face_box> >&, std::__1::vector<face_box, std::__1::allocator<face_box> >&) in tensorflow_mtcnn.os
+      tf_mtcnn::run_ONet(cv::Mat const&, std::__1::vector<face_box, std::__1::allocator<face_box> >&, std::__1::vector<face_box, std::__1::allocator<face_box> >&) in tensorflow_mtcnn.os
+  "_TF_NewTensor", referenced from:
+      tf_mtcnn::run_PNet(cv::Mat const&, scale_window&, std::__1::vector<face_box, std::__1::allocator<face_box> >&) in tensorflow_mtcnn.os
+      tf_mtcnn::run_RNet(cv::Mat const&, std::__1::vector<face_box, std::__1::allocator<face_box> >&, std::__1::vector<face_box, std::__1::allocator<face_box> >&) in tensorflow_mtcnn.os
+      tf_mtcnn::run_ONet(cv::Mat const&, std::__1::vector<face_box, std::__1::allocator<face_box> >&, std::__1::vector<face_box, std::__1::allocator<face_box> >&) in tensorflow_mtcnn.os
+  "_TF_SessionRun", referenced from:
+      tf_mtcnn::run_PNet(cv::Mat const&, scale_window&, std::__1::vector<face_box, std::__1::allocator<face_box> >&) in tensorflow_mtcnn.os
+      tf_mtcnn::run_RNet(cv::Mat const&, std::__1::vector<face_box, std::__1::allocator<face_box> >&, std::__1::vector<face_box, std::__1::allocator<face_box> >&) in tensorflow_mtcnn.os
+      tf_mtcnn::run_ONet(cv::Mat const&, std::__1::vector<face_box, std::__1::allocator<face_box> >&, std::__1::vector<face_box, std::__1::allocator<face_box> >&) in tensorflow_mtcnn.os
+  "_TF_TensorData", referenced from:
+      tf_mtcnn::run_PNet(cv::Mat const&, scale_window&, std::__1::vector<face_box, std::__1::allocator<face_box> >&) in tensorflow_mtcnn.os
+      tf_mtcnn::run_RNet(cv::Mat const&, std::__1::vector<face_box, std::__1::allocator<face_box> >&, std::__1::vector<face_box, std::__1::allocator<face_box> >&) in tensorflow_mtcnn.os
+      tf_mtcnn::run_ONet(cv::Mat const&, std::__1::vector<face_box, std::__1::allocator<face_box> >&, std::__1::vector<face_box, std::__1::allocator<face_box> >&) in tensorflow_mtcnn.os
+  "cv::copyMakeBorder(cv::_InputArray const&, cv::_OutputArray const&, int, int, int, int, int, cv::Scalar_<double> const&)", referenced from:
+      copy_one_patch(cv::Mat const&, face_box&, float*, int, int) in tensorflow_mtcnn.os
+  "cv::Mat::deallocate()", referenced from:
+      set_input_buffer(std::__1::vector<cv::Mat, std::__1::allocator<cv::Mat> >&, float*, int, int) in comm_lib.os
+      std::__1::__split_buffer<cv::Mat, std::__1::allocator<cv::Mat>&>::~__split_buffer() in comm_lib.os
+      tf_mtcnn::run_PNet(cv::Mat const&, scale_window&, std::__1::vector<face_box, std::__1::allocator<face_box> >&) in tensorflow_mtcnn.os
+      copy_one_patch(cv::Mat const&, face_box&, float*, int, int) in tensorflow_mtcnn.os
+      tf_mtcnn::detect(cv::Mat&, std::__1::vector<face_box, std::__1::allocator<face_box> >&) in tensorflow_mtcnn.os
+      cv::MatExpr::~MatExpr() in tensorflow_mtcnn.os
+  "cv::Mat::copySize(cv::Mat const&)", referenced from:
+      set_input_buffer(std::__1::vector<cv::Mat, std::__1::allocator<cv::Mat> >&, float*, int, int) in comm_lib.os
+      void std::__1::vector<cv::Mat, std::__1::allocator<cv::Mat> >::__push_back_slow_path<cv::Mat const&>(cv::Mat const&&&) in comm_lib.os
+      std::__1::vector<cv::Mat, std::__1::allocator<cv::Mat> >::__swap_out_circular_buffer(std::__1::__split_buffer<cv::Mat, std::__1::allocator<cv::Mat>&>&) in comm_lib.os
+  "cv::Mat::Mat(cv::Mat const&, cv::Range const&, cv::Range const&)", referenced from:
+      copy_one_patch(cv::Mat const&, face_box&, float*, int, int) in tensorflow_mtcnn.os
+  "cv::error(int, cv::String const&, char const*, char const*, int)", referenced from:
+      cv::Mat::Mat(int, int, int, void*, unsigned long) in comm_lib.os
+      cv::Mat::Mat(int, int, int, void*, unsigned long) in tensorflow_mtcnn.os
+  "cv::String::deallocate()", referenced from:
+      cvflann::anyimpl::big_any_policy<cv::String>::static_delete(void**) in mtcnn.os
+      cvflann::anyimpl::big_any_policy<cv::String>::move(void* const*, void**) in mtcnn.os
+      cv::Mat::Mat(int, int, int, void*, unsigned long) in comm_lib.os
+      cvflann::anyimpl::big_any_policy<cv::String>::static_delete(void**) in comm_lib.os
+      cvflann::anyimpl::big_any_policy<cv::String>::move(void* const*, void**) in comm_lib.os
+      cvflann::anyimpl::big_any_policy<cv::String>::static_delete(void**) in utils.os
+      cvflann::anyimpl::big_any_policy<cv::String>::move(void* const*, void**) in utils.os
+      ...
+  "cv::String::allocate(unsigned long)", referenced from:
+      cv::Mat::Mat(int, int, int, void*, unsigned long) in comm_lib.os
+      cv::Mat::Mat(int, int, int, void*, unsigned long) in tensorflow_mtcnn.os
+  "cv::resize(cv::_InputArray const&, cv::_OutputArray const&, cv::Size_<int>, double, double, int)", referenced from:
+      tf_mtcnn::run_PNet(cv::Mat const&, scale_window&, std::__1::vector<face_box, std::__1::allocator<face_box> >&) in tensorflow_mtcnn.os
+      copy_one_patch(cv::Mat const&, face_box&, float*, int, int) in tensorflow_mtcnn.os
+  "cv::cvtColor(cv::_InputArray const&, cv::_OutputArray const&, int, int)", referenced from:
+      tf_mtcnn::detect(cv::Mat&, std::__1::vector<face_box, std::__1::allocator<face_box> >&) in tensorflow_mtcnn.os
+  "cv::fastFree(void*)", referenced from:
+      set_input_buffer(std::__1::vector<cv::Mat, std::__1::allocator<cv::Mat> >&, float*, int, int) in comm_lib.os
+      std::__1::__split_buffer<cv::Mat, std::__1::allocator<cv::Mat>&>::~__split_buffer() in comm_lib.os
+      tf_mtcnn::run_PNet(cv::Mat const&, scale_window&, std::__1::vector<face_box, std::__1::allocator<face_box> >&) in tensorflow_mtcnn.os
+      copy_one_patch(cv::Mat const&, face_box&, float*, int, int) in tensorflow_mtcnn.os
+      tf_mtcnn::detect(cv::Mat&, std::__1::vector<face_box, std::__1::allocator<face_box> >&) in tensorflow_mtcnn.os
+      cv::MatExpr::~MatExpr() in tensorflow_mtcnn.os
+  "cv::operator-(cv::Mat const&, cv::Scalar_<double> const&)", referenced from:
+      tf_mtcnn::detect(cv::Mat&, std::__1::vector<face_box, std::__1::allocator<face_box> >&) in tensorflow_mtcnn.os
+  "cv::operator*(cv::MatExpr const&, double)", referenced from:
+      tf_mtcnn::detect(cv::Mat&, std::__1::vector<face_box, std::__1::allocator<face_box> >&) in tensorflow_mtcnn.os
+  "cv::Mat::t() const", referenced from:
+      tf_mtcnn::detect(cv::Mat&, std::__1::vector<face_box, std::__1::allocator<face_box> >&) in tensorflow_mtcnn.os
+  "cv::Mat::convertTo(cv::_OutputArray const&, int, double, double) const", referenced from:
+      tf_mtcnn::detect(cv::Mat&, std::__1::vector<face_box, std::__1::allocator<face_box> >&) in tensorflow_mtcnn.os
+ld: symbol(s) not found for architecture x86_64
+clang: error: linker command failed with exit code 1 (use -v to see invocation)
+make[1]: *** [Makefile:32: libmtcnn.so] Error 1
+make[1]: Leaving directory '/Users/jinjunjie/Desktop/Work/codes/combined-mtcnn-cpp/libmtcnn'
+make: *** [Makefile:23: libs] Error 2
+
+My make version is:
+GNU Make 4.2.1
+Built for x86_64-apple-darwin16.5.0
+
+Thanks a ton!
+
+Could you please format and cleanup the log firstly?
+
+Thanks,
+Haitao
+
+ make problem
+ i have disable the arm_compute, but met another problem whem make your project. I built the libmtcnn.so successfully. Link the test.a just print these problem below.
+
+/home/sg/workspace/mtcnn/libmtcnn/libmtcnn.so: undefined reference to `TF_DeleteTensor'
+/home/sg/workspace/mtcnn/libmtcnn/libmtcnn.so: undefined reference to `TF_DeleteStatus'
+/home/sg/workspace/mtcnn/libmtcnn/libmtcnn.so: undefined reference to `TF_DeleteSession'
+/home/sg/workspace/mtcnn/libmtcnn/libmtcnn.so: undefined reference to `TF_DeleteGraph'
+/home/sg/workspace/mtcnn/libmtcnn/libmtcnn.so: undefined reference to `TF_Message'
+/home/sg/workspace/mtcnn/libmtcnn/libmtcnn.so: undefined reference to `TF_TensorData'
+/home/sg/workspace/mtcnn/libmtcnn/libmtcnn.so: undefined reference to `TF_NewGraph'
+/home/sg/workspace/mtcnn/libmtcnn/libmtcnn.so: undefined reference to `TF_NewSessionOptions'
+/home/sg/workspace/mtcnn/libmtcnn/libmtcnn.so: undefined reference to `TF_SessionRun'
+/home/sg/workspace/mtcnn/libmtcnn/libmtcnn.so: undefined reference to `TF_NewSession'
+/home/sg/workspace/mtcnn/libmtcnn/libmtcnn.so: undefined reference to `TF_CloseSession'
+/home/sg/workspace/mtcnn/libmtcnn/libmtcnn.so: undefined reference to `TF_GraphOperationByName'
+/home/sg/workspace/mtcnn/libmtcnn/libmtcnn.so: undefined reference to `TF_GraphImportGraphDef'
+/home/sg/workspace/mtcnn/libmtcnn/libmtcnn.so: undefined reference to `TF_NewStatus'
+/home/sg/workspace/mtcnn/libmtcnn/libmtcnn.so: undefined reference to `TF_Dim'
+/home/sg/workspace/mtcnn/libmtcnn/libmtcnn.so: undefined reference to `TF_NewTensor'
+/home/sg/workspace/mtcnn/libmtcnn/libmtcnn.so: undefined reference to `TF_GetCode'
+/home/sg/workspace/mtcnn/libmtcnn/libmtcnn.so: undefined reference to `TF_NewImportGraphDefOptions'
+/home/sg/workspace/mtcnn/libmtcnn/libmtcnn.so: undefined reference to `TF_ImportGraphDefOptionsSetPrefix'
+collect2: error: ld returned 1 exit status
+Makefile:18: recipe for target 'test' failed
+make: *** [test] Error 1
+
+As the pre-built libtensorflow.so is for arm64, and if you are trying this on x86,  ld will complain.
+
+You can workaround this by two methods:
+1) Skip tensorflow support by setting TF_ON=0
+2)  Build  libtensorflow.so as guided in README.md
+
+Thanks,
+
+cyberfire
+
+
+Please re-open if meet new issue
+
+Hi, I have the same problem. I follow this https://www.tensorflow.org/install/install_c for tensorflow c apis, but not bazel build. I do have libtensorflow.so in TENSORFLOW_ROOT. I guess I have to link it to test/camera.a as well?
+
+ make problem
+ @xhbdahai i met a problem when i make your project,can you help me..
+/usr/bin/ld: cannot find -larm_compute
+collect2: error: ld returned 1 exit status
+Makefile:17: recipe for target 'test' failed
+
+Close it since it has been resolved.
+
+@cyberfire  @quickj @xhbdahai how did you solve it?
+I am using Jetson TX1 and have this problem.
+
+Okay. I was not using CaffeonACL.
+

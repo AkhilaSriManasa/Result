@@ -1,0 +1,13 @@
+﻿ Use auto for brevity
+ Add  /* unused */ comments
+ Rename project to FlexibleReflection
+ Match names of macros in blog post
+ Update Reflect.h
+
+Use the word "primary" in a comment
+ Delete an unneeded macro
+ Tweak comments
+ Add README.md
+ GCC/Clang fixes
+ Initial commit
+ Initial commit

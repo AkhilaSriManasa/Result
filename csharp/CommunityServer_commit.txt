@@ -1,0 +1,36 @@
+﻿ Update README.md
+ Merge pull request #207 from ONLYOFFICE/feature/copyright-2020
+
+copyright 2020
+ copyright 2020
+ fix #188
+ Update Roadmap.md
+ Update README.md
+ Update README.md
+ the version was upgraded up to 10.5.1
+ the version was upgraded up to 10.5.1
+ Update README.md
+ the version was upgraded up to 10.0.4
+ the version was upgraded up to 10.0.4
+ Update Roadmap.md
+ Update README.md
+ Merge branch 'master' of https://github.com/ONLYOFFICE/CommunityServer
+ the version was upgraded up to 10.0.1
+ the version was upgraded up to 10.0.0
+ Merge pull request #156 from alexandervnuchkov/patch-4
+
+Update README.md
+ Update README.md
+ Merge pull request #112 from ONLYOFFICE/feature/copyright-2018
+
+Feature/copyright 2018
+ Copyright 2018
+ Copyright 2018
+ Copyright 2018
+ the version was upgraded up to 9.6.2
+ the version was upgraded up to 9.6.2
+ the version was upgraded up to 9.6.2
+ Update README.md
+ the version was upgraded up to 9.6.0
+ the version was upgraded up to 9.6.0
+ add redistribution for v9.6.0

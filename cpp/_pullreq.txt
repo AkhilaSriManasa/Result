@@ -1,0 +1,115 @@
+﻿ Fix for teleporter randomly not working with multiple supported nav agents defined
+ 
+ Added MaxStepHeight variable
+ When using gravity and uneven terrain, this variable determines how much Z offset the Player can step up. This is to enable stepping up stairs with a Z offset of 20, for example, but do disallow stepping up a box with a Z offset of 50, for example.
+ Getting rid of the warnings
+ Here you go :)
+This is about the two function updates mentioned earlier;
+GrabComponent -> GrabComponentAtLocationWithRotation
+AttachTo -> AttachToComponent
+where the difference between this and last prq is the WithRotation bit (and related FRotator argument) on the first replaced function, that went missing before last prq because im an idiot :P
+ 4.14 support
+ Just a quick commit to save you a couple of minutes, making the RunebergVRPlugin play nice with 4.14 :)
+
+Ive removed a bunch of _bWantsBeginPlay_ references since apparently thats deprecated, changed a reference too _GrabComponent_ into _**GrabComponentAtLocation**_ and an _AttachTo_ into _**AttachToComponent**_ (both obviously taking into account the argument changes)
+
+Also posted in the thread :)
+ repair the Barrier taking account read accesses
+ following https://github.com/vsg-dev/VulkanSceneGraph/pull/162
+
+## Fixes
+https://github.com/vsg-dev/VulkanSceneGraph/issues/160
+
+## Type of change
+
+Mutex instead of condition
+
+ repair the Barrier
+ Fixes # (issue)
+https://github.com/vsg-dev/VulkanSceneGraph/issues/160
+## Type of change
+
+Muteces instead of atomic int and condition
+
+ Fix getQueueFamily crash on macOS
+ 
+## Description
+
+on macOS, the last `bestFamily` result of PhysicalDevice::getQueueFamily(), the queueFamily with `queueFlags=VK_QUEUE_GRAPHICS_BIT`  contains 0 queue, thus cause crashes. it's solved by using the first best match.
+
+Fixes #157
+
+## Type of change
+
+Please delete options that are not relevant.
+
+- [x] Bug fix (non-breaking change which fixes an issue)
+- [ ] New feature (non-breaking change which adds functionality)
+- [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
+- [ ] This change requires a documentation update
+
+## How Has This Been Tested?
+
+Examples in vsgExamples/Desktop no longer crashes.
+
+**Test Configuration**:
+* Firmware version: macOS 10.15.4
+* Hardware: MacBook Pro (Retina, 13-inch, Early 2015) Intel Iris Graphics 6100 1536 MB
+* Toolchain: XCode
+* SDK: MoltenVK 1.2.135
+
+## Checklist:
+
+- [x] My code follows the style guidelines of this project
+- [x] I have performed a self-review of my own code
+- [x] I have commented my code, particularly in hard-to-understand areas
+- [x] I have made corresponding changes to the documentation
+- [x] My changes generate no new warnings
+- [ ] I have added tests that prove my fix is effective or that my feature works
+- [ ] New and existing unit tests pass locally with my changes
+- [ ] Any dependent changes have been merged and published in downstream modules
+
+ Subpass threading with integration of NextSubPass and ExecuteSecondaryCB
+ one commit stand for a bug fix (MT freeze) https://github.com/mp3butcher/VulkanSceneGraphPrototype/commit/01e1e6cec259178cf543b73829d3f6f5a6a5a823 that may still affect DataPager 
+The bug is present in vsg-dev:subpass_threading and is reproducible by launching lot of instances of the vsgsubpass example (launch 6 instance and swap between windows seems to be a good way to provoke it)
+ Improve CI
+ Relates to #155.
+
+It seems I have to open a new PR as the previous one was automatically closed after merge.
+
+ATM, improvements include:
+- Remove branch constraint on PR builds
+ Add CI using github actions
+ # Add CI using github actions
+
+## Description
+
+Hello,
+This pull request adds automatized builds on push and pull request events, using github actions facilities. Builds are run on Linux, Windows and Mac OS and exit in failure in case of any error. (ATM, build warnings do nothing and I hope to improve that someday but probably not in a v1.)
+
+For build triggered by push on master, documentation is built and published as build artifact.
+
+Vulkan SDK version to use can be set using an environment variable set at the beginning of the workflow yml file.
+
+Currently, the build fails on Mac OS because of a missing namespace in code. I kept this unchanged for now as it is good illustration of this CI workflow.
+
+I hope this help. Any feedback is welcome.
+
+## How Has This Been Tested?
+
+- With cache missing (first run) or with cache hit
+- After changing Vulkan SDK version
+- Building or not documentation, depending on trigger
+
+ Allow multiple consumers command graphs per secondary
+ works but **mandates to duplicate ExecuteCommands in primaries**
+I made an simple 2 primary sharing 1secondary example
+https://github.com/vsg-dev/vsgExamples/pull/42
+
+ Allow multiple consumers command graphs per producer
+ Not sure but should work on the paper :/
+ Allow multiple consumers command graph per producer
+ Allow multiple consumers command graph per producer
+ Command Buffers Record Threading and Sync
+ following https://github.com/vsg-dev/VulkanSceneGraph/pull/149
+tested and ready for an other branch subpass-threading...(perhaps issue with DataPager sharing...)

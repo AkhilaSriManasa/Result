@@ -1,0 +1,65 @@
+﻿ Fault on different contract and ops test (#135)
+
+Adding more unit tests
+ Adding support to enable Https usage (#132)
+ added fix for net tcp binding linux (#133)
+
+Fixed net tcp binding on linux with Windows credentials
+timeout increase for codecoverage
+ fix for service auth behavior (#118)
+
+* fix for service auth behavior
+* adding PrincipalPermissionMode, ImpersonateCallerForAllOperations
+* Fixing tests, transport mode not working for Linux
+ Make IOperationInvoker simpler with ValueTask and expose (#112)
+ Fixed Complex data type sample (#117)
+ Support for message contract attribute (#116)
+
+Support for servicemodel message contract
+ Support for message contract attribute (#116)
+
+Support for servicemodel message contract
+ Fix small test race condition (#115)
+
+Also increased test run timeout as more tests were causing CI failures.
+ pass through quotas for the NetHttpBinding (#114)
+
+HttpBindingBase Quotas
+ NetHttp binding with WebSockets support (#105)
+
+* Refactored ChannelHandler to closer match .NET Framework to help with WebSockets port
+* Fixed tests which weren't correctly waiting for result
+* Fixing NetTcp for dispatcher MessageSource model
+* WebSockets with NetHttpBinding now working
+* Force .NET Core SDK to be 3.1.101
+ Fix exception handling when an exception happens after an await in async service
+ Fixed FaultException implementation
+ Fixed exception handling
+ Adding HttpRequestMessageProperty tests
+ Merge pull request #51 from VorTechS/master
+
+Added a Postman SOAP 1.1 Collection to illustrate raw requests to the basichttp endpoint
+ Merge branch 'master' into master
+ Merge branch 'master' of https://github.com/VorTechS/CoreWCF
+ Modified samples to include Complex Type versions of an API call.  Created separate functions for WCF tests and HTTP client tests
+ Fix issue where RequestInfo was being reused before the prior request completed
+
+This is a stop-gap fix. This will have a small performance degredation so should be
+revisited to add pooling.
+ Fix AttributeUsage on Attribute classes
+
+Also renamed ServiceModelAttributeTargets to CoreWCFAttributeTargets
+Fixes #82
+ Add unit tests for using S.SM contract attributes
+ Add compat support for S.SM contract attributes
+ Update S.SM packages to the latest released versions
+ Fix small bug in session end of ChannelHandler
+ Add yaml files to solution
+ Adding code coverage to windows release test runs
+
+Added package reference to Microsoft.NET.Test.Sdk to get code coverage support.
+Tidied up the package references to be in consistent order.
+ Add nuget package source instructions
+ Create packages and publish to CoreWCF feed
+ Add S.SM Binding which dispatches to CoreWCF to make unit testing easier
+ Fixed indentation after merge.

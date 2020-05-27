@@ -1,0 +1,40 @@
+﻿ Re-sync change log.
+ [maven-release-plugin] prepare for next development iteration
+ [maven-release-plugin] prepare release 3.4.0-20200518
+ Updated changelog.
+ Merge pull request #328 from morokosi/fix-matchesregexdeciderule
+
+Fix match result is always false in MatchesListRegexDecideRule
+ optimize imports
+ fix discarded future value
+ Merge pull request #320 from bnfleb/sftp
+
+Add support for the SFTP protocol
+ Merge pull request #323 from clawia/master
+
+Add parsing for HTML tags (data-*)
+ Remove static fields and byte loop + rename variable
+ rename variable + javadoc
+ Merge pull request #326 from clawia/crawl-status-and-report
+
+Add real crawlStatus in the crawlReport
+ Add overrides in JerichoExtractorHTMLTest
+ Add parsing case data-*
+ Revert ExtractorHTML
+ Add missing import
+ Merge pull request #325 from internetarchive/yt-dl-format
+
+youtube-dl: request best medium-ish size format
+ Document GET /engine
+ Add missing newline
+ Correct indentation to 3-spaces for reST
+ Document 'Get Job Status' endpoint
+ Add real crawlStatus in the crawlReport
+ Add parsing for HTML tags (data-src, data-srcset, data-original and data-original-set)
+ best medium-ish size
+ Add support for the SFTP protocol
+ Updated changelog post release
+ [maven-release-plugin] prepare for next development iteration
+ [maven-release-plugin] prepare release 3.4.0-20200304
+ Disable doclint
+ Merge branch 'master' of github.com:internetarchive/heritrix3

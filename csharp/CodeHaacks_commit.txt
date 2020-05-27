@@ -1,0 +1,63 @@
+﻿ Add List Model Binding Demo
+
+This has not been updated for ASP.NET Core MVC. This is the code for https://haacked.com/archive/2008/10/23/model-binding-to-a-list.aspx/
+ Class for state codes
+
+Adapted from https://haacked.com/archive/2005/08/05/addressinfo-update.aspx/ I need to put this in a proper project sometime.
+ Merge pull request #13 from robgha01/master
+
+Support for enum constructor parameters
+ Support for enum constructor parameters
+ Add a CoC
+
+Code of Conducts signal to others the type of community and environment we want to create around this code. It's one in which we are welcoming, inclusive, and fair to the best of our abilities.
+ Add fix and tests for array properties
+ Add copying attributes code
+
+This is code from
+http://haacked.com/archive/2010/08/04/copying-attributes.aspx
+ Upgrade solution to VS 2012
+ Add .gitattributes file
+ Add LICENSE file via addalicense.com
+ Fixup the MvcHaack.Ajax.v2 project
+ Merge pull request #9 from TimLovellSmith/JsonControllerMVC4
+
+Add MvcHaack.Ajax.V2 fork for MVC4 - as a new project in the solution si...
+ Add MvcHaack.Ajax.V2 fork for MVC4 - as a new project in the solution since it would possibly need to be maintained side by side with V1 (MVC3 version).
+ Add code for StringEquivalent and tests
+ Updating nuspec and version number
+ Detect non controller derived controller suffixes
+
+Finds classes named with a "Controller" suffix that do not derive from
+IController.
+ Adding test for non-public controllers
+
+These are controllers that meet the naming and inheritance
+requirements, but are either nested or non-public.
+ Refactored to dynamic model
+ Added detection of bad controllers.
+
+Added a method to determine which controllers
+violate the controller naming convention.
+ Merge pull request #7 from jbubriski/master
+
+Changed the OnClosed event handler to OnClosing
+ Changed EventArgs to Unit.Default per suggestion
+ Changed the OnClosed event handler to OnClosing, otherwise the window is already closed and the WindowPlacement variables are all 0.
+ WPF Demo of using Rx to throttle resize events
+
+This is a sample used to highlight Rx and WPF. Move and resize the window and wait 5 seconds and you'll see the placement of the window get saved.
+This will be featured in [a blog post about Rx](http://haacked.com/archive/2012/04/08/window-placement-rx.aspx)
+ Saving the csproj file
+ Adding JSON Hijacking Demo Project
+
+This project corresponds to my [blog post on JSON Hijacking](http://haacked.com/archive/2009/06/24/json-hijacking.aspx)
+ Merge pull request #6 from loudej/master
+
+Using markdown extension on readme
+ Using markdown extension
+
+Helps formatting when displayed on some sites
+ Update README
+ Update README
+ Code cleanup.

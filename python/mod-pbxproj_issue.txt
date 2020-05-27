@@ -1,0 +1,819 @@
+﻿ [FEAT] pip install version?
+ The latest pip install verion is 1.3.1 which was 4 years ago. Any plan to distribute a new version on pip?
+ feat: add remove method to PBXBuildFile and PBXFileReference
+ 
+
+[![Coverage Status](https://coveralls.io/builds/30510163/badge)](https://coveralls.io/builds/30510163)
+
+Coverage increased (+0.8%) to 97.716% when pulling **60b0717444d8c91d0e4d0b61607df9dc178da9aa on optimization** into **1a04f62eb9c9d521b3667ffdf15999dd6f6ec0da on master**.
+
+
+ [BUG]
+ **Describe the bug**
+I'm trying to add a Run Script Phase using:
+  project.add_run_script('ls -l .')
+But this results in a "Workspace integrity" - "Couldn't load project"
+
+**System information** 
+1. pbxproj version used: 2.10.2
+2. python version used: 2.7.16
+3. Xcode version used: 11.4.1
+
+**To Reproduce**
+```python
+from pbxproj import XcodeProject
+# open the project
+project = XcodeProject.load('starter.xcodeproj/project.pbxproj')
+
+print("adding pre-build script")
+#project.add_run_script('ls -l .', 'starter', True)
+project.add_run_script('ls -l .')
+
+# save the project, otherwise your changes won't be picked up by Xcode
+project.save()
+```
+
+**Expected behavior**
+I expected a working project
+can you share the `starter.xcodeproj/project.pbxproj` file?
+
+Hi thanks for looking into this. Here's the project file:
+
+
+
+
+> On 22 Apr 2020, at 21:42, Ignacio Calderon <notifications@github.com> wrote:
+> 
+> 
+> can you share the starter.xcodeproj/project.pbxproj file?
+> 
+> —
+> You are receiving this because you authored the thread.
+> Reply to this email directly, view it on GitHub <https://github.com/kronenthaler/mod-pbxproj/issues/276#issuecomment-617994644>, or unsubscribe <https://github.com/notifications/unsubscribe-auth/ANGJ2SGHXIYTKECZILXK6ATRN5CDVANCNFSM4MOKXMXA>.
+> 
+
+
+
+the mail attachments don't get posted in github... try a link to gist.github.com
+
+
+https://gist.github.com/gomerser/8a4e92f1dda33ccbcf5745edee43211d
+
+For starters, this doesn't seem like an Xcode generated project.
+I gave it a try with the pbxproj 2.10.2, python 3.7.4 and opened in Xcode 11.4.1. The file gets saved properly, i can see the new shellScript phase in place. Of course, i cannot compile it, but that's another story.
+
+You're right, the project is created by the swift package manager using 'swift package generate-xcodeproj'.
+I tried now with python 3.7.0 and this worked!
+Thank you for creating mod-pbxproj, together with the swift package manager it allows me to regenerate code with antlr4 before every build.
+
+ Reduce lookup times while saving by syncing the data on the fly
+ refactor: improve output compatibility with xcode output
+wip: optimize string formatting and removing redundancies
+
+[![Coverage Status](https://coveralls.io/builds/30207938/badge)](https://coveralls.io/builds/30207938)
+
+Coverage increased (+0.5%) to 96.962% when pulling **25905cd607923bf770c11ff25b6d451e9dc7c142 on optimization** into **b16b3184e3872bee12ea30b4dc4c83e5f4491f19 on master**.
+
+
+ [BUG] can't add a .modulemap file
+ **Can't add a .modulemap file**
+When add file or folder that has a .modulemap, it will crash.  If  remove the .modulemap file, it will ok
+I had add the file type in ProjectFiles.py ` u'.modulemap': (u'sourcecode.module-map', u'PBXFileReference')
+`
+**System information** 
+1. pbxproj version used: 2.5.1
+2. python version used: 3.7
+3. Xcode version used:  11.3.1
+
+**Test Code**
+```
+from pbxproj import XcodeProject
+p = XcodeProject.load('../hantai/Unity-iPhone.xcodeproj/project.pbxproj')
+p.add_folder('./firebase')
+# p.add_file('./firebase/module.modulemap')
+p.save()
+```
+**Error Log**
+```
+Traceback (most recent call last):
+  File "test.py", line 4, in <module>
+    p.add_folder('./firebase')
+  File "/usr/local/lib/python3.7/site-packages/pbxproj/pbxextensions/ProjectFiles.py", line 384, in add_folder
+    file_options=file_options)
+  File "/usr/local/lib/python3.7/site-packages/pbxproj/pbxextensions/ProjectFiles.py", line 151, in add_file
+    results.extend(self._create_build_files(file_ref, target_name, expected_build_phase, file_options))
+  File "/usr/local/lib/python3.7/site-packages/pbxproj/pbxextensions/ProjectFiles.py", line 424, in _create_build_files
+    build_phases = target.get_or_create_build_phase(expected_build_phase)
+  File "/usr/local/lib/python3.7/site-packages/pbxproj/pbxsections/PBXGenericTarget.py", line 23, in get_or_create_build_phase
+    build_phase = self._get_class_reference(build_phase_type).create(*create_parameters)
+TypeError: create() missing 1 required positional argument: 'path'
+```
+Thanks for your report.
+Normally .modulemap files are part of a framework file, and they shouldn't be added to you project directly. 
+
+To add a framework follow the ![wiki page](https://github.com/kronenthaler/mod-pbxproj/wiki/files#add-a-libraryframework)
+
+EDIT: the Firebase documentation explains the steps to follow to integrate manually.
+
+```
+9. If you're using Swift, or you want to use modules, drag module.modulemap into
+your project and update your User Header Search Paths to contain the
+directory that contains your module map.
+```
+1. add the single file: Firebase/module.map
+2. add the flag mentioned: `p.add_flag('USER_HEADER_SEARCH_PATHS', '/path/to/the/module.map')`
+
+ [BUG] Cannot automatically delete references in Xcode after deleting the specified resource
+ **Describe the bug**
+Cannot automatically delete references in Xcode after deleting the specified resource
+
+**System information** 
+project = XcodeProject.load(projectPath)
+project.remove_files_by_path(img2x)
+Thank you for your report. Can you provide the requested info in the template?
+
+* Xcode version
+* pbxproj version
+* Steps to reproduce the issue, including initial setup, and expected outcome 
+
+ test 1 2 3 -1
+ 
+ I got a problem
+ this is my code:
+from pbxproj import XcodeProject
+
+#project path
+projectPath = '/Users/ameng/Desktop/packagetest/file/PackageTest/PackageTest.xcodeproj/project.pbxproj'
+# open prohect
+project = XcodeProject.load(projectPath)
+#  add file
+project.add_folder("/Users/ameng/Desktop/packagetest/file/test")
+#project.add_file("")
+
+# save
+project.save(projectPath)
+
+The 'test' file was added into the project, but when I build the project occurred an error:【 library not found for -lCTMediator】.And I am sure this error occurred after used XcodeProject, I have tried many times, got the same error . The 'CTMediator' is managed with Pod.
+
+Thanks for reaching out. However the information provided is not enough to do any debugging.
+I recommend the following steps to be able to look further:
+**1. Please change the title to reflect _what_ is the issue itself.**
+2. Create a sample project, isolating the issue you have. By sample project i mean a project with the minimum amount of files to be able to reproduce your issue consistently and without sharing your actual project. In other words, try to create a dummy project that reflects your problem.
+3. Provide the script and the expected outcome you are looking for.
+
+
+ Get file's full path
+ Is there a way to get the full path of a file?
+If I have a file name or file id, is there a way to get it's group, or full path?
+ [BUG] Inconsistent indentation in wiki pages
+ **Describe the bug**
+Inconsistent indentation in `Home.md` and `_Sidebar.md`.
+
+Remove files by ID should be children of Files, but they seem to be at the same level.
+Home · kronenthaler/mod-pbxproj Wiki
+https://github.com/kronenthaler/mod-pbxproj/wiki
+
+![image](https://user-images.githubusercontent.com/440624/76160210-1f1ef300-6163-11ea-8bdc-5509266cfdde.png)
+
+`Home.md`
+![image](https://user-images.githubusercontent.com/440624/76160322-21358180-6164-11ea-9cca-02480a877e85.png)
+
+`_Sidebar.md`
+![image](https://user-images.githubusercontent.com/440624/76160343-4b873f00-6164-11ea-81d2-7227bab2075e.png)
+
+By default, Python uses four spaces for indentation, and then I think all these files should use the same amount spaces for indentation.
+
+ chore: move to github actions
+ 
+
+[![Coverage Status](https://coveralls.io/builds/29134680/badge)](https://coveralls.io/builds/29134680)
+
+Coverage remained the same at 96.423% when pulling **e8e0db5e763c66cb11b6b825357546f9df0518dc on github-actions** into **e79d776c6769e74c7e64dcb68f9946e6fb48ee76 on master**.
+
+
+ [BUG]
+ **Describe the bug**
+**saving does not work. I get crash  when try save **
+
+**System information** 
+1. pbxproj version used:  pbxproj-2.10.0
+2. python version used: Python 2.7.17
+3. Xcode version used: 11.3.1
+
+**To Reproduce**
+Steps to reproduce the behavior:
+project = XcodeProject.load('project.pbxproj')
+project.save()
+
+**Expected behavior**
+save file
+
+**Screenshots**
+If applicable, add screenshots to help explain your problem.
+
+**Additional context**
+call stack 
+File "/Users/polishenko/Documents/reps/test/fixIosResBuild/test.py", line 61, in <module>
+    project.save()
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/pbxproj/XcodeProject.py", line 35, in save
+    f.write(self.__repr__() + "\n")
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/pbxproj/XcodeProject.py", line 47, in __repr__
+    return '// !$*UTF8*$!\n' + super(XcodeProject, self).__repr__()
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/pbxproj/PBXGenericObject.py", line 75, in __repr__
+    return self._print_object()
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/pbxproj/PBXGenericObject.py", line 83, in _print_object
+    indentation_increment)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/pbxproj/PBXGenericObject.py", line 107, in _format
+    indentation_increment)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/pbxproj/PBXObjects.py", line 42, in _print_object
+    result += indentation_depth + '\t{0} = {1};\n'.format(value.get_id().__repr__(), obj)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/pbxproj/PBXKey.py", line 8, in __repr__
+    comment = self._get_comment()
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/pbxproj/PBXKey.py", line 20, in _get_comment
+    return self.get_parent()._resolve_comment(self)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/pbxproj/PBXGenericObject.py", line 154, in _resolve_comment
+    return self[key]._get_comment()
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/pbxproj/pbxsections/PBXBuildFile.py", line 41, in _get_comment
+    comment = self.fileRef._get_comment()
+AttributeError: 'unicode' object has no attribute '_get_comment'
+
+ self._get_comment()
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/pbxproj/PBXKey.py", line 20, in _get_comment
+    return self.get_parent()._resolve_comment(self)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/pbxproj/PBXGenericObject.py", line 154, in _resolve_comment
+    return self[key]._get_comment()
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/pbxproj/pbxsections/PBXBuildFile.py", line 41, in _get_comment
+    comment = self.fileRef._get_comment()
+AttributeError: 'unicode' object has no attribute '_get_comment'
+
+state = closed
+updated_at= 2020-03-02T09:48:02Z
+
+Comment Details 
+
+comment id =593315369
+
+comment =find same issue https://github.com/kronenthaler/mod-pbxproj/issues/264
+
+ self.fileRef._get_comment()
+AttributeError: 'unicode' object has no attribute '_get_comment'
+
+state = closed
+updated_at= 2020-03-02T09:48:02Z
+
+Comment Details 
+
+comment id =593315369
+
+comment =find same issue https://github.com/kronenthaler/mod-pbxproj/issues/264
+
+find same issue https://github.com/kronenthaler/mod-pbxproj/issues/264
+
+ How do  rename Project and target and Scheme?
+ How do  rename Project and target?
+![WX20200225-112424](https://user-images.githubusercontent.com/8486246/75212329-8763f100-57c1-11ea-88d3-54bdf5718f9a.png)
+
+ AttributeError: 'XcodeProject' object has no attribute 'get_file_id_by_path'
+ Getting following error AttributeError: 'XcodeProject' object has no attribute 'get_file_id_by_path' while invoking following method. Any ideas here?
+
+def enableArc(filePath):
+    fileId = project.get_file_id_by_path(filePath)
+    files = project.get_build_files_for_file(fileId)
+    for f in files:
+        f.add_compiler_flags('-fobjc-arc')
+Below way worked as expected:
+
+# enable arc
+def enableArc(filePath):
+    files = project.get_files_by_name(filePath)
+    for f in files:
+        buildFiles = project.get_build_files_for_file(f.get_id())
+        for file in buildFiles:
+            file.add_compiler_flags('-fobjc-arc')
+
+ AttributeError: 'unicode' object has no attribute '_get_comment' [BUG]
+ **Describe the bug**
+I installed mod-pbxproj and created a simple perl script
+
+from pbxproj import XcodeProject
+project = XcodeProject.load('ActivationEngineIOS.xcodeproj/project.pbxproj')
+project.add_file('MyClass.swift', force=False)
+project.save()
+
+I got the following error:
+Traceback (most recent call last):
+  File "prepare-project.py", line 9, in <module>
+    project.save()
+  File "/Library/Python/2.7/site-packages/pbxproj/XcodeProject.py", line 35, in save
+    f.write(self.__repr__() + "\n")
+  File "/Library/Python/2.7/site-packages/pbxproj/XcodeProject.py", line 47, in __repr__
+    return '// !$*UTF8*$!\n' + super(XcodeProject, self).__repr__()
+  File "/Library/Python/2.7/site-packages/pbxproj/PBXGenericObject.py", line 75, in __repr__
+    return self._print_object()
+  File "/Library/Python/2.7/site-packages/pbxproj/PBXGenericObject.py", line 83, in _print_object
+    indentation_increment)
+  File "/Library/Python/2.7/site-packages/pbxproj/PBXGenericObject.py", line 107, in _format
+    indentation_increment)
+  File "/Library/Python/2.7/site-packages/pbxproj/PBXObjects.py", line 42, in _print_object
+    result += indentation_depth + '\t{0} = {1};\n'.format(value.get_id().__repr__(), obj)
+  File "/Library/Python/2.7/site-packages/pbxproj/PBXKey.py", line 8, in __repr__
+    comment = self._get_comment()
+  File "/Library/Python/2.7/site-packages/pbxproj/PBXKey.py", line 20, in _get_comment
+    return self.get_parent()._resolve_comment(self)
+  File "/Library/Python/2.7/site-packages/pbxproj/PBXGenericObject.py", line 154, in _resolve_comment
+    return self[key]._get_comment()
+  File "/Library/Python/2.7/site-packages/pbxproj/pbxsections/PBXBuildFile.py", line 41, in _get_comment
+    comment = self.fileRef._get_comment()
+AttributeError: 'unicode' object has no attribute '_get_comment'
+
+
+**System information** 
+1. pbxproj version used: 2.9.0
+2. python version used: 2.7
+3. Xcode version used:11.2.1
+
+As a side effect my project can't be opened by Xcode any more
+ self._get_comment()
+  File "/Library/Python/2.7/site-packages/pbxproj/PBXKey.py", line 20, in _get_comment
+    return self.get_parent()._resolve_comment(self)
+  File "/Library/Python/2.7/site-packages/pbxproj/PBXGenericObject.py", line 154, in _resolve_comment
+    return self[key]._get_comment()
+  File "/Library/Python/2.7/site-packages/pbxproj/pbxsections/PBXBuildFile.py", line 41, in _get_comment
+    comment = self.fileRef._get_comment()
+AttributeError: 'unicode' object has no attribute '_get_comment'
+
+
+**System information** 
+1. pbxproj version used: 2.9.0
+2. python version used: 2.7
+3. Xcode version used:11.2.1
+
+As a side effect my project can't be opened by Xcode any more
+state = closed
+updated_at= 2020-02-18T14:46:26Z
+
+Comment Details 
+
+comment id =587139440
+
+comment =Thanks for your report. This is a known issue of python 2.7, which is automatically resolved in python3. My recommendation is to upgrade to python3 as python 2.7 reached end of life Jan-2020.
+
+ self.fileRef._get_comment()
+AttributeError: 'unicode' object has no attribute '_get_comment'
+
+
+**System information** 
+1. pbxproj version used: 2.9.0
+2. python version used: 2.7
+3. Xcode version used:11.2.1
+
+As a side effect my project can't be opened by Xcode any more
+state = closed
+updated_at= 2020-02-18T14:46:26Z
+
+Comment Details 
+
+comment id =587139440
+
+comment =Thanks for your report. This is a known issue of python 2.7, which is automatically resolved in python3. My recommendation is to upgrade to python3 as python 2.7 reached end of life Jan-2020.
+
+Thanks for your report. This is a known issue of python 2.7, which is automatically resolved in python3. My recommendation is to upgrade to python3 as python 2.7 reached end of life Jan-2020.
+
+Thank you! Yet, I think you should change the library to produce a warning, instead of deleting my project file 🥇 
+
+As recommeded in the documentation [here](https://github.com/kronenthaler/mod-pbxproj/wiki/Load-and-save#create-a-backup), it's a good idea to create a backup before calling the `save` method. 
+If you are using the CLI all commands support a `--backup` flag as well.
+
+ setup.py: add readme on pypi (long_description)
+ Doing so makes it look better on the pypi website.
+
+[![Coverage Status](https://coveralls.io/builds/28767086/badge)](https://coveralls.io/builds/28767086)
+
+Coverage remained the same at 96.296% when pulling **3d0f92aa0083dbef437b912f6e4b30ed300f5176 on Artoria2e5:patch-1** into **9554594098a1a6db8fb025eec4a24ce438683b44 on kronenthaler:master**.
+
+
+ Make parent option available on CLI when adding files
+ The addFiles API function has an option to set the parent for newly added files:
+https://github.com/kronenthaler/mod-pbxproj/wiki/files#add-files
+
+The CLI function however didn't expose this function when adding files. (Effectively adding new files through the CLI to the Project Root).
+
+This PR adds a `--parent` parameter to the CLI to also allow setting parents from the CLI.
+
+This feature is requested in:
+https://github.com/kronenthaler/mod-pbxproj/issues/199
+and in:
+https://github.com/endless-sky/endless-sky/pull/4817
+
+
+[![Coverage Status](https://coveralls.io/builds/28782393/badge)](https://coveralls.io/builds/28782393)
+
+Coverage increased (+0.1%) to 96.423% when pulling **2cdadc023b9f46c29b7e07dd813ab37b3eca74a9 on petervdmeer:parent_cli_option** into **9554594098a1a6db8fb025eec4a24ce438683b44 on kronenthaler:master**.
+
+
+> Please add a unit test for the functionality
+
+Thanks for the good review. I used 3 existing unit-tests (without --parent parameter) to create 3 new unittests (with --parent parameter).
+
+Thanks for your contribution!
+
+ How to modify TargetAttributes
+ Hello,
+
+is it possible to modify `TargetAttributes` properties. More specifically I would like to add `DevelopmentTeam` to `TargetAttributes` and set it's value.
+
+Thanks in advance
+Thanks for your question. Technically, you can, but there is no convenience API at the moment to do that for you. It is possible but you will need to do all the plumbing. 
+
+For starters, you need to retrieve the `PBXProject` object, in this object you will set the `TargetAttributes` as `project_obj.attributes.TargetAttributes[<targetId>] = { ... }`
+
+Where `<targetId>` is the unique identifier of the target where you want to apply the attribute.
+Lastly, The object that you will be assigning it depends on the attributes you want to assign. 
+
+My overall recommendation is to create a sample project in xcode (as basic or empty as possible), copy the `*.xcodeproj/project.pbxproj` file somewhere safe, apply the changes and compare them against the original file you saved (potentially using a diff tool).
+
+Thank you for answer. By looking at source code I managed to write helper function, that does job for me. Here is the snippet if someone finds it useful:
+
+```
+class FooClass:
+    def __init__(self, project_path):
+        self.project = XcodeProject.load(project_path)
+
+    def example_function(self):
+        # Sample use of helper function
+
+        self.set_target_attributes(
+            target="Runner", data={
+                "DevelopmentTeam": "Team_XYZ"
+            }
+        )
+
+    def set_target_attributes(self, target, data):
+        for obj in self.project.objects.get_objects_in_section('PBXProject'):
+            for t in obj.targets:
+                target_name = self.project.objects[t].name
+                if target_name == target:
+                    o = obj.attributes.TargetAttributes[t]
+                    for key, value in data.items():
+                        o[key] = value
+```
+
+
+ fix: add_files with force false will ignore the targets where the file is present
+ PR to address bug in #225 
+
+@ynechaev please confirm that this will address your issue.
+
+[![Coverage Status](https://coveralls.io/builds/28259137/badge)](https://coveralls.io/builds/28259137)
+
+Coverage increased (+0.1%) to 96.414% when pulling **a259d473b12ddcdd16e2670b7c628548a65881d6 on skip-file-from-targets-already-added** into **d049b1f13789780823370ffe3de0bda6fad43a66 on master**.
+
+
+ [BUG] - Project fails on save, _get_comments() on a Unicode string
+ I'm writing a Swift script that imports pbxproj via [PythonKit](https://github.com/pvieito/PythonKit). Everything works fine and dandy until I call `project.save()`. I get this error: 
+
+```
+Fatal error: 'try!' expression unexpectedly raised an error: Python exception: 'unicode' object has no attribute '_get_comment'
+Traceback:
+  File "/Library/Python/2.7/site-packages/pbxproj/XcodeProject.py", line 35, in save
+    f.write(self.__repr__() + "\n")
+  File "/Library/Python/2.7/site-packages/pbxproj/XcodeProject.py", line 47, in __repr__
+    return '// !$*UTF8*$!\n' + super(XcodeProject, self).__repr__()
+  File "/Library/Python/2.7/site-packages/pbxproj/PBXGenericObject.py", line 75, in __repr__
+    return self._print_object()
+  File "/Library/Python/2.7/site-packages/pbxproj/PBXGenericObject.py", line 83, in _print_object
+    indentation_increment)
+  File "/Library/Python/2.7/site-packages/pbxproj/PBXGenericObject.py", line 107, in _format
+    indentation_increment)
+  File "/Library/Python/2.7/site-packages/pbxproj/PBXObjects.py", line 42, in _print_object
+    result += indentation_depth + '\t{0} = {1};\n'.format(value.get_id().__repr__(), obj)
+  File "/Library/Python/2.7/site-packages/pbxproj/PBXKey.py", line 8, in __repr__
+    comment = self._get_comment()
+  File "/Library/Python/2.7/site-packages/pbxproj/PBXKey.py", line 20, in _get_comment
+    return self.get_parent()._resolve_comment(self)
+  File "/Library/Python/2.7/site-packages/pbxproj/PBXGenericObject.py", line 154, in _resolve_comment
+    return self[key]._get_comment()
+  File "/Library/Python/2.7/site-packages/pbxproj/pbxsections/PBXBuildFile.py", line 42, in _get_comment
+    comment = self.fileRef._get_comment()
+```
+
+The issue is this line: 
+
+`comment = self.fileRef._get_comment()` because `fileRef` is a unicode string. 
+ self._get_comment()
+  File "/Library/Python/2.7/site-packages/pbxproj/PBXKey.py", line 20, in _get_comment
+    return self.get_parent()._resolve_comment(self)
+  File "/Library/Python/2.7/site-packages/pbxproj/PBXGenericObject.py", line 154, in _resolve_comment
+    return self[key]._get_comment()
+  File "/Library/Python/2.7/site-packages/pbxproj/pbxsections/PBXBuildFile.py", line 42, in _get_comment
+    comment = self.fileRef._get_comment()
+```
+
+The issue is this line: 
+
+`comment = self.fileRef._get_comment()` because `fileRef` is a unicode string. 
+state = closed
+updated_at= 2020-01-22T22:53:32Z
+
+Comment Details 
+
+comment id =576960453
+
+comment =@kronenthaler the issue is in
+
+```python
+def _get_comment(self):
+        comment = '(null)'
+        if hasattr(self, 'fileRef'):
+            comment = self.fileRef._get_comment()
+        return '{0} in {1}'.format(comment, self._get_section())
+```
+
+I'm not sure why this works for everyone else; maybe they don't use Xcode betas as heavily as I do and it's possible something changed in the betas. The fix should be easy though:
+
+```
+if hasattr(self, 'fileRef') and not isinstanceof(self.fileRef, str)
+```
+
+Forgive my incorrect python, not my strong suit.  
+
+ self.fileRef._get_comment()
+```
+
+The issue is this line: 
+
+`comment = self.fileRef._get_comment()` because `fileRef` is a unicode string. 
+state = closed
+updated_at= 2020-01-22T22:53:32Z
+
+Comment Details 
+
+comment id =576960453
+
+comment =@kronenthaler the issue is in
+
+```python
+def _get_comment(self):
+        comment = '(null)'
+        if hasattr(self, 'fileRef'):
+            comment = self.fileRef._get_comment()
+        return '{0} in {1}'.format(comment, self._get_section())
+```
+
+I'm not sure why this works for everyone else; maybe they don't use Xcode betas as heavily as I do and it's possible something changed in the betas. The fix should be easy though:
+
+```
+if hasattr(self, 'fileRef') and not isinstanceof(self.fileRef, str)
+```
+
+Forgive my incorrect python, not my strong suit.  
+
+ self.fileRef._get_comment()` because `fileRef` is a unicode string. 
+state = closed
+updated_at= 2020-01-22T22:53:32Z
+
+Comment Details 
+
+comment id =576960453
+
+comment =@kronenthaler the issue is in
+
+```python
+def _get_comment(self):
+        comment = '(null)'
+        if hasattr(self, 'fileRef'):
+            comment = self.fileRef._get_comment()
+        return '{0} in {1}'.format(comment, self._get_section())
+```
+
+I'm not sure why this works for everyone else; maybe they don't use Xcode betas as heavily as I do and it's possible something changed in the betas. The fix should be easy though:
+
+```
+if hasattr(self, 'fileRef') and not isinstanceof(self.fileRef, str)
+```
+
+Forgive my incorrect python, not my strong suit.  
+
+@kronenthaler the issue is in
+
+```python
+def _get_comment(self):
+        comment = '(null)'
+        if hasattr(self, 'fileRef'):
+            comment = self.fileRef._get_comment()
+        return '{0} in {1}'.format(comment, self._get_section())
+```
+
+I'm not sure why this works for everyone else; maybe they don't use Xcode betas as heavily as I do and it's possible something changed in the betas. The fix should be easy though:
+
+```
+if hasattr(self, 'fileRef') and not isinstanceof(self.fileRef, str)
+```
+
+Forgive my incorrect python, not my strong suit.  
+
+ '(null)'
+        if hasattr(self, 'fileRef'):
+            comment = self.fileRef._get_comment()
+        return '{0} in {1}'.format(comment, self._get_section())
+```
+
+I'm not sure why this works for everyone else; maybe they don't use Xcode betas as heavily as I do and it's possible something changed in the betas. The fix should be easy though:
+
+```
+if hasattr(self, 'fileRef') and not isinstanceof(self.fileRef, str)
+```
+
+Forgive my incorrect python, not my strong suit.  
+
+ self.fileRef._get_comment()
+        return '{0} in {1}'.format(comment, self._get_section())
+```
+
+I'm not sure why this works for everyone else; maybe they don't use Xcode betas as heavily as I do and it's possible something changed in the betas. The fix should be easy though:
+
+```
+if hasattr(self, 'fileRef') and not isinstanceof(self.fileRef, str)
+```
+
+Forgive my incorrect python, not my strong suit.  
+
+Thanks for your report. The most recent version is fully python 3 and hence only unicode strings are used. I have recently added a unit test for this and it seems to be working fine.
+
+Just to be thorough, could you provide the version you are using and the sample name of file that is causing the failure?
+
+Sure the pbxproj version is 2.9.0.
+
+And what do you mean exactly, the sample name of the file? The file in my code that’s causing the breakage? For me it’s just a script so it’s a `main.swift`. The trace back points to `PBXBuildFile.py` as the failure point 
+
+@kronenthaler It looks like the issue was I was pointing to the incorrect version of python, like 2.7 vs the newest 3.x. I'll close the issue, thanks for taking a look either way!
+
+ Configuration by target
+ 
+
+[![Coverage Status](https://coveralls.io/builds/28211127/badge)](https://coveralls.io/builds/28211127)
+
+Coverage decreased (-0.1%) to 96.296% when pulling **130634ecd38e7bae7879d3c751246333326ab30e on configuration-by-target** into **4fb579260498fe763aff2cf16c69555ef0ec40a7 on master**.
+
+
+ Compiler flags
+ 
+
+[![Coverage Status](https://coveralls.io/builds/28069507/badge)](https://coveralls.io/builds/28069507)
+
+Coverage increased (+0.03%) to 96.414% when pulling **8941fbc390e1e0bbc27ed62d5d77f020fed55a27 on compiler-flags** into **24994416eec9cec838dce696c3cc9262c01ba883 on master**.
+
+
+ Python2 removal
+ 
+
+[![Coverage Status](https://coveralls.io/builds/28069289/badge)](https://coveralls.io/builds/28069289)
+
+Coverage decreased (-0.07%) to 96.384% when pulling **31fea007d2fae329a4d755c19fc9b5c3e2b0b10f on python2-removal** into **5a00778b90b3d1cb34a6f9f2ba3fdb3c7e8389de on master**.
+
+
+ How to show the system framework?
+ How to  get show the system framework? not contain show third framework
+![屏幕快照 2020-01-09 上午11 15 17](https://user-images.githubusercontent.com/8486246/72035067-c1406d00-32d1-11ea-8def-0f553ce4ad5a.png)
+Thanks for your report. Could you clarify what is your desired outcome?
+
+Thanks you  reply 
+i want desired outcome  similar
+
+CLI 
+pbxproj  show  (--target <target>...) <project> -f
+
+Thanks for coming back.
+For what i have tested, the command that you specified does what you want
+```
+pbxproj show ~/Downloads/test/test.xcodeproj/project.pbxproj --target test -f
+test:
+        Product name: test
+        Frameworks: 
+                AVFoundation.framework
+                AdSupport.framework
+                CoreData.framework
+                CoreMedia.framework
+                SwiftUI.framework
+```
+
+As you can see all of those frameworks are system frameworks and they are displayed based on what is configured in the project.
+
+Thanks you reply
+CIL pbxproj show ~/Downloads/test/test.xcodeproj/project.pbxproj --target test -f
+contain third framework,I don't want to show a third framework
+
+In this point i don't understand the question anymore. i'm not sure if you want to limit the output, exclude something or something is wrongly being displayed.
+
+Could you provide a text of the current output **you** are getting when you execute the `pbxproj show` command, and an example of what you want to see. And please include the `pbxproj show` full command that you would like to be executing to obtain the desired output.
+
+Thanks you reply
+I don‘t want to show 3rd party libraries,just show system libraries.
+<img width="794" alt="DFA9227C-9BDA-4065-A051-C20D3BD98C95" src="https://user-images.githubusercontent.com/8486246/73606821-4412ca00-45e9-11ea-8688-6f0da379f247.png">
+
+
+ How do I change the PRODUCT_BUNDLE_IDENTIFIER?
+ In the Wiki I didn't get how to change a Build Setting of a target?
+Any hint is appreciated, thanks!
+Found it!
+project.set_flags('PRODUCT_BUNDLE_IDENTIFIER','test.app')
+
+thanks for this library!!
+
+ Pr review
+ 
+
+[![Coverage Status](https://coveralls.io/builds/27250720/badge)](https://coveralls.io/builds/27250720)
+
+Coverage increased (+0.1%) to 96.449% when pulling **185c6c457714a1de30e2d9cd26673d031be9d2e0 on pr-review** into **f198ca8fa9c092c0f6279b1cd55b8bd6e95dfc45 on master**.
+
+
+ Exception in:PBXGenericObject _format method
+ In _format method,last else statement:
+>else:
+>>value = PBXGenericObject._escape(value.__str__(), exclude=[u"\'"])
+
+Here first parameter,`value.__str__()`,when value is type unicode will be occur exception.
+
+My solution for reference only:
+>else:
+>>if isinstance(value,unicode):  
+>>>value = PBXGenericObject._escape(value, exclude=[u"\'"])
+
+>>else:
+>>>value = PBXGenericObject._escape(value.__str__(), exclude=[u"\'"])
+Thanks for your report. Soon i will be removing support for python2 since it will reach EOL in Jan 2020. This issue should go away or be fixed when that happens.
+
+ Speed up saving large projects
+ Large projects can be very slow to save. I have a 10 MB project file that took about 20 minutes to save. Upon profiling the save operation with `cProfile` it became clear it was spending most of its time in `PBXObjects.__getitem__` and `PBXBuildFile._get_section`. These both perform lookups over that are linear in the size of the project for each call, leading to (at least) an n^2 algorithm. While most of the time we *need* to perform the lookups like this (since people could have modified the project data structures in arbitrary ways) if we make the simplifying assumption that the project won't change during saves, we can greatly speed these operations up by pre-computing a mapping from the ID we care about to the object we're looking for and make each of these calls constant time.
+
+This optimization brings the save time for the same project down to just 2.3 seconds on my machine (4 orders of magnitude faster). This would likely also help in the case of https://github.com/kronenthaler/mod-pbxproj/issues/247.
+
+[![Coverage Status](https://coveralls.io/builds/26572632/badge)](https://coveralls.io/builds/26572632)
+
+Coverage increased (+0.1%) to 96.449% when pulling **1245637454425e9ca0ead5d955304c4ba7e1b26d on FuegoFro:faster_save** into **f198ca8fa9c092c0f6279b1cd55b8bd6e95dfc45 on kronenthaler:master**.
+
+
+Thanks for your contribution. I would like to ask for some improvements, since the groundwork is mostly done. Now we are relying on the presence of a flag (save_changes object) being none or something. I would like to remove that global state and keep it in the objects, so that when the `get_item` or `get_section` methods are called it returns the latest known. If the objects change we can force to recalculate that internally, and it will provide a faster output not only on save but in general.
+In broad terms something like this:
+```
+def __get_item(self, key):
+  if self.cache[key] is not None:
+    return self.cache[key]
+  # calculate normally
+  self.cache[key] = result
+  return result
+
+def __set_item(self, key, value):
+  # update the value
+  # update/reset the cache
+```
+
+Hey! Thank you for the quick response on the PR! I thought about trying to maintain this cache while the objects are being modified, but I wasn't able to come up with a good strategy for cache updating or invalidation. A lot of the data structures that someone might want to modify can't currently be listened to or hooked into. In particular, the `objects._sections` field is a Python `dict` with Python `list`s as values. If someone manually adds a section to the dict or an entry to one of the lists, we have no way of knowing that that's happened and therefore could be serving back incorrect data. The only reason this is safe during a save is because we're making the assumption that the data structures won't be changing while saving, so the caches can't become invalid mid-save.
+
+It's possible we could change these data structures, but that's definitely a much bigger change. My goal was to try to make a targeted/small but fairly high impact change without needing to re-write fundamental aspects of the library.
+
+I'm definitely open to ideas here though! Please let me know if I'm missing something or confused about something, or if there's some other way to watch for/keep track of arbitrary changes that users are making 🙂 
+
+Understood. I will add some comments shortly.
+
+Hey! Just wanted to check in and see if you had any more thoughts on this change 🙂 
+
+Sorry for the wait, i've been busy. I will look at it and merge asap
+
+On Wed, Nov 13, 2019, 12:42 AM Danny Weinberg <notifications@github.com>
+wrote:
+
+> Hey! Just wanted to check in and see if you had any more thoughts on this
+> change 🙂
+>
+> —
+> You are receiving this because you commented.
+> Reply to this email directly, view it on GitHub
+> <https://github.com/kronenthaler/mod-pbxproj/pull/251?email_source=notifications&email_token=AAD5KI6PEOZQKEKHLJ6CSSDQTM5OZA5CNFSM4JFP6MU2YY3PNVWWK3TUL52HS4DFVREXG43VMVBW63LNMVXHJKTDN5WW2ZLOORPWSZGOED4K77A#issuecomment-553168892>,
+> or unsubscribe
+> <https://github.com/notifications/unsubscribe-auth/AAD5KI2RWIG6IQ3E4FY5XSTQTM5OZANCNFSM4JFP6MUQ>
+> .
+>
+
+
+ Update: add .entitlements file type
+ 
+
+[![Coverage Status](https://coveralls.io/builds/26461187/badge)](https://coveralls.io/builds/26461187)
+
+Coverage remained the same at 96.344% when pulling **106291bc9d8938d1f1e398ba859b3f13697b64cc on znvy:master** into **440ce1ac11af74c022b2e56d018947f4c5de36d1 on kronenthaler:master**.
+
+
+ xcode project can not open after invoke XcodeProject.save() method
+ I use this lib to edit project.pbxproj file in project. But project.pbxproj file cannot work when invoke save method. Anyone got this problem?
+Especially,  directly invoke save method after load, the problem stilled.
+
+    path = 'work path'
+    project = XcodeProject.load(path)
+    project.save(path)
+
+Version 11.0 (11A420a)
+
+找到答案了，覆写工程配置文件的一瞬间xcode会感应到工程文件失效，写完之后xcode需要重新打开
+

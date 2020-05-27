@@ -1,0 +1,314 @@
+﻿ bug-fix when build project
+ 
+This pull request **introduces 4 alerts** when merging 44cb16c0886c5b8538a962c75418823d03d8ad82 into b284b144c334437dc14eef8959fe826c2b8a4482 - [view on LGTM.com](https://lgtm.com/projects/g/glynos/cpp-netlib/rev/pr-abbaa930f3adbfd137aab7f8369c3a8ac2019ffc)
+
+**new alerts:**
+
+* 4 for FIXME comment
+
+ Error C2039: "value" is not a member of "boost::prot"
+ I installed boost and cpp-netlib using vcpkg,but when I'm using it by ```#include “boost/network/uri.hpp"``` ,I got error C2039.The error is reported at "F:\vcpkg\installed\x64-windows\include\boost\proto\generate.hpp",in line239 and line 248.
+IDE: Viaual Studio Professional 2019
+System: Windows 10 x64
+I made a spell error.. It's ```boost::proto``` , not ```boost::prot```.
+
+ Boost requirement
+ from http://github.com/glynos/cpp-netlib:
+
+> The C++ Network Library Project -- **header-only**, cross-platform, standards compliant networking library. 
+
+from http://glynos.github.io/cpp-netlib:
+
+~~~c
+using namespace boost::network;
+using namespace boost::network::http;
+~~~
+
+how can this be header only if it requires boost - can someone please clarify
+ Fetched in submodule path 'libs/network/doc/_ext/breathe'
+ When I type cmd "git submodule update",then I got the log below:
+
+> 
+
+Cloning into '.../cpp-netlib/deps/asio'...
+Cloning into '.../cpp-netlib/deps/cxxopts'...
+Cloning into '.../cpp-netlib/deps/googlemock'...
+Cloning into '.../cpp-netlib/deps/googletest'...
+Cloning into '.../cpp-netlib/deps/uri'...
+Cloning into '.../cpp-netlib/libs/network/doc/_ext/breathe'...
+Submodule path 'deps/asio': checked out '66e76b9e4252ff4681227d0d8e34374ec1fa20e5'
+Submodule path 'deps/cxxopts': checked out 'aec97a6f53c3486fc51e0d9857f10b683180d668'
+Submodule path 'deps/googlemock': checked out 'f7d03d2734759ee12b57d2dbcb695607d89e8e05'
+Submodule path 'deps/googletest': checked out 'd225acc90bc3a8c420a9bcd1f033033c1ccd7fe0'
+Submodule path 'deps/uri': checked out 'c16a46ecb6bf0c936179e324891a74b5e6d8f4d3'
+error: Server does not allow request for unadvertised object 853385ef4f0c3dd126887750e20d5f7456065998
+Fetched in submodule path 'libs/network/doc/_ext/breathe', but it did not contain 853385ef4f0c3dd126887750e20d5f7456065998. Direct fetching of that commit failed.
+
+> 
+This repo is not up-to-date. Please use:
+
+https://github.com/cpp-netlib/cpp-netlib.git
+
+Your issue should have been fixed on that repo.
+
+@glynos Thanks a lot !
+
+ Fix chunk and content-length encoding
+ I used the 0.13-release branch because we're updating an existing application to Visual Studio 2017 and it would build, and build against the latest boost 1.64.
+
+At first, things didn't work at all. After using the simple_wget sample to debug it, I found that a bunch of the content (starting with the headers) had been appended after the BODY. I narrowed it down and fixed the new EOF callback when the server has sent a content-length header.
+
+It looks OK to me, but can you apply this PR upstream at https://github.com/cpp-netlib/cpp-netlib/ ?
+
+Thanks.
+
+Whoops. Thanks for taking a look. I've created a new pull request for the correct project. It must have defaulted to yours due to all the forks originating there. I've seen "glynos/cpp-netlib" so much it just looked right.
+
+ Fix/vs2015 compatibility
+ Apply @sneves [patch](https://github.com/cpp-netlib/cpp-netlib/pull/652#issuecomment-225202050) and few other minor fixes to aid compilation on windows. 
+All tests in debug/release mode are passing in my env(VS2015sp3 + x64 + static-runtime + static-link + boost 1.61 + openssl 1.0.2h).
+
+I suggest you look at the [0.13-release branch](https://github.com/glynos/cpp-netlib/commits/0.13-release), which seems to have already fixed a lot of the Visual Studio problems.
+
+
+Oh, my mistake for not noticing
+
+
+Thanks for the report. For the future, please use the official cpp-netlib repo for all PRs:
+
+https://github.com/cpp-netlib/cpp-netlib
+
+
+ Creating a Contributor's Guide
+ Hi everyone,
+
+When fixing bugs in branch `master`, I found out too late that they were resolved in `0.12-release` and `0.13-release`. When wanting to PR other contributions, I could not find clear documentation that indicated which branch to PR too.
+
+I'm wondering if a basic contributor's guide would be helpful to the project. Something that indicates workflow and/or any desired protocol. If the guide also included any style considerations, that would be helpful ([our guide](https://github.com/monero-project/kovri/blob/master/doc/CONTRIBUTING.md) is under development but has been helpful so far).
+
+_Referencing [our interest](https://github.com/monero-project/kovri/issues/155) in cpp-netlib._
+
+There is this:
+
+http://cpp-netlib.org/process.html
+
+But it seems that this not prominent enough. A file such as CONTRIBUTING.md in the source root is a good idea.
+
+
+https://github.com/glynos/cpp-netlib/blob/master/CONTRIBUTING.rst
+
+
+Excellent, thank you @glynos!
+
+_Closing as resolved in 56c1711030a250a8345c9a2c54d7b267ce282567_
+
+
+Bear in mind that the repo you should use for PRs in the future is https://github.com/cpp-netlib/cpp-netlib/.
+
+Thanks for using our library!
+
+
+Ahhh, I can't believe I missed that :blush: A million thanks for clarifying this! :smile: :+1: 
+
+
+ fix msvc name ambiguity
+ 5c6ff2dd6c0602e17f2acc59d73664bc5c4a69bd already fixed most MSVC 2015 issues, but this one remained. When using Boost 1.61 (and maybe others), compiling `cppnetlib-server-parsers` resulted in an ambiguity surrounding `true_type`, which exists both as `boost::true_type` and `boost::spirit::true_type`. This is probably caused by MSVC's lack of two-phase lookup, but in any case the fix is simple---just import the `boost::spirit::qi` namespace _after_ the instantiation of `u8_to_u32_iterator`.
+
+With this fix, everything builds now, and only 2 tests fail:
+- `cpp-netlib-http-client_get_test` fails with "certificate verify failed"; this is to be expected, I suppose, since OpenSSL is not given a trusted certificate file.
+- `cpp-netlib-http-server_constructor_test` fails by hanging on the `ThrowsOnFailure` test; it appears that nothing actually fails here, and the server simply keeps on listening forever.
+
+LGTM, thanks!
+
+
+ Fix linker errors
+ Since the code was refactored to use Boost.Asio, the tests need to link to Boost.Asio.
+
+We still haven't corrected the Travis CI builds, and this explains the failure. However, your fix is trivial so I can merge it anyway.
+
+
+ Asio standalone
+ According to [Asio documentation](http://think-async.com/Asio/AsioStandalone) to use without a dependency on Boost header files or libraries `ASIO_STANDALONE` should be defined.
+
+Also, as soon Boost `date_time` library is not available, cpp-netlib should not use `deadline_timer` and `boost::posix_time` .
+
+Kind Regards,
+Andrey
+
+ Fix for: Body callback function is not called when some errors occur …
+ This is a suggested fix for:
+https://github.com/glynos/cpp-netlib/issues/19
+
+I merged it with current master, however my original tested fix was to 0.11.2-final, so please re-test in runtime.
+
+It looks just one build has timed out and other have passed - this is not an issue with code itself. Please re-build?
+
+
+This was forked from incorrect fork accidentally. Closing it, new pull request is here:
+https://github.com/cpp-netlib/cpp-netlib/pull/641
+
+
+ Body callback function is not called when some errors occur (timeout etc.)
+ When using cpp-netlib-0.11.2-final and async client with body callback function:
+
+```
+boost::network::http::client::options options;
+options.timeout( timeout_seconds );
+options.follow_redirects( true );
+
+boost::network::http::client client( options );
+client.get( request, callback );
+```
+
+The callback is not called when some network etc. errors occur. I observed it that when timeout should occur my callback function is still not called, but when I looked at cpp-netlib's async_normal.hpp file I found not only for timeout, but in many places in which body_promise IS set (either to empty value or exception), but callback either IS NOT called at all, or is called with uninitialized boost::system::error_code instead of the same error code body_promise was set, which would make my own callback function expect another call instead of finish the processing (since uninitialized error_code means no error occurred and we are still waiting for boost::asio::error::eof or other error to finish the processing).
+
+It looks my suggested fix for this has not built, but this is because only one of builds has timed out, this does not look like an issue with the fix itself:
+
+Timeout (20 minutes) reached. Terminating "./install-boost.sh"
+The command ./install-boost.sh exited with 137.
+
+
+This issue was reported in a wrong fork of the repository accidentally. Correct issue here:
+https://github.com/cpp-netlib/cpp-netlib/issues/640
+
+
+ 0.12 devel
+ 
+ fixed async client multithread problem
+ async client crashes in multithread condition, because
+the boost::spirit grammar object is not thread safe without /DBOOST_SPIRIT_THREADSAFE  
+
+the detailed discussion can be seen below:
+https://groups.google.com/forum/#!topic/cpp-netlib/yqa5Qtpc1j4
+
+Thanks for the PR, but this is not the main repo. Could you apply it on https://github.com/cpp-netlib/cpp-netlib and I can integrate it there? Thanks.
+
+
+ Memory Corruption in boost::network::uri::decode while parsing multiple "%" characters
+ Function boost::network::uri::decode from boost/network/uri/decode.hpp should check the "it" variable, each time when its pointer is incremented.
+It should be check if it is not null, to avoid out-of-bound read from null pointer (end of string) 
+
+ TCP(HTTP) server will keep TCP_WAIT state for 2 msl , which would affect performance. 
+ A HTTP server which used cpp-netlib, will keep tcp socket in TCP_WAIT state for 2 msl after a HTTP request was finished. Which is almost 2 mins.
+The root cause might be the cpp-netlib closed the connection initially.
+Would you all check if there a solution for this performance issue?
+
+http://www.isi.edu/touch/pubs/infocomm99/infocomm99-web/
+
+Could you open this ticket on the cpp-netlib project?
+
+https://github.com/cpp-netlib/cpp-netlib
+
+Thanks
+
+
+ Test IFTTT
+ Testing IFTTT
+
+ Documentation updates for 0.11.0 release.
+ I'm ready to tag 0.11.0-rc2 and hopefully have it also be tagged as 0.11.0-final soon, it seems this is the final step in the process.
+
+Oops. Wrong branch. :P
+
+
+ Implement a base 64 encoder for the request byte source
+ ```
+request r{“http://www.example.com”,
+          base64_encode(new file_byte_source{“/tmp/input”})};
+```
+
+So the base64_encode function would look like this:
+
+```
+template <class ByteSource>
+auto gzip_encode(ByteSource* source) -> shared_ptr<gzip_encoder<ByteSource>> {
+  shared_ptr<gzip_encoder<ByteSource>> ptr{new gzip_encoder<ByteSource>(source)};
+  return ptr;
+}
+```
+
+ Implement byte source in HTTP request
+ The API of the request class should be something like this:
+
+```
+struct request {
+  request(uri, shared_ptr<byte_source>=nullptr);
+  void set_body_source(shared_ptr<byte_source>);
+  // ...
+};
+```
+
+and for the byte_source class itself:
+
+```
+struct byte_source {
+  virtual ~byte_source() noexcept = 0;
+  virtual size_t read(string&, size_t) = 0;
+};
+```
+
+We can test using mock_byte_source class.
+
+And if possible , please also consider about Multipart-data_format post implementation in client.
+
+
+ Use Asynchronous I/O Model for the HTTP Client
+ http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2013/n3747.pdf
+
+ Unit test the response parser using the new response object
+ The response parser should return a valid response object, even in the presence of an error code.
+
+Throw exceptions when:
+- The HTTP message is corrupted. This ought to be easily done by detecting errors in the parser
+
+Refer also to this test:
+
+https://github.com/cpp-netlib/cpp-netlib/blob/master/http/test/response_incremental_parser_test.cpp
+
+ Constants should be header only
+ To do:
+- Remove "methods" namespace as it is duplicated in the methods.hpp header.
+- Make the status codes an enum class.
+- Maybe remove the headers for now, these don't need to be constants, I think.
+
+ Add missing include of vector to request_base
+ This fixes the build with `CPP-NETLIB_BUILD_TESTS` and `CPP-NETLIB_BUILD_EXAMPLES` set to `OFF`.
+
+Looks like this was fixed in cpp-netlib/cpp-netlib, my bad.
+
+
+No problem, thanks for the PR. In the future use cpp-netlib/cpp-netlib for PRs as my personal repo is not always up-to-date.
+
+
+ Increased chance to making none copy of the handler.
+ https://groups.google.com/forum/?fromgroups#!topic/cpp-netlib/rz54sRpo7WI
+
+ A new function, normalize and a test case
+ I have written a new function. It does resolve a given path and remove any "../". Can you check it out and notify all others it (if needed) and then tell me how should I "pull" next time? I am brand new to this I don´t know how it works exactly, it took me some while to get everything working.
+
+PS. I saw there already existed encode/decode methods for pro-cent coding, and therefore did I not add it, even of course they should be handled in the function as well, but I want to hear what your thought are first.
+
+If I don´t get any respond in some days will I assume this message never arrived and therefore repost it.
+
+Thanks in advance.
+
+//idleman
+
+Well, what do you believe now? I used simple strings because the function require the possibility to insert values, so I did´t see any chance to use a iterator range. The method should also handle wide characters as well, but to be honest so do I really not know if it does, if it should really do any different.
+
+
+ Add '::boost::' namespace specifier to ssl_delegate.ipp
+ For fixing up a compile error(C2668) at Visual C++ 2010.
+
+ Tags
+ Add tags appendix corresponding to the stuff on the wiki @ http://wiki.github.com/cpp-netlib/cpp-netlib/tags
+
+ [Docs] Create a "contributors" section
+ This goes beyond what's already there in the acknowledgements, and should include a list of those people who have contributed code to the project.
+
+ [Docs] Create an appendix for concepts
+ All concept definitions belong in the appendix because, although the information is important, it is not easily readable and breaks up the flow of the text.
+
+This is done, concepts include Message, URI and HttpURI.
+
+

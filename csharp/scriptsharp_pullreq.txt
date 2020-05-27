@@ -1,0 +1,183 @@
+﻿ Bugfix/70
+ Adding test case to validate the fix.
+ Bugfix/59
+ Fixing bug 59
+ Bugfix/59
+ 
+ Vstest
+ 
+ Remove scriptsharp.com link
+ The project domain expired at the end of 2015 and has been taken over by an unrelated blogger/spammer. Let's not direct traffic that way in future.
+
+ Pull Request
+ 
+ removed redundant semicolon
+ removed redundant semicolon
+
+ Add ability to specify the default member case preservation in an assembly
+ Add ability to specify the default member case preservation to be used throughout an assembly. The compiler always defaults to not preserving member casing without this feature.
+
+Also add the ability to specify the case preservation of all members of a type through ScriptName.PreserveCase property on the type.
+
+ Fixed project dependencies
+ The ZipX project consumes the output of Node.Restify and Node.Azure, so checked the corresponding checkboxes in **Project > Project Dependencies...**.  Without this change, there's a race condition that means the build will fail on first run (like it did for me):
+
+```
+(...)
+  Attempting to build package from 'Lib.Node.Restify.nuspec'.
+  File not found: '..\..\..\bin\Release\Script.Node.Restify.dll'.
+%USERPROFILE%\Documents\GitHub\scriptsharp\src\ZipX\ZipX.csproj(86,5): error MSB3073: The command "..\..\tools\bin\nuget pack Packages\Lib.Node.Restify.nuspec -OutputDirectory ..\..\bin\Zip\Packages -NoPackageAnalysis" exited with code 1.
+------ Build started: Project: Node.Restify, Configuration: Release Any CPU ------
+  Node.Restify -> %USERPROFILE%\Documents\GitHub\scriptsharp\bin\Release\Script.Node.Restify.dll
+------ Build started: Project: Node.Azure, Configuration: Release Any CPU ------
+  Node.Azure -> %USERPROFILE%\Documents\GitHub\scriptsharp\bin\Release\Script.Node.Azure.dll
+(...)
+```
+
+...or the NuGet packages will contain stale binaries.
+
+ Added VS2013 target
+ Added section to Extension.vsixmanifest to allow installing Script# in VS2013
+
+ IE8 StringBuilder toString bugfix
+ Before :
+var t = new ss.StringBuilder;
+t.appendLine("toString overriden"),
+var s = t.toString(); // IE8 returns [object Object]
+
+After :
+var t = new ss.StringBuilder;
+t.appendLine("IE8 toString override bug"),
+var s = t.toString(); // IE8 returns "toString overriden"
+
+More informations on this bug :
+http://stackoverflow.com/questions/6821354/issues-with-object-tostring-in-ie8-backbone-js
+
+Runtime scripts :
+I have search for every "toString" that was overriden in scriptsharp "Runtime scripts" 
+but only found this one.
+
+Compiled scripts :
+ScriptSharp compiler prevent overriding "toString" with a "Your C# source code use an 
+unsupported feature" error.
+
+Thanks for your time.
+Regards
+Luc
+
+ DOM 2 Traversal support
+ To meet the .Net behaviour in modern browsers. We could also use [ScriptName] since NextSibling etc. is a IE8 only thingy, see:
+http://www.quirksmode.org/dom/w3c_traversal.html
+
+from http://www.w3.org/TR/ElementTraversal/#introduction
+"The DOM Level 1 Node interface defines 11 node types, but most commonly authors wish to operate solely on nodeType 1, the Element node. Other node types include the Document element and Text nodes, which include whitespace and line breaks [and comments]. DOM 1 node traversal includes all of these node types..."
+
+ Added some properties and method (WheelDelta, CrossOrigin, GetBoundingCl...
+ 
+ fixes formatting and parsing of numbers
+ - negative numbers were not detected
+- String.format is non existent
+- considers culture settings on Number parsing (here in germany 9,41 should not be parsed to 9)
+- exponential formatting was missing culture awareness
+
+ NodeApi.IO.Buffer.Length should be a simple property accessor.
+ For reference see http://nodejs.org/api/buffer.html#buffer_buf_length.
+
+ Add missing namespaced methods to Html.Document. And ImportNode.
+ Need CreateElementNS for any kind of SVG work (for example). For completeness, added the other namespaced methods. As well as ImportNode, which fills out the DOM Level 2 implementation for Document.
+
+See http://www.w3.org/TR/DOM-Level-2-Core/core.html.
+
+ Add tests for bases: methods, properties, indexers. Including generation skipping.
+ Tests for base.\* and specifically regressions of #379, #384. Verifies that base classes are called properly both when immediate and skipping a generation (ie, implementing base is not immediate parent). Verifies setters, getters, index getters, index setters, and methods.
+
+ When a compilation error occurs, fail any of the tests that are based on...
+ ... that compilation.
+
+If you make a change to the compiler that breaks compilation of a test case, and then run tests that are based on the result of compiled code, the compilation fails quietly and leaves the previously compiled result alone. As a result there's a false negative.
+
+This change records which scripts fail to compile, and any tests that are based on that compilation will fail before being run.
+
+ Remove problematic optimization for local base class properties.
+ Per discussion in #379, the optimization for property expression generation was too optimistic: it assumed that the base class implements the property, but that's not necessarily the case -- it could be in some ancestor that isn't the base. The optimization is therefore removed. 
+
+Ideally we'd walk up the inheritance chain at expression generation time to find the appropriate class and use that, but the penalty for prototype access should be minimal.
+
+ Add ImportNode() to XmlDocument.
+ For reference see https://developer.mozilla.org/en-US/docs/Web/API/document.importNode.
+
+ Fix for issue #379: use known compile time base to build runtime express...
+ 
+ cc Ajaxmin Obfuscator
+ Dear Nikhil,
+
+I've added an AjaxMin obfuscation engine to ScriptSharp.
+It uses metadata (symbols) gathered during ScriptSharp compilation to create AjaxMin rename/norename file. 
+
+Obfuscation process has 3 modes: None, X, Full defined in the .csproj (see ScriptSharpWeb.targets)
+X : will prefix obfuscated names with a X. It greatly helps debugging JavaScript while validating obfuscation.
+Full : will make your JavaScript human unreadable.
+
+You can prevent obfuscation on class/properties/methods with the ScriptImport and ScriptAlias attributes. This is helpful if you use Enum names in your code and don’t want them to be renamed in obfuscated JavaScript.
+
+Changes to ScriptSharp generator are insignificant. I hope this pull request will make its way into the main repository.
+
+Regards
+
+ implement Enum.GetName() 
+ if Enums are not decorated with [ScriptConstants(UseNamesmight need the Keyname to the Enumvalue
+
+there is a workaround in C# which doesn't seem quiet obvious because it makes use of compiler specialities:
+
+``` csharp
+public enum designtype
+{
+    Panel = 0,
+    Label = 1,
+    TextBox = 2
+}
+
+designtype dtype = designtype.TextBox;
+string dtypestring = "";
+
+Dictionary<string, object> items = ((Dictionary<string, object>)((object)typeof(designtype)));
+foreach (KeyValuePair<string, object> kvp in items)
+{
+    if ((int)items[kvp.Key] == (int)dtype)
+        dtypestring = kvp.Key;
+}
+```
+
+now the same is achived with .Net compatibility, whereas dtype could be int (javascript constant) as well:
+
+``` csharp
+Enum.GetName(typeof(designtype), dtype);
+```
+
+ use short evaluation only for non enums
+ if there is a [ScriptConstants]enum starting with 0 comparism for "variable if variable is object type in C# it leads to unexpected results (could be false or empty string) casted to int
+now it compiles down to variable === 0
+
+ Added stub for window.onpopstate
+ Added stub for window.onpopstate which is fired when navigating to a session history entry
+
+Moved IndexDB property into the properties section
+
+ Creating stubs for base64 encoding/decoding as listed in #362
+ Stubs for atob() and btoa()
+
+ Introduce QuerySelector and Trim Parameters
+ Query Selector for XmlNode because SelectSingleNode is only available in IE
+Trim with Paramaters to behave more like in .Net and also fixed compatibility to IE8
+
+Sorry for the messy History, couldn't quickly figure out how to branch after work was done
+
+ Added support for Node-Restify
+ There were recent changes to their API in their documentation that I've accounted for the most part. If I've missed anything, I'll add it as I discover it. For now, I think this is a good starting point and we can continue to add missing stubs. Let me know if there are any fixes to this code that I should make. Thanks!
+
+ Update copyright
+ 
+ set jQueryPosition wasn't possible
+ now you can use [jQueryObject].Offset(new Dictionary("top", topvalue,
+"left", leftvalue)); 
+

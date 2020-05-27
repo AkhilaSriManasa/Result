@@ -1,0 +1,30 @@
+﻿ update FAQ
+ typo
+ update readme
+ update readme
+ update readme
+ add e.g nnet in readme
+ readme updated
+ readem updated
+ update readme
+ add example feature_tranform.nnet.txt
+ upload kaldi::nnet1:Nnet::Reset() method that I forgot to commit to the repo
+ update standard todo, remove RMS-prop implementation plan
+ add gradient clipping to further improve stability
+ update TODO of standard version
+ multi-stream training script update
+ minor change to multi-stream training script
+ update readme
+ complete NumParams() & GetParams() methods
+ readme update
+ add google's dropout LSTM paper
+ delete redundant nnet proto
+ add transmit component
+ typo fix
+ fix readme typo
+ update standard doc
+ add nnet.proto to standard version
+ standard version clean up, now completely compatible with nnet-train-perutt
+ update doc
+ add multi-stream lstm training script
+ add train_lstm.sh

@@ -1,0 +1,363 @@
+﻿ How to use TangoSupport_getDepthAtPointBilateral() method
+ Does anyone have a working example of how to use the TangoSupport_getDepthAtPointBilateral() method in C? I have been trying to use this function, but it keeps returning TANGO_ERROR.
+ Android 7.0+ linking to private platform libraries
+ After we got our ASUS Zenfone AR we recognized, that warnings were generated caused by the changes to the access of private ndk libraries in future android releases. 
+![screenshot_20170908-092316](https://user-images.githubusercontent.com/26164649/30200547-b1fee6aa-9477-11e7-9734-a3886d1bf61f.jpg)
+Not only our own application is triggering this warning also every example project. Beside this annoying dialog, we want that our application runs also with future android releases. 
+
+The guide provided here: 
+https://developer.android.com/about/versions/nougat/android-7.0-changes.html#ndk
+was not very helpful. 
+"You should update your app to include its own copy of those libraries " - from my unexperienced perspective i don't know how to get a copy of those libraries. Additionally i should say that we use cmake as a build tool, but like said, the warning dialog appears also with the examples which are build with ndk-build tool.
+
+Maybe anyone knows how to get this working, cause other tango applications from the store don't trigger this dialog.
+I have the exact same problem. Getting the logcat warnings is OK for now (until the tango libraries are made properly Android N compatible), but how can I prevent the annoying dialog box?
+
+It seems like the popup disappears when compiling in Release mode.
+
+Thank you for your feedback, can you provide more information if your are using cmake or ndk-build? And where you defined this release mode? (Android Studio, Gradle) Cause i also set the CMAKE_BUILD_TYPE on 'Release' and nothing changed. 
+
+Additionally i was able to create a workaround based on a stackoverflow response. 
+https://stackoverflow.com/questions/46112418/tango-api-linking-against-private-native-libraries-api24/46181422#46181422
+But it is more a dirty hack then a good solution, i copied the prebuilt shared private native libs via ADB from my ASUS (located in system/lib and system/lib64) and included them into my APK.
+
+EDIT:
+I tried generating a signed APK and no warning appears, but it is questionable if this will work for further API version 24+. How we can secure that our application includes all dependencies?
+
+I also use cmake, I set release mode through Android Studio. My `build.gradle` targets API 23 like this:
+```
+defaultConfig {                                                                                                                                                                                                                                                                                                            
+        minSdkVersion 21                                                                                                                                                                                                                                                                                                                     
+        targetSdkVersion 23
+}
+```
+It might be the signed APK that is important here, as you say, not the compiling in Release mode.
+
+I have not made any efforts trying to support API level 24+, I am hoping a future release of `libtango_client_api.so` will be made properly Android N compatible.
+
+ How can I use this API to make an 'AR' app?
+ I want to make an 'AR' app compatible with all versions of Android and will practically work in any Android phone so my question is can I use it develop an 'AR' app
+So there is a nice [TangoInitializationHelper](https://github.com/googlesamples/tango-examples-c/blob/master/cpp_example_util/app/src/main/java/com/projecttango/examples/cpp/util/TangoInitializationHelper.java) Class provided in the examples. If you want to create an "optional Tango" app you would need to build some logic around where the samples call this class and if it returns without Tango.
+
+Another gotcha is in most of the [examples manifest files](https://github.com/googlesamples/tango-examples-c/blob/master/cpp_basic_examples/hello_depth_perception/src/main/AndroidManifest.xml#L36) they have it required so this will need be set to `false`
+
+Other then that, you should be good to run the rest of demos without an Tango device
+
+@sjfricke  thanx man I am creating an app with 'AR' stickers just like Snapchat so I was researching for free 'AR' sdks so I think now I can use this API to make my dream app!
+
+ [NOT FOR MERGE] Change hello video app to make minimal example
+ This PR changes the hello video example app to make a minimal example which only connect to onFrameAvailable and print a log message when the callback is triggered.
+Its purpose is to demonstrate issues encountered when connecting to camera callbacks.
+PR opened against the wrong fork, closing now.
+
+ Out of sequence images
+ Sorry for the issue and the edit.
+While converting images the `convert` command was processing the images in the wrong order.
+All clear and fixed.
+ Release m20
+ 
+ Problems about TangoService_getPoseAtTime
+ Hi,
+I'd like to get the pose data under pull mode. However, it's wrong when I'm calling TangoService_getPoseAtTime.
+The error  message is:
+A/libc: Fatal signal 11 (SIGSEGV) at 0x00000020 (code=1), thread 4017 (omotiontracking)
+E/InputDispatcher: channel '64f4daf0 com.projecttango.examples.cpp.hellomotiontracking/com.projecttango.examples.cpp.hellomotiontracking.HelloMotionTrackingActivity (server)' ~ Channel is unrecoverably broken and will be disposed!
+
+My application want to get the current pose data as soon as I click the button. So I think the pull mode is better. There is not much information on the web.
+Any reply is helpful.
+It's memory leak. Something wrong with my jni function call.  
+
+ connectOnFrameAvailable fails to connectSurface
+ I have spent a lot of time making sure my example is exactly as that of hello_video and I keep getting
+
+```
+TangoErrorType TangoService_connectOnFrameAvailable(TangoCameraId, void*, void (*)(void*, TangoCameraId, const TangoImageBuffer*)): Done connecting callbacks.
+...
+interface E/tango_client_api: TangoErrorType TangoService_connect(void*, TangoConfig): Internal error: Failed to connectSurface, cam id: 0.
+```
+
+While what it SHOULD be is 
+```
+I/tango_client_api: TangoErrorType TangoService_connectOnFrameAvailable(TangoCameraId, void*, void (*)(void*, TangoCameraId, const TangoImageBuffer*)) called for cam id(0) before TangoService_connect(). Callback will be registered on next call to TangoService_connect().
+...
+I/tango_client_api: TangoErrorType TangoService_connect(void*, TangoConfig): Successfully connected to Tango.
+```
+I found if I manually run `adb shell am grant com.my.app.package android.permission.CAMERA` it works, but not sure why this isn't automatic
+
+Other option is to add 
+```
+private static final int MY_CAMERA_REQUEST_CODE = 100;
+
+if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
+{
+  requestPermissions(new String[]{Manifest.permission.CAMERA}, MY_CAMERA_REQUEST_CODE);
+}
+```
+to the samples
+
+ Examples does not work on Asus Zenfone AR
+ There's a dlopen failure: libtango_client_api.so was not found. That caused a fatal error in TangoInitHelper.loadLibrary.
+
+Discussed here: https://github.com/lvonasek/tango/issues/9
+I try it but it works on Zenfone AR
+
+ok, I am closing the issue - maybe it was connected with old core
+
+ Golang
+ From my reading of the API it looks like OpenGL API.
+
+I am planning to do a bring up of an application authoring system and runtime system for tango devices. Its based on golang using the Google supported code GL here:
+https://godoc.org/golang.org/x/mobile/gl
+
+So I want to also support tanga devices and so also need to wrap the c API with golang.
+
+Would the team accept PR's for this assuming they met your guidelines ?
+
+
+
+
+ release-ikariotikos
+ 
+ API 24+ won't build
+ Found that the new [Log Tag limit](https://developer.android.com/reference/android/util/Log.html#isLoggable%28java.lang.String, int%29) prevents code from compiling right away.
+#106 
+
+ Fixed TangoInitializationHelper.java for API 24+
+ Fixed the new [Log tag 23 character limit](https://developer.android.com/reference/android/util/Log.html#isLoggable%28java.lang.String,%20int%29)  imposed if using API 24+ since `TangoInitializationHelper` is 25 characters
+
+ and also removed x86 options since they were removed in #102 from the `Application.mk` files
+
+ Not possible to enable flashlight when Tango service is running
+ When I enable flashlight before starting Tango service then starting Tango service turns flashlight off.
+When I start Tango service then there is no possibility to start flashlight.
+
+Is there some reason for it? Here is scan of a cave using external flashlight: https://skfb.ly/6rBZn (drifting correction worked, texturing worked, scanning worked).
+ LoadLibrary fails when including tango .SO
+ When adding the shared tango libs into an existing Android Studio project, load Library fails with this exception
+
+```
+JNI DETECTED ERROR IN APPLICATION: JNI NewGlobalRef called with pending exception java.lang.NoSuchFieldError: no "I" field "mNativePtr" in class "Landroid/os/Parcel;" or its superclasses'
+
+backtrace:
+05-23 17:45:10.254 546-546/? A/DEBUG:     #00 pc 00044320  /system/lib/libc.so (tgkill+12)
+05-23 17:45:10.254 546-546/? A/DEBUG:     #01 pc 00041f21  /system/lib/libc.so (pthread_kill+32)
+05-23 17:45:10.254 546-546/? A/DEBUG:     #02 pc 0001ba4f  /system/lib/libc.so (raise+10)
+05-23 17:45:10.254 546-546/? A/DEBUG:     #03 pc 00018bf1  /system/lib/libc.so (__libc_android_abort+34)
+05-23 17:45:10.254 546-546/? A/DEBUG:     #04 pc 000167b0  /system/lib/libc.so (abort+4)
+05-23 17:45:10.255 546-546/? A/DEBUG:     #05 pc 003216c9  /system/lib/libart.so (_ZN3art7Runtime5AbortEv+212)
+05-23 17:45:10.255 546-546/? A/DEBUG:     #06 pc 000f3c6d  /system/lib/libart.so (_ZN3art10LogMessageD2Ev+2212)
+05-23 17:45:10.255 546-546/? A/DEBUG:     #07 pc 0024f7fd  /system/lib/libart.so (_ZN3art9JavaVMExt8JniAbortEPKcS2_+1524)
+05-23 17:45:10.255 546-546/? A/DEBUG:     #08 pc 0024fb9f  /system/lib/libart.so (_ZN3art9JavaVMExt9JniAbortVEPKcS2_St9__va_list+54)
+05-23 17:45:10.255 546-546/? A/DEBUG:     #09 pc 000fc013  /system/lib/libart.so (_ZN3art11ScopedCheck6AbortFEPKcz+30)
+05-23 17:45:10.255 546-546/? A/DEBUG:     #10 pc 00100eef  /system/lib/libart.so (_ZN3art11ScopedCheck5CheckERNS_18ScopedObjectAccessEbPKcPNS_12JniValueTypeE.constprop.95+5054)
+05-23 17:45:10.255 546-546/? A/DEBUG:     #11 pc 001126a5  /system/lib/libart.so (_ZN3art8CheckJNI12NewGlobalRefEP7_JNIEnvP8_jobject+376)
+05-23 17:45:10.255 546-546/? A/DEBUG:     #12 pc 003362f5  /system/lib/libart.so (_ZN3art6Thread22SetClassLoaderOverrideEP8_jobject+32)
+05-23 17:45:10.255 546-546/? A/DEBUG:     #13 pc 00250101  /system/lib/libart.so (_ZN3art9JavaVMExt17LoadNativeLibraryEP7_JNIEnvRKNSt3__112basic_stringIcNS3_11char_traitsIcEENS3_9allocatorIcEEEEP8_jobjectPS9_+1228)
+05-23 17:45:10.256 546-546/? A/DEBUG:     #14 pc 002c203f  /system/lib/libart.so (_ZN3artL18Runtime_nativeLoadEP7_JNIEnvP7_jclassP8_jstringP8_jobjectS5_+178)
+05-23 17:45:10.256 546-546/? A/DEBUG:     #15 pc 0212fdc5  /system/framework/arm/boot.oat (offset 0x1f23000)
+```
+
+
+There is another person on stackoverflow with the same tango issue, but no posted answer.
+I'm also using the Lenovo Phab II tablet, and am having the same issue as this guy
+
+https://stackoverflow.com/questions/43979666/jni-detected-error-in-application-jni-newglobalref-called-with-pending-exceptio
+
+May have solved it. Needed to load the tango_client_api.so first:
+```
+
+public class MainActivity extends AppCompatActivity {
+
+    // Used to load the 'native-lib' library on application startup.
+    static {
+        // This project depends on tango_client_api, so we need to make sure we load
+        // the correct library first.
+        if (com.projecttango.examples.cpp.util.TangoInitializationHelper.loadTangoSharedLibrary() ==
+                com.projecttango.examples.cpp.util.TangoInitializationHelper.ARCH_ERROR) {
+            Log.e("TangoJNINative", "ERROR! Unable to load libtango_client_api.so!");
+        }
+        System.loadLibrary("native-lib");
+    }
+```
+
+ Memory leak in TangoSDK
+ When I use Tango3DR_clear it removes data from it but it does not deallocate memory (it is problem for texturing and reconstruction context). Also Tango3DR_ReconstructionContext_destroy does not deallocate it completely.
+
+I did following test with cpp_mesh_builder_example:
+-change resolution: Tango3DR_Config_setDouble(t3dr_config, "resolution", 0.005);
+-make it scan more far: Tango3DR_Config_setDouble(t3dr_config, "max_depth", 7.5);
+-remove mesh extraction (it is too slow for test)
+-do measurement when clear button is pressed:
+
+            text += new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + ": ";
+            ActivityManager.MemoryInfo mem = new ActivityManager.MemoryInfo();
+            ActivityManager activityManager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
+
+            //pause scanning and measure memory
+            TangoJNINative.onToggleButtonClicked(false);
+            activityManager.getMemoryInfo(mem);
+            text += (mem.availMem / 1048576L) + "MB -> ";
+
+            //clear context
+            TangoJNINative.onClearButtonClicked();
+
+            //measure memory and resume scanning
+            activityManager.getMemoryInfo(mem);
+            text += (mem.availMem / 1048576L) + "MB\n";
+            TangoJNINative.onToggleButtonClicked(m3drRunning);
+
+            //show result
+            MeshBuilderActivity.this.runOnUiThread(new Runnable()
+            {
+              @Override
+              public void run()
+              {
+                Toast.makeText(MeshBuilderActivity.this, text, Toast.LENGTH_LONG).show();
+              }
+            });
+
+result:
+![tango_hopak_leak](https://cloud.githubusercontent.com/assets/6472545/25773153/ead4b33a-3278-11e7-8118-6024115f3399.png)
+
+
+Thank you for the bug report lvonasek, we are currently looking into it.
+
+Thank you. The problem happens also after calling Tango3DR_TexturingContext_destroy
+
+After update on Tango Ikariotikos memory leaks in Tango3DR_TexturingContext seems to be fixed but the problem with Tango3DR_clear still stays
+
+Issue stays in release m20.
+
+ release hopka
+ 
+ c++ examples?
+ Are there any c++ examples in this repo? The examples all link to java code
+All the c++ code is located in the `/app/src/main/jni` folder of each demo. The Java code you see is just the UI layer that also kicks off all the c++ examples.
+
+Also the c++ files are all `.cc` files extensions in these samples
+
+ Release gankino
+ 
+ release farandole
+ 
+ OpenGL ES 3.0
+ Why is the tango_gl running OpenGL ES 2.0? 
+
+The Dev Kit runs Android 4.4 and can run OpenGL ES 3.0
+
+There is no Tango device therefore not able to use 3.0 and 2.0 is missing a LOT of needed features
+Also the work around I found for people using the Dev Kit still
+http://stackoverflow.com/questions/33764617/using-opengl-es-3-1-on-google-tango
+
+
+Hi!
+
+Feel free to use your own rendering engine in its place! tango-gl is written to be easy to read, even if that would be less efficient. So we've avoided doing common optimizations like caching the GL state or using GPU-side vertex buffers where it would obscure the code.
+
+I'm going to close this, if you have particular questions about how to support GLES 3 for Tango, please open another issue.
+
+I also just found out there is no need for this as you can just change the manifest file from 
+
+`<uses-feature android:glEsVersion="0x00020000" android:required="true" />`
+to
+`<uses-feature android:glEsVersion="0x00030000" android:required="true" />`
+
+ New overload method tango_gl
+ Simply added a single function overload to allow to set normals AND indices at the same time when setting drawing objects info. Simple fix otherwise making a redundant call to set the vertices twice.
+Thanks for your pull request.  It looks like this may be your first contribution to a Google open source project. Before we can look at your pull request, you'll need to sign a Contributor License Agreement (CLA).
+
+:memo: **Please visit <https://cla.developers.google.com/> to sign.**
+
+Once you've signed, please reply here (e.g. `I signed it!`) and we'll verify.  Thanks.
+
+---
+
+- If you've already signed a CLA, it's possible we don't have your GitHub username or you're using a different email address.  Check [your existing CLA data](https://cla.developers.google.com/clas) and verify that your [email is set on your git commits](https://help.github.com/articles/setting-your-email-in-git/).
+- If you signed the CLA as a corporation, please let us know the company's name.
+
+<!-- need_sender_cla -->
+
+I signed it!
+
+CLAs look good, thanks!
+
+<!-- ok -->
+
+ Obj_loader
+ I am trying to use the Obj_loader, but the .obj file I have gets compressed (pretty sure) when the APK builds so calling a `fopen()` is not able to find the file in path.
+
+Any ideas on a work around or is this something that need to get fixed as the Texture loading uses the AAsset manager.
+ release-eisa
+ 
+ conversion from yuv to rgb improved
+ this is the ITU-R version of converting RGB to YUV.
+After conversion, values are clamped to the range of [0,255].
+LGTM, @gitunit do you mind adding some descriptions to explain the change.
+
+ok. i will do that in the evening (CET)
+
+feel free to merge after the description is added.
+
+@gitunit I am looking into this change again, I noticed that this is not simply a value clamp, and you also change some constant in the conversion. Do you have any references on this conversion method?
+
+@jguomoto  sorry, i didn't see your message until now. please have a look here (scroll down to jpeg conversion). also have a look here: https://www.fourcc.org/fccyvrgb.php (check Avery Lee's JFIF Clarification). 
+i discovered in android TF examples there is a native conversion but i haven't got yet the time to try it out.
+
+Thanks for the info. I will look into it.
+
+@jguomoto oops, i missed to post one link, look here: https://en.wikipedia.org/wiki/YUV 
+relevant is the ITU-R part, pretty much at the end of the site.
+
+ release-caporales
+ 
+ release biyelgee
+ 
+ Bad flags in cpp_mesh_builder_example
+ Hello,
+Trying to use the cpp_mesh_builder_example app, I see that when the function TangoSupport_getMatrixTransformAtTime is used, the status code used is `TANGO_SUCCESS`.
+
+It should be `status_code == TANGO_POSE_VALID`, as described in the doc : https://developers.google.com/tango/apis/c/support/reference/struct/tango-matrix-transform-data.
+
+In file [mesh_builder_app.cc](https://github.com/googlesamples/tango-examples-c/blob/master/cpp_mesh_builder_example/app/src/main/jni/mesh_builder_app.cc): 
+```
+  TangoMatrixTransformData matrix_transform;
+  TangoSupport_getMatrixTransformAtTime(
+      0, TANGO_COORDINATE_FRAME_START_OF_SERVICE, TANGO_COORDINATE_FRAME_DEVICE,
+      TANGO_SUPPORT_ENGINE_OPENGL, TANGO_SUPPORT_ENGINE_OPENGL, ROTATION_0,
+      &matrix_transform);
+  if (matrix_transform.status_code == TANGO_SUCCESS) {
+    start_service_T_device_ = glm::make_mat4(matrix_transform.matrix);
+  } else {
+    LOGE(
+        "MeshBuilderApp: Could not find a valid matrix transform at "
+        "current time for the device.");
+  }
+```
+The data structure `TangoMatrixTransformData` is using a `TangoPoseStatusType` and not a `TangoErrorType`, as show in files (beside in doc) :
+In file [tango_support_api.h](https://github.com/googlesamples/tango-examples-c/blob/master/tango_support_api/include/tango_support_api.h): 
+```
+typedef struct TangoMatrixTransformData {
+  /// Timestamp of the time that this pose estimate corresponds to.
+  double timestamp;
+
+  /// Matrix in column major order.
+  float matrix[16];
+
+  /// The status of the pose, according to the pose lifecycle.
+  TangoPoseStatusType status_code;
+} TangoMatrixTransformData;
+```
+In file [tango_client_api.h](https://github.com/googlesamples/tango-examples-c/blob/master/tango_client_api/include/tango_client_api.h):
+```
+typedef enum {
+  TANGO_POSE_INITIALIZING = 0,  ///< Motion estimation is being initialized
+  TANGO_POSE_VALID,             ///< The pose of this estimate is valid
+  TANGO_POSE_INVALID,           ///< The pose of this estimate is not valid
+  TANGO_POSE_UNKNOWN            ///< Could not estimate pose at this time
+} TangoPoseStatusType;
+```
+Thank you !
+ release argentine_tango
+ 
+ release zaniah
+ 

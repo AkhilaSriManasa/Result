@@ -1,0 +1,35 @@
+﻿ CLJCLR-104: fix proxy-super reflection warning in core_print
+ CLJCLR-100: Add build targeting .Net 4.5
+ CLJCLR-101: part 7: Change conversion preferences for method matching--intrinsic numeric conversions restricted to integral->integral, signed->signed, unsigned->unsigned
+ CLJCLR-101: part 6: Add instrinsic support for unsigned
+ CLJCLR-101: part 5: reorganize Numbers.cs and add overloads for ulong and decimal
+ CLJCLR-101: part 4: Fix IL emit for UInt32 and UInt64 constants.
+ CLJCLR-101: part 3: Fix calc of ulong +/* before checking for overflow
+ CLJCLR-101: part 1: Add CLR decimal and unsigned long ops to Numbers
+ CLJCLR-101: part 1: Fix conversion BigDecimal.ToDecimal
+ CLJCLR-98: fix name of clojure.core/set-validator\! (missing \!)
+This has been missing since 2009\!
+ CLJCLR-102: On init, load spec DLLs from application base directory
+ Make Code Analysis happy
+ Merge pull request #26 from arcadia-unity/primitive-locals
+
+Stop throwing exceptions on locals with primitive type hints
+ Merge pull request #25 from arcadia-unity/spec-env-vars-on-mono
+
+Expose environment vars that control spec to Mono platforms
+ Update to Java commit ee35533 (2018.12.06): CLJ-2449 Make serialized-require private
+ Update to Java commit b70db96 (2018.12.03): CLJ-2447 clojure.datafy docstring is misplaced
+ Update to Java commit ca92f9d (2018.11.26): CLJ-2248 Change async-require to serialized-require
+ Update to Java commit 69e4fda (2018.11.26): changelog update
+ Update to Java commit b182982 (2018.11.20): CLJ-2438 Demunge source in execution error messages
+ Update to Java commit ef38ce7 (2018.11.20): CLJ-2437 Add async-require
+ Update to Java commit b0e5056 (2018.11.20): CLJ-2436 Fix reflection warning in reflect.java
+ Update to Java commit 0b42eab (2018.11.19): Changelog updates for 1.10.0-RC2
+ Update to Java commit 5de045c (2018.11.16): CLJ-2435 Include root cause class name in compilation and macroexpansion exceptions
+ Update to Java commit 06097b1 (2018.11.16): CLJ-2432 lazy require reflect in datafy, add requiring-resolve
+ Update to Java commit 0d7773b (2018.11.16): Changelog updates
+ Update to Java commit 0035cd8 (2018.11.16): CLJ-2430 Elevate error phase in throwable data
+ Update to Java commit c4ebc0a (2018.11.15): CLJ-2429 datafy JavaReflector, fix do-reflect for arrays and primitives
+ Update to Java commit 4d2a7db (2018.11.14): add error phases to prepls
+ Update to Java commit 2cc37bb (2018.11.13): make :extend-via-metadata explicit option for defprotocol, Datafiable and Navigable opt-in
+ Remove two unused variables (in catch clauses) warnings

@@ -1,0 +1,68 @@
+﻿NUMTopics = 2
+(0, '0.028*"add" + 0.022*"project" + 0.016*"visual" + 0.015*"use" + 0.015*"studio" + 0.013*"fix" + 0.012*"sharpmake" + 0.011*"file" + 0.011*"test" + 0.009*"build"')
+(1, '0.038*"add" + 0.025*"file" + 0.023*"fix" + 0.019*"use" + 0.017*"project" + 0.016*"visual" + 0.013*"support" + 0.012*"studio" + 0.012*"sharpmake" + 0.012*"option"')
+
+------------------------
+NUMTopics = 3
+(0, '0.003*"add" + 0.002*"fix" + 0.002*"visual" + 0.002*"use" + 0.002*"project" + 0.002*"studio" + 0.002*"sharpmake" + 0.002*"file" + 0.002*"build" + 0.002*"option"')
+(1, '0.003*"add" + 0.003*"fix" + 0.003*"project" + 0.003*"visual" + 0.002*"studio" + 0.002*"file" + 0.002*"use" + 0.002*"support" + 0.002*"option" + 0.002*"sharpmake"')
+(2, '0.040*"add" + 0.023*"project" + 0.022*"file" + 0.022*"fix" + 0.021*"use" + 0.019*"visual" + 0.016*"studio" + 0.014*"sharpmake" + 0.013*"support" + 0.012*"build"')
+
+------------------------
+NUMTopics = 4
+(0, '0.003*"add" + 0.002*"fix" + 0.002*"visual" + 0.002*"use" + 0.002*"project" + 0.002*"studio" + 0.002*"sharpmake" + 0.002*"file" + 0.002*"build" + 0.002*"test"')
+(1, '0.003*"add" + 0.002*"project" + 0.002*"fix" + 0.002*"studio" + 0.002*"visual" + 0.002*"file" + 0.002*"use" + 0.002*"sharpmake" + 0.002*"support" + 0.002*"library"')
+(2, '0.042*"add" + 0.024*"project" + 0.023*"file" + 0.023*"fix" + 0.021*"use" + 0.020*"visual" + 0.016*"studio" + 0.015*"sharpmake" + 0.014*"support" + 0.012*"build"')
+(3, '0.003*"add" + 0.003*"project" + 0.003*"visual" + 0.003*"use" + 0.003*"file" + 0.003*"fix" + 0.003*"studio" + 0.003*"support" + 0.003*"build" + 0.003*"sharpmake"')
+
+------------------------
+NUMTopics = 5
+(0, '0.003*"add" + 0.003*"fix" + 0.003*"visual" + 0.002*"use" + 0.002*"project" + 0.002*"studio" + 0.002*"file" + 0.002*"sharpmake" + 0.002*"option" + 0.002*"build"')
+(1, '0.003*"add" + 0.003*"project" + 0.002*"visual" + 0.002*"fix" + 0.002*"studio" + 0.002*"file" + 0.002*"change" + 0.002*"sharpmake" + 0.002*"use" + 0.002*"test"')
+(2, '0.042*"add" + 0.024*"project" + 0.023*"file" + 0.023*"fix" + 0.022*"use" + 0.020*"visual" + 0.016*"studio" + 0.015*"sharpmake" + 0.014*"support" + 0.012*"build"')
+(3, '0.003*"add" + 0.003*"project" + 0.003*"visual" + 0.003*"use" + 0.003*"file" + 0.003*"fix" + 0.003*"studio" + 0.003*"support" + 0.003*"build" + 0.003*"sharpmake"')
+(4, '0.003*"project" + 0.003*"add" + 0.003*"fix" + 0.002*"studio" + 0.002*"use" + 0.002*"file" + 0.002*"visual" + 0.002*"test" + 0.002*"sharpmake" + 0.002*"build"')
+
+------------------------
+NUMTopics = 6
+(0, '0.002*"add" + 0.002*"fix" + 0.002*"use" + 0.002*"project" + 0.002*"visual" + 0.002*"studio" + 0.002*"sharpmake" + 0.002*"file" + 0.002*"build" + 0.002*"support"')
+(1, '0.002*"add" + 0.002*"fix" + 0.002*"project" + 0.002*"file" + 0.002*"studio" + 0.002*"visual" + 0.002*"use" + 0.002*"support" + 0.002*"sharpmake" + 0.002*"option"')
+(2, '0.004*"add" + 0.003*"file" + 0.003*"fix" + 0.003*"use" + 0.003*"project" + 0.003*"support" + 0.003*"sharpmake" + 0.003*"visual" + 0.003*"studio" + 0.003*"build"')
+(3, '0.003*"add" + 0.003*"use" + 0.003*"file" + 0.003*"project" + 0.003*"fix" + 0.002*"visual" + 0.002*"support" + 0.002*"studio" + 0.002*"build" + 0.002*"sharpmake"')
+(4, '0.002*"project" + 0.002*"fix" + 0.002*"add" + 0.002*"studio" + 0.002*"use" + 0.002*"file" + 0.002*"visual" + 0.002*"sharpmake" + 0.002*"build" + 0.002*"test"')
+(5, '0.043*"add" + 0.025*"project" + 0.024*"fix" + 0.024*"file" + 0.022*"use" + 0.020*"visual" + 0.017*"studio" + 0.015*"sharpmake" + 0.014*"support" + 0.012*"build"')
+
+------------------------
+NUMTopics = 7
+(0, '0.002*"add" + 0.002*"fix" + 0.002*"use" + 0.002*"project" + 0.002*"visual" + 0.002*"studio" + 0.002*"sharpmake" + 0.002*"file" + 0.002*"support" + 0.002*"build"')
+(1, '0.002*"add" + 0.002*"project" + 0.002*"fix" + 0.002*"studio" + 0.002*"file" + 0.002*"visual" + 0.002*"use" + 0.002*"support" + 0.002*"sharpmake" + 0.002*"change"')
+(2, '0.004*"add" + 0.003*"file" + 0.003*"use" + 0.003*"fix" + 0.003*"project" + 0.003*"support" + 0.003*"sharpmake" + 0.003*"visual" + 0.003*"studio" + 0.003*"build"')
+(3, '0.003*"add" + 0.003*"use" + 0.003*"file" + 0.002*"project" + 0.002*"fix" + 0.002*"visual" + 0.002*"support" + 0.002*"studio" + 0.002*"build" + 0.002*"sharpmake"')
+(4, '0.002*"project" + 0.002*"fix" + 0.002*"add" + 0.002*"use" + 0.002*"file" + 0.002*"studio" + 0.002*"visual" + 0.002*"sharpmake" + 0.002*"build" + 0.002*"option"')
+(5, '0.043*"add" + 0.025*"project" + 0.024*"fix" + 0.024*"file" + 0.022*"use" + 0.020*"visual" + 0.017*"studio" + 0.015*"sharpmake" + 0.014*"support" + 0.012*"build"')
+(6, '0.003*"fix" + 0.003*"add" + 0.003*"use" + 0.002*"project" + 0.002*"sharpmake" + 0.002*"visual" + 0.002*"file" + 0.002*"build" + 0.002*"studio" + 0.002*"support"')
+
+------------------------
+NUMTopics = 8
+(0, '0.002*"add" + 0.002*"use" + 0.002*"fix" + 0.002*"project" + 0.002*"visual" + 0.002*"studio" + 0.002*"sharpmake" + 0.002*"file" + 0.002*"support" + 0.002*"copy"')
+(1, '0.002*"add" + 0.002*"fix" + 0.002*"project" + 0.002*"file" + 0.002*"studio" + 0.002*"visual" + 0.002*"support" + 0.002*"use" + 0.002*"sharpmake" + 0.002*"option"')
+(2, '0.004*"add" + 0.003*"file" + 0.003*"fix" + 0.003*"use" + 0.003*"project" + 0.003*"support" + 0.003*"sharpmake" + 0.003*"visual" + 0.003*"studio" + 0.003*"build"')
+(3, '0.003*"add" + 0.003*"file" + 0.003*"use" + 0.002*"fix" + 0.002*"project" + 0.002*"visual" + 0.002*"support" + 0.002*"studio" + 0.002*"build" + 0.002*"sharpmake"')
+(4, '0.002*"project" + 0.002*"add" + 0.002*"fix" + 0.002*"studio" + 0.002*"use" + 0.002*"file" + 0.002*"visual" + 0.002*"sharpmake" + 0.002*"test" + 0.002*"build"')
+(5, '0.043*"add" + 0.025*"project" + 0.024*"fix" + 0.024*"file" + 0.022*"use" + 0.020*"visual" + 0.017*"studio" + 0.015*"sharpmake" + 0.014*"support" + 0.012*"build"')
+(6, '0.003*"fix" + 0.003*"add" + 0.003*"use" + 0.003*"project" + 0.003*"sharpmake" + 0.003*"visual" + 0.003*"file" + 0.002*"studio" + 0.002*"build" + 0.002*"support"')
+(7, '0.003*"add" + 0.003*"project" + 0.003*"file" + 0.003*"use" + 0.003*"fix" + 0.003*"visual" + 0.003*"sharpmake" + 0.003*"studio" + 0.003*"build" + 0.003*"option"')
+
+------------------------
+NUMTopics = 9
+(0, '0.002*"add" + 0.002*"fix" + 0.002*"use" + 0.002*"project" + 0.002*"visual" + 0.002*"studio" + 0.002*"file" + 0.002*"sharpmake" + 0.002*"support" + 0.002*"option"')
+(1, '0.002*"add" + 0.002*"fix" + 0.002*"file" + 0.002*"project" + 0.002*"studio" + 0.002*"visual" + 0.002*"support" + 0.002*"use" + 0.002*"option" + 0.002*"sharpmake"')
+(2, '0.004*"add" + 0.003*"file" + 0.003*"fix" + 0.003*"use" + 0.003*"project" + 0.003*"support" + 0.003*"sharpmake" + 0.003*"visual" + 0.003*"studio" + 0.003*"build"')
+(3, '0.003*"add" + 0.003*"use" + 0.003*"file" + 0.003*"project" + 0.003*"fix" + 0.003*"visual" + 0.003*"support" + 0.002*"studio" + 0.002*"sharpmake" + 0.002*"build"')
+(4, '0.002*"project" + 0.002*"add" + 0.002*"fix" + 0.002*"studio" + 0.002*"use" + 0.002*"file" + 0.002*"visual" + 0.002*"sharpmake" + 0.002*"test" + 0.002*"build"')
+(5, '0.044*"add" + 0.025*"project" + 0.024*"fix" + 0.024*"file" + 0.022*"use" + 0.021*"visual" + 0.017*"studio" + 0.015*"sharpmake" + 0.014*"support" + 0.013*"build"')
+(6, '0.003*"fix" + 0.003*"add" + 0.003*"use" + 0.003*"project" + 0.002*"sharpmake" + 0.002*"visual" + 0.002*"file" + 0.002*"studio" + 0.002*"build" + 0.002*"support"')
+(7, '0.003*"add" + 0.003*"project" + 0.003*"file" + 0.003*"use" + 0.003*"visual" + 0.003*"fix" + 0.003*"sharpmake" + 0.003*"studio" + 0.003*"build" + 0.003*"option"')
+(8, '0.003*"add" + 0.003*"project" + 0.003*"fix" + 0.003*"use" + 0.003*"studio" + 0.002*"visual" + 0.002*"file" + 0.002*"build" + 0.002*"support" + 0.002*"sharpmake"')
+
+------------------------

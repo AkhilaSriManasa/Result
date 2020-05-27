@@ -1,0 +1,891 @@
+﻿ Implementation specific timer for ClientState
+ On some platforms (eg: android) the clock backing System.nanoTime stops
+If this approach is approved I will create the appropriate issues and PR against the https://github.com/eclipse/paho.mqtt.android project
+
+Is it possible that the build failure is transient? I'm pretty sure I got a clean run before pushing
+
+ System.nanoTime() runs slow on Android
+ Please fill out the form below before submitting, thank you!
+
+- [x] Bug exists Release Version 1.2.4 ( Master Branch)
+- [x] Bug exists in MQTTv3 Client on Snapshot Version 1.2.4-SNAPSHOT (Develop Branch)
+- [x] Bug exists in MQTTv5 Client on Snapshot Version 1.2.3-SNAPSHOT (Develop Branch)
+
+According to the [SystemClock Documentation](https://developer.android.com/reference/android/os/SystemClock.html) (emphasis mine):
+> uptimeMillis() is counted in milliseconds since the system was booted. This **clock stops when the system enters deep sleep** (CPU off, display dark, device waiting for external input)... This is the basis for most interval timing such as... [**System.nanoTime()**]
+
+@51systems 
+Thanks for detailed analysis.
+
+Any PR to resolve the issue is welcome. As long as your proposed solution doesn't make Java Client dependent on Android SDK to make the solution platform-dependent. 
+
+ Messages are duplicated if wildcard and non-wildcard path exists
+ 
+Please fill out the form below before submitting, thank you!
+
+- [ x ] Bug exists Release Version 1.2.3 ( Master Branch)
+- [ x ] Bug exists in MQTTv3 Client on Snapshot Version 1.2.4-SNAPSHOT (Develop Branch)
+- [ x ] Bug exists in MQTTv5 Client on Snapshot Version 1.2.3-SNAPSHOT (Develop Branch)
+
+
+ Consider these two  topics are registered via Paho on  a broker:
+
+```
+- hello/1/world (paho listener A)
+- hello/+/world (paho listener B)
+```
+
+Broker receives messages for topic 
+
+`hello/1/world`
+
+Broker sends 
+
+`- 1 message to 2 subscriptions`
+
+```
+paho-client+hello/1/world (Subscriber A)
+paho-client+hello/+/world (Subscriber B)
+```
+
+with topic
+
+`hello/1/world`
+
+Now what I consider as a bug:
+
+Paho receives two messages, but instead of detecting that the subscriptions are equal delivers **4** messages:
+
+> 1. hello/1/world for Subscriber A to listener A
+> 2. hello/1/world for Subscriber A to listener B
+> 3. hello/1/world for Subscriber B to listener A
+> 4. hello/1/world for Subscriber B to listener B
+
+This is because of
+https://github.com/eclipse/paho.mqtt.java/blob/master/org.eclipse.paho.client.mqttv3/src/main/java/org/eclipse/paho/client/mqttv3/internal/CommsCallback.java#L502
+where the subscribers are iterated, even though the broker (EMQX in this case) already knows that there are multiple subscriptions on the same client (Paho could avoid this by not subscribing two times in first place)
+
+Log: 
+[paho.log](https://github.com/eclipse/paho.mqtt.java/files/4592560/paho.log)
+ For MQTTv5 release - drop1
+ Please make sure that the following boxes are checked before submitting your Pull Request, thank you!
+
+- [X] This change is against the develop branch, **not** master.
+- [X] You have signed the [Eclipse ECA](https://wiki.eclipse.org/ECA)
+- [X] All of your commits have been signed-off with the correct email address (the same one that you 
+      used to sign the CLA) _Hint: use the -s argument when committing_.
+- [ ] If This PR fixes an issue, that you reference the issue below. OR if this is a new issue that 
+      you are fixing straight away that you add some Description about the bug and how this will fix it.
+- [X] If this is new functionality, You have added the appropriate Unit tests.
+
+
+This PR is created to merge vert.x based MQTTv5 code in mqttv5develop branch.
+
+ missgint interface method
+ Please make sure that the following boxes are checked before submitting your Pull Request, thank you!
+
+- [x] This change is against the develop branch, **not** master.
+- [x] You have signed the [Eclipse ECA](https://wiki.eclipse.org/ECA)
+- [x] All of your commits have been signed-off with the correct email address (the same one that you 
+      used to sign the CLA) _Hint: use the -s argument when committing_.
+- [ ] If This PR fixes an issue, that you reference the issue below. OR if this is a new issue that 
+      you are fixing straight away that you add some Description about the bug and how this will fix it.
+- [ ] If this is new functionality, You have added the appropriate Unit tests.
+
+
+IMqttAsyncClient.java has no method.
+
+ Connection Lost Functionality issue in docker container
+ Please fill out the form below before submitting, thank you!
+
+- [ ] Bug exists Release Version 1.2.3 ( Master Branch)
+- [x] Bug exists in MQTTv3 Client on Snapshot Version 1.2.4-SNAPSHOT (Develop Branch)
+- [ ] Bug exists in MQTTv5 Client on Snapshot Version 1.2.3-SNAPSHOT (Develop Branch)
+
+
+If this is a bug regarding the Android Service, please raise the bug here instead: https://github.com/eclipse/paho.mqtt.android/issues/new
+
+
+Hello,
+
+@arjunramendra 
+The fact that your client is working fine in host OS, I would presume that there is nothing wrong with the client code. As far as docker container is concerned:
+- What is your docker version? 
+- What is your host OS/version wher you are running docker container?
+- What is the network_mode set in docker container? If it is bridge, then try to use host networking and check if the problem is resolved.
+- Enable Paho logging with log level set to FINE and provide the log files.
+
+ Develop
+ Please make sure that the following boxes are checked before submitting your Pull Request, thank you!
+
+- [ ] This change is against the develop branch, **not** master.
+- [X] You have signed the [Eclipse ECA](https://wiki.eclipse.org/ECA)
+- [X] All of your commits have been signed-off with the correct email address (the same one that you 
+      used to sign the CLA) _Hint: use the -s argument when committing_.
+- [ ] If This PR fixes an issue, that you reference the issue below. OR if this is a new issue that 
+      you are fixing straight away that you add some Description about the bug and how this will fix it.
+- [ ] If this is new functionality, You have added the appropriate Unit tests.
+
+ Regression: In v1.2.3 introduced by PR #745
+ Signed-off-by: rdasgupt <ranjan.dasgupta@us.ibm.com>
+
+Please make sure that the following boxes are checked before submitting your Pull Request, thank you!
+
+- [X] This change is against the develop branch, **not** master.
+- [X] You have signed the [Eclipse ECA](https://wiki.eclipse.org/ECA)
+- [X] All of your commits have been signed-off with the correct email address (the same one that you 
+      used to sign the CLA) _Hint: use the -s argument when committing_.
+- [ ] If This PR fixes an issue, that you reference the issue below. OR if this is a new issue that 
+      you are fixing straight away that you add some Description about the bug and how this will fix it.
+- [ ] If this is new functionality, You have added the appropriate Unit tests.
+
+ SSLSocketFactoryFactory.getTrustStore() when encodedPath Please fill out the form below before submitting, thank you!
+
+- [x] Bug exists Release Version 1.2.3 ( Master Branch)
+
+```
+public String getTrustStore(String configID) {
+        String encodedPath = getProperty(configID, TRUSTSTORE, SYSTRUSTSTORE);
+        try { 
+            //encodedPath may null 
+            String decodedPath = java.net.URLDecoder.decode(encodedPath, StandardCharsets.UTF_8.name());
+            return decodedPath;
+        } catch (UnsupportedEncodingException e) {
+            return encodedPath;
+        }
+    }
+```
+
+@54binge 
+The encodedPath will be null if both TRUSTSTORE and SYSTRUSTSTORE is not set. 
+Could you provide more information on your use case? 
+Was your client working with v1.2.2? If so I wonder how? The behavior of this method has not changed from v1.2.2.
+
+@rdasgupt 
+Thanks reply!you are right,both TRUSTSTORE and SYSTRUSTSTORE is not set, and i have not found that in android demo(may be it`s too old),it is not necessary to set the truststore in our use case, i think the log is confused. v1.2.2 works well, i use it instead. Thanks again!
+
+@54binge 
+You mentioned that v1.2.2 works. It means it is a regression in 1.2.3. I will check this out and fix the issue.
+
+@rdasgupt
+v1.2.3 add the decode process, when encodedPath is null, in method java.net.URLDecoder.decode( encodedPath, StandardCharsets.UTF_8.name()),then run code int numChars = s.length(); it will throw NPE,but not catch it outside(just catch UnsupportedEncodingException), then the expected process was interrupted！
+
+Can confirm this bug, commit causing the issue is https://github.com/eclipse/paho.mqtt.java/commit/619d066a2b2c14be289b30c55ccf0d54235048d0. I downgraded to version 1.2.2 which is working correctly.
+
+@54binge 
+Your analysis is correct. Thanks for checking this out. I will fix the code.
+Since this is a regression, I will add the fix in 1.2.4.
+
+
+
+Issue resolved by PR #768 
+
+Is there an ETA on when 1.2.3 is going to be retagged and released?
+
+Service release v1.2.4 is released.
+
+I'll try it out, thanks!
+
+ Merge develop into master
+ Signed-off-by: Ranjan-Dasgupta <Ranjan.Dasgupta@us.ibm.com>
+
+Please make sure that the following boxes are checked before submitting your Pull Request, thank you!
+
+- [ ] This change is against the develop branch, **not** master.
+- [x] You have signed the [Eclipse ECA](https://wiki.eclipse.org/ECA)
+- [x] All of your commits have been signed-off with the correct email address (the same one that you 
+      used to sign the CLA) _Hint: use the -s argument when committing_.
+- [ ] If This PR fixes an issue, that you reference the issue below. OR if this is a new issue that 
+      you are fixing straight away that you add some Description about the bug and how this will fix it.
+- [ ] If this is new functionality, You have added the appropriate Unit tests.
+
+ Develop
+ Please make sure that the following boxes are checked before submitting your Pull Request, thank you!
+
+- [ ] This change is against the develop branch, **not** master.
+- [X] You have signed the [Eclipse ECA](https://wiki.eclipse.org/ECA)
+- [X] All of your commits have been signed-off with the correct email address (The same one that you used to sign the CLA) _Hint: use the -s argument when committing_.
+- [ ] If This PR fixes an issue, that you reference the issue below. OR if this is a new issue that you are fixing straight away that you add some Description about the bug and how this will fix it.
+- [ ] If this is new functionality, You have added the appropriate Unit tests.
+
+PR to merge develop branch to master for MQTTv3 1.2.3 service release.
+
+ Develop
+ Please make sure that the following boxes are checked before submitting your Pull Request, thank you!
+
+- [ ] This change is against the develop branch, **not** master.
+- [X] You have signed the [Eclipse ECA](https://wiki.eclipse.org/ECA)
+- [X] All of your commits have been signed-off with the correct email address (The same one that you used to sign the CLA) _Hint: use the -s argument when committing_.
+- [ ] If This PR fixes an issue, that you reference the issue below. OR if this is a new issue that you are fixing straight away that you add some Description about the bug and how this will fix it.
+- [ ] If this is new functionality, You have added the appropriate Unit tests.
+
+Merge develop branch to master for 1.2.3 service release.
+Need to open another pull request to include more changes.
+
+ Intermittent deadlock due to fix for #719
+ Please fill out the form below before submitting, thank you!
+
+- [ ] Bug exists Release Version 1.2.2 ( Master Branch)
+- [X] Bug exists in MQTTv3 Client on Snapshot Version 1.2.3-SNAPSHOT (Develop Branch)
+- [ ] Bug exists in MQTTv5 Client on Snapshot Version 1.2.3-SNAPSHOT (Develop Branch)
+
+If this is a bug regarding the Android Service, please raise the bug here instead: https://github.com/eclipse/paho.mqtt.android/issues/new
+
+Opening this issue based on the comments from @marcostorto in issue #719  
+
+--------
+
+We found a nasty side effect of this fix. In our environment we use clean_session=false and the broker (vernemq) can take quite some time to respond to connect message when there are many (100K to 1M) messages waiting to be delivered.
+In this case the client never completes the connection as MqttException.REASON_CODE_CONNECTION_LOST is raised before the broker respond to connect message. Retrying connection does not help, we get in a sort of deadlock as subsequent connection attempts fail in the same way.
+
+I would strongly advice to remove this fix until this side effect is resolved, I assume it can happen with other brokers as well
+
+
+We use alpakka library which uses async client [https://github.com/akka/alpakka/blob/master/mqtt/src/main/scala/akka/stream/alpakka/mqtt/impl/MqttFlowStage.scala#L147]
+
+We can reproduce pretty easily by the following sequence:
+
+    connect to vernemq with clean session=false
+    subscribe to a topic with QOS=1
+    terminate client
+    publish few 100Ks messages to this topic (actual number of message to show isssue is somehow dependent on message size, for small message size issue appear >1M messages)
+    reconnect client to broker using same client id
+
+removing this commit connection completes successfully, with this commit connection fails most of the times (although not always).
+
+@ioolkos I have copied your comment from #719 
+
+@marcostorto let me know when you want to look into this VerneMQ side. Most helpful in this case is a Wireshark capture between the client and broker (if that's possible).
+One thing to try server side: we have seen that increasing the message inflight window in situations like this might help (form the default 20 to something much higher)
+
+@ioolkos @marcostorto
+There is a new service release v1.2.3. Please try your use case again and let us know if this problem still exist.
+
+I run an experiment using new release v1.2.3 in our test setup:
+
+1. start consumer application (which connects 23 different clients to mqtt broker subscribing to multiple queues), let it subscribe with qos=1 and clean_session=false, then stop it
+2. start producer applications
+3. let about 1.3M messages accumulate in vernemq queues (3 queues with about 400K messages each, plus another queue with about 50K messages)
+4. restart the consumer application 
+
+after restart most clients connect without issues, but clients which have many messages in queue disconnect multiple times from broker.
+I attach here a tcpdump capture for a failed connection [bad.zip](https://github.com/eclipse/paho.mqtt.java/files/4482458/bad.zip) and for a successfull connection [good.zip](https://github.com/eclipse/paho.mqtt.java/files/4482457/good.zip). These two captures are for the same client (same client-id), the second one was triggered by application backoff logic which start a new client with exponential backoff and eventually succeeded.
+
+I attach here also paho  logs for one failed session 
+[paho0.fail.log](https://github.com/eclipse/paho.mqtt.java/files/4482547/paho0.fail.log)
+
+
+One of the clients failed 28 times over 15 minutes until application finally succeeding. 
+
+typical stacktrace of the failed connection is:
+
+ 
+2020-04-15T14:37:03.067441372Z Connection lost (32109) - java.io.IOException: Connection is lost.
+2020-04-15T14:37:03.067491226Z  at org.eclipse.paho.client.mqttv3.internal.CommsReceiver.run(CommsReceiver.java:197)
+2020-04-15T14:37:03.067500361Z  at java.lang.Thread.run(Thread.java:748)
+2020-04-15T14:37:03.070894261Z Caused by: java.io.IOException: Connection is lost.
+2020-04-15T14:37:03.070929348Z  at org.eclipse.paho.client.mqttv3.internal.CommsReceiver.run(CommsReceiver.java:172)
+
+if I comment out the fix for issue 719 (https://github.com/eclipse/paho.mqtt.java/blob/8b572c635b63661b7cc371a4e0d8a536e831fcaa/org.eclipse.paho.client.mqttv3/src/main/java/org/eclipse/paho/client/mqttv3/internal/CommsReceiver.java#L170) then the clients connect without any failure
+
+
+
+Unfortunately I was not able to reproduce the issue in a simpler setup, I suspect that the issue is triggered by CPU overload as server CPU get close to 100% usage for several minutes after applicaitn restart in this scenario, as both consumer application and broker run on the same server
+
+My understanding of the issue is:
+
+1. paho creates TCP socket with 1000ms socket timeout (TCPNetworkModule.java)
+2. if socket timeout expires in readMqttWireMessage() then SocketTimeoutException is catched and return null message
+3. if socket timeout happens during initial connection (e.g. due to CPU overload) then the fix  for issue 719 causes connection termination, while without this fix connection completes normally.
+
+Basically the current fix for issue 719 re-use socket read timeout for the additional purpose of detecting a hung MQTT handshake, but if any other cause triggers a socket read timeout during connection this fix causes unneded disconnections. 
+A better solution would be to remove current fix and add a separate timeout to wait for reception of MQTT connection ack.
+
+ 
+
+@marcostorto 
+Thanks for providing detailed information from your test case. I will go thru the provided logs.
+
+Going thru your details, there is a possibility that your test server is overloaded and may not return acks before socket timeout in clients. I think your problem will be resolved if you increase connection timeout from 1000 ms (i.e. 1 second) to 60000 ms (60 seconds). 
+
+In our scale test environment, we have 100 paho client instances per JVM. And we load our server with about 1 million clients. Our server is different though. We use IBM MessageGateway broker in our scale test environment. We don't see any problem. 
+
+Anyway, please try with latest released client 1.2.3 and increase timeout from 1000 to 60000.
+Meanwhile, let me check again if we can rework fix for 719.
+
+
+The issue is not linked with connection timeout, TCP connection completes normally and paho sends MQTT connect packet.
+Issue is due to socket timeout, which is hard wired in paho code:
+https://github.com/eclipse/paho.mqtt.java/blob/55137d947418c4e0e74326eb9d080e5f1fd9a473/org.eclipse.paho.client.mqttv3/src/main/java/org/eclipse/paho/client/mqttv3/internal/TCPNetworkModule.java#L75
+
+Should I recompile a modified paho with longer timeout?  
+
+I think increasing timeout in setSoTimeout() may not be a good idea. But you can try if it helps in anyways. I am checking if fix for 719 can be improved.
+
+
+@marcostorto 
+So far I couldn't find anything wrong with fix for 719. We have tried with connection storm tests with large number of clients publishing messages and eventually all clients got connected successfully. The CPU usage on the IBM MessageGateway server 100%. 
+
+I don't know how verneMQ handles client connections, so can't comment on connection storm case or client connection in general on verneMQ, when server is over loaded. In MessageGateway, we have dedicated threads to process client connections so it scales well.
+
+I will revisit this again early next week, meanwhile I would suggest you to check with verneMQ if there is any configuration that can help in your use case.
+
+@marcostorto try setting `max_inflight_messages @rdasgupt this is not about a connect storm, I think. It's about delivering lots of on-disk messages to a few clients after they have reconnected.
+
+So you only test this open source client against a closed source broker? ;) You should check out VerneMQ, it's awesome :)
+
+
+@ioolkos 
+Thanks for following this issue and providing your comments.
+
+Though the use case @marcostorto is trying is not directly related to connection storm, but you can have the same problem with connection storm if server is overloaded due to processing connections. If server doesn't respond to initial connection before socket times out, the client will be in connect-disconnect loop. But eventually server should process all connections. In use case that @marcostorto is trying is about connection getting in connect-disconnect loop when server is too busy to process initial connection. 
+
+I haven't worked with VerneMQ yet. Probably I will spend some time to check that out (when I get some time).
+
+I'll try max_inflight_messages 
+Anyway I think the fix for 719 is not *wrong*, but it sets a fixed timeout of 1 second for connection handshake which is not enough in my application. What I think is needed is to have a configurable timeout for connection handshake, so that it can be set by library users.
+
+I'll try to prepare a PR for this, but I cannot commit on a hard timeline.
+
+ Add tests for disconnectForcibly
+ Signed-off-by: Ranjan-Dasgupta <Ranjan.Dasgupta@us.ibm.com>
+
+Please make sure that the following boxes are checked before submitting your Pull Request, thank you!
+
+- [X] This change is against the develop branch, **not** master.
+- [X] You have signed the [Eclipse ECA](https://wiki.eclipse.org/ECA)
+- [X] All of your commits have been signed-off with the correct email address (The same one that you used to sign the CLA) _Hint: use the -s argument when committing_.
+- [ ] If This PR fixes an issue, that you reference the issue below. OR if this is a new issue that you are fixing straight away that you add some Description about the bug and how this will fix it.
+- [ ] If this is new functionality, You have added the appropriate Unit tests.
+
+Add tests for issue #644 
+ MqttException: Unable to connect to server
+ - [X] Bug exists Release Version 1.2.2 ( Master Branch)
+- [ ] Bug exists in MQTTv3 Client on Snapshot Version 1.2.3-SNAPSHOT (Develop Branch)
+- [ ] Bug exists in MQTTv5 Client on Snapshot Version 1.2.3-SNAPSHOT (Develop Branch)
+
+Hello, I am trying to use Paho with TomCat server. While I am running the application locally, everything is fine, but once I deploy the app on the server (apache tomcat 8.0.48, jdk1.8.0_162) its not working. 
+
+Here are the logs:
+`11:47:52.406 [WEBSITE-startStop-7] INFO  com.APP.mqtt.MQTTConfig - Try to connect to tcp://m21.cloudmqtt.com:16952
+11:47:52.529 [WEBSITE-startStop-7] INFO  com.APP.mqtt.MQTTConfig - CONNECTING TO MQTT
+11:47:52.551 [WEBSITE-startStop-7] INFO  com.APP.mqtt.MQTTConfig - CONNECTED
+11:47:52.551 [WEBSITE-startStop-7] INFO  com.APP.mqtt.MQTTConfig - wait for completion reached
+11:47:54.617 [WEBSITE-startStop-7] ERROR com.APP.mqtt.MQTTConfig - ERROR(Connection)
+org.eclipse.paho.client.mqttv3.MqttException: Unable to connect to server
+ at org.eclipse.paho.client.mqttv3.internal.TCPNetworkModule.start(TCPNetworkModule.java:80)
+ at org.eclipse.paho.client.mqttv3.internal.ClientComms$ConnectBG.run(ClientComms.java:722)
+ at java.base/java.lang.Thread.run(Thread.java:844)
+Caused by: java.net.ConnectException: Connection refused (Connection refused)
+ at java.base/java.net.PlainSocketImpl.socketConnect(Native Method)
+ at java.base/java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:400)
+ at java.base/java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:243)
+ at java.base/java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:225)
+ at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:402)
+ at java.base/java.net.Socket.connect(Socket.java:591)
+ at org.eclipse.paho.client.mqttv3.internal.TCPNetworkModule.start(TCPNetworkModule.java:74)
+ ... 2 common frames omitted`
+
+Here is the code:
+
+void config(){
+        String brokerUrl = "tcp://" + this.broker + ":" + port;
+        logger.info("Try to connect to " + brokerUrl);
+        MqttConnectOptions connectionOptions = new MqttConnectOptions();
+        try {
+            this.mqttClient = new MqttAsyncClient(brokerUrl, clientId, new MemoryPersistence());
+            connectionOptions.setCleanSession(true);
+            connectionOptions.setAutomaticReconnect(true);
+            if (password != null) {
+                connectionOptions.setPassword(this.password.toCharArray());
+            }
+            if (userName != null) {
+                connectionOptions.setUserName(this.userName);
+            }
+            logger.info("CONNECTING TO MQTT");
+            IMqttToken token = this.mqttClient.connect(connectionOptions);
+            logger.info("CONNECTED");
+            logger.info("wait for completion reached");
+            token.waitForCompletion();
+            logger.info("CONNECTION DONE");
+            this.mqttClient.setCallback(this);
+        }
+		catch (Exception me) {
+            logger.error("ERROR(Connection)", me);
+        }
+    }
+
+Please help :(
+You are getting "Connection refused" error.
+This could be MQTT broker configuration issue (may be it is not allowing connection from a remote system) or the connection is getting blocked by firewall. 
+
+@rdasgupt thank you for the fast reply.
+We already tried with https://test.mosquitto.org/ broker and with mosquito running on the raspberry pi, same error. We even tried with the different tomcat hosting, but still the same error...
+
+ Fix conflicts in PR 596
+ Signed-off-by: Ranjan-Dasgupta <Ranjan.Dasgupta@us.ibm.com>
+
+Please make sure that the following boxes are checked before submitting your Pull Request, thank you!
+
+- [x] This change is against the develop branch, **not** master.
+- [x] You have signed the [Eclipse ECA](https://wiki.eclipse.org/ECA)
+- [x] All of your commits have been signed-off with the correct email address (The same one that you used to sign the CLA) _Hint: use the -s argument when committing_.
+- [x] If This PR fixes an issue, that you reference the issue below. OR if this is a new issue that you are fixing straight away that you add some Description about the bug and how this will fix it.
+- [ ] If this is new functionality, You have added the appropriate Unit tests.
+
+Issue #594 
+
+
+ DisconnectedMessageBuffer design polluting disk and making persisted message non-recoverable as long as client process is running
+ Please fill out the form below before submitting, thank you!
+
+- [x] Bug exists Release Version 1.2.2 ( Master Branch)
+
+Implementation of `public void sendNoWait(MqttWireMessage message, MqttToken token)` seems to have a basic flaw where invocation of `disconnectedMessageBuffer.putMessage` removes last message from in memory buffer in case deleteOldestMessages flag is set `bufferOpts.isDeleteOldestMessages() == true` 
+
+`public void putMessage(MqttWireMessage message, MqttToken token) throws MqttException {`
+		`BufferedMessage bufferedMessage = new BufferedMessage(message, token);`
+		`synchronized (bufLock) {`
+			`if (buffer.size() < bufferOpts.getBufferSize()) {`
+				`buffer.add(bufferedMessage);`
+			`} else if (bufferOpts.isDeleteOldestMessages() == true) {`
+				`buffer.remove(0);`
+				`buffer.add(bufferedMessage);`
+			`} else {`
+				`throw new MqttException(MqttException.REASON_CODE_DISCONNECTED_BUFFER_FULL);`
+			`}`
+		`}`
+	`}` 
+
+but the same message remains in persistence storage (in disk) and is never send for delivery as long as client is running. It seems to load such messages again one need to restart client (but this functionality is broken due to NullPointerException https://github.com/eclipse/paho.mqtt.java/issues/634).
+
+This message should either be removed from disk or made available for delivery. I think removal is better option as in-memory buffer is designed for same.
+
+
+
+
+Is anyone looking on this issue?
+
+@rajeshnailwal 
+Could you please try your test with the new service release 1.2.4?
+
+@rdasgupt I am trying to build but test case is stuck at some point every time for waiting for connection. However changes I saw are making some sense to me but I am still to verify it once build is created successfully
+
+Tests may take about 15 to 20 minutes to complete. Some of the tests (that try to connect to invalid host) may appear in hung state, but these tests should eventually timeout.
+
+This test case is stuck for 2 hours and do not complete -
+
+20200425 180533.870 *************************************************************
+20200425 180533.870 * ConnectionLossTest.testConnectionLossWhilePublishingQos1Async
+20200425 180533.870 *************************************************************
+20200425 180533.870 [CMPS Proxy] - Enabling Proxy
+20200425 180533.870 [CMPS Proxy] - Waiting for incoming connection..
+20200425 180533.870 Sat Apr 25 18:05:33 IST 2020 - Connecting...
+20200425 180533.870 [CMPS Proxy] - Client Opened Connection to Proxy...
+20200425 180535.893 ConnectionManipulationProxyServer cannot connect to localhost:1883
+20200425 180535.893 [CMPS Proxy] - Waiting for incoming connection..
+20200425 180535.893 [CMPS Proxy] - Client Opened Connection to Proxy...
+20200425 180537.917 ConnectionManipulationProxyServer cannot connect to localhost:1883
+20200425 180537.917 [CMPS Proxy] - Waiting for incoming connection..
+
+
+Are you trying to run tests with your changes in the repo?
+
+No, this is a fresh checkout of repo. I did not get chance to look into the test case. I am using gitbash to produce a maven build on windows.
+
+I will check on windows. Meanwhile if you need 1.2.4 library to try your application, you can use -DskipTests flag to bypass tests.
+
+ Add more tests for connect disconnect tests for Async client
+ Please make sure that the following boxes are checked before submitting your Pull Request, thank you!
+
+- [x] This change is against the develop branch, **not** master.
+- [x] You have signed the [Eclipse ECA](https://wiki.eclipse.org/ECA)
+- [x] All of your commits have been signed-off with the correct email address (The same one that you used to sign the CLA) _Hint: use the -s argument when committing_.
+- [ ] If This PR fixes an issue, that you reference the issue below. OR if this is a new issue that you are fixing straight away that you add some Description about the bug and how this will fix it.
+- [ ] If this is new functionality, You have added the appropriate Unit tests.
+
+This PR adds tests for fix proposed by PR #727 
+ NullPointerException in MqttCallbackExtended
+ Gist: https://gist.github.com/Turbozanik/bacc394cca10430e189bbf5e379abaf0
+
+Problem description:
+NullPointerException in line 144 after creating new AndroidMqttClient.
+Hotfix: We have added 0.5 second delay before and after calling init method.
+
+We have an IoT application, that is receiving mqtt server ip and mac over mdns. So we have to recreate AndroidMqttClient every time we are receiving new data(for example user has changed his router and the mqtt server ip has been updated).
+You can see this code in line 183.
+To create new AndroidMqttClient and reset all it callbacks we are executing init() method.(line 183)
+And any action we do after that will result in NPE in line 144.
+
+Maybe you can explain why does this library behave like this? And maybe some approaches how can I fix this without 0.5 second workaround?
+
+Atomics were added for testing purposes.
+@Turbozanik 
+This issue belongs in Android repo. Could you please open this issue in:
+https://github.com/eclipse/paho.mqtt.android/issues
+
+And close this issue please.
+
+ how to check E2E  delivery?
+ Deliverycomplete();  callback method return when delivery  is complete from Publisher side. I'm wondering if there is   any callback method to check  the delivery  from Subscriber side.
+
+@eliot9876 See my comments in #755 
+Since both #755 and #756 is for the same issue, I would suggest you to close this issue.
+
+
+see  #755
+
+
+ deliverycomplete();  not triggered?
+ I'm using the release 1.2.1,  when I'm implementing th MQTTCallBack methods in my subscriber I'm notcing that only the messagearrived() method is triggered but not the deliverycomplete();
+It's worth the mention that on my mosquitto logs  it seems that the server is sending PUBReland PUBCOMP
+
+The deliverycomplete() is triggered in a publisher application. This method is not triggered in a subscriber application.
+
+@rdasgupt  Thanks fro your response!!
+I was running some tests and I noticed this,  but how to  check the delivery is complete from the subscriber side. Thanks in advance as I need this information for some measurement
+
+@rdasgupt the deliverycomplete(); from the publisher side will give information from the publisher until the broker I'm more interested in the  E2E  delivery.
+
+I think what you are looking for is like a request-response pattern in MQTT. Publisher publishes a message and publisher wants to make sure that the message is delivered to the subscriber. 
+
+MQTT v3 didn't have any spec for request-response whereas MQTT v5 does support request-response pattern. Refer to the following document (bullet 7) for details:
+
+https://github.com/mqtt/mqtt.github.io/wiki/Differences-between-3.1.1-and-5.0
+
+Paho MQTT java client version 1.2.2 conforms to MQTT v3 specs. In this version you can design your own request-response pattern. Subscriber can publish a message with some unique message ID (set by the publisher of the message) on a topic (say receivedMessage). Publisher can subscribe to the topic and co-relate ID to mark pub-sub complete.
+
+Development and test work for MQTT v5 compliant client is still going on. This will be released soon. You can try development branch "vertx". 
+
+
+@eliot9876 
+If you have got answer to your question, please close this issue.
+
+@eliot9876 
+I am closing this issue. If you didn't get your answer or need more information, please reopen the issue with your comments.
+
+ Significant increase of CPU usage after 1.2.0 to 1.2.1 update
+ Please fill out the form below before submitting, thank you!
+
+- [X ] Bug exists Release Version 1.2.2 ( Master Branch)
+- [?] Bug exists in MQTTv3 Client on Snapshot Version 1.2.3-SNAPSHOT (Develop Branch)
+- [?] Bug exists in MQTTv5 Client on Snapshot Version 1.2.3-SNAPSHOT (Develop Branch)
+
+This bug did not exist in Release Version 1.2.0.
+
+---
+
+I observe a significant increase of the CPU usage after upgrading the paho driver from version 1.2.0 to 1.2.1. 
+
+**Initial Situation**
+
+The observations are made in a system with Java applications that publish and subscribe messages with a rate of about 1200 msg/sec. 
+The application setup looks like this:
+
+* a Spring Boot 2.2.4 application which runs in 16 instances
+  * these instances are MQTT-Publisher
+  * the overall rate of published messages is about 1200/sec
+* a Spring Boot 2.2.4 application which runs in 5 instances
+  * these instances are MQTT Subscriber
+  * together they subscribe all published messages
+  * messages are persited in a MongoDB
+* a Spring Boot 2.2.4 application instance that runs in 1 instance
+  * that is a subscriber but gets no messages in the test setup
+
+The applications are build with Java 11 (which is also used as runtime).
+The 'G1' Garbage Collector is used without any special configuration.
+
+The hardware used to run all application instances is
+* one single linux machine with
+* MemTotal: 12,137,840 kB
+* 3 processors with 2 cpu cores each
+
+The MQTT Broker (HiveMQ 3.3.4) and MongoDB (3.4.24) are installed on different machines.
+
+**Using paho 1.2.1 (or 1.2.2)**
+
+If the applications use version 1.2.1 (or 1.2.2) of the paho Java driver an extreme utilization of the system ressource (especially CPU) can be observed.
+The following screenshot of the top command illustrates the load:
+
+![grafik](https://user-images.githubusercontent.com/1521569/74927519-0cbd5f00-53d8-11ea-8a04-eadf6c245070.png)
+
+The load average is about 45!
+
+Maybe this is becaus of heavy Garbage Collecting.
+The GC-log of one example process is like this:
+
+```
+[2020-02-20T09:15:00.590+0000] GC(1348) Pause Full (System.gc()) 134M->16M(256M) 569.747ms
+[2020-02-20T09:15:03.123+0000] GC(1349) Pause Young (Normal) (G1 Evacuation Pause) 169M->16M(256M) 6.368ms
+[2020-02-20T09:15:06.221+0000] GC(1350) Pause Young (Normal) (G1 Evacuation Pause) 168M->16M(256M) 5.140ms
+[2020-02-20T09:15:08.918+0000] GC(1351) Pause Young (Normal) (G1 Evacuation Pause) 168M->16M(256M) 7.980ms
+[2020-02-20T09:15:11.823+0000] GC(1352) Pause Young (Normal) (G1 Evacuation Pause) 168M->16M(256M) 2.535ms
+[2020-02-20T09:15:14.998+0000] GC(1353) Pause Young (Normal) (G1 Evacuation Pause) 168M->16M(256M) 3.370ms
+```
+
+**Using paho 1.2.0**
+
+The average load of the system when using the paho client 1.2.0 in all applications is much nicer:
+
+![grafik](https://user-images.githubusercontent.com/1521569/74927567-29f22d80-53d8-11ea-9f85-9e3d272626cd.png)
+
+The average load is about 1.3 and also Garbage collecting does not take that long:
+
+```
+[2020-02-20T10:45:00.545+0000] GC(1614) Pause Full (System.gc()) 43M->17M(256M) 537.494ms
+[2020-02-20T10:45:03.061+0000] GC(1615) Pause Young (Normal) (G1 Evacuation Pause) 170M->17M(256M) 1.849ms
+[2020-02-20T10:45:06.048+0000] GC(1616) Pause Young (Normal) (G1 Evacuation Pause) 169M->17M(256M) 1.602ms
+[2020-02-20T10:45:08.889+0000] GC(1617) Pause Young (Normal) (G1 Evacuation Pause) 169M->17M(256M) 1.418ms
+[2020-02-20T10:45:11.678+0000] GC(1618) Pause Young (Normal) (G1 Evacuation Pause) 169M->17M(256M) 1.628ms
+[2020-02-20T10:45:14.540+0000] GC(1619) Pause Young (Normal) (G1 Evacuation Pause) 169M->17M(256M) 2.673ms
+```
+**Conclusions**
+
+The update of the paho java client from version 1.2.0 to 1.2.1 has a major impact on the performance of our overall system. 
+Therefore we are not able to migrate to a current paho version, although relevant bug fixes have been applied.
+
+Why the system behaves this way with the new paho version could not be clarified at this point. 
+It would be great if there was a solution for our problem.
+
+Otherwise the upgrade path will be blocked for us.
+
+We found that with 1.2.2 the tcpNoDelay state was changed from true to false. This caused our app (1k-10K msg / s dos 
+@markroos Thanks for finding the root cause of the problem. We will evaluate this and fix the code accordingly.
+
+@markroos That is interesting but I observed the CPU usage increase when migrating from 1.2.0 to 1.2.1. Not sure if this here is the same issue that you were able to fix when migration code parts back to 1.2.1. Nevertheless thanks for your investigantion.
+
+Our transition went from 1.2.0 directly to 1.2.3 so I have no data on 1.2.1.  At the same time we went from qos
+ Fix for topic match issue #718
+ Please make sure that the following boxes are checked before submitting your Pull Request, thank you!
+
+- [X] This change is against the develop branch, **not** master.
+- [X] You have signed the [Eclipse ECA](https://wiki.eclipse.org/ECA)
+- [X] All of your commits have been signed-off with the correct email address (The same one that you used to sign the CLA) _Hint: use the -s argument when committing_.
+- [X] If This PR fixes an issue, that you reference the issue below. OR if this is a new issue that you are fixing straight away that you add some Description about the bug and how this will fix it.
+- [ ] If this is new functionality, You have added the appropriate Unit tests.
+
+Fix for issue #718 
+
+Adding more tests to test the fix.
+
+ Topic match fix 
+ Please make sure that the following boxes are checked before submitting your Pull Request, thank you!
+
+- [X] This change is against the develop branch, **not** master.
+- [X] You have signed the [Eclipse ECA](https://wiki.eclipse.org/ECA)
+- [X] All of your commits have been signed-off with the correct email address (The same one that you used to sign the CLA) _Hint: use the -s argument when committing_.
+- [X] If This PR fixes an issue, that you reference the issue below. OR if this is a new issue that you are fixing straight away that you add some Description about the bug and how this will fix it.
+- [ ] If this is new functionality, You have added the appropriate Unit tests.
+
+Fix for issue #718 
+
+Updated topic match test cases to test the fix.
+
+Looks like some of the fixes by Ian got pulled into this PR. Closing this PR. I will open another one to make sure that all checks are passed.
+
+ Add "connected" support to MqttCallback
+ - [ ] Bug exists Release Version 1.2.2 ( Master Branch)
+
+If I want to subscribe some topics on connected everytime, then I can't use reconnect feature , because the connected action callback will not be called when reconnected.
+
+@xiemeilong 
+You can use MqttCallbackExtended()
+https://www.eclipse.org/paho/files/javadoc/org/eclipse/paho/client/mqttv3/MqttCallbackExtended.html
+This callback is invoked when connection to the server is completed successfully.
+
+void connectComplete(boolean reconnect, java.lang.String serverURI)
+reconnect - If true, the connection was the result of automatic reconnect.
+
+This callback will work for both if you are using automatic reconnect, or reconnecting using reconnect() method.
+
+
+
+ Fix for Topic match #718, intermittent test failures, additional test cases for topic match
+ Signed-off-by: Ranjan-Dasgupta <Ranjan.Dasgupta@us.ibm.com>
+
+Please make sure that the following boxes are checked before submitting your Pull Request, thank you!
+
+- [X] This change is against the develop branch, **not** master.
+- [X] You have signed the [Eclipse ECA](https://wiki.eclipse.org/ECA)
+- [X] All of your commits have been signed-off with the correct email address (The same one that you used to sign the CLA) _Hint: use the -s argument when committing_.
+- [X] If This PR fixes an issue, that you reference the issue below. OR if this is a new issue that you are fixing straight away that you add some Description about the bug and how this will fix it.
+- [ ] If this is new functionality, You have added the appropriate Unit tests.
+
+Fix #718 
+Added more tests for Topic match
+Fix intermittent test failure specially when build and test invoked on local system.
+
+Need to work on test failures. Closing this PR. I will open a new PR when the test failures are handled correctly.
+
+ [Question] How to get detailed reason code for disconnection or failure? 
+ Please fill out the form below before submitting, thank you!
+
+- [ ] Bug exists Release Version 1.2.2 ( Master Branch)
+- [ ] Bug exists in MQTTv3 Client on Snapshot Version 1.2.3-SNAPSHOT (Develop Branch)
+- [ ] Bug exists in MQTTv5 Client on Snapshot Version 1.2.3-SNAPSHOT (Develop Branch)
+
+If this is a bug regarding the Android Service, please raise the bug here instead: https://github.com/eclipse/paho.mqtt.android/issues/new
+
+Hi, 
+
+I am using library to connect to various cloud provider.
+
+I am using debug library to get MQTT log and also java net logging for detailed message communication. 
+
+**But for end user it's really difficult to analyse and understand MQTT logs or network logs.**
+
+Is there any way to capture actual error reason for the disconnection (For example DUPLICATE_CLIENT_ID or AUTHENTICATION_FAILURE etc) when connection lost or publish failed with bellow callback?
+
+```
+@Override
+public void connectionLost(Throwable cause) {
+//Returns 32109
+System.log.println(cause);
+}
+```
+
+@iAmSKU 
+You can get associated message with the exception:
+System.out.printf(String.format("Connection to Server is lost: %s.\n", cause.getMessage()));
+
+Paho client v1.2.x supports MQTT v3. Some of the messages (in this version) associated with an exception are easy to understand. For example:
+**Timed out waiting for a response from the server.**
+**Not authorized to connect**
+But it may be difficult to know the root cause from some of the exception message. For example:
+**Connection lost.**
+
+If both MQTT client and broker are MQTT v5 compliant, you can get errors returned by the server. For example duplicate client ID. 
+
+Paho client compliant to MQTT v5 is not released yet. Development and test work is in progress. However, you can build and try this version:
+https://github.com/clipse/paho.mqtt.java/tree/master/org.eclipse.paho.mqttv5.client
+You can use "test.mosquitto.org" broker, to try MQTT v5 features.
+
+Thanks @rdasgupt.
+
+I have tested my code with changes its perfectly working fine... 
+
+I will work on MQTTv5 solution... 
+
+Thanks again for your valuable response. 
+
+ Change MQTTException to IOException for client diconnected state
+ Please make sure that the following boxes are checked before submitting your Pull Request, thank you!
+
+- [X] This change is against the develop branch, **not** master.
+- [X] You have signed the [Eclipse ECA](https://wiki.eclipse.org/ECA)
+- [X] All of your commits have been signed-off with the correct email address (The same one that you used to sign the CLA) _Hint: use the -s argument when committing_.
+- [ ] If This PR fixes an issue, that you reference the issue below. OR if this is a new issue that you are fixing straight away that you add some Description about the bug and how this will fix it.
+- [ ] If this is new functionality, You have added the appropriate Unit tests.
+
+This PR fixes intermittent test failure caused by #736 
+
+Running the tests on my local machine, this PR didn't make any difference.  I'll merge it and see if it makes any difference to the Travis tests.
+
+ close() v.s. unregisterResources() - OutOfMemory Exception
+ - [x] Bug exists Release Version 1.2.2 ( Master Branch)
+- [ ] Bug exists in MQTTv3 Client on Snapshot Version 1.2.3-SNAPSHOT (Develop Branch)
+- [ ] Bug exists in MQTTv5 Client on Snapshot Version 1.2.3-SNAPSHOT (Develop Branch)
+
+Whenever I encounter an error in the paho MQTT client, I attempt a reconnect 60 seconds later:
+
+```
+override fun connectionLost(cause: Throwable) {
+    LOG.e("Connection Lost :: $cause")
+    cleanupClient()
+    retry { connect() }
+}
+
+private fun cleanupClient(){
+    try {
+        for (i in topicList.indices) {
+            client!!.unsubscribe(topicList[i])
+        }
+        client!!.close()
+        client = null
+    } catch (e: Exception) {
+        LOG.e("Could not clean up!", e)
+    }
+}
+
+fun retry(cb: () -> Unit){
+    handler.removeCallbacksAndMessages(null)
+    handler.postDelayed({
+        cb()
+    }, 60000)
+}
+```
+So if the app is sitting without internet, it will continuously attempt to reconnect until it finally does. The issue is that after a few hundred attempts (a couple hours), the app crashed with an Out of Memory Issue:
+
+> java.lang.OutOfMemoryError: OutOfMemoryError thrown while trying to throw OutOfMemoryError; no stack available
+
+I only have 2 class-global variables, my handler and my MqttAndroidClient:
+
+```
+private var client: MqttAndroidClient? = null
+
+// For retries
+val handler = Handler()
+```
+
+And of those, only the client is ever re-assigned a value. My understanding is that in the clean up function, because I close and null out the client, the JVM should clean up my resources. The documentation for client.close():
+
+> Close the client. Releases all resource associated with the client. After the client has been closed it cannot be reused. For instance attempts to connect will fail.
+
+There is also another function called unregisterResources()
+
+> Unregister receiver which receives intent from MqttService avoids IntentReceiver leaks.
+
+It seems to me that only client.close() needs to be called, but I'm unsure if this will cause other issues.
+
+And if there is anything else that you would suggest that I look at, I would love your advice!
+
+I cross posted this from the android page because there hasn't been a response on the android forum since November. I hope that is alright, and thank you for your help in advance!
+Retried the test using both and the memory just keeps piling up. Neither is properly freeing resources. I have implemented paho's auto-reconnect feature that should solve this, but it only works if the first connection is successful. Subsequent connections still cause me to re-create the client.
+
+Somewhere internally in the client, there is a memory leak. So re-creating the client each time there is an issue will eventually cause your app to crash, regardless of if you use close. 
+
+When I built the app this way, I went off of this answer on SO(https://stackoverflow.com/questions/33735090/java-eclipse-paho-implementation-auto-reconnect). This is now outdated. Instead, use the reconnect callback:
+
+`
+conOpt.isAutomaticReconnect = true
+`
+implement MqttCallbackExtended on your class:
+```
+class NotificationService : Service(), MqttCallbackExtended {
+```
+
+And then implement connectComplete()
+override fun connectComplete(unusedArg1: Boolean, unusedArg2: String?) {
+       
+```
+LOG.i("Connection completed!")
+        try{
+            subscribe()
+        } catch(e: java.lang.Exception){
+            LOG.e("Unable to re-subscribe", e)
+        }
+    }
+```
+
+
+@Ryanauger95 
+I suggest you to open this issue in https://github.com/eclipse/paho.mqtt.android to get any comment/attention, because you are encountering memory leak in Paho Andoid client.
+After opening the issue in paho.mqtt.android, close this issue please.
+
+
+@rdasgupt I was hoping someone on this team had worked on the android version. There hasn't been a response in a few months on that forum.
+
+ Fix #640 Use same time units in time computations
+ Additional I slightly changed some variable names to include time unit
+so to improve maintainability.
+
+Signed-off-by: maxp <maxpag@gmail.com>
+
+Please make sure that the following boxes are checked before submitting your Pull Request, thank you!
+
+- [x] This change is against the develop branch, **not** master.
+- [x] You have signed the [Eclipse ECA](https://wiki.eclipse.org/ECA)
+- [x] All of your commits have been signed-off with the correct email address (The same one that you used to sign the CLA) _Hint: use the -s argument when committing_.
+- [x] If This PR fixes an issue, that you reference the issue below. OR if this is a new issue that you are fixing straight away that you add some Description about the bug and how this will fix it.
+- [ ] If this is new functionality, You have added the appropriate Unit tests.
+

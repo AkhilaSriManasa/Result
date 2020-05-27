@@ -1,0 +1,1575 @@
+﻿ Fix support for older CMake
+ I used `add_compile_definitions()` in #515, which is CMake 3.12+ only. (Oops.) Switch to `add_definitions()` which has been supported since the dawn of time.
+# [Codecov](https://codecov.io/gh/OpenShot/libopenshot/pull/517?src> Merging [#517](https://codecov.io/gh/OpenShot/libopenshot/pull/517?src=pr&el=desc) into [develop](https://codecov.io/gh/OpenShot/libopenshot/commit/25ca2d0dd83e9a0ecc961df8b2fa87a69ba2cd36&el=desc) will **increase** coverage by `0.04%`.
+> The diff coverage is `n/a`.
+
+[![Impacted file tree graph](https://codecov.io/gh/OpenShot/libopenshot/pull/517/graphs/tree.svg?width=650&height=150&src=pr&token=vTQfyqYjOp)](https://codecov.io/gh/OpenShot/libopenshot/pull/517?src=pr&el=tree)
+
+```diff
+@@             Coverage Diff             @@
+##           develop     #517      +/-   ##
+===========================================
++ Coverage    48.23%   48.28%   +0.04%     
+===========================================
+  Files          128      128              
+  Lines         9949    10132     +183     
+===========================================
++ Hits          4799     4892      +93     
+- Misses        5150     5240      +90     
+```
+
+
+| [Impacted Files](https://codecov.io/gh/OpenShot/libopenshot/pull/517?src=pr&el=tree) | Coverage Δ | |
+|---|---|---|
+| [src/FFmpegReader.cpp](https://codecov.io/gh/OpenShot/libopenshot/pull/517/diff?src=pr&el=tree#diff-c3JjL0ZGbXBlZ1JlYWRlci5jcHA=) | `68.79% <0.00%> (+0.46%)` | :arrow_up: |
+| [src/Clip.cpp](https://codecov.io/gh/OpenShot/libopenshot/pull/517/diff?src=pr&el=tree#diff-c3JjL0NsaXAuY3Bw) | `41.25% <0.00%> (+1.49%)` | :arrow_up: |
+| [src/QtImageReader.cpp](https://codecov.io/gh/OpenShot/libopenshot/pull/517/diff?src=pr&el=tree#diff-c3JjL1F0SW1hZ2VSZWFkZXIuY3Bw) | `61.32% <0.00%> (+4.71%)` | :arrow_up: |
+
+------
+
+[Continue to review full report at Codecov](https://codecov.io/gh/OpenShot/libopenshot/pull/517?src=pr&el=continue).
+> **Legend** - [Click here to learn more](https://docs.codecov.io/docs/codecov-delta)
+> `Δ = absolute <relative> (impact)`, `ø = not affected`, `? = missing data`
+> Powered by [Codecov](https://codecov.io/gh/OpenShot/libopenshot/pull/517?src=pr&el=footer). Last update [25ca2d0...128bacc](https://codecov.io/gh/OpenShot/libopenshot/pull/517?src=pr&el=lastupdated). Read the [comment docs](https://docs.codecov.io/docs/pull-request-comments).
+
+
+\*sigh\* NOPE. It seems I broke Travis again, somehow. :angry: 
+
+@jonoomph I don't know what happened here, but if you're able to either unfuck Travis or forcibly merge this, that'd be a help. I'm guessing at least one of the Gitlab builders is currently breaking on the CMake 3.12 command I accidentally merged into the repo (and now can't fix).
+
+@jonoomph This change, BTW, was made for the Debian folks, in hopes of getting a newer version of OpenShot finally packaged into their repos. See #515, OpenShot/libopenshot-audio#97, and most of all the Debian bug I linked to from those, for all the gory details.
+
+ Fix support for older CMake
+ I used `add_compile_definitions()` in #515, which is CMake 3.12+ only. (Oops.) Switch to `add_definitions()` which has been supported since the dawn of time.
+# [Codecov](https://codecov.io/gh/OpenShot/libopenshot/pull/516?src> Merging [#516](https://codecov.io/gh/OpenShot/libopenshot/pull/516?src=pr&el=desc) into [develop](https://codecov.io/gh/OpenShot/libopenshot/commit/affd4b248898a2958300a08697919e347d75aee0&el=desc) will **not change** coverage.
+> The diff coverage is `n/a`.
+
+[![Impacted file tree graph](https://codecov.io/gh/OpenShot/libopenshot/pull/516/graphs/tree.svg?width=650&height=150&src=pr&token=vTQfyqYjOp)](https://codecov.io/gh/OpenShot/libopenshot/pull/516?src=pr&el=tree)
+
+```diff
+@@           Coverage Diff            @@
+##           develop     #516   +/-   ##
+========================================
+  Coverage    48.23%   48.23%           
+========================================
+  Files          128      128           
+  Lines         9949     9949           
+========================================
+  Hits          4799     4799           
+  Misses        5150     5150           
+```
+
+
+
+------
+
+[Continue to review full report at Codecov](https://codecov.io/gh/OpenShot/libopenshot/pull/516?src=pr&el=continue).
+> **Legend** - [Click here to learn more](https://docs.codecov.io/docs/codecov-delta)
+> `Δ = absolute <relative> (impact)`, `ø = not affected`, `? = missing data`
+> Powered by [Codecov](https://codecov.io/gh/OpenShot/libopenshot/pull/516?src=pr&el=footer). Last update [affd4b2...dc49379](https://codecov.io/gh/OpenShot/libopenshot/pull/516?src=pr&el=lastupdated). Read the [comment docs](https://docs.codecov.io/docs/pull-request-comments).
+
+
+Travis seems to be permanently out to lunch here, I think perhaps because I submitted this PR using the same branch as the one I'd **just** merged. Closing and trying with a new branch.
+
+ Enable building with a libopenshot-audio that's based on non-bundled JUCE
+ This is the companion PR to OpenShot/libopenshot-audio#97, and contains the fixes necessary in libopenshot's build to ensure that it works with a libopenshot-audio that wasn't built from our bundled JUCE sources.
+
+(See that PR, as well as [Debian bug 925755](https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=925755), for background.)
+
+In addition:
+* Added some overlooked `juce::` prefixing, in places the unit tests don't touch (so it's not technically critical)
+* Replaced our one use of `juce::ScopedPointer` (which is [deprecated](https://juce.com/discover/stories/coding-standards#object-lifetime-and-ownership)) with the recommended `std::unique_ptr` replacement.
+# [Codecov](https://codecov.io/gh/OpenShot/libopenshot/pull/515?src> Merging [#515](https://codecov.io/gh/OpenShot/libopenshot/pull/515?src=pr&el=desc) into [develop](https://codecov.io/gh/OpenShot/libopenshot/commit/9922479945def383d7d425242ee8de8b519456c0&el=desc) will **increase** coverage by `0.00%`.
+> The diff coverage is `0.00%`.
+
+[![Impacted file tree graph](https://codecov.io/gh/OpenShot/libopenshot/pull/515/graphs/tree.svg?width=650&height=150&src=pr&token=vTQfyqYjOp)](https://codecov.io/gh/OpenShot/libopenshot/pull/515?src=pr&el=tree)
+
+```diff
+@@           Coverage Diff            @@
+##           develop     #515   +/-   ##
+========================================
+  Coverage    48.23%   48.23%           
+========================================
+  Files          128      128           
+  Lines         9950     9949    -1     
+========================================
+  Hits          4799     4799           
++ Misses        5151     5150    -1     
+```
+
+
+| [Impacted Files](https://codecov.io/gh/OpenShot/libopenshot/pull/515?src=pr&el=tree) | Coverage Δ | |
+|---|---|---|
+| [include/Qt/AudioPlaybackThread.h](https://codecov.io/gh/OpenShot/libopenshot/pull/515/diff?src=pr&el=tree#diff-aW5jbHVkZS9RdC9BdWRpb1BsYXliYWNrVGhyZWFkLmg=) | `0.00% <ø> (ø)` | |
+| [src/Frame.cpp](https://codecov.io/gh/OpenShot/libopenshot/pull/515/diff?src=pr&el=tree#diff-c3JjL0ZyYW1lLmNwcA==) | `46.54% <0.00%> (+0.10%)` | :arrow_up: |
+
+------
+
+[Continue to review full report at Codecov](https://codecov.io/gh/OpenShot/libopenshot/pull/515?src=pr&el=continue).
+> **Legend** - [Click here to learn more](https://docs.codecov.io/docs/codecov-delta)
+> `Δ = absolute <relative> (impact)`, `ø = not affected`, `? = missing data`
+> Powered by [Codecov](https://codecov.io/gh/OpenShot/libopenshot/pull/515?src=pr&el=footer). Last update [9922479...affd4b2](https://codecov.io/gh/OpenShot/libopenshot/pull/515?src=pr&el=lastupdated). Read the [comment docs](https://docs.codecov.io/docs/pull-request-comments).
+
+
+Merging this, as it's fine with the current libopenshot-audio source, but the build will start breaking if OpenShot/libopenshot-audio#97 is merged before it.
+
+ Undefined reference to VTABLE
+ I am having linker errors while building `libopenshot` with `cmake`.  It may be related to the SLOT/SIGNAL connection between `VideoRenderer` and `VideoRenderWidget`. 
+
+How do I resolve this problem?
+
+```
+/Volumes/Vibranium/Workspace/projects/vmapp/libopenshot/src/Qt/PlayerDemo.cpp:0: error: undefined reference to 'vtable for PlayerDemo'
+/Volumes/Vibranium/Users/damilare/Library/Android/sdk/ndk-bundle/toolchains/llvm/prebuilt/darwin-x86_64/lib/gcc/arm-linux-androideabi/4.9.x/../../../../arm-linux-androideabi/bin/ld: the vtable symbol may be undefined because the class is missing its key function
+/Volumes/Vibranium/Workspace/projects/vmapp/libopenshot/src/Qt/VideoRenderer.cpp:0: error: undefined reference to 'vtable for VideoRenderer'
+/Volumes/Vibranium/Users/damilare/Library/Android/sdk/ndk-bundle/toolchains/llvm/prebuilt/darwin-x86_64/lib/gcc/arm-linux-androideabi/4.9.x/../../../../arm-linux-androideabi/bin/ld: the vtable symbol may be undefined because the class is missing its key function
+/Volumes/Vibranium/Workspace/projects/vmapp/libopenshot/src/Qt/VideoRenderWidget.cpp:0: error: undefined reference to 'vtable for VideoRenderWidget'
+/Volumes/Vibranium/Users/damilare/Library/Android/sdk/ndk-bundle/toolchains/llvm/prebuilt/darwin-x86_64/lib/gcc/arm-linux-androideabi/4.9.x/../../../../arm-linux-androideabi/bin/ld: the vtable symbol may be undefined because the class is missing its key function
+/Volumes/Vibranium/Workspace/projects/vmapp/libopenshot/src/Qt/VideoRenderWidget.cpp:0: error: undefined reference to 'vtable for VideoRenderWidget'
+/Volumes/Vibranium/Users/damilare/Library/Android/sdk/ndk-bundle/toolchains/llvm/prebuilt/darwin-x86_64/lib/gcc/arm-linux-androideabi/4.9.x/../../../../arm-linux-androideabi/bin/ld: the vtable symbol may be undefined because the class is missing its key function
+clang++: error: linker command failed with exit code 1 (use -v to see invocation)
+make[2]: *** [android-build/libs/armeabi-v7a/libopenshot_armeabi-v7a.so] Error 1
+make[1]: *** [libopenshot/src/CMakeFiles/openshot.dir/all] Error 2
+make: *** [all] Error 2
+06:10:13: The process "/usr/local/Cellar/cmake/3.17.2/bin/cmake" exited with code 2.
+Error while building/deploying project vmapp (kit: Android for armeabi-v7a,arm64-v8a,x86,x86_64 (Clang Qt 5.14.2 for Android))
+When executing step "CMake Build"
+```
+
+
+Fixed. Error was due to invalid path to header files for Qt dependent sources
+
+ Set clip in constructor to resolve scale crop issue
+ This fix resolves issue: #419 
+
+Clips are scale cropped in two places FFmpegReader.cpp and in Timeline.cpp:556.
+
+FFmpegReader calculates the wrong size for scale with crop. It is because Timeline doesn't set clip for FFmpegReader (and for all readers) so FFmpegReader doesn't now anything about SCALE_CROP, because it is a property of Clip.
+
+And in FFmpegReader in line 1396 (in the last version) Clip *parent = (Clip *) GetClip();
+
+We get parent = NULL and so it doesn't check scale property and calculate sizes using default formulas which are incorrect for SCALE_CROP case (and may be for SCALE_FIT and SCALE_STRETCH too).
+
+I'll post some before and after screen-grabs just now but this change fixes the issue with 1:1 video scaling/cropping.
+# [Codecov](https://codecov.io/gh/OpenShot/libopenshot/pull/513?src> Merging [#513](https://codecov.io/gh/OpenShot/libopenshot/pull/513?src=pr&el=desc) into [develop](https://codecov.io/gh/OpenShot/libopenshot/commit/6e7ad2316b56f6219e67b83e37ed43b5315544ce&el=desc) will **decrease** coverage by `0.00%`.
+> The diff coverage is `0.00%`.
+
+[![Impacted file tree graph](https://codecov.io/gh/OpenShot/libopenshot/pull/513/graphs/tree.svg?width=650&height=150&src=pr&token=vTQfyqYjOp)](https://codecov.io/gh/OpenShot/libopenshot/pull/513?src=pr&el=tree)
+
+```diff
+@@             Coverage Diff             @@
+##           develop     #513      +/-   ##
+===========================================
+- Coverage    48.25%   48.24%   -0.01%     
+===========================================
+  Files          128      128              
+  Lines         9954     9956       +2     
+===========================================
+  Hits          4803     4803              
+- Misses        5151     5153       +2     
+```
+
+
+| [Impacted Files](https://codecov.io/gh/OpenShot/libopenshot/pull/513?src=pr&el=tree) | Coverage Δ | |
+|---|---|---|
+| [src/Clip.cpp](https://codecov.io/gh/OpenShot/libopenshot/pull/513/diff?src=pr&el=tree#diff-c3JjL0NsaXAuY3Bw) | `39.60% <0.00%> (-0.16%)` | :arrow_down: |
+
+------
+
+[Continue to review full report at Codecov](https://codecov.io/gh/OpenShot/libopenshot/pull/513?src=pr&el=continue).
+> **Legend** - [Click here to learn more](https://docs.codecov.io/docs/codecov-delta)
+> `Δ = absolute <relative> (impact)`, `ø = not affected`, `? = missing data`
+> Powered by [Codecov](https://codecov.io/gh/OpenShot/libopenshot/pull/513?src=pr&el=footer). Last update [6e7ad23...4e6c181](https://codecov.io/gh/OpenShot/libopenshot/pull/513?src=pr&el=lastupdated). Read the [comment docs](https://docs.codecov.io/docs/pull-request-comments).
+
+
+Here is  before and after example.
+
+You can clearly see the vertical lines of the trees in the before example are pixelated and have a 'wavey' kind of effects going on. The after example is crisp and sharp.
+
+Before: https://shillitto.s3-ap-southeast-2.amazonaws.com/openshot/before.mp4
+After: https://shillitto.s3-ap-southeast-2.amazonaws.com/openshot/after.mp4
+
+
+Hmm. My only major concern with this, on first glance, would be all of the times OpenShot (and possibly libopenshot too) does something like this:
+```python
+f = File(somepath)
+throwaway = Clip(somepath)
+dostuffwith(throwaway.Reader())
+```
+
+
+Which leaves me concerned that we could end up with reader data that references nonexistent clips, because the reader's parent was disposed of. I'm not SURE it's a problem, it's just my worry.
+
+... Though I suppose at least in OpenShot, since the parent ref is a pointer it likely wouldn't be exposed from the Python bindings. So this may not be any kind of issue really.
+
+Great catch, though! Something's definitely out of whack, there. If setting the parent fixes it, and no other issues turn up, maybe we just do that. Clean & simple.
+
+Looking at that part of the code, though, I have to wonder how scaling everything **TWICE** can actually be any sort of performance improvement (as the comments there claim).
+
+I get that it's intended to keep memory consumption and cache sizes down, but the fact remains that we're scaling INPUT data that's very likely just going to be scaled again for OUTPUT. And as you discovered, we're doing it indiscriminately, even in situations where we can't tell whether it makes sense or not — which is also hurting quality. Dubious benefits there, if you ask me.
+
+Now I'm really curious to see what a libopenshot build that removed all that **input** scaling would look like, memory/performance-wise.
+
+It seems that it changes nothing in openshot-qt Export.
+
+> Here is before and after example.
+> 
+> You can clearly see the vertical lines of the trees in the before example are pixelated and have a 'wavey' kind of effects going on. The after example is crisp and sharp.
+
+Wow! That is pretty much night-and-day, agreed. To the extent that my strong inclination is just to merge this ASAP and deal with any possible fallout afterwards.
+
+> It seems that it changes nothing in openshot-qt Export.
+
+I suspect that's because OpenShot only uses the `openshot::Clip::Clip(std::string path)` constructor, which allocates the reader itself. This change would only affect cases where an _existing_ reader is used to create a new `openshot::Clip`.
+
+(And therefore, arguably, maybe it's the caller's job to call `reader->SetClip()`? I wonder if there are any possible cases where you'd want to construct a clip with an existing `openshot::Reader`, but have it _not_ reparented? After all, if the caller really _does_ want it reparented, they could be calling `SetClip()` themselves. ...Then again, `openshot::Clip::Reader()` _does_ always call `reader->SetClip()`, so the API seems internally conflicted on this point. And it really shouldn't be the caller's worry. I'd tend to agree that if `openshot::Clip::Reader()` calls `reader->SetClip()`, then `openshot::Clip::Clip(reader)` should as well.)
+
+The odd thing is, when `Clip(path)` allocates a new reader for itself, it _also_ doesn't call `SetClip()` on the new reader to set itself as the parent. Seems like it should be doing that there, as well. Let me take a quick look at ReaderBase to see what's expected there.
+
+We are just taking a look at optimising the two places where the resizing is done, to remove or only run the resizing if needed. Give us a day or two and will push an update.
+
+Hmm. Nothing of use. `parent` was created relatively recently (a year and a half ago), in one of @jonoomph 's wide-ranging megacommits. (7b6eb9c21bd324da50507b74784fdf40f1419d8d)
+
+At the time, setting it was added to `openshot::Clip::Reader()`, and to `openshot::Clip::SetJsonValue()` (which is most likely why OpenShot is covered). However, despite its name, it doesn't appear to indicate _ownership_ of the Clip object in any way — that's what the `allocated_reader` pointer is for. And it does appear to be used only for the purpose of determining input scaling. A bunch of code that used to live in `openshot::Clip` was moved (in slightly different forms) to `openshot::QtImageReader` and `openshot::FFmpegReader` instead, which is why it now needs to know its `parent` in order to look up the necessary data.
+
+The `else` clause on all of that ­— used when the clip is set `SCALE_NONE` —  used to be:
+```c++
+else{
+    // No scaling, use original image size (slower)
+    reader->SetMaxSize(0, 0);
+}
+```
+but now, not only does the `SCALE_NONE` path contain:
+```c++
+else {
+    // No scaling, use original image size (slower)
+    max_width = info.width;
+    max_height = info.height;
+}
+```
+(...Come to think of it, the fact that this now lives in `FFmpegReader` probably explains the scaling bug with disabled clips, and why they had to be set `SCALE_NONE` to stay properly invisible.) Anyway, because all of that is wrapped in `if (parent)`, when there's **no** parent the code above all of that will apply, which is:
+https://github.com/OpenShot/libopenshot/blob/4e6c1819b0af7e33ac27d22fa02a09ad268f25b1/src/FFmpegReader.cpp#L1289-L1294
+
+What happens will be wholly dependent on the `openshot::Settings` values, because what immediately follows this insertion into FFmpegReader remained the same:
+https://github.com/OpenShot/libopenshot/blob/7b6eb9c21bd324da50507b74784fdf40f1419d8d/src/FFmpegReader.cpp#L931-L948
+
+When the code lived in `Clip` there were no defaults for `max_width` and `max_height`,  I assume they always initialized to `0`. But now that they're never going to be `0` (in addition to those `!= 0` tests being pointless), the code does very different things.
+
+This scaling code is nutso, anyway. Like, it uses `QSize` (only) for `SCALE_CROP` now, but it uses it all crazy.
+
+Want to know how to implement `SCALE_FIT` with `QSize`?
+```c++
+auto max = QSize(max_width, max_height);
+auto frame = QSize(info.width, info.height);
+auto target = frame.scaled(max, Qt::KeepAspectRatio);
+```
+Done. Want to know how to implement `SCALE_CROP`?
+```c++
+auto target = frame.scaled(max, Qt::KeepAspectRatioByExpanding);
+```
+
+
+As far as `SCALE_STRETCH`, currently in the code it uses the `SCALE_FIT` scaling, but shouldn't it use `SCALE_CROP` instead?
+
+Like, imagine you're scaling _down_ a video at a different aspect ratio, using `SCALE_STRETCH`. Currently because it uses the `SCALE_FIT` sizing, the video will be scaled to the size of the frame, with one dimension being smaller than the frame (because the aspect ratio is preserved). Then later it'll be expanded in that dimension (losing resolution), to make it fill the frame.
+
+But if it were using the `SCALE_CROP` sizing, then the video would be _the same resolution_ as the frame, in the stretch direction. It'd need to be scaled down in the _other_ dimension. That should result in a higher-quality `SCALE_STRETCH`... right? Somebody please sanity-check my math on that, before I start on a PR to change all this. (Though I'll probably wait for @jeffski 's update anyway, so I can change it only where necessary.)
+
+# [Codecov](https://codecov.io/gh/OpenShot/libopenshot/pull/513?src> Merging [#513](https://codecov.io/gh/OpenShot/libopenshot/pull/513?src=pr&el=desc) into [develop](https://codecov.io/gh/OpenShot/libopenshot/commit/6e7ad2316b56f6219e67b83e37ed43b5315544ce&el=desc) will **increase** coverage by `0.07%`.
+> The diff coverage is `25.00%`.
+
+[![Impacted file tree graph](https://codecov.io/gh/OpenShot/libopenshot/pull/513/graphs/tree.svg?width=650&height=150&src=pr&token=vTQfyqYjOp)](https://codecov.io/gh/OpenShot/libopenshot/pull/513?src=pr&el=tree)
+
+```diff
+@@             Coverage Diff             @@
+##           develop     #513      +/-   ##
+===========================================
++ Coverage    48.25%   48.32%   +0.07%     
+===========================================
+  Files          128      128              
+  Lines         9954     9953       -1     
+===========================================
++ Hits          4803     4810       +7     
++ Misses        5151     5143       -8     
+```
+
+
+| [Impacted Files](https://codecov.io/gh/OpenShot/libopenshot/pull/513?src=pr&el=tree) | Coverage Δ | |
+|---|---|---|
+| [src/Clip.cpp](https://codecov.io/gh/OpenShot/libopenshot/pull/513/diff?src=pr&el=tree#diff-c3JjL0NsaXAuY3Bw) | `39.72% <25.00%> (-0.04%)` | :arrow_down: |
+| [include/FFmpegUtilities.h](https://codecov.io/gh/OpenShot/libopenshot/pull/513/diff?src=pr&el=tree#diff-aW5jbHVkZS9GRm1wZWdVdGlsaXRpZXMuaA==) | `100.00% <0.00%> (ø)` | |
+| [src/FFmpegReader.cpp](https://codecov.io/gh/OpenShot/libopenshot/pull/513/diff?src=pr&el=tree#diff-c3JjL0ZGbXBlZ1JlYWRlci5jcHA=) | `68.79% <0.00%> (+0.46%)` | :arrow_up: |
+| [src/QtImageReader.cpp](https://codecov.io/gh/OpenShot/libopenshot/pull/513/diff?src=pr&el=tree#diff-c3JjL1F0SW1hZ2VSZWFkZXIuY3Bw) | `61.32% <0.00%> (+4.71%)` | :arrow_up: |
+
+------
+
+[Continue to review full report at Codecov](https://codecov.io/gh/OpenShot/libopenshot/pull/513?src=pr&el=continue).
+> **Legend** - [Click here to learn more](https://docs.codecov.io/docs/codecov-delta)
+> `Δ = absolute <relative> (impact)`, `ø = not affected`, `? = missing data`
+> Powered by [Codecov](https://codecov.io/gh/OpenShot/libopenshot/pull/513?src=pr&el=footer). Last update [6e7ad23...5b5950c](https://codecov.io/gh/OpenShot/libopenshot/pull/513?src=pr&el=lastupdated). Read the [comment docs](https://docs.codecov.io/docs/pull-request-comments).
+
+
+I misunderstood my co-developer regarding more changes to skip one of the scaling steps so please consider the pull request complete unless you have more change requests. We were wondering if scaling would be faster/more efficient using FFMPEG instead of Qt or if there is a reason for using Qt as well.
+
+More than happy for you to pick this up and optimise/fix further.
+
+A related issue I had a while back was using SCALE_NONE - I was trying to use a logo as a watermark and the logo was already scaled i.e. 300px x 200px - using SCALE_NONE would still stretch it to the width/height of the viewport. My expectation would be that it would remain 300px x 200px. I think there is comments in the code saying that needed fixed.
+
+> A related issue I had a while back was using SCALE_NONE - I was trying to use a logo as a watermark and the logo was already scaled i.e. 300px x 200px - using SCALE_NONE would still stretch it to the width/height of the viewport. My expectation would be that it would remain 300px x 200px. I think there is comments in the code saying that needed fixed.
+
+Yeah, I would... very much expect so. `SCALE_NONE` should be, you know, unscaled.
+
+What format was the file? You say "a logo", but was it an SVG file, or a bitmap image? I wouldn't be surprised if the SVG rendering always renders to the timeline frame size. (You gave the dimensions in `px` so it was probably a bitmap, but if so I _thought_ that worked, at least for video. Unless maybe `SCALE_NONE` works right for video, but not images.)
+
+...I guess a workaround would be to matte the watermark onto a transparent PNG the size of the frame, so it doesn't need to be scaled. (You no doubt thought of that.) But, yeah, it'd be cool if that just worked right as-is.
+
+I'll let this sit for a little bit to see if anyone else takes an interest, but like I said my inclination is to merge it as quickly as possible given the clear benefits seen in those before/after videos. I don't believe it'll affect OpenShot itself anyway, the existing code was already doing the right things in the APIs it uses. I think the others were just overlooked.
+
+> A related issue I had a while back was using SCALE_NONE - I was trying to use a logo as a watermark and the logo was already scaled i.e. 300px x 200px - using SCALE_NONE would still stretch it to the width/height of the viewport. My expectation would be that it would remain 300px x 200px. I think there is comments in the code saying that needed fixed.
+
+In OpenShot it works OK. No noticeable issues with the Scale set to None. At least, in now days.
+
+No complaints, so in it goes. Thanks @jeffski !
+
+ FFmpegUtilities: replace variable definition with statement expression
+ It is needed to avoid multiple definitions of AV_GET_CODEC_CONTEXT,
+which is considered as an error with '-fno-common' which is default
+since gcc-10.
+
+Fixes: #511
+# [Codecov](https://codecov.io/gh/OpenShot/libopenshot/pull/512?src> Merging [#512](https://codecov.io/gh/OpenShot/libopenshot/pull/512?src=pr&el=desc) into [develop](https://codecov.io/gh/OpenShot/libopenshot/commit/6e7ad2316b56f6219e67b83e37ed43b5315544ce&el=desc) will **decrease** coverage by `0.02%`.
+> The diff coverage is `n/a`.
+
+[![Impacted file tree graph](https://codecov.io/gh/OpenShot/libopenshot/pull/512/graphs/tree.svg?width=650&height=150&src=pr&token=vTQfyqYjOp)](https://codecov.io/gh/OpenShot/libopenshot/pull/512?src=pr&el=tree)
+
+```diff
+@@             Coverage Diff             @@
+##           develop     #512      +/-   ##
+===========================================
+- Coverage    48.25%   48.23%   -0.03%     
+===========================================
+  Files          128      128              
+  Lines         9954     9950       -4     
+===========================================
+- Hits          4803     4799       -4     
+  Misses        5151     5151              
+```
+
+
+| [Impacted Files](https://codecov.io/gh/OpenShot/libopenshot/pull/512?src=pr&el=tree) | Coverage Δ | |
+|---|---|---|
+| [include/FFmpegUtilities.h](https://codecov.io/gh/OpenShot/libopenshot/pull/512/diff?src=pr&el=tree#diff-aW5jbHVkZS9GRm1wZWdVdGlsaXRpZXMuaA==) | `100.00% <ø> (ø)` | |
+
+------
+
+[Continue to review full report at Codecov](https://codecov.io/gh/OpenShot/libopenshot/pull/512?src=pr&el=continue).
+> **Legend** - [Click here to learn more](https://docs.codecov.io/docs/codecov-delta)
+> `Δ = absolute <relative> (impact)`, `ø = not affected`, `? = missing data`
+> Powered by [Codecov](https://codecov.io/gh/OpenShot/libopenshot/pull/512?src=pr&el=footer). Last update [6e7ad23...1329036](https://codecov.io/gh/OpenShot/libopenshot/pull/512?src=pr&el=lastupdated). Read the [comment docs](https://docs.codecov.io/docs/pull-request-comments).
+
+
+Huh, shows what I know. Confirmed with GCC 10.1, though it's not an issue with 10.0 weirdly enough.
+
+Still, the fix seems fine, all unit tests still pass, and OpenShot works as expected.
+
+And since Travis already tested Clang builds for us, I'd say this is ready to merge. Thanks!
+
+ gcc-10: multiple definition of `AV_GET_CODEC_CONTEXT'
+ See the full log: 
+[build.log](https://github.com/OpenShot/libopenshot/files/4637447/build.log)
+
+It does not happen with gcc-9.
+See also: https://gcc.gnu.org/gcc-10/porting_to.html (Default to -fno-common).
+
+So there are multiple definitions with `LIBAVFORMAT_VERSION_MAJOR >= 58` or `defined(IS_FFMPEG_3_2)`.
+Hmm. Is this a new change in GCC 10.1? Because [it doesn't happen with GCC 10.0.1](http://koji.rpmfusion.org/kojifiles/packages/libopenshot/0.2.5/1.fc33/data/logs/x86_64/build.log).
+
+I'm wondering if this is really a GCC 10 issue, or if it's caused by building with Ninja instead of Makefiles. (Which we don't officially support.)
+
+I'm not sure if `-fno-common` was default in 10.0.1, I have only 9.3.0 and 10.1.0 installed. But this isssue is definitely not related to ninja/make build system. If I try to build it with make (without the patch) I see exaclty the same error.
+
+Try adding `-fno-common` to C[XX]FLAGS manually.
+
+All that being said, libopenshot builds fine _with_ this change too, so if it works the same in all cases and doesn't cause any issues, I'm fine with it.
+
+While there _shouldn't_ be multiple definitions of `AV_GET_CODEC_CONTEXT` **within** the file (all of those blocks are `#elif`/`#else`'d, so only one of them will ever be used), _technically_ it is a variable declaration, so I suppose each compiled object could end up with its own `AV_GET_CODEC_CONTEXT`. Probably wouldn't be an issue if the header were defining a namespaced C++ class, but since it's all wrapped in `extern "C"` everything lands in the global namespace.
+
+...All _that_ being said, this still smells like an out-of-date builddir problem to me, and I have a feeling doing a `make clean` (or completely deleting and regenerating the build environment) before running a fresh build might fix it. So far I haven't been able to reproduce.
+
+But like I said, I'm not really opposed to the change even if I can't reproduce it.
+
+(I did try adding `-fno-common` to the `g++` command line with GCC 9.3.1, no change. I don't (yet) have a local system with GCC 10 installed that I can easily test on, my laptop is just about to start its Fedora 32 upgrade run. So in a couple of hours or so, I'll at least have GCC 10.0.1 to play with.)
+
+@ferdnyc Thanks for the quick reply.
+For the point, maybe you have another ffmpeg version (or even libav), so the bug isn't triggered?
+
+
+@steils Oh, sorry, as I noted while merging #512 it _does_ occur for me in 10.1.1, though not 10.0.1 oddly enough.
+
+ Add version/feature #defines to OpenShotVersion.h
+ The CMake process will pick up Qt's `Qt5Core_VERSION_STRING` variable and stick it in the CMake cache (with forced updating each run). A new `#define` in the header exports that as `QT_VERSION_STR` to both the library and the Python bindings. That way it can be queried at runtime, same as PyQt5's versioning:
+```python3
+>>> import openshot
+>>> print(openshot.QT_VERSION_STR)
+5.13.2
+>>> from PyQt5 import Qt
+>>> print(Qt.QT_VERSION_STR)
+5.13.2
+>>> print(Qt.PYQT_VERSION_STR)
+5.13.2
+```
+
+**Edit:** I added a few more:
+```python3
+>>> openshot.AVUTIL_VERSION_STR
+'56.31.100'
+>>> openshot.AVCODEC_VERSION_STR
+'58.54.100'
+>>> openshot.AVFORMAT_VERSION_STR
+'58.29.100'
+>>> openshot.HAVE_IMAGEMAGICK
+1
+>>> openshot.HAVE_RESVG
+1
+```
+
+Inspired by https://github.com/OpenShot/openshot-qt/issues/3442#issuecomment-625206538
+# [Codecov](https://codecov.io/gh/OpenShot/libopenshot/pull/510?src> Merging [#510](https://codecov.io/gh/OpenShot/libopenshot/pull/510?src=pr&el=desc) into [develop](https://codecov.io/gh/OpenShot/libopenshot/commit/15c3efb76be2a734bd3b73b6122048de85397959&el=desc) will **not change** coverage.
+> The diff coverage is `n/a`.
+
+[![Impacted file tree graph](https://codecov.io/gh/OpenShot/libopenshot/pull/510/graphs/tree.svg?width=650&height=150&src=pr&token=vTQfyqYjOp)](https://codecov.io/gh/OpenShot/libopenshot/pull/510?src=pr&el=tree)
+
+```diff
+@@           Coverage Diff            @@
+##           develop     #510   +/-   ##
+========================================
+  Coverage    48.25%   48.25%           
+========================================
+  Files          128      128           
+  Lines         9954     9954           
+========================================
+  Hits          4803     4803           
+  Misses        5151     5151           
+```
+
+
+
+------
+
+[Continue to review full report at Codecov](https://codecov.io/gh/OpenShot/libopenshot/pull/510?src=pr&el=continue).
+> **Legend** - [Click here to learn more](https://docs.codecov.io/docs/codecov-delta)
+> `Δ = absolute <relative> (impact)`, `ø = not affected`, `? = missing data`
+> Powered by [Codecov](https://codecov.io/gh/OpenShot/libopenshot/pull/510?src=pr&el=footer). Last update [15c3efb...0e79844](https://codecov.io/gh/OpenShot/libopenshot/pull/510?src=pr&el=lastupdated). Read the [comment docs](https://docs.codecov.io/docs/pull-request-comments).
+
+
+ Question regarding effects and GPU
+ [TL;DR] : what about GPU computation for effects ?
+
+The end of [Hardware Acceleration](https://github.com/OpenShot/libopenshot/blob/develop/doc/HW-ACCEL.md) mentions future improvements based on Vulkan Compute Shaders.
+
+With my (limited) knowledge of OpenGL, I think that it would already be possible to do some GPU computations with framebuffers and fragment shaders, and thus improve performance a bit.
+
+If I have the time, I may propose implementation for this in a not-so-far future, but first I would like to know what are the thought of developers about all this. It may require to rewrite big part of the code, and it would probably need to manage frames duplicates.
+
+Actually, I have tons of thing to ask and say on the subject.
+What are your (main developers, contributors, users) opinions? Would it be useful? How do you (fore)see this? I haven't seen much about it in the issues, neither in the forums (though there are lots of questions about encoding/decoding).
+@space-lux Funny you should mention that, as some of these topics recently came up in OpenShot/openshot-qt#3448 as well. I'll quote part of my comment there...
+
+> RadeonOpenCompute, which is basically an OpenCL implementation AIUI, is mentioned in passing as a possible way to accelerate effects. Which is about right -- GPU computing might be good for some intensive computations, including the image processing operations performed by some effects and filters, but video encoding doesn't necessarily benefit from it that much. At least, not _automatically_. 
+> 
+> Blender benefits from CUDA/OpenCL/etc. Hugely. Possibly some of our effect algorithms could. (They'd have to be rewritten for the GPU, though, just like Blender's rendering algorithms have been.)
+
+Then I digressed into some notes about NVENC, before coming back around to CUDA/OpenCL...
+
+> MOST consumer video cards don't have the kind of power to accelerate CUDA algorithms significantly. So the user base for this kind of general-purpose GPU computing is relatively small even compared to the OpenShot user base as a whole.
+> 
+> My video card is mostly meant for playback, and it accelerates decoding fine, plus gives me a reasonable boost for video encoding. I think last I checked it was something like 2-4x as fast as my CPU when encoding x264.
+> 
+> But for GPU computing? Like I've said, it's SLOWER than my CPU is, when rendering in Blender. There is no real benefit to CUDA & friends for anyone with a system like mine, one that wasn't built for power and uses a non-"gamer"-level, sub-$200 graphics processor. So, while there might be speedups to be had for some users, I wouldn't want to leave the remaining majority out in the cold by focusing on features exclusively targeted towards users with high-end hardware. (Or, even worse, making OpenShot **only** support those systems.)
+
+Now, all _that_ being said, Open<b>G</b>L is a different thing because, like hardware-accelerated decoding/encoding, it is well-supported by nearly every GPU currently out there, and even the least capable of them will tend to show significant performance gains.
+
+So I think you're probably right, there's at least a possibility of accelerated OpenGL effects improving performance in a way that'd be generally useful to (and usable by) most users. It's much less of an exclusionary/power-user-only feature, which is the thing that concerns me with other types of hardware acceleration. I definitely think there's room for at least a _selection_ of effects implemented in OpenGL, to achieve better performance compared to the strictly software-based effects we have now.
+
+My _personal_ preference, though I can't speak for anyone else (including and especially other OpenShot developers), would still be that the creation of any OpenGL-based effects take the form of adding more effect choices alongside the existing unaccelerated versions, rather than for the current effects to be replaced/rewritten. That way OpenGL doesn't necessarily become a hard requirement to use OpenShot and/or its effects. (Though that may be a moot point, really — it's possible just using Qt means that there's an _implicit_ OpenGL requirement already.)
+
+#### Dynamic effect modules
+
+The work that @kirillmakhonin started in #345 to modularize our effects library so that additional effects could be made available at runtime in the form of dynamically loadable modules, rather than all having to be compiled into libopenshot, might also be of interest. It'd be great if deciding to make libopenshot available **with** the OpenGL effects vs. _**without**_ them was a runtime choice of which pieces to install, rather than a compile-time decision where providing both options would require two separate builds of the entire library.
+
+#### Current pipeline
+
+Currently in OpenShot, effects are attached to timeline clips.
+
+(Although in libopenshot's internal implementation that's not necessarily true, the backend support for effects is more flexible and allows them to be placed anywhere on the timeline, with their own start and stop points that don't necessarily correspond to any one clip. Limiting the placement of each effect to be aligned only with a single clip is a restriction imposed by OpenShot.)
+
+Nevertheless, at least in OpenShot an effect modifies a particular clip, meaning conceptually it can be thought of as an _input_ processing step. So it seems likely that the benefits from OpenGL-accelerated effects would be greatest when combined with hardware decoding, especially if the effect could process a just-decoded frame while it's still on the hardware, _without_ it having to leave the GPU until after the effect is applied.
+
+I suspect that libopenshot's decoding implementation currently isn't designed to accommodate that very well, meaning even if they're presented in a similar fashion, OpenGL effects may require a completely different implementation from the existing effects, one that can tie the effect into the hardware decoding pipeline before the decoded frames are even read from the GPU by FFmpegReader.
+
+So that part could get somewhat involved, if it's necessary. Maybe it's not — I don't have a great deal of experience with OpenGL, really, so I'm mostly making the _assumption_ there's a significant performance penalty involved if we'd be decoding each input frame, copying it to application memory, sending it _back_ to the GPU in order to process it using an effect, then retrieving the modified result. (And perhaps then lather, rinse, repeat for each additional effect.) But maybe there are some techniques for doing that so it doesn't have too great an impact on performance?
+
+
+Thank you for your answer!
+Since then I've read a bit libopenshot's code, especially the Frame class and what you said about effects on Timelines, and I checked some details in Qt's doc.
+
+#### About requirements
+From what I've read, OpenGL is not a hard requirement for Qt (see [Qt for X11 requirement](https://doc.qt.io/qt-5/linux-requirements.html#opengl-dependencies)) *but* it seems to be strongly advised, since there are many Qt classes that depend from it. Regarding Windows, OpenGL is (almost?) always available, and OpenGL ES seems to be required, but I don't know how it works for MacOS.
+In any case, OpenGL-related classes (such as [QopenGLContext](https://doc.qt.io/qt-5/qopenglcontext.html)) are included in the _gui_ package, [that is already included for QImages](https://github.com/OpenShot/libopenshot/blob/develop/src/CMakeLists.txt#L283)... So, it wouldn't need to change anything in libopenshot's build system, buttt... Finally, nothing is assured concerning OpenGL availability. I guess we would need to know what people do with the lib.
+
+#### OpenGL in the current pipeline
+*Assuming that we have access to OpenGL*, it is possible to write some effects in a very similar way they are for now: taking a Frame in input, returning another. Input Frame video data (::bits()) could be considered as a texture buffer, and the returned one as a render buffer for the GPU. This is a terrible technique with data going back and forth between CPU and GPU, fortunately I believe that would still be faster than doing the computation on CPU. The reason for that is that GPUs have pretty fast access to RAM, and usually perform filter-like (convolutions...) operations way faster than CPU. Furthermore, the parallelism that is currently in place (with OpenMP) is a good thing, but not as perfect as what happens on GPUs.
+
+#### OpenGL with a slightly modified pipeline
+I thought of some additions to the Frame class : it could internally handle transfers between main RAM and GPU's memory. In that way, transfers would occur only when needed, and a Frame that lies between two GPU effects would keep things in the right place. At least that's what I suppose. It would take the form of an additional method, Frame::getGLBuffer() or something like that.
+
+#### OpenGL with a very modified pipeline
+This is the first idea I had, but I hadn't read the code about effects in timeline yet.
+In the case of a stack of effects, I think there is a way to compile a giant shader that applies all effects in just one GPU call. It raises several questions (Are fragment shaders adapted to this case? I don't believe so. Are Compute Shaders a good way to go? Probably, but they need a really later version of OGL, 4.2+ if I'm correct.) but is probably the best way to the fastest render.
+
+
+I have not yet installed libopenshot's build stack, but I will. Then I will write GPU versions of some effects, and carry performance tests – with different hardware configurations.
+Also and not related, I suspect OpenMP usage is not optimal (at least in some cases), so I will also test some changes around this and open another issue if that's relevant.
+
+**EDIT** :
+I also looked at what was done about the dynamic effect modules, and it seems to me that, for now, the topic is not very active. It would be great to see it work but I will not rely on it for my experiments.
+
+ General Question realted to FFmpeg lib and rendering
+ hi,
+
+if I have two videos that can play parallel in the open shot. if I wanna understand the logic behind that mechanism which CPP file I need to start to looking or making notes from that?
+`src/Timeline.cpp` has logic for frames composition (add_layer) where new frame created from many and  new audio added to the frame. Player then playbacks this "final" image. FFmpeg only used to get uncompressed frames in RGB format from each video. Audio processed the same way.
+
+ Improve Pixelate filter scale
+ Fixes: https://github.com/OpenShot/libopenshot/issues/506
+# [Codecov](https://codecov.io/gh/OpenShot/libopenshot/pull/507?src> Merging [#507](https://codecov.io/gh/OpenShot/libopenshot/pull/507?src=pr&el=desc) into [develop](https://codecov.io/gh/OpenShot/libopenshot/commit/15c3efb76be2a734bd3b73b6122048de85397959&el=desc) will **decrease** coverage by `0.01%`.
+> The diff coverage is `0.00%`.
+
+[![Impacted file tree graph](https://codecov.io/gh/OpenShot/libopenshot/pull/507/graphs/tree.svg?width=650&height=150&src=pr&token=vTQfyqYjOp)](https://codecov.io/gh/OpenShot/libopenshot/pull/507?src=pr&el=tree)
+
+```diff
+@@             Coverage Diff             @@
+##           develop     #507      +/-   ##
+===========================================
+- Coverage    48.25%   48.23%   -0.02%     
+===========================================
+  Files          128      128              
+  Lines         9954     9957       +3     
+===========================================
+  Hits          4803     4803              
+- Misses        5151     5154       +3     
+```
+
+
+| [Impacted Files](https://codecov.io/gh/OpenShot/libopenshot/pull/507?src=pr&el=tree) | Coverage Δ | |
+|---|---|---|
+| [src/effects/Pixelate.cpp](https://codecov.io/gh/OpenShot/libopenshot/pull/507/diff?src=pr&el=tree#diff-c3JjL2VmZmVjdHMvUGl4ZWxhdGUuY3Bw) | `0.00% <0.00%> (ø)` | |
+
+------
+
+[Continue to review full report at Codecov](https://codecov.io/gh/OpenShot/libopenshot/pull/507?src=pr&el=continue).
+> **Legend** - [Click here to learn more](https://docs.codecov.io/docs/codecov-delta)
+> `Δ = absolute <relative> (impact)`, `ø = not affected`, `? = missing data`
+> Powered by [Codecov](https://codecov.io/gh/OpenShot/libopenshot/pull/507?src=pr&el=footer). Last update [15c3efb...4f60f45](https://codecov.io/gh/OpenShot/libopenshot/pull/507?src=pr&el=lastupdated). Read the [comment docs](https://docs.codecov.io/docs/pull-request-comments).
+
+
+This looks pretty good to me, though I haven't tested it very thoroughly yet. 
+
+Sorry, I got bogged down when I started testing with the discovery that I screwed up the implementation of the effect borders, which seem to be pretty much broken on two sides. (Top, for sure.)
+
+I'm having a bear of a time getting it to work right, `QRect` and `QPainter` seem to be  having these weird, nondeterministic interactions. Decided to leave it alone for now and come back to it tomorrow.
+
+ Pixelization  **Describe the bug:**
+The "Pixelization" values is not linear. It starts with 0,0 which means "no pixelization at all", through 0,9" which means "heavy pixelization", but ends with "1,0" which **does not pixelate at all** (i. e. 0,0 and 1,0 behave *the same*). This makes it hard to understand for the user, and hard to prevent failures in usage.
+
+**Steps to reproduce the behavior:**
+1. Use Pixelation effect
+2. Set Pixelization = 1,0
+
+**Expected behavior:**
+Strongest possible pixelization
+
+**System Details:**
+- OpenShot Version 2.5.1-dev2
+- Operating System Windows 10
+
+**Log Files:**
+N/A
+
+**Exception / Stacktrace:**
+N/A
+
+**Screenshots:** (Optional)
+N/A
+
+Huh! So it doesn't!
+
+And that appears to be an error in my rewrite, because the 2.4.4 version had a very extreme/reductive `1.0` pixelization level.
+
+The rewrite works great up to 0.99, but yeah, kinda falls off at 1.0. "Oops." Guess I'll have to fix that at some point.
+
+
+Oh, yes, transferring this to libopenshot since that's where the effects code lives.
+
+Not hard to see why this happens, looking at the code.
+https://github.com/OpenShot/libopenshot/blob/15c3efb76be2a734bd3b73b6122048de85397959/src/effects/Pixelate.cpp#L70-L86
+
+Guess that should've been
+```c++
+1.01 - std::min(fabs(pixelization.GetValue(frame_number)), 1.0);
+```
+
+> The "Pixelization" values is not linear.
+
+_That's_ a separate issue, and one that could really use correcting as well. The same thing was true in the old code, the effect really doesn't even **begin** to do anything visibly until you get to like 0.75.
+
+The problem is actually that it's TOO linear (1.0 excepted) — it could really do with a curve function rather than the current constant-slope adjustment, since it defines what's essentially a size multiplier. Reducing the size of something by even 50-75% and then blowing it back up again doesn't result in what most people would really consider to be pixelization, it just makes your image look slightly crappier.
+
+ Travis: Fix package list syntax, contents
+ - Get rid of two-stage definition of apt.packages list, which was never necessary anyway.
+- Remove deprecated `libavresample` from package set for FFmpeg 4
+# [Codecov](https://codecov.io/gh/OpenShot/libopenshot/pull/505?src> Merging [#505](https://codecov.io/gh/OpenShot/libopenshot/pull/505?src=pr&el=desc) into [develop](https://codecov.io/gh/OpenShot/libopenshot/commit/9e7e741596c31a7ff3f6487949455dbb72452270&el=desc) will **not change** coverage.
+> The diff coverage is `n/a`.
+
+[![Impacted file tree graph](https://codecov.io/gh/OpenShot/libopenshot/pull/505/graphs/tree.svg?width=650&height=150&src=pr&token=vTQfyqYjOp)](https://codecov.io/gh/OpenShot/libopenshot/pull/505?src=pr&el=tree)
+
+```diff
+@@           Coverage Diff            @@
+##           develop     #505   +/-   ##
+========================================
+  Coverage    48.24%   48.24%           
+========================================
+  Files          128      128           
+  Lines         9962     9962           
+========================================
+  Hits          4806     4806           
+  Misses        5156     5156           
+```
+
+
+
+------
+
+[Continue to review full report at Codecov](https://codecov.io/gh/OpenShot/libopenshot/pull/505?src=pr&el=continue).
+> **Legend** - [Click here to learn more](https://docs.codecov.io/docs/codecov-delta)
+> `Δ = absolute <relative> (impact)`, `ø = not affected`, `? = missing data`
+> Powered by [Codecov](https://codecov.io/gh/OpenShot/libopenshot/pull/505?src=pr&el=footer). Last update [9e7e741...9796b82](https://codecov.io/gh/OpenShot/libopenshot/pull/505?src=pr&el=lastupdated). Read the [comment docs](https://docs.codecov.io/docs/pull-request-comments).
+
+
+ MAJOR CHANGE (but not really): Move headers to src/ directory
+ This implements the proposal I made in #471, that header files live in the `src/` directory alongside their `*.cpp` files, rather than being kept in an `include/` directory.
+
+- Move all `/include/**/*.h` to `/src/...` (with same hierarchy)
+- Move `/src/examples` to `/examples`
+- Move `/src/Qt/demo` to `/examples/qt-demo`
+- Move `/src/bindings/` to `/bindings`
+- Adjust source files (far fewer relative includes):
+  - `/src/**/*.cpp`
+  - `/src/**/*.h`
+  - `examples/**/*.cpp`
+  - `tests/**/*.cpp`
+- Change `#include "JuceHeader.h"` to `#include <JuceHeader.h>` everywhere, since that header isn't part of our local source for the purposes of a libopenshot build
+- Adjust all `CMakeLists.txt` files to account for new include path
+- Add an `examples/CMakeLists.txt`, and move the logic for compiling and installing the necessary components to that file
+- Add logic to `tests/CMakeLists`, `examples/CMakeLists`, `/CMakeLists.txt` so that build components are imported locally when needed
+- Update `Doxygen.in` file to build docs from new locations
+
+This will be confusing, at first, when looking for moved files. (I've confused myself a couple of times already.) The relocated `bindings` directory is the one that throws me the most. But it really is _much_ simpler this way. Both in terms of humans editing the code, _and_ in terms of the contents of the code.
+
+The reason `src/examples`, `src/Qt/demo`, and `src/bindings` got moved out of `src/` is in small part practical: If there are directories in `src/` without any installable headers, the `install(DIRECTORY...)` CMake command will end up creating empty directories in the output location. So, I wanted to avoid that.
+
+But at the same time, the fact that that happens makes the point: _none_ of those directories' contents are part of the _libopenshot_ source code itself. So they really don't _belong_ in the **libopenshot** source dir. It makes more sense if they're separated.
+
+Oh, I forgot to mention: This _shouldn't_ affect anyone's builds or use of the library, since the installed output is exactly the same. It just takes a different path getting there. But it will affect developers, obviously, including anyone running OpenShot out of a build dir with `PYTHONPATH
+# [Codecov](https://codecov.io/gh/OpenShot/libopenshot/pull/504?src> Merging [#504](https://codecov.io/gh/OpenShot/libopenshot/pull/504?src=pr&el=desc) into [develop](https://codecov.io/gh/OpenShot/libopenshot/commit/9e7e741596c31a7ff3f6487949455dbb72452270&el=desc) will **increase** coverage by `0.00%`.
+> The diff coverage is `100.00%`.
+
+[![Impacted file tree graph](https://codecov.io/gh/OpenShot/libopenshot/pull/504/graphs/tree.svg?width=650&height=150&src=pr&token=vTQfyqYjOp)](https://codecov.io/gh/OpenShot/libopenshot/pull/504?src=pr&el=tree)
+
+```diff
+@@           Coverage Diff            @@
+##           develop     #504   +/-   ##
+========================================
+  Coverage    48.24%   48.25%           
+========================================
+  Files          128      128           
+  Lines         9962     9960    -2     
+========================================
+  Hits          4806     4806           
++ Misses        5156     5154    -2     
+```
+
+
+| [Impacted Files](https://codecov.io/gh/OpenShot/libopenshot/pull/504?src=pr&el=tree) | Coverage Δ | |
+|---|---|---|
+| [examples/Example.cpp](https://codecov.io/gh/OpenShot/libopenshot/pull/504/diff?src=pr&el=tree#diff-ZXhhbXBsZXMvRXhhbXBsZS5jcHA=) | `0.00% <ø> (ø)` | |
+| [examples/ExampleHtml.cpp](https://codecov.io/gh/OpenShot/libopenshot/pull/504/diff?src=pr&el=tree#diff-ZXhhbXBsZXMvRXhhbXBsZUh0bWwuY3Bw) | `0.00% <ø> (ø)` | |
+| [examples/qt-demo/main.cpp](https://codecov.io/gh/OpenShot/libopenshot/pull/504/diff?src=pr&el=tree#diff-ZXhhbXBsZXMvcXQtZGVtby9tYWluLmNwcA==) | `0.00% <ø> (ø)` | |
+| [src/AudioBufferSource.cpp](https://codecov.io/gh/OpenShot/libopenshot/pull/504/diff?src=pr&el=tree#diff-c3JjL0F1ZGlvQnVmZmVyU291cmNlLmNwcA==) | `0.00% <ø> (ø)` | |
+| [src/AudioDeviceInfo.h](https://codecov.io/gh/OpenShot/libopenshot/pull/504/diff?src=pr&el=tree#diff-c3JjL0F1ZGlvRGV2aWNlSW5mby5o) | `0.00% <ø> (ø)` | |
+| [src/AudioReaderSource.cpp](https://codecov.io/gh/OpenShot/libopenshot/pull/504/diff?src=pr&el=tree#diff-c3JjL0F1ZGlvUmVhZGVyU291cmNlLmNwcA==) | `0.00% <ø> (ø)` | |
+| [src/AudioReaderSource.h](https://codecov.io/gh/OpenShot/libopenshot/pull/504/diff?src=pr&el=tree#diff-c3JjL0F1ZGlvUmVhZGVyU291cmNlLmg=) | `0.00% <ø> (ø)` | |
+| [src/AudioResampler.cpp](https://codecov.io/gh/OpenShot/libopenshot/pull/504/diff?src=pr&el=tree#diff-c3JjL0F1ZGlvUmVzYW1wbGVyLmNwcA==) | `0.00% <ø> (ø)` | |
+| [src/CacheBase.cpp](https://codecov.io/gh/OpenShot/libopenshot/pull/504/diff?src=pr&el=tree#diff-c3JjL0NhY2hlQmFzZS5jcHA=) | `68.75% <ø> (ø)` | |
+| [src/CacheBase.h](https://codecov.io/gh/OpenShot/libopenshot/pull/504/diff?src=pr&el=tree#diff-c3JjL0NhY2hlQmFzZS5o) | `75.00% <ø> (ø)` | |
+| ... and [117 more](https://codecov.io/gh/OpenShot/libopenshot/pull/504/diff?src=pr&el=tree-more) | |
+
+------
+
+[Continue to review full report at Codecov](https://codecov.io/gh/OpenShot/libopenshot/pull/504?src=pr&el=continue).
+> **Legend** - [Click here to learn more](https://docs.codecov.io/docs/codecov-delta)
+> `Δ = absolute <relative> (impact)`, `ø = not affected`, `? = missing data`
+> Powered by [Codecov](https://codecov.io/gh/OpenShot/libopenshot/pull/504?src=pr&el=footer). Last update [9e7e741...c61a32a](https://codecov.io/gh/OpenShot/libopenshot/pull/504?src=pr&el=lastupdated). Read the [comment docs](https://docs.codecov.io/docs/pull-request-comments).
+
+
+# [Codecov](https://codecov.io/gh/OpenShot/libopenshot/pull/504?src> Merging [#504](https://codecov.io/gh/OpenShot/libopenshot/pull/504?src=pr&el=desc) into [develop](https://codecov.io/gh/OpenShot/libopenshot/commit/972c2905e6064133d11b4885f4f4b6e38c438646&el=desc) will **increase** coverage by `0.00%`.
+> The diff coverage is `100.00%`.
+
+[![Impacted file tree graph](https://codecov.io/gh/OpenShot/libopenshot/pull/504/graphs/tree.svg?width=650&height=150&src=pr&token=vTQfyqYjOp)](https://codecov.io/gh/OpenShot/libopenshot/pull/504?src=pr&el=tree)
+
+```diff
+@@           Coverage Diff            @@
+##           develop     #504   +/-   ##
+========================================
+  Coverage    48.33%   48.34%           
+========================================
+  Files          128      128           
+  Lines         9952     9950    -2     
+========================================
+  Hits          4810     4810           
++ Misses        5142     5140    -2     
+```
+
+
+| [Impacted Files](https://codecov.io/gh/OpenShot/libopenshot/pull/504?src=pr&el=tree) | Coverage Δ | |
+|---|---|---|
+| [examples/Example.cpp](https://codecov.io/gh/OpenShot/libopenshot/pull/504/diff?src=pr&el=tree#diff-ZXhhbXBsZXMvRXhhbXBsZS5jcHA=) | `0.00% <ø> (ø)` | |
+| [examples/ExampleHtml.cpp](https://codecov.io/gh/OpenShot/libopenshot/pull/504/diff?src=pr&el=tree#diff-ZXhhbXBsZXMvRXhhbXBsZUh0bWwuY3Bw) | `0.00% <ø> (ø)` | |
+| [examples/qt-demo/main.cpp](https://codecov.io/gh/OpenShot/libopenshot/pull/504/diff?src=pr&el=tree#diff-ZXhhbXBsZXMvcXQtZGVtby9tYWluLmNwcA==) | `0.00% <ø> (ø)` | |
+| [src/AudioBufferSource.cpp](https://codecov.io/gh/OpenShot/libopenshot/pull/504/diff?src=pr&el=tree#diff-c3JjL0F1ZGlvQnVmZmVyU291cmNlLmNwcA==) | `0.00% <ø> (ø)` | |
+| [src/AudioDeviceInfo.h](https://codecov.io/gh/OpenShot/libopenshot/pull/504/diff?src=pr&el=tree#diff-c3JjL0F1ZGlvRGV2aWNlSW5mby5o) | `0.00% <ø> (ø)` | |
+| [src/AudioReaderSource.cpp](https://codecov.io/gh/OpenShot/libopenshot/pull/504/diff?src=pr&el=tree#diff-c3JjL0F1ZGlvUmVhZGVyU291cmNlLmNwcA==) | `0.00% <ø> (ø)` | |
+| [src/AudioReaderSource.h](https://codecov.io/gh/OpenShot/libopenshot/pull/504/diff?src=pr&el=tree#diff-c3JjL0F1ZGlvUmVhZGVyU291cmNlLmg=) | `0.00% <ø> (ø)` | |
+| [src/AudioResampler.cpp](https://codecov.io/gh/OpenShot/libopenshot/pull/504/diff?src=pr&el=tree#diff-c3JjL0F1ZGlvUmVzYW1wbGVyLmNwcA==) | `0.00% <ø> (ø)` | |
+| [src/CacheBase.cpp](https://codecov.io/gh/OpenShot/libopenshot/pull/504/diff?src=pr&el=tree#diff-c3JjL0NhY2hlQmFzZS5jcHA=) | `68.75% <ø> (ø)` | |
+| [src/CacheBase.h](https://codecov.io/gh/OpenShot/libopenshot/pull/504/diff?src=pr&el=tree#diff-c3JjL0NhY2hlQmFzZS5o) | `75.00% <ø> (ø)` | |
+| ... and [117 more](https://codecov.io/gh/OpenShot/libopenshot/pull/504/diff?src=pr&el=tree-more) | |
+
+------
+
+[Continue to review full report at Codecov](https://codecov.io/gh/OpenShot/libopenshot/pull/504?src=pr&el=continue).
+> **Legend** - [Click here to learn more](https://docs.codecov.io/docs/codecov-delta)
+> `Δ = absolute <relative> (impact)`, `ø = not affected`, `? = missing data`
+> Powered by [Codecov](https://codecov.io/gh/OpenShot/libopenshot/pull/504?src=pr&el=footer). Last update [972c290...8d8615f](https://codecov.io/gh/OpenShot/libopenshot/pull/504?src=pr&el=lastupdated). Read the [comment docs](https://docs.codecov.io/docs/pull-request-comments).
+
+
+ CMake: Improvements to find modules, package metadata
+ Whoops! Left this in a broken state for hours, as I thought I'd already pushed the fixes.
+
+I'll make it up to everyone by including a whole bunch _more_ improvements to the build setup:
+
+1. FindOpenShotAudio now creates an `IMPORTED`  target, `OpenShot::Audio`
+1. All of the Windows/Apple build "stuff" (extra frameworks and whatnot) have been removed from the libopenshot `CMakeLists.txt` files, and placed in the Find module as properties on the `OpenShot::Audio` target, where they belong.
+1. Made `RESVG_ROOT` the preferred variable for specifying its location, even in older CMakes. (From 3.12 on it's automatically supported.)
+1. Reworked a bunch of the ImageMagick handling for code-length efficiency, decreased redundancy.
+
+Aaand, way back when I first opened this PR, still:
+Adding a URL and short description to the metadata provided in our custom `FindXXX.cmake` files allows the `FeatureSummary` to display a bit more info:
+```
+-- The following RECOMMENDED packages have been found:
+
+ * UnitTest++, Simple C++ unit testing framework, <https://github.com/unittest-cpp/unittest-cpp>
+   Needed to run unit tests after build
+
+-- The following REQUIRED packages have been found:
+
+ * OpenShotAudio (required version >= 0.2.0), OpenShot audio library based on JUCE, <https://github.com/OpenShot/libopenshot-audio>
+ * jsoncpp, JSON de/serialization and parsing in C++, <https://github.com/open-source-parsers/jsoncpp/>
+ * Qt5Widgets
+ * Qt5Core
+ * Qt5Gui
+ * Qt5Network (required version >= 5.13.2)
+ * Qt5Multimedia
+ * Qt5MultimediaWidgets
+ * Qt5
+ * FFmpeg, A/V media processing and manipulation library, <https://ffmpeg.org/>
+ * Threads
+ * OpenMP
+ * ZeroMQ, Universal messaging library, <https://github.com/zeromq/libzmq>
+ * SWIG (required version >= 3.0)
+
+-- The following features have been disabled:
+
+ * Coverage, analyze test coverage and generate report
+ * IWYU (include-what-you-use), Scan all source files with 'iwyu'
+
+-- The following OPTIONAL packages have not been found:
+
+ * RESVG, Rust-based SVG implementation, <https://github.com/RazrFalcon/resvg>
+```
+(The formatting's admittedly not ideal, but it may improve.)
+
+It's especially handy for the _missing_ items, to let builders know where to look for those resources.
+OK, this one goes back to WIP/draft for now. I flew too close to the sun.
+
+ CMake: Rename, modernize Findjsoncpp.cmake
+ - Rename (change of case only, `JsonCpp` - Move `IMPORTED` target creation to the Find module, and add version number detection/reporting (requirements, too, if needed)
+- Switch to lowercase variable forms (e.g. `jsoncpp_FOUND`)
+# [Codecov](https://codecov.io/gh/OpenShot/libopenshot/pull/502?src> Merging [#502](https://codecov.io/gh/OpenShot/libopenshot/pull/502?src=pr&el=desc) into [develop](https://codecov.io/gh/OpenShot/libopenshot/commit/9e7e741596c31a7ff3f6487949455dbb72452270&el=desc) will **not change** coverage.
+> The diff coverage is `n/a`.
+
+[![Impacted file tree graph](https://codecov.io/gh/OpenShot/libopenshot/pull/502/graphs/tree.svg?width=650&height=150&src=pr&token=vTQfyqYjOp)](https://codecov.io/gh/OpenShot/libopenshot/pull/502?src=pr&el=tree)
+
+```diff
+@@           Coverage Diff            @@
+##           develop     #502   +/-   ##
+========================================
+  Coverage    48.24%   48.24%           
+========================================
+  Files          128      128           
+  Lines         9962     9962           
+========================================
+  Hits          4806     4806           
+  Misses        5156     5156           
+```
+
+
+
+------
+
+[Continue to review full report at Codecov](https://codecov.io/gh/OpenShot/libopenshot/pull/502?src=pr&el=continue).
+> **Legend** - [Click here to learn more](https://docs.codecov.io/docs/codecov-delta)
+> `Δ = absolute <relative> (impact)`, `ø = not affected`, `? = missing data`
+> Powered by [Codecov](https://codecov.io/gh/OpenShot/libopenshot/pull/502?src=pr&el=footer). Last update [9e7e741...21f21cf](https://codecov.io/gh/OpenShot/libopenshot/pull/502?src=pr&el=lastupdated). Read the [comment docs](https://docs.codecov.io/docs/pull-request-comments).
+
+
+Whoops. Should be fixed now.
+
+Merging this, as CMake 3.17 complains about the mismatched name.
+
+ Add Mac & Win CI builds with Travis, AppVeyor
+ Once again, mirroring OpenShot/libopenshot-audio#96, _this_ PR adds not only Windows building in AppVeyor, but also introduces a rudimentary form of "pseudo-chained" macOS building as well.
+
+More than the usual set of caveats begin to apply, however.
+1. The unit tests are disabled under Windows, because (even after I finally managed to get UnitTest++ _building_ at all; there's no MSYS package for it) they're currently failing, for reasons that aren't completely clear to me.<sup>1</sup> You might say that the lack of unit tests makes doing CI builds under Windows sort of pointless, and I would be forced to agree. But, hopefully the issues with the tests can be solved.
+1. I had to disable the Ruby bindings under both Windows and macOS, because they also failed to build if attempted. On the macOS side our old friend `isinfinite` decided to start breaking things again, and there were some other issues with the Ruby includes in XCode on Travis. In the end I just gave up on trying to figure out what the problem was, though.
+1. Both the Windows and macOS builds are, as I said, "pseudo-chained". Basically how it works is, prior to building libopenshot itself, the CI run will first check out, build, and install libopenshot-audio. Completely, from scratch, from the `develop` branch. Every time.
+    It's a slow process, though I may be able to achieve minor speedups using the AppVeyor and Travis cache feature(s) to store and re-use previously-built libopenshot-audio installs. I had that half-working, but ended up tearing it out for this PR because it was causing hard-to-diagnose build issues. I figured best to get it working, period, first, and then we can experiment with improvements to the process.
+1. Building on Windows and macOS involves installing all of the dependencies for every build, using either MSYS or Homebrew respectively. This process _also_ takes an extremely long time, relative to installing Linux dependencies om Ubuntu via `apt`. Also, both packaging systems have to be updated internally before they can install anything else, which _really_ sucks time. Homebrew in particular takes something like _**5-6 minutes**_ just to sync its catalog. But, if the update isn't run — again, _every_ time — then the Travis Homebrew plugin will actually break and fail the build, since they update their macOS system images so infrequently that there are periods where it ends up becoming completely incompatible with the central repo until they update it again. We are currently in such a period.
+
+The same vestigial NuGet packaging I included in the PR on libopenshot-audio is here in this repo as well, though it's just as non-functional and abandoned.
+
+OH!! I forgot to mention an incredibly small, but very important change: Both of these PRs also finally pull the trigger on moving the library targets' `RUNTIME DESTINATION` from `<prefix>/lib` to `<prefix>/bin`, which is the "correct" location for DLL installs under Windows.
+
+I _believe_  `FindOpenShotAudio.cmake` should already support detecting a libopenshot-audio install with the DLL in `bin/` without any changes. If it does need changes, they'll be minor and I can easily throw them in. However, this might affect @SuslikV and anyone else building libopenshot on Windows, so fair warning.
+
+It'll also definitely have implications for the OpenShot packaging scripts, upon merge, but again the changes are ultimately minor and easily made.
+
+#### Notes
+1. Part of the unit test failure issue can be attributed to the Settings unit tests. The settings that get modified there will persist throughout the unit test run, and they affect the rest of the tests. (Singletons are notoriously hard to unit test for this reason.) Especially since one of the changes accidentally enables hardware accelerated decoding, on Windows. But even if I rip out the settings tests, there are failures.
+Ugh, I hate stupid typos. Third time's the charm, hopefully? :crossed_fingers: 
+
+Third time _was_ the charm, though I think I need to rearrange the Travis matrix so macOS isn't last, now that our list of builds to run once again exceeds the concurrency max of 5 jobs. Right now macOS is the one that will be delayed until a previous job completes, which is bad because it also takes more than twice as long to run as any of the Linux builds.
+
+Affects me? ^_^ it will be much easier to drop it forever then. Than to follow the code changes... There was the rise, now there should be the fall. Thank you @ferdnyc for personal warning. It is first time I was warned that something affects me.
+
+ Add version.sh script
+ Just like OpenShot/libopenshot-audio#95, this adds a `version.sh` script at the root of the repo which extracts the `PROJECT_VERSION_FULL` string from `CMakeLists.txt`, and for the same reasons:
+
+> This is useful for building libopenshot-audio as a Mac Homebrew `brew diy` project, which allows ad-hoc building of packages that install directly into the Homebrew environment.
+> 
+> e.g.
+> ```sh
+> $ cd libopenshot-audio
+> $ cmake $(brew diy --name libopenshot-audio --version $(sh ./version.sh)) .
+> [CMake runs with CMAKE_INSTALL_PREFIX set to $(brew --cellar)/libopenshot-audio/<version>/]
+> $ cmake --build .
+> $ cmake --build . --target install
+> $ brew link libopenshot-audio
+> ```
+> ...and libopenshot-audio is linked into `/usr/local/opt/{lib,include}`.
+> 
+
+So, same thing with libopenshot:
+```sh
+$ cd libopenshot
+$ cmake $(brew diy --name libopenshot --version $(sh ./version.sh)) .
+[CMake runs with CMAKE_INSTALL_PREFIX set to $(brew --cellar)/libopenshot/<version>/]
+$ cmake --build .
+$ cmake --build . --target install
+$ brew link libopenshot
+```
+
+One advantage being, you _don't_ have to give the libopenshot `cmake` run the location of a `libopenshot-audio` installed this way, since anything in the homebrew space is considered "system-installed". (With the right user environment variables set, at least. `brew shellenv` can be used to automatically apply that setup.)
+Merging this, as it has no effect currently unless it's manually invoked.
+
+ Make debug handling match libopenshot-audio
+ This PR adds the debug-mode handling logic from the libopenshot-audio CMakeLists to the libopenshot build, ensuring that the two projects are build the same when built under the same circumstances.
+
+(Juce's pickiness about having a `#define` for either `DEBUG` or `NDEBUG` in macOS builds also affects libopenshot, when the two libraries are being linked together, so it helps to have them both on the same page.)
+Going to merge this, as it has implications for some macOS build experiments I'm doing.
+
+ Add all missing override markers on derived-class methods
+ Turns out, some Clang++ versions are _much_ pickier than GCC, and will complain mightily about missing `override` annotations in derived classes. Because this is a header-file issue, the same set of warnings tend to repeat over, and over, and _over_ throughout the build.
+
+This PR silences them all, with appropriate application of `override` wherever necessary.
+# [Codecov](https://codecov.io/gh/OpenShot/libopenshot/pull/498?src> Merging [#498](https://codecov.io/gh/OpenShot/libopenshot/pull/498?src=pr&el=desc) into [develop](https://codecov.io/gh/OpenShot/libopenshot/commit/166f69389b6d8a601b51e8d559c418f56a144bba&el=desc) will **not change** coverage.
+> The diff coverage is `6.89%`.
+
+[![Impacted file tree graph](https://codecov.io/gh/OpenShot/libopenshot/pull/498/graphs/tree.svg?width=650&height=150&src=pr&token=vTQfyqYjOp)](https://codecov.io/gh/OpenShot/libopenshot/pull/498?src=pr&el=tree)
+
+```diff
+@@           Coverage Diff            @@
+##           develop     #498   +/-   ##
+========================================
+  Coverage    48.24%   48.24%           
+========================================
+  Files          128      128           
+  Lines         9962     9962           
+========================================
+  Hits          4806     4806           
+  Misses        5156     5156           
+```
+
+
+| [Impacted Files](https://codecov.io/gh/OpenShot/libopenshot/pull/498?src=pr&el=tree) | Coverage Δ | |
+|---|---|---|
+| [include/ChunkReader.h](https://codecov.io/gh/OpenShot/libopenshot/pull/498/diff?src=pr&el=tree#diff-aW5jbHVkZS9DaHVua1JlYWRlci5o) | `0.00% <0.00%> (ø)` | |
+| [include/Clip.h](https://codecov.io/gh/OpenShot/libopenshot/pull/498/diff?src=pr&el=tree#diff-aW5jbHVkZS9DbGlwLmg=) | `88.88% <ø> (ø)` | |
+| [include/DummyReader.h](https://codecov.io/gh/OpenShot/libopenshot/pull/498/diff?src=pr&el=tree#diff-aW5jbHVkZS9EdW1teVJlYWRlci5o) | `0.00% <0.00%> (ø)` | |
+| [include/FrameMapper.h](https://codecov.io/gh/OpenShot/libopenshot/pull/498/diff?src=pr&el=tree#diff-aW5jbHVkZS9GcmFtZU1hcHBlci5o) | `75.00% <0.00%> (ø)` | |
+| [include/ImageReader.h](https://codecov.io/gh/OpenShot/libopenshot/pull/498/diff?src=pr&el=tree#diff-aW5jbHVkZS9JbWFnZVJlYWRlci5o) | `25.00% <0.00%> (ø)` | |
+| [include/QtHtmlReader.h](https://codecov.io/gh/OpenShot/libopenshot/pull/498/diff?src=pr&el=tree#diff-aW5jbHVkZS9RdEh0bWxSZWFkZXIuaA==) | `0.00% <0.00%> (ø)` | |
+| [include/QtTextReader.h](https://codecov.io/gh/OpenShot/libopenshot/pull/498/diff?src=pr&el=tree#diff-aW5jbHVkZS9RdFRleHRSZWFkZXIuaA==) | `0.00% <0.00%> (ø)` | |
+| [include/TextReader.h](https://codecov.io/gh/OpenShot/libopenshot/pull/498/diff?src=pr&el=tree#diff-aW5jbHVkZS9UZXh0UmVhZGVyLmg=) | `0.00% <0.00%> (ø)` | |
+| [include/Timeline.h](https://codecov.io/gh/OpenShot/libopenshot/pull/498/diff?src=pr&el=tree#diff-aW5jbHVkZS9UaW1lbGluZS5o) | `68.75% <0.00%> (ø)` | |
+| [include/effects/Bars.h](https://codecov.io/gh/OpenShot/libopenshot/pull/498/diff?src=pr&el=tree#diff-aW5jbHVkZS9lZmZlY3RzL0JhcnMuaA==) | `0.00% <ø> (ø)` | |
+| ... and [15 more](https://codecov.io/gh/OpenShot/libopenshot/pull/498/diff?src=pr&el=tree-more) | |
+
+------
+
+[Continue to review full report at Codecov](https://codecov.io/gh/OpenShot/libopenshot/pull/498?src=pr&el=continue).
+> **Legend** - [Click here to learn more](https://docs.codecov.io/docs/codecov-delta)
+> `Δ = absolute <relative> (impact)`, `ø = not affected`, `? = missing data`
+> Powered by [Codecov](https://codecov.io/gh/OpenShot/libopenshot/pull/498?src=pr&el=footer). Last update [166f693...f62f2ba](https://codecov.io/gh/OpenShot/libopenshot/pull/498?src=pr&el=lastupdated). Read the [comment docs](https://docs.codecov.io/docs/pull-request-comments).
+
+
+I was mistaken, blaming Clang for this — I forgot that I set libopenshot-audio to build with `-Wall -Wpedantic` flags in Travis, and it's when applying those same flags to the libopenshot build that the compiler (any of them) gets mouthy about all the missing `override`s. Still, this PR silences those warnings, and lets us build with better code-quality checks enabled. Merging.
+
+ Rename our BaseException class to ExceptionBase, for Python
+ `pylint` pointed out that `BaseException` is a Python standard library exception class (not quite a reserved word, but pretty close), so it's not a great idea to redefine that name in our bindings. 
+
+This PR renames it to `ExceptionBase`, which is actually more in keeping with our standard class naming system anyway. (Compare `ReaderBase`, `EffectBase`, `CacheBase`, etc.)
+This is pretty minor, and it's best if we avoid name clashes in Python. Merging.
+
+ Transform Improvements (Keyframe origin point)
+ Adding keyframable origin point (for shear and rotation). Used in https://github.com/OpenShot/openshot-qt/pull/3366. Both rotation and shear use an origin point to control how those tools work. This allows the user to not only set a custom origin point (as a % of the original clip), but it allows the origin to be animated, which allows for some really great animations!
+
+origin_x: **0.0** = left side of clip
+origin_x: **1.0** = right side of clip
+
+origin_y: **0.0** = top side of clip
+origin_y: **1.0** = bottom side of clip
+# [Codecov](https://codecov.io/gh/OpenShot/libopenshot/pull/496?src> Merging [#496](https://codecov.io/gh/OpenShot/libopenshot/pull/496?src=pr&el=desc) into [develop](https://codecov.io/gh/OpenShot/libopenshot/commit/166f69389b6d8a601b51e8d559c418f56a144bba&el=desc) will **increase** coverage by `0.00%`.
+> The diff coverage is `40.90%`.
+
+[![Impacted file tree graph](https://codecov.io/gh/OpenShot/libopenshot/pull/496/graphs/tree.svg?width=650&height=150&src=pr&token=vTQfyqYjOp)](https://codecov.io/gh/OpenShot/libopenshot/pull/496?src=pr&el=tree)
+
+```diff
+@@           Coverage Diff            @@
+##           develop     #496   +/-   ##
+========================================
+  Coverage    48.24%   48.24%           
+========================================
+  Files          128      128           
+  Lines         9962     9972   +10     
+========================================
++ Hits          4806     4811    +5     
+- Misses        5156     5161    +5     
+```
+
+
+| [Impacted Files](https://codecov.io/gh/OpenShot/libopenshot/pull/496?src=pr&el=tree) | Coverage Δ | |
+|---|---|---|
+| [include/Clip.h](https://codecov.io/gh/OpenShot/libopenshot/pull/496/diff?src=pr&el=tree#diff-aW5jbHVkZS9DbGlwLmg=) | `88.88% <ø> (ø)` | |
+| [src/Clip.cpp](https://codecov.io/gh/OpenShot/libopenshot/pull/496/diff?src=pr&el=tree#diff-c3JjL0NsaXAuY3Bw) | `39.45% <40.00%> (+0.01%)` | :arrow_up: |
+| [src/Timeline.cpp](https://codecov.io/gh/OpenShot/libopenshot/pull/496/diff?src=pr&el=tree#diff-c3JjL1RpbWVsaW5lLmNwcA==) | `38.65% <41.66%> (+0.13%)` | :arrow_up: |
+
+------
+
+[Continue to review full report at Codecov](https://codecov.io/gh/OpenShot/libopenshot/pull/496?src=pr&el=continue).
+> **Legend** - [Click here to learn more](https://docs.codecov.io/docs/codecov-delta)
+> `Δ = absolute <relative> (impact)`, `ø = not affected`, `? = missing data`
+> Powered by [Codecov](https://codecov.io/gh/OpenShot/libopenshot/pull/496?src=pr&el=footer). Last update [166f693...2bea436](https://codecov.io/gh/OpenShot/libopenshot/pull/496?src=pr&el=lastupdated). Read the [comment docs](https://docs.codecov.io/docs/pull-request-comments).
+
+
+ Set decoding and encoding color details
+ 1) This solves issue when imported files wrongly decoded as BT.601 videos ("greenish" result in the preview of OpenShot).
+
+2) This solves issue when imported 4:2:0 files has "stairs" artifacts on colored objects (noticeble in Save Frame or image sequence Export of OpenShot).
+
+**Edit:**
+"Reference" input 4:2:0 mp4 file of BT.709 space, transfer, primaries, chroma origin is left, range is partial.
+![In mpv Player orig](https://user-images.githubusercontent.com/19683044/79047579-38aed100-7c20-11ea-9407-501f5be9ab2e.png)
+
+What was wrong? Colors!
+OpenShot's _Video Preview_. Just screenshot (I see it the same "greenish" on my screen). You can attempt to adjust colors but this will be mistake, because preview shouldn't change colors of the input but can has scaling artifacts (right edge has color spill over the grey about one pixel width - this is fast_bilinear optimizations of FFmpeg, so it's OK for preview)
+![Preview in OpenShot 251 of 420 file bt709 tv](https://user-images.githubusercontent.com/19683044/79047601-5b40ea00-7c20-11ea-9989-1a9dcd43a47d.png)
+
+OpenShot's _Save Frame_ or _Image Sequence Export_ colors are wrong. And these images can be used for production. This is no good. Also, some simplifications (no chroma scale down back to 1/2) makes the final output even worse - details is here: https://github.com/OpenShot/openshot-qt/pull/3335#issuecomment-610788981
+![OpenShot 251 SaveFrame or Image seq Export](https://user-images.githubusercontent.com/19683044/79047643-90e5d300-7c20-11ea-8d46-55d8c82ff424.png)
+
+Image import - movie Export (23 crf, mp4 720p, playback in mpv, screenshot - I see it the same "dark green" on my screen, file was not flagged for color space), So better to not import PNG images (RGB) into OpenShot or colors in export will be wrong
+![In mpv Player OpenShot 251 Export Image only file](https://user-images.githubusercontent.com/19683044/79047655-b1159200-7c20-11ea-9bbf-04893c1bb8cb.png)
+
+------------------
+
+I hope that next changes will improve quality for the _Export_ (both: scale and colors) and _Preview_ (only colors). I can say that only for OpenShot's preview there is enough _Point_ scaling, because it is only preview... (and any source can be scaled up by Qt transform that itself set to bilinear). But someone may want to use library somewhere else, and may not know about `HIGH_QUALITY_SCALING` switch in _libopenshot_, so I decided to not make changes to `scale_mode=SWS_FAST_BILINEAR` when lower quality is in use.
+
+Some thoughts are inspired by Jason Summers ( entropymine.com/jason/ ) and Charles Poynton (if site even needed here?)
+
+**info:** This is part of the: https://github.com/OpenShot/libopenshot/pull/219
+For old FFmpeg the option `AV_OPT_TYPE_PIXEL_FMT` is actually `AV_OPT_TYPE_INT`. Next day I'll see if there simple workarounds.
+
+And maybe few colored pictures needed here ^_^
+
+ [IDEA] Automated multitrack sync
+ Hi there, I recently discovered a very cool lib called [Aurio](https://github.com/protyposis/Aurio) "that focuses on audio processing, analysis, media synchronization and media retrieval and implements various audio fingerprinting methods".
+
+As [this video](https://www.youtube.com/watch?v=QXQVPXjR3Lc) demonstrates, it's able - through its GUI called [AudioAlign](https://github.com/protyposis/AudioAlign) - to analyze and align audios between many (video) tracks.
+
+The only drawback is that it has been developed in C# for .NET, so it's Windows-only.
+
+It would be really great to establish some kind of collaboration between projects in order to (finally) obtain a platform-indipendent open source a/v synchronizer.
+
+Hope that inspires.
+
+Note: I'm pushing this to other projects too...
+This has nothing to do with openshot itself.
+
+No?
+Isn't OpenShot a multitrack NLE ?
+
+ Improved Profile file parsing and error handling
+ Modified the Profile constructor to better identify invalid or malformed Profile files and throw more informative exceptions when issues are encountered.  I will also be modifying openshot-qt to better handle these exceptions rather than failing silently.
+
+This resolves an issue I had when a malformed Profile file caused a segmentation fault.
+
+While I was in the code, I modified the InterpolateBetween function in KeyFrame.cpp to eliminate a compiler warning.
+# [Codecov](https://codecov.io/gh/OpenShot/libopenshot/pull/493?src> Merging [#493](https://codecov.io/gh/OpenShot/libopenshot/pull/493?src=pr&el=desc) into [develop](https://codecov.io/gh/OpenShot/libopenshot/commit/166f69389b6d8a601b51e8d559c418f56a144bba&el=desc) will **decrease** coverage by `0.01%`.
+> The diff coverage is `5.55%`.
+
+[![Impacted file tree graph](https://codecov.io/gh/OpenShot/libopenshot/pull/493/graphs/tree.svg?width=650&height=150&src=pr&token=vTQfyqYjOp)](https://codecov.io/gh/OpenShot/libopenshot/pull/493?src=pr&el=tree)
+
+```diff
+@@             Coverage Diff             @@
+##           develop     #493      +/-   ##
+===========================================
+- Coverage    48.24%   48.22%   -0.02%     
+===========================================
+  Files          128      128              
+  Lines         9962     9965       +3     
+===========================================
+  Hits          4806     4806              
+- Misses        5156     5159       +3     
+```
+
+
+| [Impacted Files](https://codecov.io/gh/OpenShot/libopenshot/pull/493?src=pr&el=tree) | Coverage Δ | |
+|---|---|---|
+| [src/Profiles.cpp](https://codecov.io/gh/OpenShot/libopenshot/pull/493/diff?src=pr&el=tree#diff-c3JjL1Byb2ZpbGVzLmNwcA==) | `0.00% <0.00%> (ø)` | |
+| [src/KeyFrame.cpp](https://codecov.io/gh/OpenShot/libopenshot/pull/493/diff?src=pr&el=tree#diff-c3JjL0tleUZyYW1lLmNwcA==) | `78.80% <50.00%> (-0.32%)` | :arrow_down: |
+
+------
+
+[Continue to review full report at Codecov](https://codecov.io/gh/OpenShot/libopenshot/pull/493?src=pr&el=continue).
+> **Legend** - [Click here to learn more](https://docs.codecov.io/docs/codecov-delta)
+> `Δ = absolute <relative> (impact)`, `ø = not affected`, `? = missing data`
+> Powered by [Codecov](https://codecov.io/gh/OpenShot/libopenshot/pull/493?src=pr&el=footer). Last update [166f693...ccc31c1](https://codecov.io/gh/OpenShot/libopenshot/pull/493?src=pr&el=lastupdated). Read the [comment docs](https://docs.codecov.io/docs/pull-request-comments).
+
+
+Thanks again, Frank.  I appreciate that you not only give suggestions but
+that you take the time to explain your thinking.  I find it very
+enlightening.
+
+1) Addition of extraneous whitespace:
+Gotcha.  Not sure how that happened, but I'll revert it.
+
+2) Consolidating string trimming:
+Yup.  Pretty obvious now that you point it out.  Thank you.
+
+3) Handling unrecognized settings:
+Again, good point.  I was approaching this from a different perspective.
+Your explanation makes perfect sense.  Again, thank you.
+
+4) Handling '=' sign detection:
+I like your approach of always splitting the line and I'll implement that.
+We can tackle allowing '=' signs in descriptions for another time, I think.
+
+5) Comments:
+What are your thoughts about adding the ability to include comments in
+profiles?  It seemed like a good idea at the time, but it now feels like
+overkill to me.  If you see a benefit to allowing comments, I think I'll
+improve my implementation to allow trailing comments to be stripped off of
+otherwise valid lines.
+
+Thanks again, Frank.  I'll make these changes today.
+
+On Sat, Apr 4, 2020 at 4:10 PM Frank Dana <notifications@github.com> wrote:
+
+> *@ferdnyc* requested changes on this pull request.
+>
+> Mostly just a few minor, take-it-or-leave-it suggestions, but the "don't
+> throw on unrecognized data" thing I'm pretty firm on. (In observance of Postel's
+> Law <https://en.wikipedia.org/wiki/Robustness_principle>.)
+> ------------------------------
+>
+> In src/KeyFrame.cpp
+> <https://github.com/OpenShot/libopenshot/pull/493#discussion_r403516302>:
+>
+> > -		assert(target <= right.co.X);
+>
+> +		assert(target <= right.co.X);
+>
+>
+> Drop this change, please (addition of extraneous whitespace)
+> ------------------------------
+>
+> In src/Profiles.cpp
+> <https://github.com/OpenShot/libopenshot/pull/493#discussion_r403517432>:
+>
+> > +			QString line = in.readLine();
+>
+> +
+>
+> +            // Trim any extra whitespace from the line
+>
+> +            line = line.trimmed();
+>
+>
+> Might be simpler to do this all in one go, like with the splitted parts a
+> few lines down.
+> ⬇️ Suggested change
+>
+> -			QString line = in.readLine();
+>
+> -
+>
+> -            // Trim any extra whitespace from the line
+>
+> -            line = line.trimmed();
+>
+> +			QString line = in.readLine().trimmed();
+>
+>
+> ------------------------------
+>
+> In src/Profiles.cpp
+> <https://github.com/OpenShot/libopenshot/pull/493#discussion_r403520484>:
+>
+> > +                else {
+>
+> +                    // Any other setting makes the file invalid
+>
+> +                    std::ostringstream oss;
+>
+> +                    oss << "Unrecognized setting \"" << setting << "\" encountered";
+>
+> +                    throw std::runtime_error(oss.str());
+>
+>
+> Honestly, I'm pretty wary of this. *Logging* an unrecognized setting
+> (using ZmqLogger::Instance()->AppendDebugMethod()) would be OK, but not
+> bailing on the entire file.
+>
+> If an unrecognized parameter is an error, then whenever we next need to
+> extend the format with new parameters, we'll instantly have a problem with
+> older libopenshot versions breaking if they're fed any of the new files.
+>
+> For backwards-compatibility, far better if the parser simply assumes that
+> anything it doesn't know how to process is valid data that simply isn't
+> meant for its consumption, and continue processing the rest of the file.
+> ------------------------------
+>
+> In src/Profiles.cpp
+> <https://github.com/OpenShot/libopenshot/pull/493#discussion_r403524315>:
+>
+> > +                if (line.contains(QChar('=')) == false) {
+>
+> +                    throw std::runtime_error("Invalid line encountered");
+>
+> +                }
+>
+>
+>
+>  				// Split current line
+>
+>  				QStringList parts = line.split( "=" );
+>
+> -				std::string setting = parts[0].toStdString();
+>
+> -				std::string value = parts[1].toStdString();
+>
+> +				std::string setting = parts[0].trimmed().toStdString();
+>
+> +				std::string value = parts[1].trimmed().toStdString();
+>
+>
+> Despite my previous comments about ignoring unrecognized settings, I'm
+> fine with requiring that each line (except comments) contain an =
+> character, since that can reasonably be considered part of the basic file
+> format.
+>
+> In fact, another way to go, rather than checking for .contains(=), would
+> be to just always .split("=")` the line, and then check that the
+> resulting QStringList contains *exactly* two parts — no more, no less, as
+> either would be an error.
+>
+> Because a file accidentally left like this:
+>
+> width=1280height=720
+>
+> progressive=1
+>
+> frame_rate_num=25
+>
+> frame_rate_den=1
+>
+>
+> ...should probably cause some sort of alarm to be raised.
+>
+> (Unless the line is a description= line, maybe? Might be nice to
+> special-case those so they're allowed to have arguments containing =
+> signs. Hmm. I don't know, have to think on that.)
+>
+> —
+> You are receiving this because you authored the thread.
+> Reply to this email directly, view it on GitHub
+> <https://github.com/OpenShot/libopenshot/pull/493#pullrequestreview-387744970>,
+> or unsubscribe
+> <https://github.com/notifications/unsubscribe-auth/ANBR2HAXXAIK4M6DOKKFQOTRK6V7DANCNFSM4L4NM3MA>
+> .
+>
+
+
+-- 
+- Brad Kartchner
+
+
+ Surround audio (5.1) export issue
+ I've come across a problem where I can not export anything properly with 5.1 surround. The source material are .MTS files (also converted them to mp4 to test, same results). When I export the video, the audio ends before the video clip; feels like it's truncated. I've tried this on the AppImage as well as on Gentoo compiled from source (git).
+
+I see the following in the console when exporting:
+
+[aac @ 0x558a2bc5ed00] Using a PCE to encode channel layout "5.1(side)"
+
+Maybe that has something to do with it?
+
+The source material seems to be identified correctly; from the .osp file:
+
+"reader": {
+ "video_stream_index": 0,
+ "channel_layout": 1551,
+ "video_bit_rate": 3287356,
+ "width": 1920,
+ "height": 1080,
+ "interlaced_frame": false,
+ "file_size": "102039552",
+ "audio_timebase": {
+  "den": 90000,
+  "num": 1
+ },
+ "type": "FFmpegReader",
+ "video_length": "1860",
+ "pixel_format": 0,
+ "sample_rate": 48000,
+ "duration": 31.040000915527344,
+ "video_timebase": {
+  "den": 90000,
+  "num": 1
+ },
+ "channels": 6,
+ "metadata": {},
+ "path": "./00212.MTS",
+ "acodec": "ac3",
+ "fps": {
+  "den": 1001,
+  "num": 60000
+ },
+> `[aac @ 0x558a2bc5ed00] Using a PCE to encode channel layout "5.1(side)"`
+
+Hmm. _That_ message, apparently, is because the OpenShot `LAYOUT_5POINT1` is equivalent to the FFmpeg `AV_CH_LAYOUT_5POINT1`, which [I guess since ffmpeg 4.0](https://trac.ffmpeg.org/ticket/7384) is equivalent to `5.1 (side)`.
+
+According to that bug, the AAC spec doesn't support side-channel 5.1, its 5.1 is the closely-related `AV_CH_LAYOUT_5POINT1_BACK` (with rear surrounds instead of side).
+
+So, we should probably be automatically using `5POINT1_BACK` instead, when encoding to AAC. (Or we should just change the meaning of our `LAYOUT_5POINT1`.)
+
+It's _possible_ that's the cause of your truncated audio. Since (<strike>same bug</strike> according to [this other bug](https://trac.ffmpeg.org/ticket/6974)) when ffmpeg inserts a PCE (Program Configuration Element), by default it only does so once in the beginning of the stream, whereas it should really be repeated at regular intervals. (It is possible to set a flag to have it repeat them at regular intervals, it's just not on by default which is stupid.)
+
+Either way this is a libopenshot bug, so I'm going to transfer it there. I don't think it should be too hard to get the surround definitions right, assuming I'm correct about the PCE being the reason your audio is being cut off. If it's really something else, fixing the layout/PCE stuff may not make any difference. (But it's still worth doing.)
+
+OK, I have a patch for libopenshot that detects when we're exporting AAC and just silently swaps out `AV_CH_LAYOUT_5POINT1` for `AV_CH_LAYOUT_5POINT1_BACK`. The approach may need to be broadened a little, or we may end up switching to `5POINT1_BACK` as the default across the board, but for now I'm going with a narrowly-targeted fix so we can see whether I'm even on the right track.
+
+I've confirmed that doing that at least eliminates the 'Using a PCE to encode channel layout "5.1(side)"' message. MediaInfo doesn't detect the resulting file any differently, but that's not really that surprising — it's still 5.1 audio either way.
+
+Out of curiosity, how long was the export you were doing when this problem came up, and how long did it go before the audio to cut out?
+
+I've got a 10-minute surround export running now, after it's done I'll repeat it with 2.5.1 release and compare the output. Whether or not I see any difference, as long as it doesn't make the problem any _worse_ I can submit a PR to the repo and get builds generated so I can provide an AppImage that includes this change.
+
+Hrm. In both of my exports (2.5.1 release and the current development code with my surround layout change), the audio cuts off at exactly `3 min 32 s 502 ms` into a `10 min 37 s 534 ms` video export. The layout change had no effect on that.
+
+So, there's definitely still a bug here, which I believe I've reproduced, but the cause is _not_ the layout or the use of PCE in the AAC audio stream. At this point I don't know what's causing it, I'll have to run another export with full logging enabled, see if that helps turn up any clues.
+
+Thank you for having a look and being able to confirm! Let me know if you need me to test anything or if I can help in any other way.
+
+Update so far: This is the result of my exporting the exact same 10-minute timeline (containing a single 5.1-channel source video)...
+
+1. To MP4 AVC+AAC with stereo audio (top pair of waveforms)
+1. To MP4 AVC+AAC in 5.1-channel surround (remaining waveforms)
+
+![image](https://user-images.githubusercontent.com/538020/78176142-0932e400-742a-11ea-9d91-f3ff41a62309.png)
+
+As you can see, the issue is not that the audio is _truncated_, it's that it runs out far too early.
+
+It doesn't appear that the audio is "sped up" per se. From a quick listen, it didn't seem as though pitch was drastically elevated.
+
+Rather, it appears that samples are being dropped **constantly**. In fact, since the output audio is less than half its original length, it would seem that more end up getting dropped than actually make it into the output stream.
+
+cc: @jonoomph @eisneinechse 
+
+Oh, and if you were wondering whether the exported audio might perhaps be **EXACTLY** one-third the length of the original: That'd be an affirmative.
+
+![image](https://user-images.githubusercontent.com/538020/78177245-d38efa80-742b-11ea-93ad-a5aa69376da1.png)
+
+
+Clearly, the 5.1-channel processing is mistakenly doing some math somewhere that's based on an assumption of 2-channel output, and is therefore losing 2/3 of the data.
+
+(Presumably I could do a 7.1-channel export and come up with a quarter-length version, as well.)
+
+Side notes (really, the "side").
+Some info about surrounding sound (you are not the only one who make mistakes in this):
+https://github.com/obsproject/obs-studio/pull/1145#issuecomment-357448369 and few posts below.
+
+> I've confirmed that doing that at least eliminates the 'Using a PCE to encode channel layout "5.1(side)"' message. MediaInfo doesn't detect the resulting file any differently, but that's not really that surprising — it's still 5.1 audio either way.
+
+That part actually wasn't true, switching from `LAYOUT_5POINT1` to  `AV_CH_LAYOUT_5POINT1_BACK` actually caused an LFE channel to be detected that wasn't there with the PCE-driven "5.1 (side)" output. MediaInfo detects OpenShot 2.5.1 encodes using 5.1-channel surround like this:
+```
+Channel(s)                               : 6
+Channel(s)                               : 6 channels
+Channel positions                        : Front: L C R, Side: C, Back: L R
+Channel positions                        : 3/1/2
+Channel layout                           : L R C Cb Lb Rb
+```
+
+Now, whether in practice that actually means anything, or if it's just a MediaInfo quirk, I couldn't say. But it seems like that switch to `AV_CH_LAYOUT_5POINT1_BACK` might make sense to do even though it's not the source of the incomplete audio output bug.
+
+(Interestingly, with the `_BACK` layout, MediaInfo instead detects this — note the **absence** of any rear surround channels — so I'm totally lost now):
+```
+Channel(s)                               : 6
+Channel(s)                               : 6 channels
+Channel positions                        : Front: L C R, Side: L R, LFE
+Channel positions                        : 3/2/0.1
+Channel layout                           : C L R Ls Rs LFE
+```
+
+Not sure if this means anything, but in FFmpegWriter.cpp there are two locations in the function write_audio_packets() that set a parameter to AV_SAMPLE_FMT_S16 instead of output_sample_fmt:
+
+int error_code = avcodec_fill_audio_frame(audio_frame, channels_in_frame, AV_SAMPLE_FMT_S16, (uint8_t *) all_queued_samples, all_queued_samples_size, 0);
+
+and
+
+remaining_frame_samples = nb_samples * av_get_bytes_per_sample(AV_SAMPLE_FMT_S16);
+
+Shouldn't those be based on the output_sample_fmt instead of set to AV_SAMPLE_FMT_S16?
+
+I'm not at all familiar with this code base, so I apologize if I'm way off base...
+
+EDIT: 
+The above is probably not correct, however a quick test to see if remaining_frame_samples could be wrong shows that setting it to the below seems to change tings:
+
+remaining_frame_samples = nb_samples * av_get_bytes_per_sample(output_sample_fmt) * 1.5;
+
+On a 13 second track, without the factor 1.5 it becomes 9 seconds.
+
+EDIT 2:
+
+remaining_frame_samples = nb_samples * av_get_bytes_per_sample(AV_SAMPLE_FMT_S16) * 3;
+
+Going back to the original AV_SAMPLE_FMT_S16 for remaining_frame_samples but multiplying by 3 gives the same result, so yes, it seems that remaining_frame_samples is not correct and is obviously missing the data for the 4 other channels and only takes 2 channels into account. Maybe nb_samples is calculated wrong?
+
+@PurpleAlien 
+
+I took a look at that when you brought it up — the sample formats seem to be correct, AFAICT. The places where `AV_SAMPLE_FMT_S16` is used are where it's referencing the _input_ samples, which for that function are (the comments imply) always 16-bit signed. The sample format is separate from the channel count, anyway, so it wouldn't necessarily be different for 5.1-channel vs. 2-channel. Either layout can be using `AV_SAMPLE_FMT_S16` or some other format, for the sample data on **each** channel.
+
+I had my suspicions (and you confirmed) that the sample counts were simply being computed wrong, but it's not because of the sample format (as you also confirmed).
+
+One item of particular interest to me is this one, even though it's in a completely different part of the code:
+https://github.com/OpenShot/libopenshot/blob/166f69389b6d8a601b51e8d559c418f56a144bba/src/FFmpegWriter.cpp#L913-L919
+
+Note first the comment that even says, "for some reason, it requires me to multiply channels X 2".
+
+But then also note that:
+1. Nothing's actually multiplied by 2, though the channel count is multiplied by `av_get_bytes_per_sample(AV_SAMPLE_FMT_S16)` instead — which does happen to be 2.
+1. It's only done for libavformat >= 54. (Which is ffmpeg 2, so every version we actually support now — still, it's odd).
+
+I don't know if that comment is outdated or what, but it does make me suspect the math in terms of audio data indexing in general. It could be that using the channel count in the code above is actually _incorrect_, so multiplying by `av_get_bytes_per_sample(AV_SAMPLE_FMT_S16)` happens to cancel out for 2-channel, but it ends up dividing by 3 for 5.1-channel.
+
+I also notice that ffmpeg's own [`swr_next_pts()`](https://ffmpeg.org/doxygen/4.0/group__lswr.html#gaad9811626c6c01a241f6bf46aff27333) function to deal with those conversions is [_quite_ complex](https://ffmpeg.org/doxygen/4.0/swresample_8c_source.html#l00909), making me think that the ad-hoc version we do just past the section I quoted above may be somewhat lacking. We should also probably just be using their function.
+
+But their code never involves the channel count in any pts math, making me even more suspicious of the quoted section. Take, for example, [`filter_frame`](https://ffmpeg.org/doxygen/4.0/af__aresample_8c_source.html#l00182):
+```c
+    if(insamplesref->pts != AV_NOPTS_VALUE) {
+         int64_t inpts = av_rescale(insamplesref->pts,
+             inlink->time_base.num * (int64_t)outlink->sample_rate * inlink->sample_rate,
+             inlink->time_base.den);
+         int64_t outpts= swr_next_pts(aresample->swr, inpts);
+         aresample->next_pts =
+         outsamplesref->pts  = ROUNDED_DIV(outpts, inlink->sample_rate);
+     } else {
+         outsamplesref->pts  = AV_NOPTS_VALUE;
+     }
+     n_out = swr_convert(aresample->swr, outsamplesref->extended_data, n_out,
+                                  (void *)insamplesref->extended_data, n_in);
+```
+
+What I'm hung up on, right now, is why in hell all this work is done in FFmpegReader and FFmpegWriter to convert the audio data into `AV_SAMPLE_FMT_S16`, when it's going to be stored in the `Frame` as a `juce::AudioSampleBuffer` which is floating-point. (It's a deprecated alias for `juce::AudioBuffer<float>`, to be precise.)
+
+FFmpeg _has_ an `AV_SAMPLE_FMT_FLT`, so I am trying very hard to understand why in flippity the data isn't just converted to **_THAT_** instead!?!
+
+...It wouldn't change _this_ issue, or at least I highly doubt it would. But it might make it more clear where the problem _is_ that's causing this issue. The endless conversions and re-conversions of the data are part of what make these functions so impossible to follow. (The other part is that the functions are incredibly, incredibly long spaghetti code built out of cut-and-paste repetitions of the same operations — except _sliiiightly_ different, because the code has morphed over time — and there's absolutely no encapsulation whatsoever.)
+
+Can't do much for performance, either.
+
+Yes, I've been staring at the code for a few days now and can't understand why it needs to be this complicated. I personally think that a lot of the stuff in FFmpegReader and FFmpegWriter is not needed and the whole thing should be much simpler.
+
+Programmer grows together with the code.
+Any developers looking back at their own code (after the years were passed) watches with a wide opened eyes... Feeling pride for algorithm complexity and shame for the obvious bugs.
+
+Big chance that if you'll be able to fix the problem - the changes will be accepted. And optimizations should come in separate commits I think.
+
+Would working around the issue by doing something like:
+
+`nb_samples = nb_samples * (info.channels/2);`
+
+be at all acceptable at this time? This fixes things for 5.1 export, and 2 channels still works naturally. I did not test 7.1 or surround (3 channels). 
+
+ INSTALL.md: Formatting, markdown cleanup
+ Fixed up the MarkDown a bunch, got rid of all those headings preceded by bullets (which are not legal markdown), and added some more possible CMake flags to the list (as well as cleaned up the existing ones and organized them into categories).
+Huh. I honestly thought I'd already merged this.
+
+ AV_GET_CODEC_TYPE() points to different enum types. Drop support for FFmpeg below 0.8 and below
+ The AV_GET_CODEC_TYPE() returns `codec_type` field that itself has different types depending on FFmpeg version
+
+Compare types of the `codec_type` field:
+https://ffmpeg.org/doxygen/0.5/structAVCodecContext.html
+vs
+https://ffmpeg.org/doxygen/1.0/structAVCodecContext.html
+
+This also has workaround in the code, that doesn't uses AV_GET_CODEC_TYPE() call at all (stream not in use here):
+https://github.com/OpenShot/libopenshot/blob/166f69389b6d8a601b51e8d559c418f56a144bba/src/FFmpegWriter.cpp#L1074-L1078
+
+https://github.com/OpenShot/libopenshot/blob/166f69389b6d8a601b51e8d559c418f56a144bba/src/FFmpegWriter.cpp#L1157-L1161
+
+and next part of the code missing this version check:
+here the `AVMEDIA_TYPE_AUDIO` can be `CODEC_TYPE_AUDIO` and vise versa.
+https://github.com/OpenShot/libopenshot/blob/166f69389b6d8a601b51e8d559c418f56a144bba/src/FFmpegWriter.cpp#L798-L804
+
+If FFmpeg below 0.8 isn't supported then some checks can be omitted.
+Similar to already  proposed changes: https://github.com/OpenShot/libopenshot/pull/455
+\*nod* As you note, #455 already takes care of removing these, along with a bunch of other ancient code paths. Though, yeah, the fact that ffmpeg with `CODEC_TYPE_VIDEO` would still break **anyway** when it got to line 799 is even more reason to lose that code.
+
+(I wonder if I can drop any of `FFmpegUtilities.h` also, though? Hmmm...)
+
+ FFmpegWriter loses SAR (sample aspect ratio) on output videos
+ While looking into OpenShot/openshot-qt#3329 some, I decided to export the test video I had set up with the "NTSC 23.98 fps" profile, which is the one with this definition:
+
+```
+description=NTSC 23.98 fps
+frame_rate_num=24000
+frame_rate_den=1001
+width=720
+height=486
+progressive=1
+sample_aspect_num=8
+sample_aspect_den=9
+display_aspect_num=4
+display_aspect_den=3
+colorspace=601
+```
+
+However, when I exported the video, I was surprised to discover that despite the Aspect Ratio being set to 4:3 and the Pixel Ratio being set to 8:9 (confirmed on the Advanced / Profile tab), the resulting video detected differently in both VLC and MediaInfo:
+```
+$ mediainfo -Full /var/tmp/aspect.mp4|egrep -i '(width|height| ratio )'
+Width                                    : 720
+Width                                    : 720 pixels
+Height                                   : 486
+Height                                   : 486 pixels
+Stored_Height                            : 496
+Sampled_Width                            : 720
+Sampled_Height                           : 486
+Pixel aspect ratio                       : 1.000
+Display aspect ratio                     : 1.481
+Display aspect ratio                     : 3:2
+```
+
+Looking through the code, I noticed that while the `pixel_ratio` Fraction is passed in to `SetVideoOptions()`, after that:
+
+* It's stored in `info.pixel_ratio` (as `.num` and `.den`)
+    https://github.com/OpenShot/libopenshot/blob/166f69389b6d8a601b51e8d559c418f56a144bba/src/FFmpegWriter.cpp#L248-L254
+
+* It's used to compute `info.display_ratio` from the `width` and `height`:
+    https://github.com/OpenShot/libopenshot/blob/166f69389b6d8a601b51e8d559c418f56a144bba/src/FFmpegWriter.cpp#L264-L272
+
+...And then it's _**never used again**_. Nor is `display_ratio`! Neither of them are ever even accessed. Neither one is supplied to any FFmpeg context. In fact, other than setting the `AVCodecContext` `width` and `height`:
+https://github.com/OpenShot/libopenshot/blob/166f69389b6d8a601b51e8d559c418f56a144bba/src/FFmpegWriter.cpp#L1207-L1210
+...there's nothing further in the code that sets the output sizing or attempts to define the `sample_aspect_ratio` of any of the output contexts.
+
+Meanwhile, if I rip DVD content _from_ a 4:3 NTSC DVD, the results are different: 
+```sh
+$ # First converting to AVI, because `ffprobe` can't directly examine .VOB files
+$ cat VTS*.VOB | ffmpeg -i - -s 720x576 -c:v mpeg4 -c:a mp3 -y VTS.avi
+
+$ # Now, the same MediaInfo command I ran on the OpenShot output file above
+$ mediainfo -Full VTS.avi|egrep -i '(width|height| ratio )'
+Width                                    : 720
+Width                                    : 720 pixels
+Height                                   : 576
+Height                                   : 576 pixels
+Sampled_Width                            : 720
+Sampled_Height                           : 576
+Pixel aspect ratio                       : 1.067
+Display aspect ratio                     : 1.333
+Display aspect ratio                     : 4:3
+
+$ # And ffprobe also shows a SAR that isn't 1:1...
+$ ffprobe -hide_banner -i VTS.avi            
+Input #0, avi, from 'VTS.avi':
+  Metadata:
+    encoder         : Lavf58.29.100
+  Duration: 00:08:34.91, start: 0.000000, bitrate: 598 kb/s
+    Stream #0:0: Video: mpeg4 (Simple Profile) (FMP4 / 0x34504D46), yuv420p,
+ 720x576 [SAR 16:15 DAR 4:3], 456 kb/s, 29.97 fps, 29.97 tbr, 29.97 tbn, 30k tbc
+    Stream #0:1: Audio: mp3 (U[0][0][0] / 0x0055), 48000 Hz, stereo, fltp, 128 kb/s
+```
+As a result, when I play the `VTS.avi` file in VLC, it automatically formats itself to 4:3 aspect — switching from "Default" to "4:3" has no discernible effect. However, if I play that `aspect.mp4` test export from OpenShot, switching to "4:3" _does_ change the size, because the "Default" presentation is not correctly sized due to the false 1:1 pixel ratio.
+
+Don't we need to be using the `info.pixel_ratio` to set `sample_aspect_ratio` on the output context, when writing videos with non-uniform pixel ratios?
+
+cc: @jonoomph @eisneinechse @SuslikV 
+ HEIC image support.
+ Hi all,
+
+i am trying to import an image in Apples HEIC format. Unfortunately it fails.
+I think ImageMagick supports HEIC format with libheif.
+I tried to compile openshot and add the support, with no success.
+Could you check and if possible add import for HEIC files?
+Thank you!
+My understanding is that the image will be handled by the Qt library and not by ImageMagick. I am not sure if Qt supports HEIC, it is not listed here: https://doc.qt.io/qt-5/qtimageformats-index.html.
+
+Is it possible to handle the conversion from HEIC to jpg or png before importing in to libopenshot/OpenShot?
+
+Sure i can convert to jpg before importing. 
+Still i think it should be possible to directly import in the original heic format via ImageMagick.
+I think the Clip.cpp is never using ImageReader.cpp to read files.
+When adapting the code to do so it opens the heic file but the color is wrong.
+

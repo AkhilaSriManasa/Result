@@ -1,0 +1,89 @@
+﻿ Mark all tests as IsPackable  Fixed pushing on new tag
+ Merge pull request #135 from grumpydev/feature/build
+
+GitHub Actions, Run on latest .NET Core SDK/macOS, new csproj, dotnet project structure
+ fixed pcl build
+ Added build targets for all .net standards and pcl
+ fixed build
+ WIP nuget packages with source content.
+ Build updates
+ Updated and fixed mvc test application
+ Removed WinRT + dead project types you can't even build/download sdk anymore......
+ added build folder
+ #134 WIP GitHub Actions, Run on latest .NET Core SDK/macOS, new csproj, dotnet project structure
+
+Still more work todo but need to commit so I can run on windows.
+ Add dotnet core test app (#132)
+
+* Update .gitignore
+
+Add test log files to .gitignore
+
+* Fix a .NET Core incompatibility with Delegate.BeginInoke
+
+Fix a .NET Core incompatibility with Delegate.BeginInoke in TinyMessenger (see https://devblogs.microsoft.com/dotnet/migrating-delegate-begininvoke-calls-for-net-core/).  Now all tests pass.
+
+(cherry picked from commit b571041faab644518ae3aa08a0ce9a01e52a31f2)
+
+* Multi-target tests to .NET Framework 4.5 and .NET Core 2.1
+
+Multi-target tests to .NET Framework 4.5 and .NET Core 2.1. I wasn't able to find a way to use older versions (e.g., .NET Framework 4.0, as the original tests were built) and still get them to function in Visual Studio (16.5.4).
+
+* Trim project files
+
+Trim apparently unecessary project propeties in light of switch to
+newer tools and frameworks. It would take some woirk to update
+some of these if they are still needed (e.g, bootstrapper, etc).
+ Merge pull request #127 from gillima/master
+
+Fix Resolve for Types with Generic Interfaces
+ Fix Resolve for Types with Generic Interfaces
+ Merge pull request #124 from 06b/typofixes
+
+Fix typos
+ Fix typos
+ Merge pull request #104 from rouacke/master
+
+Fix compilation with PORTABLE symbol.
+ Merge pull request #111 from grayyang/master
+
+Fix TinyIoCContainer.ResolveAll(Type resolveType) to include unnamed …
+ Merge pull request #114 from Minx-SigEp/master
+
+BUG: Child container unable to resolve open generic.
+ Merge pull request #115 from pcrockett/master
+
+Added TinyIoCConstructorAttribute with tests
+ Merge pull request #119 from jneedhamspkt/NetStandardFix
+
+Fix TinyIoC for use in dotnetstandard builds
+ Merge branch 'master' of github.com:grumpydev/TinyIoC
+ Merge pull request #40 from richardhopton/Tests/UsingConstructorFromAnotherType
+
+Add check for incorrect constructor used
+ Merge pull request #41 from richardhopton/Tests/IEnumerable
+
+Added test for IEnumerable dependencies for documentation purposes
+ Fix TinyIoC for use in dotnetstandard builds
+ Added TinyIoCConstructorAttribute with tests
+ BUG: Child container unable to resolve open generic.
+
+BUG: A child container was unable to resolve an open generic registered
+with its parent container.
+ Fix TinyIoCContainer.ResolveAll(Type resolveType) to include unnamed registration
+ Fix compilation with PORTABLE symbol.
+
+Compiling with the PORTABLE symbol results in several errors.
+
+> The namespace 'TinyIoC' already contains a definition for
+> 'ReverseTypeExtender'
+
+The NETSTANDARD1_6 symbol is OR'd instead of AND'd. Since the rest of
+the symbols are AND'd, this appears to be a copy-and-paste error.
+
+> Inconsistent accessibility: parameter type 'BindingFlags' is less
+> accessible than method 'TypeExtensions.GetConstructors(Type,
+> BindingFlags)'
+
+The BindingFlags enum is marked internal; however, it is included in
+various public method signatures.

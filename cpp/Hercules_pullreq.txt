@@ -1,0 +1,670 @@
+﻿ Update drop chances of Black and White Wing Suits
+ ### Pull Request Prelude
+
+- [x] I have followed [proper Hercules code styling][code].
+- [x] I have read and understood the [contribution guidelines][cont] before making this PR.
+- [x] I am aware that this PR may be closed if the above-mentioned criteria are not fulfilled.
+
+### Changes Proposed
+
+According to DivinePride and my Aegis data the drop chances are:
+- Anubis drops White Wing Suits with a chance of 0,5%.
+- Elusive Luciola Vespa drops Black Wing Suits with a chance of 0,25%.
+
+**Issues addressed:** #562
+
+
+<!-- You can safely ignore the links below:  -->
+
+[cont]: https://github.com/HerculesWS/Hercules/blob/master/CONTRIBUTING.md
+[code]: https://github.com/HerculesWS/Hercules/wiki/Coding-Style
+
+ Remove misleading debug code for nonexistent skill unit group when ending SC_DANCING
+ ### Pull Request Prelude
+
+- [x] I have followed [proper Hercules code styling][code].
+- [x] I have read and understood the [contribution guidelines][cont] before making this PR.
+- [x] I am aware that this PR may be closed if the above-mentioned criteria are not fulfilled.
+
+### Changes Proposed
+
+In 00be89f `skill_stop_dancing()` was removed and its code moved to `status_change_end_()`.
+When moving the code the `NULL` pointer check for the skill unit group was dropped which led to server crashes. ([Bug report.](https://herc.ws/oldboard/tracker/issue-3504-skill-delunitgroup-crashing-map-server-again/?gopid=3504#entry3504))
+To track down the issue some debug code was added in 590cab6 and f41e10d.
+Finally in 8aee60e the `NULL` pointer check was added back but the debug code wasn't removed which caused misleading debug messages until today.
+
+To "fix" this, the ancient debug code should be removed.
+
+**Issues addressed:** #2716
+
+
+<!-- You can safely ignore the links below:  -->
+
+[cont]: https://github.com/HerculesWS/Hercules/blob/master/CONTRIBUTING.md
+[code]: https://github.com/HerculesWS/Hercules/wiki/Coding-Style
+
+ Fix left shift of negative value for GN_CRAZYWEED_ATK
+ ### Pull Request Prelude
+
+- [x] I have followed [proper Hercules code styling][code].
+- [x] I have read and understood the [contribution guidelines][cont] before making this PR.
+- [x] I am aware that this PR may be closed if the above-mentioned criteria are not fulfilled.
+
+### Changes Proposed
+
+Pass `0` for `type` instead of `-1` when calling `skill_addtimerskill()` for `GN_CRAZYWEED`.
+This value is later used to retrieve the skill's unit ID at the given index so `0` is the correct value for `GN_CRAZYWEED` since it has only one unit ID.
+
+**Issues addressed:** #1151
+
+
+<!-- You can safely ignore the links below:  -->
+
+[cont]: https://github.com/HerculesWS/Hercules/blob/master/CONTRIBUTING.md
+[code]: https://github.com/HerculesWS/Hercules/wiki/Coding-Style
+
+ Add MSC_MAGICATTACKED cast condition for monster skills
+ ### Pull Request Prelude
+
+- [x] I have followed [proper Hercules code styling][code].
+- [x] I have read and understood the [contribution guidelines][cont] before making this PR.
+- [x] I am aware that this PR may be closed if the above-mentioned criteria are not fulfilled.
+
+### Changes Proposed
+
+Add MSC_MAGICATTACKED cast condition for monster skills to trigger when a monster has received magic damage.
+
+**Issues addressed:** #2578
+
+
+<!-- You can safely ignore the links below:  -->
+
+[cont]: https://github.com/HerculesWS/Hercules/blob/master/CONTRIBUTING.md
+[code]: https://github.com/HerculesWS/Hercules/wiki/Coding-Style
+
+ Update instancing window display and documentation of instance_create() script command
+ ### Pull Request Prelude
+
+- [x] I have followed [proper Hercules code styling][code].
+- [x] I have read and understood the [contribution guidelines][cont] before making this PR.
+- [x] I am aware that this PR may be closed if the above-mentioned criteria are not fulfilled.
+
+### Changes Proposed
+
+- Use account ID instead of character ID for `IOT_CHAR` in `instance_force_destroy()`.
+- Remove nonexistent return value `-3` from documentation of `instance_create()`.
+ Extend and clean up skill DB code
+ ### Pull Request Prelude
+
+- [x] I have followed [proper Hercules code styling][code].
+- [x] I have read and understood the [contribution guidelines][cont] before making this PR.
+- [x] I am aware that this PR may be closed if the above-mentioned criteria are not fulfilled.
+
+### Changes Proposed
+
+- Add defaults, bounds and validations when reading skill DB.
+- Change maximum length of skill descriptions to `50`.
+- Change maximum skill level to `20`.
+- Remove `FixedCastTime` settings from pre-RE skill DB.
+- Cap `SkillInstances` to `25` (`MAX_SKILLUNITGROUP`) in (pre-)RE skill DB.
+- Remove unused variable `nocast` from `struct s_skill_db`.
+- Make `Hit`, `AttackType`, `InterruptCast`, `CastDefRate`, `Requirements->State`, `Requirements->Items->Amount`, `Unit->Id`, `Unit->Interval` and `Unit->Target` can be grouped by levels.
+- Add missing types to `Unit->Target`.
+- Remove hard-coded required item amounts and update skill DBs accordingly.
+- Implement `Requirements->Items->Any` code.
+- Implement `Requirements->Equip` code.
+- Remove hard-coded required equipment and update skill DBs accordingly.
+- Fix `Requirements->MaxHPTrigger` code in `skill_check_condition_mercenary()`.
+- Implement `Requirements->MaxSPTrigger` code.
+- Update entry structure in skill DBs.
+
+
+
+**Issues addressed:** #1250
+
+
+<!-- You can safely ignore the links below:  -->
+
+[cont]: https://github.com/HerculesWS/Hercules/blob/master/CONTRIBUTING.md
+[code]: https://github.com/HerculesWS/Hercules/wiki/Coding-Style
+
+ Coma status resistance
+ 
+ Add nicks and emails from all commits into AUTHORS file
+ ### Pull Request Prelude
+- [x] I have followed [proper Hercules code styling][code].
+- [x] I have read and understood the [contribution guidelines][cont] before making this PR.
+- [x] I am aware that this PR may be closed if the above-mentioned criteria are not fulfilled.
+
+### Changes Proposed
+Add nicks and emails from all commits into AUTHORS file.
+
+With duplicates because for some people exists more than one emails.
+ Update 1st classes
+ <!-- Before you continue, please change "base: stable" to "base: master" and
+     enable the setting "[√] Allow edits from maintainers." when creating your
+     pull request if you have not already enabled it. -->
+
+<!-- Note: Lines with this <!-- syntax are comments and will not be visible in
+     your pull request. You can safely ignore or remove them. -->
+
+### Pull Request Prelude
+
+<!-- Thank you for working on improving Hercules! -->
+<!-- Please complete these steps and check the following boxes by putting an `x`
+     inside the [brackets] before filing your Pull Request. -->
+
+- [x] I have followed [proper Hercules code styling][code].
+- [x] I have read and understood the [contribution guidelines][cont] before making this PR.
+- [x] I am aware that this PR may be closed if the above-mentioned criteria are not fulfilled.
+
+### Changes Proposed
+Change some skills behaviors to match kro
+
+<!-- Describe the changes that this pull request makes. -->
+
+**Issues addressed:** #2725 <!-- Write here the issue number, if any. -->
+
+
+<!-- You can safely ignore the links below:  -->
+
+[cont]: https://github.com/HerculesWS/Hercules/blob/master/CONTRIBUTING.md
+[code]: https://github.com/HerculesWS/Hercules/wiki/Coding-Style
+
+ Hercules Ultimate Storage System
+ <!-- Before you continue, please change "base: stable" to "base: master" and
+     enable the setting "[√] Allow edits from maintainers." when creating your
+     pull request if you have not already enabled it. -->
+
+<!-- Note: Lines with this <!-- syntax are comments and will not be visible in
+     your pull request. You can safely ignore or remove them. -->
+
+### Pull Request Prelude
+
+<!-- Thank you for working on improving Hercules! -->
+<!-- Please complete these steps and check the following boxes by putting an `x`
+     inside the [brackets] before filing your Pull Request. -->
+
+- [x] I have followed [proper Hercules code styling][code].
+- [x] I have read and understood the [contribution guidelines][cont] before making this PR.
+- [x] I am aware that this PR may be closed if the above-mentioned criteria are not fulfilled.
+
+### Changes Proposed
+
+## Design
+
+Implementation of the Hercules Ultimate Storage System
+Storages can now be created through a configuration file that describes their attributes.
+Example storage configuration:
+    
+```
+{
+        Id: (int)                              (required|unique) Unique Identifier
+        Name: (string)                         (required) Name of the storage sent to the client.
+        Capacity: (int)                        (required) Maximum capacity of the storage.
+}
+```
+
+Additional storages are handled with dynamic arrays that will save a tonne of memory when created, as opposed to a design in which they were implemented using fixed length arrays. In simple terms, a storage of 600 items would approximately cost the same amount of memory as 600 storages with 1 item each.
+They are saved in the same storage database (SQL) as the original separating them by a storage identifier.
+An infinite number of storages can be created, there are no limits.
+The current design implementation only allow saving/loading of approximately 1600 items per storage due to packet size limits.
+    
+PS. Make sure you apply SQL upgrades for this patch!
+
+## Access Modes
+
+Storage access modes can be set through the `openstorage` builtin command.
+
+```
+	STORAGE_ACCESS_VIEW     // View storage only
+	STORAGE_ACCESS_GET      // Allow getting items from storage.
+	STORAGE_ACCESS_PUT      // Allow putting items to storage.
+	STORAGE_ACCESS_ALL      // Allow all actions.
+```
+
+Default storage mode : STORAGE_ACCESS_ALL
+
+## Script Commands
+
+Changed: `openstorage(<storage_id>{, <storage_mode>})`
+
+<!-- Describe the changes that this pull request makes. -->
+
+**Issues addressed:** <!-- Write here the issue number, if any. -->
+* [x] https://github.com/HerculesWS/Hercules/pull/1763
+
+
+<!-- You can safely ignore the links below:  -->
+
+[cont]: https://github.com/HerculesWS/Hercules/blob/master/CONTRIBUTING.md
+[code]: https://github.com/HerculesWS/Hercules/wiki/Coding-Style
+
+ Replace NULL pointer report with returning error code in unit_steptimer()
+ ### Pull Request Prelude
+
+- [x] I have followed [proper Hercules code styling][code].
+- [x] I have read and understood the [contribution guidelines][cont] before making this PR.
+- [x] I am aware that this PR may be closed if the above-mentioned criteria are not fulfilled.
+
+### Changes Proposed
+
+Since it's kind of expectable to occasionally be unable to retrieve the target's `block_list` by its ID in `unit_steptimer()`, the `NULL` pointer report should be replaced with returning an error code.
+
+**Issues addressed:** #2707
+
+
+<!-- You can safely ignore the links below:  -->
+
+[cont]: https://github.com/HerculesWS/Hercules/blob/master/CONTRIBUTING.md
+[code]: https://github.com/HerculesWS/Hercules/wiki/Coding-Style
+
+ Enable receiving not NULL terminated whisper names with a length of 24 characters
+ ### Pull Request Prelude
+
+<!-- Thank you for working on improving Hercules! -->
+<!-- Please complete these steps and check the following boxes by putting an `x`
+     inside the [brackets] before filing your Pull Request. -->
+
+- [x] I have followed [proper Hercules code styling][code].
+- [x] I have read and understood the [contribution guidelines][cont] before making this PR.
+- [x] I am aware that this PR may be closed if the above-mentioned criteria are not fulfilled.
+
+### Changes Proposed
+
+This adds the benefit of gaining an additional character for NPC names when whispering NPCs and does not break anything...
+
+**Issues addressed:** #718
+
+
+<!-- You can safely ignore the links below:  -->
+
+[cont]: https://github.com/HerculesWS/Hercules/blob/master/CONTRIBUTING.md
+[code]: https://github.com/HerculesWS/Hercules/wiki/Coding-Style
+
+ Split mapreg table and refactor mapreg code
+ ### Pull Request Prelude
+
+- [x] I have followed [proper Hercules code styling][code].
+- [x] I have read and understood the [contribution guidelines][cont] before making this PR.
+- [x] I am aware that this PR may be closed if the above-mentioned criteria are not fulfilled.
+
+### Changes Proposed
+
+Split `mapreg` SQL table into separate tables for integer and string variables as a first step for the planned script engine update.
+Additionally refactor code in *src/map/mapreg_sql.c* and *src/map/mapreg.h*.
+
+**Issues addressed:** None.
+
+
+<!-- You can safely ignore the links below:  -->
+
+[cont]: https://github.com/HerculesWS/Hercules/blob/master/CONTRIBUTING.md
+[code]: https://github.com/HerculesWS/Hercules/wiki/Coding-Style
+
+ Add/extend battle flags to enable item/skill usage while interacting with NPC
+ ### Pull Request Prelude
+
+- [x] I have followed [proper Hercules code styling][code].
+- [x] I have read and understood the [contribution guidelines][cont] before making this PR.
+- [x] I am aware that this PR may be closed if the above-mentioned criteria are not fulfilled.
+
+### Changes Proposed
+
+To enable consuming usable items and using skills while interacting with a NPC I did the following:
+ * Extend `item_enabled_npc` battle flag with option for usable items.
+ * Add `skill_enabled_npc` battle flag.
+
+**Issues addressed:** #862
+
+
+<!-- You can safely ignore the links below:  -->
+
+[cont]: https://github.com/HerculesWS/Hercules/blob/master/CONTRIBUTING.md
+[code]: https://github.com/HerculesWS/Hercules/wiki/Coding-Style
+
+ Secure gender changing
+ ### Pull Request Prelude
+
+- [x] I have followed [proper Hercules code styling][code].
+- [x] I have read and understood the [contribution guidelines][cont] before making this PR.
+- [x] I am aware that this PR may be closed if the above-mentioned criteria are not fulfilled.
+
+### Changes Proposed
+
+Save character data to the database before changing account/character gender to prevent data corruption through job class mismatch.
+
+**Issues addressed:** #985
+
+
+<!-- You can safely ignore the links below:  -->
+
+[cont]: https://github.com/HerculesWS/Hercules/blob/master/CONTRIBUTING.md
+[code]: https://github.com/HerculesWS/Hercules/wiki/Coding-Style
+
+ Update packets up to 2020-05-20
+ ### Pull Request Prelude
+
+- [x] I have followed [proper Hercules code styling][code].
+- [x] I have read and understood the [contribution guidelines][cont] before making this PR.
+- [x] I am aware that this PR may be closed if the above-mentioned criteria are not fulfilled.
+
+### Changes Proposed
+Update packets table, and shuffle packets.
+Update packets table.
+Update messages table.
+Fix different crashes.
+Add some missing checks (Fixes #2719).
+
+ Fix condition for deleting skill units when unloading NPC
+ ### Pull Request Prelude
+
+- [x] I have followed [proper Hercules code styling][code].
+- [x] I have read and understood the [contribution guidelines][cont] before making this PR.
+- [x] I am aware that this PR may be closed if the above-mentioned criteria are not fulfilled.
+
+### Changes Proposed
+
+Currently it's almost impossible to fulfil the condition for calling `skill_clear_unitgroup()` in `npc_unload()` since `nd->ud` always is `NULL` or `&npc->base_ud` if `unit_bl2ud2()` was never called for the NPC's block_list (for example by `npcspeed()`).
+I changed the condition to only check for `nd->ud != NULL` to ensure that all skill units belonging to the unloaded NPC are deleted.
+
+**Issues addressed:** #768 
+
+
+<!-- You can safely ignore the links below:  -->
+
+[cont]: https://github.com/HerculesWS/Hercules/blob/master/CONTRIBUTING.md
+[code]: https://github.com/HerculesWS/Hercules/wiki/Coding-Style
+
+ Fix skill idx
+ ### Pull Request Prelude
+
+- [x] I have followed [proper Hercules code styling][code].
+- [x] I have read and understood the [contribution guidelines][cont] before making this PR.
+- [x] I am aware that this PR may be closed if the above-mentioned criteria are not fulfilled.
+
+### Changes Proposed
+
+This PR adds some robustness to the code related to `skill_get_index()` and fixes some wrong assumptions and dangerous index arithmetic index in the Bard/Dancer Soul Link temporarily granted skills, reported in #2670 .
+
+Warnings have been added, to help detecting incorrectly defined ranges for `skill_get_index()`.
+
+Finally, the use of the `SKILL_FLAG_REPLACED_LV_0` value (and in general, values from `enum e_skill_flag`) have been sanitized, since suspicion on them was raised in a private report about attempts to save negative skill indexes to the database (which may or may not have been a secondary effect of the Bard/Dancer granted skills issue).
+
+**Issues addressed:** #2670 
+
+[cont]: https://github.com/HerculesWS/Hercules/blob/master/CONTRIBUTING.md
+[code]: https://github.com/HerculesWS/Hercules/wiki/Coding-Style
+
+ Implement SC_RESIST_PROPERTY_* and icon display for SC_ARMOR_RESIST
+ ### Pull Request Prelude
+
+- [x] I have followed [proper Hercules code styling][code].
+- [x] I have read and understood the [contribution guidelines][cont] before making this PR.
+- [x] I am aware that this PR may be closed if the above-mentioned criteria are not fulfilled.
+
+### Changes Proposed
+
+I was told that the changes made in #2614 have no effect because of a missing implementation of the `SC_RESIST_PROPERTY_*` status changes. Well, that's true. :grin:
+I have to admin that I didn't check this. Sorry. But even if they had fully been implemented, affecting 1 element for each status change would have led to problems anyway.
+Because the 4 *proof Potions (12118-12121) and Undead Elemental Scroll (12279) share the same status changes and icons, they'd unpredictably influence each other. For example mutual status change negation or icon removal due to different duration.
+
+My implementation of the  `SC_RESIST_PROPERTY_*` status changes is based on the *proof Potions and affects 2 elements each.
+I added icon display to `SC_ARMOR_RESIST` and use it in the Undead Elemental Scroll's script again.
+
+Now comes the tricky part. No one could tell me how these items interact with each other in official servers.
+Will using Undead Elemental Scroll cancel all *proof Potion effects?
+Will using a *proof Potion be canceled if the Undead Elemental Scroll's effect is active or will it cancel the scroll's effect partially or even completely? Who knows...
+In commit 686c575 I added dynamic icon applying/removing/re-applying to have each element's icon is only displayed if its corresponding resistance is greater than 0. For the calculation only values of `SC_RESIST_PROPERTY_*` and `SC_ARMOR_RESIST` are used. Other item or skill effects won't affect it.
+I know this solution isn't perfect, so feel free to provide alternatives or official information.
+
+
+**Issues addressed:** External bug report.
+
+
+<!-- You can safely ignore the links below:  -->
+
+[cont]: https://github.com/HerculesWS/Hercules/blob/master/CONTRIBUTING.md
+[code]: https://github.com/HerculesWS/Hercules/wiki/Coding-Style
+
+ Cap string variable value length and unify corresponding SQL columns size
+ ### Pull Request Prelude
+
+- [x] I have followed [proper Hercules code styling][code].
+- [x] I have read and understood the [contribution guidelines][cont] before making this PR.
+- [x] I am aware that this PR may be closed if the above-mentioned criteria are not fulfilled.
+
+### Changes Proposed
+
+Currently the maximum length of string variable values is inconsistent.
+ * If a variable is not stored in a SQL table its value's length is not restricted.
+ * If a variable is stored in `acc_reg_str_db`, `char_reg_str_db` or `global_acc_reg_str_db` table its value's length is restricted to 254.
+ * If a variable is stored in `mapreg` table its value's length is restricted to 255.
+
+Furthermore some fields are too small to use the maximum supported value length.
+
+To have a consistent size I capped the length of all string variable values to 255 and unified the corresponding SQL columns size accordingly.
+
+
+**Issues addressed:** #1037
+
+
+<!-- You can safely ignore the links below:  -->
+
+[cont]: https://github.com/HerculesWS/Hercules/blob/master/CONTRIBUTING.md
+[code]: https://github.com/HerculesWS/Hercules/wiki/Coding-Style
+
+ Enable multiple itemskill() calls per item
+ ### Pull Request Prelude
+
+- [x] I have followed [proper Hercules code styling][code].
+- [x] I have read and understood the [contribution guidelines][cont] before making this PR.
+- [x] I am aware that this PR may be closed if the above-mentioned criteria are not fulfilled.
+
+### Changes Proposed
+
+The current auto-cast code doesn't allow multiple `itemskill()` calls per item.
+I changed the code to be vector based to be able to hold multiple auto-cast datasets.
+Additionally the auto-cast cleaning related code was adjusted accordingly.
+Other side effects are:
+ * Using an item while the target cursor is active won't abort the skill anymore.
+ * Auto-cast skills which are cast while casting another skill will now be executed when the current casting is finished.
+
+**Issues addressed:** #816, #1026 
+
+
+<!-- You can safely ignore the links below:  -->
+
+[cont]: https://github.com/HerculesWS/Hercules/blob/master/CONTRIBUTING.md
+[code]: https://github.com/HerculesWS/Hercules/wiki/Coding-Style
+
+ Fixed lost puppies quest
+ The dogs were unable to reappear because they did not have a unique name.
+
+<!-- Before you continue, please change "base: stable" to "base: master" and
+     enable the setting "[√] Allow edits from maintainers." when creating your
+     pull request if you have not already enabled it. -->
+
+<!-- Note: Lines with this <!-- syntax are comments and will not be visible in
+     your pull request. You can safely ignore or remove them. -->
+
+### Pull Request Prelude
+
+<!-- Thank you for working on improving Hercules! -->
+<!-- Please complete these steps and check the following boxes by putting an `x`
+     inside the [brackets] before filing your Pull Request. -->
+
+- [x] I have followed [proper Hercules code styling][code].
+- [x] I have read and understood the [contribution guidelines][cont] before making this PR.
+- [x] I am aware that this PR may be closed if the above-mentioned criteria are not fulfilled.
+
+### Changes Proposed
+
+<!-- Describe the changes that this pull request makes. -->
+
+**Issues addressed:** None<!-- Write here the issue number, if any. -->
+
+
+<!-- You can safely ignore the links below:  -->
+
+[cont]: https://github.com/HerculesWS/Hercules/blob/master/CONTRIBUTING.md
+[code]: https://github.com/HerculesWS/Hercules/wiki/Coding-Style
+
+ Make SC_NOCHAT gets affected by battle config changes
+ ### Pull Request Prelude
+
+- [x] I have followed [proper Hercules code styling][code].
+- [x] I have read and understood the [contribution guidelines][cont] before making this PR.
+- [x] I am aware that this PR may be closed if the above-mentioned criteria are not fulfilled.
+
+### Changes Proposed
+
+Change `SC_NOCHAT` validation to compare against `battle_config.manner_system` instead of `val1` to get affected by battle config changes.
+
+**Issues addressed:** #227
+
+
+<!-- You can safely ignore the links below:  -->
+
+[cont]: https://github.com/HerculesWS/Hercules/blob/master/CONTRIBUTING.md
+[code]: https://github.com/HerculesWS/Hercules/wiki/Coding-Style
+
+ Update packets up to 2020-04-14
+ ### Pull Request Prelude
+
+- [x] I have followed [proper Hercules code styling][code].
+- [x] I have read and understood the [contribution guidelines][cont] before making this PR.
+- [x] I am aware that this PR may be closed if the above-mentioned criteria are not fulfilled.
+
+### Changes Proposed
+Dont validate packet in login_char_server_connection_status.
+Add missing functions for name ack packets.
+Use enum spirit_charm_types for charm type field.
+Update shuffle packets and keys.
+Add packets for future usage in lapine upgrade system.
+
+ Fix conditions for calling pet_ai_sub_hard()
+ ### Pull Request Prelude
+
+- [x] I have followed [proper Hercules code styling][code].
+- [x] I have read and understood the [contribution guidelines][cont] before making this PR.
+- [x] I am aware that this PR may be closed if the above-mentioned criteria are not fulfilled.
+
+### Changes Proposed
+
+The `pet_ai_hard` timer is executed before the pet's block and the pet master's block are added to the map, which causes nullpo errors in `pet_ai_sub_hard()`.
+This wasn't noticed before #2600 was merged, because 0 was returned silently instead of using `nullpo_ret()`.
+To fix this, the conditions for calling `pet_ai_sub_hard()` in `pet_ai_sub_foreachclient()` should be adjusted to check `sd->bl.prev` and `sd->pd->bl.prev` for `NULL`.
+
+**Issues addressed:** https://herc.ws/board/topic/18186-error-petc-1018/
+
+
+<!-- You can safely ignore the links below:  -->
+
+[cont]: https://github.com/HerculesWS/Hercules/blob/master/CONTRIBUTING.md
+[code]: https://github.com/HerculesWS/Hercules/wiki/Coding-Style
+
+ Extend and clean up monster skill DB code
+ ### Pull Request Prelude
+
+- [x] I have followed [proper Hercules code styling][code].
+- [x] I have read and understood the [contribution guidelines][cont] before making this PR.
+- [x] I am aware that this PR may be closed if the above-mentioned criteria are not fulfilled.
+
+### Changes Proposed
+
+- Add missing constants to enable global skills assignment.
+- Harmonize behaviour of cast condition constants.
+- Add some error messages.
+- Add proper defaulting and capping when reading monster skill DBs.
+- Apply code style.
+- Add Windows support for predefined identifier \_\_func__. (Not related to the topic but useful.)
+
+**Issues addressed:** None.
+
+
+<!-- You can safely ignore the links below:  -->
+
+[cont]: https://github.com/HerculesWS/Hercules/blob/master/CONTRIBUTING.md
+[code]: https://github.com/HerculesWS/Hercules/wiki/Coding-Style
+
+ Fix usage of * ### Pull Request Prelude
+
+- [x] I have followed [proper Hercules code styling][code].
+- [x] I have read and understood the [contribution guidelines][cont] before making this PR.
+- [x] I am aware that this PR may be closed if the above-mentioned criteria are not fulfilled.
+
+### Changes Proposed
+
+The `*=` operator was misused in some cases which caused unexpected results.
+
+**Issues addressed:** None.
+
+
+<!-- You can safely ignore the links below:  -->
+
+[cont]: https://github.com/HerculesWS/Hercules/blob/master/CONTRIBUTING.md
+[code]: https://github.com/HerculesWS/Hercules/wiki/Coding-Style
+
+ Renewal pet DB update
+ ### Pull Request Prelude
+
+- [x] I have followed [proper Hercules code styling][code].
+- [x] I have read and understood the [contribution guidelines][cont] before making this PR.
+- [x] I am aware that this PR may be closed if the above-mentioned criteria are not fulfilled.
+
+### Changes Proposed
+
+Renewal pet DB update.
+
+**Issues addressed:** #2435 
+
+
+Sprites for the jRO exclusive pets can be found here: https://herc.ws/board/files/file/498-jro-exclusive-monsters/
+
+
+<!-- You can safely ignore the links below:  -->
+
+[cont]: https://github.com/HerculesWS/Hercules/blob/master/CONTRIBUTING.md
+[code]: https://github.com/HerculesWS/Hercules/wiki/Coding-Style
+
+ Fix unhiding while being disguised and when using @option 0
+ ### Pull Request Prelude
+
+- [x] I have followed [proper Hercules code styling][code].
+- [x] I have read and understood the [contribution guidelines][cont] before making this PR.
+- [x] I am aware that this PR may be closed if the above-mentioned criteria are not fulfilled.
+
+### Changes Proposed
+
+ * When a character unhides while being disguised and if no other character is within view range, the disguised character stays invisible until he moves or another character enters view range.
+To fix this `clif_spawn_unit()` should be called when unhiding while being disguised to update the disguised character's client properly.
+ * When a character unhides by using `@option 0`, clients are not being updated properly in `pc_setoption()` and thus causing crashes.
+
+**Issues addressed:** #2104, #1556
+
+
+<!-- You can safely ignore the links below:  -->
+
+[cont]: https://github.com/HerculesWS/Hercules/blob/master/CONTRIBUTING.md
+[code]: https://github.com/HerculesWS/Hercules/wiki/Coding-Style
+
+ Fix status changes falsely being recognized as unknown
+ ### Pull Request Prelude
+
+- [x] I have followed [proper Hercules code styling][code].
+- [x] I have read and understood the [contribution guidelines][cont] before making this PR.
+- [x] I am aware that this PR may be closed if the above-mentioned criteria are not fulfilled.
+
+### Changes Proposed
+
+Prevent `SC_AUTOTRADE`, `SC_KSPROTECTED` and `SC_NO_SWITCH_EQUIP` from falsely being recognized as unknown status changes.
+
+**Issues addressed:** #2684 
+
+
+<!-- You can safely ignore the links below:  -->
+
+[cont]: https://github.com/HerculesWS/Hercules/blob/master/CONTRIBUTING.md
+[code]: https://github.com/HerculesWS/Hercules/wiki/Coding-Style
+

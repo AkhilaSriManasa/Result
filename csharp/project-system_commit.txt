@@ -1,0 +1,67 @@
+﻿ Merge pull request #6179 from ocallesp/github/fix_programmatic_rename
+
+GitHub/fix programmatic rename
+ Refactor to extract methods from RenameAsync
+ Code cleanup
+ Change position of CPSRenameAsync() to always call it.
+ Check special characters before file rename
+ Code cleanup unit test for file renames.
+ Fix file rename should not rename types when invalid characters.
+ Fix file rename bugs
+
+1) 'foo.cs' -> 'Foo.cs'.
+2) File name doesn't match the name of type.
+ Merge pull request #6236 from drewnoakes/remove-todo
+
+Remove TODO
+ Fix new warning messages detected by the updated package version of Analyzers
+ Remove package references to right layer
+ Code cleanup
+ Code cleanup and fix warnings
+
+Updated Microsoft.CSharp to 4.7.0 and fixed null pointer warnings.
+
+Workaround for CreatePkgDef
+This change fixes the broken build.
+Microsoft.VisualStudio.Threading took a dependency on Bcl.Interfaces.
+ Merge pull request #6246 from drewnoakes/use-null-coalescing-assignment
+
+Use ??=
+ Merge pull request #6245 from drewnoakes/remove-RuleDataSourceTypes
+
+Remove unused class RuleDataSourceTypes
+ Remove the partial class Renamer that implements IFileRenameHandler
+
+The functionality is now implemented by
+RenamerProjectTreeActionHandler.cs which uses the new Roslyn APIs.
+ Update Roslyn Nuget packages to use a new APIs
+
+New APIs:
+- RenameDocumentAsync
+- UpdateSolutionAsync
+ Merge pull request #6243 from drewnoakes/update-shell
+
+Use updated VSConstants values
+ Use ?? Merge pull request #6240 from drewnoakes/move-intern-pool
+
+Move InternPool to PooledObjects namespace
+ Remove unused class RuleDataSourceTypes
+ Merge pull request #6242 from drewnoakes/fix-capitalisation
+
+Fix file name capitalisation
+ Merge pull request #6241 from drewnoakes/typos
+
+Typos
+ Use updated VSConstants values
+ Fix file name capitalisation
+ Merge pull request #6237 from drewnoakes/remove-redundant-override
+
+Remove redundant CanCopy override in DependenciesProjectTreeProvider
+ Typos
+ Move InternPool to PooledObjects namespace
+ Merge pull request #6238 from drewnoakes/use-named-arguments
+
+Use named arguments
+ Merge pull request #6239 from drewnoakes/use-langword-for-null
+
+Use langword for null in XML docs

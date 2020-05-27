@@ -1,0 +1,341 @@
+﻿ Update README.md
+ Update README
+
+Coupons added
+ Fix
+Amazing!
+
+ Added all lecture numbers
+ Update README.md
+ Update README.md
+ Update README.md
+ Update README.md
+ Update README.md
+ Update and rename readme.md to README.md
+ Merge pull request #4 from RobMeade/patch-1
+
+Update readme.md
+ Update readme.md
+
+Removed numeric.
+ Create LICENSE.md
+ Update readme.md
+ Update readme.md
+ BC40 Section Wrap-up
+ BC39 Polishing & Packaging
+ BC38 Difficulty & Play Tuning
+ BC37 Playtesting Your Game
+ BC36 Design a Helper Function
+ BC35 Range-based for Loop
+ BC34 TMap and map Data Structures
+ BC33 Introducing Big O Notation
+Can I use the code for all courses on Udemy? Is it still active?
+
+ BC32 Win or Lose Screen
+ BC31 Handling Game Win Condition
+How did MyCurrentTry increment when no explicit code was made to increment it.
+
+ BC30 Warm Fuzzy Feelings
+thanks for including this :D
+
+**Edit:** my fault! I had a scoping mistake.. and didn't remove the declaration of "Status" in the do while loop of GetValidGuess... so I always had a "Invalid_Status" while returning Guess at the bottom of the function.
+
+If I just make a break on default I won't get out of the loop when I enter a correct isogram. It will always ask me for "Please enter Try 1...". And yes I added "return Guess" on and the bottom of the function.
+
+
+### Hi, I made a mistake and I don't understand what it wants me to change, is is saying that it is missing a definition of Guess. The Guess at the bottom is underlined in red. The only thing I had to change was transfer the return Guess; to the bottom.
+----------------
+FText GetValidGuess() 
+{
+	EGuessStatus Status = EGuessStatus::Invalid_Status;
+	do {
+		FText Guess = "";
+		// get a guess from the player
+		int32 CurrentTry = BCGame.GetCurrentTry();
+		std::cout << "Try "<< CurrentTry << ". Enter your guess ";
+		std::getline(std::cin, Guess);
+
+		// check status and give feedback
+		Status = BCGame.CheckGuessValidity(Guess);
+		switch (Status) {
+		case EGuessStatus::Wrong_Length:
+			std::cout << "Plaease enter a " << BCGame.GetHiddenWordLenght() << " letter word.\n";
+			break;
+		case EGuessStatus::Not_Isogram:
+			std::cout << "Please enter a word without repeating letters. \n";
+			break;
+		case EGuessStatus::Not_Lowercase:
+			std::cout << "Please enter all lowercase letters.\n";
+			break;
+		default:
+			
+			//assume the guess is valid
+			break;
+		}
+		std::cout << std::endl;
+	} while (Status != EGuessStatus::OK);	//keep looping until we get no errors
+	return Guess;
+ }
+-----------------------
+Help!
+
+@Cloyde 
+Try to declarate Guess outside the do while loop, because you declarated it inside, so it's not valid outside the loop where you try to return its value.
+
+@kuschneider
+
+Jeah I found the conclusion, it was all about the hierarchy, just what you mean I think. 
+
+Thx
+
+I have not made any changes to the code other than what has been in the videos. When I renamed SubmitGuess to SubmitValidGuess, that somehow made the try number stop incrementing. I'm extremely confused as the cause and effect have little to no correlation?
+
+`// receives a VALID guess, increments turn, and returns cout
+FBullCowCount FBullCowGame::SubmitValidGuess(FString Guess)
+{
+	// increment the try number
+	MyCurrentTry++;
+
+	// setup a return variable
+	FBullCowCount BullCowCount;
+
+	// loop through all letters in the guess
+	int32 WordLength = MyHiddenWord.length();
+
+	for (int32 MHWChar = 0; MHWChar < WordLength; MHWChar++){
+
+		// compare letters against the hidden guess
+		for (int32 GChar = 0; GChar < WordLength; GChar++) {
+
+			// if they match then
+			if (Guess[GChar] == MyHiddenWord[MHWChar]) {
+				
+				if (MHWChar == GChar) { //if they're in the same place
+					BullCowCount.Bulls++; //increment bulls
+				}
+				else {
+					BullCowCount.Cows++;	//increment cows
+				}
+			}
+		}
+	}
+	return BullCowCount;
+}
+`
+This is the code for submitting a valid guess.
+
+I do not understand how to do the conection between the (Fstring Guess) and the MyHiddenWord.
+here we have : 
+Guess[GChar]
+how does the program knows that we are refering to the MyHiddenWord.??
+
+`Guess` is the parameter of the function meaning we would pass it a string when calling it
+```cpp
+std::string Guess = GetGuess();
+BCGame.SubmitValidGuess(Guess);
+```
+(*It should be noted that `Guess` in the function in SubmitValidGuess is a copy of the argument and is a different variable*)
+
+MyHiddenWord is a member variable so we have access to it in this function. The function works by comparing the characters in each string - string being an array of characters - and their position.
+
+````
+if (Guess[GChar] == MyHiddenWord[MHWChar]) {
+    if (MHWChar == GChar) { 
+````
+Which is what these two lines of code are doing. GChar and MHWChar are just ints, so the first line is checking if the characters are the same and then the second line is checking if the ints are the same.
+
+So this is what is happening on each loop.  Using HW = “ant” and Guesss = “and”
+
+HWChar = 0, GChar = 0,
+**a** nt == **a** nd; -> 0 == 0
+HWChar = 0, GChar = 1,
+**a** nt == a **n** d
+HWChar = 0, GChar = 2,
+**a** nt == an **d**
+
+HWChar = 1, GChar = 0,
+a **n** t == **a** nd
+
+I am having a problem with the same thing. The debugger is saying Guess[MHWChar] 
+
+You're using the wrong variable. Check the code, you aren't using GChar.
+
+saying the same thing but it is saying MHWChar is not identified. WHen the game is debugging I am getting a 1 on the first line. Believe that is a bug which is strange. 
+
+GitHub isn't the best place to discuss this. Please make a post in the Udemy Q&A along with your code. 
+
+ BC29 Using switch Statements
+just after line 58 in main.cpp or
+"// Submit Valid Guess to the game.
+        FBullCowCount BullCowCount = BCGame.SubmitGuess(Guess);"
+
+I'm getting an error message saying "Guess" is Undefined.
+
+any help would be appreciated.
+
+
+ BC29 Using switch Statements
+
+any help would be appreciated.
+
+
+
+
+
+comment =Did you definitely define the variable as in line 53 above?
+
+
+
+
+
+comment =As far as I know I did. 
+
+I've managed to fix it now though, I copied a few lines directly over and the error went away.
+there must have been some error that I overlooked.
+
+thanks for your help anyway.
+
+
+
+
+
+comment =I just copied the entire code into XCode and I'm getting the error: "Control may reach end of non-void function"
+
+EDIT: I just watched the next video and that solved it.  You have to Return Guess from outside the while loop, and move the definition of Guess outside as well (the first thing you do in the next video).
+
+
+
+
+
+comment =Thanks for pointing this out, this is fixed in a later lecture.
+
+Ben Tristem
+
+https://www.udemy.com/u/bentristem
+Twitter: @BenTristem
+Skype: BulldogBen
+
+On 23 September 2016 at 02:45, Patrick Mattei notifications@github.com
+wrote:
+
+> I just copied the entire code into XCode and I'm getting the error:
+> "Control may reach end of non-void function"
+> 
+> —
+> You are receiving this because you authored the thread.
+> Reply to this email directly, view it on GitHub
+> https://github.com/UnrealCourse/02_BullCowGame/commit/0bf9c9bbcba2f7a60c83d92bda710f26931f6502#commitcomment-19139816,
+> or mute the thread
+> https://github.com/notifications/unsubscribe-auth/AERoqAz3sYgwiokI4yk6CyqkKauuXnbDks5qsy86gaJpZM4Ip1PO
+> .
+
+
+
+
+
+comment ="Invalid_Status" can be messy, because it would be also in "invalid status" while i.e. in Wrong_Length. So if needed I would use something like "Unchecked".
+
+On the other hand, I would say you don't even need to initializate before the do {, and you could do something like:
+
+`
+	do {
+		std::cout << "Try " << BCGame.GetCurrentTry() << ": Input a word: ";
+		FTEXT Guess;
+		std::getline(std::cin, Guess);
+
+		EGuessStatus Status = BCGame.CheckGuessValidity(Guess);
+		switch (Status) {
+		case EGuessStatus::Wrong_Length:
+			std::cout << "Please enter a " << BCGame.GetHiddenWordLength() << " letter word.\n";
+			break;
+		case EGuessStatus::Ok:
+			return Guess;
+		default:
+			std::cerr << "Unhandled value for EGuessStatus at GetValidGuess()"; //Just if another value would be added to the enum someday...
+		}
+	} while (true);
+`
+
+But I'm learning, maybe I am wrong, so commenting here.
+
+Thanks for the great course ;)
+
+
+
+____________________________________________________________
+id= 091cb54d7e868593f71c39d43779f9d15948fe8c
+updated_at= 2016-01-13T18:38:13Z
+message= BC28 Writing Error Checking Code
+Did you definitely define the variable as in line 53 above?
+
+
+As far as I know I did. 
+
+I've managed to fix it now though, I copied a few lines directly over and the error went away.
+there must have been some error that I overlooked.
+
+thanks for your help anyway.
+
+
+I just copied the entire code into XCode and I'm getting the error: "Control may reach end of non-void function"
+
+EDIT: I just watched the next video and that solved it.  You have to Return Guess from outside the while loop, and move the definition of Guess outside as well (the first thing you do in the next video).
+
+
+Thanks for pointing this out, this is fixed in a later lecture.
+
+Ben Tristem
+
+https://www.udemy.com/u/bentristem
+Twitter: @BenTristem
+Skype: BulldogBen
+
+On 23 September 2016 at 02:45, Patrick Mattei notifications@github.com
+wrote:
+
+> I just copied the entire code into XCode and I'm getting the error:
+> "Control may reach end of non-void function"
+> 
+> —
+> You are receiving this because you authored the thread.
+> Reply to this email directly, view it on GitHub
+> https://github.com/UnrealCourse/02_BullCowGame/commit/0bf9c9bbcba2f7a60c83d92bda710f26931f6502#commitcomment-19139816,
+> or mute the thread
+> https://github.com/notifications/unsubscribe-auth/AERoqAz3sYgwiokI4yk6CyqkKauuXnbDks5qsy86gaJpZM4Ip1PO
+> .
+
+
+"Invalid_Status" can be messy, because it would be also in "invalid status" while i.e. in Wrong_Length. So if needed I would use something like "Unchecked".
+
+On the other hand, I would say you don't even need to initializate before the do {, and you could do something like:
+
+`
+	do {
+		std::cout << "Try " << BCGame.GetCurrentTry() << ": Input a word: ";
+		FTEXT Guess;
+		std::getline(std::cin, Guess);
+
+		EGuessStatus Status = BCGame.CheckGuessValidity(Guess);
+		switch (Status) {
+		case EGuessStatus::Wrong_Length:
+			std::cout << "Please enter a " << BCGame.GetHiddenWordLength() << " letter word.\n";
+			break;
+		case EGuessStatus::Ok:
+			return Guess;
+		default:
+			std::cerr << "Unhandled value for EGuessStatus at GetValidGuess()"; //Just if another value would be added to the enum someday...
+		}
+	} while (true);
+`
+
+But I'm learning, maybe I am wrong, so commenting here.
+
+Thanks for the great course ;)
+
+ BC28 Writing Error Checking Code
+Hello Ben,
+
+When I ran the Debugger, and put the stopper on the line, the dubugger stated that MHWChar is undefined.
+
+ BC27 Introducing enumerations
+ BC26 A Place for Everything

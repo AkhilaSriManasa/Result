@@ -1,0 +1,578 @@
+﻿ [16.6 regression] Legacy project files that reference an SDK are not loading/building
+ **Visual Studio Version**: 16.6.0
+
+**Summary**:
+Updating Visual Studio from version 16.5.5 to 16.6.0 broke my legacy (non SDK-style) projects that reference the SDK [DasMulli.AssemblyInfoGeneration.Sdk](https://github.com/dasMulli/AssemblyInfoGenerationSdk).
+
+**Steps to Reproduce**:
+1. Create a new .NET Framework console application.
+2. Delete the AssemblyInfo.cs file.
+3. Close the solution.
+4. Add the line `<Sdk Name="DasMulli.AssemblyInfoGeneration.Sdk" Version="1.0.0" />` to the project file (as the first line inside the `<Project>` tag).
+5. Open the solution.
+6. Try to build.
+
+**Expected Behavior**:
+The project should open and build without errors.
+
+**Actual Behavior**:
+At step 5: Visual Studio shows an yellow error bar that says it had errors loading the project. Here is the error that is shown if you click on "Open log file":
+
+<details>
+  <summary>Error</summary>
+
+```
+25.05.2020 09:32:34
+Recoverable
+System.AggregateException: Project system data flow 'DataflowBlockSlim (ActionBlockSlimAsync`1 : 24683675)' closed because of an exception: System.AggregateException: One or more errors occurred. ---> System.ArgumentException: The project configuration "Debug|AnyCPU" was not found in the project manifest.
+   at Microsoft.Requires.Fail(String message)
+   at Microsoft.Requires.Fail(String unformattedMessage, Object[] args)
+   at Microsoft.VisualStudio.ProjectSystem.DefaultingProjectConfigurationsServiceBase.<GetProjectConfigurationAsync>d__3.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Microsoft.VisualStudio.ProjectSystem.VS.Implementation.VSUnconfiguredProjectIntegrationService.<GetActiveProjectConfigurationAsync>d__58.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Microsoft.VisualStudio.ProjectSystem.VS.Implementation.VSUnconfiguredProjectIntegrationService.<RefreshActiveProjectConfigurationAsync>d__53.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Microsoft.VisualStudio.ProjectSystem.VS.Tree.Dependencies.Subscriptions.DependenciesSnapshotProvider.ContextTracker.<TryUpdateCurrentAggregateProjectContextAsync>d__9.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Microsoft.VisualStudio.ProjectSystem.VS.Tree.Dependencies.Subscriptions.DependenciesSnapshotProvider.<<UpdateProjectContextAndSubscriptionsAsync>b__38_0>d.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Microsoft.VisualStudio.Threading.SemaphoreSlimExtensions.<ExecuteWithinLockAsync>d__1.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Microsoft.VisualStudio.ProjectSystem.VS.Tree.Dependencies.Subscriptions.DependenciesSnapshotProvider.<<OnProjectFactoryCompletedAsync>g__OnActiveConfiguredProjectEvaluatedAsync|30_1>d.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Microsoft.VisualStudio.ProjectSystem.DataReceivingBlockSlim`1.<ProcessInputQueueAsync>d__5.MoveNext()
+   --- End of inner exception stack trace ---
+---> (Inner Exception #0) System.ArgumentException: The project configuration "Debug|AnyCPU" was not found in the project manifest.
+   at Microsoft.Requires.Fail(String message)
+   at Microsoft.Requires.Fail(String unformattedMessage, Object[] args)
+   at Microsoft.VisualStudio.ProjectSystem.DefaultingProjectConfigurationsServiceBase.<GetProjectConfigurationAsync>d__3.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Microsoft.VisualStudio.ProjectSystem.VS.Implementation.VSUnconfiguredProjectIntegrationService.<GetActiveProjectConfigurationAsync>d__58.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Microsoft.VisualStudio.ProjectSystem.VS.Implementation.VSUnconfiguredProjectIntegrationService.<RefreshActiveProjectConfigurationAsync>d__53.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Microsoft.VisualStudio.ProjectSystem.VS.Tree.Dependencies.Subscriptions.DependenciesSnapshotProvider.ContextTracker.<TryUpdateCurrentAggregateProjectContextAsync>d__9.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Microsoft.VisualStudio.ProjectSystem.VS.Tree.Dependencies.Subscriptions.DependenciesSnapshotProvider.<<UpdateProjectContextAndSubscriptionsAsync>b__38_0>d.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Microsoft.VisualStudio.Threading.SemaphoreSlimExtensions.<ExecuteWithinLockAsync>d__1.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Microsoft.VisualStudio.ProjectSystem.VS.Tree.Dependencies.Subscriptions.DependenciesSnapshotProvider.<<OnProjectFactoryCompletedAsync>g__OnActiveConfiguredProjectEvaluatedAsync|30_1>d.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Microsoft.VisualStudio.ProjectSystem.DataReceivingBlockSlim`1.<ProcessInputQueueAsync>d__5.MoveNext()<---
+. ---> System.ArgumentException: The project configuration "Debug|AnyCPU" was not found in the project manifest.
+   at Microsoft.Requires.Fail(String message)
+   at Microsoft.Requires.Fail(String unformattedMessage, Object[] args)
+   at Microsoft.VisualStudio.ProjectSystem.DefaultingProjectConfigurationsServiceBase.<GetProjectConfigurationAsync>d__3.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Microsoft.VisualStudio.ProjectSystem.VS.Implementation.VSUnconfiguredProjectIntegrationService.<GetActiveProjectConfigurationAsync>d__58.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Microsoft.VisualStudio.ProjectSystem.VS.Implementation.VSUnconfiguredProjectIntegrationService.<RefreshActiveProjectConfigurationAsync>d__53.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Microsoft.VisualStudio.ProjectSystem.VS.Tree.Dependencies.Subscriptions.DependenciesSnapshotProvider.ContextTracker.<TryUpdateCurrentAggregateProjectContextAsync>d__9.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Microsoft.VisualStudio.ProjectSystem.VS.Tree.Dependencies.Subscriptions.DependenciesSnapshotProvider.<<UpdateProjectContextAndSubscriptionsAsync>b__38_0>d.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Microsoft.VisualStudio.Threading.SemaphoreSlimExtensions.<ExecuteWithinLockAsync>d__1.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Microsoft.VisualStudio.ProjectSystem.VS.Tree.Dependencies.Subscriptions.DependenciesSnapshotProvider.<<OnProjectFactoryCompletedAsync>g__OnActiveConfiguredProjectEvaluatedAsync|30_1>d.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Microsoft.VisualStudio.ProjectSystem.DataReceivingBlockSlim`1.<ProcessInputQueueAsync>d__5.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at Microsoft.VisualStudio.ProjectSystem.CommonProjectSystemTools.Rethrow(Exception ex)
+   at Microsoft.VisualStudio.ProjectSystem.ProjectErrorReporting.<>c__DisplayClass6_0.<SubmitErrorReport>b__0()
+   at Microsoft.VisualStudio.ProjectSystem.ExceptionFilter.<>c__DisplayClass2_0.<Guard>g__action|0()
+   at GuardMethodClass.GuardMethod(Func`1 , Func`2 , Func`2 )
+   --- End of inner exception stack trace ---
+---> (Inner Exception #0) System.ArgumentException: The project configuration "Debug|AnyCPU" was not found in the project manifest.
+   at Microsoft.Requires.Fail(String message)
+   at Microsoft.Requires.Fail(String unformattedMessage, Object[] args)
+   at Microsoft.VisualStudio.ProjectSystem.DefaultingProjectConfigurationsServiceBase.<GetProjectConfigurationAsync>d__3.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Microsoft.VisualStudio.ProjectSystem.VS.Implementation.VSUnconfiguredProjectIntegrationService.<GetActiveProjectConfigurationAsync>d__58.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Microsoft.VisualStudio.ProjectSystem.VS.Implementation.VSUnconfiguredProjectIntegrationService.<RefreshActiveProjectConfigurationAsync>d__53.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Microsoft.VisualStudio.ProjectSystem.VS.Tree.Dependencies.Subscriptions.DependenciesSnapshotProvider.ContextTracker.<TryUpdateCurrentAggregateProjectContextAsync>d__9.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Microsoft.VisualStudio.ProjectSystem.VS.Tree.Dependencies.Subscriptions.DependenciesSnapshotProvider.<<UpdateProjectContextAndSubscriptionsAsync>b__38_0>d.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Microsoft.VisualStudio.Threading.SemaphoreSlimExtensions.<ExecuteWithinLockAsync>d__1.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Microsoft.VisualStudio.ProjectSystem.VS.Tree.Dependencies.Subscriptions.DependenciesSnapshotProvider.<<OnProjectFactoryCompletedAsync>g__OnActiveConfiguredProjectEvaluatedAsync|30_1>d.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Microsoft.VisualStudio.ProjectSystem.DataReceivingBlockSlim`1.<ProcessInputQueueAsync>d__5.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at Microsoft.VisualStudio.ProjectSystem.CommonProjectSystemTools.Rethrow(Exception ex)
+   at Microsoft.VisualStudio.ProjectSystem.ProjectErrorReporting.<>c__DisplayClass6_0.<SubmitErrorReport>b__0()
+   at Microsoft.VisualStudio.ProjectSystem.ExceptionFilter.<>c__DisplayClass2_0.<Guard>g__action|0()
+   at GuardMethodClass.GuardMethod(Func`1 , Func`2 , Func`2 )<---
+
+```
+</details>
+
+At step 6: There is either no option at all to build the project, or the project will be skipped in the build.
+
+**User Impact**:
+Unable to build certain solutions after updating to Visual Studio version 16.6.0
+
+**Additional Information**:
+It seems like a partial workaround is to add this to the project file:
+
+```
+<PropertyGroup>
+  <Configurations>Debug;Release</Configurations>
+  <Platforms>AnyCPU</Platforms>
+</PropertyGroup>
+```
+
+But this only helps as long as the project doesn't reference any NuGet packages via a `<PackageReference>` tag in the project file. As soon as it does, the build is broken again because the NuGet package restore doesn't work any more.
+This is a fallout of https://github.com/dotnet/project-system/issues/4314. 
+
+ Use ?? 
+
+###### Microsoft Reviewers: [Open in CodeFlow](http://wpcp.azurewebsites.net/CodeFlowProtocolProxy2.php?pullrequest=https://github.com/dotnet/project-system/pull/6246)
+ Remove unused class RuleDataSourceTypes
+ 
+
+###### Microsoft Reviewers: [Open in CodeFlow](http://wpcp.azurewebsites.net/CodeFlowProtocolProxy2.php?pullrequest=https://github.com/dotnet/project-system/pull/6245)
+ Use CommandStatus member workaround
+ We now consume CPS packages that include `CommandStatus.InvisibleOnContextMenu`.
+
+###### Microsoft Reviewers: [Open in CodeFlow](http://wpcp.azurewebsites.net/CodeFlowProtocolProxy2.php?pullrequest=https://github.com/dotnet/project-system/pull/6244)
+Rebased to fix conflicts.
+
+ Use updated VSConstants values
+ #6228 updated the version of `Microsoft.VisualStudio.Shell.15.0` which brings in these new command IDs as constants. Replace our copies of those values.
+
+###### Microsoft Reviewers: [Open in CodeFlow](http://wpcp.azurewebsites.net/CodeFlowProtocolProxy2.php?pullrequest=https://github.com/dotnet/project-system/pull/6243)
+ Fix file name capitalisation
+ 
+
+###### Microsoft Reviewers: [Open in CodeFlow](http://wpcp.azurewebsites.net/CodeFlowProtocolProxy2.php?pullrequest=https://github.com/dotnet/project-system/pull/6242)
+ Typos
+ 
+
+###### Microsoft Reviewers: [Open in CodeFlow](http://wpcp.azurewebsites.net/CodeFlowProtocolProxy2.php?pullrequest=https://github.com/dotnet/project-system/pull/6241)
+ Move InternPool to PooledObjects namespace
+ 
+
+###### Microsoft Reviewers: [Open in CodeFlow](http://wpcp.azurewebsites.net/CodeFlowProtocolProxy2.php?pullrequest=https://github.com/dotnet/project-system/pull/6240)
+ Use langword for null in XML docs
+ 
+
+###### Microsoft Reviewers: [Open in CodeFlow](http://wpcp.azurewebsites.net/CodeFlowProtocolProxy2.php?pullrequest=https://github.com/dotnet/project-system/pull/6239)
+ Use named arguments
+ Searched with RegEx `/\*\s*\w+\s*\*/` and found these.
+
+###### Microsoft Reviewers: [Open in CodeFlow](http://wpcp.azurewebsites.net/CodeFlowProtocolProxy2.php?pullrequest=https://github.com/dotnet/project-system/pull/6238)
+ Remove redundant CanCopy override in DependenciesProjectTreeProvider
+ The base implementation does the same thing.
+
+###### Microsoft Reviewers: [Open in CodeFlow](http://wpcp.azurewebsites.net/CodeFlowProtocolProxy2.php?pullrequest=https://github.com/dotnet/project-system/pull/6237)
+ Remove TODO
+ `ContainsAny` is available now, but it requires allocating the composite `ProjectTreeFlags` somewhere in order to use it, either as a temporary or on the stack. The change is not justifiable.
+
+###### Microsoft Reviewers: [Open in CodeFlow](http://wpcp.azurewebsites.net/CodeFlowProtocolProxy2.php?pullrequest=https://github.com/dotnet/project-system/pull/6236)
+ Remove unused enum TaskSchedulerPriority
+ 
+
+###### Microsoft Reviewers: [Open in CodeFlow](http://wpcp.azurewebsites.net/CodeFlowProtocolProxy2.php?pullrequest=https://github.com/dotnet/project-system/pull/6235)
+ Fix reference to removed type
+ 
+
+###### Microsoft Reviewers: [Open in CodeFlow](http://wpcp.azurewebsites.net/CodeFlowProtocolProxy2.php?pullrequest=https://github.com/dotnet/project-system/pull/6234)
+ Bump analyzer package versions
+ 
+
+###### Microsoft Reviewers: [Open in CodeFlow](http://wpcp.azurewebsites.net/CodeFlowProtocolProxy2.php?pullrequest=https://github.com/dotnet/project-system/pull/6233)
+ Shorten dependency provider type strings
+ These strings identify the type of a dependency (eg. Package, Assembly, ...).
+
+Currently they're included in composite key strings for all top-level dependencies of a project. They are not displayed anywhere visible, and are not persisted beyond the lifetime of the host process (eg. devenv).
+
+Making them shorter can save a little memory.
+
+###### Microsoft Reviewers: [Open in CodeFlow](http://wpcp.azurewebsites.net/CodeFlowProtocolProxy2.php?pullrequest=https://github.com/dotnet/project-system/pull/6232)
+ Update depenendency node docs
+ - Fix typo
+- Fix broken URLs (from when code moved between assemblies)
+- Hyperlink new dependencies node types
+
+###### Microsoft Reviewers: [Open in CodeFlow](http://wpcp.azurewebsites.net/CodeFlowProtocolProxy2.php?pullrequest=https://github.com/dotnet/project-system/pull/6231)
+ DependenciesProjectTreeProvider tidy
+ 
+
+###### Microsoft Reviewers: [Open in CodeFlow](http://wpcp.azurewebsites.net/CodeFlowProtocolProxy2.php?pullrequest=https://github.com/dotnet/project-system/pull/6230)
+ Enforce consistent properties between resolved/unresolved dependeny pairs
+ For every dependency type, we have a resolved and unresolved rule.
+
+This PR ensures that both rules in every pair have the same visible properties, and that those properties have the same display name and description.
+
+Long term we should split this so we have a single rule for the browse object with all-visible properties, and other rules for internal processing with no visible properties. That work is tracked by #5076.
+
+Adds a unit test to ensure consistency.
+
+###### Microsoft Reviewers: [Open in CodeFlow](http://wpcp.azurewebsites.net/CodeFlowProtocolProxy2.php?pullrequest=https://github.com/dotnet/project-system/pull/6229)
+ Opt in for codespaces
+ Fixes #6217.
+Replaces #6219.
+
+Upgrading the CPS dependency, to be able to merge #6219, brought in a bunch of other packages that needed updating, which needed changes for `Obsolete` attributes and new code analysis warnings etc. so thought I'd do this as a new PR to make sure the changes were clear to all.
+
+###### Microsoft Reviewers: [Open in CodeFlow](http://wpcp.azurewebsites.net/CodeFlowProtocolProxy2.php?pullrequest=https://github.com/dotnet/project-system/pull/6228)
+This builds on my machine fine, but fails in CI with "Microsoft.VisualStudio.Utilities 16.6.30008.236 depends on Microsoft.ServiceHub.Client (>
+How would updating the build images resolve the problem? The build images don't come with packages.
+
+Don't the images have Visual Studio installed, hence the "VS2019" in the name? If the build works on my machine with latest Visual Studio installed, and fails in CI with a presumably older Visual Studio installed, then it seems reasonable that updating the image could fix the problem. I don't know if that _is_ the solution, but it seems like a reasonable conclusion to me ¯\\\_(ツ)_/¯
+
+<!--[AutoMerge]-->
+Hello @davidwengier!
+
+Because this pull request has the `auto-merge` label, I will be glad to assist with helping to merge this pull request once all check-in policies pass.
+
+##### p.s. you can customize the way I help with merging this pull request, such as holding this pull request until a specific person approves. Simply @mention me (`@msftbot`) and give me an instruction to get started! Learn more [here](https://github.com/microsoft/fluentui/wiki/Advanced-auto-merge).
+
+ UpToDateCheck: always fail if projects.assets.json is updated
+ **Visual Studio Version**: 16.5.5
+
+**Summary**:
+
+
+**Steps to Reproduce**:
+
+1. Create .NET Standard project
+
+2. Build twice (UpToDateCheck should work on second build)
+
+3. Touch `obj\projects.assets.json`
+(in practice, it happens to me once in a while when VS restore solution)
+
+4. Build once: UpToDateCheck fails (expected) and trigger build
+However **output files are not being touched** because `CoreCompile` is skipped (`Inputs` don't contain `obj\projects.assets.json`, only `.cs` files)
+
+**Expected Behavior**:
+
+5. Build again: UpToDateCheck succeed
+
+**Actual Behavior**:
+
+5. Build again: UpToDateCheck fails (because output files are still older than `obj\projects.assets.json`)
+
+**User Impact**:
+
+UpToDateCheck is broken until a full `Rebuild`
+
+**Workaround**
+
+Here's a MSBuild Target to add this file to `CoreCompile` inputs:
+```
+  <Target Name="_GenerateCompileInputsProjectAssets" AfterTargets="_GenerateCompileInputs">
+    <ItemGroup>
+      <CustomAdditionalCompileInputs Include="$(ProjectAssetsFile)" />
+    </ItemGroup>
+  </Target>
+```
+ Changes to linked CSS or JavaScript files are not reflected in original copy, only local copy.
+ **Visual Studio Version**:
+2019 (16.3.3)
+I'm not sure if this is a bug in Visual Studio that's been fixed after my 16.3.3 version, or if it's a bug in .Net Core project system, or if it's a limitation of the design of .Net Core web projects.
+
+**Summary**:
+For .Net Core web projects, I can add a linked CSS or js file (add existing item, then click the "add as link" button), and I see them in Solution Explorer with the small link icon. After adding the custom build _Target_ to the .csproj file (see below in steps to reproduce), then when building the project, the linked files get copied from the original directory to the project (for example, my linked .js file gets copied to wwwroot\js folder).  But, after building and the files are copied, the link icon is gone, and any change saved to the linked file inside the project is not reflected in the original copy of the file, but instead is made only to the file inside the project.
+This works fine in standard ASP.Net framework projects...changes are reflected to the original file, and the link icon is still there after building.
+
+I have noticed that in the .Net Core project, if you do not put the custom build _Target_ in the .csproj file, then any change to the linked file WILL update the original instead of the copy within the project, but of course then you don't have the copying of the file to the project's directory, which I need.
+
+**Steps to Reproduce**:
+1. In a new .Net Core web project (empty is fine), add the wwwroot folder if it doesn't exist.
+
+2.  Add the following to the bottom of the .csproj file:
+```
+  <Target Name="CopyLinkedContentFiles" BeforeTargets="Build">
+    <Copy SourceFiles="%(Content.Identity)" DestinationFiles="%(Content.Link)" SkipUnchangedFiles="true" OverwriteReadOnlyFiles="true" Condition="'%(Content.Link)' != ''" />
+    <Copy SourceFiles="%(None.Identity)" DestinationFiles="%(None.Link)" SkipUnchangedFiles="true" OverwriteReadOnlyFiles="true" Condition="'%(None.Link)' != ''" />
+  </Target>
+```
+
+3. Right-click the wwwroot folder and choose "Add existing item", then point to a .js file that's outside the project directory...like "C:\temp\test.js", and choose the "Add as link" from the dialog's "Add" button dropdown menu.
+
+4. Build the project, and verify a copy of the .js file is now on disk at the wwwroot folder.
+
+5. Open that .js file within the project and make a change and save it. 
+
+**Expected Behavior**:
+This is supposed to make the change to the original file you linked to, not the copy within the project.
+
+**Actual Behavior**:
+It makes the change to the copy within the project, not the original.
+
+![Untitled](https://user-images.githubusercontent.com/12361341/82714462-ae18b300-9c5c-11ea-8bc5-ade7446d8726.png)
+
+
+ [Regression] "Executable" and "Project" are showing up as debug targets
+ **Visual Studio Version**:
+16.7
+
+**Summary**:
+Two new debug types have shown up for .NET Core projects (legacy is not affected)
+
+**Steps to Reproduce**:
+
+1.  Create new project
+
+2. Drop down the Debug launch:
+![image](https://user-images.githubusercontent.com/1103906/82663671-78cb8f80-9c73-11ea-8798-f63b6d4988bd.png)
+
+
+**Expected Behavior**:
+
+No "Executable" or "Project".
+
+Is this a regression introduced by the Nexus targets?
+@tmeschter ^ Was this introduced by your changes?
+
+I think maybe this regressed it: https://github.com/dotnet/project-system/pull/6194/files. CPS is definitively return these two extra options, but I can't step in to verify.
+
+ Enforce consistent display name/description across dependency rules
+ Fixes #5203.
+
+- Following legacy behaviour, description ends with "Properties".
+- All items must include the word "Reference".
+- Enforce the same values between resolved/unresolved rules.
+- Update existing rules and add unit tests to enforce these constraints.
+
+###### Microsoft Reviewers: [Open in CodeFlow](http://wpcp.azurewebsites.net/CodeFlowProtocolProxy2.php?pullrequest=https://github.com/dotnet/project-system/pull/6224)
+ Add PackageReference.Name property
+ This fixes a bug in the NuGet provisioning of transitive dependencies when the item it is being asked to attach to is an unresolved package. Without this change, the a blank name would be used and no library found in the assets file, so all children would be removed and never populated. This change gives parity between both the unresolved and resolved package reference items, so children appear correctly regardless of the resolved state at the time children are attached.
+
+###### Microsoft Reviewers: [Open in CodeFlow](http://wpcp.azurewebsites.net/CodeFlowProtocolProxy2.php?pullrequest=https://github.com/dotnet/project-system/pull/6223)
+ Can not remove Analyzers from depencencies
+ **Visual Studio Version**:
+Microsoft Visual Studio Professional 2019
+Version 16.6.0
+
+**Summary**:
+
+Can not remove unwanted analyzers from dependencies
+
+**Steps to Reproduce**:
+
+1. Install Microsoft.CodeAnalysis.FxCopAnalyzers 3.0.0 using nuget.
+2. revert project files so that package is removed (but not through nuget)
+
+**Expected Behavior**:
+
+Analyzers should be removed from the dependencies
+
+**Actual Behavior**:
+
+Analyzers are still in dependencies and can not be removed.
+
+**User Impact**:
+
+Can not manage the analyzers properly and choose which ones I want to keep.
+
+I cannot repro this. Can you provide more details on the steps you're taking, ideally from a brand new project? What kind of project are you starting with, for example?
+
+I can not get back to my initial state to try and reproduce.  Any project I start has the extra analyzers as dependencies and they can not be removed.  How do I manually remove them?
+
+What project template are you instantiating that has analyzers included? 
+
+Do you have the analyzers installed as a Visual Studio extension? Do you have a `Directory.Build.props` or `Directory.Build.targets` file anywhere in any of the parent directories of where you are creating your projects?
+
+I ended up going to my last restore point and re-installing the analyzers using nuget.  can not reproduce now. 
+
+ Base framework for In Product Acquisition (for review, but will not be merged)
+ This is still a work in progress, so won't be merged, but the "frameworky" bits of this are done enough for you all to review it and tell me where I went wrong. Ignore the actual scenario (I marked the files with comments), thats just for me to make this code actually do something. Also the `TargetDescriptionBase` and its subclasses will likely change over time, as individual scenarios are built out, but I prefer to do that from a consumption point of view rather than designing everything in theory up front.
+
+Part of #6080 and specifically fixes [AB#1124216](https://devdiv.visualstudio.com/0bdbc590-a062-4c3f-b0f6-9383f67865ee/_workitems/edit/1124216).
+
+The design is this:
+![image](https://user-images.githubusercontent.com/754264/82554466-54a37c00-9ba9-11ea-8a6c-c384533549b2.png)
+
+
+###### Microsoft Reviewers: [Open in CodeFlow](http://wpcp.azurewebsites.net/CodeFlowProtocolProxy2.php?pullrequest=https://github.com/dotnet/project-system/pull/6220)
+ Opt-in for VS Codespaces
+ Fixes #6217.
+
+The build will fail for a day until the CPS packaging changes get ingested.
+
+###### Microsoft Reviewers: [Open in CodeFlow](http://wpcp.azurewebsites.net/CodeFlowProtocolProxy2.php?pullrequest=https://github.com/dotnet/project-system/pull/6219)
+This has a build error because this attribute doesn't have this property:
+
+> Packaging\ProjectTypeRegistration.cs(49,5): error CS0246: The type or namespace name 'SupportsCodespaces' could not be found (are you missing a using directive or an assembly reference?) [F:\workspace\_work\1\s\src\Microsoft.VisualStudio.ProjectSystem.Managed.VS\Microsoft.VisualStudio.ProjectSystem.Managed.VS_dy1whlio_wpftmp.csproj]
+
+I don't see an SDK update as part of this change, which package version includes this new API?
+
+>  CPS packaging changes get ingested.
+
+Oh missed this, which explains the build error.
+
+ TargetFrameWork is not sorted correctly
+ **Visual Studio Version**:16.6.0
+
+**Actual Behavior**:
+
+![image](https://user-images.githubusercontent.com/5714438/82511099-f6da4a00-9b3e-11ea-8de1-b13eb6f58fb7.png)
+
+
+What kind of project is this (from what template was it created)? I'm unable to repro this.
+
+@davkean 
+
+[ConsoleApp1.zip](https://github.com/dotnet/project-system/files/4660113/ConsoleApp1.zip)
+
+
+Doesn't repro for me:
+
+![image](https://user-images.githubusercontent.com/350947/82516898-387aed00-9b5f-11ea-800d-79a36ff66eff.png)
+
+What VS are you using? What SDK version?
+
+16.6.0 and 16.7.0 preview 1 have this problem
+```bash
+.NET SDK (reflecting any global.json):
+ Version:   5.0.100-preview.4.20258.7
+ Commit:    65f0fc2cad
+
+Runtime Environment:
+ OS Name:     Windows
+ OS Version:  10.0.18363
+ OS Platform: Windows
+ RID:         win10-x64
+ Base Path:   C:\Program Files\dotnet\sdk\5.0.100-preview.4.20258.7\
+
+Host (useful for support):
+  Version: 5.0.0-preview.4.20251.6
+  Commit:  47ec733ba7
+
+.NET SDKs installed:
+  2.1.806 [C:\Program Files\dotnet\sdk]
+  3.0.103 [C:\Program Files\dotnet\sdk]
+  3.1.100 [C:\Program Files\dotnet\sdk]
+  3.1.300-preview-015135 [C:\Program Files\dotnet\sdk]
+  3.1.300 [C:\Program Files\dotnet\sdk]
+  5.0.100-preview.4.20258.7 [C:\Program Files\dotnet\sdk]
+
+.NET runtimes installed:
+  Microsoft.AspNetCore.All 2.1.18 [C:\Program Files\dotnet\shared\Microsoft.AspNetCore.All]
+  Microsoft.AspNetCore.App 2.1.18 [C:\Program Files\dotnet\shared\Microsoft.AspNetCore.App]
+  Microsoft.AspNetCore.App 3.0.3 [C:\Program Files\dotnet\shared\Microsoft.AspNetCore.App]
+  Microsoft.AspNetCore.App 3.1.0 [C:\Program Files\dotnet\shared\Microsoft.AspNetCore.App]
+  Microsoft.AspNetCore.App 3.1.2 [C:\Program Files\dotnet\shared\Microsoft.AspNetCore.App]
+  Microsoft.AspNetCore.App 3.1.4 [C:\Program Files\dotnet\shared\Microsoft.AspNetCore.App]
+  Microsoft.AspNetCore.App 5.0.0-preview.4.20257.10 [C:\Program Files\dotnet\shared\Microsoft.AspNetCore.App]
+  Microsoft.NETCore.App 2.1.18 [C:\Program Files\dotnet\shared\Microsoft.NETCore.App]
+  Microsoft.NETCore.App 3.0.3 [C:\Program Files\dotnet\shared\Microsoft.NETCore.App]
+  Microsoft.NETCore.App 3.1.0 [C:\Program Files\dotnet\shared\Microsoft.NETCore.App]
+  Microsoft.NETCore.App 3.1.2 [C:\Program Files\dotnet\shared\Microsoft.NETCore.App]
+  Microsoft.NETCore.App 3.1.4 [C:\Program Files\dotnet\shared\Microsoft.NETCore.App]
+  Microsoft.NETCore.App 5.0.0-preview.4.20251.6 [C:\Program Files\dotnet\shared\Microsoft.NETCore.App]
+  Microsoft.WindowsDesktop.App 3.0.3 [C:\Program Files\dotnet\shared\Microsoft.WindowsDesktop.App]
+  Microsoft.WindowsDesktop.App 3.1.0 [C:\Program Files\dotnet\shared\Microsoft.WindowsDesktop.App]
+  Microsoft.WindowsDesktop.App 3.1.2 [C:\Program Files\dotnet\shared\Microsoft.WindowsDesktop.App]
+  Microsoft.WindowsDesktop.App 3.1.4 [C:\Program Files\dotnet\shared\Microsoft.WindowsDesktop.App]
+  Microsoft.WindowsDesktop.App 5.0.0-preview.4.20251.1 [C:\Program Files\dotnet\shared\Microsoft.WindowsDesktop.App]
+
+To install additional .NET runtimes or SDKs:
+  https://aka.ms/dotnet-download
+```
+
+I'm using `5.0.100-preview.1.20155.7`, so it may have regressed since then.
+
+I can't remember if we get this from the SDK itself - or whether we query the built-in ones via IVsFrameworkMultiTargeting. For .NET Core, we get them from the SDK, but I'm not sure about .NET Framework.
+
+ Opt-in flag for VS Codespaces for c#
+ **Visual Studio Version**:
+
+**Summary**:
+Potentially 3rd party project systems will get installed on the server in the future. This work is  to require all project systems to opt-in to VS Codespaces. This is an opt-in model for the .NET Core project systems that we know support VS Codespaces. 
+
+**Steps to Reproduce**:
+
+Not applicable
+
+**Expected Behavior**:
+
+**Actual Behavior**:
+
+**User Impact**:
+
+@davidwengier I have a commit for this that consumes the CPS packaging changes. Can I get permissions to the repo to create a PR?
+
+@arkalyanms you don't need permission to create a PR.
+
+@drewnoakes c:\repos\project-system>git push --set-upstream origin dev/arkalyan/codespaces-optin
+remote: Permission to dotnet/project-system.git denied to arkalyanms.
+fatal: unable to access 'https://github.com/dotnet/project-system.git/': The requested URL returned error: 403
+
+Perhaps the workflow is different from devops?
+
+Yes, the workflow is different here. You have to:
+
+- fork this repo
+- push to your fork
+- create a pull request from your fork to this repo
+
+https://github.com/dotnet/project-system/blob/master/docs/repo/getting-started.md
+

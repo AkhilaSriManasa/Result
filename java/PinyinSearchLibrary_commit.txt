@@ -1,0 +1,44 @@
+﻿ update t9 keyboard view
+ update readme
+
+Add a source code link for XDesktopHelper
+ update readme
+
+update readme
+ update readme
+
+add who uses it
+ update pinyin4j.jar&pinyinsearch.jar&apk
+ update readme
+ update readme
+ update jar and apk
+ add thin pinyin4j
+ fix project setting bug
+ use as
+ Update AndroidManifest.xml
+
+fix versionName
+ update demo,update readme
+ 1.add pinyinsearch for c plus plus
+ Merge pull request #1 from wangxiaote/master
+
+modify the issue that the contacts index view height is wrong when fast scrolling alphabet bar
+ modify the issue that the contacts index view height is wrong
+ adjust variable naming
+ Update README.md
+
+update readme
+ Update README.md
+
+update readme
+ update pinyinsearch.jar
+ update pinyinsearch to v.1.1.2
+ pinyin search v1.1.1
+ remove old picture
+ fix appsearch crash bug in some cases
+ add ContactsSearch.gif
+ remove PinyinSearchDemo
+ rename PinyinSearchDemo to ContactsSearch
+ make naming convention
+ fix view show bug
+ add app search gif

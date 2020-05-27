@@ -1,0 +1,331 @@
+﻿ Stringlate af 8824
+ Please add this Afrikaans translation. The existing one seem to have been made by a translation AI.
+Remove all the other stuff that is not translation related
+
+Hi,
+You can translate Silence on our [Weblate instance](https://translate.silence.dev). GitHub is now just a mirror, nothing is merged from here.
+
+Thanks BleQuerrec, will do so.
+
+ Add makefile
+ ### Description
+Adding Android makefile to enable Silence to be build as system app during making Android ROM.
+ Add Support for 18:9 device ratio
+ fixes #714
+I tested it on my Xiaomi A9 lite and it did the trick.
+
+ Updated af (Afrikaans) translation
+ Commit made via [Stringlate](https://lonamiwebs.github.io/stringlate/)
+ Updating Gradle to 4.4
+ Updating Gradle from 3.3 to 4.4 
+
+Preparing the integration of the vcard4android library.
+
+Thanks for the heads-up, still learning ;)
+Should I squash my commits into one?
+
+Done
+
+ spaces
+ spaces
+why?
+
+@erlangp https://git.silence.dev/Silence/Silence-Android/tree/github/fork/erlangp/patch-1
+
+ Fix encoding of plaintext backups
+ Fixes #659 :
+Rewrite special characters escaping in plaintext backups to avoid having some characters illegally escaped (such as surrogates characters).
+This PR uses Apache Commons's XML escaping method instead, which correctly handles character encoding, so the part using regex to match characters that needed to be encoded has been removed.
+
+Also force UTF-8 encoding of output file to match the charset specified in it.
+ Project improvements : proposals from Android Studio
+ I applied some of the propositions that Android Studio inspector found in Silence.
+I let you cherry-pick the commits that you want.
+
+For me the more usefull commits are :
+- "SDK_INT is never <9 because minSdkVersion 9"
+Is this normal ?
+![silence_min_sdk](https://user-images.githubusercontent.com/7784660/36848422-796f1968-1d61-11e8-9da9-2d6afb79eb5a.jpg)
+
+
+
+![silence_min_sdk_2](https://user-images.githubusercontent.com/7784660/36848988-24f586f4-1d63-11e8-970a-d6609c228237.jpg)
+
+
+@BLeQuerrec did you have time to review this PR ?
+Should we migrate ```com.android.support.support-v4``` to ```com.android.support.support-v7``` ?
+
+
+Thanks! I'll merge the PR in a single commit. Don't rebase your branch, I'll do it myself.
+But can you explain 6bd009e46e8bc335b4eb229305c58dade63190af and c5c140ef6758e9fad2f9d5f8151cccaae1548c3c? Is it a performance improvement?
+
+Thank you !
+
+It is a performance improvement (I didn't verify).
+It is also easier to read a foreach.
+
+Some StackOverflow threads say that they got better performance with the use of a foreach
+See: [Performance of traditional for loop vs Iterator/foreach in Java
+](https://stackoverflow.com/questions/1879255/performance-of-traditional-for-loop-vs-iterator-foreach-in-java)
+
+What do you think about the API level screens ?
+And the support v4 question ?
+
+I'll investigate the warnings about API levels later.
+For now, we'll keep the v4 support lib to be as close as possible to Signal code base.
+
+No problem, thank you for your answer :)
+
+ Patch for #662
+ Bug fix for issue #662 
+@BLeQuerrec I hope that I put the 
+```java
+conversationItem.hideClickForDetails();
+```
+at the right place.
+
+```java
+if(conversationItem != null)
+      conversationItem.hideClickForDetails();
+```
+This is maybe a better idea ?
+
+Thanks! I backported your PR in `master`.
+Next time, please mention the issue your PR fixes with `Fixes #XXX` in your commit message. ;-)
+
+ NPE fix (No identity key)
+ Fixes an NPE when trying to display the identity key (when user has no identity key) in a QrCode
+ @BLeQuerrec can you review this PR when you have time ?
+
+Yes, but next week. For now, I just saw that there are missing spaces in `} else {` lines.
+Additionally, add `Fixes #XXX` if your PR fixes some issues.
+
+I fixed my indentation problems.
+Do I need to open an issue for this PR. I created this PR to fix the 2 NPEs I had when my version of the app had no identity.
+Will you use [Prettier](https://github.com/prettier/prettier) with the java plugin when it will be stable ?
+
+No need to open an issue, but I'm pretty sure someone reported something like that.
+There's no plan to use Prettier.
+
+Ok, I will quickly look into the content of the open and closed issues. 
+
+@BLeQuerrec can you review this PR ?
+
+ Transiflex
+ 
+ Removed com.madgag.spongycastle:prov dependency
+ I removed the ```com.madgag.spongycastle``` dependency to reduce the number of dependencies of Signal and because it makes a lot of code that is unused.
+
+I added tests for most of the code of ```class org.smssecure.smssecure.util.Hex```
+
+I hope @BLeQuerrec that you will be interested by this PR.
+Great! Just remove excessive spaces (don't have time to make it myself until the end of the next week).
+
+Oh, and you can target `master` directly for this change.
+
+Sorry for the excessive spaces, I force pushed a better version.
+I changed the target branch to master.
+
+Can you squash your commits?
+
+Done !
+
+ Add option to share key fingerprint
+ Add an option to the "your identity key" menu allowing to share your key fingerprint using android share function.
+ 
+Fixes #601 
+
+Sorry, I was busy and didn't answer to your email. This PR is great, I backported it to master and rebase it. Thanks!
+
+ App name should not be translated
+ 
+ Remove duplicate summary for "unread divider"
+ ...as it does not actually add any more info.
+ Emoji extractor improvement
+ Migrates emoji-extractor script to Python3, improving code style (PEP8, etc). Adapts work done by ariasuni in PR #575.
+
+Tested against both Python 3.6 (latest stable 3.X) and 3.4 (earliest stable 3.X) by running on NotoColorEmoji.ttf from googlei18n/noto-emoji.
+
+
+The first emoji in emoji_faces.png is missing with your changes.
+
+ Updated de (German) translation
+ Commit made via Stringlate
+Translation are handled through Transifex. 
+
+Hi @squeezer11,
+
+Please add your changes to our Transifex: https://www.transifex.com/silence/silence/
+They will be included in the next release.
+
+ Adding an option to disable the new message separator in conversation
+ ### Description
+Adding an option to the SMS/MMS preference section to hide the new message separator.
+
+Closes #559
+  
+Thanks for your contribution!
+
+Can you:
+- Check if a file is not missing in `res/xml/`;
+- Edit your commit's message and add "Closes #559"?
+
+Thanks!
+
+Done, not sure how this file ended up missing...
+
+Your commit is empty, the file is still missing. Can you add it, squash your commits into only one and add "Closes #559" in your **commit's message**, not the description of the PR? Thanks!
+
+ Allow usage of system emoji instead of built-in support
+ ### Description
+As some users using Android 6 / 7 consider the new Android 8 emoji as ugly, here's an option to use system emoji instead of built-in emoji.
+
+When switched on, this option deactivates the built-in emoji drawer, letting the user use the keyboard's emoji panel. Silence will render emoji using system ones.
+
+This commit allows users to use other emoji sets (via Magisk modules per instance).
+
+Seems to be an issue with this commit that wasn't here before merging my own branches, investigating.
+
+Fixed, build is OK on my computer \o/
+
+Looks good! I'll backport it to master, squash commits and merge.
+
+I made some modifications to avoid state caching about using ROM's emojis or built-in ones.
+
+ Do not use container for long encrypted messages, prepare to multiple wire prefixes
+ Long encrypted messages are embed in containers and sent in multiple splitted messages. Splitted messages aren't displayed and Silence stores them to wait for the full container. This way to send encrypted messages creates a risk to consider an unencrypted message as a contained one, resulting in lost of unencrypted messages in rare (but plausible) situations.
+
+This PR changes the way to send encrypted messages. They aren't splitted in containers anymore. Non contained encrypted messages will be fully recognized and decrypted by previous Silence releases.
+
+The first commit do not change the way to receive and decrypt messages yet. So it can still lost unencrypted messages. The second displays containers instead of discarding them, resulting in no more lost messages but garbage if recipient uses old version. We can:
+
+- Merge the PR as it and release a new tag. This will fix a lot of bugs but encrypted messages sent with Silence >= 0.15.8 will result in garbage for users with the new release (those messages won't be lost, anyway).
+\- OR -
+- Merge the first commit only, release the new tag and wait for ~1 month until users update their version. Then, we will merge the second commit and push another update. This will result in less garbage as most of users should use the version with the way to send encrypted messages, but at the cost that we will wait for a month to fix issues.
+Tested during the last 24h in extreme conditions without any problem, even with recipient using Silence >
+b149b156e38dca67433905284f648b9aff871c7a is in master, 87e49f195a7d7bc3d6aa983ed34af3483b16d190 will be merged in ~ 1 month.
+
+ Display emojis natively
+ Instead of re-implementing everything to do with inserting, displaying,
+copying, etc. emojis, we fall back on the OS to do everything.
+
+This results in better compatibility, less bugs, less unexpected
+behavior, a smaller app size, and a more native experience.
+
+Fixes #607 - emojis are now the same between notifications and within the app
+Fixes #593 - emoji display being handled by the OS means they are always displayed properly
+Fixes #587 - uses the system emoji pack which can be changed (albeit with root/Xposed/Magisk)
+Fixes #525 - uses the familiar system arrangement of emojis
+Fixes #513 - same as 587
+Fixes #458 - Letting the OS handle emojis should fix any crashes around rendering them
+
+The downside is that some keyboards that don't provide a way to insert emoji won't be able to insert emoji. However, IMO this a bug with those keyboards and shouldn't compromise the quality of this app. I'm open to discussion on fixes/workarounds (that don't involve baking in a specific set of emojis into the app).
+Definitely not. @maxauvy is working on integrating upstream commits to allow the user to choose between bundled emojis and ROM's ones. I'll merge this change. Bundled emojis are useful for a shared UX and for keyboards **or ROMS** (mostly in Android < 6.0) that don't have all the new emojis. I understand Android O emojis might be considered as ugly, but it's a matter of taste and offering the user the possibility to fallback to ROM's emojis at the price of a different UX is a better approach.
+
+ Spelling: All TX bugreports cleared
+ Initiate → start
+Successfully →
+Send failed → Sending failed
+Unarchive → De-archivation
+
+Textblocks shortened and improved
+@BLeQuerrec Anything wrong with this? Was it merged over at the GitLab instance?
+
+@comradekingu https://git.silence.dev/Silence/Silence-Android/tree/github/fork/comradekingu/patch-1
+
+@comradekingu Not yet. Just moving to a self-hosted GitLab instance.
+
+ Configurable font size
+ It's quiet difficult for me without my glasses to read/write correctly my Silence messages because of the small font size. Could you please make it configurable ?
+Thanks a lot for your work on Silence.
+Duplicate of #245 (and this should be an issue, not a pull request)
+
+ Materialize app icon
+ ### Description
+It's an attempt to materialize the icon (including the dark version), though not guaranteed to fully match the standard.
+
+@Therhokar Thanks for this! Would you mind squashing your commits down into a single commit?
+
+Thanks for your contribution!
+The shadow you added strangely renders with the previous shadow. I would prefer to include a new, refactored logo with the coming XMPP support (in a few months). That allows us to take time to think, discuss and vote.
+
+ spelling error corrected
+ wrong: `Privatspäre`  
+correct: `Privatsphäre`
+Thanks for the contribution! We currently use [Transifex](https://www.transifex.com/silence/public/) to manage translations so I've made your changes there instead.
+
+ Add an option to delay sending message
+ ### Description
+
+Add an option that allows to trigger a countdown after pressing the "send" button. It gives a chance to the user to cancel the message just before it is sent. Perfect for fat fingers :) .
+
+Tested on my OnePlus 5 running OxygenOS 4.5.6 (Android 7.1.1) and on my LG G4 running latest LineageOS nightly (Android 7.1.1).
+
+Thanks.
++1
+
+ Add graphics in a fastlane supply directory structure
+ This will allow the screenshots to be used in the F-Droid store.
+
+See https://fdroid.gitlab.io/fdroid-website/docs/All_About_Descriptions_Graphics_and_Screenshots/
+for more details
+
+Ref #583
+Not sure how to deal with automatically pulling localized descriptions, changelogs, and other information into this directory yet but this should at least be a start.
+
+ Cleaning and improvement of emoji-extractor scripts
+ - Code style (PEP8, etc.)
+- Migration to Python3
+- Minor logic cleaning/improvement
+- Important factorization
+I'm getting the following error:
+
+```
+./emoji-extractor.py
+Extracting emoji_glyph01364.png
+Traceback (most recent call last):
+  File "./emoji-extractor.py", line 59, in <module>
+    emoji = open(image_path, "wb")
+TypeError: invalid file: PosixPath('output/emoji_glyph01364.png')
+```
+
+OK, it works if I change `emoji 
+```
+[...]
+Renaming incorrect emoji_ufe4e8.png to emoji_u1f1e9_u1f1ea.png
+Traceback (most recent call last):
+  File "./emoji-extractor.py", line 106, in <module>
+    old_path.rename(new_path)
+  File "/usr/lib64/python3.4/pathlib.py", line 1174, in rename
+    self._accessor.rename(self, target)
+  File "/usr/lib64/python3.4/pathlib.py", line 332, in wrapped
+    return strfunc(str(pathobjA), str(pathobjB), *args)
+FileNotFoundError: [Errno 2] No such file or directory: 'output/emoji_ufe4e8.png' -> 'output/emoji_u1f1e9_u1f1ea.png'
+```
+
+On the `TypeError: invalid file: PosixPath('output/emoji_glyph01364.png')` error:
+it is because this code is python3.6-specific.
+Python3.X code for line 59 would rather be `emoji = open(str(image_path), "wb")`.
+As for the second error, I suspect it is caused by your change : `Path.name` is not what we want here.
+
+ Update strings.xml
+ - Improved lexical consistency
+- Fixed typos, grammar, punctuation
+Hi!
+
+Thanks for your contribution. Please add your changes in [Transifex](https://www.transifex.com/silence/silence/dashboard/) directly, they will be integrated into Silence in the next release.
+
+ Add buttons to get the app easily
+ <!-- Please ensure that:
+- You are requesting `unstable` as base branch
+- You have followed the Code Style Guidelines: https://github.com/WhisperSystems/Signal-Android/wiki/Code-Style-Guidelines
+- Your contribution is ready to be merged as is
+-->
+
+### Description
+<!--
+Describe briefly what your pull request proposes to fix. Especially if you have more than one commit, it is helpful to give a summary of what your contribution as a whole is trying to solve. You can also use the `fixes #1234` syntax to refer to specific issues either here or in your commit message.
+Also, please describe shortly how you tested that your fix actually works and the devices you tested it on.
+-->
+
+Add buttons with links to F-Droid and Google Play Store

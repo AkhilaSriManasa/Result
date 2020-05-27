@@ -1,0 +1,77 @@
+﻿ fix core build error
+ 
+ 添加日志
+ 
+ add plugins
+ 
+ change comment
+ 
+ 测试文件
+ 
+ 消除编辑器报错
+ 
+ Develop
+ 
+ Merge pull request #17 from xiaomoinfo/develop
+ Develop
+ Develop
+ 
+ md
+ 
+ Develop
+ 
+ screen
+ 
+ Update README.md
+ 
+ Activating Open Collective
+ This pull request adds backers and sponsors from your Open Collective https://opencollective.com/SpringBootUnity ❤️
+  
+  It adds two badges at the top to show the latest number of backers and sponsors. It also adds placeholders so that the avatar/logo of new backers/sponsors can automatically be shown without having to update your README.md. [[more info](https://github.com/opencollective/opencollective/wiki/Github-banner)]. See how it looks on [this repo](https://github.com/apex/apex#backers).
+You can also add a "Donate" button to your website and automatically show your backers and sponsors there with our widgets. Have a look here: https://opencollective.com/widgets
+
+  P.S: As with any pull request, feel free to comment or suggest changes. The only thing "required" are the placeholders on the README because we believe it's important to acknowledge the people in your community that are contributing (financially or with code!).
+
+  Thank you for your great contribution to the open source community. You are awesome! 🙌
+  And welcome to the open collective community! 😊
+
+  Come chat with us in the #opensource channel on https://slack.opencollective.com - great place to ask questions and share best practices with other open source sustainers!
+  
+ 1.8->1.7
+ crawler 模块使用了 lambda 表达式.1.8->1.7
+
+[ERROR] /E:/my_data/IdeaProject/test/github/xiaomo-info-java/crawler/src/main/java/info/xiaomo/crawler/schedule/ScheduledTasks.java:[44,50] -source 1.7 中不支持方法引用
+  (请使用 -source 8 或更高版本以启用方法引用)
+[INFO] 1 error
+[INFO] -------------------------------------------------------------
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Summary:
+[INFO]
+[INFO] xiaomo ............................................. SUCCESS [  0.323 s]
+[INFO] core ............................................... SUCCESS [  1.030 s]
+[INFO] website ............................................ SUCCESS [  0.968 s]
+[INFO] socket ............................................. SUCCESS [  0.353 s]
+[INFO] scheduled .......................................... SUCCESS [  0.250 s]
+[INFO] rabbitmq ........................................... SUCCESS [  0.300 s]
+[INFO] redis .............................................. SUCCESS [  0.270 s]
+[INFO] async .............................................. SUCCESS [  0.244 s]
+[INFO] mongodb ............................................ SUCCESS [  0.622 s]
+[INFO] security ........................................... SUCCESS [  0.420 s]
+[INFO] mybatis ............................................ SUCCESS [  0.297 s]
+[INFO] freemarker ......................................... SUCCESS [  0.359 s]
+[INFO] velocity ........................................... SUCCESS [  0.427 s]
+[INFO] multipleSource ..................................... SUCCESS [  0.424 s]
+[INFO] api ................................................ SUCCESS [  0.620 s]
+[INFO] crawler ............................................ FAILURE [  0.346 s]
+[INFO] application ........................................ SKIPPED
+[INFO] aries .............................................. SKIPPED
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 8.000 s
+[INFO] Finished at: 2017-02-07T03:36:33+08:00
+[INFO] Final Memory: 54M/699M
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.5.1:compile (default-compile) on project crawler: Compilation failure
+[ERROR] /E:/my_data/IdeaProject/test/github/xiaomo-info-java/crawler/src/main/java/info/xiaomo/crawler/schedule/ScheduledTasks.java:[44,50] -source 1.7 中不支持方法引用
+[ERROR] (请使用 -source 8 或更高版本以启用方法引用)

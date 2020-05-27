@@ -1,0 +1,46 @@
+﻿ Update "Scaling up to your first 10 million users" link (#411)
+ zh-Hans: Translate solutions (#392)
+ Revert "zh-cn: Sync with upstream to keep it up-to-date (#374)" (#391)
+
+This reverts commit 301b9d88e4aed1c34b3275301f18b14957c38c91.
+
+#374 overwrote the English version of the solutions
+ zh-cn: Sync with upstream to keep it up-to-date (#374)
+ Fix broken link in CAP theorem section (#348)
+ Fix broken CAP theorem link (#355)
+ Fix broken round robin links (#351)
+ Change raise NotImplemented to raise NotImplementedError (#345)
+ ja: Fix mistranslation in SQL tuning section (#305)
+ zh-Hans: Change translation in SQL tuning (#318)
+ Add API security checklist (#328)
+ ja: Fix translation in Service Discovery section (#308)
+ ja: Fix translation in “Disadvantage(s): load balancer” (#307)
+ ja: Fix translation in "Anki flashcards" (#306)
+ JA: Fix mistranslation in Federation section (#303)
+ Merge pull request #302 from satob/ReverseProxy
+ ja: Fix translation in horizontal scaling section (#301)
+
+* JA: Fix mistranslation in Horizontal scaling section
+
+- The Japanese translation is ambiguous about “vertical scaling” means scaling out or scaling up.
+- The word “expensive” is missing in the Japanese translation.
+
+* ja: Fix mistranslation in "Horizontal scaling"
+ JA: Fix mistranslation in Push CDNs section (#300)
+ JA: Fix mistranslation in Weak consistency section (#299)
+ ja: Fix mistranslation in "Horizontal scaling"
+ JA: Fix mistranslation in Reverse proxy (web server) section
+
+- Fix mistranslation of parallel structure. (not information/blacklist/limit, but hide/blacklist/limit)
+ JA: Fix mistranslation in Horizontal scaling section
+
+- The Japanese translation is ambiguous about “vertical scaling” means scaling out or scaling up.
+- The word “expensive” is missing in the Japanese translation.
+ ja: Fix typo of Big-O notation in KVS section (#292)
+ zh-Hans: Translate Pastebin solution (#273)
+ Add Hebrew translation link (#286)
+ Update language lists in translations (#280)
+ Add availability in numbers section (#237)
+ Add Ebook generation script (#207)
+ Translate language list (#252)
+ Enable syntax highlighting in all python code snippets (#268)

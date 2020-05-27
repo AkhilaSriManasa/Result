@@ -1,0 +1,1912 @@
+﻿ Clean tox environment for local testing
+ None
+# [Codecov](https://codecov.io/gh/rochacbruno/dynaconf/pull/346?src> Merging [#346](https://codecov.io/gh/rochacbruno/dynaconf/pull/346?src=pr&el=desc) into [master](https://codecov.io/gh/rochacbruno/dynaconf/commit/b9deabe04334352a07d714f4d94aedf23df15837&el=desc) will **not change** coverage.
+> The diff coverage is `n/a`.
+
+[![Impacted file tree graph](https://codecov.io/gh/rochacbruno/dynaconf/pull/346/graphs/tree.svg?width=650&height=150&src=pr&token=GXszVzJcqW)](https://codecov.io/gh/rochacbruno/dynaconf/pull/346?src=pr&el=tree)
+
+```diff
+@@            Coverage Diff            @@
+##            master      #346   +/-   ##
+=========================================
+  Coverage   100.00%   100.00%           
+=========================================
+  Files           17        17           
+  Lines          774       774           
+=========================================
+  Hits           774       774           
+```
+
+
+
+------
+
+[Continue to review full report at Codecov](https://codecov.io/gh/rochacbruno/dynaconf/pull/346?src=pr&el=continue).
+> **Legend** - [Click here to learn more](https://docs.codecov.io/docs/codecov-delta)
+> `Δ = absolute <relative> (impact)`, `ø = not affected`, `? = missing data`
+> Powered by [Codecov](https://codecov.io/gh/rochacbruno/dynaconf/pull/346?src=pr&el=footer). Last update [b9deabe...bd7da96](https://codecov.io/gh/rochacbruno/dynaconf/pull/346?src=pr&el=lastupdated). Read the [comment docs](https://docs.codecov.io/docs/pull-request-comments).
+
+
+ vendoring dependencies fix #301
+ None
+Hello @rochacbruno! Thanks for updating this PR. We checked the lines you've touched for [PEP 8](https://www.python.org/dev/peps/pep-0008) issues, and found:
+
+
+
+
+
+* In the file [`dynaconf/vendor/box/box.py`](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box.py):
+
+> [Line 18:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box.py#L18): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (109 > 79 characters)
+> [Line 19:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box.py#L19): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (89 > 79 characters)
+> [Line 51:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box.py#L51): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (87 > 79 characters)
+> [Line 81:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box.py#L81): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (117 > 79 characters)
+> [Line 87:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box.py#L87): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (97 > 79 characters)
+> [Line 104:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box.py#L104): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (95 > 79 characters)
+> [Line 105:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box.py#L105): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (114 > 79 characters)
+> [Line 106:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box.py#L106): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (105 > 79 characters)
+> [Line 107:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box.py#L107): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (90 > 79 characters)
+> [Line 108:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box.py#L108): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (80 > 79 characters)
+> [Line 117:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box.py#L117): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (102 > 79 characters)
+> [Line 131:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box.py#L131): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (97 > 79 characters)
+> [Line 132:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box.py#L132): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (115 > 79 characters)
+> [Line 133:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box.py#L133): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (106 > 79 characters)
+> [Line 134:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box.py#L134): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (91 > 79 characters)
+> [Line 135:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box.py#L135): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (81 > 79 characters)
+> [Line 140:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box.py#L140): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (103 > 79 characters)
+> [Line 152:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box.py#L152): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (101 > 79 characters)
+> [Line 162:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box.py#L162): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (120 > 79 characters)
+> [Line 169:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box.py#L169): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (81 > 79 characters)
+> [Line 171:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box.py#L171): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (83 > 79 characters)
+> [Line 183:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box.py#L183): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (90 > 79 characters)
+> [Line 201:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box.py#L201): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (84 > 79 characters)
+> [Line 220:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box.py#L220): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (102 > 79 characters)
+> [Line 226:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box.py#L226): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (82 > 79 characters)
+> [Line 287:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box.py#L287): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (85 > 79 characters)
+> [Line 291:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box.py#L291): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (114 > 79 characters)
+> [Line 298:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box.py#L298): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (97 > 79 characters)
+> [Line 300:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box.py#L300): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (93 > 79 characters)
+> [Line 301:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box.py#L301): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (108 > 79 characters)
+> [Line 303:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box.py#L303): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (82 > 79 characters)
+> [Line 310:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box.py#L310): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (96 > 79 characters)
+> [Line 313:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box.py#L313): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (91 > 79 characters)
+> [Line 314:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box.py#L314): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (80 > 79 characters)
+> [Line 315:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box.py#L315): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (105 > 79 characters)
+> [Line 323:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box.py#L323): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (115 > 79 characters)
+> [Line 324:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box.py#L324): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (103 > 79 characters)
+> [Line 351:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box.py#L351): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (86 > 79 characters)
+> [Line 358:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box.py#L358): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (101 > 79 characters)
+> [Line 360:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box.py#L360): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (80 > 79 characters)
+> [Line 369:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box.py#L369): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (97 > 79 characters)
+> [Line 374:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box.py#L374): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (101 > 79 characters)
+> [Line 389:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box.py#L389): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (107 > 79 characters)
+> [Line 391:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box.py#L391): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (80 > 79 characters)
+> [Line 422:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box.py#L422): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (82 > 79 characters)
+> [Line 492:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box.py#L492): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (120 > 79 characters)
+> [Line 524:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box.py#L524): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (91 > 79 characters)
+> [Line 535:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box.py#L535): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (87 > 79 characters)
+> [Line 575:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box.py#L575): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (105 > 79 characters)
+> [Line 577:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box.py#L577): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (91 > 79 characters)
+> [Line 579:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box.py#L579): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (80 > 79 characters)
+> [Line 581:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box.py#L581): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (105 > 79 characters)
+> [Line 592:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box.py#L592): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (107 > 79 characters)
+> [Line 595:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box.py#L595): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (107 > 79 characters)
+> [Line 613:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box.py#L613): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (101 > 79 characters)
+> [Line 616:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box.py#L616): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (105 > 79 characters)
+> [Line 619:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box.py#L619): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (115 > 79 characters)
+> [Line 631:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box.py#L631): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (97 > 79 characters)
+> [Line 635:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box.py#L635): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (107 > 79 characters)
+> [Line 638:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box.py#L638): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (89 > 79 characters)
+> [Line 652:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box.py#L652): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (113 > 79 characters)
+> [Line 654:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box.py#L654): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (104 > 79 characters)
+> [Line 657:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box.py#L657): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (106 > 79 characters)
+> [Line 666:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box.py#L666): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (92 > 79 characters)
+> [Line 669:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box.py#L669): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (82 > 79 characters)
+> [Line 686:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box.py#L686): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (103 > 79 characters)
+
+* In the file [`dynaconf/vendor/box/box_list.py`](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box_list.py):
+
+> [Line 11:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box_list.py#L11): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (85 > 79 characters)
+> [Line 23:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box_list.py#L23): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (95 > 79 characters)
+> [Line 34:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box_list.py#L34): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (93 > 79 characters)
+> [Line 38:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box_list.py#L38): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (95 > 79 characters)
+> [Line 54:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box_list.py#L54): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (93 > 79 characters)
+> [Line 59:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box_list.py#L59): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (116 > 79 characters)
+> [Line 64:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box_list.py#L64): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (114 > 79 characters)
+> [Line 80:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box_list.py#L80): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (112 > 79 characters)
+> [Line 94:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box_list.py#L94): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (88 > 79 characters)
+> [Line 134:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box_list.py#L134): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (92 > 79 characters)
+> [Line 147:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box_list.py#L147): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (118 > 79 characters)
+> [Line 151:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box_list.py#L151): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (111 > 79 characters)
+> [Line 154:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box_list.py#L154): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (118 > 79 characters)
+> [Line 177:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box_list.py#L177): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (99 > 79 characters)
+> [Line 181:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box_list.py#L181): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (80 > 79 characters)
+> [Line 192:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box_list.py#L192): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (97 > 79 characters)
+> [Line 213:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box_list.py#L213): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (113 > 79 characters)
+> [Line 215:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box_list.py#L215): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (98 > 79 characters)
+> [Line 218:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box_list.py#L218): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (117 > 79 characters)
+> [Line 229:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box_list.py#L229): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (104 > 79 characters)
+> [Line 232:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box_list.py#L232): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (93 > 79 characters)
+> [Line 251:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box_list.py#L251): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (103 > 79 characters)
+> [Line 256:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box_list.py#L256): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (80 > 79 characters)
+> [Line 260:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box_list.py#L260): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (81 > 79 characters)
+> [Line 261:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/box_list.py#L261): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (82 > 79 characters)
+
+* In the file [`dynaconf/vendor/box/config_box.py`](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/config_box.py):
+
+> [Line 20:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/config_box.py#L20): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (101 > 79 characters)
+> [Line 33:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/config_box.py#L33): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (103 > 79 characters)
+
+* In the file [`dynaconf/vendor/box/converters.py`](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/converters.py):
+
+> [Line 18:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/converters.py#L18): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (115 > 79 characters)
+> [Line 24:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/converters.py#L24): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (80 > 79 characters)
+> [Line 43:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/converters.py#L43): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (83 > 79 characters)
+> [Line 48:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/converters.py#L48): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (91 > 79 characters)
+> [Line 53:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/converters.py#L53): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (110 > 79 characters)
+> [Line 69:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/converters.py#L69): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (109 > 79 characters)
+> [Line 74:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/converters.py#L74): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (90 > 79 characters)
+> [Line 76:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/converters.py#L76): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (83 > 79 characters)
+> [Line 79:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/converters.py#L79): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (93 > 79 characters)
+> [Line 102:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/converters.py#L102): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (83 > 79 characters)
+> [Line 118:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/converters.py#L118): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (113 > 79 characters)
+> [Line 122:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/converters.py#L122): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (91 > 79 characters)
+> [Line 131:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/converters.py#L131): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (80 > 79 characters)
+
+
+
+* In the file [`dynaconf/vendor/box/from_file.py`](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/from_file.py):
+
+> [Line 46:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/from_file.py#L46): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (90 > 79 characters)
+> [Line 48:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/from_file.py#L48): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (94 > 79 characters)
+> [Line 69:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/from_file.py#L69): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (97 > 79 characters)
+> [Line 76:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/from_file.py#L76): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (98 > 79 characters)
+
+* In the file [`dynaconf/vendor/box/shorthand_box.py`](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/shorthand_box.py):
+
+> [Line 12:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/box/shorthand_box.py#L12): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (107 > 79 characters)
+
+
+
+* In the file [`dynaconf/vendor/click/_bashcomplete.py`](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/_bashcomplete.py):
+
+> [Line 128:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/_bashcomplete.py#L128): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (80 > 79 characters)
+> [Line 218:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/_bashcomplete.py#L218): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (86 > 79 characters)
+> [Line 225:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/_bashcomplete.py#L225): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (81 > 79 characters)
+> [Line 304:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/_bashcomplete.py#L304): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (85 > 79 characters)
+> [Line 317:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/_bashcomplete.py#L317): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (84 > 79 characters)
+
+* In the file [`dynaconf/vendor/click/_compat.py`](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/_compat.py):
+
+> [Line 11:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/_compat.py#L11): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (84 > 79 characters)
+> [Line 69:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/_compat.py#L69): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (84 > 79 characters)
+> [Line 219:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/_compat.py#L219): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (80 > 79 characters)
+> [Line 274:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/_compat.py#L274): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (84 > 79 characters)
+> [Line 285:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/_compat.py#L285): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (84 > 79 characters)
+> [Line 299:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/_compat.py#L299): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (84 > 79 characters)
+> [Line 306:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/_compat.py#L306): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (85 > 79 characters)
+> [Line 313:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/_compat.py#L313): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (85 > 79 characters)
+> [Line 321:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/_compat.py#L321): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (87 > 79 characters)
+> [Line 328:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/_compat.py#L328): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (88 > 79 characters)
+> [Line 335:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/_compat.py#L335): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (88 > 79 characters)
+> [Line 342:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/_compat.py#L342): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (83 > 79 characters)
+> [Line 367:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/_compat.py#L367): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (82 > 79 characters)
+> [Line 557:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/_compat.py#L557): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (80 > 79 characters)
+> [Line 596:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/_compat.py#L596): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (81 > 79 characters)
+> [Line 597:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/_compat.py#L597): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (84 > 79 characters)
+> [Line 598:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/_compat.py#L598): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (84 > 79 characters)
+
+* In the file [`dynaconf/vendor/click/_termui_impl.py`](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/_termui_impl.py):
+
+> [Line 114:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/_termui_impl.py#L114): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (80 > 79 characters)
+> [Line 189:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/_termui_impl.py#L189): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (82 > 79 characters)
+> [Line 319:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/_termui_impl.py#L319): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (80 > 79 characters)
+> [Line 437:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/_termui_impl.py#L437): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (83 > 79 characters)
+> [Line 467:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/_termui_impl.py#L467): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (83 > 79 characters)
+
+
+
+* In the file [`dynaconf/vendor/click/_unicodefun.py`](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/_unicodefun.py):
+
+> [Line 22:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/_unicodefun.py#L22): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (80 > 79 characters)
+
+* In the file [`dynaconf/vendor/click/_winconsole.py`](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/_winconsole.py):
+
+> [Line 130:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/_winconsole.py#L130): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (80 > 79 characters)
+> [Line 170:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/_winconsole.py#L170): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (83 > 79 characters)
+> [Line 240:46](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/_winconsole.py#L240): [E203](https://duckduckgo.com/?q=pep8%20E203) whitespace before ':'
+
+* In the file [`dynaconf/vendor/click/core.py`](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/core.py):
+
+> [Line 39:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/core.py#L39): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (82 > 79 characters)
+> [Line 44:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/core.py#L44): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (87 > 79 characters)
+> [Line 603:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/core.py#L603): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (85 > 79 characters)
+> [Line 740:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/core.py#L740): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (86 > 79 characters)
+> [Line 1080:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/core.py#L1080): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (83 > 79 characters)
+> [Line 1205:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/core.py#L1205): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (81 > 79 characters)
+> [Line 1599:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/core.py#L1599): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (80 > 79 characters)
+> [Line 1703:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/core.py#L1703): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (80 > 79 characters)
+> [Line 1780:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/core.py#L1780): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (87 > 79 characters)
+> [Line 1809:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/core.py#L1809): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (81 > 79 characters)
+> [Line 1810:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/core.py#L1810): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (88 > 79 characters)
+> [Line 1814:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/core.py#L1814): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (80 > 79 characters)
+> [Line 1848:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/core.py#L1848): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (85 > 79 characters)
+> [Line 1885:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/core.py#L1885): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (87 > 79 characters)
+> [Line 1887:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/core.py#L1887): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (83 > 79 characters)
+> [Line 1891:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/core.py#L1891): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (83 > 79 characters)
+> [Line 1919:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/core.py#L1919): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (82 > 79 characters)
+> [Line 1928:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/core.py#L1928): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (80 > 79 characters)
+> [Line 2003:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/core.py#L2003): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (83 > 79 characters)
+> [Line 2027:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/core.py#L2027): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (80 > 79 characters)
+
+* In the file [`dynaconf/vendor/click/decorators.py`](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/decorators.py):
+
+> [Line 81:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/decorators.py#L81): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (80 > 79 characters)
+> [Line 184:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/decorators.py#L184): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (80 > 79 characters)
+> [Line 287:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/decorators.py#L287): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (83 > 79 characters)
+
+* In the file [`dynaconf/vendor/click/exceptions.py`](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/exceptions.py):
+
+> [Line 55:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/exceptions.py#L55): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (83 > 79 characters)
+> [Line 114:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/exceptions.py#L114): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (82 > 79 characters)
+> [Line 142:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/exceptions.py#L142): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (80 > 79 characters)
+> [Line 159:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/exceptions.py#L159): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (80 > 79 characters)
+
+* In the file [`dynaconf/vendor/click/formatting.py`](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/formatting.py):
+
+> [Line 26:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/formatting.py#L26): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (86 > 79 characters)
+> [Line 158:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/formatting.py#L158): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (85 > 79 characters)
+> [Line 218:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/formatting.py#L218): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (82 > 79 characters)
+> [Line 225:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/formatting.py#L225): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (82 > 79 characters)
+
+
+
+* In the file [`dynaconf/vendor/click/parser.py`](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/parser.py):
+
+> [Line 79:20](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/parser.py#L79): [E203](https://duckduckgo.com/?q=pep8%20E203) whitespace before ':'
+> [Line 79:46](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/parser.py#L79): [E203](https://duckduckgo.com/?q=pep8%20E203) whitespace before ':'
+> [Line 116:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/parser.py#L116): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (88 > 79 characters)
+> [Line 234:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/parser.py#L234): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (81 > 79 characters)
+> [Line 246:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/parser.py#L246): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (85 > 79 characters)
+> [Line 328:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/parser.py#L328): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (85 > 79 characters)
+
+* In the file [`dynaconf/vendor/click/termui.py`](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/termui.py):
+
+> [Line 55:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/termui.py#L55): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (80 > 79 characters)
+> [Line 170:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/termui.py#L170): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (86 > 79 characters)
+> [Line 238:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/termui.py#L238): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (81 > 79 characters)
+> [Line 254:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/termui.py#L254): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (86 > 79 characters)
+> [Line 559:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/termui.py#L559): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (88 > 79 characters)
+
+* In the file [`dynaconf/vendor/click/testing.py`](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/testing.py):
+
+> [Line 65:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/testing.py#L65): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (85 > 79 characters)
+> [Line 88:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/testing.py#L88): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (80 > 79 characters)
+> [Line 97:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/testing.py#L97): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (80 > 79 characters)
+> [Line 125:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/testing.py#L125): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (85 > 79 characters)
+
+* In the file [`dynaconf/vendor/click/types.py`](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/types.py):
+
+> [Line 192:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/types.py#L192): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (80 > 79 characters)
+> [Line 225:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/types.py#L225): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (88 > 79 characters)
+> [Line 244:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/types.py#L244): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (88 > 79 characters)
+> [Line 301:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/types.py#L301): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (80 > 79 characters)
+> [Line 307:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/types.py#L307): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (83 > 79 characters)
+> [Line 324:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/types.py#L324): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (81 > 79 characters)
+> [Line 367:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/types.py#L367): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (80 > 79 characters)
+> [Line 373:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/types.py#L373): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (83 > 79 characters)
+> [Line 429:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/types.py#L429): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (81 > 79 characters)
+> [Line 472:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/types.py#L472): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (84 > 79 characters)
+> [Line 479:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/types.py#L479): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (80 > 79 characters)
+> [Line 494:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/types.py#L494): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (83 > 79 characters)
+> [Line 586:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/types.py#L586): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (82 > 79 characters)
+> [Line 599:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/types.py#L599): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (82 > 79 characters)
+> [Line 605:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/types.py#L605): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (83 > 79 characters)
+> [Line 611:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/types.py#L611): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (83 > 79 characters)
+> [Line 689:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/types.py#L689): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (80 > 79 characters)
+
+* In the file [`dynaconf/vendor/click/utils.py`](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/utils.py):
+
+> [Line 92:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/utils.py#L92): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (86 > 79 characters)
+> [Line 119:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/utils.py#L119): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (84 > 79 characters)
+> [Line 297:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/utils.py#L297): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (80 > 79 characters)
+> [Line 313:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/utils.py#L313): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (80 > 79 characters)
+> [Line 323:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/utils.py#L323): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (82 > 79 characters)
+> [Line 381:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/click/utils.py#L381): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (82 > 79 characters)
+
+* In the file [`dynaconf/vendor/dotenv/__init__.py`](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/dotenv/__init__.py):
+
+> [Line 2:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/dotenv/__init__.py#L2): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (86 > 79 characters)
+> [Line 15:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/dotenv/__init__.py#L15): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (94 > 79 characters)
+
+* In the file [`dynaconf/vendor/dotenv/cli.py`](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/dotenv/cli.py):
+
+> [Line 8:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/dotenv/cli.py#L8): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (82 > 79 characters)
+> [Line 23:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/dotenv/cli.py#L23): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (100 > 79 characters)
+> [Line 26:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/dotenv/cli.py#L26): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (120 > 79 characters)
+> [Line 100:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/dotenv/cli.py#L100): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (102 > 79 characters)
+
+* In the file [`dynaconf/vendor/dotenv/compat.py`](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/dotenv/compat.py):
+
+> [Line 30:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/dotenv/compat.py#L30): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (88 > 79 characters)
+> [Line 43:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/dotenv/compat.py#L43): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (84 > 79 characters)
+
+* In the file [`dynaconf/vendor/dotenv/ipython.py`](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/dotenv/ipython.py):
+
+> [Line 4:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/dotenv/ipython.py#L4): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (84 > 79 characters)
+> [Line 23:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/dotenv/ipython.py#L23): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (81 > 79 characters)
+
+* In the file [`dynaconf/vendor/dotenv/main.py`](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/dotenv/main.py):
+
+> [Line 59:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/dotenv/main.py#L59): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (84 > 79 characters)
+> [Line 60:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/dotenv/main.py#L60): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (90 > 79 characters)
+> [Line 61:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/dotenv/main.py#L61): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (80 > 79 characters)
+> [Line 77:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/dotenv/main.py#L77): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (110 > 79 characters)
+> [Line 87:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/dotenv/main.py#L87): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (85 > 79 characters)
+> [Line 207:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/dotenv/main.py#L207): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (100 > 79 characters)
+> [Line 233:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/dotenv/main.py#L233): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (93 > 79 characters)
+> [Line 238:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/dotenv/main.py#L238): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (92 > 79 characters)
+> [Line 283:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/dotenv/main.py#L283): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (87 > 79 characters)
+> [Line 306:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/dotenv/main.py#L306): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (106 > 79 characters)
+> [Line 307:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/dotenv/main.py#L307): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (108 > 79 characters)
+> [Line 308:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/dotenv/main.py#L308): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (84 > 79 characters)
+> [Line 312:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/dotenv/main.py#L312): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (102 > 79 characters)
+> [Line 313:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/dotenv/main.py#L313): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (103 > 79 characters)
+> [Line 317:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/dotenv/main.py#L317): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (120 > 79 characters)
+> [Line 320:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/dotenv/main.py#L320): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (92 > 79 characters)
+
+
+
+
+
+
+
+* In the file [`dynaconf/vendor/toml/decoder.py`](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/toml/decoder.py):
+
+> [Line 260:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/toml/decoder.py#L260): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (80 > 79 characters)
+> [Line 462:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/toml/decoder.py#L462): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (80 > 79 characters)
+> [Line 471:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/toml/decoder.py#L471): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (80 > 79 characters)
+> [Line 474:80](https://github.com/rochacbruno/dynaconf/blob/a61ede73dcdf350ca91e0d4e0a586d785fe4e89e/dynaconf/vendor/toml/decoder.py#L474): [E501](https://duckduckgo.com/?q=pep8%20E501) line too long (80 > 79 characters)
+
+
+
+
+
+
+
+
+
+
+
+# [Codecov](https://codecov.io/gh/rochacbruno/dynaconf/pull/345?src> Merging [#345](https://codecov.io/gh/rochacbruno/dynaconf/pull/345?src=pr&el=desc) into [master](https://codecov.io/gh/rochacbruno/dynaconf/commit/343628fd81d723750216d36037cde488412df502&el=desc) will **not change** coverage.
+> The diff coverage is `n/a`.
+
+[![Impacted file tree graph](https://codecov.io/gh/rochacbruno/dynaconf/pull/345/graphs/tree.svg?width=650&height=150&src=pr&token=GXszVzJcqW)](https://codecov.io/gh/rochacbruno/dynaconf/pull/345?src=pr&el=tree)
+
+```diff
+@@            Coverage Diff             @@
+##            master      #345    +/-   ##
+==========================================
+  Coverage   100.00%   100.00%            
+==========================================
+  Files           18        17     -1     
+  Lines          974       774   -200     
+==========================================
+- Hits           974       774   -200     
+```
+
+
+| [Impacted Files](https://codecov.io/gh/rochacbruno/dynaconf/pull/345?src=pr&el=tree) | Coverage Δ | |
+|---|---|---|
+| [dynaconf/cli.py](https://codecov.io/gh/rochacbruno/dynaconf/pull/345/diff?src=pr&el=tree#diff-ZHluYWNvbmYvY2xpLnB5) | | |
+
+------
+
+[Continue to review full report at Codecov](https://codecov.io/gh/rochacbruno/dynaconf/pull/345?src=pr&el=continue).
+> **Legend** - [Click here to learn more](https://docs.codecov.io/docs/codecov-delta)
+> `Δ = absolute <relative> (impact)`, `ø = not affected`, `? = missing data`
+> Powered by [Codecov](https://codecov.io/gh/rochacbruno/dynaconf/pull/345?src=pr&el=footer). Last update [343628f...01c7944](https://codecov.io/gh/rochacbruno/dynaconf/pull/345?src=pr&el=lastupdated). Read the [comment docs](https://docs.codecov.io/docs/pull-request-comments).
+
+
+ Load from env without defaults
+ Im trying to load a section of config using from_env
+
+Is there any way to get rid of defaults?
+
+```
+inputs = settings.from_env('inputs')
+print(inputs.to_dict())
+{'TITLE': '123', 'AUTHOR': '123', 'CUSTOMER': '123', '123': {'test': 'test'}}
+```
+
+Is there any way to just contain the following:
+```
+{'123': {'test': 'test'}}
+```
+
+My intention is to then iterate over these configurations if possible. 
+@minitriga righty now `default` is always loaded, we can introduce a flag such as `nodefault
+I added as RFC to be implemented
+
+That would be good. I managed to get around this by changing `[defaults]` to something else. 
+
+But this would be a good feature. 
+
+Another question: Is there any way to return an object without the default methods or is that the intention of `populate_obj`?
+
+I managed to get something working that looks like the following:
+
+```
+inputs = ['CISCO_ACI']
+
+class Obj:
+    pass
+
+class Inputs(Configuration):
+    def __init__(self):
+        super().__init__()
+    
+    def run(self):
+        obj = Obj()
+        self.inputs.populate_obj(obj, keys=inputs)
+        for method in dir(obj):
+            if '__' not in method:
+                print(method)
+```
+
+Another thing to add..
+
+right now you can try.
+
+```py
+settings.populate_obj(obj, keys=settings.to_dict().keys())
+```
+
+Ahh that's a much easier to use instead of me having to keep constants up to date with what I need. Cheers!. 
+
+ File substitution
+ Hi,
+
+I am wondering what would be the best way to substitute placeholders in a file using values from dynaconf settings file.
+
+Lets say we have a simple **employee.yaml** file:
+
+```
+-  martin:
+    name: Martin D'vloper
+    job: {settings.JOB}
+```
+
+How could I get the placeholder {settings.JOB} replaced with the actual value?
+
+I am quite new to Python, but at the moment I'm thinking if this is something that could be solved by passing the contents of the yaml file and the settings object to  Python's **eval()** function ? Or is there some less extreme solution? Thanks!
+
+ [bug] ENVLESS MODE
+ **Describe the bug**
+I seem to be strugling with ENVLESS_MODE. 
+
+I do not get any config being loaded. 
+
+However, I might be using this wrong. 
+
+Changing my TOML file to default ENV works fine. 
+
+**To Reproduce**
+Steps to reproduce the behavior:
+
+1. Having the following folder structure
+
+<!-- Describe or use the command `$ tree -v` and paste below -->
+
+<details>
+<summary> Project structure </summary>
+
+```bash
+ Pipfile
+├── Pipfile.lock
+├── README.md
+├── configuration.py
+├── settings.yaml
+```
+</details>
+
+2. Having the following config files:
+
+<!-- Please adjust if you are using different files and formats! -->
+
+<details>
+<summary> Config files </summary>
+
+**/path/.env**
+```bash
+DEBUG_LEVEL_FOR_DYNACONF=DEBUG
+```
+
+and
+
+**/path/settings.toml**
+```toml
+[test]
+author = "Alex Gittings"
+
+[test.alex]
+name = "Alex"
+```
+
+</details>
+
+3. Having the following app code:
+
+<details>
+<summary> Code </summary>
+
+**/path/src/app.py**
+```python
+from dynaconf import LazySettings
+
+settings = LazySettings(ENVLESS_MODE=True)
+print(settings.to_dict())
+```
+
+</details>
+
+4. Executing under the following environment
+
+<details>
+<summary> Execution </summary>
+
+```bash
+# other commands and details?
+# virtualenv activation?
+
+$ python3 configuration.py
+```
+</details>
+
+**Expected behavior**
+loaded all values in settings.toml file. 
+
+**Debug output**
+
+<details>
+<summary> Debug Output </summary>
+
+```bash
+2020-05-20:11:25:29,643 DEBUG    [base.py:192 - __init__] Initializing Dynaconf ({'ENVLESS_MODE': True})
+2020-05-20:11:25:29,643 DEBUG    [base.py:192 - __init__] Initializing Dynaconf ({'ENVLESS_MODE': True})
+2020-05-20:11:25:29,644 DEBUG    [__init__.py:34 - default_loader] loading: RENAMED_VARS:{'DYNACONF_NAMESPACE': 'ENV_FOR_DYNACONF', 'NAMESPACE_FOR_DYNACONF': 'ENV_FOR_DYNACONF', 'DYNACONF_SETTINGS_MODULE': 'SETTINGS_FILE_FOR_DYNACONF', 'DYNACONF_SETTINGS': 'SETTINGS_FILE_FOR_DYNACONF', 'SETTINGS_MODULE': 'SETTINGS_FILE_FOR_DYNACONF', 'SETTINGS_MODULE_FOR_DYNACONF': 'SETTINGS_FILE_FOR_DYNACONF', 'PROJECT_ROOT': 'ROOT_PATH_FOR_DYNACONF', 'PROJECT_ROOT_FOR_DYNACONF': 'ROOT_PATH_FOR_DYNACONF', 'DYNACONF_SILENT_ERRORS': 'SILENT_ERRORS_FOR_DYNACONF', 'DYNACONF_ALWAYS_FRESH_VARS': 'FRESH_VARS_FOR_DYNACONF', 'BASE_NAMESPACE_FOR_DYNACONF': 'DEFAULT_ENV_FOR_DYNACONF', 'GLOBAL_ENV_FOR_DYNACONF': 'ENVVAR_PREFIX_FOR_DYNACONF'}
+2020-05-20:11:25:29,644 DEBUG    [__init__.py:34 - default_loader] loading: RENAMED_VARS:{'DYNACONF_NAMESPACE': 'ENV_FOR_DYNACONF', 'NAMESPACE_FOR_DYNACONF': 'ENV_FOR_DYNACONF', 'DYNACONF_SETTINGS_MODULE': 'SETTINGS_FILE_FOR_DYNACONF', 'DYNACONF_SETTINGS': 'SETTINGS_FILE_FOR_DYNACONF', 'SETTINGS_MODULE': 'SETTINGS_FILE_FOR_DYNACONF', 'SETTINGS_MODULE_FOR_DYNACONF': 'SETTINGS_FILE_FOR_DYNACONF', 'PROJECT_ROOT': 'ROOT_PATH_FOR_DYNACONF', 'PROJECT_ROOT_FOR_DYNACONF': 'ROOT_PATH_FOR_DYNACONF', 'DYNACONF_SILENT_ERRORS': 'SILENT_ERRORS_FOR_DYNACONF', 'DYNACONF_ALWAYS_FRESH_VARS': 'FRESH_VARS_FOR_DYNACONF', 'BASE_NAMESPACE_FOR_DYNACONF': 'DEFAULT_ENV_FOR_DYNACONF', 'GLOBAL_ENV_FOR_DYNACONF': 'ENVVAR_PREFIX_FOR_DYNACONF'}
+2020-05-20:11:25:29,644 DEBUG    [__init__.py:34 - default_loader] loading: ROOT_PATH_FOR_DYNACONF:None
+2020-05-20:11:25:29,644 DEBUG    [__init__.py:34 - default_loader] loading: ROOT_PATH_FOR_DYNACONF:None
+2020-05-20:11:25:29,645 DEBUG    [__init__.py:34 - default_loader] loading: SETTINGS_FILE_FOR_DYNACONF:settings.py,.secrets.py,settings.toml,settings.tml,.secrets.toml,.secrets.tml,settings.yaml,settings.yml,.secrets.yaml,.secrets.yml,settings.ini,settings.conf,settings.properties,.secrets.ini,.secrets.conf,.secrets.properties,settings.json,.secrets.json
+2020-05-20:11:25:29,645 DEBUG    [__init__.py:34 - default_loader] loading: SETTINGS_FILE_FOR_DYNACONF:settings.py,.secrets.py,settings.toml,settings.tml,.secrets.toml,.secrets.tml,settings.yaml,settings.yml,.secrets.yaml,.secrets.yml,settings.ini,settings.conf,settings.properties,.secrets.ini,.secrets.conf,.secrets.properties,settings.json,.secrets.json
+2020-05-20:11:25:29,645 DEBUG    [__init__.py:34 - default_loader] loading: ENV_SWITCHER_FOR_DYNACONF:ENV_FOR_DYNACONF
+2020-05-20:11:25:29,645 DEBUG    [__init__.py:34 - default_loader] loading: ENV_SWITCHER_FOR_DYNACONF:ENV_FOR_DYNACONF
+2020-05-20:11:25:29,645 DEBUG    [__init__.py:34 - default_loader] loading: ENV_FOR_DYNACONF:DEVELOPMENT
+2020-05-20:11:25:29,645 DEBUG    [__init__.py:34 - default_loader] loading: ENV_FOR_DYNACONF:DEVELOPMENT
+2020-05-20:11:25:29,645 DEBUG    [__init__.py:34 - default_loader] loading: FORCE_ENV_FOR_DYNACONF:None
+2020-05-20:11:25:29,645 DEBUG    [__init__.py:34 - default_loader] loading: FORCE_ENV_FOR_DYNACONF:None
+2020-05-20:11:25:29,645 DEBUG    [__init__.py:34 - default_loader] loading: DEFAULT_ENV_FOR_DYNACONF:DEFAULT
+2020-05-20:11:25:29,645 DEBUG    [__init__.py:34 - default_loader] loading: DEFAULT_ENV_FOR_DYNACONF:DEFAULT
+2020-05-20:11:25:29,646 DEBUG    [__init__.py:34 - default_loader] loading: ENVVAR_PREFIX_FOR_DYNACONF:DYNACONF
+2020-05-20:11:25:29,646 DEBUG    [__init__.py:34 - default_loader] loading: ENVVAR_PREFIX_FOR_DYNACONF:DYNACONF
+2020-05-20:11:25:29,646 DEBUG    [__init__.py:34 - default_loader] loading: ENCODING_FOR_DYNACONF:utf-8
+2020-05-20:11:25:29,646 DEBUG    [__init__.py:34 - default_loader] loading: ENCODING_FOR_DYNACONF:utf-8
+2020-05-20:11:25:29,646 DEBUG    [__init__.py:34 - default_loader] loading: MERGE_ENABLED_FOR_DYNACONF:False
+2020-05-20:11:25:29,646 DEBUG    [__init__.py:34 - default_loader] loading: MERGE_ENABLED_FOR_DYNACONF:False
+2020-05-20:11:25:29,646 DEBUG    [__init__.py:34 - default_loader] loading: NESTED_SEPARATOR_FOR_DYNACONF:__
+2020-05-20:11:25:29,646 DEBUG    [__init__.py:34 - default_loader] loading: NESTED_SEPARATOR_FOR_DYNACONF:__
+2020-05-20:11:25:29,647 DEBUG    [__init__.py:34 - default_loader] loading: ENVVAR_FOR_DYNACONF:SETTINGS_FILE_FOR_DYNACONF
+2020-05-20:11:25:29,647 DEBUG    [__init__.py:34 - default_loader] loading: ENVVAR_FOR_DYNACONF:SETTINGS_FILE_FOR_DYNACONF
+2020-05-20:11:25:29,647 DEBUG    [__init__.py:34 - default_loader] loading: REDIS_FOR_DYNACONF:{'host': 'localhost', 'port': 6379, 'db': 0, 'decode_responses': True}
+2020-05-20:11:25:29,647 DEBUG    [__init__.py:34 - default_loader] loading: REDIS_FOR_DYNACONF:{'host': 'localhost', 'port': 6379, 'db': 0, 'decode_responses': True}
+2020-05-20:11:25:29,647 DEBUG    [__init__.py:34 - default_loader] loading: REDIS_ENABLED_FOR_DYNACONF:False
+2020-05-20:11:25:29,647 DEBUG    [__init__.py:34 - default_loader] loading: REDIS_ENABLED_FOR_DYNACONF:False
+2020-05-20:11:25:29,647 DEBUG    [__init__.py:34 - default_loader] loading: VAULT_FOR_DYNACONF:{'url': 'http://localhost:8200', 'token': None, 'cert': None, 'verify': None, 'timeout': None, 'proxies': None, 'allow_redirects': None}
+2020-05-20:11:25:29,647 DEBUG    [__init__.py:34 - default_loader] loading: VAULT_FOR_DYNACONF:{'url': 'http://localhost:8200', 'token': None, 'cert': None, 'verify': None, 'timeout': None, 'proxies': None, 'allow_redirects': None}
+2020-05-20:11:25:29,648 DEBUG    [__init__.py:34 - default_loader] loading: VAULT_ENABLED_FOR_DYNACONF:False
+2020-05-20:11:25:29,648 DEBUG    [__init__.py:34 - default_loader] loading: VAULT_ENABLED_FOR_DYNACONF:False
+2020-05-20:11:25:29,648 DEBUG    [__init__.py:34 - default_loader] loading: VAULT_PATH_FOR_DYNACONF:dynaconf
+2020-05-20:11:25:29,648 DEBUG    [__init__.py:34 - default_loader] loading: VAULT_PATH_FOR_DYNACONF:dynaconf
+2020-05-20:11:25:29,648 DEBUG    [__init__.py:34 - default_loader] loading: VAULT_ROLE_ID_FOR_DYNACONF:None
+2020-05-20:11:25:29,648 DEBUG    [__init__.py:34 - default_loader] loading: VAULT_ROLE_ID_FOR_DYNACONF:None
+2020-05-20:11:25:29,648 DEBUG    [__init__.py:34 - default_loader] loading: VAULT_SECRET_ID_FOR_DYNACONF:None
+2020-05-20:11:25:29,648 DEBUG    [__init__.py:34 - default_loader] loading: VAULT_SECRET_ID_FOR_DYNACONF:None
+2020-05-20:11:25:29,649 DEBUG    [__init__.py:34 - default_loader] loading: CORE_LOADERS_FOR_DYNACONF:['YAML', 'TOML', 'INI', 'JSON', 'PY']
+2020-05-20:11:25:29,649 DEBUG    [__init__.py:34 - default_loader] loading: CORE_LOADERS_FOR_DYNACONF:['YAML', 'TOML', 'INI', 'JSON', 'PY']
+2020-05-20:11:25:29,649 DEBUG    [__init__.py:34 - default_loader] loading: LOADERS_FOR_DYNACONF:['dynaconf.loaders.env_loader']
+2020-05-20:11:25:29,649 DEBUG    [__init__.py:34 - default_loader] loading: LOADERS_FOR_DYNACONF:['dynaconf.loaders.env_loader']
+2020-05-20:11:25:29,649 DEBUG    [__init__.py:34 - default_loader] loading: SILENT_ERRORS_FOR_DYNACONF:True
+2020-05-20:11:25:29,649 DEBUG    [__init__.py:34 - default_loader] loading: SILENT_ERRORS_FOR_DYNACONF:True
+2020-05-20:11:25:29,650 DEBUG    [__init__.py:34 - default_loader] loading: FRESH_VARS_FOR_DYNACONF:[]
+2020-05-20:11:25:29,650 DEBUG    [__init__.py:34 - default_loader] loading: FRESH_VARS_FOR_DYNACONF:[]
+2020-05-20:11:25:29,650 DEBUG    [__init__.py:34 - default_loader] loading: DEBUG_LEVEL_FOR_DYNACONF:DEBUG
+2020-05-20:11:25:29,650 DEBUG    [__init__.py:34 - default_loader] loading: DEBUG_LEVEL_FOR_DYNACONF:DEBUG
+2020-05-20:11:25:29,650 DEBUG    [__init__.py:34 - default_loader] loading: DOTENV_PATH_FOR_DYNACONF:None
+2020-05-20:11:25:29,650 DEBUG    [__init__.py:34 - default_loader] loading: DOTENV_PATH_FOR_DYNACONF:None
+2020-05-20:11:25:29,650 DEBUG    [__init__.py:34 - default_loader] loading: DOTENV_VERBOSE_FOR_DYNACONF:False
+2020-05-20:11:25:29,650 DEBUG    [__init__.py:34 - default_loader] loading: DOTENV_VERBOSE_FOR_DYNACONF:False
+2020-05-20:11:25:29,650 DEBUG    [__init__.py:34 - default_loader] loading: DOTENV_OVERRIDE_FOR_DYNACONF:False
+2020-05-20:11:25:29,650 DEBUG    [__init__.py:34 - default_loader] loading: DOTENV_OVERRIDE_FOR_DYNACONF:False
+2020-05-20:11:25:29,651 DEBUG    [__init__.py:34 - default_loader] loading: INSTANCE_FOR_DYNACONF:None
+2020-05-20:11:25:29,651 DEBUG    [__init__.py:34 - default_loader] loading: INSTANCE_FOR_DYNACONF:None
+2020-05-20:11:25:29,651 DEBUG    [__init__.py:34 - default_loader] loading: YAML_LOADER_FOR_DYNACONF:full_load
+2020-05-20:11:25:29,651 DEBUG    [__init__.py:34 - default_loader] loading: YAML_LOADER_FOR_DYNACONF:full_load
+2020-05-20:11:25:29,651 DEBUG    [__init__.py:34 - default_loader] loading: COMMENTJSON_ENABLED_FOR_DYNACONF:False
+2020-05-20:11:25:29,651 DEBUG    [__init__.py:34 - default_loader] loading: COMMENTJSON_ENABLED_FOR_DYNACONF:False
+2020-05-20:11:25:29,651 DEBUG    [__init__.py:34 - default_loader] loading: SECRETS_FOR_DYNACONF:None
+2020-05-20:11:25:29,651 DEBUG    [__init__.py:34 - default_loader] loading: SECRETS_FOR_DYNACONF:None
+2020-05-20:11:25:29,652 DEBUG    [__init__.py:34 - default_loader] loading: INCLUDES_FOR_DYNACONF:[]
+2020-05-20:11:25:29,652 DEBUG    [__init__.py:34 - default_loader] loading: INCLUDES_FOR_DYNACONF:[]
+2020-05-20:11:25:29,652 DEBUG    [__init__.py:34 - default_loader] loading: PRELOAD_FOR_DYNACONF:[]
+2020-05-20:11:25:29,652 DEBUG    [__init__.py:34 - default_loader] loading: PRELOAD_FOR_DYNACONF:[]
+2020-05-20:11:25:29,652 DEBUG    [__init__.py:34 - default_loader] loading: SKIP_FILES_FOR_DYNACONF:[]
+2020-05-20:11:25:29,652 DEBUG    [__init__.py:34 - default_loader] loading: SKIP_FILES_FOR_DYNACONF:[]
+2020-05-20:11:25:29,652 DEBUG    [__init__.py:34 - default_loader] loading: DYNACONF_NAMESPACE:DEVELOPMENT
+2020-05-20:11:25:29,652 DEBUG    [__init__.py:34 - default_loader] loading: DYNACONF_NAMESPACE:DEVELOPMENT
+2020-05-20:11:25:29,653 DEBUG    [__init__.py:34 - default_loader] loading: NAMESPACE_FOR_DYNACONF:DEVELOPMENT
+2020-05-20:11:25:29,653 DEBUG    [__init__.py:34 - default_loader] loading: NAMESPACE_FOR_DYNACONF:DEVELOPMENT
+2020-05-20:11:25:29,653 DEBUG    [__init__.py:34 - default_loader] loading: DYNACONF_SETTINGS_MODULE:settings.py,.secrets.py,settings.toml,settings.tml,.secrets.toml,.secrets.tml,settings.yaml,settings.yml,.secrets.yaml,.secrets.yml,settings.ini,settings.conf,settings.properties,.secrets.ini,.secrets.conf,.secrets.properties,settings.json,.secrets.json
+2020-05-20:11:25:29,653 DEBUG    [__init__.py:34 - default_loader] loading: DYNACONF_SETTINGS_MODULE:settings.py,.secrets.py,settings.toml,settings.tml,.secrets.toml,.secrets.tml,settings.yaml,settings.yml,.secrets.yaml,.secrets.yml,settings.ini,settings.conf,settings.properties,.secrets.ini,.secrets.conf,.secrets.properties,settings.json,.secrets.json
+2020-05-20:11:25:29,653 DEBUG    [__init__.py:34 - default_loader] loading: DYNACONF_SETTINGS:settings.py,.secrets.py,settings.toml,settings.tml,.secrets.toml,.secrets.tml,settings.yaml,settings.yml,.secrets.yaml,.secrets.yml,settings.ini,settings.conf,settings.properties,.secrets.ini,.secrets.conf,.secrets.properties,settings.json,.secrets.json
+2020-05-20:11:25:29,653 DEBUG    [__init__.py:34 - default_loader] loading: DYNACONF_SETTINGS:settings.py,.secrets.py,settings.toml,settings.tml,.secrets.toml,.secrets.tml,settings.yaml,settings.yml,.secrets.yaml,.secrets.yml,settings.ini,settings.conf,settings.properties,.secrets.ini,.secrets.conf,.secrets.properties,settings.json,.secrets.json
+2020-05-20:11:25:29,653 DEBUG    [__init__.py:34 - default_loader] loading: SETTINGS_MODULE:settings.py,.secrets.py,settings.toml,settings.tml,.secrets.toml,.secrets.tml,settings.yaml,settings.yml,.secrets.yaml,.secrets.yml,settings.ini,settings.conf,settings.properties,.secrets.ini,.secrets.conf,.secrets.properties,settings.json,.secrets.json
+2020-05-20:11:25:29,653 DEBUG    [__init__.py:34 - default_loader] loading: SETTINGS_MODULE:settings.py,.secrets.py,settings.toml,settings.tml,.secrets.toml,.secrets.tml,settings.yaml,settings.yml,.secrets.yaml,.secrets.yml,settings.ini,settings.conf,settings.properties,.secrets.ini,.secrets.conf,.secrets.properties,settings.json,.secrets.json
+2020-05-20:11:25:29,653 DEBUG    [__init__.py:34 - default_loader] loading: SETTINGS_MODULE_FOR_DYNACONF:settings.py,.secrets.py,settings.toml,settings.tml,.secrets.toml,.secrets.tml,settings.yaml,settings.yml,.secrets.yaml,.secrets.yml,settings.ini,settings.conf,settings.properties,.secrets.ini,.secrets.conf,.secrets.properties,settings.json,.secrets.json
+2020-05-20:11:25:29,653 DEBUG    [__init__.py:34 - default_loader] loading: SETTINGS_MODULE_FOR_DYNACONF:settings.py,.secrets.py,settings.toml,settings.tml,.secrets.toml,.secrets.tml,settings.yaml,settings.yml,.secrets.yaml,.secrets.yml,settings.ini,settings.conf,settings.properties,.secrets.ini,.secrets.conf,.secrets.properties,settings.json,.secrets.json
+2020-05-20:11:25:29,654 DEBUG    [__init__.py:34 - default_loader] loading: PROJECT_ROOT:None
+2020-05-20:11:25:29,654 DEBUG    [__init__.py:34 - default_loader] loading: PROJECT_ROOT:None
+2020-05-20:11:25:29,654 DEBUG    [__init__.py:34 - default_loader] loading: PROJECT_ROOT_FOR_DYNACONF:None
+2020-05-20:11:25:29,654 DEBUG    [__init__.py:34 - default_loader] loading: PROJECT_ROOT_FOR_DYNACONF:None
+2020-05-20:11:25:29,654 DEBUG    [__init__.py:34 - default_loader] loading: DYNACONF_SILENT_ERRORS:True
+2020-05-20:11:25:29,654 DEBUG    [__init__.py:34 - default_loader] loading: DYNACONF_SILENT_ERRORS:True
+2020-05-20:11:25:29,654 DEBUG    [__init__.py:34 - default_loader] loading: DYNACONF_ALWAYS_FRESH_VARS:[]
+2020-05-20:11:25:29,654 DEBUG    [__init__.py:34 - default_loader] loading: DYNACONF_ALWAYS_FRESH_VARS:[]
+2020-05-20:11:25:29,655 DEBUG    [__init__.py:34 - default_loader] loading: BASE_NAMESPACE_FOR_DYNACONF:DEFAULT
+2020-05-20:11:25:29,655 DEBUG    [__init__.py:34 - default_loader] loading: BASE_NAMESPACE_FOR_DYNACONF:DEFAULT
+2020-05-20:11:25:29,655 DEBUG    [__init__.py:34 - default_loader] loading: GLOBAL_ENV_FOR_DYNACONF:DYNACONF
+2020-05-20:11:25:29,655 DEBUG    [__init__.py:34 - default_loader] loading: GLOBAL_ENV_FOR_DYNACONF:DYNACONF
+2020-05-20:11:25:29,655 DEBUG    [default_settings.py:56 - start_dotenv] Starting Dynaconf Dotenv Base
+2020-05-20:11:25:29,655 DEBUG    [default_settings.py:56 - start_dotenv] Starting Dynaconf Dotenv Base
+2020-05-20:11:25:29,656 DEBUG    [files.py:57 - find_file] No root_path for .env
+2020-05-20:11:25:29,656 DEBUG    [files.py:57 - find_file] No root_path for .env
+2020-05-20:11:25:29,657 DEBUG    [files.py:77 - find_file] Searching for .env
+2020-05-20:11:25:29,657 DEBUG    [files.py:77 - find_file] Searching for .env
+2020-05-20:11:25:29,657 DEBUG    [files.py:84 - find_file] Found: /home/agitting/python/telegraf-test/config/.env
+2020-05-20:11:25:29,657 DEBUG    [files.py:84 - find_file] Found: /home/agitting/python/telegraf-test/config/.env
+2020-05-20:11:25:29,658 DEBUG    [__init__.py:57 - default_loader] overriding from envvar: DEBUG_LEVEL_FOR_DYNACONF:DEBUG
+2020-05-20:11:25:29,658 DEBUG    [__init__.py:57 - default_loader] overriding from envvar: DEBUG_LEVEL_FOR_DYNACONF:DEBUG
+2020-05-20:11:25:29,659 DEBUG    [files.py:57 - find_file] No root_path for settings.py
+2020-05-20:11:25:29,659 DEBUG    [files.py:57 - find_file] No root_path for settings.py
+2020-05-20:11:25:29,660 DEBUG    [files.py:77 - find_file] Searching for settings.py
+2020-05-20:11:25:29,660 DEBUG    [files.py:77 - find_file] Searching for settings.py
+2020-05-20:11:25:29,660 DEBUG    [files.py:57 - find_file] No root_path for .secrets.py
+2020-05-20:11:25:29,660 DEBUG    [files.py:57 - find_file] No root_path for .secrets.py
+2020-05-20:11:25:29,661 DEBUG    [files.py:77 - find_file] Searching for .secrets.py
+2020-05-20:11:25:29,661 DEBUG    [files.py:77 - find_file] Searching for .secrets.py
+2020-05-20:11:25:29,661 DEBUG    [files.py:57 - find_file] No root_path for settings.toml
+2020-05-20:11:25:29,661 DEBUG    [files.py:57 - find_file] No root_path for settings.toml
+2020-05-20:11:25:29,662 DEBUG    [files.py:77 - find_file] Searching for settings.toml
+2020-05-20:11:25:29,662 DEBUG    [files.py:77 - find_file] Searching for settings.toml
+2020-05-20:11:25:29,662 DEBUG    [files.py:84 - find_file] Found: /home/agitting/python/telegraf-test/settings.toml
+2020-05-20:11:25:29,662 DEBUG    [files.py:84 - find_file] Found: /home/agitting/python/telegraf-test/settings.toml
+2020-05-20:11:25:29,662 DEBUG    [files.py:59 - find_file] Got root_path /home/agitting/python/telegraf-test for settings.tml
+2020-05-20:11:25:29,662 DEBUG    [files.py:59 - find_file] Got root_path /home/agitting/python/telegraf-test for settings.tml
+2020-05-20:11:25:29,663 DEBUG    [files.py:29 - _walk_to_root] Reached the /home/agitting/python/telegraf-test directory, breaking.
+2020-05-20:11:25:29,663 DEBUG    [files.py:29 - _walk_to_root] Reached the /home/agitting/python/telegraf-test directory, breaking.
+2020-05-20:11:25:29,663 DEBUG    [files.py:77 - find_file] Searching for settings.tml
+2020-05-20:11:25:29,663 DEBUG    [files.py:77 - find_file] Searching for settings.tml
+2020-05-20:11:25:29,664 DEBUG    [files.py:59 - find_file] Got root_path /home/agitting/python/telegraf-test for .secrets.toml
+2020-05-20:11:25:29,664 DEBUG    [files.py:59 - find_file] Got root_path /home/agitting/python/telegraf-test for .secrets.toml
+2020-05-20:11:25:29,664 DEBUG    [files.py:29 - _walk_to_root] Reached the /home/agitting/python/telegraf-test directory, breaking.
+2020-05-20:11:25:29,664 DEBUG    [files.py:29 - _walk_to_root] Reached the /home/agitting/python/telegraf-test directory, breaking.
+2020-05-20:11:25:29,665 DEBUG    [files.py:77 - find_file] Searching for .secrets.toml
+2020-05-20:11:25:29,665 DEBUG    [files.py:77 - find_file] Searching for .secrets.toml
+2020-05-20:11:25:29,665 DEBUG    [files.py:59 - find_file] Got root_path /home/agitting/python/telegraf-test for .secrets.tml
+2020-05-20:11:25:29,665 DEBUG    [files.py:59 - find_file] Got root_path /home/agitting/python/telegraf-test for .secrets.tml
+2020-05-20:11:25:29,665 DEBUG    [files.py:29 - _walk_to_root] Reached the /home/agitting/python/telegraf-test directory, breaking.
+2020-05-20:11:25:29,665 DEBUG    [files.py:29 - _walk_to_root] Reached the /home/agitting/python/telegraf-test directory, breaking.
+2020-05-20:11:25:29,666 DEBUG    [files.py:77 - find_file] Searching for .secrets.tml
+2020-05-20:11:25:29,666 DEBUG    [files.py:77 - find_file] Searching for .secrets.tml
+2020-05-20:11:25:29,667 DEBUG    [files.py:59 - find_file] Got root_path /home/agitting/python/telegraf-test for settings.yaml
+2020-05-20:11:25:29,667 DEBUG    [files.py:59 - find_file] Got root_path /home/agitting/python/telegraf-test for settings.yaml
+2020-05-20:11:25:29,667 DEBUG    [files.py:29 - _walk_to_root] Reached the /home/agitting/python/telegraf-test directory, breaking.
+2020-05-20:11:25:29,667 DEBUG    [files.py:29 - _walk_to_root] Reached the /home/agitting/python/telegraf-test directory, breaking.
+2020-05-20:11:25:29,668 DEBUG    [files.py:77 - find_file] Searching for settings.yaml
+2020-05-20:11:25:29,668 DEBUG    [files.py:77 - find_file] Searching for settings.yaml
+2020-05-20:11:25:29,668 DEBUG    [files.py:84 - find_file] Found: /home/agitting/python/telegraf-test/settings.yaml
+2020-05-20:11:25:29,668 DEBUG    [files.py:84 - find_file] Found: /home/agitting/python/telegraf-test/settings.yaml
+2020-05-20:11:25:29,668 DEBUG    [files.py:59 - find_file] Got root_path /home/agitting/python/telegraf-test for settings.yml
+2020-05-20:11:25:29,668 DEBUG    [files.py:59 - find_file] Got root_path /home/agitting/python/telegraf-test for settings.yml
+2020-05-20:11:25:29,668 DEBUG    [files.py:29 - _walk_to_root] Reached the /home/agitting/python/telegraf-test directory, breaking.
+2020-05-20:11:25:29,668 DEBUG    [files.py:29 - _walk_to_root] Reached the /home/agitting/python/telegraf-test directory, breaking.
+2020-05-20:11:25:29,669 DEBUG    [files.py:77 - find_file] Searching for settings.yml
+2020-05-20:11:25:29,669 DEBUG    [files.py:77 - find_file] Searching for settings.yml
+2020-05-20:11:25:29,669 DEBUG    [files.py:59 - find_file] Got root_path /home/agitting/python/telegraf-test for .secrets.yaml
+2020-05-20:11:25:29,669 DEBUG    [files.py:59 - find_file] Got root_path /home/agitting/python/telegraf-test for .secrets.yaml
+2020-05-20:11:25:29,669 DEBUG    [files.py:29 - _walk_to_root] Reached the /home/agitting/python/telegraf-test directory, breaking.
+2020-05-20:11:25:29,669 DEBUG    [files.py:29 - _walk_to_root] Reached the /home/agitting/python/telegraf-test directory, breaking.
+2020-05-20:11:25:29,670 DEBUG    [files.py:77 - find_file] Searching for .secrets.yaml
+2020-05-20:11:25:29,670 DEBUG    [files.py:77 - find_file] Searching for .secrets.yaml
+2020-05-20:11:25:29,671 DEBUG    [files.py:59 - find_file] Got root_path /home/agitting/python/telegraf-test for .secrets.yml
+2020-05-20:11:25:29,671 DEBUG    [files.py:59 - find_file] Got root_path /home/agitting/python/telegraf-test for .secrets.yml
+2020-05-20:11:25:29,671 DEBUG    [files.py:29 - _walk_to_root] Reached the /home/agitting/python/telegraf-test directory, breaking.
+2020-05-20:11:25:29,671 DEBUG    [files.py:29 - _walk_to_root] Reached the /home/agitting/python/telegraf-test directory, breaking.
+2020-05-20:11:25:29,672 DEBUG    [files.py:77 - find_file] Searching for .secrets.yml
+2020-05-20:11:25:29,672 DEBUG    [files.py:77 - find_file] Searching for .secrets.yml
+2020-05-20:11:25:29,672 DEBUG    [files.py:59 - find_file] Got root_path /home/agitting/python/telegraf-test for settings.ini
+2020-05-20:11:25:29,672 DEBUG    [files.py:59 - find_file] Got root_path /home/agitting/python/telegraf-test for settings.ini
+2020-05-20:11:25:29,672 DEBUG    [files.py:29 - _walk_to_root] Reached the /home/agitting/python/telegraf-test directory, breaking.
+2020-05-20:11:25:29,672 DEBUG    [files.py:29 - _walk_to_root] Reached the /home/agitting/python/telegraf-test directory, breaking.
+2020-05-20:11:25:29,673 DEBUG    [files.py:77 - find_file] Searching for settings.ini
+2020-05-20:11:25:29,673 DEBUG    [files.py:77 - find_file] Searching for settings.ini
+2020-05-20:11:25:29,674 DEBUG    [files.py:59 - find_file] Got root_path /home/agitting/python/telegraf-test for settings.conf
+2020-05-20:11:25:29,674 DEBUG    [files.py:59 - find_file] Got root_path /home/agitting/python/telegraf-test for settings.conf
+2020-05-20:11:25:29,674 DEBUG    [files.py:29 - _walk_to_root] Reached the /home/agitting/python/telegraf-test directory, breaking.
+2020-05-20:11:25:29,674 DEBUG    [files.py:29 - _walk_to_root] Reached the /home/agitting/python/telegraf-test directory, breaking.
+2020-05-20:11:25:29,675 DEBUG    [files.py:77 - find_file] Searching for settings.conf
+2020-05-20:11:25:29,675 DEBUG    [files.py:77 - find_file] Searching for settings.conf
+2020-05-20:11:25:29,675 DEBUG    [files.py:59 - find_file] Got root_path /home/agitting/python/telegraf-test for settings.properties
+2020-05-20:11:25:29,675 DEBUG    [files.py:59 - find_file] Got root_path /home/agitting/python/telegraf-test for settings.properties
+2020-05-20:11:25:29,675 DEBUG    [files.py:29 - _walk_to_root] Reached the /home/agitting/python/telegraf-test directory, breaking.
+2020-05-20:11:25:29,675 DEBUG    [files.py:29 - _walk_to_root] Reached the /home/agitting/python/telegraf-test directory, breaking.
+2020-05-20:11:25:29,676 DEBUG    [files.py:77 - find_file] Searching for settings.properties
+2020-05-20:11:25:29,676 DEBUG    [files.py:77 - find_file] Searching for settings.properties
+2020-05-20:11:25:29,677 DEBUG    [files.py:59 - find_file] Got root_path /home/agitting/python/telegraf-test for .secrets.ini
+2020-05-20:11:25:29,677 DEBUG    [files.py:59 - find_file] Got root_path /home/agitting/python/telegraf-test for .secrets.ini
+2020-05-20:11:25:29,677 DEBUG    [files.py:29 - _walk_to_root] Reached the /home/agitting/python/telegraf-test directory, breaking.
+2020-05-20:11:25:29,677 DEBUG    [files.py:29 - _walk_to_root] Reached the /home/agitting/python/telegraf-test directory, breaking.
+2020-05-20:11:25:29,678 DEBUG    [files.py:77 - find_file] Searching for .secrets.ini
+2020-05-20:11:25:29,678 DEBUG    [files.py:77 - find_file] Searching for .secrets.ini
+2020-05-20:11:25:29,678 DEBUG    [files.py:59 - find_file] Got root_path /home/agitting/python/telegraf-test for .secrets.conf
+2020-05-20:11:25:29,678 DEBUG    [files.py:59 - find_file] Got root_path /home/agitting/python/telegraf-test for .secrets.conf
+2020-05-20:11:25:29,678 DEBUG    [files.py:29 - _walk_to_root] Reached the /home/agitting/python/telegraf-test directory, breaking.
+2020-05-20:11:25:29,678 DEBUG    [files.py:29 - _walk_to_root] Reached the /home/agitting/python/telegraf-test directory, breaking.
+2020-05-20:11:25:29,679 DEBUG    [files.py:77 - find_file] Searching for .secrets.conf
+2020-05-20:11:25:29,679 DEBUG    [files.py:77 - find_file] Searching for .secrets.conf
+2020-05-20:11:25:29,679 DEBUG    [files.py:59 - find_file] Got root_path /home/agitting/python/telegraf-test for .secrets.properties
+2020-05-20:11:25:29,679 DEBUG    [files.py:59 - find_file] Got root_path /home/agitting/python/telegraf-test for .secrets.properties
+2020-05-20:11:25:29,680 DEBUG    [files.py:29 - _walk_to_root] Reached the /home/agitting/python/telegraf-test directory, breaking.
+2020-05-20:11:25:29,680 DEBUG    [files.py:29 - _walk_to_root] Reached the /home/agitting/python/telegraf-test directory, breaking.
+2020-05-20:11:25:29,680 DEBUG    [files.py:77 - find_file] Searching for .secrets.properties
+2020-05-20:11:25:29,680 DEBUG    [files.py:77 - find_file] Searching for .secrets.properties
+2020-05-20:11:25:29,681 DEBUG    [files.py:59 - find_file] Got root_path /home/agitting/python/telegraf-test for settings.json
+2020-05-20:11:25:29,681 DEBUG    [files.py:59 - find_file] Got root_path /home/agitting/python/telegraf-test for settings.json
+2020-05-20:11:25:29,681 DEBUG    [files.py:29 - _walk_to_root] Reached the /home/agitting/python/telegraf-test directory, breaking.
+2020-05-20:11:25:29,681 DEBUG    [files.py:29 - _walk_to_root] Reached the /home/agitting/python/telegraf-test directory, breaking.
+2020-05-20:11:25:29,682 DEBUG    [files.py:77 - find_file] Searching for settings.json
+2020-05-20:11:25:29,682 DEBUG    [files.py:77 - find_file] Searching for settings.json
+2020-05-20:11:25:29,682 DEBUG    [files.py:59 - find_file] Got root_path /home/agitting/python/telegraf-test for .secrets.json
+2020-05-20:11:25:29,682 DEBUG    [files.py:59 - find_file] Got root_path /home/agitting/python/telegraf-test for .secrets.json
+2020-05-20:11:25:29,682 DEBUG    [files.py:29 - _walk_to_root] Reached the /home/agitting/python/telegraf-test directory, breaking.
+2020-05-20:11:25:29,682 DEBUG    [files.py:29 - _walk_to_root] Reached the /home/agitting/python/telegraf-test directory, breaking.
+2020-05-20:11:25:29,683 DEBUG    [files.py:77 - find_file] Searching for .secrets.json
+2020-05-20:11:25:29,683 DEBUG    [files.py:77 - find_file] Searching for .secrets.json
+2020-05-20:11:25:29,684 DEBUG    [base.py:86 - _read] toml_loader: /home/agitting/python/telegraf-test/settings.toml
+2020-05-20:11:25:29,684 DEBUG    [base.py:86 - _read] toml_loader: /home/agitting/python/telegraf-test/settings.toml
+2020-05-20:11:25:29,684 WARNING  [base.py:42 - warn_not_installed] yaml support is not installed in your environment. `pip install dynaconf[yaml]`
+2020-05-20:11:25:29,684 WARNING  [base.py:42 - warn_not_installed] yaml support is not installed in your environment. `pip install dynaconf[yaml]`
+2020-05-20:11:25:29,684 DEBUG    [base.py:91 - _read] toml_loader: /home/agitting/python/telegraf-test/settings.local.toml (Ignored, file not Found)
+2020-05-20:11:25:29,684 DEBUG    [base.py:91 - _read] toml_loader: /home/agitting/python/telegraf-test/settings.local.toml (Ignored, file not Found)
+2020-05-20:11:25:29,685 DEBUG    [base.py:905 - execute_loaders] Dynaconf executing: dynaconf.loaders.env_loader
+2020-05-20:11:25:29,685 DEBUG    [base.py:905 - execute_loaders] Dynaconf executing: dynaconf.loaders.env_loader
+2020-05-20:11:25:29,685 DEBUG    [base.py:908 - execute_loaders] Loaded Files: ['/home/agitting/python/telegraf-test/settings.toml', '/home/agitting/python/telegraf-test/settings.local.toml']
+2020-05-20:11:25:29,685 DEBUG    [base.py:908 - execute_loaders] Loaded Files: ['/home/agitting/python/telegraf-test/settings.toml', '/home/agitting/python/telegraf-test/settings.local.toml']
+2020-05-20:11:25:29,685 DEBUG    [base.py:131 - _setup] Lazy Settings _setup ...
+2020-05-20:11:25:29,685 DEBUG    [base.py:131 - _setup] Lazy Settings _setup ...
+{'ENVLESS_MODE': True}
+```
+
+</details>
+
+**Environment (please complete the following information):**
+ - OS: Ubuntu 18.04.2 LTS
+ - Dynaconf Version dynaconf==2.2.3
+ - Frameworks in use Python 3.6.9
+
+
+Hi, @minitriga 
+Could you please explain why the issue was just marked as bug and closed? Is it resolved or non-reproducible?
+
+@doctor-googler @minitriga the envless_mode is available on pre-release, the stable right now is 2.2.3, for some documentation bug this ended in documentation before the release was done.
+
+Release of new 3.0.0 is coming soon until there.
+
+`pip install dynaconf --pre` to get nightly builds
+
+Ahh cheers thats fine :) 
+
+ 'box_it_up' key in dict
+ **Describe the bug**
+Loading dictionary from yaml type config, adds additional pair: 'box_it_up': True
+
+**To Reproduce**
+1. create the following settings.yaml:
+development:
+  WEEK_DAYS:
+    FRI: false
+    MON: false
+    SAT: false
+    SUN: false
+    THU: false
+    TUE: false
+    WED: false
+
+2. Read using all_days = settings.WEEK_DAYS
+
+3. Result is as follows:
+all_days = {'FRI': False, 'MON': True, 'SAT': False, 'SUN': False, 'THU': False, 'TUE': False, 'WED': False, 'box_it_up': True}
+
+**Environment (please complete the following information):**
+ - OS: Windows 10
+ - Python 3.8.2
+ - Dynaconf Version 2.2.3
+
+
+It is fixed in https://github.com/rochacbruno/dynaconf/commit/3711d7e0643a829ac5acbc9c7db885f44af16840 pending release. 
+
+available if installed with `pip install dynaconf --pre` to get the pre release 3.0.0rc1
+
+ [bug] yaml settings basic example does not work
+ **Describe the bug**
+Executing yaml example in https://github.com/rochacbruno/dynaconf/tree/master/example/yaml_example/settings_file will fail; dynaconf list will print no variable (and executing python app.py will result in errors)
+
+**To Reproduce**
+Steps to reproduce the behavior:
+git clone https://github.com/rochacbruno/dynaconf
+cd dynaconf/example/yaml_example/settings_file
+dynaconf list
+
+it was not working in version 2.2.3, but with version 3.0.0rc1 is working fine
+
+ Fix #298 auto complete
+ Fix #298 allow auto complete for editors and console
+
+implemented `__dir__` on Settings and Dynabox
+
+
+![Screenshot_2020-05-12_10-13-23](https://user-images.githubusercontent.com/458654/81695701-5a76c000-9439-11ea-8c13-01ef153df38c.png)
+![Screenshot_2020-05-12_10-14-01](https://user-images.githubusercontent.com/458654/81695723-5f3b7400-9439-11ea-88b5-c4882fb66cac.png)
+
+# [Codecov](https://codecov.io/gh/rochacbruno/dynaconf/pull/339?src> Merging [#339](https://codecov.io/gh/rochacbruno/dynaconf/pull/339?src=pr&el=desc) into [master](https://codecov.io/gh/rochacbruno/dynaconf/commit/44766bacaae3a2fc15342dd42379bd6aea356f7c&el=desc) will **not change** coverage.
+> The diff coverage is `100.00%`.
+
+[![Impacted file tree graph](https://codecov.io/gh/rochacbruno/dynaconf/pull/339/graphs/tree.svg?width=650&height=150&src=pr&token=GXszVzJcqW)](https://codecov.io/gh/rochacbruno/dynaconf/pull/339?src=pr&el=tree)
+
+```diff
+@@            Coverage Diff            @@
+##            master      #339   +/-   ##
+=========================================
+  Coverage   100.00%   100.00%           
+=========================================
+  Files           18        18           
+  Lines          969       974    +5     
+=========================================
++ Hits           969       974    +5     
+```
+
+
+| [Impacted Files](https://codecov.io/gh/rochacbruno/dynaconf/pull/339?src=pr&el=tree) | Coverage Δ | |
+|---|---|---|
+| [dynaconf/utils/boxing.py](https://codecov.io/gh/rochacbruno/dynaconf/pull/339/diff?src=pr&el=tree#diff-ZHluYWNvbmYvdXRpbHMvYm94aW5nLnB5) | `100.00% <100.00%> (ø)` | |
+
+------
+
+[Continue to review full report at Codecov](https://codecov.io/gh/rochacbruno/dynaconf/pull/339?src=pr&el=continue).
+> **Legend** - [Click here to learn more](https://docs.codecov.io/docs/codecov-delta)
+> `Δ = absolute <relative> (impact)`, `ø = not affected`, `? = missing data`
+> Powered by [Codecov](https://codecov.io/gh/rochacbruno/dynaconf/pull/339?src=pr&el=footer). Last update [44766ba...fa99d9d](https://codecov.io/gh/rochacbruno/dynaconf/pull/339?src=pr&el=lastupdated). Read the [comment docs](https://docs.codecov.io/docs/pull-request-comments).
+
+
+ Fix #272 allow lowercase keys
+ Fix #272 allow access of lowercase keys
+
+- `settings.lowercase_key` is allowed
+- `settings.dynaconf` is a proxy to internal methods
+- `settings.__reserved_attributes` validates key names
+- `LazySettings __init__ parameters can receive lower case configs`
+
+
+```
+export LOWERCASE_READ_FOR_DYNACONF=true
+```
+
+or pass it to your own settings obj
+
+```py
+from dynaconf import LazySettings
+
+settings = LazySettings(lowercase_read=True)
+
+settings.foo == "bar"
+
+```
+
+```yaml
+default:
+    FOO: bar
+```
+# [Codecov](https://codecov.io/gh/rochacbruno/dynaconf/pull/338?src> Merging [#338](https://codecov.io/gh/rochacbruno/dynaconf/pull/338?src=pr&el=desc) into [master](https://codecov.io/gh/rochacbruno/dynaconf/commit/77753651311b337a5e91d31ff3485d93c33957cc&el=desc) will **not change** coverage.
+> The diff coverage is `100.00%`.
+
+[![Impacted file tree graph](https://codecov.io/gh/rochacbruno/dynaconf/pull/338/graphs/tree.svg?width=650&height=150&src=pr&token=GXszVzJcqW)](https://codecov.io/gh/rochacbruno/dynaconf/pull/338?src=pr&el=tree)
+
+```diff
+@@            Coverage Diff            @@
+##            master      #338   +/-   ##
+=========================================
+  Coverage   100.00%   100.00%           
+=========================================
+  Files           18        18           
+  Lines          969       969           
+=========================================
+  Hits           969       969           
+```
+
+
+| [Impacted Files](https://codecov.io/gh/rochacbruno/dynaconf/pull/338?src=pr&el=tree) | Coverage Δ | |
+|---|---|---|
+| [dynaconf/loaders/base.py](https://codecov.io/gh/rochacbruno/dynaconf/pull/338/diff?src=pr&el=tree#diff-ZHluYWNvbmYvbG9hZGVycy9iYXNlLnB5) | `100.00% <100.00%> (ø)` | |
+
+------
+
+[Continue to review full report at Codecov](https://codecov.io/gh/rochacbruno/dynaconf/pull/338?src=pr&el=continue).
+> **Legend** - [Click here to learn more](https://docs.codecov.io/docs/codecov-delta)
+> `Δ = absolute <relative> (impact)`, `ø = not affected`, `? = missing data`
+> Powered by [Codecov](https://codecov.io/gh/rochacbruno/dynaconf/pull/338?src=pr&el=footer). Last update [7775365...aabcac3](https://codecov.io/gh/rochacbruno/dynaconf/pull/338?src=pr&el=lastupdated). Read the [comment docs](https://docs.codecov.io/docs/pull-request-comments).
+
+
+It can be combined with other settings
+
+```py
+settings = LazySettings(envless_mode=True, lowercase_read=True)
+```
+
+ Add ENVLESS_MODE option
+ HAving `export ENVLESS_MODE_FOR_DYNACONFdata from source files without env separation.
+
+or passing it to your own settings object
+
+```py
+from dynaconf import LazySettings
+
+settings = LazySettings(envless_mode=True)
+
+settings.FOO == "bar"
+```
+
+`settings.yaml`
+```yaml
+foo: bar
+```
+# [Codecov](https://codecov.io/gh/rochacbruno/dynaconf/pull/337?src> Merging [#337](https://codecov.io/gh/rochacbruno/dynaconf/pull/337?src=pr&el=desc) into [master](https://codecov.io/gh/rochacbruno/dynaconf/commit/f67cb3a93dfe7c7c61269b8a717f46568df27c06&el=desc) will **not change** coverage.
+> The diff coverage is `100.00%`.
+
+[![Impacted file tree graph](https://codecov.io/gh/rochacbruno/dynaconf/pull/337/graphs/tree.svg?width=650&height=150&src=pr&token=GXszVzJcqW)](https://codecov.io/gh/rochacbruno/dynaconf/pull/337?src=pr&el=tree)
+
+```diff
+@@            Coverage Diff            @@
+##            master      #337   +/-   ##
+=========================================
+  Coverage   100.00%   100.00%           
+=========================================
+  Files           18        18           
+  Lines          957       969   +12     
+=========================================
++ Hits           957       969   +12     
+```
+
+
+| [Impacted Files](https://codecov.io/gh/rochacbruno/dynaconf/pull/337?src=pr&el=tree) | Coverage Δ | |
+|---|---|---|
+| [dynaconf/cli.py](https://codecov.io/gh/rochacbruno/dynaconf/pull/337/diff?src=pr&el=tree#diff-ZHluYWNvbmYvY2xpLnB5) | `100.00% <ø> (ø)` | |
+| [dynaconf/loaders/py\_loader.py](https://codecov.io/gh/rochacbruno/dynaconf/pull/337/diff?src=pr&el=tree#diff-ZHluYWNvbmYvbG9hZGVycy9weV9sb2FkZXIucHk=) | `100.00% <ø> (ø)` | |
+| [dynaconf/loaders/base.py](https://codecov.io/gh/rochacbruno/dynaconf/pull/337/diff?src=pr&el=tree#diff-ZHluYWNvbmYvbG9hZGVycy9iYXNlLnB5) | `100.00% <100.00%> (ø)` | |
+
+------
+
+[Continue to review full report at Codecov](https://codecov.io/gh/rochacbruno/dynaconf/pull/337?src=pr&el=continue).
+> **Legend** - [Click here to learn more](https://docs.codecov.io/docs/codecov-delta)
+> `Δ = absolute <relative> (impact)`, `ø = not affected`, `? = missing data`
+> Powered by [Codecov](https://codecov.io/gh/rochacbruno/dynaconf/pull/337?src=pr&el=footer). Last update [f67cb3a...30e0431](https://codecov.io/gh/rochacbruno/dynaconf/pull/337?src=pr&el=lastupdated). Read the [comment docs](https://docs.codecov.io/docs/pull-request-comments).
+
+
+ [RFC] Be able to load configs when being imported from a zip package
+ **Is your feature request related to a problem? Please describe.**
+I'm using Dynaconf in an Airflow dag which is then packaged in a zipped file as described [here](https://airflow.apache.org/docs/stable/concepts.html#packaged-dags).  The zipped file will be loaded by Airflow using `importlib.import_module`.  The fact that it is a zip file breaks how Dynaconf navigate the folder structure so that my code is not able to find the correct place for settings.  The structure looks like this:
+
+```
+dag.zip
+- config
+- source
+  - code.py # from dynaconf import settings
+```
+
+**Describe the solution you'd like**
+Be able to load the settings as if the zip folder is a normal directory.
+
+**Describe alternatives you've considered**
+N/A
+
+**Additional context**
+N/A
+
+ s/DYNACONF_ENV/ENV_FOR_DYNACONF
+ Update docs with the correct default i.e. `ENV_FOR_DYNACONF`, not `DYNACONF_ENV`.
+# [Codecov](https://codecov.io/gh/rochacbruno/dynaconf/pull/335?src> Merging [#335](https://codecov.io/gh/rochacbruno/dynaconf/pull/335?src=pr&el=desc) into [master](https://codecov.io/gh/rochacbruno/dynaconf/commit/f67cb3a93dfe7c7c61269b8a717f46568df27c06&el=desc) will **not change** coverage.
+> The diff coverage is `n/a`.
+
+[![Impacted file tree graph](https://codecov.io/gh/rochacbruno/dynaconf/pull/335/graphs/tree.svg?width=650&height=150&src=pr&token=GXszVzJcqW)](https://codecov.io/gh/rochacbruno/dynaconf/pull/335?src=pr&el=tree)
+
+```diff
+@@            Coverage Diff            @@
+##            master      #335   +/-   ##
+=========================================
+  Coverage   100.00%   100.00%           
+=========================================
+  Files           18        18           
+  Lines          957       957           
+=========================================
+  Hits           957       957           
+```
+
+
+
+------
+
+[Continue to review full report at Codecov](https://codecov.io/gh/rochacbruno/dynaconf/pull/335?src=pr&el=continue).
+> **Legend** - [Click here to learn more](https://docs.codecov.io/docs/codecov-delta)
+> `Δ = absolute <relative> (impact)`, `ø = not affected`, `? = missing data`
+> Powered by [Codecov](https://codecov.io/gh/rochacbruno/dynaconf/pull/335?src=pr&el=footer). Last update [f67cb3a...e6609c4](https://codecov.io/gh/rochacbruno/dynaconf/pull/335?src=pr&el=lastupdated). Read the [comment docs](https://docs.codecov.io/docs/pull-request-comments).
+
+
+ Fixed comma typo
+ 
+# [Codecov](https://codecov.io/gh/rochacbruno/dynaconf/pull/334?src> Merging [#334](https://codecov.io/gh/rochacbruno/dynaconf/pull/334?src=pr&el=desc) into [master](https://codecov.io/gh/rochacbruno/dynaconf/commit/7bb19e0c2d5d8a0b15c0c9eb688f68087d3625c0&el=desc) will **not change** coverage.
+> The diff coverage is `n/a`.
+
+[![Impacted file tree graph](https://codecov.io/gh/rochacbruno/dynaconf/pull/334/graphs/tree.svg?width=650&height=150&src=pr&token=GXszVzJcqW)](https://codecov.io/gh/rochacbruno/dynaconf/pull/334?src=pr&el=tree)
+
+```diff
+@@            Coverage Diff            @@
+##            master      #334   +/-   ##
+=========================================
+  Coverage   100.00%   100.00%           
+=========================================
+  Files           18        18           
+  Lines          957       957           
+=========================================
+  Hits           957       957           
+```
+
+
+
+------
+
+[Continue to review full report at Codecov](https://codecov.io/gh/rochacbruno/dynaconf/pull/334?src=pr&el=continue).
+> **Legend** - [Click here to learn more](https://docs.codecov.io/docs/codecov-delta)
+> `Δ = absolute <relative> (impact)`, `ø = not affected`, `? = missing data`
+> Powered by [Codecov](https://codecov.io/gh/rochacbruno/dynaconf/pull/334?src=pr&el=footer). Last update [7bb19e0...daf7786](https://codecov.io/gh/rochacbruno/dynaconf/pull/334?src=pr&el=lastupdated). Read the [comment docs](https://docs.codecov.io/docs/pull-request-comments).
+
+
+ Exporting settings with substituted strings question
+ Hi,
+
+I'm using @format token in my settings file and I can't find a way how to export all the settings with strings already substituted. 
+
+I tried:
+```
+dynaconf list -o path/to/file.json
+``` 
+and
+``` 
+dynaconf write json
+``` 
+but they both export the un-substituted values (values still include {} substitution placeholders).
+
+Is there a way to export a "rendered" settings file?
+
+Thanks for any hints
+
+
+To give some background what I would like to achieve. 
+
+I want to expose the settings to my Jenkins pipeline script. Trigger export from the Groovy build script (via dynaconf CLI) and consume the json.
+
+@jernejg this is not supported yet on the CLI we can add an option for that like `dynaconf list -o ... --evaluate-lazy-types`
+
+But for now you can achieve that using this workaround:
+
+```py
+import json
+from dynaconf import settings
+# the access thought [k] is firing the evaluation of format template
+data = {k: settings[k] for k in settings.as_dict()}
+json.dump(data, open("path/to/file.json", "w"))
+```
+
+I will leave this issue opened so we can add it as a new option to the CLI `--evaluate-lazy`
+
+@rochacbruno great, thank you for the workaround!
+
+ Add support for aliased configs
+ Now when creating a `LazySettings` instance one can use aliases
+
+So instead of `LazySettings("ENV_FOR_DYNACONF='FOO'")` it can be:
+
+`LazySettings(ENV="FOO")`
+# [Codecov](https://codecov.io/gh/rochacbruno/dynaconf/pull/332?src> Merging [#332](https://codecov.io/gh/rochacbruno/dynaconf/pull/332?src=pr&el=desc) into [master](https://codecov.io/gh/rochacbruno/dynaconf/commit/2041fa83f3da018474b34511678e474662187b29&el=desc) will **not change** coverage.
+> The diff coverage is `100.00%`.
+
+[![Impacted file tree graph](https://codecov.io/gh/rochacbruno/dynaconf/pull/332/graphs/tree.svg?width=650&height=150&src=pr&token=GXszVzJcqW)](https://codecov.io/gh/rochacbruno/dynaconf/pull/332?src=pr&el=tree)
+
+```diff
+@@            Coverage Diff            @@
+##            master      #332   +/-   ##
+=========================================
+  Coverage   100.00%   100.00%           
+=========================================
+  Files           18        18           
+  Lines          957       957           
+=========================================
+  Hits           957       957           
+```
+
+
+| [Impacted Files](https://codecov.io/gh/rochacbruno/dynaconf/pull/332?src=pr&el=tree) | Coverage Δ | |
+|---|---|---|
+| [dynaconf/contrib/flask\_dynaconf.py](https://codecov.io/gh/rochacbruno/dynaconf/pull/332/diff?src=pr&el=tree#diff-ZHluYWNvbmYvY29udHJpYi9mbGFza19keW5hY29uZi5weQ==) | `100.00% <100.00%> (ø)` | |
+
+------
+
+[Continue to review full report at Codecov](https://codecov.io/gh/rochacbruno/dynaconf/pull/332?src=pr&el=continue).
+> **Legend** - [Click here to learn more](https://docs.codecov.io/docs/codecov-delta)
+> `Δ = absolute <relative> (impact)`, `ø = not affected`, `? = missing data`
+> Powered by [Codecov](https://codecov.io/gh/rochacbruno/dynaconf/pull/332?src=pr&el=footer). Last update [2041fa8...528168a](https://codecov.io/gh/rochacbruno/dynaconf/pull/332?src=pr&el=lastupdated). Read the [comment docs](https://docs.codecov.io/docs/pull-request-comments).
+
+
+ [RFC] Add support for Pydantic BaseSettings
+ Pydantic has a schema class BaseSettings that can be integrated with Dynaconf validators.
+I am also using pydantic and would love to see support, as well.
+
+ How to override this var?
+ I have such settings.toml file
+```
+[development]
+    [development.sentry]
+    dsn = ''
+
+    [development.postgresql]
+    host = 'localhost'
+    port = '5432'
+    name = 'postgres'
+    user = 'postgres'
+    password = ''
+```
+How to set host throw env var. I tried `POSTGRESQL_HOST` but it did not work.
+
+Thanks!
+BY default dynaconf reads only variables prefixed with `DYNACONF_`
+
+so
+
+```bash
+export DYNACONF_POSTGRESQL_HOST=otehrhost.com
+```
+
+I added variables into `.env` file and added `DYNACONF_` to each, but it didn't work. How do I know if dynaconf find the .env file?
+
+Project structure
+```
+project_root
+|_ - config
+     |_ - settings.toml
+|_ - app
+     |_ - __init__.py
+|_ - .env
+```
+
+
+
+@heckad 
+
+```
+export DEBUG_LEVEL_FOR_DYNACONF=DEBUG
+```
+
+You will see lots of debug messages
+
+ 3.0.0 GA release?
+ There is a 3.0.0rc1 on PyPI. Is there a timeline for releasing 3.0.0? 
+I am tackling the issues on this milestone https://github.com/rochacbruno/dynaconf/milestone/9 I want to fix at least those marked with `bug` and `redhat` before release.
+
+
+ Insert news validator conditions: (len_eq, len_ne, len_min, len_max, contd)
+ ## Insert news validator conditions:
+**Ensure some parameter (string) meets a condition**
+conditions: (len_eq, len_ne, len_min, len_max, contd)
+ - contd : Signifies the presence of the value in a set, text or word
+ - len_eq : Checks whether the length is the same as defined.
+ - len_ne : Checks if the length is different from the one defined.
+ - len_min : Determines the minimum length for the value
+ - len_max : Determines the maximum length for the value
+
+**Application examples**
+```ini
+[default]
+NAME = "Bruno"
+DEV_SERVERS = ['127.0.0.1', 'localhost', 'development.com']
+PORT = 8001
+GITHUB_TOKEN = '5edc6e893d2c881d5b033f0fd9bfb1a54694727b'
+SEARCH_QUERY= 'topic:"flask-extension flask-extensions"'
+```
+
+```python
+Validator("NAME", len_min=3, len_max=125),
+Validator("DEV_SERVERS", contd='localhost'),
+Validator("PORT", len_eq=4),
+Validator('GITHUB_TOKEN', len_eq=40),
+Validator('SEARCH_QUERY', contd='topic:')
+```
+
+**pre-commit**
+>Reorder python imports...................................................Passed  
+>black....................................................................Passed  
+>Trim Trailing Whitespace.................................................Passed  
+>Fix End of Files.........................................................Passed  
+>Check Yaml...........................................(no files to check)Skipped  
+>Check for merge conflicts................................................Passed  
+>Debug Statements (Python)................................................Passed  
+>Fix python encoding pragma...............................................Passed  
+>flake8...................................................................Passed  
+
+**Test response (pytest)**
+_test_validators_conditions.py_
+>============================= test session starts =============================  
+>platform win32 -- Python 3.8.2, pytest-5.4.1, py-1.8.1, pluggy-0.13.1  
+>rootdir: D:\Projetos\GitHub\dynaconf, inifile: pytest.ini  
+>collected 15 items  
+>  
+>test_validators_conditions.py ...............                            [100%]  
+>  
+>============================= 15 passed in 0.25s ==============================  
+  
+_test_validators.py_
+>============================= test session starts =============================  
+>platform win32 -- Python 3.8.2, pytest-5.4.1, py-1.8.1, pluggy-0.13.1  
+>rootdir: D:\Projetos\GitHub\dynaconf, inifile: pytest.ini  
+>plugins: lovely-pytest-docker-0.1.0, cov-2.8.1, mock-3.0.0  
+>collected 11 items  
+  
+test_validators.py ...........                                           [100%]  
+  
+============================= 11 passed in 2.12s ==============================  
+  
+**example of error messages:**
+len_eq - dynaconf.validator.ValidationError: GITHUB_TOKEN must len_eq 41 but it is GITHUB_TOKEN_error in env DEVELOPMENT  
+contd - dynaconf.validator.ValidationError: SEARCH_QUERY must contd topic:: but it is topic:"flask-extension flask-extensions" in env DEVELOPMENT  
+len_min - dynaconf.validator.ValidationError: LOGGER_FILE must len_min 50 but it is log.log in env DEVELOPMENT  
+len_max - dynaconf.validator.ValidationError: LOGGER_FILE must len_max 4 but it is log.log in env DEVELOPMENT  
+len_ne - dynaconf.validator.ValidationError: LOGGER_FILE must len_ne 7 but it is log.log in env DEVELOPMENT  
+len_eq - dynaconf.validator.ValidationError: PORT must len_eq 5 but it is 8001 in env DEVELOPMENT  
+
+Hello @ddauriol! Thanks for updating this PR. We checked the lines you've touched for [PEP 8](https://www.python.org/dev/peps/pep-0008) issues, and found:
+
+
+
+
+
+
+
+
+
+There are currently no PEP 8 issues detected in this Pull Request. Cheers! :beers: 
+
+##### Comment last updated at 2020-04-20 17:43:54 UTC
+
+# [Codecov](https://codecov.io/gh/rochacbruno/dynaconf/pull/328?src> Merging [#328](https://codecov.io/gh/rochacbruno/dynaconf/pull/328?src=pr&el=desc) into [master](https://codecov.io/gh/rochacbruno/dynaconf/commit/ec7f7312f63b71c01df96a1107463746ae0cae51&el=desc) will **not change** coverage.
+> The diff coverage is `100.00%`.
+
+[![Impacted file tree graph](https://codecov.io/gh/rochacbruno/dynaconf/pull/328/graphs/tree.svg?width=650&height=150&src=pr&token=GXszVzJcqW)](https://codecov.io/gh/rochacbruno/dynaconf/pull/328?src=pr&el=tree)
+
+```diff
+@@            Coverage Diff            @@
+##            master      #328   +/-   ##
+=========================================
+  Coverage   100.00%   100.00%           
+=========================================
+  Files           18        18           
+  Lines          947       957   +10     
+=========================================
++ Hits           947       957   +10     
+```
+
+
+| [Impacted Files](https://codecov.io/gh/rochacbruno/dynaconf/pull/328?src=pr&el=tree) | Coverage Δ | |
+|---|---|---|
+| [dynaconf/validator.py](https://codecov.io/gh/rochacbruno/dynaconf/pull/328/diff?src=pr&el=tree#diff-ZHluYWNvbmYvdmFsaWRhdG9yLnB5) | `100.00% <ø> (ø)` | |
+| [dynaconf/validator\_conditions.py](https://codecov.io/gh/rochacbruno/dynaconf/pull/328/diff?src=pr&el=tree#diff-ZHluYWNvbmYvdmFsaWRhdG9yX2NvbmRpdGlvbnMucHk=) | `100.00% <100.00%> (ø)` | |
+
+------
+
+[Continue to review full report at Codecov](https://codecov.io/gh/rochacbruno/dynaconf/pull/328?src=pr&el=continue).
+> **Legend** - [Click here to learn more](https://docs.codecov.io/docs/codecov-delta)
+> `Δ = absolute <relative> (impact)`, `ø = not affected`, `? = missing data`
+> Powered by [Codecov](https://codecov.io/gh/rochacbruno/dynaconf/pull/328?src=pr&el=footer). Last update [ec7f731...8125833](https://codecov.io/gh/rochacbruno/dynaconf/pull/328?src=pr&el=lastupdated). Read the [comment docs](https://docs.codecov.io/docs/pull-request-comments).
+
+
+ Discurssion :. load_extensions
+ When I was reading the doc to how connect flask to the dynaconf, I copied and pasted So One bug happed with me because I didn't put the information about the extensions.
+
+[This the line of code](https://github.com/rochacbruno/dynaconf/blob/5eec86b74c5fb1b1ec45c8f41f79c28127352181/dynaconf/contrib/flask_dynaconf.py#L175)
+
+So I suggest We write one check if the 'key => EXTENSIONS' is on the settings. So after this we can raise a exception with text about this or not read.
+
+ Added little informantion about flask and dotenv.
+ #325 
+# [Codecov](https://codecov.io/gh/rochacbruno/dynaconf/pull/326?src> Merging [#326](https://codecov.io/gh/rochacbruno/dynaconf/pull/326?src=pr&el=desc) into [master](https://codecov.io/gh/rochacbruno/dynaconf/commit/5eec86b74c5fb1b1ec45c8f41f79c28127352181&el=desc) will **not change** coverage by `%`.
+> The diff coverage is `n/a`.
+
+[![Impacted file tree graph](https://codecov.io/gh/rochacbruno/dynaconf/pull/326/graphs/tree.svg?width=650&height=150&src=pr&token=GXszVzJcqW)](https://codecov.io/gh/rochacbruno/dynaconf/pull/326?src=pr&el=tree)
+
+```diff
+@@            Coverage Diff            @@
+##            master      #326   +/-   ##
+=========================================
+  Coverage   100.00%   100.00%           
+=========================================
+  Files           18        18           
+  Lines          931       931           
+=========================================
+  Hits           931       931           
+```
+
+
+
+------
+
+[Continue to review full report at Codecov](https://codecov.io/gh/rochacbruno/dynaconf/pull/326?src=pr&el=continue).
+> **Legend** - [Click here to learn more](https://docs.codecov.io/docs/codecov-delta)
+> `Δ = absolute <relative> (impact)`, `ø = not affected`, `? = missing data`
+> Powered by [Codecov](https://codecov.io/gh/rochacbruno/dynaconf/pull/326?src=pr&el=footer). Last update [5eec86b...c2c87d3](https://codecov.io/gh/rochacbruno/dynaconf/pull/326?src=pr&el=lastupdated). Read the [comment docs](https://docs.codecov.io/docs/pull-request-comments).
+
+
+ [bug] Dynaconf + Flask + DotEnv
+ **Describe the bug**
+One 'thing' happen when exist .env on the project with flask and dotenv. The flash no longer runs.
+
+**To Reproduce**
+[Look this repo to reproduce](https://github.com/Bernardoow/project_test)
+
+**Additional context**
+[This is the problem. ](https://github.com/pallets/flask/blob/024f0d384cf5bb65c76ac59f8ddce464b2dc2ca1/docs/cli.rst#disable-dotenv)
+
+ template substitutions not applied to nested values
+ I'm using dynaconf 3.0.0rc1 with python 3.8.1. When using template substitutions in a value that is nested below a map, the substitution is not performed on access.  A simple example is below. I don't know if this is expected behavior or not. Are template substitutions only supported at the top-level?
+
+```
+$ cat settings.toml:
+[default]
+    foo = "@format {env[MYVAR]}"
+[default.path]
+    foo = "@format {env[MYVAR]}"
+$ export MYVAR=xyz 
+$ python           
+Python 3.8.1 (default, Mar 18 2020, 14:11:39) 
+[GCC 9.3.1 20200317 releases/gcc-9.3.0-37-g65de83595f] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> from dynaconf import settings
+>>> print ( settings.FOO )
+xyz
+>>> print (settings.PATH.foo)
+<dynaconf.utils.parse_conf.LazyFormat object at 0x7fb2d2069160>
+```
+Hi @davegaulke it is supposed to work on all values in any level, looks like a bug, thanks for reporting.
+
+ Default values do not seem to resolve correctly
+ **Describe the bug**
+Default values do not seem to resolve correctly
+
+**To Reproduce**
+Steps to reproduce the behavior:
+
+settings.toml:
+```
+[default]
+a = 100
+b = "BB"
+
+[default.namespace]
+b = "Default namespace B"
+
+[development]
+a = 200
+
+[development.namespace]
+a = "DEV Namespace A"
+```
+
+The simplest python program of:
+
+```
+from dynaconf import settings
+
+print(settings.A)
+print(settings.B)
+print(settings.NAMESPACE.A)
+print(settings.NAMESPACE.B)
+```
+
+Gives me:
+
+```
+200       # Looks OK, defined in development
+BB        # Looks OK, missing in development but defined in default
+DEV Namespace A    # Looks OK, defined in the development.namespace section
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "/mnt/data/projects/pkh/rapidxmm/repos/backend/backend/src/.venv/lib/python3.7/site-packages/dynaconf/utils/boxing.py", line 15, in __getattr__
+    return super(DynaBox, self).__getattr__(n_item, *args, **kwargs)
+  File "/mnt/data/projects/pkh/rapidxmm/repos/backend/backend/src/.venv/lib/python3.7/site-packages/box.py", line 525, in __getattr__
+    raise BoxKeyError(str(err))
+box.BoxKeyError: "'DynaBox' object has no attribute 'b'"
+```
+
+I was expecting the `settings.NAMESPACE.B` to be picked up from my `default.namespace` section, in the same manner that `settings.B` was picked from `default`, but it does not!
+
+Am I missing a configuration option to turn on such a behavior, or is this indeed a bug?
+
+Thanks! 
+ [RFC] Merge all settings files before merging defaults and environment settings
+ **Is your feature request related to a problem? Please describe.**
+Currently, a default setting from settings.local.yaml takes precedence over an environment-specific setting in settings.yaml. To me, the intuitive behaviour would be that default settings in settings.local.yaml only would be used if no environment-specific setting has already been set.
+```
+# settings.yaml
+default:
+  key: default-from-settings
+
+development:
+
+production:
+    key: production-from-settings
+```
+
+```
+# settings.local.yaml
+dynaconf_merge: true
+default:
+    key: default-from-local
+```
+In the above example, the key would always be "default-from-local".
+**Describe the solution you'd like**
+To me, a more useful behaviour would be to have key be "default-from-local" only when the development setting, but the production value would still remain "production-from-settings".
+
+**Additional context**
+The current behaviour is to individually merge each files default settings with environment specific settings first, then to merge the files together. I propose that the behaviour changes to first merge all files together, then merge default settings with the environment-specific settings.
+
+
+
+
+ Added little information about how dev into this project.
+ I had problems to start to contribute on this project.
+
+**I forgot to install the pre-commit :( !!**
+
+So I created this little steps to help futures contributor.
+
+# [Codecov](https://codecov.io/gh/rochacbruno/dynaconf/pull/321?src> Merging [#321](https://codecov.io/gh/rochacbruno/dynaconf/pull/321?src=pr&el=desc) into [master](https://codecov.io/gh/rochacbruno/dynaconf/commit/51b731f3faa8e6f2a970af7a446c5dcfeb85e42c&el=desc) will **not change** coverage by `%`.
+> The diff coverage is `n/a`.
+
+[![Impacted file tree graph](https://codecov.io/gh/rochacbruno/dynaconf/pull/321/graphs/tree.svg?width=650&height=150&src=pr&token=GXszVzJcqW)](https://codecov.io/gh/rochacbruno/dynaconf/pull/321?src=pr&el=tree)
+
+```diff
+@@            Coverage Diff            @@
+##            master      #321   +/-   ##
+=========================================
+  Coverage   100.00%   100.00%           
+=========================================
+  Files           18        18           
+  Lines          931       931           
+=========================================
+  Hits           931       931           
+```
+
+
+
+------
+
+[Continue to review full report at Codecov](https://codecov.io/gh/rochacbruno/dynaconf/pull/321?src=pr&el=continue).
+> **Legend** - [Click here to learn more](https://docs.codecov.io/docs/codecov-delta)
+> `Δ = absolute <relative> (impact)`, `ø = not affected`, `? = missing data`
+> Powered by [Codecov](https://codecov.io/gh/rochacbruno/dynaconf/pull/321?src=pr&el=footer). Last update [51b731f...eeac676](https://codecov.io/gh/rochacbruno/dynaconf/pull/321?src=pr&el=lastupdated). Read the [comment docs](https://docs.codecov.io/docs/pull-request-comments).
+
+
+ [bug] Little bug on docs/customexts with variable undeclared.
+ **Describe the bug**
+I read the code and on file docs/customexts/aafig.py and on the line 120 is used one variable **text** and this variable wasn't created before.
+
+[Link to file](https://github.com/rochacbruno/dynaconf/blob/bb6282cf04214f13c0bcbacdb4cee65d4c9ddafb/docs/customexts/aafig.py#L120)
+
+`img.replace_self(nodes.literal_block(text, text))`
+
+```python
+def render_aafig_images(app, doctree):
+    format_map = app.builder.config.aafig_format
+    merge_dict(format_map, DEFAULT_FORMATS)
+    if aafigure is None:
+        app.builder.warn('aafigure module not installed, ASCII art images '
+                'will be redered as literal text')
+    for img in doctree.traverse(nodes.image):
+        if not hasattr(img, 'aafig'):
+            continue
+        if aafigure is None:
+            img.replace_self(nodes.literal_block(text, text))
+            continue
+        options = img.aafig['options']
+        text = img.aafig['text']
+```
+
+Probably we are going to remove this aafig and all sphinx soon when we move to Mkdocs #246 
+
+ Adding f string
+ This is a task of issue #314.
+Hello @Bernardoow! Thanks for updating this PR. We checked the lines you've touched for [PEP 8](https://www.python.org/dev/peps/pep-0008) issues, and found:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+There are currently no PEP 8 issues detected in this Pull Request. Cheers! :beers: 
+
+##### Comment last updated at 2020-03-29 10:09:20 UTC
+
+I will fix every thing until tomorrow.
+
+The tests didn't get this error =>
+
+In the file dynaconf/contrib/django_dynaconf/dynaconf_django_conf.py:
+Line 20:46: E999 SyntaxError: invalid syntax
+
+How re run the pep8speaks?
+
+@Bernardoow I dont know, it is supposed to update based on each new commit.
+
+I fixed the pep8speaks reports. I checked the doc of it and found
+
+> The bot makes a single comment on the Pull Request and keeps updating it on new commits. No hustle on emails
+
+I created one repo to test this and worked well!!  But here I don't know why it don't updated the msg.
+
+@Bernardoow CI is failing and looks like it it because your pre-commit is not running I guess.
+
+Can you run `make run-pre-commit` and then commit/push again?
+
+On Last commit 
+```bash
+➜  dynaconf git:(adding_f_string) ✗ git commit -m "Fixing flaked reports-v2."
+Reorder python imports...................................................Passed
+black....................................................................Passed
+Trim Trailing Whitespace.................................................Passed
+Fix End of Files.........................................................Passed
+Check Yaml...........................................(no files to check)Skipped
+Check for merge conflicts................................................Passed
+Debug Statements (Python)................................................Passed
+Fix python encoding pragma...............................................Passed
+flake8...................................................................Passed
+[adding_f_string 6274f3c] Fixing flaked reports-v2.
+ 4 files changed, 29 insertions(+), 16 deletions(-)
+```
+
+make run-pre-commit =>
+
+``` bash
+make run-pre-commit
+rm -rf .tox/
+pre-commit run --files $(find -regex '.*\.\(py\|yaml\|yml\|md\)') -v
+Reorder python imports...................................................Passed
+- hook id: reorder-python-imports
+- duration: 0.42s
+black....................................................................Failed
+- hook id: black
+- duration: 0.73s
+- files were modified by this hook
+
+reformatted /home/bernardo/projetos/dynaconf/dynaconf/contrib/flask_dynaconf.py
+reformatted /home/bernardo/projetos/dynaconf/dynaconf/loaders/env_loader.py
+reformatted /home/bernardo/projetos/dynaconf/dynaconf/loaders/base.py
+reformatted /home/bernardo/projetos/dynaconf/dynaconf/default_settings.py
+reformatted /home/bernardo/projetos/dynaconf/dynaconf/loaders/__init__.py
+reformatted /home/bernardo/projetos/dynaconf/dynaconf/loaders/redis_loader.py
+reformatted /home/bernardo/projetos/dynaconf/dynaconf/loaders/py_loader.py
+reformatted /home/bernardo/projetos/dynaconf/example/app/app.py
+reformatted /home/bernardo/projetos/dynaconf/dynaconf/utils/files.py
+reformatted /home/bernardo/projetos/dynaconf/example/app_with_dotenv/app.py
+reformatted /home/bernardo/projetos/dynaconf/example/full_example.py
+reformatted /home/bernardo/projetos/dynaconf/example/multiple_folders/app.py
+reformatted /home/bernardo/projetos/dynaconf/example/multiple_sources/app.py
+reformatted /home/bernardo/projetos/dynaconf/dynaconf/cli.py
+reformatted /home/bernardo/projetos/dynaconf/example/toml_with_secrets/program.py
+reformatted /home/bernardo/projetos/dynaconf/example/yaml_example/yaml_as_extra_config/app.py
+reformatted /home/bernardo/projetos/dynaconf/example/toml_example/app.py
+reformatted /home/bernardo/projetos/dynaconf/example/validators/with_python/app.py
+reformatted /home/bernardo/projetos/dynaconf/example/yaml_example/settings_file/app.py
+All done! ✨ 🍰 ✨
+19 files reformatted, 167 files left unchanged.
+
+Trim Trailing Whitespace.................................................Passed
+- hook id: trailing-whitespace
+- duration: 0.12s
+Fix End of Files.........................................................Passed
+- hook id: end-of-file-fixer
+- duration: 0.12s
+Check Yaml...............................................................Passed
+- hook id: check-yaml
+- duration: 0.13s
+Check for merge conflicts................................................Passed
+- hook id: check-merge-conflict
+- duration: 0.04s
+Debug Statements (Python)................................................Passed
+- hook id: debug-statements
+- duration: 0.07s
+Fix python encoding pragma...............................................Passed
+- hook id: fix-encoding-pragma
+- duration: 0.05s
+flake8...................................................................Passed
+- hook id: flake8
+- duration: 0.64s
+
+
+```
+
+
+**I think one diference was executed black formatter lib.**
+
+i am suspecting that black is not running because isn't in the requirements.
+
+
+
+# [Codecov](https://codecov.io/gh/rochacbruno/dynaconf/pull/319?src> Merging [#319](https://codecov.io/gh/rochacbruno/dynaconf/pull/319?src=pr&el=desc) into [master](https://codecov.io/gh/rochacbruno/dynaconf/commit/bb6282cf04214f13c0bcbacdb4cee65d4c9ddafb&el=desc) will **not change** coverage by `%`.
+> The diff coverage is `100.00%`.
+
+[![Impacted file tree graph](https://codecov.io/gh/rochacbruno/dynaconf/pull/319/graphs/tree.svg?width=650&height=150&src=pr&token=GXszVzJcqW)](https://codecov.io/gh/rochacbruno/dynaconf/pull/319?src=pr&el=tree)
+
+```diff
+@@            Coverage Diff            @@
+##            master      #319   +/-   ##
+=========================================
+  Coverage   100.00%   100.00%           
+=========================================
+  Files           18        18           
+  Lines          924       931    +7     
+=========================================
++ Hits           924       931    +7     
+```
+
+
+| [Impacted Files](https://codecov.io/gh/rochacbruno/dynaconf/pull/319?src=pr&el=tree) | Coverage Δ | |
+|---|---|---|
+| [dynaconf/contrib/django\_dynaconf\_v2.py](https://codecov.io/gh/rochacbruno/dynaconf/pull/319/diff?src=pr&el=tree#diff-ZHluYWNvbmYvY29udHJpYi9kamFuZ29fZHluYWNvbmZfdjIucHk=) | `100.00% <ø> (ø)` | |
+| [dynaconf/utils/\_\_init\_\_.py](https://codecov.io/gh/rochacbruno/dynaconf/pull/319/diff?src=pr&el=tree#diff-ZHluYWNvbmYvdXRpbHMvX19pbml0X18ucHk=) | `100.00% <ø> (ø)` | |
+| [dynaconf/cli.py](https://codecov.io/gh/rochacbruno/dynaconf/pull/319/diff?src=pr&el=tree#diff-ZHluYWNvbmYvY2xpLnB5) | `100.00% <100.00%> (ø)` | |
+| [dynaconf/contrib/flask\_dynaconf.py](https://codecov.io/gh/rochacbruno/dynaconf/pull/319/diff?src=pr&el=tree#diff-ZHluYWNvbmYvY29udHJpYi9mbGFza19keW5hY29uZi5weQ==) | `100.00% <100.00%> (ø)` | |
+| [dynaconf/loaders/base.py](https://codecov.io/gh/rochacbruno/dynaconf/pull/319/diff?src=pr&el=tree#diff-ZHluYWNvbmYvbG9hZGVycy9iYXNlLnB5) | `100.00% <100.00%> (ø)` | |
+| [dynaconf/loaders/env\_loader.py](https://codecov.io/gh/rochacbruno/dynaconf/pull/319/diff?src=pr&el=tree#diff-ZHluYWNvbmYvbG9hZGVycy9lbnZfbG9hZGVyLnB5) | `100.00% <100.00%> (ø)` | |
+| [dynaconf/loaders/py\_loader.py](https://codecov.io/gh/rochacbruno/dynaconf/pull/319/diff?src=pr&el=tree#diff-ZHluYWNvbmYvbG9hZGVycy9weV9sb2FkZXIucHk=) | `100.00% <100.00%> (ø)` | |
+| [dynaconf/utils/files.py](https://codecov.io/gh/rochacbruno/dynaconf/pull/319/diff?src=pr&el=tree#diff-ZHluYWNvbmYvdXRpbHMvZmlsZXMucHk=) | `100.00% <100.00%> (ø)` | |
+| [dynaconf/utils/parse\_conf.py](https://codecov.io/gh/rochacbruno/dynaconf/pull/319/diff?src=pr&el=tree#diff-ZHluYWNvbmYvdXRpbHMvcGFyc2VfY29uZi5weQ==) | `100.00% <100.00%> (ø)` | |
+
+------
+
+[Continue to review full report at Codecov](https://codecov.io/gh/rochacbruno/dynaconf/pull/319?src=pr&el=continue).
+> **Legend** - [Click here to learn more](https://docs.codecov.io/docs/codecov-delta)
+> `Δ = absolute <relative> (impact)`, `ø = not affected`, `? = missing data`
+> Powered by [Codecov](https://codecov.io/gh/rochacbruno/dynaconf/pull/319?src=pr&el=footer). Last update [bb6282c...225e052](https://codecov.io/gh/rochacbruno/dynaconf/pull/319?src=pr&el=lastupdated). Read the [comment docs](https://docs.codecov.io/docs/pull-request-comments).
+
+
+It is ok? Should I do any change?
+
+@Bernardoow Ci is failing
+
+```
+
+    
+        settings_file = tmpdir.join("settings.toml")
+        settings_file.write(MIXED.format(ext))
+    
+        toml_plugin_file = tmpdir.join("plugin1.toml")
+        toml_plugin_file.write(TOML_PLUGIN)
+    
+        json_plugin_file = tmpdir.join(f"plugin2.{ext}")
+        json_plugin_file.write(PLUGIN_TEXT[ext])
+    
+        settings = LazySettings(
+            ENV_FOR_DYNACONF="DEFAULT",
+            silent=False,
+            LOADERS_FOR_DYNACONF=False,
+            ROOT_PATH_FOR_DYNACONF=str(tmpdir),
+            SETTINGS_FILE_FOR_DYNACONF=str(settings_file),
+        )
+    
+        assert settings.DEBUG is False
+>       assert settings.DATABASE_URI == "f{ext}.example.com"
+E       AssertionError: assert 'ini.example.com' == 'f{ext}.example.com'
+E         - f{ext}.example.com
+E         + ini.example.com
+
+ext        = 'ini'
+json_plugin_file = local('/tmp/pytest-of-vsts/pytest-0/test_load_nested_different_typ3/plugin2.ini')
+settings   = <dynaconf.base.LazySettings object at 0x7fd3a5e82748>
+settings_file = local('/tmp/pytest-of-vsts/pytest-0/test_load_nested_different_typ3/settings.toml')
+tmpdir     = local('/tmp/pytest-of-vsts/pytest-0/test_load_nested_different_typ3')
+toml_plugin_file = local('/tmp/pytest-of-vsts/pytest-0/test_load_nested_different_typ3/plugin1.toml')
+
+```
+
+@rochacbruno sorry for that. Fixed the bug 
+Notice.. I didn't remove every format because I must be change some logic.
+
+`/home/bernardo/projetos/dynaconf/dynaconf/validator.py:
+  159              if self.must_exist is True and not exists:
+  160                  raise ValidationError(
+  161:                     self.messages["must_exist_true"].format(name=name, env=env)
+  162                  )
+  163              elif self.must_exist is False and exists:
+  164                  raise ValidationError(
+  165:                     self.messages["must_exist_false"].format(
+  166                          name=name, env=env
+  167                      )
+  ...
+  178                  if not self.condition(value):
+  179                      raise ValidationError(
+  180:                         self.messages["condition"].format(
+  181                              name=name,
+  182                              function=self.condition.__name__,
+  ...
+  191                  if not op_function(value, op_value):
+  192                      raise ValidationError(
+  193:                         self.messages["operations"].format(
+  194                              name=name,
+  195                              operation=op_function.__name__,
+
+/home/bernardo/projetos/dynaconf/dynaconf/loaders/__init__.py:
+  150              dirname = os.path.dirname(mod_file)
+  151              filename, extension = os.path.splitext(os.path.basename(mod_file))
+  152:             new_filename = tmpl.format(env.lower(), filename, extension)
+  153              env_mod_file = os.path.join(dirname, new_filename)
+  154:             global_filename = tmpl.format("global", filename, extension)
+  155              global_mod_file = os.path.join(dirname, global_filename)
+  156          else:
+
+/home/bernardo/projetos/dynaconf/tests/test_nested_loading.py:
+  229  
+  230      settings_file = tmpdir.join("settings.toml")
+  231:     settings_file.write(MIXED.format(ext))
+  232  
+  233      toml_plugin_file = tmpdir.join("plugin1.toml")
+
+/home/bernardo/projetos/dynaconf/tests/test_validators.py:
+  246          settings.validators.validate()
+  247  
+  248:     assert custom_msg.format(
+  249          name="VERSION", value="1", env="DEVELOPMENT"
+  250      ) in str(error)
+  ...
+  281          ).validate(settings)
+  282  
+  283:     assert custom_msg.format(
+  284          name="VERSION", value="1", env="DEVELOPMENT"
+  285      ) in str(error_custom_message)
+
+9 matches across 4 files`
+
+ Fix minor typo in Flask extension docs
+ Just a minor typo in the flask extension docs
+ Considering `silent` on import_from_filename
+ Making errors visible when silentfixes #310
+
+```
+➜  dynaconf git:(master) ✗ ls -al | grep fao 
+-rw-------.  1 root    root        0 Mar 10 21:39 fao.py
+```
+```python
+In [1]: import errno
+
+In [2]: import io
+
+In [3]: try:
+   ...:     io.open('fao.py')
+   ...: except IOError as e:
+   ...:     print(e.errno)
+   ...:     print(e.strerror)
+   ...:     
+13
+Permission denied
+
+In [4]: errno.EPERM
+Out[4]: 1
+
+In [5]: errno.EACCES
+Out[5]: 13
+```

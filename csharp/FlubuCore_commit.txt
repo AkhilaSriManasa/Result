@@ -1,0 +1,72 @@
+﻿ build fix
+ Merge branch 'master' of https://github.com/dotnetcore/FlubuCore into develop
+ Removes obsolete references to FlubuCore.GlobalTool
+ Adds Authors
+ Adds FlubuCore.Tool
+ Merge branch 'master' of https://github.com/dotnetcore/FlubuCore into develop
+ Set up CI with Azure Pipelines (#323)
+ Resolving FileStream.Lock issue on OSX (#322)
+
+* testing
+
+* See how it goes with LiteDB v5
+
+* in-progress
+
+* Use Serilog.Sinks.LiteDB from nuget feed instead of referencing assembly file, so that empty log issue is resolved.
+ consolidated version context extensions
+ Resolve issue #318: Wrong log info about executing npm process (#321)
+
+* Removed invalid items from csproj file.
+
+* Exclude Deploy folder from Build.csproj.
+
+* Debug in progress
+
+* Fixed Log content.
+
+* Minor change.
+
+* Fix bugs.
+
+* This version looks better than previous one.
+
+* Regret changes because I didn't notice there are command argument masks.
+
+* Avoid tests failure.
+
+* Simplify log output.
+ Exclude Deploy folder from Build.csproj.
+ Removed invalid items from csproj file.
+ Merge branch 'develop' of https://github.com/dotnetcore/FlubuCore into develop
+ Merge branch 'master' of https://github.com/dotnetcore/FlubuCore into develop
+
+# Conflicts:
+#	appveyor.yml
+#	src/Build.csproj
+ Publishes FlubuCore 5.1.8.0
+ NugetPublishTask takes version quality into consideration (#319)
+
+* PublishNugetPackageTask now taskes version quality into account.
+
+* Fixes nupkg file name when using version quality
+ Fixes nupkg file name when using version quality
+ PublishNugetPackageTask now taskes version quality into account.
+ Merge branch 'master' of https://github.com/dotnetcore/FlubuCore into develop
+ - added status query for windows service task
+- added wait for service to stop task
+ Changes badge branch from master to develop
+ Merge branch 'master' of https://github.com/dotnetcore/FlubuCore into develop
+ Publishes FlubuCore 5.1.6
+ Adds some more common system assembly references.
+ updates flubu version and .net core sdk version
+ Merge branch 'master' into develop
+
+# Conflicts:
+#	CHANGELOG.md
+ publishes FlubuCore 5.1.4
+ Fixes resolving nuget packages where dependant package is FlubuCore or dependency package is not found
+
+(cherry picked from commit 2e5b6a1c043dcc0c2347fa3103bbc4d6ac57e274)
+ small refactoring on resolve nuget packages from directives.
+ Fixes resolving nuget packages where dependant package is FlubuCore or dependency package is not found

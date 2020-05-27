@@ -1,0 +1,155 @@
+﻿ [still WIP] Development of libfuzzer-workshop for new libFuzzer version 2/2
+ This is continuation of change reffered in #5 
+
+Still WIP and if You, Dor1s , could have a look at it - and one (!) commit with plot twist to accept that.
+
+Build on libFuzzer-update branch.
+
+Commits try to be as small and modular as they could to ease reverting or changing them without any problem.
+
+Cheers! 
+ libFuzzer update 1/2
+ Hello
+
+Here is some update made to libFuzzer and checkout shell script.
+Building on top of it libfuzzer-workshop are being updated in JulianVolodia/development branch.
+
+It is first of two PRs reffered to #5 issue.
+
+Cheers.
+😊 
+
+ Update libFuzzer version and revisit the lessons
+ The workshop uses a hardcoded libFuzzer version which is pretty old these days. Would be nice to update it and check that the instructions are still applicable.
+It would be nice if you could
+
+> The workshop uses a hardcoded libFuzzer version which is pretty old these days. Would be nice to update it and check that the instructions are still applicable.
+
+Hi @Dor1s ! Great repo and lessons learned here. Is there any viewable recording of workshops? Then, I maybe could follow and try do same things as in this repo (and, maybe fixing and leaving a changes for Your reviewiew instead of you fixing bc you could not have time maybe).
+
+
+
+Thank you @JulianVolodia, unfortunately there is no recording available.
+
+Thanks @Dor1s . Targeting Ubuntu 16.x or one of stable or tesing Debian will be enought? As I see fuzzing tools are quite alive and maybe you could share some tips. Maybe just should I review oss-fuzz for configurations used there?
+
+Any image should work, just make sure to grab some fresh clang binaries or build it yourself.
+
+@zym-wade sorry for no update. Must do some things before Thursday. Will keep you posted.
+
+Good start is to check out llvm scripts, and build it (for example using this Dor1s script). https://raw.githubusercontent.com/Dor1s/libfuzzer-workshop/master/checkout_build_install_llvm.sh
+
+Two things you need is Debian distro (I used one Debian like but Ubuntu also should work) and change `libgcc-5-dev` to `libgcc-10-dev`.
+
+@zym-wade which distro you use, and what obstacles do you met?
+Also, clusterfuzz runs on some LTS Ubuntus and Debian Jessie if I find out correctly here https://github.com/google/clusterfuzz/blob/master/local/install_deps_linux.bash 
+
+Last but not least there is also another very valuable tutorial for libfuzzer I had have look: 
+https://github.com/google/fuzzing/blob/master/tutorial/libFuzzerTutorial.md
+
+My bad, indeed. Started to bring all examples to work with last libFuzzer as expected and fix READMEs' tutorial documentation too.
+
+sorry for mess above - forgot about `#` is full of magic on Github.
+
+@Dor1s , what to do with 04/third_fuzzer example, while it will find crash without `-max_len
+```bash
+$ ./third_fuzzer corpus2
+...
+INFO: -max_len is not provided; libFuzzer will not generate inputs larger than 4096 bytes
+```
+
+My idea to add `-max_len=64` and show case this way.
+
+On lesson/08:
+-dump_coverageee is deprecated for more than year.
+Do you want
+1) Clang Coverage like described here https://github.com/google/fuzzing/blob/master/tutorial/libFuzzerTutorial.md#visualizing-coverage,
+2) use print_coverage and some tricks (to do things like in ealier versions), revert to earlier libFuzzer version, etc.
+3) maybe you know some other solution which should be done?
+
+Thanks a lot @JulianVolodia for working on this.
+
+> My idea to add `-max_len=64` and show case this way.
+
+Sure, sounds good.
+
+For the coverage, I'd go with clang source based code coverage.
+
+Good, will work with some clang libfuzzer thingy, because got stuck a while but hope I will go over with that. Dump feature was completely removed, and have only get coverage with older libFuzzer version and some tricks with gcc.
+
+That's pleasure to work with on it. 😊 
+Btw. If you want some boost on labs I prepared some multiprocessing edits for first python dumb fuzzing thingy right here: https://github.com/JulianVolodia/libfuzzer-workshop/commit/ac102f1d1f6106b4ab98819d25219dfa8cd32cc8 (branch https://github.com/JulianVolodia/libfuzzer-workshop/tree/python-mp-playground )
+Previous work quite slow for me, on one thread, and that could be waste of time on labs if repeated.
+
+Last but not least, if you have some TODOs on your list which I could work on that would be great for me to do it as exercise. I found some refs here: https://github.com/Dor1s/libfuzzer-workshop/pull/2
+
+> Last but not least, if you have some TODOs on your list which I could work on that would be great for me to do it as exercise.
+
+Sure, please go ahead, if you feel like :)
+
+Ah sure, but is there anything you think is worth or planned doing? I have no access to your Todo's :D
+Like, other things than in order to libFuzzer upgrade, inter alia mentioned refactor of last lessons to clang code cov?
+
+My bad, I assumed you found some TODOs in the code / text. Nope, I don't think I have anything outside of this repo.
+
+No problem, I just saying things enigmatic way last time. Sorry. I need at least week and will return because have some asap things. Best wishes and thanks for clarification!
+
+ README in lesson 11 is writen 10
+ README in lesson 11 is writen 10 :)
+Thanks!
+
+sorry for mess above - forgot about `#` is full of magic on Github.
+
+ is there some tutorial about using libfuzzer in android
+ Hi, Dor1s, is there some tutorial about using libfuzzer in android? can you give some advice?
+thanks.
+Hi @hackerlib, what particularly are you going to fuzz in Android?
+
+Basically, you need to be able to compile your C/C++ programs for Android platform. You also need to be able to use AddressSanitizer (it's possible: https://source.android.com/devices/tech/debug/asan), and you need `-fsanitize-coverage` flags (not sure which of them are supported on Android). Last but not least, you need to be able to compile libFuzzer itself. I've seen some discussion: https://github.com/android-ndk/ndk/issues/305, and it looks like there are some issues with compilatoin, e.g. you need a fresh clang to build libFuzzer, so I can recommend to monitor threads like that one. Maybe try to compile libFuzzer for your target platform (i's easy, there is `build.sh` script in libFuzzer repo), to see what kind of problems there are.
+
+@hackerlib A little bit off-topic but there was a presentation at BlackHat Europe 2015 about using afl to fuzz Android system components like stagefright. You need to apply a patch from Intel to afl, what was done here: https://github.com/ele7enxxh/android-afl
+
+Thanks, @Dor1s and @raymontag , when I dig into the build process of libfuzzer, It looks relatively simple, but my first attempt was failed because of my clang version or some other reason, In addition, as raymontag said, may be put the librarys of I want to test into linux platform  is better. 
+Last, I found google release their tool called android vts, it is based on libfuzzer, and body have tried?
+
+Interesting, I haven't tried that.
+
+@hackerlib Thx for the hint. However, with android-afl you will fuzz on the Android device. The guys from Intel had a rig of around 50 Nexus phones IIRC. You can find the paper here: https://www.blackhat.com/eu-15/briefings.html#fuzzing-android-a-recipe-for-uncovering-vulnerabilities-inside-system-components-in-android
+
+ Using -dump_coverage I don't know why but "ASAN_OPTIONSYeah... I have a TODO to update this part, as things have changed over time. Thank you @0ca, I'll merge it later today!
+
+Btw, thanks for the tutorial. 
+
+It's awesome :)
+
+Thank you, Francisco!
+
+ lesson 08: no interesting inputs found
+ when i run xml_read_memory_fuzzer in lesson 08 , i got error like this:
+'''
+08$ ./xml_read_memory_fuzzer -max_total_time=300 -print_final_stats=1 corpus1
+INFO: Seed: 1486712041
+INFO: Loaded 0 modules (0 guards): 
+Loading corpus dir: corpus1
+INFO: -max_len is not provided, using 64
+INFO: A corpus is not provided, starting from an empty corpus
+#0	READ units: 1
+#1	INITED exec/s: 0 rss: 31Mb
+ERROR: no interesting inputs were found. Is the code instrumented for coverage? Exiting.
+'''
+
+did i missed something?
+any suggestion?
+I think you should change `FUZZ_CXXFLAGS` a little bit. Lastest version of Clang supports `trace-pc-guard` flag. The compiler will insert instrumentation code on every edge. `8bit-counters` and `trace-pc-guard` can not combine together.
+Try it:
+```
+export FUZZ_CXXFLAGS="-O2 -fno-omit-frame-pointer -g -fsanitize=address \
+    -fsanitize-coverage=edge,trace-pc-guard,indirect-calls,trace-cmp,trace-div,trace-gep"
+```
+
+@quangnh89 
+thank u very much ,  that works very well.
+an u make everything clearly.
+
+Thanks @quangnh89 !
+

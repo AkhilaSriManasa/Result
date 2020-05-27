@@ -1,0 +1,30 @@
+﻿ Improve TimerClock tests
+ Improve EnumerableExtensions.Batch method
+ Remove redundant Properties from the Test project and minor refactoring
+ Introducing AsyncLazy<T>
+ Improve ToReadOnlySequence
+ Remove ToHashSet from EnumerableExtensions in favour of System.Linq
+ When counting lines, treat ASCII encoding same as UTF-8
+ Minor refactoring
+ Happy New Year!
+ Fix #28
+ Minor refactoring
+ Remove 'DetectEncoding' method from 'StreamExtensions'.
+ Remove 'Easy.Timer'
+ Improve `NetworkDetails` returned by `DiagnosticReport`
+ Improve multi-targeting
+ Rename ToTask/ToValueTask to ToCompletedTask/ToCompletedValueTask
+ Improve atomic locking and update
+ Improve Multi-Framework compilation
+ Minor refactoring and cleanup
+ Add ToTask and ToValueTask extension methods on T
+ Minor refactoring
+ Make EnumerableExtensions.ToHashSet<T>() available only in NETSTANDARD2.0, NET45 and NET471
+ Added support for netcoreapp3.0
+ Add Enumerable.Batch extension method
+ Use ToArray instead of ToList in IEnumerable.Randomize extension method
+ Change FileSystemInfo to FileInfo for methods that operate on FileInfo only.
+ Fixed build scripts publishing the nuget packages at the wrong level.
+ Make RestClient.DefaultRequestHeaders read-only.
+ Added the link to a new blog post.
+ Added the feature to support initializing an IDictionary with multiple pairs.

@@ -1,0 +1,651 @@
+﻿ Program crashes upon search for null in a SkipList<string>
+ **Describe the bug**
+Attempting to search for _null_ in a SkipList<string> results in the application crashing due to a NullReferenceException
+
+**To Reproduce**
+Steps to reproduce the behavior:
+1. Create a new SkipList\<string\>
+`var skipList = new SkipList<string>():`
+2. Try to search for _null_
+`list.Contains(null)`
+
+
+**Expected behavior**
+I expected this SkipList to have the same behaviour as the standard C# List implementation when processing _null_. Applying the same steps to a standard C# List will result in `list.Contains(null)` evaluating to false without crashing. 
+
+**Environment:**
+OS: Windows 10 Home (Version 10.0.18362 Build 18362)
+.NET Version: .NET Core v3.1.101
+IDE: Microsoft Visual Studio Community 2019 - Version 16.4.5
+
+**Additional context**
+Bug can be reproduced with any of the functions that make use of the SkipList's built-in comparator: Remove, Find, Contains, etc.
+
+ A new SkipList<int> contains 0
+ **Describe the bug**
+A new SkipList\<int\> contains 0 (zero). It should not contain any numbers before any numbers are added.
+
+**To Reproduce**
+Steps to reproduce the behavior:
+1. Create a new SkipList of integers
+`var list = new SkipList<int>();`
+2. Check if it contains 0:
+`var result = list.Contains(0)`
+3. Result is true.
+
+**Expected behavior**
+I would expect `(new SkipList<int>()).Contains(0)` to return false.
+
+**Environmnet:**
+- OS: Windows 
+- .NET Version: .NET Core v3.1.101
+- IDE: Visual Studio Enterprise 2019
+ Removing 0 from SkipList<int> breaks enumeration
+ **Describe the bug**
+Attempting to enumerate a SkipList\<int\> whose head node has been removed leads to the program running indefinitely. The head can be removed by calling Remove(0), the defualt value for int, whilst the list contains a negative int. 
+
+**To Reproduce**
+Reproducing this bug can be done as follows:
+
+1. Instantiate a new SkipList\<int\>
+    `var list = new SkipList<int>();`
+2. Add any negative integer to the list
+    `list.Add(-23);`
+3. Attempt to remove 0 (the head node) from the list
+    `list.Remove(0);`
+4. Perform (almost) any operation that enumerates the skip list
+    `list.Contains(2);`
+
+**Expected behavior**
+`list.Remove(0);` should not modify the list unless 0 has been added explicitly.
+
+**Environment**
+OS: Windows 10 Home (Version 10.0.18362 Build 18362)
+.NET Version: .NET Core v3.1.101
+IDE: Microsoft Visual Studio Community 2019 - Version 16.4.5
+
+**Additional context**
+
+- The bug can only be reproduced if the SkipList\<int\> contains at least one negative integer. 
+
+- The bug will not occur if the value 0 has been added to (and not removed from) the SkipList\<int\>.
+
+- Step 4 in **To Reproduce** can be replaced by any function that iterates over the skip list: Contains, Find, Remove, for-each looping over the list, etc.
+
+- NB: Contains and Find will function as intended if you search for an int that exists in the list (`list.Contains(-23);` in the case of the example would still work).
+
+Thanks for supporting the development of C# Algorithms with your first issue! We look forward to handling it.
+
+ Items are not always added to a SkipList
+ **Describe the bug**
+When attempting to add an item to the SkipList, it is not always added. This seems to be caused by the fact that the _getNextLevel() method may return 0, in which case the for loop on line 138 that adds elements to the SkipList is not entered because lvl is 0.
+
+**To Reproduce**
+It is a bit difficult to reproduce, since a SkipList is a probabilistic data structure, so the behaviour will not be the same every time it is used. However, the following should work:
+1. Create a unit test
+2. Create a SkipList<int> in that test
+3. Add a random number to the list and call list.Contains(number)
+4. Assert that this is true because you just added the number
+5. Run that test 1000 times
+
+**Expected behavior**
+I expect that after adding a number to a list of integers, the list will contain that number
+
+**Environmnet:**
+ - OS: Windows 10
+ - .NET Version: .NET Core v3.1.101
+ - IDE: Visual Studio Enterprise 2019
+
+
+**Additional context**
+If the Random object in the SkipList is initialized with seed 123, the first call to Add will not insert the element
+
+Thanks for supporting the development of C# Algorithms with your first issue! We look forward to handling it.
+
+ Fix the BubbleSorter and add the unit test.
+ ### Description
+
+#135 
+
+### Checklist
+
+- [x] An issue was first created **before** opening this pull request
+- [ ] The new code follows the [contribution guidelines](CONTRIBUTING.md)
+- [x] I have performed a self-review of my own code
+- [ ] I have commented my code, particularly in hard-to-understand areas
+- [ ] I have made corresponding changes to the documentation
+- [x] My changes generate no new warnings
+- [x] I have added tests to ensure that prove my fix is effective or that my feature works
+- [ ] New and existing unit tests pass locally with my changes
+
+
+ A small improvement for BubbleSorter and add the unit test
+ **Describe the bug**
+Just found a trivial issue of BubbleSorter:
+```
+for (int index = 0; index < collection.Count - 1; index++)
+```
+It would be better if use `collection.Count - i -1` here because after each passthrough we can confirm that the value we've bubbled up to the right is in its correct position.
+
+Also I didn't find the unit test for it.
+
+Actually this fix doesn't change the time complexity at all so just my two cents.
+
+I've made a PR to fix it. Thanks.
+
+
+Thanks for supporting the development of C# Algorithms with your first issue! We look forward to handling it.
+
+ Issue 129: Return primes list as read-only.
+ ### Description
+
+Alter GetAll to return a read-only IList<int> of the prime numbers.
+
+### Checklist
+
+- [X] An issue was first created **before** opening this pull request
+- [X] The new code follows the [contribution guidelines](CONTRIBUTING.md)
+- [X] I have performed a self-review of my own code
+- [X] I have commented my code, particularly in hard-to-understand areas
+- [X] I have made corresponding changes to the documentation
+- [X] My changes generate no new warnings
+- [X] I have added tests to ensure that prove my fix is effective or that my feature works
+- [X] New and existing unit tests pass locally with my changes
+
+
+ Issue 46: Switch netcoreapp2 to netstandard2 for libraries. …
+ ### Description
+
+Update for issue 46:
+Switch netcoreapp2 to netstandard2 for libraries.
+Removed unused using that would have required netcoreapp3.1 to compile.
+Fixed string to char because netstd2 didn't allow for strings as char arrays.
+Added .NETStandard2.0 dependency to nuspec.
+
+### Checklist
+
+- [X] An issue was first created **before** opening this pull request
+- [X] The new code follows the [contribution guidelines](CONTRIBUTING.md)
+- [X] I have performed a self-review of my own code
+- [X] I have commented my code, particularly in hard-to-understand areas
+- [X] I have made corresponding changes to the documentation
+- [X] My changes generate no new warnings
+- [X] I have added tests to ensure that prove my fix is effective or that my feature works
+- [X] New and existing unit tests pass locally with my changes
+
+
+ Issue 87: Stack efficient Euclidean method
+ ### Description
+
+Updated fix to issue 87.  Removes tail recursive function call to save stack memory space at the cost of another integer.
+
+### Checklist
+
+- [X] An issue was first created **before** opening this pull request
+- [X] The new code follows the [contribution guidelines](CONTRIBUTING.md)
+- [X] I have performed a self-review of my own code
+- [n/a] I have commented my code, particularly in hard-to-understand areas
+* The new loop is functionally identical to the old loop which was not specifically documented.
+- [n/a] I have made corresponding changes to the documentation
+* Nothing about the call or output has been changed to warrant a documentation change.
+- [X] My changes generate no new warnings
+- [X] I have added tests to ensure that prove my fix is effective or that my feature works
+* (tests already present)
+- [X] New and existing unit tests pass locally with my changes
+
+
+ Change recursive function to while loop to save stack space
+ ### Description
+
+Update for issue 87. Removes need for tail recursion call in FindGCDEuclidean and reduces stack pressure.
+
+### Checklist
+
+- [X] An issue was first created **before** opening this pull request
+- [X] The new code follows the [contribution guidelines](CONTRIBUTING.md)
+- [X] I have performed a self-review of my own code
+- [X] I have commented my code, particularly in hard-to-understand areas
+- [n/a] I have made corresponding changes to the documentation
+- [X] My changes generate no new warnings
+- [n/a] I have added tests to ensure that prove my fix is effective or that my feature works
+- [X] New and existing unit tests pass locally with my changes
+
+
+Sorry.  I screwed up. This was supposed to be a separate pull request with the third commit.  I'll cancel this and redo them as branches on my end to avoid this mistake.
+
+ Basic optimizations for UndirectedSparseGraph
+ ### Description
+
+Optimized item removal from UndirectedSparseGraph by only trying to remove the given item from its neighbors' adjacency lists, instead of all vertices'.
+
+Optimized the Contains function of the DLinkedList structure by avoiding exceptions entirely, as they are costly and not really meaningful in this case (not finding an item in a list is normal, it's not an exception).
+
+### Checklist
+
+- [ ] An issue was first created **before** opening this pull request
+- [ ] The new code follows the [contribution guidelines](CONTRIBUTING.md)
+- [X] I have performed a self-review of my own code
+- [X] I have commented my code, particularly in hard-to-understand areas
+- [ ] I have made corresponding changes to the documentation
+- [X] My changes generate no new warnings
+- [ ] I have added tests to ensure that prove my fix is effective or that my feature works
+- [X] New and existing unit tests pass locally with my changes
+
+
+ Primes List Should Be Immutable When Exposed to Callers
+ **Describe the bug**
+
+In `PrimesList.GetAll()` the underlying list of primes is returned as a mutable `List<int>` which makes it susceptible to modifications outside the library’s control.
+
+Which in turn may interfere with (change behaviors of) methods called later because they rely heavily on the predefined list.
+
+**Expected behavior**
+
+Although it’s a developer’s job to pay attention and never modify library resources, the library itself should use some protection to make exposed resources secure.
+
+`List<T>.AsReadOnly()` is the best option to return a read-only wrapper over the original list. It’s *O(1)* (no-copy) and syncs with the original list when modified. The return type will have to be changed to either `IList<int>` or `IReadOnlyCollection<int>` (from currently `List<int>`).
+
+**Notes**
+
+There may be other occurrences that a private/internal collection is returned without additional consideration. I just happen to bump into the one in `PrimesList`. If said collections are not meant to be modified outside the library, they should all be wrapped under a read only collection to prevent contamination.
+Thanks for supporting the development of C# Algorithms with your first issue! We look forward to handling it.
+
+Created pull https://github.com/aalhour/C-Sharp-Algorithms/pull/134 to return primes list as a read-only IList<int>.  Added a unit test to verify the list returned by GetAll can't be altered as-is.  The readonly attribute on the underlying List<int> only protected the List reference, not any of the list's member values.
+
+ Can't find C-Sharp-Algorithms on Nuget.org
+ 1. I was unable to find release build of this project on nuget.org.  View the search [here](https://www.nuget.org/packages?q2. The nuspec file is publishing only the binaries for the Algorithm Project.
+`<file src="..\Algorithms\bin\Release\**\*.*" target="lib" />`
+   How about the binaries for the DataStructure project.
+Thanks for supporting the development of C# Algorithms with your first issue! We look forward to handling it.
+
+ Algorithm request: Linear Prime Sieve
+ I don't see any implementations for prime number generators. For starters, how about Linear prime sieve (I intent to work on this).
+
+I'd like to see that added to the library. 
+Thanks for supporting the development of C# Algorithms with your first issue! We look forward to handling it.
+
+ Data structure request: AVLTreeMap
+ I was surprised to see a BinaryTreeMap and a RedBlackTreeMap but no AVLTreeMap (given the fact that there is an AVLTree implementation in the library). 
+
+For the sake of completion, I'd like to see an AVLTreeMap added. 
+Thanks for supporting the development of C# Algorithms with your first issue! We look forward to handling it.
+
+Hello @kenancasey,
+
+Thanks for submitting an issue. Would you like to contribute that to the project?
+
+ Fixed #117 and one more bug in ChainedHashTable
+ ### Description
+
+1) Fix #117 . This bug occurs when hash table has collisions. Then the hashTable node contain a list with some values. And the method CopyTo try to fill an array by the end using values from list in this node.
+I added check for existing the next element in the list in the hashTable node.
+
+2) I divided a unit test for ChainedHashTable on some tests. And added additinal tests.
+
+3) When i added unit tests i had found a new bug. 
+When a user create two or greater ChainedHashTable objects then these objects have the same LinkedList array for storing values i.e. adding new value to one hash table this value add to another hash tables.
+I add creating a new array for every ChainedHashTable objects in constructor.
+
+
+> 
+> 
+> Refactoring LGTM, we just need to add a few more assertions to the unit tests.
+
+I have added assertions for these unit tests.
+
+ Turned the primes document into an embedded resource.
+ This might help to get started with the embedded resource issue (see #123 ).
+There's a problem with the double-check locking implementation. Checking it now.
+
+There's obviously a problem with the format of the embedded file but so far it's not straightforward to find what that is through Travis (works fine on my PC). There's, however, another issue that happens when multiple instances access PrimesList.Instance and it doesn't happen all the time - however, I've managed to successfully simulate it and I've sent a commit into this PR.
+
+I'll try to think of a way to solve the original issue and then see what should be included in this PR and what shouldn't.
+
+I'm 0 commits behind master btw.
+
+Doesn't work on my machine though.
+
+Here's how to reproduce:
+
+```bash
+# Checkout upstream/master
+git clone https://github.com/aalhour/C-Sharp-Algorithms.git
+cd C-Sharp-Algorithms
+
+# Get your changes into a branch checked out from upstream/master
+git checkout -b nickntg-master master
+git pull https://github.com/nickntg/C-Sharp-Algorithms.git master
+
+# Build and run
+dotnet build --configuration Release
+dotnet test
+```
+
+Here is the output I got:
+```bash
+➜ dotnet build --configuration Release
+Microsoft (R) Build Engine version 16.3.0+0f4c62fea for .NET Core
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+  Restore completed in 28.04 ms for /Users/ahmad/PersonalWorkspace/C-Sharp-Algorithms/Algorithms/Algorithms.csproj.
+  Restore completed in 28.06 ms for /Users/ahmad/PersonalWorkspace/C-Sharp-Algorithms/DataStructures/DataStructures.csproj.
+  Restore completed in 59.7 ms for /Users/ahmad/PersonalWorkspace/C-Sharp-Algorithms/UnitTest/UnitTest.csproj.
+  Restore completed in 31.44 ms for /Users/ahmad/PersonalWorkspace/C-Sharp-Algorithms/UnitTest/UnitTest.csproj.
+  DataStructures -> /Users/ahmad/PersonalWorkspace/C-Sharp-Algorithms/DataStructures/bin/Release/netcoreapp2.0/DataStructures.dll
+  Algorithms -> /Users/ahmad/PersonalWorkspace/C-Sharp-Algorithms/Algorithms/bin/Release/netcoreapp2.0/Algorithms.dll
+  UnitTest -> /Users/ahmad/PersonalWorkspace/C-Sharp-Algorithms/UnitTest/bin/Release/netcoreapp2.0/UnitTest.dll
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:01.18
+```
+
+```bash
+➜ dotnet test
+Test run for /Users/ahmad/PersonalWorkspace/C-Sharp-Algorithms/UnitTest/bin/Debug/netcoreapp2.0/UnitTest.dll(.NETCoreApp,Version=v2.0)
+Microsoft (R) Test Execution Command Line Tool Version 16.3.0
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+Starting test execution, please wait...
+
+A total of 1 test files matched the specified pattern.
+(a)(s)(z)(x)(d)(c)(f)(v)(a)(z)(s)(x)(c)(v)(f)(d)(f)(c)(d)(v)(s)(x)(a)(z)Walk the graph using DFS from F:
+                                                                                                                                                                                  [xUnit.net 00:00:02.08]     UnitTest.DataStructuresTests.CuckooHashTableTest.DoTest [FAIL]
+                                                                                                                                                                                    X UnitTest.DataStructuresTests.CuckooHashTableTest.DoTest [58ms]
+  Error Message:
+   System.FormatException : Input string was not in a correct format.
+  Stack Trace:
+     at System.Number.StringToNumber(ReadOnlySpan`1 str, NumberStyles options, NumberBuffer& number, NumberFormatInfo info, Boolean parseDecimal)
+   at System.Number.ParseInt32(ReadOnlySpan`1 s, NumberStyles style, NumberFormatInfo info)
+   at System.Convert.ToInt32(String value)
+   at DataStructures.Common.PrimesList.<>c.<_initializeData>b__7_1(String item) in /Users/ahmad/PersonalWorkspace/C-Sharp-Algorithms/DataStructures/Common/PrimesList.cs:line 80
+   at System.Linq.Enumerable.SelectListIterator`2.ToList()
+   at DataStructures.Common.PrimesList._initializeData() in /Users/ahmad/PersonalWorkspace/C-Sharp-Algorithms/DataStructures/Common/PrimesList.cs:line 80
+   at DataStructures.Common.PrimesList.get_Instance() in /Users/ahmad/PersonalWorkspace/C-Sharp-Algorithms/DataStructures/Common/PrimesList.cs:line 52
+   at DataStructures.Dictionaries.CuckooHashTable`2..ctor() in /Users/ahmad/PersonalWorkspace/C-Sharp-Algorithms/DataStructures/Dictionaries/CuckooHashTable.cs:line 49
+   at UnitTest.DataStructuresTests.CuckooHashTableTest.DoTest() in /Users/ahmad/PersonalWorkspace/C-Sharp-Algorithms/UnitTest/DataStructuresTests/CuckooHashTableTest.cs:line 11
+Test run in progress.Remove At 4:
+[0] => fst
+[1] => sec
+[2] => trd
+[3] => for
+[4] => sxt
+[5] => svn
+[6] => egt
+
+(d) (x) (f) (c) (s) (d) (v) (a) (z)
+
+                                                                                                                                                                                  [xUnit.net 00:00:02.16]     UnitTest.DataStructuresTests.PrimeListTest.DoTest [FAIL]
+                                                                                                                                                                                    X UnitTest.DataStructuresTests.PrimeListTest.DoTest [9ms]
+  Error Message:
+   System.FormatException : Input string was not in a correct format.
+  Stack Trace:
+     at System.Number.StringToNumber(ReadOnlySpan`1 str, NumberStyles options, NumberBuffer& number, NumberFormatInfo info, Boolean parseDecimal)
+   at System.Number.ParseInt32(ReadOnlySpan`1 s, NumberStyles style, NumberFormatInfo info)
+   at System.Convert.ToInt32(String value)
+   at DataStructures.Common.PrimesList.<>c.<_initializeData>b__7_1(String item) in /Users/ahmad/PersonalWorkspace/C-Sharp-Algorithms/DataStructures/Common/PrimesList.cs:line 80
+   at System.Linq.Enumerable.SelectListIterator`2.ToList()
+   at DataStructures.Common.PrimesList._initializeData() in /Users/ahmad/PersonalWorkspace/C-Sharp-Algorithms/DataStructures/Common/PrimesList.cs:line 80
+   at DataStructures.Common.PrimesList.get_Instance() in /Users/ahmad/PersonalWorkspace/C-Sharp-Algorithms/DataStructures/Common/PrimesList.cs:line 52
+   at UnitTest.DataStructuresTests.PrimeListTest.DoTest() in /Users/ahmad/PersonalWorkspace/C-Sharp-Algorithms/UnitTest/DataStructuresTests/PrimeListTest.cs:line 11
+Test run in progress.Is there an edge from f to c? True. If yes it's weight is: 1.
+After removing edges (d-c), (c-v), (a-z):
+
+a: [s(1), x(3)]
+z: []
+s: [a(1), x(3), d(3)]
+x: [s(3), d(1), c(2), a(3)]
+d: [x(1), f(1), s(3)]
+c: [x(2), f(1)]
+f: [d(1), c(1), v(1)]
+v: [f(1)]
+
+(a)(s)(x)(z)(d)(c)(f)(v)(a)(z)(x)(c)(v)(f)(d)(s)(f)(d)(c)(v)(s)(x)(a)(z)
+
+(f)(v)(c)(d)(x)(a)(z)(s)(a)(s)(z)(x)(d)(c)(f)(v)(a)(z)(s)(x)(c)(v)(f)(d)Walk the graph using BFS from F:
+
+Test Run Failed.
+Total tests: 171
+     Passed: 169
+     Failed: 2
+ Total time: 3.9706 Seconds
+```
+
+The above output matches the output of the Travis build, btw.
+
+Done that. Here's the output from two consecutive runs of dotnet test.
+```
+D:\Projects\C-Sharp-Algorithms>dotnet test
+Test run for D:\Projects\C-Sharp-Algorithms\UnitTest\bin\Debug\netcoreapp2.0\UnitTest.dll(.NETCoreApp,Version=v2.0)
+Microsoft (R) Test Execution Command Line Tool Version 16.3.0
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+Starting test execution, please wait...
+
+A total of 1 test files matched the specified pattern.
+
+Test Run Successful.
+Total tests: 171
+     Passed: 171
+ Total time: 1,0824 Seconds
+
+D:\Projects\C-Sharp-Algorithms>dotnet test
+Test run for D:\Projects\C-Sharp-Algorithms\UnitTest\bin\Debug\netcoreapp2.0\UnitTest.dll(.NETCoreApp,Version=v2.0)
+Microsoft (R) Test Execution Command Line Tool Version 16.3.0
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+Starting test execution, please wait...
+
+A total of 1 test files matched the specified pattern.
+[xUnit.net 00:00:00.51]     UnitTest.DataStructuresTests.HashTableSeparateChainingTest.DoTest [FAIL]
+  X UnitTest.DataStructuresTests.HashTableSeparateChainingTest.DoTest [30ms]
+  Error Message:
+   System.NullReferenceException : Object reference not set to an instance of an object.
+  Stack Trace:
+     at DataStructures.Dictionaries.ChainedHashTable`2.CopyTo(KeyValuePair`2[] array, Int32 arrayIndex) in D:\Projects\C-Sharp-Algorithms\DataStructures\Dictionaries\ChainedHashTable.cs:line 609
+   at UnitTest.DataStructuresTests.HashTableSeparateChainingTest.DoTest() in D:\Projects\C-Sharp-Algorithms\UnitTest\DataStructuresTests\HashTableSeparateChainingTest.cs:line 107
+
+Test Run Failed.
+Total tests: 171
+     Passed: 170
+     Failed: 1
+ Total time: 1,0687 Seconds
+```
+Perplexed yet?
+
+@nickntg - What is your OS and IDE?
+
+@aalhour Windows 10 with VS 2017.
+
+That's why, there is a different "Format CultureInfo" between the Operating Systems. I get errors on my machine (mac OS) and the tests fail on Travis CI (Ubuntu), can you try implementing a CultureInfo to parse the file?
+
+@aalhour It's not culture info (it's all straight integers anyway - were it for decimals, a CultureInfo.InvariantCulture parameter would be needed on Split()). It's the line splitting that seems to not work as expected with the embedded resource. Still trying to understand why, since it seemed to be working with the file.
+
+I can revert all commits or submit a new, cleaner PR. There still is a separate issue with the double-null check pattern that is lurking around.
+
+What do you want me to do?
+
+ PrimesDocument_10K.csv should be an embedded resource
+ PrimesDocument_10K.csv is currently being copied to the Data folder. It would be easier to make it an embedded resource in order to make redistribution easier.
+
+**Describe the solution you'd like**
+It would be easy to make this an embedded resource and have the code read the resource instead of the file on initialization.
+Fixed by #124.
+
+ Implement basic Build and Test GitHub Workflow
+ ### Description
+
+Fixes #121: Implements a basic build and test GitHub workflow
+
+### Checklist
+
+- [x] An issue was first created **before** opening this pull request
+- [x] The new code follows the [contribution guidelines](CONTRIBUTING.md)
+- [x] I have performed a self-review of my own code
+- [ ] I have commented my code, particularly in hard-to-understand areas
+- [ ] I have made corresponding changes to the documentation
+- [ ] My changes generate no new warnings
+- [ ] I have added tests to ensure that prove my fix is effective or that my feature works
+- [ ] New and existing unit tests pass locally with my changes
+
+
+ Setup GitHub Actions for Continuous Integration
+ **Is your feature request related to a problem? Please describe.**
+
+GitHub actions support building and testing dotnet projects, it would be great if we can have the repo self-contained.
+
+**Describe the solution you'd like**
+
+GitHub workflow for building the project with .NET Core and run the unit tests project.
+
+**Describe alternatives you've considered**
+
+N/A
+
+**Additional context**
+
+Single workflow document.
+ Fix undirected weighted dense graph
+ ### Description
+This pr fix issue #107 
+
+Changes:
+I didn't make any changes in logic of that graph. Create smaller tests for public methods, previous tests invoke BreadthFirstWalk and some other walk method (i think there should be tested separately). 
+
+Changes in code:
++ Only changes is make consistent when we throw exception and with type. I choose ArgumentOutOfRange when we try do something with vertex that doesn't exists and not throw exception but return false etc when edge doesn't exists.
+
+Future suggestion:
+I think we should discuss create some more clear structure for inheritance in graphs type (So many level on override and using new keyword in some parts it's complicated in maintenance and can lead to future problems.). Maybe i'll open separate issue for that if you also think we can make some improvements in this situation.
+
+### Checklist
+
+- [X] An issue was first created **before** opening this pull request
+- [X] The new code follows the [contribution guidelines](CONTRIBUTING.md)
+- [X] I have performed a self-review of my own code
+- [X] I have commented my code, particularly in hard-to-understand areas
+- [X] I have made corresponding changes to the documentation
+- [X] My changes generate no new warnings
+- [X] I have added tests to ensure that prove my fix is effective or that my feature works
+- [X] New and existing unit tests pass locally with my changes
+
+
+ Search algo
+ ### New scope Search (#95)
+
+- Create new scope Search
+- Implement Binary Search algorithm
+
+### Checklist
+
+- [x] An issue was first created **before** opening this pull request
+- [x] The new code follows the [contribution guidelines](CONTRIBUTING.md)
+- [x] I have performed a self-review of my own code
+- [x] I have commented my code, particularly in hard-to-understand areas
+- [ ] I have made corresponding changes to the documentation
+- [x] My changes generate no new warnings
+- [x] I have added tests to ensure that prove my fix is effective or that my feature works
+- [x] New and existing unit tests pass locally with my changes
+
+
+ Fix bug 89
+ ### Description
+
+Fixes #89:
+- Change SelectionSort() in DLinkedList.cs.
+- Add TestSelectionSort() in DLinkedListTest.cs.
+
+### Checklist
+
+- [x] An issue was first created **before** opening this pull request
+- [x] The new code follows the [contribution guidelines](CONTRIBUTING.md)
+- [x] I have performed a self-review of my own code
+- [ ] I have commented my code, particularly in hard-to-understand areas
+- [ ] I have made corresponding changes to the documentation
+- [x] My changes generate no new warnings
+- [x] I have added tests to ensure that prove my fix is effective or that my feature works
+- [x] New and existing unit tests pass locally with my changes
+
+
+Welcome @kdimolikas to the contributors team!
+
+Thanks a lot and I apologize for the additional commits. 
+This was my first PR.
+
+ ChainedHashTable test sometimes fail
+ **Describe the bug**
+During development some other feature, and run frequently "dotnet test" i notice that some test connected to ChainedHashTable sometimes pass sometimes not. Problem also occur on clear master branch. 
+
+**To Reproduce**
+Run dotnet test command many times, that test doesn't crash every time.
+
+**Expected behavior**
+Test should always pass.
+
+**Additional context**
+  X UnitTest.DataStructuresTests.HashTableSeparateChainingTest.DoTest [61ms]
+  Error Message:
+   System.NullReferenceException : Object reference not set to an instance of an object.
+  Stack Trace:
+     at DataStructures.Dictionaries.ChainedHashTable`2.CopyTo(KeyValuePair`2[] array, Int32 arrayIndex) in D:\repositories\public\C-Sharp-Algorithms\DataStructures\Dictionaries\ChainedHashTable.cs:line 609
+   at UnitTest.DataStructuresTests.HashTableSeparateChainingTest.DoTest() in D:\repositories\public\C-Sharp-Algorithms\UnitTest\DataStructuresTests\HashTableSeparateChainingTest.cs:line 107
+
+I create pull request for fixing this bug. And i added description why this bug occured to pull request.
+
+ Fix Dijkstra shortest path algorithm + tests.
+ ### Description
+Connected issues #106 and suggestions from #13 .
+
+Fix for broken unit tests and dijkstra algorithm. Simplify dijkstra code base on wikipedia pseudocode, removed unnecessary variables, little cleanup removed all Console.WriteLine etc, fixed in algorithm only suggested in #13 it was enough to get algorithm works corrects, added much more smaller unit test.
+
+Any suggestion, improvements, more test suggestion warmly welcome.
+
+### Checklist
+
+- [X ] An issue was first created **before** opening this pull request
+- [X] The new code follows the [contribution guidelines](CONTRIBUTING.md)
+- [X] I have performed a self-review of my own code
+- [X] I have commented my code, particularly in hard-to-understand areas
+- [X] I have made corresponding changes to the documentation
+- [X] My changes generate no new warnings
+- [X] I have added tests to ensure that prove my fix is effective or that my feature works
+- [X] New and existing unit tests pass locally with my changes
+
+
+ Move Community Templates under .github directory
+ 
+ Nuget
+ This might help to get started with nuget (see #46).
+
+Before being able to run publish_nuget.cmd you'll need to create an account in nuget.org.
+Hi @nickntg,
+
+Thanks for the addition. Please read the [Contributor's Guide](https://github.com/aalhour/C-Sharp-Algorithms/blob/master/.github/CONTRIBUTING.md) before submitting Pull Requests. There should be an issue for any proposed change. Ideally, we will discuss the issue there first and then move to a pull request.
+
+Hello @nickntg 
+
+Can you split this into 2 separate pr one for nuget and other one for Primes list fix?
+
+Greetings
+
+Yeah, I can do that. I did that in order to ensure that everything stays packed in the library and there is no need to add the data folder in the nuget. Still want me to do it?
+
+Yea, i meant, one pr 
+@nickntg - any updated from your side?
+
+@aalhour Sure, will do and submit new PRs.
+
+@nickntg - now that #124 is merged, please clean up this PR and make sure it only contains the changes relevant to Nuget publishing.
+
+@aalhour Done. However, this works on windows machines only...
+
+ #88 - WeightedEdge.IsWeighted should return true (#88)
+ Fixes issue #88.
+Looks good to me 👍 
+
+ Improve readme labels and add a cool ASCII Art title
+ 
+ #110 improve readme lists
+ 

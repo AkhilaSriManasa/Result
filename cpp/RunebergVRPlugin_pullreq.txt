@@ -1,0 +1,16 @@
+﻿ Fix for teleporter randomly not working with multiple supported nav agents defined
+ 
+ Added MaxStepHeight variable
+ When using gravity and uneven terrain, this variable determines how much Z offset the Player can step up. This is to enable stepping up stairs with a Z offset of 20, for example, but do disallow stepping up a box with a Z offset of 50, for example.
+ Getting rid of the warnings
+ Here you go :)
+This is about the two function updates mentioned earlier;
+GrabComponent -> GrabComponentAtLocationWithRotation
+AttachTo -> AttachToComponent
+where the difference between this and last prq is the WithRotation bit (and related FRotator argument) on the first replaced function, that went missing before last prq because im an idiot :P
+ 4.14 support
+ Just a quick commit to save you a couple of minutes, making the RunebergVRPlugin play nice with 4.14 :)
+
+Ive removed a bunch of _bWantsBeginPlay_ references since apparently thats deprecated, changed a reference too _GrabComponent_ into _**GrabComponentAtLocation**_ and an _AttachTo_ into _**AttachToComponent**_ (both obviously taking into account the argument changes)
+
+Also posted in the thread :)

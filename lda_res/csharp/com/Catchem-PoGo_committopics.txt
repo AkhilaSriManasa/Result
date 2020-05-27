@@ -1,0 +1,68 @@
+﻿NUMTopics = 2
+(0, '0.182*"need" + 0.155*"update" + 0.098*"line" + 0.070*"patch" + 0.070*"general" + 0.042*"new" + 0.042*"request" + 0.042*"message" + 0.014*"change" + 0.014*"translation"')
+(1, '0.067*"message" + 0.067*"patch" + 0.067*"merge" + 0.067*"translation" + 0.067*"change" + 0.048*"request" + 0.047*"update" + 0.029*"student" + 0.029*"new" + 0.029*"public"')
+
+------------------------
+NUMTopics = 3
+(0, '0.035*"patch" + 0.035*"change" + 0.035*"request" + 0.035*"message" + 0.035*"translation" + 0.035*"merge" + 0.035*"update" + 0.035*"new" + 0.034*"source" + 0.034*"project"')
+(1, '0.070*"message" + 0.070*"merge" + 0.070*"translation" + 0.070*"change" + 0.070*"patch" + 0.049*"request" + 0.049*"update" + 0.028*"public" + 0.028*"key" + 0.028*"student"')
+(2, '0.206*"need" + 0.174*"update" + 0.108*"line" + 0.076*"patch" + 0.076*"general" + 0.043*"request" + 0.043*"new" + 0.043*"message" + 0.011*"change" + 0.011*"translation"')
+
+------------------------
+NUMTopics = 4
+(0, '0.035*"patch" + 0.035*"change" + 0.035*"request" + 0.034*"translation" + 0.034*"merge" + 0.034*"message" + 0.034*"update" + 0.034*"new" + 0.034*"project" + 0.034*"source"')
+(1, '0.072*"message" + 0.072*"merge" + 0.072*"translation" + 0.072*"change" + 0.072*"patch" + 0.050*"request" + 0.050*"update" + 0.028*"key" + 0.028*"public" + 0.028*"readmemd"')
+(2, '0.221*"need" + 0.186*"update" + 0.115*"line" + 0.080*"patch" + 0.079*"general" + 0.044*"request" + 0.044*"new" + 0.044*"message" + 0.009*"change" + 0.009*"translation"')
+(3, '0.034*"update" + 0.034*"new" + 0.034*"message" + 0.034*"patch" + 0.034*"request" + 0.034*"need" + 0.034*"line" + 0.034*"general" + 0.034*"translation" + 0.034*"latestversion"')
+
+------------------------
+NUMTopics = 5
+(0, '0.035*"patch" + 0.035*"change" + 0.035*"translation" + 0.035*"merge" + 0.035*"request" + 0.035*"message" + 0.035*"update" + 0.034*"source" + 0.034*"project" + 0.034*"new"')
+(1, '0.073*"message" + 0.073*"merge" + 0.073*"translation" + 0.073*"change" + 0.073*"patch" + 0.050*"request" + 0.050*"update" + 0.027*"student" + 0.027*"public" + 0.027*"key"')
+(2, '0.035*"patch" + 0.035*"translation" + 0.035*"change" + 0.035*"merge" + 0.035*"update" + 0.035*"request" + 0.035*"message" + 0.035*"latestversion" + 0.034*"project" + 0.034*"help"')
+(3, '0.034*"update" + 0.034*"patch" + 0.034*"message" + 0.034*"new" + 0.034*"request" + 0.034*"need" + 0.034*"line" + 0.034*"general" + 0.034*"translation" + 0.034*"change"')
+(4, '0.231*"need" + 0.194*"update" + 0.119*"line" + 0.082*"general" + 0.082*"patch" + 0.045*"new" + 0.045*"request" + 0.045*"message" + 0.007*"translation" + 0.007*"change"')
+
+------------------------
+NUMTopics = 6
+(0, '0.034*"update" + 0.034*"patch" + 0.034*"message" + 0.034*"request" + 0.034*"line" + 0.034*"need" + 0.034*"new" + 0.034*"change" + 0.034*"merge" + 0.034*"general"')
+(1, '0.034*"message" + 0.034*"update" + 0.034*"patch" + 0.034*"need" + 0.034*"request" + 0.034*"new" + 0.034*"line" + 0.034*"change" + 0.034*"merge" + 0.034*"general"')
+(2, '0.035*"change" + 0.035*"patch" + 0.035*"message" + 0.035*"merge" + 0.035*"request" + 0.035*"translation" + 0.035*"update" + 0.035*"student" + 0.034*"help" + 0.034*"source"')
+(3, '0.034*"update" + 0.034*"message" + 0.034*"patch" + 0.034*"need" + 0.034*"new" + 0.034*"request" + 0.034*"line" + 0.034*"change" + 0.034*"general" + 0.034*"student"')
+(4, '0.239*"need" + 0.200*"update" + 0.123*"line" + 0.084*"general" + 0.084*"patch" + 0.045*"new" + 0.045*"request" + 0.045*"message" + 0.006*"change" + 0.006*"merge"')
+(5, '0.074*"translation" + 0.074*"message" + 0.074*"merge" + 0.074*"patch" + 0.074*"change" + 0.051*"request" + 0.051*"update" + 0.027*"try" + 0.027*"key" + 0.027*"clear"')
+
+------------------------
+NUMTopics = 7
+(0, '0.034*"update" + 0.034*"patch" + 0.034*"line" + 0.034*"need" + 0.034*"message" + 0.034*"request" + 0.034*"new" + 0.034*"change" + 0.034*"merge" + 0.034*"general"')
+(1, '0.034*"update" + 0.034*"message" + 0.034*"need" + 0.034*"patch" + 0.034*"line" + 0.034*"request" + 0.034*"change" + 0.034*"new" + 0.034*"merge" + 0.034*"general"')
+(2, '0.034*"update" + 0.034*"patch" + 0.034*"need" + 0.034*"message" + 0.034*"request" + 0.034*"line" + 0.034*"new" + 0.034*"change" + 0.034*"general" + 0.034*"merge"')
+(3, '0.034*"update" + 0.034*"need" + 0.034*"message" + 0.034*"patch" + 0.034*"line" + 0.034*"new" + 0.034*"request" + 0.034*"general" + 0.034*"change" + 0.034*"merge"')
+(4, '0.244*"need" + 0.205*"update" + 0.125*"line" + 0.085*"general" + 0.085*"patch" + 0.045*"new" + 0.045*"request" + 0.045*"message" + 0.006*"change" + 0.006*"merge"')
+(5, '0.075*"translation" + 0.075*"merge" + 0.075*"message" + 0.075*"patch" + 0.075*"change" + 0.051*"update" + 0.051*"request" + 0.027*"operational" + 0.027*"try" + 0.027*"project"')
+(6, '0.036*"change" + 0.036*"patch" + 0.035*"message" + 0.035*"merge" + 0.035*"request" + 0.035*"translation" + 0.035*"update" + 0.034*"student" + 0.034*"help" + 0.034*"andreaz"')
+
+------------------------
+NUMTopics = 8
+(0, '0.034*"update" + 0.034*"patch" + 0.034*"line" + 0.034*"need" + 0.034*"request" + 0.034*"message" + 0.034*"change" + 0.034*"new" + 0.034*"merge" + 0.034*"general"')
+(1, '0.034*"message" + 0.034*"change" + 0.034*"merge" + 0.034*"patch" + 0.034*"update" + 0.034*"request" + 0.034*"translation" + 0.034*"student" + 0.034*"new" + 0.034*"readmemd"')
+(2, '0.034*"update" + 0.034*"patch" + 0.034*"need" + 0.034*"line" + 0.034*"message" + 0.034*"request" + 0.034*"general" + 0.034*"change" + 0.034*"new" + 0.034*"merge"')
+(3, '0.034*"update" + 0.034*"need" + 0.034*"line" + 0.034*"message" + 0.034*"patch" + 0.034*"new" + 0.034*"request" + 0.034*"general" + 0.034*"change" + 0.034*"translation"')
+(4, '0.249*"need" + 0.208*"update" + 0.127*"line" + 0.086*"general" + 0.086*"patch" + 0.046*"request" + 0.046*"new" + 0.046*"message" + 0.005*"change" + 0.005*"translation"')
+(5, '0.075*"translation" + 0.075*"merge" + 0.075*"message" + 0.075*"patch" + 0.075*"change" + 0.051*"update" + 0.051*"request" + 0.027*"operational" + 0.027*"try" + 0.027*"project"')
+(6, '0.036*"patch" + 0.036*"change" + 0.035*"message" + 0.035*"merge" + 0.035*"request" + 0.035*"translation" + 0.035*"update" + 0.034*"student" + 0.034*"brazilian" + 0.034*"educational"')
+(7, '0.039*"update" + 0.038*"need" + 0.036*"patch" + 0.035*"line" + 0.035*"message" + 0.035*"change" + 0.035*"request" + 0.035*"general" + 0.035*"new" + 0.034*"merge"')
+
+------------------------
+NUMTopics = 9
+(0, '0.034*"line" + 0.034*"need" + 0.034*"update" + 0.034*"patch" + 0.034*"request" + 0.034*"message" + 0.034*"change" + 0.034*"new" + 0.034*"general" + 0.034*"merge"')
+(1, '0.037*"change" + 0.037*"message" + 0.036*"merge" + 0.036*"patch" + 0.036*"translation" + 0.035*"request" + 0.035*"update" + 0.035*"student" + 0.034*"readmemd" + 0.034*"information"')
+(2, '0.034*"update" + 0.034*"patch" + 0.034*"need" + 0.034*"line" + 0.034*"general" + 0.034*"request" + 0.034*"change" + 0.034*"message" + 0.034*"new" + 0.034*"merge"')
+(3, '0.034*"update" + 0.034*"need" + 0.034*"line" + 0.034*"general" + 0.034*"patch" + 0.034*"message" + 0.034*"request" + 0.034*"new" + 0.034*"change" + 0.034*"merge"')
+(4, '0.034*"need" + 0.034*"update" + 0.034*"line" + 0.034*"patch" + 0.034*"general" + 0.034*"message" + 0.034*"request" + 0.034*"change" + 0.034*"new" + 0.034*"merge"')
+(5, '0.076*"translation" + 0.075*"patch" + 0.075*"merge" + 0.075*"message" + 0.075*"change" + 0.051*"update" + 0.051*"request" + 0.027*"latestversion" + 0.027*"try" + 0.027*"project"')
+(6, '0.034*"patch" + 0.034*"need" + 0.034*"update" + 0.034*"line" + 0.034*"request" + 0.034*"general" + 0.034*"message" + 0.034*"change" + 0.034*"merge" + 0.034*"new"')
+(7, '0.252*"need" + 0.211*"update" + 0.128*"line" + 0.087*"general" + 0.087*"patch" + 0.046*"new" + 0.046*"request" + 0.046*"message" + 0.005*"change" + 0.005*"translation"')
+(8, '0.034*"update" + 0.034*"need" + 0.034*"patch" + 0.034*"line" + 0.034*"general" + 0.034*"message" + 0.034*"request" + 0.034*"change" + 0.034*"new" + 0.034*"merge"')
+
+------------------------

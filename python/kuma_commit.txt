@@ -1,0 +1,197 @@
+﻿ fix welcome email sender address (#7122)
+ update sub-modules (#7120)
+ allow robots to /*users/ (#7119)
+ Bump @babel/preset-env from 7.9.5 to 7.9.6 (#6986)
+
+Bumps [@babel/preset-env](https://github.com/babel/babel) from 7.9.5 to 7.9.6.
+- [Release notes](https://github.com/babel/babel/releases)
+- [Changelog](https://github.com/babel/babel/blob/master/CHANGELOG.md)
+- [Commits](https://github.com/babel/babel/compare/v7.9.5...v7.9.6)
+
+Signed-off-by: dependabot-preview[bot] <support@dependabot.com>
+
+Co-authored-by: dependabot-preview[bot] <27856297+dependabot-preview[bot]@users.noreply.github.com>
+ Implement new main menu and updated header (#7114)
+
+* Implement new main menu and updated header
+
+* Swap main menu button icon on click
+
+* Update snapshot test
+
+* Changes based on review feedback
+ Replaced IRC mentions with Matrix equivalents. (#7037)
+
+* Replaced IRC mentions with Matrix equivalents.
+
+* Update docs/deploy.rst
+
+Co-authored-by: Peter Bengtsson <peterbe@mozilla.com>
+
+Co-authored-by: Ryan Johnson <escattone@gmail.com>
+Co-authored-by: Peter Bengtsson <peterbe@mozilla.com>
+ about subscription management page in email (#7113)
+
+* about subscription management page in email
+
+Fixes #7080
+
+* fix broken unit test
+ Change discount code text (#7112)
+
+Fixes #7082
+ link to MDN swag store (#7117)
+
+Fixes #7047
+ welcome email deep links (#7111)
+
+Part of #6883
+ change default email email from (#7110)
+
+* change default email email from
+
+Part of #6883
+
+* feedbacked
+ Bump jsesc from 2.5.2 to 3.0.1 (#7094)
+
+Bumps [jsesc](https://github.com/mathiasbynens/jsesc) from 2.5.2 to 3.0.1.
+- [Release notes](https://github.com/mathiasbynens/jsesc/releases)
+- [Commits](https://github.com/mathiasbynens/jsesc/compare/v2.5.2...v3.0.1)
+
+Signed-off-by: dependabot-preview[bot] <support@dependabot.com>
+
+Co-authored-by: dependabot-preview[bot] <27856297+dependabot-preview[bot]@users.noreply.github.com>
+ Bump eslint-plugin-jest from 23.9.0 to 23.13.1 (#7091)
+
+Bumps [eslint-plugin-jest](https://github.com/jest-community/eslint-plugin-jest) from 23.9.0 to 23.13.1.
+- [Release notes](https://github.com/jest-community/eslint-plugin-jest/releases)
+- [Changelog](https://github.com/jest-community/eslint-plugin-jest/blob/master/CHANGELOG.md)
+- [Commits](https://github.com/jest-community/eslint-plugin-jest/compare/v23.9.0...v23.13.1)
+
+Signed-off-by: dependabot-preview[bot] <support@dependabot.com>
+
+Co-authored-by: dependabot-preview[bot] <27856297+dependabot-preview[bot]@users.noreply.github.com>
+ Bump eslint-plugin-testing-library from 3.1.2 to 3.1.3 (#7090)
+
+Bumps [eslint-plugin-testing-library](https://github.com/testing-library/eslint-plugin-testing-library) from 3.1.2 to 3.1.3.
+- [Release notes](https://github.com/testing-library/eslint-plugin-testing-library/releases)
+- [Commits](https://github.com/testing-library/eslint-plugin-testing-library/compare/v3.1.2...v3.1.3)
+
+Signed-off-by: dependabot-preview[bot] <support@dependabot.com>
+
+Co-authored-by: dependabot-preview[bot] <27856297+dependabot-preview[bot]@users.noreply.github.com>
+ don't run sendinblue signal handlers and checks without config (#7102)
+
+* don't run sendinblue signal handlers and checks without config
+
+* specify keys for sendinblue testing
+ update sub-modules (#7099)
+ Bump pretty-quick from 2.0.0 to 2.0.1 (#7093)
+
+Bumps [pretty-quick](https://github.com/azz/pretty-quick) from 2.0.0 to 2.0.1.
+- [Release notes](https://github.com/azz/pretty-quick/releases)
+- [Commits](https://github.com/azz/pretty-quick/compare/v2.0.0...v2.0.1)
+
+Signed-off-by: dependabot-preview[bot] <support@dependabot.com>
+
+Co-authored-by: dependabot-preview[bot] <27856297+dependabot-preview[bot]@users.noreply.github.com>
+ Bump prettier from 2.0.4 to 2.0.5 (#7095)
+
+Bumps [prettier](https://github.com/prettier/prettier) from 2.0.4 to 2.0.5.
+- [Release notes](https://github.com/prettier/prettier/releases)
+- [Changelog](https://github.com/prettier/prettier/blob/master/CHANGELOG.md)
+- [Commits](https://github.com/prettier/prettier/compare/2.0.4...2.0.5)
+
+Signed-off-by: dependabot-preview[bot] <support@dependabot.com>
+
+Co-authored-by: dependabot-preview[bot] <27856297+dependabot-preview[bot]@users.noreply.github.com>
+ Sync with sendinblue (#7062)
+
+* signals, handlers and tasks for syncing to sendinblue
+
+* turn sendinblue into an app called users.newsletter
+
+* remove unneeded f-strings
+
+* add new assertions for calling newsletter tasks
+
+* remove overly complex decorator in favor of simple if-checks
+
+* move user update logic into newsletter task
+
+* Better sendinblue sys check error message
+
+Co-authored-by: Peter Bengtsson <peterbe@mozilla.com>
+
+* use SENDINBLUE_LIST_ID directly
+
+Co-authored-by: Peter Bengtsson <peterbe@mozilla.com>
+ Sync with sendinblue (#7062)
+
+* signals, handlers and tasks for syncing to sendinblue
+
+* turn sendinblue into an app called users.newsletter
+
+* remove unneeded f-strings
+
+* add new assertions for calling newsletter tasks
+
+* remove overly complex decorator in favor of simple if-checks
+
+* move user update logic into newsletter task
+
+* Better sendinblue sys check error message
+
+Co-authored-by: Peter Bengtsson <peterbe@mozilla.com>
+
+* use SENDINBLUE_LIST_ID directly
+
+Co-authored-by: Peter Bengtsson <peterbe@mozilla.com>
+
+Co-authored-by: Peter Bengtsson <peterbe@mozilla.com>
+
+* use SENDINBLUE_LIST_ID directly
+
+Co-authored-by: Peter Bengtsson <peterbe@mozilla.com>
+ Set size for newsletter-hide (#7088)
+ Fix user menu and lang menu on mobile and standardize interaction (#7065)
+ Change wording for discounts on MDN Merch Store (#7084)
+ Set default argument for make when there are only 3 arguments (#7072)
+
+* Set default argument for make when there are only 3 arguments
+
+* Updated announce_push to accept an argument
+
+* Fix closing brace and simplified if statement
+ Update mobile search interaction (#7052)
+ remove doc api calls from integration tests (#7071)
+ Rename target to target_file (#7069)
+ Add ability to push to multiple clusters (#7061)
+
+* Add ability to push to multiple clusters
+
+* Add target argument for is_read_only_db, and moved get_revision_hash in Push EKS job under the dir setting
+ update sub-modules (#7066)
+ Remove document v1 API endpoints (#7045)
+
+* Remove document v1 API endpoints
+
+Fixes #7000
+
+* feedbacked
+ Remove test for default pipeline (#7050)
+
+* Remove test for default pipeline
+
+* flake8 3.8.1 (#7055)
+
+* flake8 3.8.1
+
+Fixes #7054
+
+* code fixed
+
+* much better
+
+Co-authored-by: Peter Bengtsson <mail@peterbe.com>

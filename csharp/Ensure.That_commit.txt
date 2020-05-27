@@ -1,0 +1,64 @@
+﻿ Updates external NuGet dependencies (#139)
+ Removes members marked as obsolete (#138)
+ Solves #135 by adding netstandard2.0 support back in (#137)
+
+* Solves #135 by adding netstandard2.0 support back in
+
+* Removes global.json and lockin to specific sdk v
+ Adds Flags support vi Enum.IsDefinedWithFlagsSupport
+
+Adds support for flags when verifying enums.
+ Implement enum validation (#131)
+
+Fixes #117, implement enum validation
+ Fix inconsistent WhiteSpace naming (#119)
+ Readonly structs (#126)
+
+* Make the base structs readonly so they don't get copied on the stack
+
+* Add 'in' modifier
+ Fixes status badge
+ Azd (#124)
+
+Splits main pipe into stage templates
+ Fixes status badge link (#123)
+ Replaces Cake with Azure Pipeline YAML and tests for multiple targets (#121)
+
+* Replaces Cake with Azure Pipeline YAML and tests for multiple targets
+
+* Reduces timout in build
+
+* Removes tools as Cake is removed
+ Replace IEnumerable.Count() with .Any() (#120)
+
+* Replace IEnumerable.Count() with .Any(). Remove unnecessary #if directive.
+
+* Partial revert
+ Merge pull request #115 from danielwertheim/azure-devops
+
+Azure devops
+ Update README.md
+ Update buildconfig.cake
+ Update buildconfig.cake
+ Updates Cake scripts and adopts to Azure-devops
+ Updates cake
+ Updates release notes
+ v8.1.1
+ Merge branch 'rbanks54-master' into pr-112
+ Fix broken String.IsNotEmptyOrWhitespace
+ Changes build script, test logger
+
+Trying to get tests to be reported in TeamCity again.
+ Merge pull request #111 from danielwertheim/feature-v8-1-0
+
+v8.1.0
+ v8.1.0
+ Bumps to v8.1.0
+ Fixes #106
+ Implement PR #103 comments
+
+- Rename to Is**Not**EmptyOrWhitespace
+- Remove Trim() and explicitly check with a loop (performance)
+- Minor formatting and styling changes
+ Add feature and Tests for #102
+ Adds missing release date

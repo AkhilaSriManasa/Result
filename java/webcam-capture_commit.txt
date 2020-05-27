@@ -1,0 +1,77 @@
+﻿ Update logo for Github
+ Remove unused log configurator
+ Update Travis build status badge
+ Enable Java 13 in Travis CI, refs #767
+ Ability to compile driver-vlcj on Java 13, refs #767
+ Update dependencies in OpenIMAJ driver, refs #723
+
+This commit is to address comment https://github.com/sarxos/webcam-capture/issues/723#issuecomment-606647516 where
+it was pointed out that Webcam Capture OpenIMAJ Driver dependencies are outdated and does not work any more on
+newer MacOS Catalina.
+ Ability to compile driver-ipcam on Java 13, refs #767
+
+Work in progress. There are some other areas which needs to be fixed
+in order make project compile under Java 13.
+ Use project.version in webcam-capture-onejar example
+ Do not use explicit 0.3.11 but project.version instead
+ Update outdated OpenIMAJGrabber native libraries, refs #766
+ Add Humble Video example on examples list in README.md
+ Example demonstrating how to record mp4 with Humble Video framework
+ Harmonize Apache httpclient components to 4.5.9, refs #761
+ Revert reqFPS back to double from int, refs #766
+ Bump httpclient in /webcam-capture-addons/webcam-capture-addon-spycam
+
+Bumps httpclient from 4.1.3 to 4.3.6.
+
+Signed-off-by: dependabot[bot] <support@github.com>
+ Replace with unsigned version from openimaj
+ Updated the native .dylib to the latest from building native lib in core-video-capture 1.4-SNAPSHOT. Updated startSession() native method to use FPS as an int instead of a double
+ Exclude unused transitive dependency
+ Use HTTPS instead of HTTP to resolve dependencies
+
+This fixes a security vulnerability in this project where the `pom.xml`
+files were configuring Maven to resolve dependencies over HTTP instead of
+HTTPS.
+
+Signed-off-by: Jonathan Leitschuh <Jonathan.Leitschuh@gmail.com>
+ Minor fixes pom.xml
+ FFMpeg driver: Minor updates
+ Bump jackson-databind
+
+Bumps [jackson-databind](https://github.com/FasterXML/jackson) from 2.5.1 to 2.9.10.1.
+- [Release notes](https://github.com/FasterXML/jackson/releases)
+- [Commits](https://github.com/FasterXML/jackson/commits)
+
+Signed-off-by: dependabot[bot] <support@github.com>
+ Change address to SWT repo, fixes #715
+ cleanup resource folder and enhance unit test coverage to 40.5%
+ Raspberrypi drivers using raspixxx CLI, refs #694
+ @alexmao86 Can we change this to:
+
+```plain
+*.jar
+*.zip
+```
+
+ @alexmao86 Are these java classes required?
+
+@alexmao86 I would also like to remove images from `driver-raspberrypi/src/etc/resources`, I think these are not required.
+
+@sarxos for some classes in etc/resources. it is unused classes for experiment, it is OK to delete them. and I will remove some unused resource.
+
+thanks,
+Alex
+
+ok. they are already removed
+
+@alexmao86 Will you send next pull request? Or should I rather remove them by myself?
+
+@sarxos, to simple, please remove it by yourself and then I will sync with you. because I am not skilled git user. :)
+
+@sarxos , let me remove them and send next pull request. I need to change unit test code according to resources deletion. I am free today.
+
+ Fixed typos in README.md
+ fix issue #653
+ Update README.md
+ fix outdated repo url
+ Change camera name in RTSP example

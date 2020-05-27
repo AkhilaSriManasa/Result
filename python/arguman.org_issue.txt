@@ -1,0 +1,1044 @@
+﻿ Bump httplib2 from 0.9 to 0.18.0
+ Bumps [httplib2](https://github.com/httplib2/httplib2) from 0.9 to 0.18.0.
+<details>
+<summary>Changelog</summary>
+<p><em>Sourced from <a href="https://github.com/httplib2/httplib2/blob/master/CHANGELOG">httplib2's changelog</a>.</em></p>
+<blockquote>
+<p>0.18.0</p>
+<p>IMPORTANT security vulnerability CWE-93 CRLF injection
+Force %xx quote of space, CR, LF characters in uri.
+Special thanks to Recar <a href="https://github.com/Ciyfly">https://github.com/Ciyfly</a> for discrete notification.
+<a href="https://cwe.mitre.org/data/definitions/93.html">https://cwe.mitre.org/data/definitions/93.html</a></p>
+<p>0.17.4</p>
+<p>Ship test suite in source dist
+<a href="https://github-redirect.dependabot.com/httplib2/httplib2/pull/168">httplib2/httplib2#168</a></p>
+<p>0.17.3</p>
+<p>IronPython2.7: relative import iri2uri fixes ImportError
+<a href="https://github-redirect.dependabot.com/httplib2/httplib2/pull/163">httplib2/httplib2#163</a></p>
+<p>0.17.2</p>
+<p>python3 + debug + IPv6 disabled: https raised
+&quot;IndexError: Replacement index 1 out of range for positional args tuple&quot;
+<a href="https://github-redirect.dependabot.com/httplib2/httplib2/issues/161">httplib2/httplib2#161</a></p>
+<p>0.17.1</p>
+<p>python3: no_proxy was not checked with https
+<a href="https://github-redirect.dependabot.com/httplib2/httplib2/issues/160">httplib2/httplib2#160</a></p>
+<p>0.17.0</p>
+<p>feature: Http().redirect_codes set, works after follow(_all)_redirects check
+This allows one line workaround for old gcloud library that uses 308
+response without redirect semantics.
+<a href="https://github-redirect.dependabot.com/httplib2/httplib2/issues/156">httplib2/httplib2#156</a></p>
+<p>0.16.0</p>
+<p>IMPORTANT cache invalidation change, fix 307 keep method, add 308 Redirects
+<a href="https://github-redirect.dependabot.com/httplib2/httplib2/issues/151">httplib2/httplib2#151</a></p>
+<p>proxy: username/password as str compatible with pysocks
+<a href="https://github-redirect.dependabot.com/httplib2/httplib2/issues/154">httplib2/httplib2#154</a></p>
+<p>0.15.0</p>
+<p>python2: regression in connect() error handling
+<a href="https://github-redirect.dependabot.com/httplib2/httplib2/pull/150">httplib2/httplib2#150</a></p>
+<p>add support for password protected certificate files
+<a href="https://github-redirect.dependabot.com/httplib2/httplib2/pull/143">httplib2/httplib2#143</a></p>
+</tr></table> ... (truncated)
+</blockquote>
+</details>
+<details>
+<summary>Commits</summary>
+<ul>
+<li><a href="https://github.com/httplib2/httplib2/commit/8373177d3a9e4dd9c956f9bded22a5f96a00957b"><code>8373177</code></a> v0.18.0 release</li>
+<li><a href="https://github.com/httplib2/httplib2/commit/9fef207e85eef0534574d71fe1338c01874eba46"><code>9fef207</code></a> pyproject.toml</li>
+<li><a href="https://github.com/httplib2/httplib2/commit/a1457cc31f3206cf691d11d2bf34e98865873e9e"><code>a1457cc</code></a> IMPORTANT security vulnerability CWE-93 CRLF injection</li>
+<li><a href="https://github.com/httplib2/httplib2/commit/9413ffc973a2dc90abf787509ee82238345d5602"><code>9413ffc</code></a> v0.17.4 release</li>
+<li><a href="https://github.com/httplib2/httplib2/commit/fe3136ac369199abd9d6afd2d2a61a11da9e32ac"><code>fe3136a</code></a> Ship new test suite in source dist</li>
+<li><a href="https://github.com/httplib2/httplib2/commit/f5684876ef5e3b57c81f716c08b316fa36684f08"><code>f568487</code></a> v0.17.3 release</li>
+<li><a href="https://github.com/httplib2/httplib2/commit/fa0c4d2cb98ece0a7b156583d308ddf4370dc7d7"><code>fa0c4d2</code></a> Switched the iri2uri import to a relative import</li>
+<li><a href="https://github.com/httplib2/httplib2/commit/067b3f250769e921dc397e28f3aadd0ffa14e17b"><code>067b3f2</code></a> v0.17.2 release</li>
+<li><a href="https://github.com/httplib2/httplib2/commit/59586b5f0ccfa9d570d8c7d908d00d34cf1f3c89"><code>59586b5</code></a> Fix debug in HTTPSConnectionWithTimeout.connect</li>
+<li><a href="https://github.com/httplib2/httplib2/commit/0d490f692ca5f73cd2caaf9cc5e42e9f7702e453"><code>0d490f6</code></a> travis says matrix is alias for jobs now</li>
+<li>Additional commits viewable in <a href="https://github.com/httplib2/httplib2/compare/0.9...v0.18.0">compare view</a></li>
+</ul>
+</details>
+<br />
+
+
+[![Dependabot compatibility score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=httplib2&package-manager=pip&previous-version=0.9&new-version=0.18.0)](https://help.github.com/articles/configuring-automated-security-fixes)
+
+Dependabot will resolve any conflicts with this PR as long as you don't alter it yourself. You can also trigger a rebase manually by commenting `@dependabot rebase`.
+
+[//]: # (dependabot-automerge-start)
+[//]: # (dependabot-automerge-end)
+
+---
+
+<details>
+<summary>Dependabot commands and options</summary>
+<br />
+
+You can trigger Dependabot actions by commenting on this PR:
+- `@dependabot rebase` will rebase this PR
+- `@dependabot recreate` will recreate this PR, overwriting any edits that have been made to it
+- `@dependabot merge` will merge this PR after your CI passes on it
+- `@dependabot squash and merge` will squash and merge this PR after your CI passes on it
+- `@dependabot cancel merge` will cancel a previously requested merge and block automerging
+- `@dependabot reopen` will reopen this PR if it is closed
+- `@dependabot close` will close this PR and stop Dependabot recreating it. You can achieve the same result by closing it manually
+- `@dependabot ignore this major version` will close this PR and stop Dependabot creating any more for this major version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this minor version` will close this PR and stop Dependabot creating any more for this minor version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this dependency` will close this PR and stop Dependabot creating any more for this dependency (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot use these labels` will set the current labels as the default for future PRs for this repo and language
+- `@dependabot use these reviewers` will set the current reviewers as the default for future PRs for this repo and language
+- `@dependabot use these assignees` will set the current assignees as the default for future PRs for this repo and language
+- `@dependabot use this milestone` will set the current milestone as the default for future PRs for this repo and language
+
+You can disable automated security fix PRs for this repo from the [Security Alerts page](https://github.com/arguman/arguman.org/network/alerts).
+
+</details>
+ Bump django from 1.7 to 1.11.28
+ Bumps [django](https://github.com/django/django) from 1.7 to 1.11.28.
+<details>
+<summary>Commits</summary>
+
+- [`e09f09b`](https://github.com/django/django/commit/e09f09b965ef47ffd99abd2c26ba7416751cffa6) [1.11.x] Bumped version for 1.11.28 release.
+- [`001b063`](https://github.com/django/django/commit/001b0634cd309e372edb6d7d95d083d02b8e37bd) [1.11.x] Fixed CVE-2020-7471 -- Properly escaped StringAgg(delimiter) parameter.
+- [`7fd1ca3`](https://github.com/django/django/commit/7fd1ca3ef63e5e834205a8208f4dc17d80f9a417) [1.11.x] Fixed timezones tests for PyYAML 5.3+.
+- [`121115d`](https://github.com/django/django/commit/121115d2c291b3969ac00ca62253f23513481739) [1.11.x] Added CVE-2019-19844 to the security archive.
+- [`2c4fb9a`](https://github.com/django/django/commit/2c4fb9a35db575ec56207446d782b8f450a2b4e7) [1.11.x] Post-release version bump.
+- [`358973a`](https://github.com/django/django/commit/358973a12eb3105ba084a2d594428a19223b8582) [1.11.x] Bumped version for 1.11.27 release.
+- [`f4cff43`](https://github.com/django/django/commit/f4cff43bf921fcea6a29b726eb66767f67753fa2) [1.11.x] Fixed CVE-2019-19844 -- Used verified user email for password reset ...
+- [`a235574`](https://github.com/django/django/commit/a2355740ed76ca9461b34d65beb450c0156f3224) [1.11.x] Refs [#31073](https://github-redirect.dependabot.com/django/django/issues/31073) -- Added release notes for 02eff7ef60466da108b1a33f1e4dc...
+- [`e8fdf00`](https://github.com/django/django/commit/e8fdf00cc2acdcc992fd9621230e927594dc5d4f) [1.11.x] Fixed [#31073](https://github-redirect.dependabot.com/django/django/issues/31073) -- Prevented CheckboxInput.get_context() from mutating ...
+- [`4f15016`](https://github.com/django/django/commit/4f1501660b869c8358ce32b71464d8016c15208c) [1.11.x] Post-release version bump.
+- Additional commits viewable in [compare view](https://github.com/django/django/compare/1.7...1.11.28)
+</details>
+<br />
+
+[![Dependabot compatibility score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=django&package-manager=pip&previous-version=1.7&new-version=1.11.28)](https://help.github.com/articles/configuring-automated-security-fixes)
+
+Dependabot will resolve any conflicts with this PR as long as you don't alter it yourself. You can also trigger a rebase manually by commenting `@dependabot rebase`.
+
+[//]: # (dependabot-automerge-start)
+[//]: # (dependabot-automerge-end)
+
+---
+
+<details>
+<summary>Dependabot commands and options</summary>
+<br />
+
+You can trigger Dependabot actions by commenting on this PR:
+- `@dependabot rebase` will rebase this PR
+- `@dependabot recreate` will recreate this PR, overwriting any edits that have been made to it
+- `@dependabot merge` will merge this PR after your CI passes on it
+- `@dependabot squash and merge` will squash and merge this PR after your CI passes on it
+- `@dependabot cancel merge` will cancel a previously requested merge and block automerging
+- `@dependabot reopen` will reopen this PR if it is closed
+- `@dependabot close` will close this PR and stop Dependabot recreating it. You can achieve the same result by closing it manually
+- `@dependabot ignore this major version` will close this PR and stop Dependabot creating any more for this major version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this minor version` will close this PR and stop Dependabot creating any more for this minor version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this dependency` will close this PR and stop Dependabot creating any more for this dependency (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot use these labels` will set the current labels as the default for future PRs for this repo and language
+- `@dependabot use these reviewers` will set the current reviewers as the default for future PRs for this repo and language
+- `@dependabot use these assignees` will set the current assignees as the default for future PRs for this repo and language
+- `@dependabot use this milestone` will set the current milestone as the default for future PRs for this repo and language
+
+You can disable automated security fix PRs for this repo from the [Security Alerts page](https://github.com/arguman/arguman.org/network/alerts).
+
+</details>
+ Bump nltk from 3.1 to 3.4.5
+ Bumps [nltk](http://nltk.org/) from 3.1 to 3.4.5.
+
+[![Dependabot compatibility score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=nltk&package-manager=pip&previous-version=3.1&new-version=3.4.5)](https://help.github.com/articles/configuring-automated-security-fixes)
+
+Dependabot will resolve any conflicts with this PR as long as you don't alter it yourself. You can also trigger a rebase manually by commenting `@dependabot rebase`.
+
+[//]: # (dependabot-automerge-start)
+[//]: # (dependabot-automerge-end)
+
+---
+
+<details>
+<summary>Dependabot commands and options</summary>
+<br />
+
+You can trigger Dependabot actions by commenting on this PR:
+- `@dependabot rebase` will rebase this PR
+- `@dependabot recreate` will recreate this PR, overwriting any edits that have been made to it
+- `@dependabot merge` will merge this PR after your CI passes on it
+- `@dependabot squash and merge` will squash and merge this PR after your CI passes on it
+- `@dependabot cancel merge` will cancel a previously requested merge and block automerging
+- `@dependabot reopen` will reopen this PR if it is closed
+- `@dependabot ignore this [patch|minor|major] version` will close this PR and stop Dependabot creating any more for this minor/major version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this dependency` will close this PR and stop Dependabot creating any more for this dependency (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot use these labels` will set the current labels as the default for future PRs for this repo and language
+- `@dependabot use these reviewers` will set the current reviewers as the default for future PRs for this repo and language
+- `@dependabot use these assignees` will set the current assignees as the default for future PRs for this repo and language
+- `@dependabot use this milestone` will set the current milestone as the default for future PRs for this repo and language
+
+You can disable automated security fix PRs for this repo from the [Security Alerts page](https://github.com/arguman/arguman.org/network/alerts).
+
+</details>
+ [question] User authentication - SSO
+ I have a website with a larger user database and I would like to use those existing accounts to authenticate against the Arguman user database. The goal is to only one website user account  and automatically beiing logged into Arguman website after log-in to the main website  . Are there any integration possibilities in Arguman in this regards?  
+
+I've seen this article in regards to single sign on SSO, but it only mentions importing user from a list and no details are mentioned.
+https://github.com/arguman/arguman.org/issues/375
+
+Thanks.
+ Scroll-x durumunda body tagı dışında drag edememe problemi
+ Scroll-x durumunda body tagı dışında drag edememe problemi var.
+ Add a Polish translation
+ This PR adds a translation of Arguman into Polish.
+
+I had to remove a `pl` folder that contained strings in some other language - Portuguese, maybe? I can restore it under some other name, if necessary, but it didn't seem to be used anywhere, anyway.
+
+If any further changes are needed to polish (pun not intended) the PR, please let me know.
+dzięki! :)
+
+deployed on https://pl.arguman.org/
+
+Awesome, thanks! :)
+
+I noticed, though, that Polish shows as "Polskie" in the list of languages on the live website, but it should be "Polski". I double-checked the code (`web/templates/base.html`) and it's "Polski" there, even here in the main repo (although wrapped in a probably unnecessary `{% trans %}`), so I'm slightly puzzled. Any idea why that happens?
+
+It was my mistake, sorry! I was trying something on the production (off the record) 😶
+
+It should be done now.
+
+No worries! And thanks again :slightly_smiling_face: 
+
+It could be awesome if you can send some initial arguments :) @fizyk20 
+
+Btw, currently I am living in Poland as well. I will use this to practice my polish :)
+
+> It could be awesome if you can send some initial arguments :)
+
+I'll try, but TBH I don't really have ideas for arguments right now ;)
+
+> Btw, currently I am living in Poland as well. I will use this to practice my polish :)
+
+Haha, cool! :D
+
+ No way of getting to fallacy pages past an offset of 750
+ All the way up to an offset of [700](https://en.arguman.org/fallacies?offset[800](https://en.arguman.org/fallacies?offset=800)
+[850](https://en.arguman.org/fallacies?offset=850)
+[900](https://en.arguman.org/fallacies?offset=900)
+ şifre değil parola
+ Correct Turkish translations by changing "şifre" to "parola"
+:) Tamam 
+
+  X-Forwarded-For allows spoofing client IP address
+ Hi,
+
+"X-Forwarded-For" does not validate IP addresses given as headers. Ip addresses that saved in database, may not be real.
+
+Thanks! :+1: :100: 
+If I may chime in,
+
+If you have more than one loadbalancer/proxy in your infrastructure, you will have the last one as REMOTE_ADDR, hence you shouldn't remove checking client ip by X-Forwarded-For
+
+Say you have 
+
+```
+client -> CloudFront -> ALB -> Nginx -> web app
+```
+
+REMOTE_ADDR will be ALB - but X-Forwarded-For will contain the client's ip address. 
+
+If you want to protect from spoofing X-Forwarded-For you need to remove it on your loadbalancer. Say for nginx, you can add something like.
+
+```
+proxy_set_header X-Forwarded-For $remote_addr;
+```
+
+PS: HTTP_X_FORWARDED_FOR can be a list of ip addresses, but thats another issue :)
+
+
+Thanks, master :)
+
+ License issue: Switching GPL v3 to AGPL v3
+ Hello,
+
+Project's license is GNU GPL v3 now. GNU GPL is the best license for free software, except web applications. 
+
+Arguman as a software running on web (server-side), the most appropriate license for Arguman is GNU AGPL v3 (or later). Because AGPL v3 is including some additional terms about softwares running on computer-network. 
+
+
+
+
+bir version bump yapayım dedim, yeşillenmiş burası baya :)
+
+How about BSD? @ybrs  reyiz dedi
+
+There are several BSD licenses such as Simplified BSD License, 4-clause BSD License or 3-clause BSD License etc. First of all, we have to determine which one we are talking about.
+
+BSD Licenses and their simulants have problems about conserving freedom. We call them as non-copyleft free software licenses. Before that, I think I should explain "copyleft" term.
+
+Copyleft means conserving freedom as I said at the first sentence. If an output (output means any kind of human production here, e.g software, music, art, photo etc.) licensed with a copyleft license, the derivative works based on this output **have to** be free (**Free as in freedom**) as the original work. BSD Licenses or Expat/X11 License (erroneously people call this license as MIT License) don't have copyleft feature; so if you license your software with these licenses, a proprietary software developer can easily convert your software's license into a proprietary license or migrate your software into themselves software. Therefore, the software will be non-free, and also they use your code to grow their wallets and stealing people's freedom. With copylefted licenses, the derivatives of the work **must** licensed under the same license or another copyleft license. 
+
+GNU GPL set the term "copyleft" at the very beginning of free software. On free software philosophy, the important topic is user's freedom. Richard M. Stallman thought that a free software should stay free, consequently users as well. 
+
+But when we are talking about a web application, GNU GPL's copyleft can be insufficient. In GPL, you have to redistribute the source code with copies of software; but there comes a problem about web applications, because they are running on a server, not in our computers. GNU AGPL v3 was authored to solve this problem; if you run an AGPL'd software in a server (in other words if software is used over networks) you have to distribute the source code of it. 
+
+But why we need this? I'll give an example on Arguman. With this license; if somebody fork Arguman and create a public Git repository, they must license their fork with the same license GPL v3 according to the conditions of it. But, if they add some extra code/features to Arguman and create a website called argument.cc or something like that, they don't have to distribute the source code. Because, they are running the software, **not you**. 
+
+To resolve this problems, I **strongly recommend** to switch GNU AGPL v3 immediately. This license will protect our software from vultures of proprietarians. BSD Licenses or Expat/X11/MIT Licenses, generally non-copyleft licenses only strong non-free software and it's adherents. 
+
+**Further reading:**
+
+* (https://copyleft.org/)
+* (https://www.gnu.org/philosophy/pragmatic.html)
+* (https://www.gnu.org/philosophy/free-sw.html)
+* (https://www.gnu.org/licenses/license-recommendations.html#server)
+
+
+Done
+
+ Change confusing "open source" expression to "free/libre software", add license information to README
+ Hello,
+
+The term "open source" is not appropriate for this project. The term should be "free/libre software".
+
+Also license information added to README files.
+
+Thanks!
+ Add missing requirement psycopg2
+ psycopg2 is missing from the requirements.txt file
+Thanks! :)
+
+ Missing "characters remaining" counter on editing a premise
+ ![screenshot_2018-10-06 argument analysis platform create and analyze argument maps online](https://user-images.githubusercontent.com/25728287/46575491-498cdf80-c9b6-11e8-9876-0970790cffd4.png)
+Sorry for the enerving gray-black textfield. Thats just my system theme and firefox's incompatibility.
+ Twitter login broken
+ Twitter login in English returns error, and it is in Turkish.
+
+```
+Maalesef! Beklenmeyen bir sorun oluştu.
+```
+
+I can not provide more details, since it only returns an html page.
+ Python3 support
+ Do you have plans for this? I can fork and start porting.
+
+But in this case many deprecated package  needs to be replaced with alternatives such as django-social-auth etc...
+
+Some legacy test would be useful. xD 
+
+
+ Arguman doesn't recognize psycopg2 module on Ubuntu.
+ TItle says it all. Here's my terminal output. Installed psycopg2 from pip, sudo pip, and apt.
+
+**tl;dr -- I did three separate installs of `psycopg2`, but `arguman_web` doesn't recognize any of them**
+
+
+```django-social-auth, django-gravatar2, six, django-extensions, markdown2, pymongo, django-markitup, Markdown, djangorestframework, django-filter, redis, django-redis, requests, nltk, textblob, anora, snowballstemmer, smartypants, django-typogrify, decorator, networkx
+Successfully installed Django-1.7 Markdown-2.5.1 Unidecode-0.4.16 anora-0.1.2 decorator-4.2.1 django-extensions-1.6.1 django-filter-0.9.2 django-gravatar2-1.1.4 django-markitup-2.2.2 django-redis-3.8.3 django-social-auth-0.7.28 django-typogrify-1.3.2 djangorestframework-3.0.2 httplib2-0.9 markdown2-2.3.0 networkx-1.11 nltk-3.1 oauth2-1.5.211 pymongo-2.6.3 python-openid-2.2.5 redis-2.10.3 requests-2.8.1 six-1.11.0 smartypants-2.0.1 snowballstemmer-1.2.0 textblob-0.10.0
+ ---> 1fb0336f2801
+Removing intermediate container 2a2d942250d3
+Step 7/8 : ADD web/* /code/
+ ---> 845470b73c1f
+Removing intermediate container d3b0abd9684f
+Step 8/8 : RUN python -m textblob.download_corpora
+ ---> Running in ecad86a60389
+[nltk_data] Downloading package brown to /root/nltk_data...
+[nltk_data]   Unzipping corpora/brown.zip.
+[nltk_data] Downloading package punkt to /root/nltk_data...
+[nltk_data]   Unzipping tokenizers/punkt.zip.
+[nltk_data] Downloading package wordnet to /root/nltk_data...
+[nltk_data]   Unzipping corpora/wordnet.zip.
+[nltk_data] Downloading package conll2000 to /root/nltk_data...
+[nltk_data]   Unzipping corpora/conll2000.zip.
+[nltk_data] Downloading package maxent_treebank_pos_tagger to
+[nltk_data]     /root/nltk_data...
+[nltk_data]   Unzipping taggers/maxent_treebank_pos_tagger.zip.
+[nltk_data] Downloading package movie_reviews to /root/nltk_data...
+[nltk_data]   Unzipping corpora/movie_reviews.zip.
+Finished.
+ ---> 466fe7709d0d
+Removing intermediate container ecad86a60389
+Successfully built 466fe7709d0d
+WARNING: Image for service web was built because it did not already exist. To rebuild this image you must use `docker-compose build` or `docker-compose up --build`.
+Creating argumanorg_mongodb_1
+Creating argumanorg_redis_1
+Creating argumanorg_db_1
+Creating argumanorg_web_1
+Attaching to argumanorg_db_1, argumanorg_redis_1, argumanorg_mongodb_1, argumanorg_web_1
+db_1       | The files belonging to this database system will be owned by user "postgres".
+db_1       | This user must also own the server process.
+db_1       | 
+db_1       | The database cluster will be initialized with locale "en_US.utf8".
+redis_1    | 1:C 17 Mar 11:55:24.562 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+db_1       | The default database encoding has accordingly been set to "UTF8".
+redis_1    | 1:C 17 Mar 11:55:24.562 # Redis version=4.0.8, bits=64, commit=00000000, modified=0, pid=1, just started
+db_1       | The default text search configuration will be set to "english".
+redis_1    | 1:C 17 Mar 11:55:24.562 # Warning: no config file specified, using the default config. In order to specify a config file use redis-server /path/to/redis.conf
+db_1       | 
+mongodb_1  | 2018-03-17T11:55:24.651+0000 I CONTROL  [initandlisten] MongoDB starting : pid=1 port=27017 dbpath=/data/db 64-bit host=ca611b84a0f7
+db_1       | Data page checksums are disabled.
+redis_1    | 1:M 17 Mar 11:55:24.563 * Running mode=standalone, port=6379.
+mongodb_1  | 2018-03-17T11:55:24.651+0000 I CONTROL  [initandlisten] db version v3.2.3
+redis_1    | 1:M 17 Mar 11:55:24.563 # WARNING: The TCP backlog setting of 511 cannot be enforced because /proc/sys/net/core/somaxconn is set to the lower value of 128.
+mongodb_1  | 2018-03-17T11:55:24.651+0000 I CONTROL  [initandlisten] git version: b326ba837cf6f49d65c2f85e1b70f6f31ece7937
+redis_1    | 1:M 17 Mar 11:55:24.563 # Server initialized
+mongodb_1  | 2018-03-17T11:55:24.651+0000 I CONTROL  [initandlisten] OpenSSL version: OpenSSL 1.0.1e 11 Feb 2013
+mongodb_1  | 2018-03-17T11:55:24.651+0000 I CONTROL  [initandlisten] allocator: tcmalloc
+redis_1    | 1:M 17 Mar 11:55:24.563 # WARNING overcommit_memory is set to 0! Background save may fail under low memory condition. To fix this issue add 'vm.overcommit_memory = 1' to /etc/sysctl.conf and then reboot or run the command 'sysctl vm.overcommit_memory=1' for this to take effect.
+db_1       | 
+mongodb_1  | 2018-03-17T11:55:24.651+0000 I CONTROL  [initandlisten] modules: none
+redis_1    | 1:M 17 Mar 11:55:24.563 # WARNING you have Transparent Huge Pages (THP) support enabled in your kernel. This will create latency and memory usage issues with Redis. To fix this issue run the command 'echo never > /sys/kernel/mm/transparent_hugepage/enabled' as root, and add it to your /etc/rc.local in order to retain the setting after a reboot. Redis must be restarted after THP is disabled.
+redis_1    | 1:M 17 Mar 11:55:24.563 * Ready to accept connections
+mongodb_1  | 2018-03-17T11:55:24.651+0000 I CONTROL  [initandlisten] build environment:
+db_1       | fixing permissions on existing directory /var/lib/postgresql/data ... ok
+mongodb_1  | 2018-03-17T11:55:24.651+0000 I CONTROL  [initandlisten]     distmod: debian71
+mongodb_1  | 2018-03-17T11:55:24.651+0000 I CONTROL  [initandlisten]     distarch: x86_64
+db_1       | creating subdirectories ... ok
+mongodb_1  | 2018-03-17T11:55:24.651+0000 I CONTROL  [initandlisten]     target_arch: x86_64
+mongodb_1  | 2018-03-17T11:55:24.651+0000 I CONTROL  [initandlisten] options: {}
+db_1       | selecting default max_connections ... 100
+mongodb_1  | 2018-03-17T11:55:24.654+0000 I STORAGE  [initandlisten] wiredtiger_open config: create,cache_size=3G,session_max=20000,eviction=(threads_max=4),config_base=false,statistics=(fast),log=(enabled=true,archive=true,path=journal,compressor=snappy),file_manager=(close_idle_time=100000),checkpoint=(wait=60,log_size=2GB),statistics_log=(wait=0),
+db_1       | selecting default shared_buffers ... 128MB
+db_1       | selecting dynamic shared memory implementation ... posix
+mongodb_1  | 2018-03-17T11:55:24.821+0000 I CONTROL  [initandlisten] 
+mongodb_1  | 2018-03-17T11:55:24.821+0000 I CONTROL  [initandlisten] ** WARNING: soft rlimits too low. rlimits set to 30247 processes, 1048576 files. Number of processes should be at least 524288 : 0.5 times number of files.
+db_1       | creating configuration files ... ok
+mongodb_1  | 2018-03-17T11:55:24.821+0000 I FTDC     [initandlisten] Initializing full-time diagnostic data capture with directory '/data/db/diagnostic.data'
+mongodb_1  | 2018-03-17T11:55:24.821+0000 I NETWORK  [HostnameCanonicalizationWorker] Starting hostname canonicalization worker
+db_1       | running bootstrap script ... ok
+mongodb_1  | 2018-03-17T11:55:24.839+0000 I NETWORK  [initandlisten] waiting for connections on port 27017
+db_1       | performing post-bootstrap initialization ... ok
+db_1       | syncing data to disk ... 
+db_1       | WARNING: enabling "trust" authentication for local connections
+db_1       | You can change this by editing pg_hba.conf or using the option -A, or
+db_1       | --auth-local and --auth-host, the next time you run initdb.
+db_1       | ok
+db_1       | 
+db_1       | Success. You can now start the database server using:
+db_1       | 
+db_1       |     pg_ctl -D /var/lib/postgresql/data -l logfile start
+db_1       | 
+db_1       | ****************************************************
+db_1       | WARNING: No password has been set for the database.
+db_1       |          This will allow anyone with access to the
+db_1       |          Postgres port to access your database. In
+db_1       |          Docker's default configuration, this is
+db_1       |          effectively any other container on the same
+db_1       |          system.
+db_1       | 
+db_1       |          Use "-e POSTGRES_PASSWORD=password" to set
+db_1       |          it in "docker run".
+db_1       | ****************************************************
+db_1       | waiting for server to start....2018-03-17 11:55:24.926 UTC [41] LOG:  listening on IPv6 address "::1", port 5432
+db_1       | 2018-03-17 11:55:24.926 UTC [41] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+db_1       | 2018-03-17 11:55:24.929 UTC [41] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+db_1       | 2018-03-17 11:55:24.942 UTC [42] LOG:  database system was shut down at 2018-03-17 11:55:24 UTC
+db_1       | 2018-03-17 11:55:24.947 UTC [41] LOG:  database system is ready to accept connections
+db_1       |  done
+db_1       | server started
+db_1       | ALTER ROLE
+db_1       | 
+db_1       | 
+db_1       | /usr/local/bin/docker-entrypoint.sh: ignoring /docker-entrypoint-initdb.d/*
+db_1       | 
+db_1       | waiting for server to shut down...2018-03-17 11:55:25.054 UTC [41] LOG:  received fast shutdown request
+db_1       | .2018-03-17 11:55:25.058 UTC [41] LOG:  aborting any active transactions
+db_1       | 2018-03-17 11:55:25.059 UTC [41] LOG:  worker process: logical replication launcher (PID 48) exited with exit code 1
+db_1       | 2018-03-17 11:55:25.059 UTC [43] LOG:  shutting down
+db_1       | 2018-03-17 11:55:25.090 UTC [41] LOG:  database system is shut down
+db_1       |  done
+db_1       | server stopped
+db_1       | 
+db_1       | PostgreSQL init process complete; ready for start up.
+db_1       | 
+db_1       | 2018-03-17 11:55:25.182 UTC [1] LOG:  listening on IPv4 address "0.0.0.0", port 5432
+db_1       | 2018-03-17 11:55:25.182 UTC [1] LOG:  listening on IPv6 address "::", port 5432
+db_1       | 2018-03-17 11:55:25.185 UTC [1] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+db_1       | 2018-03-17 11:55:25.208 UTC [59] LOG:  database system was shut down at 2018-03-17 11:55:25 UTC
+db_1       | 2018-03-17 11:55:25.217 UTC [1] LOG:  database system is ready to accept connections
+web_1      | Traceback (most recent call last):
+web_1      |   File "web/manage.py", line 10, in <module>
+web_1      |     execute_from_command_line(sys.argv)
+web_1      |   File "/usr/local/lib/python2.7/site-packages/django/core/management/__init__.py", line 385, in execute_from_command_line
+web_1      |     utility.execute()
+web_1      |   File "/usr/local/lib/python2.7/site-packages/django/core/management/__init__.py", line 354, in execute
+web_1      |     django.setup()
+web_1      |   File "/usr/local/lib/python2.7/site-packages/django/__init__.py", line 21, in setup
+web_1      |     apps.populate(settings.INSTALLED_APPS)
+web_1      |   File "/usr/local/lib/python2.7/site-packages/django/apps/registry.py", line 108, in populate
+web_1      |     app_config.import_models(all_models)
+web_1      |   File "/usr/local/lib/python2.7/site-packages/django/apps/config.py", line 197, in import_models
+web_1      |     self.models_module = import_module(models_module_name)
+web_1      |   File "/usr/local/lib/python2.7/importlib/__init__.py", line 37, in import_module
+web_1      |     __import__(name)
+web_1      |   File "/usr/local/lib/python2.7/site-packages/django/contrib/auth/models.py", line 40, in <module>
+web_1      |     class Permission(models.Model):
+web_1      |   File "/usr/local/lib/python2.7/site-packages/django/db/models/base.py", line 125, in __new__
+web_1      |     new_class.add_to_class('_meta', Options(meta, **kwargs))
+web_1      |   File "/usr/local/lib/python2.7/site-packages/django/db/models/base.py", line 300, in add_to_class
+web_1      |     value.contribute_to_class(cls, name)
+web_1      |   File "/usr/local/lib/python2.7/site-packages/django/db/models/options.py", line 166, in contribute_to_class
+web_1      |     self.db_table = truncate_name(self.db_table, connection.ops.max_name_length())
+web_1      |   File "/usr/local/lib/python2.7/site-packages/django/db/__init__.py", line 40, in __getattr__
+web_1      |     return getattr(connections[DEFAULT_DB_ALIAS], item)
+web_1      |   File "/usr/local/lib/python2.7/site-packages/django/db/utils.py", line 242, in __getitem__
+web_1      |     backend = load_backend(db['ENGINE'])
+web_1      |   File "/usr/local/lib/python2.7/site-packages/django/db/utils.py", line 108, in load_backend
+web_1      |     return import_module('%s.base' % backend_name)
+web_1      |   File "/usr/local/lib/python2.7/importlib/__init__.py", line 37, in import_module
+web_1      |     __import__(name)
+```
+Here's the first instance of the error.
+```
+web_1      |   File "/usr/local/lib/python2.7/site-packages/django/db/backends/postgresql_psycopg2/base.py", line 27, in <module>
+web_1      |     raise ImproperlyConfigured("Error loading psycopg2 module: %s" % e)
+web_1      | django.core.exceptions.ImproperlyConfigured: Error loading psycopg2 module: No module named psycopg2
+argumanorg_web_1 exited with code 1
+^CGracefully stopping... (press Ctrl+C again to force)
+Stopping argumanorg_db_1 ... done
+Stopping argumanorg_redis_1 ... done
+Stopping argumanorg_mongodb_1 ... done
+```
+Here's where I install with pip and run again.
+```
+micah@micahspiron:~/arguman.org$ pip install psycopg2
+Collecting psycopg2
+  Downloading psycopg2-2.7.4-cp27-cp27mu-manylinux1_x86_64.whl (2.7MB)
+    100% |████████████████████████████████| 2.7MB 513kB/s 
+Installing collected packages: psycopg2
+Successfully installed psycopg2-2.7.4
+micah@micahspiron:~/arguman.org$ sudo docker-compose up
+Starting argumanorg_db_1
+Starting argumanorg_mongodb_1
+Starting argumanorg_redis_1
+Starting argumanorg_web_1
+Attaching to argumanorg_db_1, argumanorg_redis_1, argumanorg_mongodb_1, argumanorg_web_1
+db_1       | 2018-03-17 11:55:43.555 UTC [1] LOG:  listening on IPv4 address "0.0.0.0", port 5432
+db_1       | 2018-03-17 11:55:43.555 UTC [1] LOG:  listening on IPv6 address "::", port 5432
+db_1       | 2018-03-17 11:55:43.559 UTC [1] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+db_1       | 2018-03-17 11:55:43.586 UTC [24] LOG:  database system was shut down at 2018-03-17 11:55:31 UTC
+db_1       | 2018-03-17 11:55:43.593 UTC [1] LOG:  database system is ready to accept connections
+redis_1    | 1:C 17 Mar 11:55:43.522 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+redis_1    | 1:C 17 Mar 11:55:43.522 # Redis version=4.0.8, bits=64, commit=00000000, modified=0, pid=1, just started
+redis_1    | 1:C 17 Mar 11:55:43.522 # Warning: no config file specified, using the default config. In order to specify a config file use redis-server /path/to/redis.conf
+mongodb_1  | 2018-03-17T11:55:44.489+0000 I CONTROL  [initandlisten] MongoDB starting : pid=1 port=27017 dbpath=/data/db 64-bit host=ca611b84a0f7
+redis_1    | 1:M 17 Mar 11:55:43.523 * Running mode=standalone, port=6379.
+mongodb_1  | 2018-03-17T11:55:44.489+0000 I CONTROL  [initandlisten] db version v3.2.3
+mongodb_1  | 2018-03-17T11:55:44.489+0000 I CONTROL  [initandlisten] git version: b326ba837cf6f49d65c2f85e1b70f6f31ece7937
+mongodb_1  | 2018-03-17T11:55:44.489+0000 I CONTROL  [initandlisten] OpenSSL version: OpenSSL 1.0.1e 11 Feb 2013
+redis_1    | 1:M 17 Mar 11:55:43.523 # WARNING: The TCP backlog setting of 511 cannot be enforced because /proc/sys/net/core/somaxconn is set to the lower value of 128.
+mongodb_1  | 2018-03-17T11:55:44.489+0000 I CONTROL  [initandlisten] allocator: tcmalloc
+redis_1    | 1:M 17 Mar 11:55:43.523 # Server initialized
+redis_1    | 1:M 17 Mar 11:55:43.523 # WARNING overcommit_memory is set to 0! Background save may fail under low memory condition. To fix this issue add 'vm.overcommit_memory = 1' to /etc/sysctl.conf and then reboot or run the command 'sysctl vm.overcommit_memory=1' for this to take effect.
+redis_1    | 1:M 17 Mar 11:55:43.523 # WARNING you have Transparent Huge Pages (THP) support enabled in your kernel. This will create latency and memory usage issues with Redis. To fix this issue run the command 'echo never > /sys/kernel/mm/transparent_hugepage/enabled' as root, and add it to your /etc/rc.local in order to retain the setting after a reboot. Redis must be restarted after THP is disabled.
+redis_1    | 1:M 17 Mar 11:55:43.523 * DB loaded from disk: 0.000 seconds
+mongodb_1  | 2018-03-17T11:55:44.489+0000 I CONTROL  [initandlisten] modules: none
+redis_1    | 1:M 17 Mar 11:55:43.523 * Ready to accept connections
+mongodb_1  | 2018-03-17T11:55:44.489+0000 I CONTROL  [initandlisten] build environment:
+mongodb_1  | 2018-03-17T11:55:44.489+0000 I CONTROL  [initandlisten]     distmod: debian71
+mongodb_1  | 2018-03-17T11:55:44.489+0000 I CONTROL  [initandlisten]     distarch: x86_64
+mongodb_1  | 2018-03-17T11:55:44.489+0000 I CONTROL  [initandlisten]     target_arch: x86_64
+mongodb_1  | 2018-03-17T11:55:44.489+0000 I CONTROL  [initandlisten] options: {}
+mongodb_1  | 2018-03-17T11:55:44.493+0000 I -        [initandlisten] Detected data files in /data/db created by the 'wiredTiger' storage engine, so setting the active storage engine to 'wiredTiger'.
+mongodb_1  | 2018-03-17T11:55:44.493+0000 I STORAGE  [initandlisten] wiredtiger_open config: create,cache_size=3G,session_max=20000,eviction=(threads_max=4),config_base=false,statistics=(fast),log=(enabled=true,archive=true,path=journal,compressor=snappy),file_manager=(close_idle_time=100000),checkpoint=(wait=60,log_size=2GB),statistics_log=(wait=0),
+mongodb_1  | 2018-03-17T11:55:44.703+0000 I CONTROL  [initandlisten] 
+mongodb_1  | 2018-03-17T11:55:44.703+0000 I CONTROL  [initandlisten] ** WARNING: soft rlimits too low. rlimits set to 30247 processes, 1048576 files. Number of processes should be at least 524288 : 0.5 times number of files.
+mongodb_1  | 2018-03-17T11:55:44.704+0000 I FTDC     [initandlisten] Initializing full-time diagnostic data capture with directory '/data/db/diagnostic.data'
+mongodb_1  | 2018-03-17T11:55:44.704+0000 I NETWORK  [HostnameCanonicalizationWorker] Starting hostname canonicalization worker
+mongodb_1  | 2018-03-17T11:55:44.705+0000 I NETWORK  [initandlisten] waiting for connections on port 27017
+web_1      | Traceback (most recent call last):
+web_1      |   File "web/manage.py", line 10, in <module>
+web_1      |     execute_from_command_line(sys.argv)
+web_1      |   File "/usr/local/lib/python2.7/site-packages/django/core/management/__init__.py", line 385, in execute_from_command_line
+web_1      |     utility.execute()
+web_1      |   File "/usr/local/lib/python2.7/site-packages/django/core/management/__init__.py", line 354, in execute
+web_1      |     django.setup()
+web_1      |   File "/usr/local/lib/python2.7/site-packages/django/__init__.py", line 21, in setup
+web_1      |     apps.populate(settings.INSTALLED_APPS)
+web_1      |   File "/usr/local/lib/python2.7/site-packages/django/apps/registry.py", line 108, in populate
+web_1      |     app_config.import_models(all_models)
+web_1      |   File "/usr/local/lib/python2.7/site-packages/django/apps/config.py", line 197, in import_models
+web_1      |     self.models_module = import_module(models_module_name)
+web_1      |   File "/usr/local/lib/python2.7/importlib/__init__.py", line 37, in import_module
+web_1      |     __import__(name)
+web_1      |   File "/usr/local/lib/python2.7/site-packages/django/contrib/auth/models.py", line 40, in <module>
+web_1      |     class Permission(models.Model):
+web_1      |   File "/usr/local/lib/python2.7/site-packages/django/db/models/base.py", line 125, in __new__
+web_1      |     new_class.add_to_class('_meta', Options(meta, **kwargs))
+web_1      |   File "/usr/local/lib/python2.7/site-packages/django/db/models/base.py", line 300, in add_to_class
+web_1      |     value.contribute_to_class(cls, name)
+web_1      |   File "/usr/local/lib/python2.7/site-packages/django/db/models/options.py", line 166, in contribute_to_class
+web_1      |     self.db_table = truncate_name(self.db_table, connection.ops.max_name_length())
+web_1      |   File "/usr/local/lib/python2.7/site-packages/django/db/__init__.py", line 40, in __getattr__
+web_1      |     return getattr(connections[DEFAULT_DB_ALIAS], item)
+web_1      |   File "/usr/local/lib/python2.7/site-packages/django/db/utils.py", line 242, in __getitem__
+web_1      |     backend = load_backend(db['ENGINE'])
+web_1      |   File "/usr/local/lib/python2.7/site-packages/django/db/utils.py", line 108, in load_backend
+web_1      |     return import_module('%s.base' % backend_name)
+web_1      |   File "/usr/local/lib/python2.7/importlib/__init__.py", line 37, in import_module
+web_1      |     __import__(name)
+```
+Here's the second instance of the error
+```
+web_1      |   File "/usr/local/lib/python2.7/site-packages/django/db/backends/postgresql_psycopg2/base.py", line 27, in <module>
+web_1      |     raise ImproperlyConfigured("Error loading psycopg2 module: %s" % e)
+web_1      | django.core.exceptions.ImproperlyConfigured: Error loading psycopg2 module: No module named psycopg2
+argumanorg_web_1 exited with code 1
+^CGracefully stopping... (press Ctrl+C again to force)
+Stopping argumanorg_db_1 ... done
+Stopping argumanorg_redis_1 ... done
+Stopping argumanorg_mongodb_1 ... done
+```
+Here's where I uninstall the `pip` to reinstall with `sudo pip`.
+```
+micah@micahspiron:~/arguman.org$ pip uninstall psycopg2
+Uninstalling psycopg2-2.7.4:
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2-2.7.4.dist-info/DESCRIPTION.rst
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2-2.7.4.dist-info/INSTALLER
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2-2.7.4.dist-info/LICENSE.txt
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2-2.7.4.dist-info/METADATA
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2-2.7.4.dist-info/RECORD
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2-2.7.4.dist-info/WHEEL
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2-2.7.4.dist-info/metadata.json
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2-2.7.4.dist-info/top_level.txt
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/.libs/libcom_err-beb60336.so.2.1
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/.libs/libcrypto-1e9dee74.so.1.0.2n
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/.libs/libgssapi_krb5-174f8956.so.2.2
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/.libs/libk5crypto-622ef25b.so.3.1
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/.libs/libkeyutils-1-ff31573b.2.so
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/.libs/libkrb5-fb0d2caa.so.3.3
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/.libs/libkrb5support-d7ce89d4.so.0.1
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/.libs/liblber-2-d7edd0dc.4.so.2.10.7
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/.libs/libldap_r-2-41a2533b.4.so.2.10.7
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/.libs/libpq-389351b6.so.5.10
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/.libs/libsasl2-e96a0dbf.so.2.0.22
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/.libs/libselinux-cf8f9094.so.1
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/.libs/libsepol-b4f5b513.so.1
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/.libs/libssl-3309e9a3.so.1.0.2n
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/.libs/libz-a147dcb0.so.1.2.3
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/__init__.py
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/__init__.pyc
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/_ipaddress.py
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/_ipaddress.pyc
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/_json.py
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/_json.pyc
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/_psycopg.so
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/_range.py
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/_range.pyc
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/errorcodes.py
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/errorcodes.pyc
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/extensions.py
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/extensions.pyc
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/extras.py
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/extras.pyc
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/pool.py
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/pool.pyc
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/psycopg1.py
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/psycopg1.pyc
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/sql.py
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/sql.pyc
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/tests/__init__.py
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/tests/__init__.pyc
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/tests/dbapi20.py
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/tests/dbapi20.pyc
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/tests/dbapi20_tpc.py
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/tests/dbapi20_tpc.pyc
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/tests/test_async.py
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/tests/test_async.pyc
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/tests/test_async_keyword.py
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/tests/test_async_keyword.pyc
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/tests/test_bugX000.py
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/tests/test_bugX000.pyc
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/tests/test_bug_gc.py
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/tests/test_bug_gc.pyc
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/tests/test_cancel.py
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/tests/test_cancel.pyc
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/tests/test_connection.py
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/tests/test_connection.pyc
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/tests/test_copy.py
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/tests/test_copy.pyc
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/tests/test_cursor.py
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/tests/test_cursor.pyc
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/tests/test_dates.py
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/tests/test_dates.pyc
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/tests/test_errcodes.py
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/tests/test_errcodes.pyc
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/tests/test_extras_dictcursor.py
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/tests/test_extras_dictcursor.pyc
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/tests/test_fast_executemany.py
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/tests/test_fast_executemany.pyc
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/tests/test_green.py
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/tests/test_green.pyc
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/tests/test_ipaddress.py
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/tests/test_ipaddress.pyc
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/tests/test_lobject.py
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/tests/test_lobject.pyc
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/tests/test_module.py
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/tests/test_module.pyc
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/tests/test_notify.py
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/tests/test_notify.pyc
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/tests/test_psycopg2_dbapi20.py
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/tests/test_psycopg2_dbapi20.pyc
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/tests/test_quote.py
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/tests/test_quote.pyc
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/tests/test_replication.py
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/tests/test_replication.pyc
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/tests/test_sql.py
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/tests/test_sql.pyc
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/tests/test_transaction.py
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/tests/test_transaction.pyc
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/tests/test_types_basic.py
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/tests/test_types_basic.pyc
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/tests/test_types_extras.py
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/tests/test_types_extras.pyc
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/tests/test_with.py
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/tests/test_with.pyc
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/tests/testconfig.py
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/tests/testconfig.pyc
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/tests/testutils.py
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/tests/testutils.pyc
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/tz.py
+  /home/micah/.local/lib/python2.7/site-packages/psycopg2/tz.pyc
+Proceed (y/n)? y
+  Successfully uninstalled psycopg2-2.7.4
+```
+Here's where I install psycopg2 with `sudo pip`
+
+```
+micah@micahspiron:~/arguman.org$ sudo pip install psycopg2
+The directory '/home/micah/.cache/pip/http' or its parent directory is not owned by the current user and the cache has been disabled. Please check the permissions and owner of that directory. If executing pip with sudo, you may want sudo's -H flag.
+The directory '/home/micah/.cache/pip' or its parent directory is not owned by the current user and caching wheels has been disabled. check the permissions and owner of that directory. If executing pip with sudo, you may want sudo's -H flag.
+Collecting psycopg2
+  Downloading psycopg2-2.7.4-cp27-cp27mu-manylinux1_x86_64.whl (2.7MB)
+    100% |████████████████████████████████| 2.7MB 544kB/s 
+Installing collected packages: psycopg2
+Successfully installed psycopg2-2.7.4
+micah@micahspiron:~/arguman.org$ sudo docker-compose up
+Starting argumanorg_db_1
+Starting argumanorg_mongodb_1
+Starting argumanorg_redis_1
+Starting argumanorg_web_1
+Attaching to argumanorg_db_1, argumanorg_redis_1, argumanorg_mongodb_1, argumanorg_web_1
+db_1       | 2018-03-17 11:56:03.378 UTC [1] LOG:  listening on IPv4 address "0.0.0.0", port 5432
+db_1       | 2018-03-17 11:56:03.378 UTC [1] LOG:  listening on IPv6 address "::", port 5432
+db_1       | 2018-03-17 11:56:03.382 UTC [1] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+db_1       | 2018-03-17 11:56:03.396 UTC [24] LOG:  database system was shut down at 2018-03-17 11:55:46 UTC
+redis_1    | 1:C 17 Mar 11:56:03.384 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+redis_1    | 1:C 17 Mar 11:56:03.384 # Redis version=4.0.8, bits=64, commit=00000000, modified=0, pid=1, just started
+db_1       | 2018-03-17 11:56:03.400 UTC [1] LOG:  database system is ready to accept connections
+redis_1    | 1:C 17 Mar 11:56:03.384 # Warning: no config file specified, using the default config. In order to specify a config file use redis-server /path/to/redis.conf
+mongodb_1  | 2018-03-17T11:56:04.364+0000 I CONTROL  [initandlisten] MongoDB starting : pid=1 port=27017 dbpath=/data/db 64-bit host=ca611b84a0f7
+mongodb_1  | 2018-03-17T11:56:04.364+0000 I CONTROL  [initandlisten] db version v3.2.3
+mongodb_1  | 2018-03-17T11:56:04.364+0000 I CONTROL  [initandlisten] git version: b326ba837cf6f49d65c2f85e1b70f6f31ece7937
+mongodb_1  | 2018-03-17T11:56:04.364+0000 I CONTROL  [initandlisten] OpenSSL version: OpenSSL 1.0.1e 11 Feb 2013
+mongodb_1  | 2018-03-17T11:56:04.364+0000 I CONTROL  [initandlisten] allocator: tcmalloc
+redis_1    | 1:M 17 Mar 11:56:03.385 * Running mode=standalone, port=6379.
+mongodb_1  | 2018-03-17T11:56:04.364+0000 I CONTROL  [initandlisten] modules: none
+redis_1    | 1:M 17 Mar 11:56:03.385 # WARNING: The TCP backlog setting of 511 cannot be enforced because /proc/sys/net/core/somaxconn is set to the lower value of 128.
+mongodb_1  | 2018-03-17T11:56:04.364+0000 I CONTROL  [initandlisten] build environment:
+mongodb_1  | 2018-03-17T11:56:04.364+0000 I CONTROL  [initandlisten]     distmod: debian71
+mongodb_1  | 2018-03-17T11:56:04.364+0000 I CONTROL  [initandlisten]     distarch: x86_64
+mongodb_1  | 2018-03-17T11:56:04.364+0000 I CONTROL  [initandlisten]     target_arch: x86_64
+redis_1    | 1:M 17 Mar 11:56:03.385 # Server initialized
+mongodb_1  | 2018-03-17T11:56:04.364+0000 I CONTROL  [initandlisten] options: {}
+redis_1    | 1:M 17 Mar 11:56:03.385 # WARNING overcommit_memory is set to 0! Background save may fail under low memory condition. To fix this issue add 'vm.overcommit_memory = 1' to /etc/sysctl.conf and then reboot or run the command 'sysctl vm.overcommit_memory=1' for this to take effect.
+redis_1    | 1:M 17 Mar 11:56:03.385 # WARNING you have Transparent Huge Pages (THP) support enabled in your kernel. This will create latency and memory usage issues with Redis. To fix this issue run the command 'echo never > /sys/kernel/mm/transparent_hugepage/enabled' as root, and add it to your /etc/rc.local in order to retain the setting after a reboot. Redis must be restarted after THP is disabled.
+redis_1    | 1:M 17 Mar 11:56:03.386 * DB loaded from disk: 0.000 seconds
+mongodb_1  | 2018-03-17T11:56:04.367+0000 I -        [initandlisten] Detected data files in /data/db created by the 'wiredTiger' storage engine, so setting the active storage engine to 'wiredTiger'.
+redis_1    | 1:M 17 Mar 11:56:03.386 * Ready to accept connections
+mongodb_1  | 2018-03-17T11:56:04.367+0000 I STORAGE  [initandlisten] wiredtiger_open config: create,cache_size=3G,session_max=20000,eviction=(threads_max=4),config_base=false,statistics=(fast),log=(enabled=true,archive=true,path=journal,compressor=snappy),file_manager=(close_idle_time=100000),checkpoint=(wait=60,log_size=2GB),statistics_log=(wait=0),
+mongodb_1  | 2018-03-17T11:56:04.557+0000 I CONTROL  [initandlisten] 
+mongodb_1  | 2018-03-17T11:56:04.557+0000 I CONTROL  [initandlisten] ** WARNING: soft rlimits too low. rlimits set to 30247 processes, 1048576 files. Number of processes should be at least 524288 : 0.5 times number of files.
+mongodb_1  | 2018-03-17T11:56:04.557+0000 I FTDC     [initandlisten] Initializing full-time diagnostic data capture with directory '/data/db/diagnostic.data'
+mongodb_1  | 2018-03-17T11:56:04.558+0000 I NETWORK  [HostnameCanonicalizationWorker] Starting hostname canonicalization worker
+mongodb_1  | 2018-03-17T11:56:04.558+0000 I NETWORK  [initandlisten] waiting for connections on port 27017
+web_1      | Traceback (most recent call last):
+web_1      |   File "web/manage.py", line 10, in <module>
+web_1      |     execute_from_command_line(sys.argv)
+web_1      |   File "/usr/local/lib/python2.7/site-packages/django/core/management/__init__.py", line 385, in execute_from_command_line
+web_1      |     utility.execute()
+web_1      |   File "/usr/local/lib/python2.7/site-packages/django/core/management/__init__.py", line 354, in execute
+web_1      |     django.setup()
+web_1      |   File "/usr/local/lib/python2.7/site-packages/django/__init__.py", line 21, in setup
+web_1      |     apps.populate(settings.INSTALLED_APPS)
+web_1      |   File "/usr/local/lib/python2.7/site-packages/django/apps/registry.py", line 108, in populate
+web_1      |     app_config.import_models(all_models)
+web_1      |   File "/usr/local/lib/python2.7/site-packages/django/apps/config.py", line 197, in import_models
+web_1      |     self.models_module = import_module(models_module_name)
+web_1      |   File "/usr/local/lib/python2.7/importlib/__init__.py", line 37, in import_module
+web_1      |     __import__(name)
+web_1      |   File "/usr/local/lib/python2.7/site-packages/django/contrib/auth/models.py", line 40, in <module>
+web_1      |     class Permission(models.Model):
+web_1      |   File "/usr/local/lib/python2.7/site-packages/django/db/models/base.py", line 125, in __new__
+web_1      |     new_class.add_to_class('_meta', Options(meta, **kwargs))
+web_1      |   File "/usr/local/lib/python2.7/site-packages/django/db/models/base.py", line 300, in add_to_class
+web_1      |     value.contribute_to_class(cls, name)
+web_1      |   File "/usr/local/lib/python2.7/site-packages/django/db/models/options.py", line 166, in contribute_to_class
+web_1      |     self.db_table = truncate_name(self.db_table, connection.ops.max_name_length())
+web_1      |   File "/usr/local/lib/python2.7/site-packages/django/db/__init__.py", line 40, in __getattr__
+web_1      |     return getattr(connections[DEFAULT_DB_ALIAS], item)
+web_1      |   File "/usr/local/lib/python2.7/site-packages/django/db/utils.py", line 242, in __getitem__
+web_1      |     backend = load_backend(db['ENGINE'])
+web_1      |   File "/usr/local/lib/python2.7/site-packages/django/db/utils.py", line 108, in load_backend
+web_1      |     return import_module('%s.base' % backend_name)
+web_1      |   File "/usr/local/lib/python2.7/importlib/__init__.py", line 37, in import_module
+web_1      |     __import__(name)
+web_1      |   File "/usr/local/lib/python2.7/site-packages/django/db/backends/postgresql_psycopg2/base.py", line 27, in <module>
+web_1      |     raise ImproperlyConfigured("Error loading psycopg2 module: %s" % e)
+web_1      | django.core.exceptions.ImproperlyConfigured: Error loading psycopg2 module: No module named psycopg2
+argumanorg_web_1 exited with code 1
+^CGracefully stopping... (press Ctrl+C again to force)
+Stopping argumanorg_db_1 ... done
+Stopping argumanorg_redis_1 ... done
+Stopping argumanorg_mongodb_1 ... done
+```
+Here's there it errors out again and I uninstall psycopg2 with `sudo pip`.
+
+```
+micah@micahspiron:~/arguman.org$ sudo pip uninstall psycopg2
+The directory '/home/micah/.cache/pip/http' or its parent directory is not owned by the current user and the cache has been disabled. Please check the permissions and owner of that directory. If executing pip with sudo, you may want sudo's -H flag.
+Uninstalling psycopg2-2.7.4:
+  /usr/local/lib/python2.7/dist-packages/psycopg2-2.7.4.dist-info/DESCRIPTION.rst
+  /usr/local/lib/python2.7/dist-packages/psycopg2-2.7.4.dist-info/INSTALLER
+  /usr/local/lib/python2.7/dist-packages/psycopg2-2.7.4.dist-info/LICENSE.txt
+  /usr/local/lib/python2.7/dist-packages/psycopg2-2.7.4.dist-info/METADATA
+  /usr/local/lib/python2.7/dist-packages/psycopg2-2.7.4.dist-info/RECORD
+  /usr/local/lib/python2.7/dist-packages/psycopg2-2.7.4.dist-info/WHEEL
+  /usr/local/lib/python2.7/dist-packages/psycopg2-2.7.4.dist-info/metadata.json
+  /usr/local/lib/python2.7/dist-packages/psycopg2-2.7.4.dist-info/top_level.txt
+  /usr/local/lib/python2.7/dist-packages/psycopg2/.libs/libcom_err-beb60336.so.2.1
+  /usr/local/lib/python2.7/dist-packages/psycopg2/.libs/libcrypto-1e9dee74.so.1.0.2n
+  /usr/local/lib/python2.7/dist-packages/psycopg2/.libs/libgssapi_krb5-174f8956.so.2.2
+  /usr/local/lib/python2.7/dist-packages/psycopg2/.libs/libk5crypto-622ef25b.so.3.1
+  /usr/local/lib/python2.7/dist-packages/psycopg2/.libs/libkeyutils-1-ff31573b.2.so
+  /usr/local/lib/python2.7/dist-packages/psycopg2/.libs/libkrb5-fb0d2caa.so.3.3
+  /usr/local/lib/python2.7/dist-packages/psycopg2/.libs/libkrb5support-d7ce89d4.so.0.1
+  /usr/local/lib/python2.7/dist-packages/psycopg2/.libs/liblber-2-d7edd0dc.4.so.2.10.7
+  /usr/local/lib/python2.7/dist-packages/psycopg2/.libs/libldap_r-2-41a2533b.4.so.2.10.7
+  /usr/local/lib/python2.7/dist-packages/psycopg2/.libs/libpq-389351b6.so.5.10
+  /usr/local/lib/python2.7/dist-packages/psycopg2/.libs/libsasl2-e96a0dbf.so.2.0.22
+  /usr/local/lib/python2.7/dist-packages/psycopg2/.libs/libselinux-cf8f9094.so.1
+  /usr/local/lib/python2.7/dist-packages/psycopg2/.libs/libsepol-b4f5b513.so.1
+  /usr/local/lib/python2.7/dist-packages/psycopg2/.libs/libssl-3309e9a3.so.1.0.2n
+  /usr/local/lib/python2.7/dist-packages/psycopg2/.libs/libz-a147dcb0.so.1.2.3
+  /usr/local/lib/python2.7/dist-packages/psycopg2/__init__.py
+  /usr/local/lib/python2.7/dist-packages/psycopg2/__init__.pyc
+  /usr/local/lib/python2.7/dist-packages/psycopg2/_ipaddress.py
+  /usr/local/lib/python2.7/dist-packages/psycopg2/_ipaddress.pyc
+  /usr/local/lib/python2.7/dist-packages/psycopg2/_json.py
+  /usr/local/lib/python2.7/dist-packages/psycopg2/_json.pyc
+  /usr/local/lib/python2.7/dist-packages/psycopg2/_psycopg.so
+  /usr/local/lib/python2.7/dist-packages/psycopg2/_range.py
+  /usr/local/lib/python2.7/dist-packages/psycopg2/_range.pyc
+  /usr/local/lib/python2.7/dist-packages/psycopg2/errorcodes.py
+  /usr/local/lib/python2.7/dist-packages/psycopg2/errorcodes.pyc
+  /usr/local/lib/python2.7/dist-packages/psycopg2/extensions.py
+  /usr/local/lib/python2.7/dist-packages/psycopg2/extensions.pyc
+  /usr/local/lib/python2.7/dist-packages/psycopg2/extras.py
+  /usr/local/lib/python2.7/dist-packages/psycopg2/extras.pyc
+  /usr/local/lib/python2.7/dist-packages/psycopg2/pool.py
+  /usr/local/lib/python2.7/dist-packages/psycopg2/pool.pyc
+  /usr/local/lib/python2.7/dist-packages/psycopg2/psycopg1.py
+  /usr/local/lib/python2.7/dist-packages/psycopg2/psycopg1.pyc
+  /usr/local/lib/python2.7/dist-packages/psycopg2/sql.py
+  /usr/local/lib/python2.7/dist-packages/psycopg2/sql.pyc
+  /usr/local/lib/python2.7/dist-packages/psycopg2/tests/__init__.py
+  /usr/local/lib/python2.7/dist-packages/psycopg2/tests/__init__.pyc
+  /usr/local/lib/python2.7/dist-packages/psycopg2/tests/dbapi20.py
+  /usr/local/lib/python2.7/dist-packages/psycopg2/tests/dbapi20.pyc
+  /usr/local/lib/python2.7/dist-packages/psycopg2/tests/dbapi20_tpc.py
+  /usr/local/lib/python2.7/dist-packages/psycopg2/tests/dbapi20_tpc.pyc
+  /usr/local/lib/python2.7/dist-packages/psycopg2/tests/test_async.py
+  /usr/local/lib/python2.7/dist-packages/psycopg2/tests/test_async.pyc
+  /usr/local/lib/python2.7/dist-packages/psycopg2/tests/test_async_keyword.py
+  /usr/local/lib/python2.7/dist-packages/psycopg2/tests/test_async_keyword.pyc
+  /usr/local/lib/python2.7/dist-packages/psycopg2/tests/test_bugX000.py
+  /usr/local/lib/python2.7/dist-packages/psycopg2/tests/test_bugX000.pyc
+  /usr/local/lib/python2.7/dist-packages/psycopg2/tests/test_bug_gc.py
+  /usr/local/lib/python2.7/dist-packages/psycopg2/tests/test_bug_gc.pyc
+  /usr/local/lib/python2.7/dist-packages/psycopg2/tests/test_cancel.py
+  /usr/local/lib/python2.7/dist-packages/psycopg2/tests/test_cancel.pyc
+  /usr/local/lib/python2.7/dist-packages/psycopg2/tests/test_connection.py
+  /usr/local/lib/python2.7/dist-packages/psycopg2/tests/test_connection.pyc
+  /usr/local/lib/python2.7/dist-packages/psycopg2/tests/test_copy.py
+  /usr/local/lib/python2.7/dist-packages/psycopg2/tests/test_copy.pyc
+  /usr/local/lib/python2.7/dist-packages/psycopg2/tests/test_cursor.py
+  /usr/local/lib/python2.7/dist-packages/psycopg2/tests/test_cursor.pyc
+  /usr/local/lib/python2.7/dist-packages/psycopg2/tests/test_dates.py
+  /usr/local/lib/python2.7/dist-packages/psycopg2/tests/test_dates.pyc
+  /usr/local/lib/python2.7/dist-packages/psycopg2/tests/test_errcodes.py
+  /usr/local/lib/python2.7/dist-packages/psycopg2/tests/test_errcodes.pyc
+  /usr/local/lib/python2.7/dist-packages/psycopg2/tests/test_extras_dictcursor.py
+  /usr/local/lib/python2.7/dist-packages/psycopg2/tests/test_extras_dictcursor.pyc
+  /usr/local/lib/python2.7/dist-packages/psycopg2/tests/test_fast_executemany.py
+  /usr/local/lib/python2.7/dist-packages/psycopg2/tests/test_fast_executemany.pyc
+  /usr/local/lib/python2.7/dist-packages/psycopg2/tests/test_green.py
+  /usr/local/lib/python2.7/dist-packages/psycopg2/tests/test_green.pyc
+  /usr/local/lib/python2.7/dist-packages/psycopg2/tests/test_ipaddress.py
+  /usr/local/lib/python2.7/dist-packages/psycopg2/tests/test_ipaddress.pyc
+  /usr/local/lib/python2.7/dist-packages/psycopg2/tests/test_lobject.py
+  /usr/local/lib/python2.7/dist-packages/psycopg2/tests/test_lobject.pyc
+  /usr/local/lib/python2.7/dist-packages/psycopg2/tests/test_module.py
+  /usr/local/lib/python2.7/dist-packages/psycopg2/tests/test_module.pyc
+  /usr/local/lib/python2.7/dist-packages/psycopg2/tests/test_notify.py
+  /usr/local/lib/python2.7/dist-packages/psycopg2/tests/test_notify.pyc
+  /usr/local/lib/python2.7/dist-packages/psycopg2/tests/test_psycopg2_dbapi20.py
+  /usr/local/lib/python2.7/dist-packages/psycopg2/tests/test_psycopg2_dbapi20.pyc
+  /usr/local/lib/python2.7/dist-packages/psycopg2/tests/test_quote.py
+  /usr/local/lib/python2.7/dist-packages/psycopg2/tests/test_quote.pyc
+  /usr/local/lib/python2.7/dist-packages/psycopg2/tests/test_replication.py
+  /usr/local/lib/python2.7/dist-packages/psycopg2/tests/test_replication.pyc
+  /usr/local/lib/python2.7/dist-packages/psycopg2/tests/test_sql.py
+  /usr/local/lib/python2.7/dist-packages/psycopg2/tests/test_sql.pyc
+  /usr/local/lib/python2.7/dist-packages/psycopg2/tests/test_transaction.py
+  /usr/local/lib/python2.7/dist-packages/psycopg2/tests/test_transaction.pyc
+  /usr/local/lib/python2.7/dist-packages/psycopg2/tests/test_types_basic.py
+  /usr/local/lib/python2.7/dist-packages/psycopg2/tests/test_types_basic.pyc
+  /usr/local/lib/python2.7/dist-packages/psycopg2/tests/test_types_extras.py
+  /usr/local/lib/python2.7/dist-packages/psycopg2/tests/test_types_extras.pyc
+  /usr/local/lib/python2.7/dist-packages/psycopg2/tests/test_with.py
+  /usr/local/lib/python2.7/dist-packages/psycopg2/tests/test_with.pyc
+  /usr/local/lib/python2.7/dist-packages/psycopg2/tests/testconfig.py
+  /usr/local/lib/python2.7/dist-packages/psycopg2/tests/testconfig.pyc
+  /usr/local/lib/python2.7/dist-packages/psycopg2/tests/testutils.py
+  /usr/local/lib/python2.7/dist-packages/psycopg2/tests/testutils.pyc
+  /usr/local/lib/python2.7/dist-packages/psycopg2/tz.py
+  /usr/local/lib/python2.7/dist-packages/psycopg2/tz.pyc
+Proceed (y/n)? y
+  Successfully uninstalled psycopg2-2.7.4
+```
+Here's where I install psycopg2 with `apt`.
+```
+micah@micahspiron:~/arguman.org$ sudo apt install python-psycopg2
+Reading package lists... Done
+Building dependency tree       
+ Request: Export function
+ If there's any way to setup a function to allow exporting of arguments (e.g. to PDF or image) that would be a useful function e.g., for educators who want to see evidence that students have created some form of map in an assignment. I think some tools let you export the maps themselves (I guess some xml) which might be nice in the future. Thanks
+Simon
+ Idea: Bulk upload user lists (or, google SSO)
+ Hey
+I'm planning to use the tool with a class of students, and rather than getting them to signup, I'd really like to be able to upload a list of IDs to create usernames for them (or, to use our google apps logins to link accounts). 
+Thanks!
+Simon
+ Similar open-source debating software
+ Hello all!
+
+For the past year, I've been working on a website very similar to Arguman. It's open-source as well, and hosted here on Github. (https://github.com/Venryx/DebateMap)
+
+Recently, someone contacted me and made me aware of a similar project called "Gruff Debates". (https://words.democracy.earth/introducing-project-gruff-830127de1bb6)
+
+I since joined their Slack channel, and have been pleased to be able to talk with them daily and get feedback as we share updates on our (currently separate) projects. We may merge them in the future, but at the moment we are experimenting with different layouts and designs.
+
+It got me thinking that the Arguman developers might be interested in joining our conversation there. We're currently discussing a few different questions, including:
+* What database solution to use to store the debate contents -- claims, arguments, votes. (Currently, Debate Map uses Firebase, while Gruff uses PostgreSQL, but we're thinking of perhaps switching to a graph database.)
+* How to display arguments -- as simple nodes, or as "formal arguments" with two or more premises.
+* How to handle and display voting -- whether voting should be used for two separate components of "truth" and "relevance", etc.
+
+Anyhow, it would be cool to get more input on these questions, from developers of an already-active debating website.
+
+If any of you are interested, here's an invite link to our Slack server:
+https://join.slack.com/t/gruffdebates/shared_invite/enQtMzEzOTU3NzYyMDY3LTI4YzUxM2I0MjFjZDNlMzQxZDM4YTgwNDNlMTY3YWQwNjJhYjk0ODE1MGU5NzQ2MTAyNTFhZWRhMGNjMjAxNmE
+
+Looking forward to seeing you there!
+-Stephen
+
+EDIT: Oops, invite link was expired. Updated it with a permanent one above.
+ fixed typo 🍻
+ 
+ Header Fixment in docs/api
+ Files: docs/api/*
+Changes: Some of the header tags adjoining with titles, i splitted them. 
+
+Old:
+![image](https://user-images.githubusercontent.com/25110697/35183275-369e5734-fdf4-11e7-991e-ec521887e28b.png)
+New:
+![image](https://user-images.githubusercontent.com/25110697/35183279-426b0f08-fdf4-11e7-987c-0ada1562b20e.png)
+
+ Little fix
+ 
+ Add spanish version
+ 
+💃
+
+ Don't truncate text when going over the character limit
+ When adding a premise, for instance:
+
+http://en.arguman.org/semi-colons-are-unnecessary-in-javascript/premises/28292/new
+
+… there is a 300 character limit, and when you hit it, you can't type anymore. A better UI would be to allow the user to type more, but indicate that they are over the limit, and not allow posting until they get it back under. This allows getting your full thought out and then trimming throughout the piece to fit the limit. This is how Twitter handles its character limit, and it's much more user-friendly than simply disallowing further typing.
+I see you've updated this and closed it; does that mean it's been fixed? :-)
+
+ Hardcoded Google Analytics tracking
+ I didn't find this discussed anywhere before - if I missed something, please let me know.
+
+argüman seems to include hardcoded Google Analytics code:
+
+https://github.com/arguman/arguman.org/blob/8b1b8ffcb7f8af9bd30a780eee5a8a82e5095cd9/web/templates/base.html#L94-L101
+
+While this *might* be okay for a publicly hosted instance, making everyone hosting their own instance "phone home" to your(?) Google Analytics account really isn't nice.
+
+This should arguably be opt-in, but at the very least, there should be a way to disable it (and maybe to customize the ID).
+
+disclaimer: I've not self-hosted argüman before - this was noticed in a (non-public) mailinglist conversation, and the solution taken there was running a custom fork of the project removing the tracking code.
+Arguman hasn't been developed with multiple instances in mind. I've been
+working on it, see some hanging PRs, but without bigger community it won't
+be launched. Bring those people from private mailing list space here.
+
+On Tue, 17 Oct 2017 at 07:17, Florian Bruhin <notifications@github.com>
+wrote:
+
+> I didn't find this discussed anywhere before - if I missed something,
+> please let me know.
+>
+> argüman seems to include hardcoded Google Analytics code:
+>
+>
+> https://github.com/arguman/arguman.org/blob/8b1b8ffcb7f8af9bd30a780eee5a8a82e5095cd9/web/templates/base.html#L94-L101
+>
+> While this *might* be okay for a publicly hosted instance, making
+> everyone hosting their own instance "phone home" to your(?) Google
+> Analytics account really isn't nice.
+>
+> This should arguably be opt-in, but at the very least, there should be a
+> way to disable it (and maybe to customize the ID).
+>
+> disclaimer: I've not self-hosted argüman before - this was noticed in a
+> (non-public) mailinglist conversation, and the solution taken there was
+> running a custom fork of the project removing the tracking code.
+>
+> —
+> You are receiving this because you are subscribed to this thread.
+> Reply to this email directly, view it on GitHub
+> <https://github.com/arguman/arguman.org/issues/368>, or mute the thread
+> <https://github.com/notifications/unsubscribe-auth/AAz4N7btQ_WWsNzcg2Dg6hjJeYdq-wYwks5stDhvgaJpZM4P7l67>
+> .
+>
+-- 
+*Krzysztof Madejski*
+International Projects Manager
+TransparenCEE <http://transparencee.org/>, Code for All
+<https://codeforall.org/>, Code for Poland <http://codeforpoland.org>
+krzysztof.madejski@epf.org.pl / +48 664 082 823 <javascript:void(0);>
+Skype: kangoor <javascript:void(0);> / secure Tox <javascript:void(0);> /
+Slack CfA <http://codeforall-slackin.herokuapp.com/>, TCEE
+<https://slack.transparencee.org/> / Hangouts/GDrive with email above
+
+
+* <http://epf.org.pl/>*
+
+
+ Domain name expired
+ 
+ #365 Missing premises migrations
+ Fixes #365 
+Thank you for your contribution. 
+
+ Missing premises migrations
+ There are some missing migrations in `premises`
+ #350 If there are no featured arguments show most crowded arguments
+ If there are no featured arguments the page is empty.
+
+It would be good to show there something, for example the most crowded arguments.
+ Create reviewers team
+ There is hardly any community-building work happening right now in this repository. There are hanging 16 PRs and 140 issues. I totally understand that in volunteering projects such as Arguman it is very often hard to commit to it a lot of time. There are ways to remedy that though.
+
+I propose to create an official github team called reviewers, lieutenants, moderators, strategists or whatever codename you like the most, who would commit to answer issues, review PRs, merge them, etc.  It's a good practice to have a team like this and processes for handling PRs such as "at least two members have to accept PR for it to be accepted to merge; any doubts should be clarified before merging".
+
+It may be necessary to create several teams, one for UX, other for logic and language matters, but for starters one should do.
+
+@fatiherikli @bahattincinic @halilkaya @livacengiz @vargi @ybrs @onurmatik @cangoktas @hmert - what do you think?

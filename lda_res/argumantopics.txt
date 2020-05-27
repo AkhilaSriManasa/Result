@@ -1,0 +1,68 @@
+﻿NUMTopics = 2
+(0, '0.154*"update" + 0.093*"author" + 0.072*"polish" + 0.072*"translation" + 0.072*"add" + 0.052*"example" + 0.051*"readmemd" + 0.031*"merge" + 0.031*"request" + 0.031*"argumentpng"')
+(1, '0.204*"update" + 0.107*"license" + 0.068*"add" + 0.068*"file" + 0.068*"readmemd" + 0.068*"upload" + 0.029*"request" + 0.029*"merge" + 0.029*"ip" + 0.029*"spoof"')
+
+------------------------
+NUMTopics = 3
+(0, '0.167*"update" + 0.099*"author" + 0.076*"polish" + 0.076*"translation" + 0.076*"add" + 0.053*"example" + 0.053*"readmemd" + 0.030*"argumentpng" + 0.030*"argument" + 0.030*"fizyk"')
+(1, '0.038*"update" + 0.038*"add" + 0.038*"author" + 0.037*"translation" + 0.037*"polish" + 0.037*"readmemd" + 0.037*"example" + 0.037*"license" + 0.037*"file" + 0.037*"request"')
+(2, '0.220*"update" + 0.114*"license" + 0.071*"upload" + 0.071*"file" + 0.071*"readmemd" + 0.071*"add" + 0.028*"merge" + 0.028*"request" + 0.028*"view" + 0.028*"spoof"')
+
+------------------------
+NUMTopics = 4
+(0, '0.174*"update" + 0.102*"author" + 0.078*"polish" + 0.078*"translation" + 0.078*"add" + 0.054*"example" + 0.054*"readmemd" + 0.030*"argument" + 0.030*"argumentpng" + 0.030*"fizyk"')
+(1, '0.037*"update" + 0.037*"add" + 0.037*"license" + 0.037*"file" + 0.037*"readmemd" + 0.037*"request" + 0.037*"merge" + 0.037*"upload" + 0.037*"author" + 0.037*"translation"')
+(2, '0.229*"update" + 0.117*"license" + 0.073*"upload" + 0.073*"file" + 0.073*"readmemd" + 0.073*"add" + 0.028*"merge" + 0.028*"request" + 0.028*"view" + 0.028*"spoof"')
+(3, '0.037*"update" + 0.037*"add" + 0.037*"file" + 0.037*"license" + 0.037*"merge" + 0.037*"request" + 0.037*"upload" + 0.037*"readmemd" + 0.037*"author" + 0.037*"translation"')
+
+------------------------
+NUMTopics = 5
+(0, '0.041*"update" + 0.039*"author" + 0.038*"translation" + 0.038*"polish" + 0.038*"readmemd" + 0.037*"add" + 0.037*"example" + 0.037*"folder" + 0.037*"argumentpng" + 0.037*"file"')
+(1, '0.037*"update" + 0.037*"add" + 0.037*"license" + 0.037*"readmemd" + 0.037*"file" + 0.037*"request" + 0.037*"upload" + 0.037*"merge" + 0.037*"author" + 0.037*"translation"')
+(2, '0.235*"update" + 0.120*"license" + 0.074*"file" + 0.074*"upload" + 0.074*"readmemd" + 0.074*"add" + 0.028*"merge" + 0.028*"view" + 0.028*"allow" + 0.028*"spoof"')
+(3, '0.037*"update" + 0.037*"add" + 0.037*"file" + 0.037*"license" + 0.037*"readmemd" + 0.037*"request" + 0.037*"merge" + 0.037*"upload" + 0.037*"author" + 0.037*"translation"')
+(4, '0.178*"update" + 0.104*"author" + 0.079*"add" + 0.079*"polish" + 0.079*"translation" + 0.054*"example" + 0.054*"readmemd" + 0.030*"upload" + 0.030*"delete" + 0.030*"merge"')
+
+------------------------
+NUMTopics = 6
+(0, '0.041*"update" + 0.039*"author" + 0.038*"translation" + 0.038*"polish" + 0.038*"readmemd" + 0.038*"add" + 0.037*"example" + 0.037*"folder" + 0.037*"argumentpng" + 0.037*"file"')
+(1, '0.037*"update" + 0.037*"add" + 0.037*"readmemd" + 0.037*"license" + 0.037*"file" + 0.037*"upload" + 0.037*"request" + 0.037*"merge" + 0.037*"author" + 0.037*"translation"')
+(2, '0.239*"update" + 0.122*"license" + 0.075*"file" + 0.075*"upload" + 0.075*"readmemd" + 0.075*"add" + 0.027*"view" + 0.027*"spoof" + 0.027*"allow" + 0.027*"default"')
+(3, '0.037*"update" + 0.037*"add" + 0.037*"file" + 0.037*"license" + 0.037*"readmemd" + 0.037*"upload" + 0.037*"request" + 0.037*"merge" + 0.037*"author" + 0.037*"translation"')
+(4, '0.181*"update" + 0.105*"author" + 0.080*"add" + 0.080*"polish" + 0.080*"translation" + 0.055*"example" + 0.055*"readmemd" + 0.030*"upload" + 0.030*"delete" + 0.030*"merge"')
+(5, '0.037*"update" + 0.037*"add" + 0.037*"file" + 0.037*"readmemd" + 0.037*"license" + 0.037*"upload" + 0.037*"merge" + 0.037*"request" + 0.037*"author" + 0.037*"translation"')
+
+------------------------
+NUMTopics = 7
+(0, '0.037*"update" + 0.037*"readmemd" + 0.037*"license" + 0.037*"author" + 0.037*"add" + 0.037*"upload" + 0.037*"file" + 0.037*"polish" + 0.037*"request" + 0.037*"merge"')
+(1, '0.037*"update" + 0.037*"add" + 0.037*"license" + 0.037*"readmemd" + 0.037*"author" + 0.037*"file" + 0.037*"upload" + 0.037*"request" + 0.037*"polish" + 0.037*"merge"')
+(2, '0.242*"update" + 0.123*"license" + 0.075*"upload" + 0.075*"readmemd" + 0.075*"add" + 0.075*"file" + 0.027*"spoof" + 0.027*"settingify" + 0.027*"merge" + 0.027*"allow"')
+(3, '0.037*"update" + 0.037*"author" + 0.037*"add" + 0.037*"license" + 0.037*"readmemd" + 0.037*"upload" + 0.037*"file" + 0.037*"merge" + 0.037*"request" + 0.037*"translation"')
+(4, '0.037*"update" + 0.037*"add" + 0.037*"upload" + 0.037*"license" + 0.037*"author" + 0.037*"readmemd" + 0.037*"file" + 0.037*"merge" + 0.037*"request" + 0.037*"polish"')
+(5, '0.037*"update" + 0.037*"add" + 0.037*"author" + 0.037*"readmemd" + 0.037*"license" + 0.037*"file" + 0.037*"upload" + 0.037*"merge" + 0.037*"request" + 0.037*"translation"')
+(6, '0.184*"update" + 0.106*"author" + 0.081*"add" + 0.081*"translation" + 0.081*"polish" + 0.055*"readmemd" + 0.055*"example" + 0.030*"license" + 0.030*"file" + 0.030*"upload"')
+
+------------------------
+NUMTopics = 8
+(0, '0.037*"update" + 0.037*"readmemd" + 0.037*"author" + 0.037*"license" + 0.037*"add" + 0.037*"upload" + 0.037*"file" + 0.037*"polish" + 0.037*"translation" + 0.037*"request"')
+(1, '0.037*"update" + 0.037*"add" + 0.037*"license" + 0.037*"readmemd" + 0.037*"author" + 0.037*"file" + 0.037*"polish" + 0.037*"upload" + 0.037*"translation" + 0.037*"request"')
+(2, '0.245*"update" + 0.124*"license" + 0.076*"upload" + 0.076*"readmemd" + 0.075*"add" + 0.075*"file" + 0.027*"spoof" + 0.027*"settingify" + 0.027*"merge" + 0.027*"allow"')
+(3, '0.037*"update" + 0.037*"author" + 0.037*"add" + 0.037*"license" + 0.037*"readmemd" + 0.037*"file" + 0.037*"upload" + 0.037*"merge" + 0.037*"request" + 0.037*"translation"')
+(4, '0.038*"update" + 0.038*"author" + 0.037*"add" + 0.037*"polish" + 0.037*"translation" + 0.037*"upload" + 0.037*"example" + 0.037*"readmemd" + 0.037*"argument" + 0.037*"cachebump"')
+(5, '0.037*"update" + 0.037*"author" + 0.037*"add" + 0.037*"readmemd" + 0.037*"license" + 0.037*"file" + 0.037*"upload" + 0.037*"merge" + 0.037*"request" + 0.037*"translation"')
+(6, '0.186*"update" + 0.107*"author" + 0.082*"add" + 0.081*"translation" + 0.081*"polish" + 0.055*"readmemd" + 0.055*"example" + 0.030*"license" + 0.030*"file" + 0.029*"upload"')
+(7, '0.037*"update" + 0.037*"readmemd" + 0.037*"author" + 0.037*"license" + 0.037*"file" + 0.037*"add" + 0.037*"upload" + 0.037*"polish" + 0.037*"request" + 0.037*"merge"')
+
+------------------------
+NUMTopics = 9
+(0, '0.037*"update" + 0.037*"readmemd" + 0.037*"add" + 0.037*"author" + 0.037*"license" + 0.037*"upload" + 0.037*"file" + 0.037*"polish" + 0.037*"translation" + 0.037*"request"')
+(1, '0.037*"update" + 0.037*"add" + 0.037*"license" + 0.037*"readmemd" + 0.037*"author" + 0.037*"file" + 0.037*"translation" + 0.037*"upload" + 0.037*"polish" + 0.037*"request"')
+(2, '0.247*"update" + 0.125*"license" + 0.076*"upload" + 0.076*"file" + 0.076*"readmemd" + 0.076*"add" + 0.027*"view" + 0.027*"allow" + 0.027*"default" + 0.027*"address"')
+(3, '0.037*"update" + 0.037*"author" + 0.037*"add" + 0.037*"file" + 0.037*"license" + 0.037*"upload" + 0.037*"readmemd" + 0.037*"merge" + 0.037*"translation" + 0.037*"request"')
+(4, '0.037*"update" + 0.037*"add" + 0.037*"upload" + 0.037*"author" + 0.037*"license" + 0.037*"file" + 0.037*"polish" + 0.037*"readmemd" + 0.037*"translation" + 0.037*"merge"')
+(5, '0.037*"update" + 0.037*"add" + 0.037*"author" + 0.037*"file" + 0.037*"readmemd" + 0.037*"license" + 0.037*"upload" + 0.037*"merge" + 0.037*"translation" + 0.037*"polish"')
+(6, '0.187*"update" + 0.108*"author" + 0.082*"add" + 0.082*"translation" + 0.082*"polish" + 0.056*"example" + 0.056*"readmemd" + 0.029*"merge" + 0.029*"request" + 0.029*"fizyk"')
+(7, '0.037*"update" + 0.037*"author" + 0.037*"file" + 0.037*"readmemd" + 0.037*"license" + 0.037*"add" + 0.037*"request" + 0.037*"polish" + 0.037*"upload" + 0.037*"merge"')
+(8, '0.037*"update" + 0.037*"add" + 0.037*"license" + 0.037*"author" + 0.037*"file" + 0.037*"upload" + 0.037*"polish" + 0.037*"readmemd" + 0.037*"translation" + 0.037*"merge"')
+
+------------------------

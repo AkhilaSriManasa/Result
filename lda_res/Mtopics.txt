@@ -1,0 +1,68 @@
+﻿NUMTopics = 2
+(0, '0.044*"guess" + 0.017*"std" + 0.017*"return" + 0.016*"would" + 0.014*"line" + 0.014*"function" + 0.014*"error" + 0.013*"status" + 0.013*"code" + 0.011*"try"')
+(1, '0.004*"guess" + 0.004*"would" + 0.004*"error" + 0.004*"return" + 0.004*"thank" + 0.004*"copy" + 0.004*"function" + 0.004*"std" + 0.004*"variable" + 0.004*"case"')
+
+------------------------
+NUMTopics = 3
+(0, '0.057*"guess" + 0.021*"return" + 0.018*"gchar" + 0.016*"std" + 0.016*"function" + 0.016*"try" + 0.016*"enter" + 0.016*"make" + 0.013*"line" + 0.013*"use"')
+(1, '0.004*"guess" + 0.004*"return" + 0.004*"would" + 0.004*"error" + 0.004*"function" + 0.004*"std" + 0.004*"variable" + 0.004*"letter" + 0.004*"use" + 0.004*"copy"')
+(2, '0.029*"would" + 0.026*"guess" + 0.024*"error" + 0.016*"std" + 0.016*"thank" + 0.016*"copy" + 0.016*"status" + 0.014*"line" + 0.014*"get" + 0.014*"code"')
+
+------------------------
+NUMTopics = 4
+(0, '0.005*"guess" + 0.005*"std" + 0.005*"would" + 0.005*"return" + 0.005*"try" + 0.005*"code" + 0.005*"line" + 0.005*"function" + 0.004*"status" + 0.004*"use"')
+(1, '0.004*"would" + 0.004*"error" + 0.004*"guess" + 0.004*"copy" + 0.004*"thank" + 0.004*"return" + 0.004*"std" + 0.004*"code" + 0.004*"video" + 0.004*"control"')
+(2, '0.030*"would" + 0.028*"guess" + 0.025*"error" + 0.017*"thank" + 0.017*"std" + 0.017*"copy" + 0.017*"status" + 0.014*"line" + 0.014*"code" + 0.014*"comment"')
+(3, '0.060*"guess" + 0.021*"return" + 0.019*"gchar" + 0.016*"function" + 0.016*"enter" + 0.016*"std" + 0.016*"make" + 0.016*"try" + 0.014*"line" + 0.014*"letter"')
+
+------------------------
+NUMTopics = 5
+(0, '0.005*"guess" + 0.005*"std" + 0.005*"try" + 0.005*"return" + 0.005*"would" + 0.005*"line" + 0.005*"function" + 0.005*"code" + 0.005*"use" + 0.004*"status"')
+(1, '0.004*"would" + 0.004*"error" + 0.004*"guess" + 0.004*"thank" + 0.004*"copy" + 0.004*"control" + 0.004*"end" + 0.004*"video" + 0.004*"std" + 0.004*"help"')
+(2, '0.005*"guess" + 0.005*"would" + 0.005*"error" + 0.005*"thank" + 0.005*"std" + 0.004*"status" + 0.004*"case" + 0.004*"copy" + 0.004*"eguessstatus" + 0.004*"line"')
+(3, '0.062*"guess" + 0.022*"return" + 0.019*"gchar" + 0.017*"function" + 0.017*"enter" + 0.017*"make" + 0.017*"std" + 0.017*"try" + 0.014*"line" + 0.014*"letter"')
+(4, '0.031*"would" + 0.028*"guess" + 0.026*"error" + 0.017*"std" + 0.017*"copy" + 0.017*"status" + 0.017*"thank" + 0.014*"code" + 0.014*"get" + 0.014*"line"')
+
+------------------------
+NUMTopics = 6
+(0, '0.006*"guess" + 0.005*"std" + 0.005*"return" + 0.005*"try" + 0.005*"would" + 0.005*"line" + 0.005*"function" + 0.005*"code" + 0.005*"status" + 0.005*"use"')
+(1, '0.004*"would" + 0.004*"error" + 0.004*"guess" + 0.004*"copy" + 0.004*"thank" + 0.004*"help" + 0.004*"video" + 0.004*"control" + 0.004*"code" + 0.004*"std"')
+(2, '0.005*"guess" + 0.005*"would" + 0.005*"error" + 0.004*"thank" + 0.004*"std" + 0.004*"line" + 0.004*"status" + 0.004*"case" + 0.004*"copy" + 0.004*"return"')
+(3, '0.063*"guess" + 0.022*"return" + 0.020*"gchar" + 0.017*"function" + 0.017*"make" + 0.017*"enter" + 0.017*"std" + 0.017*"try" + 0.014*"line" + 0.014*"letter"')
+(4, '0.005*"guess" + 0.005*"would" + 0.005*"error" + 0.004*"std" + 0.004*"code" + 0.004*"return" + 0.004*"copy" + 0.004*"line" + 0.004*"get" + 0.004*"may"')
+(5, '0.032*"would" + 0.029*"guess" + 0.026*"error" + 0.018*"std" + 0.018*"status" + 0.018*"thank" + 0.018*"copy" + 0.015*"get" + 0.015*"code" + 0.015*"line"')
+
+------------------------
+NUMTopics = 7
+(0, '0.005*"guess" + 0.005*"std" + 0.005*"return" + 0.005*"try" + 0.004*"function" + 0.004*"increment" + 0.004*"line" + 0.004*"readmemd" + 0.004*"code" + 0.004*"gchar"')
+(1, '0.004*"would" + 0.004*"error" + 0.004*"copy" + 0.004*"guess" + 0.004*"thank" + 0.004*"video" + 0.004*"help" + 0.004*"control" + 0.004*"code" + 0.004*"std"')
+(2, '0.005*"guess" + 0.005*"would" + 0.005*"error" + 0.004*"thank" + 0.004*"std" + 0.004*"copy" + 0.004*"line" + 0.004*"return" + 0.004*"status" + 0.004*"code"')
+(3, '0.064*"guess" + 0.023*"return" + 0.020*"gchar" + 0.017*"function" + 0.017*"enter" + 0.017*"make" + 0.017*"std" + 0.017*"try" + 0.014*"line" + 0.014*"letter"')
+(4, '0.005*"guess" + 0.005*"error" + 0.004*"would" + 0.004*"std" + 0.004*"return" + 0.004*"code" + 0.004*"copy" + 0.004*"line" + 0.004*"get" + 0.004*"may"')
+(5, '0.032*"would" + 0.029*"guess" + 0.026*"error" + 0.018*"std" + 0.018*"copy" + 0.018*"thank" + 0.018*"status" + 0.015*"code" + 0.015*"get" + 0.015*"line"')
+(6, '0.006*"guess" + 0.005*"would" + 0.005*"status" + 0.005*"line" + 0.005*"error" + 0.005*"std" + 0.005*"return" + 0.005*"case" + 0.005*"thank" + 0.005*"get"')
+
+------------------------
+NUMTopics = 8
+(0, '0.005*"guess" + 0.004*"std" + 0.004*"return" + 0.004*"try" + 0.004*"would" + 0.004*"function" + 0.004*"code" + 0.004*"line" + 0.004*"use" + 0.004*"readmemd"')
+(1, '0.004*"would" + 0.004*"error" + 0.004*"copy" + 0.004*"guess" + 0.004*"thank" + 0.004*"video" + 0.004*"control" + 0.004*"std" + 0.004*"help" + 0.004*"code"')
+(2, '0.006*"would" + 0.006*"error" + 0.005*"guess" + 0.005*"thank" + 0.005*"copy" + 0.005*"reach" + 0.005*"std" + 0.005*"comment" + 0.005*"void" + 0.005*"next"')
+(3, '0.065*"guess" + 0.023*"return" + 0.020*"gchar" + 0.017*"function" + 0.017*"enter" + 0.017*"make" + 0.017*"std" + 0.017*"try" + 0.014*"line" + 0.014*"valid"')
+(4, '0.004*"guess" + 0.004*"would" + 0.004*"error" + 0.004*"std" + 0.004*"copy" + 0.004*"code" + 0.004*"may" + 0.004*"return" + 0.004*"get" + 0.004*"comment"')
+(5, '0.005*"guess" + 0.005*"would" + 0.005*"std" + 0.005*"error" + 0.005*"function" + 0.005*"return" + 0.004*"code" + 0.004*"get" + 0.004*"cout" + 0.004*"copy"')
+(6, '0.007*"guess" + 0.005*"would" + 0.005*"std" + 0.005*"line" + 0.005*"status" + 0.005*"return" + 0.005*"get" + 0.005*"case" + 0.005*"error" + 0.005*"function"')
+(7, '0.032*"would" + 0.030*"guess" + 0.027*"error" + 0.018*"status" + 0.018*"std" + 0.018*"copy" + 0.018*"thank" + 0.015*"code" + 0.015*"line" + 0.015*"get"')
+
+------------------------
+NUMTopics = 9
+(0, '0.005*"guess" + 0.005*"std" + 0.005*"would" + 0.005*"return" + 0.005*"try" + 0.005*"line" + 0.005*"code" + 0.005*"function" + 0.004*"error" + 0.004*"status"')
+(1, '0.004*"would" + 0.004*"error" + 0.004*"guess" + 0.004*"copy" + 0.004*"thank" + 0.004*"std" + 0.004*"help" + 0.004*"return" + 0.004*"code" + 0.004*"video"')
+(2, '0.005*"guess" + 0.005*"would" + 0.004*"error" + 0.004*"thank" + 0.004*"std" + 0.004*"copy" + 0.004*"line" + 0.004*"status" + 0.004*"return" + 0.004*"reach"')
+(3, '0.066*"guess" + 0.023*"return" + 0.020*"gchar" + 0.017*"function" + 0.017*"make" + 0.017*"enter" + 0.017*"std" + 0.017*"try" + 0.014*"line" + 0.014*"valid"')
+(4, '0.005*"guess" + 0.004*"would" + 0.004*"error" + 0.004*"std" + 0.004*"return" + 0.004*"code" + 0.004*"copy" + 0.004*"line" + 0.004*"get" + 0.004*"may"')
+(5, '0.033*"would" + 0.030*"guess" + 0.027*"error" + 0.018*"std" + 0.018*"copy" + 0.018*"thank" + 0.018*"status" + 0.015*"get" + 0.015*"code" + 0.015*"line"')
+(6, '0.006*"guess" + 0.005*"would" + 0.005*"std" + 0.005*"return" + 0.005*"line" + 0.005*"status" + 0.005*"try" + 0.004*"case" + 0.004*"function" + 0.004*"error"')
+(7, '0.005*"guess" + 0.005*"error" + 0.005*"would" + 0.005*"std" + 0.005*"return" + 0.005*"status" + 0.005*"use" + 0.005*"code" + 0.005*"line" + 0.004*"function"')
+(8, '0.005*"would" + 0.005*"guess" + 0.004*"std" + 0.004*"error" + 0.004*"thank" + 0.004*"status" + 0.004*"cout" + 0.004*"copy" + 0.004*"eguessstatus" + 0.004*"return"')
+
+------------------------

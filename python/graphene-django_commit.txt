@@ -1,0 +1,70 @@
+﻿ fixes minor typo in docs index (#969)
+ Error in signature of callproc() and execute() (#966)
+ Use psycopg2-binary in tox (#964)
+ v2.10.1
+ fix typo (#959)
+ Do not access the internals of `SimpleLazyObject` (#945)
+ Update bug_report.md
+ Update issue templates
+ Update issue templates
+ Create config.yml
+ Update issue templates
+ Install wheel before creating distribution
+ Update __init__.py
+ Allow defining fields as an empty list (#871)
+ Improve DjangoListField (#929)
+ Add extra types documentation (#902)
+ GraphQlView: Do not 'instantiate_middleware' if middleware is already a MiddlewareManager (#952)
+ Convert nullable BooleanField to nullable Boolean. (#777)
+ Add GitHub actions (#947)
+ Make tests order independent (#932)
+
+* Reset the global registry after each test (teardown)
+
+* Create a settings fixtures that returns graphene_settings and resets
+  the graphene_settings after use (teardown)
+
+* Convert test_mutation tests from unittests.TestCase to pytest
+
+* Convert test_mutation PetType to a pet_type fixtures that reregisters
+  the type
+ Switch `operation_name` to `operationName` in GraphQLTestCase (#936)
+
+* Add op_name test
+
+* Replace "operation_name" with "operationName"
+
+* Improve test comments
+
+* Add method for Python 2.7
+ Disable system checks for graphql_schema management command (#939)
+ Update README.md
+ Update README.md
+ v2.9.1
+ Fix DjangoModelFormMutation (#915)
+
+* Fix DjangoModelFormMutation
+
+* Try and fix tests
+
+* Remove unused form
+ Fix failing tests (#931)
+
+* Use proper model
+
+* Remove failing test
+
+* Add python 3.8 to test list
+ Adding documentation for installing django-filter (#928)
+ Add slack link
+ Documentation missing endpoint explanation (#918)
+
+* Documentation missing endpoint explanation
+
+Add some information about GRAPHQL_URL. Otherwise people run into ERROR 400 problems, if they have a different endpoint.
+
+* Update docs/testing.rst
+
+Co-Authored-By: Jonathan Kim <jkimbo@gmail.com>
+
+Co-authored-by: Jonathan Kim <jkimbo@gmail.com>

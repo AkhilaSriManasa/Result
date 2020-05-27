@@ -1,0 +1,176 @@
+﻿ Fix child resolve for types with generic interfaces
+ Similar to #127 , when attempting to resolve an open generic type from a child container it would fail to lookup for the generic definition in the parent container.
+
+There was already a test covering just this case in
+https://github.com/grumpydev/TinyIoC/blob/master/tests/TinyIoC.Tests/TinyIoCTests.cs#L3367
+but because it was within a RESOLVE_OPEN_GENERICS region with that directive never being set it was failing.
+
+Not sure how your testing matrix is setup but now that I've added the directive to the file header it runs those tests properly.
+
+This also resolves #128 
+ GitHub Actions, Run on latest .NET Core SDK/macOS, new csproj, dotnet project structure
+ I'm not 100% happy with the generated nuget package for three reasons
+
+- it's listing dependencies in it (NetStandard 1.2-2.0, pcl 4.6, net45), 
+- looking at the NuSpec it should be doing source includes (I'm going to merge and release a beta tag and do more testing). It's a pita to setup GitHub artifacts as it requires auth, but diffing the NuSpec it's doing the same thing.
+- ASP.NET Package says it targets NetStandard 2.0 as well, needed to do that to get it to build xplat without having an extra solution file..., for some crazy reason it compiles...
+
+The advantages to merging...
+
+- We are now building on every commit against NetStandard 1.2-2.0, pcl, NET 4.5.
+- Unit tests now run as part of the build on .NET Core and .NET 4.5
+- Automatic versioning based on semver 
+- Tags get automatically pushed to nuget.
+- Updated project structure a bit to match greater .net community (familiarity).
+- Fixed many issues and now with it building end users can see exactly what compiler flags and references they may need in the various environments.
+- Updated Samples and removed old ones, verified the new ones work.
+
+I think all of my issues listed above are minor and we can work through via a beta tag. Worst case it's possible to manually specify a NuSpec file and go back to 100% old behavior it's just not ideal, I'd rather have the tooling do all the work.
+ Add dotnet core test app
+ It would be helpful to have a test project for .NET Core.
+
+This PR does so without materially changing the existing .NET Framework 3.5 test project.  This PR provides a new .NET Core test project, moving code that is common to both it and the original test project into shared projects.
+
+In creating this change, I found a problem with TinyMessenger on .NET Core and fixed it. I did not attempt to deal with ASP .NET extensions, which don't compile for .NET Core.
+ Provide requested type as factory param
+ For `RESOLVE_OPEN_GENERICS` add a new "__requestedType" parameter when calling a factory method providing the type object for the type being resolved. This allows factory methods for registered open generic types to properly resolve the particular closed generic type requested.
+ Bubble open generic registrations from parent scopes
+ Ensure that registered open generics can be resolved from child containers.
+ Fix Resolve for Types with Generic Interfaces
+ Resolving types with generic interfaces failed. The given generic type was converted into it's generic definition before it was passed to the parent container. #126
+ Fix typos
+ Fixed following typos:
+registation(s) -> registration(s)
+Attemps -> Attempts
+sucessfully -> successfully
+Attemped -> Attempted
+ Fix TinyIoC for use in dotnetstandard builds
+ I think this duplicates a small bit of the work done by #106 but this was the most minimal change set I could make for a build complete for me when adding TinyIoC.cs to a new .NET Standard 1.0 project. 
+
+I may be off base, but I thought this might save someone 5 minutes. 
+ Added TinyIoCConstructorAttribute with tests
+ I found that I was writing some pretty ugly `UsingConstructor()` lambdas and decided there could be a better alternative. Added the option of specifying which constructor(s) to use with an attribute.
+
+Also added the option of using internal constructors.
+ BUG: Child container unable to resolve open generic.
+ BUG: A child container was unable to resolve an open generic registered with its parent container.
+ Fix TinyIoCContainer.ResolveAll(Type resolveType) to include unnamed …
+ Fix `TinyIoCContainer.ResolveAll(Type resolveType)` to include unnamed registrations, which matches the summery, and `ResolveAll<ResolveType>()`.
+
+Issue related: #63 
+ Fixed duplicate ReverseTypeExtender definition
+ This conditional was always returning true.
+ Added RegistrationName attribute.
+ Would these changes be useful??? I added a RegistrationName attribute, with which users can tag their classes. Inside Tiny, the value is available as an extension method on System.Type. As such, autoregister can look at the attribute to decide which implementations of an interface are distinct, and which are overrides.
+
+The particular sticky situation that inspired this is described [here](http://stackoverflow.com/questions/41035068/autoregister-and-named-registrations-in-tinyioc). You can see the changes in action [here](https://github.com/bbsimonbb/TinyConsole). With these changes, users can provide their own implementations of my interfaces, without needing to know anything about TinyIoC, beyond the [RegistrationName] attribute. And I don't need to know anything about their implementations beyond how to load their assembly.
+
+Love your work. This is my first pull request , so please excuse my manners. My changes work, but there is one failing unit test. It passses if I run it on its own, so I don't know what to make of this. I would be happy to provide more unit tests and documentation if you think the change has potential.
+ Small fixes for .NET Core
+ Some fixes on #96 that I needed to actually get it to compile correctly in a .NET Standard 1.6 library. Also added an example to the `platformtests` directory
+
+ Types can be resolved where the constructor has a default parameter, …
+ …as long as the compiler emitting the type supports default parameters (i.e [Optional]/ System.Reflection.ParameterInfo.IsOptional).
+
+The resolution code checks whether the parameter IsOptional is true and then uses that default, if no parameter value is supplied.
+
+ Fix compilation with PORTABLE symbol.
+ Compiling with the PORTABLE symbol results in several errors.
+
+> The namespace 'TinyIoC' already contains a definition for
+> 'ReverseTypeExtender'
+
+The NETSTANDARD1_6 symbol is OR'd instead of AND'd. Since the rest of
+the symbols are AND'd, this appears to be a copy-and-paste error.
+
+> Inconsistent accessibility: parameter type 'BindingFlags' is less
+> accessible than method 'TypeExtensions.GetConstructors(Type,
+> BindingFlags)'
+
+The BindingFlags enum is marked internal; however, it is included in
+various public method signatures.
+
+ PCL support fixed
+ PCL in latest version of TinyIoC is broken (it does not compile). 
+I added 2 projects (PCL projects uses newer version then projects with TinyIoC.cs) fixed errors, fixed support to all features (even if TinyMessanger and Web extensions are separate packages) and fixed all tests for PCL (the same tests as for old TinyIoC project). It would be nice to add it to repo and roll out new packages version. 
+I really enjoy using Tiny and lack of PCL support always bugged me.
+It would be really good to add nuget package installation script to take care of #def #undef directives.
+Also it would be good in the future to use less of reflection and more compiled expressions and/or delegates. I believe it would boost performance.
+
+ Added support for NETSTANDARD 1.0+ and PCL Profile 151
+ I've tested this on .NET standard profiles 1.0-1.5 as well as PCL Profile 151.
+
+Now you can target .NET standard 1.0 and have the basic functionality but as you up your .net standard you get more functionality :)
+
+ added netstandard15, removed dotnet54
+ 
+ Added xunit.* to the list of ignored assemblies
+ 
+ added dotnet54-based ifdefs (coreclr)
+ 
+ Fix duplicates returned by ResolveAll() when identical parent and child registration keys
+ Fixes #87 .  Fixes duplicate child instances returned by ResolveAll() when registrations of the identical type and name exist on parent and child containers.
+
+TinyIoC currently returns duplicates of the registration on the child container.  This PR preserves the principle that identical type-and-name registrations on the child container should supersede-and-hide those on the parent container, but prevents duplicates being returned.
+
+Tests added to demonstrate behaviour.  No existing ResolveAll<>() tests break.
+
+ implement UnregisterMultiple
+ This is an implementation of `UnregisterMultiple`. The main reason this is needed is that `RegisterMultiple` uses a convention to register each type as a named type with the full name of the type. Therefore if you had previous registered a type using...
+
+```
+container.RegisterMultiple<TInterface>(new [] { type });
+```
+
+...you would then have to unregister the type using...
+
+```
+container.Unregister<TInterface>(type.FullName);
+```
+
+This is a little unintuitive. This PR allows you to unregister the type using...
+
+```
+container.UnregisterMultiple<TInterface>(new [] { type });
+```
+
+...which is the same syntax that the type was originally registered.
+
+ Compiler Error CS1032: Cannot define/undefine preprocessor symbols af…
+ When compilation is done it produces a error from Compiler Error CS1032: Cannot define/undefine preprocessor symbols.
+# define directive should be first in the code.
+
+ Please make builtin Exceptions Serializable
+ 
+ Fix typos & whitespace
+ Fixed following typos:
+ registation(s) -> registration(s) 
+ Attemps -> Attempts 
+ sucessfully -> successfully
+ Attemped -> Attempted 
+
+Updated whitespace from tabs to spaces to match NancyFx.
+
+Once this is merged, I'll update NancyFx/Nancy#2056 to keep it in sync.
+
+ Updated nuspec licenseUrl to new license file location.
+ 
+ Adding message when trying to resolve an (auto registered) abstract class or interface 
+ Adding message when trying to resolve an (auto registered) abstract class or interface 
+
+ Added support for PCL Libraries
+ Fixed an issue where the reflection extensions were conflicting with other libraries like json.net
+
+ Replace Assert.ReferenceEquals call with Assert.AreSame
+ The intention must have been to assert that the two references
+are identical (refering to the same object).
+
+Calling Assert.ReferenceEquals will not have the desired effect
+since it will use System.Object.ReferenceEquals; not throwing an
+exception when the two objects does not match.
+
+Of the total 29 occurances of Assert.ReferenceEquals, two tests
+failed after being replaced with Assert.AreSame.
+I have modified the test case to assert what I belive was the
+intention of the author.
+

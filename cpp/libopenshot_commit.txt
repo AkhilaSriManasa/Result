@@ -1,0 +1,72 @@
+﻿ Merge pull request #496 from OpenShot/emojis
+
+Transform Improvements (Keyframe origin point)
+ Merge pull request #517 from ferdnyc/ruby-build-fix
+
+Fix support for older CMake
+ Merge pull request #513 from jeffski/set-constructor-clip
+
+Set clip in constructor to resolve scale crop issue
+ Support older CMake
+
+add_compile_definitions() is CMake 3.12+ only.
+ Merge pull request #515 from ferdnyc/audio-path-config
+
+Enable building with a libopenshot-audio that's based on non-bundled JUCE
+ Add some missing juce:: prefixing
+ Deprecated juce::ScopedPointer  Work around Ruby/JUCE isfinite() conflict properly
+ use reader instead of new_reader
+ Merge pull request #512 from steils/develop
+
+FFmpegUtilities: replace variable definition with statement expression
+ Set clip in constructor to resolve scale crop issue
+ FFmpegUtilities: replace variable definition with statement expression
+
+It is needed to avoid multiple definitions of AV_GET_CODEC_CONTEXT,
+which is considered as an error with '-fno-common' which is default
+since gcc-10.
+
+Fixes: #511
+ Add version.sh script (#500)
+ Merge pull request #491 from ferdnyc/readme-cleanup
+
+INSTALL.md: Formatting, markdown cleanup
+ Various: Remove unused variables (#467)
+
+Several data members and local variables were flagged by static
+analysis tools as never being used anywhere in the code.
+ Exceptions: Rename BaseException, for python (#497)
+
+BaseException is a python standard library exception class, so it's
+not a great idea to redefine that name in our bindings. Renamed
+to ExceptionBase, which is more in keeping with our class naming
+system anyway.
+ Merge pull request #502 from ferdnyc/find-jsoncpp-upgrades
+
+CMake: Rename, modernize Findjsoncpp.cmake
+ Merge pull request #505 from ferdnyc/travis-yml-syntax
+
+Travis: Fix package list syntax, contents
+ Travis: Fix package list syntax, contents
+
+- Get rid of two-stage definition of apt.packages list, which
+  was never necessary anyway.
+- Remove deprecated libavresample from package set for FFmpeg 4
+ Findjsoncpp: Fix target
+ CMake: Rename, modernize Findjsoncpp.cmake
+
+- Rename to match package naming used elsewhere (official configs)
+- Add IMPORTED target creation to the Find module, along with
+  version number detection
+- Switch to lowercase variable forms (e.g. jsoncpp_FOUND)
+ INSTALL doc: Correct some CMake flags, reorder
+ Merge pull request #498 from ferdnyc/overrides
+
+Add all missing override markers on derived-class methods
+ Make debug handling match libopenshot-audio (#499)
+ Overrides for derived-class methods
+ Effects: Mark overridden methods accordingly
+ Adding keyframable origin point (for shear and rotation)
+ INSTALL.md: Formatting, markdown cleanup
+ Travis: Do some YAML syntax linting (#484)
+ Fix Win64 Gitlab builds (#485)

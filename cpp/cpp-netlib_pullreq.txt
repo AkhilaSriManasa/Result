@@ -1,0 +1,71 @@
+﻿ bug-fix when build project
+ 
+ Fix chunk and content-length encoding
+ I used the 0.13-release branch because we're updating an existing application to Visual Studio 2017 and it would build, and build against the latest boost 1.64.
+
+At first, things didn't work at all. After using the simple_wget sample to debug it, I found that a bunch of the content (starting with the headers) had been appended after the BODY. I narrowed it down and fixed the new EOF callback when the server has sent a content-length header.
+
+ Fix/vs2015 compatibility
+ Apply @sneves [patch](https://github.com/cpp-netlib/cpp-netlib/pull/652#issuecomment-225202050) and few other minor fixes to aid compilation on windows. 
+All tests in debug/release mode are passing in my env(VS2015sp3 + x64 + static-runtime + static-link + boost 1.61 + openssl 1.0.2h).
+
+ fix msvc name ambiguity
+ 5c6ff2dd6c0602e17f2acc59d73664bc5c4a69bd already fixed most MSVC 2015 issues, but this one remained. When using Boost 1.61 (and maybe others), compiling `cppnetlib-server-parsers` resulted in an ambiguity surrounding `true_type`, which exists both as `boost::true_type` and `boost::spirit::true_type`. This is probably caused by MSVC's lack of two-phase lookup, but in any case the fix is simple---just import the `boost::spirit::qi` namespace _after_ the instantiation of `u8_to_u32_iterator`.
+
+With this fix, everything builds now, and only 2 tests fail:
+- `cpp-netlib-http-client_get_test` fails with "certificate verify failed"; this is to be expected, I suppose, since OpenSSL is not given a trusted certificate file.
+- `cpp-netlib-http-server_constructor_test` fails by hanging on the `ThrowsOnFailure` test; it appears that nothing actually fails here, and the server simply keeps on listening forever.
+
+ Fix linker errors
+ Since the code was refactored to use Boost.Asio, the tests need to link to Boost.Asio.
+
+ Asio standalone
+ According to [Asio documentation](http://think-async.com/Asio/AsioStandalone) to use without a dependency on Boost header files or libraries `ASIO_STANDALONE` should be defined.
+
+Also, as soon Boost `date_time` library is not available, cpp-netlib should not use `deadline_timer` and `boost::posix_time` .
+
+Kind Regards,
+Andrey
+
+ Fix for: Body callback function is not called when some errors occur …
+ This is a suggested fix for:
+https://github.com/glynos/cpp-netlib/issues/19
+
+I merged it with current master, however my original tested fix was to 0.11.2-final, so please re-test in runtime.
+
+ 0.12 devel
+ 
+ fixed async client multithread problem
+ async client crashes in multithread condition, because
+the boost::spirit grammar object is not thread safe without /DBOOST_SPIRIT_THREADSAFE  
+
+the detailed discussion can be seen below:
+https://groups.google.com/forum/#!topic/cpp-netlib/yqa5Qtpc1j4
+
+ Memory Corruption in boost::network::uri::decode while parsing multiple "%" characters
+ Function boost::network::uri::decode from boost/network/uri/decode.hpp should check the "it" variable, each time when its pointer is incremented.
+It should be check if it is not null, to avoid out-of-bound read from null pointer (end of string) 
+
+ Documentation updates for 0.11.0 release.
+ I'm ready to tag 0.11.0-rc2 and hopefully have it also be tagged as 0.11.0-final soon, it seems this is the final step in the process.
+
+ Add missing include of vector to request_base
+ This fixes the build with `CPP-NETLIB_BUILD_TESTS` and `CPP-NETLIB_BUILD_EXAMPLES` set to `OFF`.
+
+ Increased chance to making none copy of the handler.
+ https://groups.google.com/forum/?fromgroups#!topic/cpp-netlib/rz54sRpo7WI
+
+ A new function, normalize and a test case
+ I have written a new function. It does resolve a given path and remove any "../". Can you check it out and notify all others it (if needed) and then tell me how should I "pull" next time? I am brand new to this I don´t know how it works exactly, it took me some while to get everything working.
+
+PS. I saw there already existed encode/decode methods for pro-cent coding, and therefore did I not add it, even of course they should be handled in the function as well, but I want to hear what your thought are first.
+
+If I don´t get any respond in some days will I assume this message never arrived and therefore repost it.
+
+Thanks in advance.
+
+//idleman
+
+ Add '::boost::' namespace specifier to ssl_delegate.ipp
+ For fixing up a compile error(C2668) at Visual C++ 2010.
+

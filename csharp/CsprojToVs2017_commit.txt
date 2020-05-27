@@ -1,0 +1,65 @@
+﻿ Bump version
+ Merge pull request #261 from tom-englert/Issue#260
+
+Fix #260: Crash when project contains NeutralResourcesLanguage attribute
+ Fix #260: Crash when project contains NeutralResourcesLanguage attribute
+ Merge remote-tracking branch 'jlegan/master'
+ In cases where AssemblyInfo is being preserved and there are multiple AssemblyInfo files present (very common in GitVersion implementations where there is a single common AssemblyInfo file containing version info and an AssemblyInfo file containing library specific details), AssemblyDetails will be null (multiple files not currently supported) but there is no null check in NuGetPackageTransformation. Added null propagation on the assemblyAttributes object. If time allows I will add support for multiple assemblyinfo files but at a minimum this fixes the null reference exception when assembly info details are being preserved.
+ Merge branch 'fix-256'
+ Fix #256
+
+Remove legacy CLI tool folder while at it.
+ 4.1 Release
+ Merge branch '4.1-rc'
+
+Fix #254
+ Create migrate-2019 for 4.1-RC
+
+* Refactor migrate-2017 to reduce code duplication
+* Split large files into multiple small ones
+* Move Service item filtering to separate transformation
+* Service is an item, not a property
+* Remove duplicates from input paths
+* Update MSBuild.Sdk.Extras versions for both .NET Core 2.x & 3.x
+* Update & fix tests for ServiceFilterTransformation
+ Updated nuget keys
+ Fix #252
+
+* Create BasicSimplifyTransformationSet
+* Add more tracing to transformations and topological sort
+* Fix wizard logic to use correct transformation sets
+ Create supported and documented NuGet package(s)  (#243)
+ Merge pull request #246 from hvanbakel/Issue-237
+
+Fixes #237
+ Fixes #237
+ Merge pull request #244 from hvanbakel/dotnet-format
+
+Apply standard formatting across solution
+ Merge pull request #240 from imsh/no-version-fix
+
+Don't crash if PackageReference had no Version information
+ Update ProjectWriter.cs
+ Run dotnet-format to standardise formatting across solution
+ standardise csproj formatting
+
+I simply ran ctrl+k+d in each one. dotnet-format didn't seem to do anything to csproj files
+ New API key
+ Fixes #241
+ Don't crash if PackageReference had no Version information
+ Create Project2015To2017.Migrate2019.Library
+
+No tool for now, just the transformation library.
+This looks like it might be a bug, setting definition.projectsdk to itself
+
+ Merge branch 'MO2k4-master'
+ Keep linked app.config
+ 4.0 Release
+
+* Add more bulletproof exception handling
+* Add UpgradeTestServiceTransformation to remove Service tag for tests
+* Update Microsoft.NET.Test.Sdk
+* Update README.md with Wizard guide
+ bump version
+ Resolved #229 #230
+ 4.0 Release Candidate

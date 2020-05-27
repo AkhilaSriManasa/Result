@@ -1,0 +1,421 @@
+﻿ Fix support for older CMake
+ I used `add_compile_definitions()` in #515, which is CMake 3.12+ only. (Oops.) Switch to `add_definitions()` which has been supported since the dawn of time.
+ Fix support for older CMake
+ I used `add_compile_definitions()` in #515, which is CMake 3.12+ only. (Oops.) Switch to `add_definitions()` which has been supported since the dawn of time.
+ Enable building with a libopenshot-audio that's based on non-bundled JUCE
+ This is the companion PR to OpenShot/libopenshot-audio#97, and contains the fixes necessary in libopenshot's build to ensure that it works with a libopenshot-audio that wasn't built from our bundled JUCE sources.
+
+(See that PR, as well as [Debian bug 925755](https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=925755), for background.)
+
+In addition:
+* Added some overlooked `juce::` prefixing, in places the unit tests don't touch (so it's not technically critical)
+* Replaced our one use of `juce::ScopedPointer` (which is [deprecated](https://juce.com/discover/stories/coding-standards#object-lifetime-and-ownership)) with the recommended `std::unique_ptr` replacement.
+ Set clip in constructor to resolve scale crop issue
+ This fix resolves issue: #419 
+
+Clips are scale cropped in two places FFmpegReader.cpp and in Timeline.cpp:556.
+
+FFmpegReader calculates the wrong size for scale with crop. It is because Timeline doesn't set clip for FFmpegReader (and for all readers) so FFmpegReader doesn't now anything about SCALE_CROP, because it is a property of Clip.
+
+And in FFmpegReader in line 1396 (in the last version) Clip *parent = (Clip *) GetClip();
+
+We get parent = NULL and so it doesn't check scale property and calculate sizes using default formulas which are incorrect for SCALE_CROP case (and may be for SCALE_FIT and SCALE_STRETCH too).
+
+I'll post some before and after screen-grabs just now but this change fixes the issue with 1:1 video scaling/cropping.
+ FFmpegUtilities: replace variable definition with statement expression
+ It is needed to avoid multiple definitions of AV_GET_CODEC_CONTEXT,
+which is considered as an error with '-fno-common' which is default
+since gcc-10.
+
+Fixes: #511
+ Add version/feature #defines to OpenShotVersion.h
+ The CMake process will pick up Qt's `Qt5Core_VERSION_STRING` variable and stick it in the CMake cache (with forced updating each run). A new `#define` in the header exports that as `QT_VERSION_STR` to both the library and the Python bindings. That way it can be queried at runtime, same as PyQt5's versioning:
+```python3
+>>> import openshot
+>>> print(openshot.QT_VERSION_STR)
+5.13.2
+>>> from PyQt5 import Qt
+>>> print(Qt.QT_VERSION_STR)
+5.13.2
+>>> print(Qt.PYQT_VERSION_STR)
+5.13.2
+```
+
+**Edit:** I added a few more:
+```python3
+>>> openshot.AVUTIL_VERSION_STR
+'56.31.100'
+>>> openshot.AVCODEC_VERSION_STR
+'58.54.100'
+>>> openshot.AVFORMAT_VERSION_STR
+'58.29.100'
+>>> openshot.HAVE_IMAGEMAGICK
+1
+>>> openshot.HAVE_RESVG
+1
+```
+
+Inspired by https://github.com/OpenShot/openshot-qt/issues/3442#issuecomment-625206538
+ Improve Pixelate filter scale
+ Fixes: https://github.com/OpenShot/libopenshot/issues/506
+ Travis: Fix package list syntax, contents
+ - Get rid of two-stage definition of apt.packages list, which was never necessary anyway.
+- Remove deprecated `libavresample` from package set for FFmpeg 4
+ MAJOR CHANGE (but not really): Move headers to src/ directory
+ This implements the proposal I made in #471, that header files live in the `src/` directory alongside their `*.cpp` files, rather than being kept in an `include/` directory.
+
+- Move all `/include/**/*.h` to `/src/...` (with same hierarchy)
+- Move `/src/examples` to `/examples`
+- Move `/src/Qt/demo` to `/examples/qt-demo`
+- Move `/src/bindings/` to `/bindings`
+- Adjust source files (far fewer relative includes):
+  - `/src/**/*.cpp`
+  - `/src/**/*.h`
+  - `examples/**/*.cpp`
+  - `tests/**/*.cpp`
+- Change `#include "JuceHeader.h"` to `#include <JuceHeader.h>` everywhere, since that header isn't part of our local source for the purposes of a libopenshot build
+- Adjust all `CMakeLists.txt` files to account for new include path
+- Add an `examples/CMakeLists.txt`, and move the logic for compiling and installing the necessary components to that file
+- Add logic to `tests/CMakeLists`, `examples/CMakeLists`, `/CMakeLists.txt` so that build components are imported locally when needed
+- Update `Doxygen.in` file to build docs from new locations
+
+This will be confusing, at first, when looking for moved files. (I've confused myself a couple of times already.) The relocated `bindings` directory is the one that throws me the most. But it really is _much_ simpler this way. Both in terms of humans editing the code, _and_ in terms of the contents of the code.
+
+The reason `src/examples`, `src/Qt/demo`, and `src/bindings` got moved out of `src/` is in small part practical: If there are directories in `src/` without any installable headers, the `install(DIRECTORY...)` CMake command will end up creating empty directories in the output location. So, I wanted to avoid that.
+
+But at the same time, the fact that that happens makes the point: _none_ of those directories' contents are part of the _libopenshot_ source code itself. So they really don't _belong_ in the **libopenshot** source dir. It makes more sense if they're separated.
+
+ CMake: Improvements to find modules, package metadata
+ Whoops! Left this in a broken state for hours, as I thought I'd already pushed the fixes.
+
+I'll make it up to everyone by including a whole bunch _more_ improvements to the build setup:
+
+1. FindOpenShotAudio now creates an `IMPORTED`  target, `OpenShot::Audio`
+1. All of the Windows/Apple build "stuff" (extra frameworks and whatnot) have been removed from the libopenshot `CMakeLists.txt` files, and placed in the Find module as properties on the `OpenShot::Audio` target, where they belong.
+1. Made `RESVG_ROOT` the preferred variable for specifying its location, even in older CMakes. (From 3.12 on it's automatically supported.)
+1. Reworked a bunch of the ImageMagick handling for code-length efficiency, decreased redundancy.
+
+Aaand, way back when I first opened this PR, still:
+Adding a URL and short description to the metadata provided in our custom `FindXXX.cmake` files allows the `FeatureSummary` to display a bit more info:
+```
+-- The following RECOMMENDED packages have been found:
+
+ * UnitTest++, Simple C++ unit testing framework, <https://github.com/unittest-cpp/unittest-cpp>
+   Needed to run unit tests after build
+
+-- The following REQUIRED packages have been found:
+
+ * OpenShotAudio (required version >= 0.2.0), OpenShot audio library based on JUCE, <https://github.com/OpenShot/libopenshot-audio>
+ * jsoncpp, JSON de/serialization and parsing in C++, <https://github.com/open-source-parsers/jsoncpp/>
+ * Qt5Widgets
+ * Qt5Core
+ * Qt5Gui
+ * Qt5Network (required version >= 5.13.2)
+ * Qt5Multimedia
+ * Qt5MultimediaWidgets
+ * Qt5
+ * FFmpeg, A/V media processing and manipulation library, <https://ffmpeg.org/>
+ * Threads
+ * OpenMP
+ * ZeroMQ, Universal messaging library, <https://github.com/zeromq/libzmq>
+ * SWIG (required version >= 3.0)
+
+-- The following features have been disabled:
+
+ * Coverage, analyze test coverage and generate report
+ * IWYU (include-what-you-use), Scan all source files with 'iwyu'
+
+-- The following OPTIONAL packages have not been found:
+
+ * RESVG, Rust-based SVG implementation, <https://github.com/RazrFalcon/resvg>
+```
+(The formatting's admittedly not ideal, but it may improve.)
+
+It's especially handy for the _missing_ items, to let builders know where to look for those resources.
+ CMake: Rename, modernize Findjsoncpp.cmake
+ - Rename (change of case only, `JsonCpp` - Move `IMPORTED` target creation to the Find module, and add version number detection/reporting (requirements, too, if needed)
+- Switch to lowercase variable forms (e.g. `jsoncpp_FOUND`)
+ Add Mac & Win CI builds with Travis, AppVeyor
+ Once again, mirroring OpenShot/libopenshot-audio#96, _this_ PR adds not only Windows building in AppVeyor, but also introduces a rudimentary form of "pseudo-chained" macOS building as well.
+
+More than the usual set of caveats begin to apply, however.
+1. The unit tests are disabled under Windows, because (even after I finally managed to get UnitTest++ _building_ at all; there's no MSYS package for it) they're currently failing, for reasons that aren't completely clear to me.<sup>1</sup> You might say that the lack of unit tests makes doing CI builds under Windows sort of pointless, and I would be forced to agree. But, hopefully the issues with the tests can be solved.
+1. I had to disable the Ruby bindings under both Windows and macOS, because they also failed to build if attempted. On the macOS side our old friend `isinfinite` decided to start breaking things again, and there were some other issues with the Ruby includes in XCode on Travis. In the end I just gave up on trying to figure out what the problem was, though.
+1. Both the Windows and macOS builds are, as I said, "pseudo-chained". Basically how it works is, prior to building libopenshot itself, the CI run will first check out, build, and install libopenshot-audio. Completely, from scratch, from the `develop` branch. Every time.
+    It's a slow process, though I may be able to achieve minor speedups using the AppVeyor and Travis cache feature(s) to store and re-use previously-built libopenshot-audio installs. I had that half-working, but ended up tearing it out for this PR because it was causing hard-to-diagnose build issues. I figured best to get it working, period, first, and then we can experiment with improvements to the process.
+1. Building on Windows and macOS involves installing all of the dependencies for every build, using either MSYS or Homebrew respectively. This process _also_ takes an extremely long time, relative to installing Linux dependencies om Ubuntu via `apt`. Also, both packaging systems have to be updated internally before they can install anything else, which _really_ sucks time. Homebrew in particular takes something like _**5-6 minutes**_ just to sync its catalog. But, if the update isn't run — again, _every_ time — then the Travis Homebrew plugin will actually break and fail the build, since they update their macOS system images so infrequently that there are periods where it ends up becoming completely incompatible with the central repo until they update it again. We are currently in such a period.
+
+The same vestigial NuGet packaging I included in the PR on libopenshot-audio is here in this repo as well, though it's just as non-functional and abandoned.
+
+OH!! I forgot to mention an incredibly small, but very important change: Both of these PRs also finally pull the trigger on moving the library targets' `RUNTIME DESTINATION` from `<prefix>/lib` to `<prefix>/bin`, which is the "correct" location for DLL installs under Windows.
+
+I _believe_  `FindOpenShotAudio.cmake` should already support detecting a libopenshot-audio install with the DLL in `bin/` without any changes. If it does need changes, they'll be minor and I can easily throw them in. However, this might affect @SuslikV and anyone else building libopenshot on Windows, so fair warning.
+
+It'll also definitely have implications for the OpenShot packaging scripts, upon merge, but again the changes are ultimately minor and easily made.
+
+#### Notes
+1. Part of the unit test failure issue can be attributed to the Settings unit tests. The settings that get modified there will persist throughout the unit test run, and they affect the rest of the tests. (Singletons are notoriously hard to unit test for this reason.) Especially since one of the changes accidentally enables hardware accelerated decoding, on Windows. But even if I rip out the settings tests, there are failures.
+ Add version.sh script
+ Just like OpenShot/libopenshot-audio#95, this adds a `version.sh` script at the root of the repo which extracts the `PROJECT_VERSION_FULL` string from `CMakeLists.txt`, and for the same reasons:
+
+> This is useful for building libopenshot-audio as a Mac Homebrew `brew diy` project, which allows ad-hoc building of packages that install directly into the Homebrew environment.
+> 
+> e.g.
+> ```sh
+> $ cd libopenshot-audio
+> $ cmake $(brew diy --name libopenshot-audio --version $(sh ./version.sh)) .
+> [CMake runs with CMAKE_INSTALL_PREFIX set to $(brew --cellar)/libopenshot-audio/<version>/]
+> $ cmake --build .
+> $ cmake --build . --target install
+> $ brew link libopenshot-audio
+> ```
+> ...and libopenshot-audio is linked into `/usr/local/opt/{lib,include}`.
+> 
+
+So, same thing with libopenshot:
+```sh
+$ cd libopenshot
+$ cmake $(brew diy --name libopenshot --version $(sh ./version.sh)) .
+[CMake runs with CMAKE_INSTALL_PREFIX set to $(brew --cellar)/libopenshot/<version>/]
+$ cmake --build .
+$ cmake --build . --target install
+$ brew link libopenshot
+```
+
+One advantage being, you _don't_ have to give the libopenshot `cmake` run the location of a `libopenshot-audio` installed this way, since anything in the homebrew space is considered "system-installed". (With the right user environment variables set, at least. `brew shellenv` can be used to automatically apply that setup.)
+ Make debug handling match libopenshot-audio
+ This PR adds the debug-mode handling logic from the libopenshot-audio CMakeLists to the libopenshot build, ensuring that the two projects are build the same when built under the same circumstances.
+
+(Juce's pickiness about having a `#define` for either `DEBUG` or `NDEBUG` in macOS builds also affects libopenshot, when the two libraries are being linked together, so it helps to have them both on the same page.)
+ Add all missing override markers on derived-class methods
+ Turns out, some Clang++ versions are _much_ pickier than GCC, and will complain mightily about missing `override` annotations in derived classes. Because this is a header-file issue, the same set of warnings tend to repeat over, and over, and _over_ throughout the build.
+
+This PR silences them all, with appropriate application of `override` wherever necessary.
+ Rename our BaseException class to ExceptionBase, for Python
+ `pylint` pointed out that `BaseException` is a Python standard library exception class (not quite a reserved word, but pretty close), so it's not a great idea to redefine that name in our bindings. 
+
+This PR renames it to `ExceptionBase`, which is actually more in keeping with our standard class naming system anyway. (Compare `ReaderBase`, `EffectBase`, `CacheBase`, etc.)
+ Transform Improvements (Keyframe origin point)
+ Adding keyframable origin point (for shear and rotation). Used in https://github.com/OpenShot/openshot-qt/pull/3366. Both rotation and shear use an origin point to control how those tools work. This allows the user to not only set a custom origin point (as a % of the original clip), but it allows the origin to be animated, which allows for some really great animations!
+
+origin_x: **0.0** = left side of clip
+origin_x: **1.0** = right side of clip
+
+origin_y: **0.0** = top side of clip
+origin_y: **1.0** = bottom side of clip
+ Set decoding and encoding color details
+ 1) This solves issue when imported files wrongly decoded as BT.601 videos ("greenish" result in the preview of OpenShot).
+
+2) This solves issue when imported 4:2:0 files has "stairs" artifacts on colored objects (noticeble in Save Frame or image sequence Export of OpenShot).
+
+**Edit:**
+"Reference" input 4:2:0 mp4 file of BT.709 space, transfer, primaries, chroma origin is left, range is partial.
+![In mpv Player orig](https://user-images.githubusercontent.com/19683044/79047579-38aed100-7c20-11ea-9407-501f5be9ab2e.png)
+
+What was wrong? Colors!
+OpenShot's _Video Preview_. Just screenshot (I see it the same "greenish" on my screen). You can attempt to adjust colors but this will be mistake, because preview shouldn't change colors of the input but can has scaling artifacts (right edge has color spill over the grey about one pixel width - this is fast_bilinear optimizations of FFmpeg, so it's OK for preview)
+![Preview in OpenShot 251 of 420 file bt709 tv](https://user-images.githubusercontent.com/19683044/79047601-5b40ea00-7c20-11ea-9989-1a9dcd43a47d.png)
+
+OpenShot's _Save Frame_ or _Image Sequence Export_ colors are wrong. And these images can be used for production. This is no good. Also, some simplifications (no chroma scale down back to 1/2) makes the final output even worse - details is here: https://github.com/OpenShot/openshot-qt/pull/3335#issuecomment-610788981
+![OpenShot 251 SaveFrame or Image seq Export](https://user-images.githubusercontent.com/19683044/79047643-90e5d300-7c20-11ea-8d46-55d8c82ff424.png)
+
+Image import - movie Export (23 crf, mp4 720p, playback in mpv, screenshot - I see it the same "dark green" on my screen, file was not flagged for color space), So better to not import PNG images (RGB) into OpenShot or colors in export will be wrong
+![In mpv Player OpenShot 251 Export Image only file](https://user-images.githubusercontent.com/19683044/79047655-b1159200-7c20-11ea-9bbf-04893c1bb8cb.png)
+
+------------------
+
+I hope that next changes will improve quality for the _Export_ (both: scale and colors) and _Preview_ (only colors). I can say that only for OpenShot's preview there is enough _Point_ scaling, because it is only preview... (and any source can be scaled up by Qt transform that itself set to bilinear). But someone may want to use library somewhere else, and may not know about `HIGH_QUALITY_SCALING` switch in _libopenshot_, so I decided to not make changes to `scale_mode=SWS_FAST_BILINEAR` when lower quality is in use.
+
+Some thoughts are inspired by Jason Summers ( entropymine.com/jason/ ) and Charles Poynton (if site even needed here?)
+
+**info:** This is part of the: https://github.com/OpenShot/libopenshot/pull/219
+ Improved Profile file parsing and error handling
+ Modified the Profile constructor to better identify invalid or malformed Profile files and throw more informative exceptions when issues are encountered.  I will also be modifying openshot-qt to better handle these exceptions rather than failing silently.
+
+This resolves an issue I had when a malformed Profile file caused a segmentation fault.
+
+While I was in the code, I modified the InterpolateBetween function in KeyFrame.cpp to eliminate a compiler warning.
+ INSTALL.md: Formatting, markdown cleanup
+ Fixed up the MarkDown a bunch, got rid of all those headings preceded by bullets (which are not legal markdown), and added some more possible CMake flags to the list (as well as cleaned up the existing ones and organized them into categories).
+ Update release log formatting
+ Like OpenShot/libopenshot-audio#92, this makes some tweaks to the `git` commands that the builders use to generate the <code>install*/share/<var>repo</var>.log</code> file during each build stage, to make the contents maximally conducive to cut-and-paste insertion directly into a GitHub Release description.
+
+From the libopenshot-audio PR:
+> Some more tweaks to the log-o-commits formatting, when generated by the GitLab builders:
+> * The actual format string is stored in an environment variable, to avoid retyping four times
+> * MarkDown-friendly output (including the leading '`- `' on each line), so that the file contents can be directly cut-and-pasted into a Release description
+> * Removed all of the color escapes, since they're pointless while redirecting the output
+> * Removed the branch/tag labels for commits as unnecessary information
+> * Fields rearranged to non-columnar format (making width limits unnecessary)
+> * `--pretty=tformat:` is used, to ensure a trailing newline
+> * `--no-merges` added, to reduce clutter
+> 
+Here's an example run listing the changes since `v0.2.5`:
+```console
+$ GIT_LOG_FORMAT="- %h %ad %s [%aN]" && git log v0.2.5.. --oneline --date=short --no-merges --pretty="tformat:$GIT_LOG_FORMAT"
+- 2701cf9 2020-03-26 Add frame rate test to FFmpegReader_Tests [FeRD (Frank Dana)]
+- fda1357 2020-03-26 Ignore ctags file (#482) [Chiller Dragon]
+- 455b6e9 2020-03-26 Fix float to int16_t conversion in resampler [SuslikV]
+- 5e899bf 2020-03-25 Add SWIG/Ruby compatibility check & warning (#480) [Frank Dana]
+- 0a5dfd9 2020-03-26 Fix zmq version check (#478) [Chiller Dragon]
+- adf6165 2020-03-25 Add version reporting to FindZeroMQ [FeRD (Frank Dana)]
+- 54f5fea 2020-03-25 ZeroMQ's std::string support is too new [FeRD (Frank Dana)]
+- 4fad197 2020-03-23 Add version gating for Zmq and Qt deprecations (#470) [Frank Dana]
+- 94e9ad3 2020-03-23 bindings: Remove relative header paths (#469) [Frank Dana]
+- 2684015 2020-03-23 python/CMakeLists: Lowercase commands, indents [Frank Dana]
+- bb20a9b 2020-03-23 ruby/CMakeLists: Lowercase commands [Frank Dana]
+- 818ce5a 2020-03-19 Exclude thirdpart/jsoncpp from Codecov scanning [FeRD (Frank Dana)]
+- b738460 2020-03-19 Clip_Tests: Remove try/catch blocks [FeRD (Frank Dana)]
+- 54a82ff 2020-03-16 Fix test sample values [SuslikV]
+- dff4201 2020-03-16 Restore default gain when adding audio [SuslikV]
+- c28a8bf 2020-03-16 Fix float to int16_t conversion [SuslikV]
+- 816118b 2020-03-12 CMake: Use GNUInstallDirs for install paths (#457) [Frank Dana]
+- e19291a 2020-03-12 Travis: Drop extra FFmpeg 3.4 GCC job (#463) [Frank Dana]
+- 4058dde 2020-03-10 ReaderBase_Tests: 100% internal coverage (#462) [Frank Dana]
+- a21e328 2020-03-10 Updating auto-stale conditions (90 days warning, 10 days to respond, only issues, ignore assigned issues) [Jonathan Thomas]
+- 4ea3623 2020-03-10 Adding support for proper absolute/canonical path detection and replacement [Jonathan Thomas]
+- de42a90 2020-03-09 Adding stale bot for github issue management [Jonathan Thomas]
+- 8b3167a 2020-03-09 Adding ability for a Clip to auto-detect and instantiate a Timeline Reader from the *.osp file type. Added new Timeline constructor, to auto load UTF-8 JSON file, and regex convert all paths to absolute. Fixed a dead lock issue when a Timeline loads another Timeline. [Jonathan Thomas]
+- f5ab99f 2020-03-09 Travis: Use CMAKE_INSTALL_PREFIX [FeRD (Frank Dana)]
+- 20fffc4 2020-03-09 bindings: Relative paths, overridable [FeRD (Frank Dana)]
+- efe0728 2020-03-03 Bump version to -dev2 (merge master back to develop) [Jonathan Thomas]
+- 7fbd44a 2020-03-02 ColorShift: Use one-word name in EffectInfo (#453) [Frank Dana]
+- e7bd918 2020-02-24 Change frame rate detection [SuslikV]
+```
+And if I cut-and-paste that output here, unmodified:
+- 2701cf9 2020-03-26 Add frame rate test to FFmpegReader_Tests [FeRD (Frank Dana)]
+- fda1357 2020-03-26 Ignore ctags file (#482) [Chiller Dragon]
+- 455b6e9 2020-03-26 Fix float to int16_t conversion in resampler [SuslikV]
+- 5e899bf 2020-03-25 Add SWIG/Ruby compatibility check & warning (#480) [Frank Dana]
+- 0a5dfd9 2020-03-26 Fix zmq version check (#478) [Chiller Dragon]
+- adf6165 2020-03-25 Add version reporting to FindZeroMQ [FeRD (Frank Dana)]
+- 54f5fea 2020-03-25 ZeroMQ's std::string support is too new [FeRD (Frank Dana)]
+- 4fad197 2020-03-23 Add version gating for Zmq and Qt deprecations (#470) [Frank Dana]
+- 94e9ad3 2020-03-23 bindings: Remove relative header paths (#469) [Frank Dana]
+- 2684015 2020-03-23 python/CMakeLists: Lowercase commands, indents [Frank Dana]
+- bb20a9b 2020-03-23 ruby/CMakeLists: Lowercase commands [Frank Dana]
+- 818ce5a 2020-03-19 Exclude thirdpart/jsoncpp from Codecov scanning [FeRD (Frank Dana)]
+- b738460 2020-03-19 Clip_Tests: Remove try/catch blocks [FeRD (Frank Dana)]
+- 54a82ff 2020-03-16 Fix test sample values [SuslikV]
+- dff4201 2020-03-16 Restore default gain when adding audio [SuslikV]
+- c28a8bf 2020-03-16 Fix float to int16_t conversion [SuslikV]
+- 816118b 2020-03-12 CMake: Use GNUInstallDirs for install paths (#457) [Frank Dana]
+- e19291a 2020-03-12 Travis: Drop extra FFmpeg 3.4 GCC job (#463) [Frank Dana]
+- 4058dde 2020-03-10 ReaderBase_Tests: 100% internal coverage (#462) [Frank Dana]
+- a21e328 2020-03-10 Updating auto-stale conditions (90 days warning, 10 days to respond, only issues, ignore assigned issues) [Jonathan Thomas]
+- 4ea3623 2020-03-10 Adding support for proper absolute/canonical path detection and replacement [Jonathan Thomas]
+- de42a90 2020-03-09 Adding stale bot for github issue management [Jonathan Thomas]
+- 8b3167a 2020-03-09 Adding ability for a Clip to auto-detect and instantiate a Timeline Reader from the *.osp file type. Added new Timeline constructor, to auto load UTF-8 JSON file, and regex convert all paths to absolute. Fixed a dead lock issue when a Timeline loads another Timeline. [Jonathan Thomas]
+- f5ab99f 2020-03-09 Travis: Use CMAKE_INSTALL_PREFIX [FeRD (Frank Dana)]
+- 20fffc4 2020-03-09 bindings: Relative paths, overridable [FeRD (Frank Dana)]
+- efe0728 2020-03-03 Bump version to -dev2 (merge master back to develop) [Jonathan Thomas]
+- 7fbd44a 2020-03-02 ColorShift: Use one-word name in EffectInfo (#453) [Frank Dana]
+- e7bd918 2020-02-24 Change frame rate detection [SuslikV]
+
+ Fix Win64 Gitlab builds
+ When merging #458 I somehow left an outdated command in the `.gitlab-ci.yml` Win64 command list that now references a nonexistent path, causing the build to fail.
+ Make Travis' syntax checker happy(er)
+ A few things about our `.travis-ci.yml` file annoy their syntax checker. (This doesn't fix all of them, but the duplicate `addons.apt` sections I'm not sure we can fix currently.)
+ Remove old command to fix Win64 builder
+ When merging #458 I somehow left an outdated command in the `.gitlab-ci.yml` Win64 command list that now references a nonexistent path, causing the build to fail.
+ Ignore ctags file
+ 
+ Update copyright to 2020
+ 
+ Add SWIG/Ruby compatibility check & warning
+ Ruby 2.7.0 contains some SWIG incompatibilities that weren't addressed until the (unreleased) SWIG 4.0.3, so if we detect the new Ruby version, emit a warning when generating the build. (The warning can be silenced by the user, as indicated.)
+
+```
+-- Found Ruby: /usr/bin/ruby (found version "2.6.5") 
+CMake Warning at src/bindings/ruby/CMakeLists.txt:51 (message):
+  
+
+  Ruby 2.7.0+ detected, building the libopenshot Ruby API bindings requires a
+  pre-release version of SWIG 4.0.3 with this commit:
+  https://github.com/swig/swig/commit/5542cc228ad10bdc5c91107afb77c808c43bf2a4
+
+
+-- 
+To disable this warning, add -DSILENCE_RUBY_VERSION_WARNING:BOOL=1 to the cmake
+ command line, or enable the option in the CMake GUI.
+```
+
+(I had temporarily set the version comparison down to 2.6.0 to force the warning for this test, since I'm not running Ruby 2.7.0 yet.)
+
+Fixes #479 
+ Fix zmq version check
+ zmq.h
+```
+#define ZMQ_VERSION_MAJOR 4
+#define ZMQ_VERSION_MINOR 3
+#define ZMQ_VERSION_PATCH 1
+
+#define ZMQ_MAKE_VERSION(major, minor, patch)                                  \
+    ((major) *10000 + (minor) *100 + (patch))
+#define ZMQ_VERSION                                                            \
+    ZMQ_MAKE_VERSION (ZMQ_VERSION_MAJOR, ZMQ_VERSION_MINOR, ZMQ_VERSION_PATCH)
+```
+
+error without fix:
+```
+$ make
+[  1%] Automatic MOC for target openshot
+[  1%] Built target openshot_autogen
+Scanning dependencies of target openshot
+[  2%] Building CXX object src/CMakeFiles/openshot.dir/ZmqLogger.cpp.o
+/home/chiller/Desktop/git-extern/libopenshot/src/ZmqLogger.cpp: In member function ‘void openshot::ZmqLogger::Log(std::__cxx11::string)’:
+/home/chiller/Desktop/git-extern/libopenshot/src/ZmqLogger.cpp:125:30: error: no matching function for call to ‘zmq::message_t::message_t(std::__cxx11::string&)’
+  zmq::message_t reply(message);
+                              ^
+In file included from /home/chiller/Desktop/git-extern/libopenshot/src/../include/ZmqLogger.h:43,
+                 from /home/chiller/Desktop/git-extern/libopenshot/src/ZmqLogger.cpp:31:
+/usr/include/zmq.hpp:247:16: note: candidate: ‘zmq::message_t::message_t(zmq::message_t&&)’
+         inline message_t (message_t &&rhs): msg (rhs.msg)
+                ^~~~~~~~~
+/usr/include/zmq.hpp:247:16: note:   no known conversion for argument 1 from ‘std::__cxx11::string’ {aka ‘std::__cxx11::basic_string<char>’} to ‘zmq::message_t&&’
+/usr/include/zmq.hpp:238:16: note: candidate: ‘zmq::message_t::message_t(void*, size_t, void (*)(void*, void*), void*)’
+         inline message_t (void *data_, size_t size_, free_fn *ffn_,
+                ^~~~~~~~~
+/usr/include/zmq.hpp:238:16: note:   candidate expects 4 arguments, 1 provided
+/usr/include/zmq.hpp:230:16: note: candidate: ‘zmq::message_t::message_t(const void*, size_t)’
+         inline message_t (const void *data_, size_t size_)
+                ^~~~~~~~~
+/usr/include/zmq.hpp:230:16: note:   candidate expects 2 arguments, 1 provided
+/usr/include/zmq.hpp:212:30: note: candidate: ‘template<class I> zmq::message_t::message_t(I, I)’
+         template<typename I> message_t(I first, I last):
+                              ^~~~~~~~~
+/usr/include/zmq.hpp:212:30: note:   template argument deduction/substitution failed:
+/home/chiller/Desktop/git-extern/libopenshot/src/ZmqLogger.cpp:125:30: note:   candidate expects 2 arguments, 1 provided
+  zmq::message_t reply(message);
+                              ^
+In file included from /home/chiller/Desktop/git-extern/libopenshot/src/../include/ZmqLogger.h:43,
+                 from /home/chiller/Desktop/git-extern/libopenshot/src/ZmqLogger.cpp:31:
+/usr/include/zmq.hpp:205:25: note: candidate: ‘zmq::message_t::message_t(size_t)’
+         inline explicit message_t (size_t size_)
+                         ^~~~~~~~~
+/usr/include/zmq.hpp:205:25: note:   no known conversion for argument 1 from ‘std::__cxx11::string’ {aka ‘std::__cxx11::basic_string<char>’} to ‘size_t’ {aka ‘long unsigned int’}
+/usr/include/zmq.hpp:198:16: note: candidate: ‘zmq::message_t::message_t()’
+         inline message_t ()
+                ^~~~~~~~~
+/usr/include/zmq.hpp:198:16: note:   candidate expects 0 arguments, 1 provided
+/home/chiller/Desktop/git-extern/libopenshot/src/ZmqLogger.cpp:128:30: error: ‘zmq::send_flags’ has not been declared
+  publisher->send(reply, zmq::send_flags::dontwait);
+                              ^~~~~~~~~~
+make[2]: *** [src/CMakeFiles/openshot.dir/build.make:414: src/CMakeFiles/openshot.dir/ZmqLogger.cpp.o] Error 1
+make[1]: *** [CMakeFiles/Makefile2:164: src/CMakeFiles/openshot.dir/all] Error 2
+make: *** [Makefile:152: all] Error 2
+```
+ ZeroMQ's std::string support is too new
+ Whoops. Seems I broke ZeroMQ on both the Windows and macOS builders, trying to use `std::string` with `zmq::message_t`. (In my defense, it works fine on Fedora 31! Must be a recent feature.)
+
+I've reverted to the old `memcpy()` version of message construction, for all ZeroMQ versions.
+ Memory-safety fixes to FFmpegWriter, FrameMapper, DummyReader
+ The biggest change here is actually the least consequential: I renamed `audio_codec` and `video_codec` to `audio_codec_ctx` and `video_codec_ctx` throughout FFmpegWriter, because they both have type `AVCodecContext`. There _are_ other variables in use with type `AVCodec`, and it hurt my brain too much trying to follow the code when the variables called "codec" weren't codecs.
+
+After doing that, I was able to read the code, so I fixed a possible memory leak flagged by valgrind, where new contexts were assigned to a pointer without checking that it didn't _already_ have a context assigned. If it does, we free it as required by the FFmpeg API.
+
+In addition, two reads on unused variables are fixed:
+1. `is_open` in FrameMapper (Eliminated, because that read was the **only** time it was ever used, _period_ — its `IsOpen()` method returns the value of `reader->is_open`.)
+1. `is_open` in DummyReader (Added to the constructors' initializer lists.)
+
+Eliminating those two issues cleared up something like 25 valgrind errors in `openshot-test` (thanks to how often FrameMapper's destructor gets called).

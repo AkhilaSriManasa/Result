@@ -1,0 +1,28 @@
+﻿ mediatorPatternAdded
+ 
+ Implemented Builder Pattern with regards to issue #8
+ Sorry for the miss-spelled "issue" on the commit message.
+
+Check out my implementation of the builder creational design pattern. It makes the client code very simple. And the usage is quite intuitive. 
+ Add Prototype pattern
+ 
+ Add builder pattern
+ Add builder pattern #8 
+ Removed Factory out of the README.md
+ Factory directory does not exist.
+ Visitor and Flyweight Patterns
+ 
+ FlyweightPattern
+ 
+ Bridge Pattern
+ Added Bridge Pattern into repo
+ add DotnetCore support and delete old files
+ 
+ Upgrade Coffe Grounds from 5 centuries ago to 21st century Coffee Grounds 
+ 
+ Fix java-like brace
+ 
+ Simplified implementation with the use of Lazy<T>.
+ 
+ I fixed markdown links in README.md 
+ Any markdown link had typo.Fixed it.

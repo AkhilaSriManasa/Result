@@ -1,0 +1,81 @@
+﻿ Bump version
+
+Signed-off-by: Sylvain Hellegouarch <sh@defuze.org>
+ Merge branch 'medington-protocol_fix'
+ Fix #179 properly
+
+Thanks @medington
+
+Closes #219
+
+Signed-off-by: Sylvain Hellegouarch <sh@defuze.org>
+ copyright date
+
+Signed-off-by: Sylvain Hellegouarch <sh@defuze.org>
+ Fixing rtd
+
+Signed-off-by: Sylvain Hellegouarch <sh@defuze.org>
+ Be clearer about the hiatus
+
+Signed-off-by: Sylvain Hellegouarch <sh@defuze.org>
+ Clarify project is on hiatus
+
+Signed-off-by: Sylvain Hellegouarch <sh@defuze.org>
+ Bump version
+
+Signed-off-by: Sylvain Hellegouarch <sh@defuze.org>
+ Merge pull request #221 from thaffenden/block
+
+Adds argument to set block value on gevent get command in WebSocketClient.receive()
+ Merge pull request #233 from kamwoh/master
+
+fixed runtime error: Set changed size during iteration
+ Merge pull request #239 from jmichiel/fix_230_2
+
+proper fix for #230: on secure, only pass the requested number of bytes to the parsers
+ Merge pull request #229 from Seraphli/master
+
+fix bug about sec-websocket-protocol
+ fix non-secure
+ proper fix for #230: on secure, only pass the requested number of bytes to the parsers
+ Bump version
+ Disable build for py3.4
+
+It seems setuptools has an issue as reported by https://github.com/pypa/setuptools/issues/951
+ Note for #236
+ Merge pull request #236 from noam-graetz/Fix-issue-#235
+
+fix issue #235: change from type() to isinstance())
+ fix indent of block
+ change from type() to isinstance())
+
+type() check for exact match, which failed to detect the subclass used by WS4PY
+ fixed runtime error: Set changed size during iteration
+ fix bug when sec-websocket-protocol and sec-websocket-extensions appear in header
+While this change does address the simple failure case of one protocol, it still does not properly handle the case where the client is created with an array of protocol values (same for extensions).
+
+A more correct change is:
+
+```                protocols.extend([x.strip() for x in value.split(b',')])```
+
+This fix is is included in Pull Request #219.
+
+Good catch. When Iooked at it yesterday, I sort of recalled this could be a case but not quite sure. I do not use this project myself and I must admit I didn't clearly remember the details. I probably should have been more careful.
+
+ Adds argument to set block value on gevent get command in WebSocketClient.receive()
+ Rudimentary fix and testcase for Issue #179
+
+Per RFC-6455 protocols and extensions values can contain multiple
+values and may occur multiple times in the header.
+This fix handles only the case of the ',' delimiter and not ';'.
+Enhanced existing test to verify the most basic of parsing examples.
+ Minor cleanup of client code, unused imports, typo, and comments
+ Merge pull request #217 from klattimer/master
+
+exclude certain headers when requested
+ implement exclude headers in subclasses too
+ add option to exclude certain headers which would ordinarily be added by default
+ Merge pull request #215 from pmlandwehr/patch-1
+
+Create MANIFEST.in with LICENSE
+ Create MANIFEST.in

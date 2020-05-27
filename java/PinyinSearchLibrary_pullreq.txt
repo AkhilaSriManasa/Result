@@ -1,0 +1,5 @@
+﻿ modify the issue that the contacts index view height is wrong
+ test step:
+1. scroll the contacts list to  the end;
+2. click the quick search character, and you can see the height of contacts index view is wrong.
+

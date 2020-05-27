@@ -1,0 +1,132 @@
+﻿ Documentation of conditional files / directories (#1397)
+
+fix https://github.com/cookiecutter/cookiecutter/issues/127#issuecomment-223635938
+ Changed: README.md PyPI URLs changed to the modern PyPI last version (#1391)
+
+Co-authored-by: Andrey Shpak <insspb@users.noreply.github.com>
+ Fixed: Comma in README.md (#1390)
+
+Co-authored-by: Cyrus Bey <cyrusbey@gmail.com>
+Co-authored-by: Andrey Shpak <insspb@users.noreply.github.com>
+ Fixed: Replaced no longer maintained pipsi by pipx (#1395)
+ Fixed: Fail with gitolite repositories (#1144)
+
+* Fix fail with gitolite repositories
+
+* Remove duplicate tests #1144
+
+Co-authored-by: Andrey Shpak <ashpak@ashpak.ru>
+ MANIFEST: Fix file name extensions (#1387)
+
+The files got new file name extensions, but MANIFEST was not updated -> files were missing in the tarballs
+ Release 1.7.2
+ FIxed: Jinja2&Six version limits causing build errors with ansible project (#1384)
+ Release 1.7.1
+ Added: Black formatting verification for whole project
+
+* Enable black formatting
+
+* Fixid commas #1368
+
+Co-authored-by: Andrey Shpak <ashpak@ashpak.ru>
+ Added: Pytest config with docstrings enabled tests (#1381)
+ Reformatted readme file and removed outdated information (#1361)
+
+* Replace hardcoded template listing
+
+Replaces the hardcoded listing of templates with generic categories pointing to github topic queries.
+
+This should cut the big number of listing updates and also provide an unbiased listing method, as github default listing is based on projects popularity (stars).
+
+We also need to send en email that warns template publishers to update their topics on github. If possible we should try to send this email before merging the change.
+
+* New readme.
+
+Co-authored-by: Sorin Sbarnea <ssbarnea@redhat.com>
+Could this list be moved to a separate page in the docs? Or an unnecessarily separately-maintained awesome-cookiecutter or something?
+
+(I returned looking for the #link-to reproducible data science cookiecutters which I have shared previoudly and found that it had simply been deleted without any suitable replacement)
+
+ Tests refactoring: test_generate* docstrings added, setup/teardown functions updated, duplicate tests dropped (#1378)
+ Updated: get_config Function exception extended with config file path information (#1370)
+
+* Updated: get_config Function exception now has config file path
+
+* Tests extended with path check for exception message and docstrings
+ Updated: get_config Function exception extended with config file path information (#1370)
+
+* Updated: get_config Function exception now has config file path
+
+* Tests extended with path check for exception message and docstrings
+ Tests refactoring: test_abbreviation_expansion tests replaced by parametrization, docstrings added (#1369)
+ Tests refactoring: test_abort_generate_on_hook_error tests replaced by parametrization, docstrings added (#1374)
+ tests: docstrings for invocation test files (#1375)
+
+* Added: docstrings for cookiecutter invocation files
+
+* Updated: test_cookiecutter_invocation docstrings + new setup/teardown
+ Added: docstrings for cookiecutter test files (#1376)
+ Tests refactoring: test-generate_context one time use fixtures removed, docstrings added, code reformatting (#1379)
+ Added: docstrings for extensions feature test files (#1373)
+ Tests refactoring: test_generate_hooks changed setup/teardown syntax, test-data generation function replaced with static data, docstrings added (#1372)
+ Added: docstrings for test files in `tests/repository` directory (#1371)
+ tests: test_prompt Exception tests refactoring (#1380)
+
+* Tests refactoring: test_prompt Exception tests replaced by parametrization, docstrings, formatting, new tests
+
+* Remove wrong type limit. (Raw can be any)
+ Added: docstrings for cookiecutter test files (#1377)
+ Added: GitHub Action to build Sphinx docs and store artefacts (#1365)
+
+* Added GitHub Action to build Sphinx docs
+
+* Added GitHub Action to build Sphinx docs
+
+* Added: GitHub Action to build Sphinx docs and store artefacts
+
+* Fix naming
+
+* Add click requirement to docs build
+
+* Add cookiecutter pre-installation before docs build
+
+* Add cookiecutter pre-installation before docs build
+
+* Add cookiecutter pre-installation before docs build
+
+* Add cookiecutter pre-installation before docs build
+
+* Drop action, use make.
+
+* Drop action, use make.
+
+* Switch to the same version of python, like on read the docs.
+ Drop AppVeyor references from documentation
+
+We no longer run AppVeyor because we already have same
+platforms covered by Travis, in a more reliable format.
+
+Also updates contribution guidelines to make them CI/CD agnostic,
+making easier to perform other changes in the future.
+ Bulk changelog update for merged pull requests (#1366)
+
+* Add changelog for (#1356)
+
+* Changelog for #1357
+
+* Changelog for 1360
+
+* Changelog update for #1363
+ Drop appveyor CI/CD (#1363)
+ Updated: release-drafter configuration to match our changelog format
+ Add CI/CD steps for Github actions to speedup CI/CD (#1360)
+
+* Add alpha version of github actions CI/CD
+
+* Fix pypy2 naming.
+
+* Add pypy3 to travis + verbose tests logging everywhere.
+
+* Add skip test for pypy3 on Ubuntu travis.
+
+* Remove pypy tests from windows CI/CD (Broken)

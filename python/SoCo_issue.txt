@@ -1,0 +1,608 @@
+﻿ Sonos Amp night mode and speech enhancement support
+ Sonos Amp supports night mode and speech enhancement, but is not supported in the code because it is not listed as a soundbar.
+
+I discovered this whilst using home assistant https://github.com/home-assistant/core/issues/35740
+
+PR: https://github.com/SoCo/SoCo/pull/721
+ Lists 'sonos amp' as a soundbar in order to provide night mode and speech enhancement support for amp.
+ Night mode and speech enhancement is supported by Sonos amp, but the amp is not listed in the code, meaning it is not supported at present.
+
+[![Coverage Status](https://coveralls.io/builds/30856076/badge)](https://coveralls.io/builds/30856076)
+
+Coverage remained the same at 57.713% when pulling **acb4414c83f9c6fcebbf1287331d829ffed89130 on iainp999:night_mode_fix** into **989f6af060affecd498f7f111d06f56d7002f918 on SoCo:master**.
+
+
+Note that you'll need the changes in #720 in order to pass Travis CI checks.
+
+Thanks @pwt - I guess I should wait for that merge and then pull back into my branch?
+
+That's the simplest option, yes.
+
+ Fixes required to pass updated pylint checks
+  Pylint has been updated and is picking up a couple of new issues, hence all test builds will fail. This PR fixes the issues.
+
+[![Coverage Status](https://coveralls.io/builds/30737926/badge)](https://coveralls.io/builds/30737926)
+
+Coverage remained the same at 57.713% when pulling **42fd7b9c73d950f96d3ccf31ce8f355923781034 on pwt:pylint_fixes** into **989f6af060affecd498f7f111d06f56d7002f918 on SoCo:master**.
+
+
+ Fixes #717
+ This address issue #717 using the code supplied by @Sonosy (modified for Black compliance). I also had to fix a pylint 'disable' directive to pass pylint tests.
+
+Integration tests run successfully.
+
+[![Coverage Status](https://coveralls.io/builds/30736782/badge)](https://coveralls.io/builds/30736782)
+
+Coverage increased (+0.02%) to 57.734% when pulling **1a384610b181cdd5872df4769b166042e771c27a on pwt:fix_717** into **989f6af060affecd498f7f111d06f56d7002f918 on SoCo:master**.
+
+
+
+[![Coverage Status](https://coveralls.io/builds/30735341/badge)](https://coveralls.io/builds/30735341)
+
+Coverage increased (+0.02%) to 57.734% when pulling **cf5faccbcaf038c40c25ede54eb9f867a8f276b8 on pwt:fix_717** into **989f6af060affecd498f7f111d06f56d7002f918 on SoCo:master**.
+
+
+ avTransport events duplicated 
+ When going from stopped to play on a radio station TRANSITIONING and PLAYING are fired twice. When going from PAUSED_PLAYBACK to PLAYING TRANSITIONING is fired twice. going from one play list to another seems to fire one TRANSITIONING and one PLAYING. Is this intentional?
+
+`	sonos = soco.SoCo(<insert ip address>).group.coordinator
+	sub = sonos.avTransport.subscribe(auto_renew=True)
+
+	while True:
+		try:
+			event = sub.events.get(timeout=0.5)
+			print(event)
+			print(event.sid)
+			print(event.seq)        
+			print (event.variables)
+
+		except Empty : 
+			pass
+		except KeyboardInterrupt:
+			sub.unsubscribe()
+			event_listener.stop()
+			break`
+ Music Library get_music_library_information processes 'share' browsing incorrectly
+ Using
+`.get_music_library_information("share", search_term='//nas/my folder')`
+sends
+`<ObjectID>S::%2F%2Fnas%2Fmy%20folder</ObjectID>`
+This fails on 2 counts:
+1. The double colon
+2. Escaping the /
+
+What should be sent is either
+`<ObjectID>S://nas/my%20folder</ObjectID>`
+or
+`<ObjectID>S://nas/my folder</ObjectID>`
+Both work
+
+My working code for get_music_library_information in music_library.py  is
+```
+from .compat import quote_url
+...        
+        search = self.SEARCH_TRANSLATION[search_type]
+        share_translation = self.SEARCH_TRANSLATION['share']
+        # Add sub categories NB sub categories not allowed when searching shares
+        if subcategories is not None and search_term != share_translation:
+            for category in subcategories:
+                search += '/' + url_escape_path(really_unicode(category))
+        # Add fuzzy search
+        if search_term is not None:
+            if search == share_translation:
+                # Don't insert ":" and don't escape "/" (so can't use url_escape_path)
+                search += quote_url(really_unicode(search_term).encode('utf-8'))
+            else:
+                search += ':' + url_escape_path(really_unicode(search_term))
+
+```
+FWIW both of the following work but are messy
+```
+.browse(ml_item=type('obj', (object,), {'item_id' : "S://nas/my folder"}))
+.browse(ml_item=type('obj', (object,), {'item_id' : "S://nas/my%20folder"}))
+
+```
+I didn't have the confidence to do a pull so I was advised to post here
+
+Thanks
+Mike
+[edit]
+FWIW a Wireshark of the Android app shows it does not escape anything in the ObjectID when accessing shares (e.g. <ObjectID>S://nas/my folder</ObjectID>)
+As noted above, I've opened a PR for this.
+
+ switch tv mode to playlist mode
+ Hello ,
+
+I read Sonos playlists pointing to spotify music with an RFID system but I encounter a problem when the tv mode is activated the playlist does not launch 
+
+How can switch the sonos to play the music queue if it is in TV mode?
+
+Can't find any commands for it. I can switch to TV or LINE-IN mode but playlist/queue mode is not possible?
+
+Thanks
+Hi MrZiM0,
+have you tried: play_from_queue(index, start=True)[source]
+
+Play a track from the queue by index.
+The index number is required as an argument, where the first index is 0.
+Parameters:	
+index (int) – 0-based index of the track to play
+start (bool) – If the item that has been set should start playing
+
+Cheers David
+
+
+
+
+Hi David,
+
+Thank you for your response, it works perfectly
+
+I used the speaker.play () function instead of the play_from_queue () function
+
+beginner error
+
+Cheers
+
+
+ Plex metadata issues
+ By viewing the URIs reported by my Sonos when playing back media from Plex, I was able to figure out the URI requirements and start playback on arbitrary tracks. However, I can't get the metadata to display properly by using the various DIDL classes. Are there tricks to getting this working properly?
+ audioClip support
+ https://developer.sonos.com/reference/control-api/audioclip/
+
+Does the Sonos UPNP support triggering audioClips like the Cloud API does?
+
+Would be nice, as this is fully functioning for the purpose of sounding a doorbell / chime or even TTS service with full playback restore / resuming functionality (TuneIn, Spotify Connect, so Spotify started from the Spotify app).
+
+Only available for `Sonos One, Amp, Port, Play:5 (gen 2), Beam, One SL, Move, as well as the SYMFONISK table lamp with WiFi and SYMFONISK WiFi bookshelf speakers.`
+Hi, SoCo supports taking a snapshot of what is playing, then playing an audio clip, then restoring the previous state. There are some examples: https://github.com/SoCo/SoCo/tree/master/examples/snapshot
+It does work on all Sonos speakers. However, it won't restore cloud initiated queues. 
+So to answer your question: sort of.....
+
+Hope this helps,
+Cheers David
+
+@DPH : Thanks for your quick reply. Indeed, that I knew. But unfortunately I often rely on starting music from the Spotify app, e.g. having a cloud queue. 
+
+The audioClip functionality would solve this issue, I validated this as well. But it is currently managed via the Sonos Cloud API. I was wonderring if there was a local UPNP command for it as well, to trigger it locally...
+
+From what I understand the answer is no, but very interested in that
+too.....
+Cheers David
+
+On Mon, 20 Apr 2020 at 15:17, Bartel <notifications@github.com> wrote:
+
+> @DPH <https://github.com/DPH> : Thanks for your quick reply. Indeed, that
+> I knew. But unfortunately I often rely on starting music from the Spotify
+> app, e.g. having a cloud queue.
+>
+> The audioClip functionality would solve this issue, I validated this as
+> well. But it is currently managed via the Sonos Cloud API. I was wonderring
+> if there was a local UPNP command for it as well, to trigger it locally...
+>
+> —
+> You are receiving this because you were mentioned.
+> Reply to this email directly, view it on GitHub
+> <https://github.com/SoCo/SoCo/issues/714#issuecomment-616583900>, or
+> unsubscribe
+> <https://github.com/notifications/unsubscribe-auth/AACIDKJKVVRTUUIHCW7OTH3RNRKRDANCNFSM4MMNEDYQ>
+> .
+>
+
+
+ Autogenerate vendor extended DIDL-Lite classes
+ Ok. So this has been brewing. We see quite a lot of vendor extended DIDL-Lite classes on a Sonos network. Every time a music service supplier created a new one, this would cause an error in SoCo. This PR adds the ability to autogenerate unknown extended classes.
+
+I also managed to find a way to name the new classes that is mostly compatible with the way we have done so far, which actually means that the vendor extended classes:
+
+DidlRecentShow
+DidlComposer
+DidlAlbumList
+DidlSameArtist
+DidlPlaylistContainerFavorite
+DidlRadioShow
+
+in data_structures.py are now redundant. I have however chosen not to delete them, to make sure not to cause a regression if a user imports one of these classes directly.
+
+The autogenerated classes are simple extensions of their base class which means the only item that gets changes is the ``item_class``. If the new class add attributes or has a non-standard content tag, then it will still be necessary to create the class by hand. But in all other cases, this should now work and that also means that we will not add anymore vendor extended classes to data_structures.py unless it is necessary for one of the two reasons mentioned above.
+
+Comments and reviews welcome.
+
+[![Coverage Status](https://coveralls.io/builds/30040196/badge)](https://coveralls.io/builds/30040196)
+
+Coverage decreased (-0.4%) to 57.326% when pulling **db1cb94278bbfca764011f2cfd01d91040cec1ef on KennethNielsen:autogenerat_wild_DIDL-Lite-classes** into **989f6af060affecd498f7f111d06f56d7002f918 on SoCo:master**.
+
+
+Decided to remove the Python 2.7 checks from TravisCI as well, since the support will be disappearing from SoCo any second now.
+
+ 'Pocket Cast In Progress' in favorite list, does not throw URI
+ I am trying to play from the favorite list, using the `get_sonos_favorites` and the `play_uri` methods. Both Spotify playlists and TuneIn stations give me title, uri and meta from the favorite list, but Pocket Casts´ In Progress does not. Hence I cannot use it to play my current podcast.
+Hi @knudsvik. The ``play_uri`` method is really only for playing items, that are only available as URI's like e.g. if you want to single play a streaming URI that hasn't been added to your Sonos. If you really need this, you can use the play uri method, but be aware of the note on HTTP and HTTPS in the http://docs.python-soco.com/en/latest/api/soco.core.html#soco.core.SoCo.play_uri
+
+However, as you mention playing something from your Sonos favorites, you should really just add it to the queue and play it from there.
+
+```python
+added_at_index = zone.add_to_queue(some_favorite)
+zone.play_from_queue(added_at_index)
+```
+
+Let me know if this fixes your problem.
+
+ fix spelling typo
+ 
+
+[![Coverage Status](https://coveralls.io/builds/29986329/badge)](https://coveralls.io/builds/29986329)
+
+Coverage remained the same at 57.713% when pulling **704b1fa4604bc4c77741b52df65f5387a6f7ab83 on gavinr:gavinr-patch-1** into **b77b706d568dab3aee0377d0ce35ec3fe800dbcd on SoCo:master**.
+
+
+Thanks @gavinr, merged
+
+ tunein    File "/home/therol6/PycharmProjects5/sonos/sonos_test3.py", line 5, in <module>
+    tunein = MusicService('TuneIn')
+  File "/home/therol6/.local/lib/python3.6/site-packages/soco/music_services/music_service.py", line 354, in __init__
+    "No account found for service: '%s'" % service_name)
+soco.exceptions.MusicServiceException: No account found for service: 'TuneIn'
+
+This is described in the documentation. But what do i do wrong
+Version 0.19 
+python 3.6
+
+It seems there is a bug. I was troubleshooting it last night. I will post a PR and I workaround as soon as I can.
+
+I think the problem is  MusicService.get_subscribed_services_names() returns an empty list and as such TuneIn and Pandora and other services that normally works will fail with said message. I can reproduce  on 3.7.7  & 0.19
+
+
+ Release notes 0.20
+ Release notes for 0.20 (#708)
+
+[Changes since 0.19](https://github.com/SoCo/SoCo/compare/v0.19...master)
+
+IMPORTANT: When you write your release note addition and you mention an issue or pull request with the # syntax, please write before whether it is an issue or a pull request. It help me later writing the release notes.
+Format all soco main, test and example code with the black code formatter (https://github.com/psf/black) and make it mandatory going forward including a TravisCI check. Pull request #706.
+
+Add support for creating and separating stereo pairs of speakers. Note: works with dissimilar Sonos speakers if required. PR #704.
+
+Fix bug where data_structures_upgrade would fail on items that has no uri #702 
+
+ Release 0.20
+ Summary
+
+Previous release: 0.19 (#673)
+Release notes: #709
+Milestone: [0.20](https://github.com/SoCo/SoCo/milestone/16)
+Feature Freeze: evening of May 7th, 2020 (see #581)
+Release date: May21st, 2020
+
+As something new this release I would like to ask for nominations for PR's or bugs to be in this release. There is simply to many PR's to do all of them, so I want to make sure I start with those that have active interest. Write your nominations below, **one PR/issue nomination per comment** and upvote the ones that you care about if they have already been nominated.
+
+I will then add them to the milestone.
+I'd like to see #704 (stereo pairing and unpairing methods) in 0.20. The PR is now up to date with, and compliant with, the Black reformatting changes.
+
+I vote for #713 of course as a fix to all of the downstream DIDL issues.  The crashes from these simple metadata issues also tend to stop subscriptions and greatly reduce reliability in long-running applications.
+
+ 0.19 release notes
+ Pull request for 0.19 release notes. The PR is made just to make sure all the tests pass on Travis before tagging the release.
+
+[![Coverage Status](https://coveralls.io/builds/29529020/badge)](https://coveralls.io/builds/29529020)
+
+Coverage increased (+0.2%) to 57.632% when pulling **4b2549a004bb2af1cb3018cc1d047ec6a49473ce on KennethNielsen:0.19** into **e23a162ddd58ea4073e29a9cd60266ca25b66068 on SoCo:0.19**.
+
+
+ Paint soco black
+ Yeah. There is finally a PR to paint SoCo black.
+
+black is "the uncomprimising code formatter" (https://github.com/psf/black) and its sole purpose is to format **all** code into a consistent style. black **is** uncompromising, in that it allows very little customization, but personally I find that I much prefer to have a codestyle tool that can't be modified, to debating which style is best. From my perspective, codestyle consistency is a hell of a lot more important that the itty bitty details of the style.
+
+But perhaps the biggest advantage of black is that it almost removes code style discussions from reviews. I set it up so that there is a travisCI check that checks that the branch is black formatted. As those of that have gone through a review with me will know, I do care about style, but implementing it this way will remove the need to comment on codestyle to the point where I can just refer to the tool.
+
+I painted both soco, the examples and the tests black. As an added advantage to this, black formatting the test code brought it within an hours of work to make it pass linting as well, which means that we now have linted test code as well :man_cartwheeling: 
+
+Since this is code formatting, it touches just about all lines of code, which means that all other PRs will break, but I will help with that.
+
+Let me know what you think.
+
+[![Coverage Status](https://coveralls.io/builds/29353584/badge)](https://coveralls.io/builds/29353584)
+
+Coverage increased (+0.05%) to 57.473% when pulling **a39faf93832ffb99969577c38c612371a179a12b on KennethNielsen:paint_soco_black** into **e23a162ddd58ea4073e29a9cd60266ca25b66068 on SoCo:master**.
+
+
+Ok. I need to wrestly with TravisCI a little more to get that to work (it is hard to test on my own computer). But the core of the PR is the same.
+
+Well, it only took 7 attempts ... but now the black checks on TravisCI are restricted to the Python versions that can run it. But **now** there is a functioning black check that will be executed when the pull request is made to check whether code was run through black.
+
+Comments?
+
+LGTM. Unit and integration tests are passing on my system (macOS, Python 3.7.7).
+
+I will start with merging this, thus probably breaking all other PR's in the progress. I will help with the rebasing as needed.
+
+ Fixes #702
+ This fixes #702 with the modification suggested in the defect report.
+
+[![Coverage Status](https://coveralls.io/builds/29534284/badge)](https://coveralls.io/builds/29534284)
+
+Coverage remained the same at 57.65% when pulling **0ba8c191dfe61f6ed3f2a0a8426aa57c01812da7 on pwt:fix_issue_#702** into **daba00b93b939fb4079778b4ed5a9abe07922c85 on SoCo:master**.
+
+
+
+[![Coverage Status](https://coveralls.io/builds/29333526/badge)](https://coveralls.io/builds/29333526)
+
+Coverage increased (+0.02%) to 57.442% when pulling **126b3e9453810b8dec76e133f014a13880b03ce3 on pwt:fix_issue_#702** into **e23a162ddd58ea4073e29a9cd60266ca25b66068 on SoCo:master**.
+
+
+This PR is now Black compliant.
+
+Since this was a one-liner I committed it directly to master. Thanks for the PR.
+
+ Add stereo pairing and unpairing operations
+ Closes #612
+
+This PR adds the methods `create_stereo_pair()` and `separate_stereo_pair()` to the SoCo class. This is useful for certain automation scenarios. It also allows pairing of dissimilar Sonos speakers, which is not possible using the Sonos apps. For example, pairing a Sonos One with a Play:1.
+
+Documentation and unit tests are included. 
+
+The implementation is derived from https://github.com/erikmansson/pair-sonos, and I thank @erikmansson for the great work on this.
+
+[![Coverage Status](https://coveralls.io/builds/29534212/badge)](https://coveralls.io/builds/29534212)
+
+Coverage increased (+0.06%) to 57.713% when pulling **5ce4b3d29a7ded0f7f19104243bfecafdcd0dcd4 on pwt:speaker_pairing_controls** into **daba00b93b939fb4079778b4ed5a9abe07922c85 on SoCo:master**.
+
+
+Just so we don't forget. There is this feature request on this: #612
+
+@pwt great. Ready for merge. I might delay it a tiny bit because #706 changes just about everything and it is just easier to fix a small PR than a big one, but if it is needed I will just do it.
+
+OK @KennethNielsen. Thanks.
+
+This PR is now Black compliant.
+
+Merged. Thanks for your contribution.
+
+Please drop a note about the change in the release notes thread #709 
+
+ Grouping has no result
+ May be I don’t understand the group module. I thought, when I add a player to a group, this will have the effect, that the player is member of this group. But if I do so and look then in the app (Android or Windows) there is no change. What did I misunderstand?
+Can you please post a snippet of the code you use to add the player to the group?
+
+The standard way to add a `player` to a `group` is by calling
+```python
+player.join(group.coordinator)
+```
+
+
+@Auerhahn wrote:
+> May be I don’t understand the group module. I thought, when I add a player to a group, this will have the effect, that the player is member of this group.
+
+Yes, that's how it should work. I use the `join()` and `unjoin()` methods on SoCo objects. For example:
+```
+>>> import soco
+>>> speaker1 = soco.discovery.by_name('Study')
+>>> speaker2 = soco.discovery.by_name('Front Reception')
+>>> speaker2.join(speaker1)
+```
+This groups the 'Front Reception' speaker to the 'Study' speaker, with the Study speaker as the group coordinator, and this grouping should be reflected in any Sonos controller apps.
+
+Additional speakers can be added to the group with commands of the form, e.g.:  
+```
+>>> speaker3 = soco.discovery.by_name('Bedroom')
+>>> speaker3.join(speaker1) 
+```
+Ungrouping a speaker from a group is done using the `unjoin()` method on a SoCo object.
+```
+speaker2.unjoin()
+```
+This ungroups the 'Front Reception' speaker from the 'Study' group.
+
+This works well in my environment. Unless OP provides a code snippet to show the problem I suggest to close 
+
+ Bug in attempt_datastructure_upgrade
+ Got this error trying to control a friend's US Sonos One:
+
+  File "/home/relent/dbmp/dbmp/soco/events_base.py", line 107, in parse_event_xml
+    value = from_didl_string(value)[0]
+  File "/home/relent/dbmp/dbmp/soco/data_structures_entry.py", line 53, in from_didl_string
+    item = attempt_datastructure_upgrade(item)
+  File "/home/relent/dbmp/dbmp/soco/data_structures_entry.py", line 87, in attempt_datastructure_upgrade
+    if resource.uri.startswith('x-sonos-http'):
+builtins.AttributeError: 'NoneType' object has no attribute 'startswith'
+
+Can be fixed by amending by amending line 87 of data_structures_entry.py by adding "resource.uri and" after "if" so that it reads as follows:
+
+    if resource.uri and resource.uri.startswith('x-sonos-http'):
+
+Not doing a pull request for this one. Hoping someone else will.
+ Unknown UPnP class: object.item.audioItem.linein.homeTheater
+ I had a SoCoFault whenever using Sonos Playbase LineIn (Toslink) through my TV.  I am using SoCo with a third party plugin for SmarthomeNG. The warning message was: 
+
+WARNING  plugins.sonos.soco.events_base Event contains illegal metadatafor 'av_transport_uri_meta_data'.
+Error message: 'Unknown UPnP class: object.item.audioItem.linein.homeTheater'
+The result will be a SoCoFault.
+
+I was able to fix this by adding the following new class definition to \soco\data_structures.py starting at line 755:
+
+`class DidlLineInHomeTheater(DidlAudioItem):`
+
+    """Class that represents LineIn from a playbase through Toslink."""
+
+    # the DIDL Lite class for this object.
+    item_class = 'object.item.audioItem.linein.homeTheater'
+    # name: (ns, tag)
+    _translation = DidlAudioItem._translation.copy()
+    _translation.update(
+        {
+            'genre': ('upnp', 'genre'),
+            'description': ('dc', 'description'),
+            'long_description': ('upnp', 'longDescription'),
+            'publisher': ('dc', 'publisher'),
+            'language': ('dc', 'language'),
+            'relation': ('dc', 'relation'),
+            'rights': ('dc', 'rights'),
+        }
+    )
+
+The official DIDL specification http://upnp.org/specs/av/UPnP-av-ContentDirectory-v4-Service.pdf does refer to the properties of a audioItem, so I was using this for the audioItem.linein.homeTheater definition.
+
+I am far away from being a expert, but the fix worked for me. Would be great if the real experts could review this and consider for future versions, although it seems the issue only happens by using the Toslink/LineIN of a Sonos Playbase. 
+
+
+There's a ton of these subclasses that get added both as physical input options and weird quirks that the various music services implement with a combination of . and #.  In the past it's been discussed that falling back to the parent class would be far better, instead of dropping a SoCoFault, especially since the fault (in most cases) crashes the entire stack and loses subscriptions to one or more players.  Alexa support with amazon music caused a huge number of these.  Spotify brings new ones with . subclasses.  Apple Music has # subclasses that cause it.   
+
+A simple fallback to parent would fix nearly all of them, eliminate the crashes, and in most cases deliver the right data.
+
+I will start working on it.
+
+There is now a PR that fixes this #713. Instead of merely falling back to parent, this creates the vendor extended classes on the fly as simple extensions of the parents.
+
+@tagdara would you care to review?
+
+@sracing can you please test if it works for you.
+
+I did test the 'autogenerate-wild-DIDL-Lite-classes' Branch and can confirm the former 
+
+`WARNING plugins.sonos.soco.events_base Event contains illegal metadatafor 'av_transport_uri_meta_data'.
+Error message: 'Unknown UPnP class: object.item.audioItem.linein.homeTheater'
+The result will be a SoCoFault.` 
+
+is gone.
+
+BUT it gives me a new regular (20 minutes) error in the plugin that I am using (using SmarthomeNG with the Sonos Plugin) for my 4 Sonos devices:
+
+`2020-04-26 09:36:13 WARNING plugins.sonos Sonos: : speaker is not initialized.
+2020-04-26 09:36:13 WARNING plugins.sonos Sonos: : speaker is not initialized.
+2020-04-26 09:36:13 WARNING plugins.sonos Sonos: : speaker is not initialized.
+2020-04-26 09:36:13 WARNING plugins.sonos Sonos: : speaker is not initialized.
+2020-04-26 09:36:13 ERROR plugins.sonos ''
+2020-04-26 09:56:12 WARNING plugins.sonos Sonos: : speaker is not initialized.
+2020-04-26 09:56:12 WARNING plugins.sonos Sonos: : speaker is not initialized.
+2020-04-26 09:56:12 WARNING plugins.sonos Sonos: : speaker is not initialized.
+2020-04-26 09:56:12 WARNING plugins.sonos Sonos: : speaker is not initialized.
+2020-04-26 09:56:12 ERROR plugins.sonos ''`
+
+Not sure if that error is more based on a unexpected SoCo behaviour or if it is caused by the plugin itself.
+
+
+
+ Fix for missing audioitem.linein DIDL data structure
+ I've recently started using the Line-in on my Sonos Connect, and Soco crashes with an unknown data structure type.  It claims to be a subset of AudioItem, so I simply copied over that object and tacked on the linein designator.
+
+This is another case where SoCo should probably just roll-up to the parent object when encountering subclasses rather than maintaining a hardline on DIDL compliance since that is clearly not a priority for Sonos (see my previous comments around lack of ProtocolID and other stuff being addressed by quirks).  
+
+But since there are fewer examples of the . subclassing than # subclassing and line-in is a common feature across several Sonos devices, it makes sense to target this one directly.
+
+[![Coverage Status](https://coveralls.io/builds/28155399/badge)](https://coveralls.io/builds/28155399)
+
+Coverage increased (+0.08%) to 57.507% when pulling **0b49c01661e9aad46a8e77c49742367c8f1e36a5 on tagdara:master** into **e23a162ddd58ea4073e29a9cd60266ca25b66068 on SoCo:master**.
+
+
+@tagdera I think maybe we discussed this before. I care mainly about DIDL compliance due to it being easier to maintain, but since these kind of problem are quite a few of the ones we receive I have been toying with the idea and reducing the data_structures implementation to just the ones in the spec and then generating the rest of them on request and flat extensions on their super class.
+
+It takes a little while, because I want to setup tests for all the out of spec classes that I will remove to ensure against regressions. If you want to give it a jab, let me know. Otherwise I will proceed with it.
+
+@tagdara I've tried to address this with #713. Please test and review. BTW in our code there was references to .# syntax for subclasses being observed, compared to the normal . syntax, but have you ever seen one where just # was used?
+
+There was at least one case where I saw a # being used by itself from Spotify, but perhaps not in exactly the same way.  I have this in my local monkeypatched SoCo that I have been testing before I submitted another PR.  I believe it was the Spotify Daily Mixes that were causing this issue for me.
+
+```
+class DidlPlaylistContainerPlaylistItem(DidlPlaylistContainer):
+
+    # Cheese created by Spotify errors on 2/8
+    """Class that represents a Sonos tracklist."""
+    item_class = 'object.container.playlistContainer#playlistItem'
+```
+
+
+ Fix quirks implementation
+ If protocol_info gets set manually we also have to make sure that
+resource.text is defined otherwise we run into issues later on.
+
+[![Coverage Status](https://coveralls.io/builds/28055170/badge)](https://coveralls.io/builds/28055170)
+
+Coverage decreased (-0.002%) to 57.407% when pulling **e1dcf18328db749d3db55907d570cda9f7f47844 on maru-sama:quirk-fix** into **e23a162ddd58ea4073e29a9cd60266ca25b66068 on SoCo:0.19**.
+
+
+Thansk @maru-sama, merged. Fell free to add a comment in the release notes issue #709 about the change
+
+Ah wait, this was maybe a little fast. Can you comment a little about the context (which music service etc.) where this was observed to be an issue, then I will add a comment.
+
+ Beginning of data structure quirks, fix for missing protocolInfo
+ For a long time it has annoyed me, that I couldn't find a compromise I was happy with, between keeping the implementation of DIDL-Lite in data_structures.py specification compliant and at the same time allowing service specific fixes for non spec-compliant behavior. Now I have a proposal for one.
+
+As is usually the case, I didn't make it up, but simply borrowed a solution for cleverer people. I think it was in the realm of graphics card drivers or 3D library implementations for games that I first heard of the idea of quirks, as a way of (separately) implementing exceptions for specific hardware or games that behaves differently from what they are supposed to and I thought that would be a good solutions for us.
+
+In the long run, the idea is to pull the DIDL-Lite implementation in data_structures.py back towards spec compliance and then specifying fixes for all non spec-compliant behavior in data_structure_quirks by manipulating the XML before it is processed. This has the added advantage of allowing us to easily track all the exception we have implemented, instead of them being scattered in the main implementation.
+
+At current the module consist only of the `apply_resource_quirks` function with a crude fix for missing protocolInfo, but there will in the future also be a `apply_object_quirks` function to take care of that.
+
+Let me know what you think of the idea?
+
+[![Coverage Status](https://coveralls.io/builds/27838051/badge)](https://coveralls.io/builds/27838051)
+
+Coverage increased (+0.01%) to 57.11% when pulling **755eaf4d8ae8248bb872179b94a1f1cf293167f5 on KennethNielsen:data_structure_quirks** into **e17a23d96f2ab6307cd5f5af9b3cb4d0acbe6171 on SoCo:master**.
+
+
+I consider this a bug fix, so I will merge before 0.19 feature freeze, but I would love some testing on it concerning the missing protocolInfo
+
+Ok. So I would like to start progressing on a better way to solve broken data structures, so I will merge this as a bug fix, but I still welcome comments in this thread on the structure.
+
+Hi, I did a quick test and this commit partly fixes the issue I am having with spotify direct. To completely work the following change is required as well.
+
+`        content['uri'] = element.text if element.text else ""
+`
+Apparently in the Sonos case the URI is empty as well, but is of course expected by the code. I tried adding this to the quirks section so it gets added but it did not work for some reason, so I did the change above.
+
+Well it works in quirks as well.
+
+`if not resource.text:
+            resource.text = ""`
+
+and you workaround this one as well. What's apparently happening is that spotify direct apparently send totally bogus elements. Before the quirks they got ignored since protocol info was not set. With the quirks we work around this but since the text is emtpy we run into issue later on. So if we "fix" it in quirks be setting a dummy protocol info we also have to make sure that the text is set to at least an empty string.
+
+ Add Python 2.7 deprecation warning
+ As per #591 there no longer seems to be any opposition against deprecation of Python 2.7 in SoCo. This PR adds a deprecation warning stating that SoCo 0.19 will be the last version to support Python 2.7.
+
+[![Coverage Status](https://coveralls.io/builds/27831950/badge)](https://coveralls.io/builds/27831950)
+
+Coverage increased (+0.05%) to 57.145% when pulling **df0ccc7fb68b0a1a3fa34107b8f0b3c238eaff16 on KennethNielsen:py27_deprecate_warning** into **e17a23d96f2ab6307cd5f5af9b3cb4d0acbe6171 on SoCo:master**.
+
+
+ http://developer.rovicorp.com/ no longer supported. 
+ The API needed to run the example web app no longer appears to be supported. I joined and created an API however its in a status of "waiting" which means it will not look up information. I looked through the forums and there are just a bunch of angry people talking about why API is still in a status of "wait". The last post is 9 months ago... 
+
+I don't think this is a viable option anymore for those late to the party. I registered and I'll post back here if the API starts working. 
+
+http://developer.rovicorp.com/ 
+ Fixing error in index.py so it will run.
+ There is an error when trying to run this code: TypeError: Unicode-objects must be encoded before hashing. I added the code to fix that issue.
+
+[![Coverage Status](https://coveralls.io/builds/27818450/badge)](https://coveralls.io/builds/27818450)
+
+Coverage increased (+0.002%) to 57.055% when pulling **89ef68b5e860333c16754e7a8bdd70df8f5b3e7d on sho-luv:patch-1** into **28269e3db31e65454c3b2997bf6237e4d8d9312b on SoCo:master**.
+
+
+@sho-luv thanks for the fix. Please add a comment to the release notes thread #674 about the change.
+
+ Add unit test for SoCo.MusicLibrary.delete_music_share().
+ This minor PR just adds a missing unit test.
+
+[![Coverage Status](https://coveralls.io/builds/27354130/badge)](https://coveralls.io/builds/27354130)
+
+Coverage increased (+0.05%) to 57.105% when pulling **8f6a2b4a20cd1491295ac371176cd38c7a091b99 on pwt:add_test_for_delete_library_share** into **28269e3db31e65454c3b2997bf6237e4d8d9312b on SoCo:master**.
+
+
+Thanks. Please add a comment to the release notes thread #674 about the addition
+
+ Add operations to get/set the speaker balance
+ This is a PR for the functionality discussed in https://github.com/SoCo/SoCo/issues/692. Credit to https://github.com/tephlon for the idea and the majority of the implementation.
+
+[![Coverage Status](https://coveralls.io/builds/27310326/badge)](https://coveralls.io/builds/27310326)
+
+Coverage increased (+0.2%) to 57.0% when pulling **912822b3ed02d9db5ee5d20e533fada6638e12b5 on pwt:add_balance_operations** into **0ed276c7e1508b0961802470b0fe5a02f178640b on SoCo:master**.
+
+
+This looks great. As I understand from the issue that you also had the option to test this, I think it is good to go. Thanks for the contribution. Can you persuade you to add a comment to the release notes thread #674 and in there also credit @tephlon for the original draft.
+
+> Can you persuade you to add a comment to the release notes thread #674 and in there also credit @tephlon for the original draft.
+
+Done. Thanks for the merge.
+

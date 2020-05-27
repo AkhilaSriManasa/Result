@@ -1,0 +1,68 @@
+﻿NUMTopics = 2
+(0, '0.010*"fix" + 0.010*"source" + 0.010*"project" + 0.010*"file" + 0.010*"filesystem" + 0.010*"compile" + 0.010*"fall" + 0.009*"directory" + 0.009*"see" + 0.009*"compiler"')
+(1, '0.062*"fix" + 0.036*"file" + 0.032*"add" + 0.028*"see" + 0.023*"link" + 0.019*"object" + 0.015*"section" + 0.015*"coff" + 0.015*"support" + 0.015*"clarify"')
+
+------------------------
+NUMTopics = 3
+(0, '0.064*"fix" + 0.041*"file" + 0.026*"source" + 0.026*"see" + 0.025*"add" + 0.018*"project" + 0.018*"filesystem" + 0.018*"compile" + 0.018*"fall" + 0.018*"directory"')
+(1, '0.051*"fix" + 0.035*"add" + 0.027*"file" + 0.027*"see" + 0.026*"link" + 0.026*"section" + 0.026*"coff" + 0.019*"object" + 0.018*"support" + 0.018*"clarify"')
+(2, '0.009*"fix" + 0.009*"coff" + 0.009*"link" + 0.009*"add" + 0.009*"section" + 0.009*"clarify" + 0.009*"file" + 0.009*"support" + 0.009*"object" + 0.009*"see"')
+
+------------------------
+NUMTopics = 4
+(0, '0.009*"fix" + 0.009*"see" + 0.009*"file" + 0.009*"add" + 0.009*"source" + 0.009*"project" + 0.009*"object" + 0.009*"filesystem" + 0.009*"link" + 0.009*"compiler"')
+(1, '0.053*"fix" + 0.036*"add" + 0.028*"file" + 0.028*"see" + 0.028*"link" + 0.027*"section" + 0.027*"coff" + 0.019*"object" + 0.019*"support" + 0.019*"clarify"')
+(2, '0.009*"fix" + 0.009*"coff" + 0.009*"link" + 0.009*"section" + 0.009*"add" + 0.009*"clarify" + 0.009*"support" + 0.009*"file" + 0.009*"object" + 0.009*"see"')
+(3, '0.070*"fix" + 0.044*"file" + 0.028*"add" + 0.028*"source" + 0.028*"see" + 0.019*"link" + 0.019*"back" + 0.019*"compiler" + 0.019*"object" + 0.019*"compile"')
+
+------------------------
+NUMTopics = 5
+(0, '0.010*"fix" + 0.009*"file" + 0.009*"see" + 0.009*"source" + 0.009*"project" + 0.009*"filesystem" + 0.009*"add" + 0.009*"object" + 0.009*"compile" + 0.009*"compiler"')
+(1, '0.055*"fix" + 0.037*"add" + 0.029*"file" + 0.029*"see" + 0.028*"link" + 0.028*"section" + 0.028*"coff" + 0.020*"object" + 0.020*"support" + 0.020*"clarify"')
+(2, '0.009*"fix" + 0.009*"coff" + 0.009*"link" + 0.009*"section" + 0.009*"add" + 0.009*"clarify" + 0.009*"support" + 0.009*"see" + 0.009*"object" + 0.009*"file"')
+(3, '0.073*"fix" + 0.046*"file" + 0.028*"source" + 0.028*"add" + 0.028*"see" + 0.020*"back" + 0.020*"compile" + 0.020*"fall" + 0.020*"compiler" + 0.020*"directory"')
+(4, '0.009*"fix" + 0.009*"add" + 0.009*"coff" + 0.009*"section" + 0.009*"file" + 0.009*"link" + 0.009*"see" + 0.009*"debug" + 0.009*"object" + 0.009*"symbol"')
+
+------------------------
+NUMTopics = 6
+(0, '0.009*"fix" + 0.009*"file" + 0.009*"see" + 0.009*"source" + 0.009*"project" + 0.009*"filesystem" + 0.009*"add" + 0.009*"object" + 0.009*"compiler" + 0.009*"fall"')
+(1, '0.057*"fix" + 0.038*"add" + 0.029*"file" + 0.029*"see" + 0.029*"link" + 0.029*"section" + 0.029*"coff" + 0.020*"object" + 0.020*"support" + 0.020*"clarify"')
+(2, '0.009*"fix" + 0.009*"coff" + 0.009*"link" + 0.009*"section" + 0.009*"add" + 0.009*"clarify" + 0.009*"support" + 0.009*"see" + 0.009*"file" + 0.009*"object"')
+(3, '0.075*"fix" + 0.048*"file" + 0.029*"add" + 0.029*"source" + 0.029*"see" + 0.020*"link" + 0.020*"back" + 0.020*"compiler" + 0.020*"object" + 0.020*"fall"')
+(4, '0.009*"fix" + 0.009*"add" + 0.009*"coff" + 0.009*"section" + 0.009*"file" + 0.009*"link" + 0.009*"debug" + 0.009*"see" + 0.009*"object" + 0.009*"symbol"')
+(5, '0.009*"fix" + 0.009*"file" + 0.009*"source" + 0.009*"add" + 0.009*"see" + 0.009*"link" + 0.009*"compile" + 0.009*"compiler" + 0.009*"back" + 0.009*"project"')
+
+------------------------
+NUMTopics = 7
+(0, '0.010*"fix" + 0.009*"file" + 0.009*"see" + 0.009*"source" + 0.009*"project" + 0.009*"filesystem" + 0.009*"add" + 0.009*"compiler" + 0.009*"fall" + 0.009*"object"')
+(1, '0.072*"fix" + 0.042*"file" + 0.036*"add" + 0.031*"see" + 0.026*"link" + 0.021*"object" + 0.016*"section" + 0.016*"support" + 0.016*"coff" + 0.016*"clarify"')
+(2, '0.009*"fix" + 0.009*"coff" + 0.009*"link" + 0.009*"section" + 0.009*"add" + 0.009*"clarify" + 0.009*"support" + 0.009*"object" + 0.009*"see" + 0.009*"file"')
+(3, '0.010*"fix" + 0.009*"file" + 0.009*"add" + 0.009*"source" + 0.009*"back" + 0.009*"see" + 0.009*"link" + 0.009*"compiler" + 0.009*"fall" + 0.009*"compile"')
+(4, '0.009*"fix" + 0.009*"add" + 0.009*"coff" + 0.009*"section" + 0.009*"file" + 0.009*"link" + 0.009*"debug" + 0.009*"see" + 0.009*"object" + 0.009*"symbol"')
+(5, '0.009*"fix" + 0.009*"file" + 0.009*"source" + 0.009*"add" + 0.009*"see" + 0.009*"link" + 0.009*"back" + 0.009*"compiler" + 0.009*"compile" + 0.009*"project"')
+(6, '0.010*"fix" + 0.009*"file" + 0.009*"add" + 0.009*"see" + 0.009*"object" + 0.009*"link" + 0.009*"compiler" + 0.009*"coff" + 0.009*"source" + 0.009*"compile"')
+
+------------------------
+NUMTopics = 8
+(0, '0.010*"fix" + 0.009*"file" + 0.009*"see" + 0.009*"source" + 0.009*"project" + 0.009*"filesystem" + 0.009*"add" + 0.009*"object" + 0.009*"fall" + 0.009*"compiler"')
+(1, '0.063*"fix" + 0.043*"add" + 0.035*"link" + 0.034*"see" + 0.032*"file" + 0.026*"section" + 0.026*"coff" + 0.026*"support" + 0.026*"clarify" + 0.024*"object"')
+(2, '0.009*"fix" + 0.009*"coff" + 0.009*"link" + 0.009*"section" + 0.009*"add" + 0.009*"clarify" + 0.009*"support" + 0.009*"object" + 0.009*"see" + 0.009*"file"')
+(3, '0.076*"fix" + 0.050*"file" + 0.035*"source" + 0.025*"see" + 0.024*"back" + 0.024*"compile" + 0.024*"fall" + 0.024*"project" + 0.024*"add" + 0.024*"directory"')
+(4, '0.009*"fix" + 0.009*"add" + 0.009*"coff" + 0.009*"section" + 0.009*"file" + 0.009*"link" + 0.009*"debug" + 0.009*"see" + 0.009*"object" + 0.009*"symbol"')
+(5, '0.009*"fix" + 0.009*"file" + 0.009*"source" + 0.009*"add" + 0.009*"see" + 0.009*"link" + 0.009*"back" + 0.009*"compiler" + 0.009*"compile" + 0.009*"project"')
+(6, '0.009*"fix" + 0.009*"add" + 0.009*"file" + 0.009*"see" + 0.009*"coff" + 0.009*"object" + 0.009*"link" + 0.009*"section" + 0.009*"clarify" + 0.009*"compiler"')
+(7, '0.009*"add" + 0.009*"fix" + 0.009*"link" + 0.009*"coff" + 0.009*"file" + 0.009*"section" + 0.009*"clarify" + 0.009*"see" + 0.009*"debug" + 0.009*"object"')
+
+------------------------
+NUMTopics = 9
+(0, '0.010*"fix" + 0.010*"file" + 0.009*"see" + 0.009*"source" + 0.009*"project" + 0.009*"filesystem" + 0.009*"add" + 0.009*"object" + 0.009*"compile" + 0.009*"fall"')
+(1, '0.060*"fix" + 0.040*"add" + 0.030*"file" + 0.030*"see" + 0.030*"link" + 0.030*"section" + 0.030*"coff" + 0.021*"object" + 0.021*"support" + 0.021*"clarify"')
+(2, '0.009*"fix" + 0.009*"coff" + 0.009*"link" + 0.009*"section" + 0.009*"add" + 0.009*"clarify" + 0.009*"support" + 0.009*"object" + 0.009*"see" + 0.009*"file"')
+(3, '0.079*"fix" + 0.050*"file" + 0.030*"add" + 0.030*"source" + 0.030*"see" + 0.021*"back" + 0.021*"link" + 0.021*"compiler" + 0.021*"fall" + 0.021*"compile"')
+(4, '0.009*"fix" + 0.009*"add" + 0.009*"coff" + 0.009*"section" + 0.009*"file" + 0.009*"link" + 0.009*"debug" + 0.009*"see" + 0.009*"object" + 0.009*"symbol"')
+(5, '0.009*"fix" + 0.009*"file" + 0.009*"source" + 0.009*"add" + 0.009*"see" + 0.009*"link" + 0.009*"back" + 0.009*"compiler" + 0.009*"compile" + 0.009*"object"')
+(6, '0.009*"fix" + 0.009*"file" + 0.009*"add" + 0.009*"see" + 0.009*"source" + 0.009*"compile" + 0.009*"object" + 0.009*"fall" + 0.009*"compiler" + 0.009*"directory"')
+(7, '0.009*"fix" + 0.009*"file" + 0.009*"link" + 0.009*"add" + 0.009*"compiler" + 0.009*"clarify" + 0.009*"see" + 0.009*"coff" + 0.009*"object" + 0.009*"linkage"')
+(8, '0.009*"fix" + 0.009*"add" + 0.009*"file" + 0.009*"link" + 0.009*"see" + 0.009*"object" + 0.009*"compiler" + 0.009*"coff" + 0.009*"source" + 0.009*"section"')
+
+------------------------

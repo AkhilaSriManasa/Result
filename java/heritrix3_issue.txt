@@ -1,0 +1,419 @@
+﻿ Fixes extractor multiple regex matcher recycle
+ 
+ Warc convention for storing ftp responses has been to use a WARC reso…
+ …urce record and not a response record. Changing to be consisten with the default WARCWriterProcessor
+ Remove deprecated sudo setting.
+ [Travis are now recommending removing the sudo tag.](https://blog.travis-ci.com/2018-11-19-required-linux-infrastructure-migration)
+ Command-line install trouble
+ Dear devs,
+I have tried to install heritrix3 on the command line on my system and have found a problem.
+The output of `uname -a` is:
+```
+Linux lenovomlf 4.15.0-99-generic #100-Ubuntu SMP Wed Apr 22 20:32:56 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux
+```
+Here's what I've done (both with a fresh clone from your master and with the latest release, heritrix3-3.4.0-20200304). Example uses the release uncompressed at ``/home/mlf/tmp/heritrix3-3.4.0-20200304``:
+```
+mvn install
+```
+which runs successfully 
+```
+[INFO] BUILD SUCCESS
+```
+and then, following  [The install guide](http://crawler.archive.org/articles/user_manual/install.html#N1008F)
+```
+export HERITRIX_HOME=/home/mlf/tmp/heritrix3-3.4.0-20200304/dist/src/main/
+chmod u+x $HERITRIX_HOME/bin/heritrix
+$HERITRIX_HOME/bin/heritrix --help
+```
+When I run the last command I get the error:
+```
+ls: no s’ha pogut accedir a '/home/mlf/tmp/heritrix3-3.4.0-20200304/dist/src/main//lib/*.jar': El fitxer o directori no existeix
+Error: Could not find or load main class org.archive.crawler.Heritrix
+``` 
+What happens is that there is no `lib` file in `dist/src/main/`
+This also happens with a fresh clone from master.
+Maybe I am doing something wrong, can you please help?
+
+Hi Mikel,
+
+The install guide you linked makes the assumption the user would be installing the precompiled application not building it from source. The step you seem to be missing when building from source is the maven build produces the binary distribution tar file at `dist/target/heritrix-3.4.0-SNAPSHOT-dist.tar.gz`. As mentioned in the install guide you will need to unpack the dist tar somewhere to install Heritrix. The `bin/heritrix` script assumes HERITRIX_HOME points at the unpacked binary distribution and as you found will not work when pointing at the source code.
+
+For example:
+```
+cd ~/tmp
+tar -zxvf heritrix3/dist/target/heritrix-3.4.0-SNAPSHOT-dist.tar.gz
+export HERITRIX_HOME=$PWD/heritrix-3.4.0-SNAPSHOT
+$HERITRIX_HOME/bin/heritrix --help
+```
+
+I should also warn that the guide you linked to is quite old and was written for Heritrix 1.x. I think that part of the process is still the same but beware that other information on the old SourceForge site is likely very out of date. Heritrix 3 documentation is in the [Github wiki](https://github.com/internetarchive/heritrix3/wiki) (although there's unfortunately a lot of out of date pages there too).
+
+Hope that helps,
+
+Alex
+
+Thanks a million, ato!
+
+ Warc convention for storing ftp responses has been to use a WARC reso…
+ …urce record and not a response record. Changing to be consisten with the default WARCWriterProcessor
+ don't youtubedl receivedFromAMQP
+ 
+ youtube-dl no cache dir
+ skip using a cache dir for youtube-dl
+ Fix match result is always false in MatchesListRegexDecideRule
+ It looks like #290 introduced a bug that `MatchesListRegexDecideRule#evaluate()` always returns false because future result is discarded.
+This fix respects the returned future value.
+Thanks,
+Thanks!
+
+ best medium-ish size
+ 
+ Add real crawlStatus in the crawlReport
+ During the crawl, we have "crawl status: Finished - Abnormal exit from crawling" in the crawlSummary report.
+I have changed the crawlStatus to have the same info as the job main page:
+- crawl status: Pausing - Active
+- crawl status: Paused - Active
+- crawl status: Running - Active
+- crawl status: Empty - Active
+- crawl status: Stopping - Active
+when isRunning()=true.
+
+The crawl summary report is always re generated to have the correct crawlStatus.
+Hmm, seeing some build errors on Travis that look legit:
+
+```
+[ERROR] /home/travis/build/internetarchive/heritrix3/engine/src/main/java/org/archive/crawler/reporting/CrawlSummaryReport.java:[40,31] cannot find symbol
+  symbol:   variable StringUtils
+  location: class org.archive.crawler.reporting.CrawlSummaryReport
+```
+
+My bad! I don't push the import. It should be better.
+
+This looks good to me. Since the previous behavior was nonsensical while the crawl was active I think the risk of breaking anyone's existing workflow should be relatively low too.
+
+ youtube-dl: request best medium-ish size format
+ 
+ ExtractorYoutubeDL Not Working
+ First of all I added gson-2.8.6.jar and heritrix-contrib-3.4.0-20200304.jar to the lib/ directory and added them into my CLASSPATH. 
+
+Here is my configuration: 
+
+Youtube-dl Package:
+```
+[root@archive:/zarchive/heritrix/jobs/test.tkrn.io/latest]#apt list | grep youtube-dl
+
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+youtube-dl/stable,now 2019.01.17-1.1 all [installed]
+```
+
+Top Level Bean and Fetch Chain:
+```
+ .....
+ <bean id="extractorCss" class="org.archive.modules.extractor.ExtractorCSS">
+ </bean> 
+ <bean id="extractorJs" class="org.archive.modules.extractor.ExtractorJS">
+ </bean>
+ <bean id="extractorSwf" class="org.archive.modules.extractor.ExtractorSWF">
+ </bean>
+ <bean id="extractorYoutubeDL" class="org.archive.modules.extractor.ExtractorYoutubeDL">
+ </bean>
+
+ <!-- now, processors are assembled into ordered FetchChain bean -->
+ <bean id="fetchProcessors" class="org.archive.modules.FetchChain">
+  <property name="processors">
+   <list>
+    <!-- re-check scope, if so enabled... -->
+    <ref bean="preselector"/>
+    <!-- ...then verify or trigger prerequisite URIs fetched, allow crawling... -->
+    <ref bean="preconditions"/>
+    <!-- ...fetch if DNS URI... -->
+    <ref bean="fetchDns"/>
+    <!-- <ref bean="fetchWhois"/> -->
+    <!-- ...fetch if HTTP URI... -->
+    <ref bean="fetchHttp"/>
+    <!-- ...extract outlinks from HTTP headers... -->
+    <ref bean="extractorHttp"/>
+    <!-- ...extract outlinks from HTML content... -->
+    <ref bean="extractorHtml"/>
+    <!-- ...extract outlinks from CSS content... -->
+    <ref bean="extractorCss"/>
+    <!-- ...extract outlinks from Javascript content... -->
+    <ref bean="extractorJs"/>
+    <!-- ...extract outlinks from Flash content... -->
+    <ref bean="extractorSwf"/>
+    <!-- ...extract outlooks from YoutTube content... -->
+    <ref bean="extractorYoutubeDL"/>
+   </list>
+  </property>
+ </bean>
+```
+
+Warc Writer Chain
+```
+<!-- now, processors are assembled into ordered DispositionChain bean -->
+ <bean id="dispositionProcessors" class="org.archive.modules.DispositionChain">
+  <property name="processors">
+   <list>
+    <!-- write to aggregate archival files... -->
+    <ref bean="warcWriter"/>
+    <!-- ...send each outlink candidate URI to CandidateChain, 
+         and enqueue those ACCEPTed to the frontier... -->
+    <ref bean="extractorYoutubeDL"/>
+    <ref bean="candidates"/>
+    <!-- ...then update stats, shared-structures, frontier decisions -->
+    <ref bean="disposition"/>
+    <!-- <ref bean="rescheduler" /> --> 	
+   </list>
+  </property> 	
+ </bean>
+```
+
+extractYoutubeDL.log - It's empty...
+```
+[root@archive:/zarchive/heritrix/jobs/test.tkrn.io/latest]#cat logs/extractorYoutubeDL.log
+```
+
+Am I missing anything? When I try to replay the Warc them embedded youtube video is not captured.
+
+ 
+ Add parsing for HTML tags (data-*)
+ Add parsing for data-src, data-srcset, data-original and data-original-set tags to original ExtractorHTML.
+@ato I have just pushed new version of ExtractorHTML with only my changes, not a formatting classe.
+I add overrides in the JerochoExtractorHTMLTest for my news tests.
+Is better for you?
+
+ Cannot find class [ExtractorYoutubeDL]
+ Version Heritrix 3.4.0-20200304
+
+I see that https://github.com/internetarchive/heritrix3/pull/257 was pulled into the master and it was rolled out in release Heritrix 3.4.0-20200304 (https://github.com/internetarchive/heritrix3/blob/master/CHANGELOG.md#340-20200304-2020-03-04) but after defining it as documented in the notes of the ExtractorYoutubeDL.java file. I get the following error:
+
+2020-04-06T10:36:54.321-04:00 SEVERE Cannot find class [org.archive.modules.extractor.ExtractorYoutubeDL] for bean with name 'extractorYoutubeDL' defined in URL [file:/zarchive/heritrix/jobs/test.tkrn.io/crawler-beans.cxml]; nested exception is java.lang.ClassNotFoundException: org.archive.modules.extractor.ExtractorYoutubeDL; ; Can't create bean 'metadata'
+
+How do I load the org.archive.modules.extractor.ExtractorYoutubeDL bean?
+
+I figured it out. I found the heritrix-contrib-3.4.0-20200304.jar compiled file and dropped in my lib path, then added to my CLASSPATH. It appears to be working. 
+
+ Torrents created from very large collections by ia_make_torrent are truncated
+ I wasn't sure where else to file this issue as the code for ia_make_torrent does not seem to be published. Please redirect as needed. I would happily submit a pull request to fix this issue if you can point me to the source code for this component.
+ Add support for the SFTP protocol
+ Support for SFTP protocol (issue #319)
+I create a new client and a new fetcher to support SFTP.
+Sorry for the old code and meaningless variable names, it came from a jar of heritrix1 but adapted for heritrix3.
+It seems that the static fields are not necessary. 
+
+Thanks!
+
+ Add support for the SFTP protocol
+ Allow the writing of sftp:// URLs by Heritrix
+ Web UI on non-https doesn't respond sensibly
+ When the web UI is only enabled over http**s**, trying to access it over http doesn't send a sensible response. I get some binary gibberish on one browser, and a browser error message on another.
+
+It would make more sense to redirect http to https.
+
+ Recycle the regex Matcher after use.
+ 
+ Heritrix not working behind proxy
+ Hello,
+
+I'm attempting to archive some of our agency sites and have run into this issue.
+The agency sites themselves do not go through our proxy, and pages are archived fine. 
+However there is content that needs to be pulled in from other sites. These sites go through our proxy and are whitelisted. Getting content for them works fine through a bash shell using wget.
+But in a Heritrix crawl these sites can't be reached. They time-out.
+I then added our proxy details to the crawler-beans.cxml. Now nothing is indexed, not even the agency sites.
+I then asked asked for our department sites to be made available through the proxy too, but still nothing gets indexed.
+Our network team tells me that all connections on the proxy are successful, however Heritrix still times out.
+Is this a bug or user error? What do I need to do to make this work behind the proxy.
+
+Thank you for any pointers you can give me.
+If the sites you are trying crawl cannot be resolved through (local) DNS then Heritrix is currently unable to archive them. See issue #211 for discussion of the reason for this limitation, an outline of the changes that would need to be implemented for Heritrix to work in this situation and a possible workaround.
+
+Unfortunately it sounds like in your case the sites are on some sort of private intranet without public DNS records. If so the dns-over-https workaround suggested in #211 will likely not help you. If you do not have access to a working DNS server for these sites I guess one workaround that might work in your situation is to configure Heritrix to run against a local DNS server with dummy records (e.g. DNS wildcards).
+
+Actually re-reading this - the sites you're having problems with are public internet sites? Then the dns-over-https workaround might actually work for you.
+
+These aren’t HTTPS URLs are they? You might be hitting #191
+
+Hi there, thank you both for getting back to me so quickly.
+Yes, all these URLs are https. Most, if not all of the content from the tools/frameworks we use is delivered via https nowadays. 
+I suspect that http will be very rare in the near future with the way browser security is progressing. 
+
+I saw #191, but on our installation I don't see the error message that it mentions. 
+
+So I guess that means the workaround in #211 won't work for us and there is no other way to archive our sites using Heritrix in our environment at this time? 
+I wonder what other options are available? 
+
+Thank you. 
+
+
+ Use the Wayback Machine to repair a link to Oracle docs.
+ 
+:) 
+
+ Utilize the `d` parameter
+ There are uses of this class that necessitate a lower false positive
+rate than the value that was hard-coded. By making use of the parameter,
+as indicated in the JavaDoc, the resulting delegate should meet the
+demands of the caller.
+ Remove Old Hbase and Kafka Classes
+ 
+I'm using the HBase functionality for managing recrawling of URLs.
+
+Why is it being removed?
+
+It was being dropped b/c we thought we were the only ones using those bits and we don't need them any more.
+
+Is https://github.com/internetarchive/heritrix3/pull/312 working for you?
+
+
+
+I haven't experienced any issues with it yet.
+
+Hm, we're using Kafka but it looks like I made a [new variation](https://github.com/ukwa/ukwa-heritrix/blob/da03f65611d4a9ea2a73f5f837ca69da3b5e5ae2/src/main/java/uk/bl/wap/crawler/postprocessor/KafkaKeyedCrawlLogFeed.java) rather than using the `KafkaCrawlLogFeed` directly.
+
+ Exclude hbase-client's guava 12 transitive dependency
+ Guava 12 from hbase-client is closer to the root of the dependency tree than guava 17 from webarchive-commons so Maven prefers it. But recent changes to heritrix-commons rely on classes in the newer version of Guava. So let's ensure webarchive-commons wins.
+
+Hopefully this doesn't break the hbase module, I have no way of testing it.
+
+Fixes #311
+It might be better to set the versions via dependency management at a top level POM to ensure they're consistent across the modules.
+
+It's currently not a direct dependency of any heritrix modules. Although I guess now that we're using it directly perhaps it should be.
+
+We're looking at dropping Hbase support all together. We may not need it any more.
+
+I'm going to merge this now as a stopgap fix until discussion over the future of the hbase recrawl module in #313 is resolved. If we still keep getting reports of problems then I think we should roll back the Base32 change.
+
+ Contrib project has a maven dependency with an older version of guava library. 
+ Changes introduced in https://github.com/internetarchive/heritrix3/pull/304 broke the contrib project.
+
+The `org.archive.modules.recrawl.hbase` package has a resolved dependency on version 12 of guava and other versions of the hbase client I've sampled in the POM resolve to guava v12 or lower.
+
+```xml
+<dependency>
+        <groupId>org.apache.hbase</groupId>
+        <artifactId>hbase-client</artifactId>
+        <version>0.98.6-cdh5.3.5</version>
+        <exclusions>
+                <exclusion>
+                        <artifactId>jets3t</artifactId>
+                        <groupId>net.java.dev.jets3t</groupId>
+                </exclusion>
+                <exclusion>
+                        <artifactId>junit</artifactId>
+                        <groupId>junit</groupId>
+                </exclusion>
+                <!-- tools.jar is not available in JDK 11 so exclude it
+                     hbase-client accidentally leaked it as a transitive dependency
+                     https://issues.apache.org/jira/browse/HBASE-13963 --> 
+                <exclusion>
+                        <groupId>jdk.tools</groupId>
+                        <artifactId>jdk.tools</artifactId>
+                </exclusion>
+        </exclusions>
+</dependency>
+```
+
+I also realize there are no tests for this so it didn't show up in CI or anywhere else.
+Ah! I was seeing this as a ClassNotFoundException for com.google.common.io.BaseEncoding in another project that depends on heritrix and was wondering what was going on. I think excluding hbase-client's older version of Guava should fix it?
+
+Or does hbase-client actually rely on something in 12 that was removed in 17? Unfortunately I don't have a proper way to test it. I created an instance of org.archive.modules.recrawl.hbase.HBase and called start() and got errors about connecting to Zookeeper rather than class loading issues which seems promising at least.
+
+I'm not sure. We are looking into removing Hbase support all together and further simplifying.
+
+I can probably work on this to resolve the dependency issues. Guava 12 or (17 for that matter) are rather out of date.
+
+ [SECURITY] Use HTTPS to resolve dependencies in Maven Build
+ [![mitm_build](https://user-images.githubusercontent.com/1323708/59226671-90645200-8ba1-11e9-8ab3-39292bef99e9.jpeg)](https://medium.com/@jonathan.leitschuh/want-to-take-over-the-java-ecosystem-all-you-need-is-a-mitm-1fc329d898fb?source
+- [Want to take over the Java ecosystem? All you need is a MITM!](https://medium.com/@jonathan.leitschuh/want-to-take-over-the-java-ecosystem-all-you-need-is-a-mitm-1fc329d898fb?source=friends_link&sk=3c99970c55a899ad9ef41f126efcde0e)
+- [Update: Want to take over the Java ecosystem? All you need is a MITM!](https://medium.com/bugbountywriteup/update-want-to-take-over-the-java-ecosystem-all-you-need-is-a-mitm-d069d253fe23?source=friends_link&sk=8c8e52a7d57b98d0b7e541665688b454)
+
+---
+
+This is a security fix for a  vulnerability in your [Apache Maven](https://maven.apache.org/) `pom.xml` file(s).
+
+The build files indicate that this project is resolving dependencies over HTTP instead of HTTPS.
+This leaves your build vulnerable to allowing a [Man in the Middle](https://en.wikipedia.org/wiki/Man-in-the-middle_attack) (MITM) attackers to execute arbitrary code on your or your computer or CI/CD system.
+
+This vulnerability has a CVSS v3.0 Base Score of [8.1/10](https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H).
+
+[POC code](https://max.computer/blog/how-to-take-over-the-computer-of-any-java-or-clojure-or-scala-developer/) has existed since 2014 to maliciously compromise a JAR file in-flight.
+MITM attacks against HTTP are [increasingly common](https://security.stackexchange.com/a/12050), for example [Comcast is known to have done it to their own users](https://thenextweb.com/insights/2017/12/11/comcast-continues-to-inject-its-own-code-into-websites-you-visit/#).
+
+This contribution is a part of a submission to the [GitHub Security Lab](https://securitylab.github.com/) Bug Bounty program.
+
+## Detecting this and Future Vulnerabilities
+
+This vulnerability was automatically detected by [LGTM.com](https://lgtm.com) using this [CodeQL Query](https://lgtm.com/rules/1511115648721/).
+
+As of September 2019 LGTM.com and Semmle are [officially a part of GitHub](https://github.blog/2019-09-18-github-welcomes-semmle/).
+
+You can automatically detect future vulnerabilities like this by enabling the free (for open-source) [LGTM App](https://github.com/marketplace/lgtm).
+
+I'm not an employee of GitHub nor of Semmle, I'm simply a user of [LGTM.com](https://lgtm.com) and an open-source security researcher.
+
+## Source
+
+Yes, this contribution was automatically generated, however, the code to generate this PR was lovingly hand crafted to bring this security fix to your repository.
+
+The source code that generated and submitted this PR can be found here:
+[JLLeitschuh/bulk-security-pr-generator](https://github.com/JLLeitschuh/bulk-security-pr-generator)
+
+## Opting-Out
+
+If you'd like to opt-out of future automated security vulnerability fixes like this, please consider adding a file called
+`.github/GH-ROBOTS.txt` to your repository with the line:
+
+```
+User-agent: JLLeitschuh/bulk-security-pr-generator
+Disallow: *
+```
+
+This bot will respect the [ROBOTS.txt](https://moz.com/learn/seo/robotstxt) format for future contributions.
+
+Alternatively, if this project is no longer actively maintained, consider [archiving](https://help.github.com/en/github/creating-cloning-and-archiving-repositories/about-archiving-repositories) the repository.
+
+## CLA Requirements
+
+_This section is only relevant if your project requires contributors to sign a Contributor License Agreement (CLA) for external contributions._
+
+It is unlikely that I'll be able to directly sign CLAs. However, all contributed commits are already automatically signed-off.
+
+> The meaning of a signoff depends on the project, but it typically certifies that committer has the rights to submit this work under the same license and agrees to a Developer Certificate of Origin 
+> (see [https://developercertificate.org/](https://developercertificate.org/) for more information).
+>
+> \- [Git Commit Signoff documentation](https://developercertificate.org/)
+
+If signing your organization's CLA is a strict-requirement for merging this contribution, please feel free to close this PR.
+
+## Tracking
+
+All PR's generated as part of this fix are tracked here: 
+https://github.com/JLLeitschuh/bulk-security-pr-generator/issues/2
+Unfortunately builds.archive.org is not currently publicly available over HTTPS. I merged the first part of this though in bc6a15b41dd7d5b48f51b8ee5fb40884717df276.
+
+I recommend reaching out to the server maintainers to see if this security vulnerability can be resolved on their ends.
+
+ Keep-alive and chunked transfer is not supported
+ Heritrix3 is main tool for archival websites in IA and man other organizations, but it still doesn't support Keep-alive and chunked transfer. Without it, and by default configuration settings, Heritrix3 have to open new connection for each url. That increases website loading and makes process much slower.
+ Fix stream closed exception for Paged view
+ Related to #305 the stream closed exception is also showing up when clicking "more" to get the "Paged view" of the Job Log or Crawl Log for a job in the Heritrix web user interface. This commits a similar fix to what is seen in #306.
+Thanks!
+
+ Report directories are missing
+ Hi 
+
+I noticed that the report directories are missing from any new jobs that are created that have a space in the job name.
+So when clicking on the Threads or Frontier links for the running job in the UI it shows the error:
+Page not found
+The page you are looking for does not exist. You may be able to recover by going back. 
+
+Thank you.
+ Fix stream closed exception by not closing output stream
+ ServerCall.writeResponseBody() flushes it after we return so it must
+remain open.
+
+Fixes #305
+This fixes the issue for me. Thank you, Alex
+

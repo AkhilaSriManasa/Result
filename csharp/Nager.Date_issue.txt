@@ -1,0 +1,427 @@
+﻿ uuids for holidays
+ It would be really helpful if each holiday would have a fixed uuid attached. This way copying data from year 2020 to 2021 would be a breeze.
+ DateSystem.GetPublicHoliday(string, int)' is obsolete
+ Hi,
+When I add this line of code in .Net Core app:
+
+`            IEnumerable<PublicHoliday> PublicHolidays() => DateSystem.GetPublicHoliday("PL", todayYear);`
+
+I get warning:
+
+> 'DateSystem.GetPublicHoliday(string, int)' is obsolete: 'Use GetPublicHoliday instead, the sorting of the parameters was changed'	
+
+Please update documentation to new usage of library
+Hi, i have update the documentation. I think now it should fit.
+
+Thanks!
+
+ Update UkraineProvider.cs
+ 
+Thanks
+
+ Good Friday not present in Bulgarian public holidays
+ ### Important specifications
+
+* Which country is affected? Bulgaria
+* If you have found a mistake please also provide a valid source of your information?
+https://en.wikipedia.org/wiki/Good_Friday
+https://bg.wikipedia.org/wiki/%D0%A0%D0%B0%D0%B7%D0%BF%D0%B5%D1%82%D0%B8_%D0%BF%D0%B5%D1%82%D1%8A%D0%BA
+
+### Description
+17 April 2020 is offical public holiday in Bulgaria called Good Friday (Разпети петък), but it seems is not added to your library.
+
+![holidays](https://user-images.githubusercontent.com/25154190/79233577-bd445e00-7e71-11ea-8c2e-709ea53a3b11.jpg)
+
+
+
+ Switzerland - December 26th - St Stephen's Day
+ St Stephen's Day / Stephanstag / Zweiter Weihnachtstag is not present on the Swiss public holidays list.
+
+See for reference: https://en.wikipedia.org/wiki/Public_holidays_in_Switzerland
+Thanks for reporting. I think the problem is we have here a ruel for canton `Neuchâtel` for all cantons. I fix this.
+
+https://github.com/nager/Nager.Date/blob/master/Src/Nager.Date/PublicHolidays/SwitzerlandProvider.cs
+
+Documentation:
+http://www.datumsrechner.de/FeiertageSchweiz.pdf
+
+ Add IsPublicHoliday(DateTime date, string countryCode) to DateSystem.cs
+ Closes #195
+@CasperWSchmidt can you please customize all Enum.TryParse with the ArgumentException. So that we have a consistent behavior
+
+@tinohager Will do, but in some cases I believe it also makes sense to simply return null.
+
+Also I stumbled upon https://josef.codes/beware-of-enum-try-parse/ so I included an Enum.IsDefined check.
+
+@tinohager perhaps all the CountryCode-enums should have a specific int value? IDK if all countries have an official number, but if they do, it would be obvious to select that as the int value for the enums :)
+
+What improvements do you see in the use of Enum.IsDefined if we only use strings?
+
+@tinohager You/We can't control the string users send as argument. This means someone can use "1000" if they want to. This will result in a CountryCode enum with an undefined value being used in the rest of the code with unknown consequences.
+
+`IsDefined` does not behave the same for 'de' or 'DE
+
+@tinohager Sorry about that. Changed the Enum.IsDefined to use the output from TryParse. This works according to [this](https://stackoverflow.com/questions/3157936/how-can-i-test-if-an-enum-is-defined-or-not-whilst-ignoring-case). Also added unit tests to validate that the changes are indeed behaving the same for "DE" and "de" now.
+
+@CasperWSchmidt Thanks
+
+ Feature: IsPublicHoliday using string countryCode
+ ### Important specifications
+
+* Which country is affected? All
+
+For more information, see the `CONTRIBUTING` guide.
+
+### Description
+
+Most methods in DateSystem.cs has two overloads, one taking a string countryCode and one taking a CountryCode enum. IsPublicHoliday does not have this. I need that instead of my code having to parse the enum :)
+
+ Brazil Carnival
+ ### Important specifications
+
+Brazil
+https://www.officeholidays.com/countries/brazil/2020
+https://www.officeholidays.com/holidays/brazil/brazil-carnival
+
+### Description
+
+Why is 24th February 2020 is not present? It's a bank holiday too.
+
+![image](https://user-images.githubusercontent.com/12607479/75330764-dbcea580-5881-11ea-83ec-7825ee5ef915.png)
+
+I can not found Carnival on wikipedia, the main source for this project is the wikipedia page  https://en.wikipedia.org/wiki/Public_holidays_in_Brazil
+
+So it's look like wikipedia is wrong. I mean that I can more believe to Central bank of Brazil and my brazil colleagues.
+We have few projects in UiPath that depends on Nager.Date and it fails because tried to find rates data in bank website on holiday :/
+It will be great if you can fix it.
+
+I would add the additional tag immediately if Wikipedia accepts the change. It is not possible to collect the holidays for each country on different websites. I hope you can understand this.
+
+I'm sorry but I can't understand. Why you need some confirmation from wikipedia page when 25th Feb is not on wiki too but in your public holidays list it is?
+BTW Brazil Central bank is much more relevant than some wikipedia page.
+
+personally I understand @tinohager since the information has to be unified (this is so to say the goal of his api)
+
+just change wikipedia according to your source like I did in the past in the issue #84 
+
+ Good Friday in Ireland Bank Holiday 
+ Hi,
+
+Could we get Good Friday added to the public holidays for Ireland please
+Thanks in advance
+P
+
+Ireland IE
+
+https://www.timeanddate.com/holidays/ireland/
+
+Friday 10th April 2020 – Good Friday (Bank Holiday – Not a Public Holiday)
+
+
+
+items.Add(new PublicHoliday(year, 04, 10, "Aoine an Chéasta", "Good Friday", countryCode));
+
+ Special territority code used correctly? (ES-IC)
+ Your project uses the code ES-IC at https://github.com/tinohager/Nager.Date/blob/19708096531b93573c967732657b8022240abcc2/Src/Nager.Date/PublicHolidays/SpainProvider.cs#L49
+
+The ISO subdivision codes for Spain are listed at https://en.wikipedia.org/wiki/ISO_3166-2:ES. The ISO subdivision code for Canary Islands is ES-CN (which is not used by your project). On this wikipedia page it is also noted that:
+
+"Special territories
+The following two areas not covered by European Union Customs arrangements are also exceptionally reserved ISO 3166-1 alpha-2 codes on the request of the World Customs Organization:
+
+EA Ceuta, Melilla
+IC Canary Islands
+However, these codes do not correspond in any way to the ISO 3166-2 codes of the territories."
+
+Can you please confirm that you have correctly used the special territory code ES-IC, and it is in fact the holidays listed by your project are not intended to be the holiday of the Spanish subdivision ES-CN (Canary Islands).
+
+I think this is a bug, i fix this. I have check my source https://en.wikipedia.org/wiki/Public_holidays_in_Spain and `ES-CN` is the right one.
+
+ Croatia Statehood day date change
+ 
+Thanks
+
+ Croatia Statehood Day date changed
+ Croatia has changed the date of "Statehood Day" / "Dan državnosti" from June 25. to May 30.
+
+More about it here:  https://en.wikipedia.org/wiki/Public_holidays_in_Croatia
+
+Not sure how to handle this one. Maybe an EndYear param should be introduced?
+Check this implementation https://github.com/tinohager/Nager.Date/blob/62fafedca53caeefa1c9bd16f0d79970ac24195e/Src/Nager.Date/PublicHolidays/GermanyProvider.cs#L117
+
+This should do. https://github.com/tinohager/Nager.Date/pull/191
+
+Thanks for the pr
+
+ Add Remembrance Day for Homeland War Victims as a public holiday for …
+ …Croatia
+Can you add the [launchYear](https://github.com/tinohager/Nager.Date/blob/3ec7171a055f85a6bd564ac60dbc57755e43145d/Src/Nager.Date/Model/PublicHoliday.cs#L45)?
+
+
+Here you go.
+
+Thanks
+
+ New public holiday in Croatia - Remembrance Day for Homeland War Victims
+ A new holiday has been added in Croatia this year.
+It's called "Remembrance Day for Homeland War Victims" or "Dan sjećanja na žrtve Domovinskog rata" in Croatian.
+
+You can read more about it here:
+https://en.wikipedia.org/wiki/Public_holidays_in_Croatia
+Pull request has been created #189 
+
+Thanks for the pull
+
+ Optimize longweekend logic
+ 
+ Long Weekends Month wrong if going to next month
+ ### Important specifications
+
+* Which country is affected?
+Austria
+* If you have found a mistake please also provide a valid source of your information?
+Screenshot nager.date Homepage:
+
+![Screenshot_2020-01-06-13-40-52-993_com android chrome](https://user-images.githubusercontent.com/25546953/71818837-58b37f00-308a-11ea-9f8e-cdde8349fb15.jpg)
+
+
+### Description
+
+long weekend has wrong month name if it goes to the next month, see screenshot may 30th + may 31st + may 1st should be june 1st
+
+Thanks i have fix the issue
+
+now it incorrectly shows all three days as june:
+![Screenshot_2020-01-06-20-52-27-553_com android chrome](https://user-images.githubusercontent.com/25546953/71844485-87e7e180-30c6-11ea-891b-e02616e678d4.jpg)
+
+i think you should use day as the variable in the line you edited in the last commit instead of longWeekend.something
+
+now it's working awesome, thank you very much!
+
+ Bug fix for RomaniaProvider ignoring the LaunchYear property of the PublicHoliday
+ This PR implements the missing launch year filter for Romania which caused incorrect results and also adds unit tests for multiple years.
+Currently no provider filter by launch year. It is an optional value.
+
+> Currently no provider filter by launch year. It is an optional value.
+
+In that case, this is a more general issue.
+
+I would expect that all functions that return holidays for a given date, year or date range, should always respect the launch year of the holidays, otherwise, the returned holidays may not be valid (like in case of Romania, Good Friday and Children's Day are incorrectly returned for years earlier than 2018 and 2017 respectively). Putting this filter right in the `Get(int year)` method seemed like right place to prevent any errors, even if accessed directly.
+
+I understand that the LaunchYear is an optional parameter, but the condition `.Where(x => x.LaunchYear == null || x.LaunchYear <= year)` already respects this because it returns all holidays that don't have a launch year defined.
+
+I think at the moment you can also filter the `LaunchYear` after the request. I will consider your proposal.
+
+Sure, I understand that. The problem is that one would expect that getting the holidays for a specific year would use the rule set that was in effect for the given year. I can't think of a scenario where one would need the holidays that are in effect today to be projected to a past year where they did't exist.
+
+ GetPublicHoliday method assumes DateTimes are dates
+ ### Important specifications
+
+* Which country is affected? All
+* If you have found a mistake please also provide a valid source of your information?
+
+### Description
+The GetPublicHoliday method does not return the holiday if I provide a startDate that is one second into the holiday. I'd expect any time during the holiday to return the holiday.
+
+I think either the method should use startDate.Date, or there should be some warning in the documentation about the holiday being only exactly at midnight.
+
+Hi, i have push a fix
+
+Thanks! I checked the code changes and they're perfect.
+
+ LocalName for Presidents Day in US is the official holiday rather than the common name
+ ### Important specifications
+
+* Which country is affected? US
+* If you have found a mistake please also provide a valid source of your information?
+https://grammarist.com/spelling/labor-labour/
+
+For more information, see the `CONTRIBUTING` guide.
+
+### Description
+
+"Labour" Day in the US is spelled "Labor". That is, it does not have a u.
+
+The `LocalName` is 'Labor Day' for this country.
+
+Oh, I missed that property. Thanks.
+
+Hmm, well now I have another problem. The LocalName for "Presidents' Day" is "Washington's Birthday", but I've never seen that before in the US. 
+
+According to [federalpay.org](https://www.federalpay.org/holidays/presidents-day), it's colloquially known as "President's Day", but officially it's "Washington's Birthday". Which one should be considered the LocalName? I also notice the apostrophe is in a different place for the common name of the holiday.
+
+The source is https://en.wikipedia.org/wiki/Federal_holidays_in_the_United_States
+
+
+I think we can switch the Localname and name for this date. Is this good for you?
+
+Yeah, but to what? My guess would be:
+Name = "Washington's Birthday",
+LocalName = "Presidents Day"
+
+Dropping the apostrophe is propper according to this: https://en.wikipedia.org/wiki/Washington%27s_Birthday#Spelling
+
+ DateSystem.IsPublicHoliday(new Date(2006,1,2), CountryCode.GB) returns false
+ DateSystem.GetPublicHoliday(CountryCode.GB, 2006) returns fourteen dates and 2006-01-02 is listed twice. Perhaps this is a reason IsPublicHoliday returns false?
+Ah, one of the entries is for GB-ENG and GB-WLS and the other entry is GB-SCO. So because it's not a holiday in GB-NIR it returns false? Actually, there's one entry as a public holiday for 2006-01-01 and that's for GB-NIR. 2006-01-02 was a public holiday in NIR as well.
+
+Having checked the code I can see IsPublicHoliday only works when there are no Counties and I need to use IsOfficialPublicHolidayByCounty with GB-ENG instead.
+
+ Date shifts?
+ The returned dates by the API service and also the results on the website have a -1 day shift.
+ie: All New year days are on 31-12. This applies to all countries.
+Is this a bug or did i missed something in the documentation explaining this?
+
+![Screenshot](https://user-images.githubusercontent.com/34922752/69915047-01970a80-144b-11ea-8316-72482da992a6.png)
+
+
+@JoopDeFouw Thank you for the hint, i solved the problem.
+
+ Canada Day is incorrect in Alberta 
+ Definition of Canada Day:
+July 1, except when it falls on a Sunday, then it is July 2
+
+see: [https://www.alberta.ca/alberta-general-holidays.aspx#toc-7](https://www.alberta.ca/alberta-general-holidays.aspx#toc-7)
+Does this mean that the information on Wikipedia is incorrect? https://en.wikipedia.org/wiki/Public_holidays_in_Canada
+
+Affected file: [CanadaProvider.cs](https://github.com/tinohager/Nager.Date/blob/master/Src/Nager.Date/PublicHolidays/CanadaProvider.cs)
+
+I have fix this problem, can you check it please https://github.com/tinohager/Nager.Date/commit/842eedc6046453b7c22840ab4abb264c57e157c7
+
+ Public holidays for GB returning dates that are not actual public holidays.
+ I was hoping to use to return dates that employees will not have been at work, but
+it goes too far and returns the holidays such as St Patricks day that aren't national holidays, just "special" days for some.
+
+Otherwise great library, thanks.
+Apologies... it's been a long day, reopening as this is still n problem. 
+
+I thought by filtering on PublicHolidayType.Bank or PublicHolidayType.Public would narrow down to the official holidays in GB but still returns days such as Battle of the Boyne which isn't an offiicial national holiday.
+
+e.g.
+
+`DateSystem.GetPublicHoliday(DateTime.Now.Year, operatorCountryCode).Where(holiday => holiday.Type == PublicHolidayType.Public)`
+
+Returns:
+    [0]: {2019-01-01 New Year's Day}
+    [1]: {2019-01-02 New Year's Day}
+    [2]: {2019-03-17 Saint Patrick's Day}
+    [3]: {2019-04-19 Good Friday}
+    [4]: {2019-04-22 Easter Monday}
+    [5]: {2019-05-06 Early May Bank Holiday}
+    [6]: {2019-05-27 Spring Bank Holiday}
+    [7]: {2019-07-12 Battle of the Boyne}
+    [8]: {2019-08-05 Summer Bank Holiday}
+    [9]: {2019-08-26 Summer Bank Holiday}
+    [10]: {2019-11-30 Saint Andrew's Day}
+    [11]: {2019-12-25 Christmas Day}
+    [12]: {2019-12-26 St. Stephen's Day}
+
+Your thoughts on this would be great. Thanks
+
+Battle of the Boyne is a official public holiday in Northern Ireland check the Counties in your result.
+
+Thanks for the quick reply. That works great. I'll close.
+
+ Fix Iran's weekend provider
+ https://en.wikipedia.org/wiki/Workweek_and_weekend#Friday_weekend_(One_day_weekend)
+ Add 'Liberation Day' 2020-05-08 for Germany/Berlin
+ Implements #175
+ Add ActualDate Property to PublicHoliday
+ It would be useful to know the actual date of the Holiday and not just the date on which it's observed. It would be nice if the PublicHoliday object had a property such as ActualDate (maybe there's a better name for it).
+
+
+[UnitedStatesProvider.cs](https://github.com/tinohager/Nager.Date/blob/master/Src/Nager.Date/PublicHolidays/UnitedStatesProvider.cs) you spoke about shifts? Or what do you mean with ActualDate?
+
+So it's my understanding that the PublicHoliday.Date property represents the Observed date for that Holiday. For example, if Christmas lands on a Sunday it's shifted to Monday. But it would be useful to also know the actual date of the holiday. So if we took the Christmas example again PublicHoliday.ActualDate would be December 25th of that year.
+
+PublicHoliday.Date = 12/26/2016
+PublicHoliday.ActualDate = 12/25/2016
+
+Like I said, maybe ActualDate is not the best name for the property.
+
+This would be extremely helpful for my use case as well.
+
+Something like this:
+```
+var christmasDay = new DateTime(year, 12, 25)
+var shiftedChristmasDay = christmasDay.Shift(saturday => saturday.AddDays(-1), sunday => sunday.AddDays(1));
+items.Add(new PublicHoliday(christmasDay, shiftedChristmasDay, "Christmas Day", "Christmas Day", countryCode));
+```
+In many cases, the date would be the same but it would allow the consumer to choose which date they want. If we're just wanting to display holidays on a calendar, the original date is needed. If we're looking at "work days", the shifted date is needed.
+
+Looking through the different region implementations, it seems like it's inconsistent whether we shift or not. We would really only need to change places that use the `Shift` function today. The default PublicHoliday constructor could remain and just assign the same date to the Shifted and Actual date properties.
+
+@tinohager I could implement what @rkalasky suggested if you are okay with this change.
+
+@ericbayperez  Can you give me a suggestion on how you plan to implement it?
+
+1. Add an ActualDate to the PublicHoliday class.
+
+2. Change the existing PublicHoliday constructors to set PublicHoliday.ActualDate to the same value that PublicHoliday.Date is being set to.
+
+3. Add a new PublicHoliday constructor that accepts "actualDate" and sets the PublicHoliday.ActualDate to be actualDate.
+
+4. In UnitedStatesProvider.cs, if we shift a holiday, we should save DateTimes before we shift and after we shift, then pass those into the constructor as date and actualDate.
+
+@ericbayperez I wan`t not duplicate the date in the constructor i will check this issue the next days...
+
+Hi, 
+What's the status regarding this improvement? Are there still plans to introduce an Actual date? 
+
+At the moment it is not planned
+
+ Germany - May 8th 2020 - "Tag der Befreiung"
+ Berlin gets a one-time public holiday next year
+
+* DE-BE
+* May 8th 2020
+
+See for reference: https://www.feiertage-deutschland.de/tag-der-befreiung/
+
+localName: Tag der Befreiung
+name: Liberation day ? (this is not official but this should be the right translation)
+hello,
+
+will this be reflected in the API ?
+
+thx,
+
+My daughter was born a few days ago, I hope the change still has a little time I will take care of it as soon as I have some air for it again.
+
+congrats!!!
+there is definitely no hurry.
+
+take care :-)
+
+The api is now updated
+
+ IsPublicHoliday is false for Columbus Day 2018 (US) in Full Framework.
+ USA, 8th of October 2018 is Columbus Day (second Monday in October)
+
+`DateSystem.GetPublicHoliday(2018, CountryCode.US)` returns it as part of the list but `DateSystem.IsPublicHoliday` returns false:
+
+```
+var columbusDay = DateSystem.GetPublicHoliday(2018, CountryCode.US).ToList()[6];
+var isHoliday = DateSystem.IsPublicHoliday(columbusDay.Date, CountryCode.US); // false
+```
+The issue is when project targets Full Framework - no issue with .Net Core target.
+Columbus Day is not a full Holiday is only a holiday in some counties. I have check with different TargetFrameworks with no problems.
+
+https://ci.appveyor.com/project/tinohager/nager-date/builds/30035487
+
+ Canadian Errors
+ Three items for Canadian holidays:
+
+1. In CanadaProvider.cs the string for Newfoundland is in German (I think); you have "Neufundland und Labrador" and it should be "Newfoundland and Labrador".
+
+2. Also in CanadaProvider.cs you have Quebec (CA-QC) listed for the June 24th "Discovery Day" holiday. In Quebec this date is actually celebrated as the "Fête nationale du Québec" ("National Holiday" in English). This is actually quite an important holiday for Quebecers. 
+https://en.wikipedia.org/wiki/Public_holidays_in_Canada#Quebec
+
+3. Also in CanadaProvider.cs you have two entries for the Yukon (CA-YT) "Discovery Day" holiday, once in June and again in August. The August entry is the correct one. 
+https://en.wikipedia.org/wiki/Discovery_Day#Canada
+@FlaveC Thanks, i have publish a new version
+
+ Add Docker Support (Dockerfile and docker-compose add)
+ Add Docker Support (Dockerfile and docker-compose added)
+I have add the docker support with an own script and publish the image to docker hub
+

@@ -1,0 +1,1106 @@
+﻿ Remove link to Google+ group, since it is no longer available
+ 
+ Update project desc. for Gitter, Slack
+ It's time to update the project description. People should be able to jump into Gitter room, once they would find out about the project.
+People are silent on Slack - so we can post archived messages from Gitter, out there. Gitter seams to be the main communication channel.
+
+ Fix build on Mono
+ A PostBuildEvent ran on Mono when it shouldn't, probably some merge mistake.
+Also updated the list of libraries that are passed to the compiler.
+
+With this fix I can build with Mono 6.0 on macOS using `msbuild /restore build.proj /p:Runtime=Mono`
+And what about Windows 10?
+
+@advancedwebdeveloper I haven't tried, but it should work the same as long as you have Mono in your PATH.
+
+I sometimes run into VS editing making changes that hack the mono build
+steps.
+I'm not set up for mono right now, apparently something I need to start
+checking.
+THanks for the fix.
+
+On Tue, Apr 30, 2019 at 1:10 PM Alexander Köplinger <
+notifications@github.com> wrote:
+
+> @advancedwebdeveloper <https://github.com/advancedwebdeveloper> I haven't
+> tried, but it should work the same as long as you have Mono in your PATH.
+>
+> —
+> You are receiving this because you are subscribed to this thread.
+> Reply to this email directly, view it on GitHub
+> <https://github.com/clojure/clojure-clr/pull/29#issuecomment-488056313>,
+> or mute the thread
+> <https://github.com/notifications/unsubscribe-auth/AAAUVZMXIKW4IYDEH4WWEDTPTCDPVANCNFSM4HJK2RKQ>
+> .
+>
+
+
+Not building:
+
+...>msbuild /restore build.proj /p:Runtime=Mono
+
+Microsoft (R) Build Engine version 16.0.42-preview+g804bde742b for Mono
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Build started 11.05.2019 8:51:14.
+Project "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\build.proj" on node 1 (default targets).
+Project "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\build.proj" (1:2) is building "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\ClojureCLR.sln" (2) on node 1 (default targets).
+ValidateSolutionConfiguration:
+  Building solution configuration "Debug|Any CPU".
+Project "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\ClojureCLR.sln" (2) is building "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure\Clojure.csproj" (3) on node 1 (default targets).
+RestorePackages:
+  "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\.nuget\NuGet.exe" install "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure\packages.config"   -RequireConsent -o "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\packages"
+C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\.nuget\NuGet.targets(91,8): error : Unable to find version '0.2.44' of package 'clojure.core.specs.alpha'. [C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure\Clojure.csproj]
+C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\.nuget\NuGet.targets(91,8): error : Unable to find version '0.1.176' of package 'clojure.spec.alpha'. [C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure\Clojure.csproj]
+C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\.nuget\NuGet.targets(91,8): error : Unable to find version '1.1.0' of package 'DynamicLanguageRuntime'. [C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure\Clojure.csproj]
+C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\.nuget\NuGet.targets(91,8): error MSB3073: The command ""C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\.nuget\NuGet.exe" install "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure\packages.config"   -RequireConsent -o "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\packages"" exited with code 1. [C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure\Clojure.csproj]
+Done Building Project "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure\Clojure.csproj" (default targets) -- FAILED.
+Project "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\ClojureCLR.sln" (2) is building "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Tests\Clojure.Tests.csproj" (5) on node 1 (default targets).
+RestorePackages:
+  "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\.nuget\NuGet.exe" install "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Tests\packages.config"   -RequireConsent -o "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\packages"
+C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\.nuget\NuGet.targets(91,8): error : Unable to find version '0.1.2.0' of package 'clojure.data.generators'. [C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Tests\Clojure.Tests.csproj]
+C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\.nuget\NuGet.targets(91,8): error : Unable to find version '0.9.0.1' of package 'clojure.test.check'. [C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Tests\Clojure.Tests.csproj]
+C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\.nuget\NuGet.targets(91,8): error : Unable to find version '0.5.2.0' of package 'clojure.test.generative'. [C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Tests\Clojure.Tests.csproj]
+C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\.nuget\NuGet.targets(91,8): error : Unable to find version '0.2.10.0' of package 'clojure.tools.namespace'. [C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Tests\Clojure.Tests.csproj]
+C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\.nuget\NuGet.targets(91,8): error MSB3073: The command ""C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\.nuget\NuGet.exe" install "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Tests\packages.config"   -RequireConsent -o "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\packages"" exited with code 1. [C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Tests\Clojure.Tests.csproj]
+Done Building Project "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Tests\Clojure.Tests.csproj" (default targets) -- FAILED.
+Project "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\ClojureCLR.sln" (2) is building "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Main\Clojure.Main.csproj" (7) on node 1 (default targets).
+RestorePackages:
+  "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\.nuget\NuGet.exe" install "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Main\packages.config"   -RequireConsent -o "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\packages"
+C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\.nuget\NuGet.targets(91,8): error : Unable to find version '0.2.44' of package 'clojure.core.specs.alpha'. [C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Main\Clojure.Main.csproj]
+C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\.nuget\NuGet.targets(91,8): error : Unable to find version '0.1.176' of package 'clojure.spec.alpha'. [C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Main\Clojure.Main.csproj]
+C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\.nuget\NuGet.targets(91,8): error MSB3073: The command ""C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\.nuget\NuGet.exe" install "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Main\packages.config"   -RequireConsent -o "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\packages"" exited with code 1. [C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Main\Clojure.Main.csproj]
+Done Building Project "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Main\Clojure.Main.csproj" (default targets) -- FAILED.
+Project "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\ClojureCLR.sln" (2) is building "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Source\Clojure.Source.csproj" (8) on node 1 (default targets).
+GenerateTargetFrameworkMonikerAttribute:
+Skipping target "GenerateTargetFrameworkMonikerAttribute" because all output files are up-to-date with respect to the input files.
+C:\Program Files\Mono\lib\mono\msbuild\15.0\bin\Microsoft.CSharp.CurrentVersion.targets(141,9): warning MSB3884: Could not find rule set file "MinimumRecommendedRules.ruleset". [C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Source\Clojure.Source.csproj]
+CoreCompile:
+  C:\Program Files\Mono\lib\mono\msbuild\15.0\bin\Roslyn\csc.exe /noconfig /nowarn:1701,1702 /nostdlib+ /errorreport:prompt /warn:4 /define:DEBUG;TRACE /highentropyva- /reference:"C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\mscorlib.dll" /reference:"C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Core.dll" /debug+ /debug:full /filealign:512 /optimize- /out:"\Debug 4.0\Clojure.Source.dll" /target:library /utf8output clojure\samples\attributes\C.cs clojure\samples\genclass\C.cs clojure\samples\interop\C.cs GlobalSuppressions.cs "C:\Users\836D~1\AppData\Local\Temp\.NETFramework,Version=v4.0.AssemblyAttributes.cs"
+C:\Program Files\Mono\lib\mono\msbuild\15.0\bin\Roslyn\Microsoft.CSharp.Core.targets(52,5): error MSB6006: "csc.exe" exited with code 1. [C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Source\Clojure.Source.csproj]
+Done Building Project "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Source\Clojure.Source.csproj" (default targets) -- FAILED.
+Project "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\ClojureCLR.sln" (2) is building "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\DlrConsole\DlrConsole.csproj" (10) on node 1 (default targets).
+RestorePackages:
+  "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\.nuget\NuGet.exe" install "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\DlrConsole\packages.config"   -RequireConsent -o "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\packages"
+C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\.nuget\NuGet.targets(91,8): error : Unable to find version '1.1.0' of package 'DynamicLanguageRuntime'. [C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\DlrConsole\DlrConsole.csproj]
+C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\.nuget\NuGet.targets(91,8): error MSB3073: The command ""C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\.nuget\NuGet.exe" install "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\DlrConsole\packages.config"   -RequireConsent -o "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\packages"" exited with code 1. [C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\DlrConsole\DlrConsole.csproj]
+Done Building Project "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\DlrConsole\DlrConsole.csproj" (default targets) -- FAILED.
+Project "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\ClojureCLR.sln" (2) is building "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Csharp.Tests\Csharp.Tests.csproj" (11) on node 1 (default targets).
+RestorePackages:
+  "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\.nuget\NuGet.exe" install "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Csharp.Tests\packages.config"   -RequireConsent -o "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\packages"
+C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\.nuget\NuGet.targets(91,8): error : Unable to find version '1.1.0' of package 'DynamicLanguageRuntime'. [C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Csharp.Tests\Csharp.Tests.csproj]
+C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\.nuget\NuGet.targets(91,8): error : Unable to find version '2.6.3' of package 'NUnit'. [C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Csharp.Tests\Csharp.Tests.csproj]
+C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\.nuget\NuGet.targets(91,8): error MSB3073: The command ""C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\.nuget\NuGet.exe" install "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Csharp.Tests\packages.config"   -RequireConsent -o "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\packages"" exited with code 1. [C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Csharp.Tests\Csharp.Tests.csproj]
+Done Building Project "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Csharp.Tests\Csharp.Tests.csproj" (default targets) -- FAILED.
+Project "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\ClojureCLR.sln" (2) is building "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\BuildTasks\BuildTasks.csproj" (12) on node 1 (default targets).
+GenerateTargetFrameworkMonikerAttribute:
+Skipping target "GenerateTargetFrameworkMonikerAttribute" because all output files are up-to-date with respect to the input files.
+CoreCompile:
+  C:\Program Files\Mono\lib\mono\msbuild\15.0\bin\Roslyn\csc.exe /noconfig /nowarn:1701,1702 /nostdlib+ /errorreport:prompt /warn:4 /define:DEBUG;TRACE /highentropyva+ /reference:"C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\Microsoft.Build.Framework.dll" /reference:"C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\Microsoft.Build.Utilities.v4.0.dll" /reference:"C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\Microsoft.CSharp.dll" /reference:"C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\mscorlib.dll" /reference:"C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Core.dll" /reference:"C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Data.DataSetExtensions.dll" /reference:"C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Data.dll" /reference:"C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.dll" /reference:"C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Xml.dll" /reference:"C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Xml.Linq.dll" /debug+ /debug:full /filealign:512 /optimize- /out:\Debug\BuildTasks.dll /subsystemversion:6.00 /target:library /utf8output SetEnvVar.cs Properties\AssemblyInfo.cs "C:\Users\836D~1\AppData\Local\Temp\.NETFramework,Version=v4.5.AssemblyAttributes.cs"
+C:\Program Files\Mono\lib\mono\msbuild\15.0\bin\Roslyn\Microsoft.CSharp.Core.targets(52,5): error MSB6006: "csc.exe" exited with code 1. [C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\BuildTasks\BuildTasks.csproj]
+Done Building Project "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\BuildTasks\BuildTasks.csproj" (default targets) -- FAILED.
+Done Building Project "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\ClojureCLR.sln" (default targets) -- FAILED.
+Done Building Project "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\build.proj" (default targets) -- FAILED.
+
+Build FAILED.
+
+"C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\build.proj" (default target) (1:2) ->
+"C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\ClojureCLR.sln" (default target) (2) ->
+"C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Source\Clojure.Source.csproj" (default target) (8) ->
+(ResolveCodeAnalysisRuleSet target) -> 
+  C:\Program Files\Mono\lib\mono\msbuild\15.0\bin\Microsoft.CSharp.CurrentVersion.targets(141,9): warning MSB3884: Could not find rule set file "MinimumRecommendedRules.ruleset". [C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Source\Clojure.Source.csproj]
+
+
+"C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\build.proj" (default target) (1:2) ->
+"C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\ClojureCLR.sln" (default target) (2) ->
+"C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure\Clojure.csproj" (default target) (3) ->
+(RestorePackages target) -> 
+  C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\.nuget\NuGet.targets(91,8): error : Unable to find version '0.2.44' of package 'clojure.core.specs.alpha'. [C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure\Clojure.csproj]
+  C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\.nuget\NuGet.targets(91,8): error : Unable to find version '0.1.176' of package 'clojure.spec.alpha'. [C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure\Clojure.csproj]
+  C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\.nuget\NuGet.targets(91,8): error : Unable to find version '1.1.0' of package 'DynamicLanguageRuntime'. [C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure\Clojure.csproj]
+  C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\.nuget\NuGet.targets(91,8): error MSB3073: The command ""C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\.nuget\NuGet.exe" install "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure\packages.config"   -RequireConsent -o "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\packages"" exited with code 1. [C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure\Clojure.csproj]
+
+
+"C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\build.proj" (default target) (1:2) ->
+"C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\ClojureCLR.sln" (default target) (2) ->
+"C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Tests\Clojure.Tests.csproj" (default target) (5) ->
+  C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\.nuget\NuGet.targets(91,8): error : Unable to find version '0.1.2.0' of package 'clojure.data.generators'. [C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Tests\Clojure.Tests.csproj]
+  C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\.nuget\NuGet.targets(91,8): error : Unable to find version '0.9.0.1' of package 'clojure.test.check'. [C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Tests\Clojure.Tests.csproj]
+  C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\.nuget\NuGet.targets(91,8): error : Unable to find version '0.5.2.0' of package 'clojure.test.generative'. [C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Tests\Clojure.Tests.csproj]
+  C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\.nuget\NuGet.targets(91,8): error : Unable to find version '0.2.10.0' of package 'clojure.tools.namespace'. [C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Tests\Clojure.Tests.csproj]
+  C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\.nuget\NuGet.targets(91,8): error MSB3073: The command ""C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\.nuget\NuGet.exe" install "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Tests\packages.config"   -RequireConsent -o "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\packages"" exited with code 1. [C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Tests\Clojure.Tests.csproj]
+
+
+"C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\build.proj" (default target) (1:2) ->
+"C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\ClojureCLR.sln" (default target) (2) ->
+"C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Main\Clojure.Main.csproj" (default target) (7) ->
+  C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\.nuget\NuGet.targets(91,8): error : Unable to find version '0.2.44' of package 'clojure.core.specs.alpha'. [C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Main\Clojure.Main.csproj]
+  C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\.nuget\NuGet.targets(91,8): error : Unable to find version '0.1.176' of package 'clojure.spec.alpha'. [C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Main\Clojure.Main.csproj]
+  C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\.nuget\NuGet.targets(91,8): error MSB3073: The command ""C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\.nuget\NuGet.exe" install "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Main\packages.config"   -RequireConsent -o "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\packages"" exited with code 1. [C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Main\Clojure.Main.csproj]
+
+
+"C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\build.proj" (default target) (1:2) ->
+"C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\ClojureCLR.sln" (default target) (2) ->
+"C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Source\Clojure.Source.csproj" (default target) (8) ->
+(CoreCompile target) -> 
+  C:\Program Files\Mono\lib\mono\msbuild\15.0\bin\Roslyn\Microsoft.CSharp.Core.targets(52,5): error MSB6006: "csc.exe" exited with code 1. [C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Source\Clojure.Source.csproj]
+
+
+"C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\build.proj" (default target) (1:2) ->
+"C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\ClojureCLR.sln" (default target) (2) ->
+"C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\DlrConsole\DlrConsole.csproj" (default target) (10) ->
+(RestorePackages target) -> 
+  C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\.nuget\NuGet.targets(91,8): error : Unable to find version '1.1.0' of package 'DynamicLanguageRuntime'. [C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\DlrConsole\DlrConsole.csproj]
+  C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\.nuget\NuGet.targets(91,8): error MSB3073: The command ""C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\.nuget\NuGet.exe" install "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\DlrConsole\packages.config"   -RequireConsent -o "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\packages"" exited with code 1. [C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\DlrConsole\DlrConsole.csproj]
+
+
+"C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\build.proj" (default target) (1:2) ->
+"C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\ClojureCLR.sln" (default target) (2) ->
+"C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Csharp.Tests\Csharp.Tests.csproj" (default target) (11) ->
+  C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\.nuget\NuGet.targets(91,8): error : Unable to find version '1.1.0' of package 'DynamicLanguageRuntime'. [C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Csharp.Tests\Csharp.Tests.csproj]
+  C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\.nuget\NuGet.targets(91,8): error : Unable to find version '2.6.3' of package 'NUnit'. [C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Csharp.Tests\Csharp.Tests.csproj]
+  C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\.nuget\NuGet.targets(91,8): error MSB3073: The command ""C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\.nuget\NuGet.exe" install "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Csharp.Tests\packages.config"   -RequireConsent -o "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\packages"" exited with code 1. [C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Csharp.Tests\Csharp.Tests.csproj]
+
+
+"C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\build.proj" (default target) (1:2) ->
+"C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\ClojureCLR.sln" (default target) (2) ->
+"C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\BuildTasks\BuildTasks.csproj" (default target) (12) ->
+(CoreCompile target) -> 
+  C:\Program Files\Mono\lib\mono\msbuild\15.0\bin\Roslyn\Microsoft.CSharp.Core.targets(52,5): error MSB6006: "csc.exe" exited with code 1. [C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\BuildTasks\BuildTasks.csproj]
+
+    1 Warning(s)
+    19 Error(s)
+
+Time Elapsed 00:00:52.56
+
+
+\clojure-clr-master\Clojure>nuget restore ClojureCLR.sln
+nuget restore ClojureCLR.sln
+MSBuild auto-detection: using msbuild version '15.9.21.664' from 'C:\Program Files\Microsoft Visual Studio\2017\Professional\MSBuild\15.0\bin'.
+Restoring NuGet package clojure.core.specs.alpha.0.2.44.
+Adding package 'clojure.core.specs.alpha.0.2.44' to folder 'C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\packages'
+Added package 'clojure.core.specs.alpha.0.2.44' to folder 'C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\packages'
+Restoring NuGet package clojure.spec.alpha.0.1.176.
+Adding package 'clojure.spec.alpha.0.1.176' to folder 'C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\packages'
+Added package 'clojure.spec.alpha.0.1.176' to folder 'C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\packages'
+Restoring NuGet package DynamicLanguageRuntime.1.1.0.
+Adding package 'DynamicLanguageRuntime.1.1.0' to folder 'C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\packages'
+Added package 'DynamicLanguageRuntime.1.1.0' to folder 'C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\packages'
+Restoring NuGet package clojure.data.generators.0.1.2.
+Adding package 'clojure.data.generators.0.1.2' to folder 'C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\packages'
+Added package 'clojure.data.generators.0.1.2' to folder 'C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\packages'
+Restoring NuGet package clojure.test.check.0.9.0.1.
+Adding package 'clojure.test.check.0.9.0.1' to folder 'C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\packages'
+Added package 'clojure.test.check.0.9.0.1' to folder 'C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\packages'
+Restoring NuGet package clojure.test.generative.0.5.2.
+Adding package 'clojure.test.generative.0.5.2' to folder 'C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\packages'
+Added package 'clojure.test.generative.0.5.2' to folder 'C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\packages'
+Restoring NuGet package clojure.tools.namespace.0.2.10.
+Adding package 'clojure.tools.namespace.0.2.10' to folder 'C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\packages'
+Added package 'clojure.tools.namespace.0.2.10' to folder 'C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\packages'
+Restoring NuGet package NUnit.2.6.3.
+Adding package 'NUnit.2.6.3' to folder 'C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\packages'
+Added package 'NUnit.2.6.3' to folder 'C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\packages'
+
+NuGet Config files used:
+    C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\.nuget\NuGet.Config
+    C:\Users\?????????????\AppData\Roaming\NuGet\NuGet.Config
+    C:\Program Files\NuGet\Config\Microsoft.VisualStudio.Offline.config
+
+Feeds used:
+    C:\Users\?????????????\.nuget\packages\
+    https://api.nuget.org/v3/index.json
+    C:\Program Files\Microsoft SDKs\NuGetPackages\
+
+Installed:
+    8 package(s) to packages.config projects
+
+It haven't helped:
+
+>msbuild /restore build.proj /p:Runtime=Mono
+Microsoft (R) Build Engine version 16.0.42-preview+g804bde742b for Mono
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Build started 12.05.2019 12:09:04.
+Project "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\build.proj" on node 1 (default targets).
+Project "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\build.proj" (1:2) is building "C:\Users\????????????
+?\Desktop\clojure-clr-master\Clojure\ClojureCLR.sln" (2) on node 1 (default targets).
+ValidateSolutionConfiguration:
+  Building solution configuration "Debug|Any CPU".
+Project "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\ClojureCLR.sln" (2) is building "C:\Users\??????????
+???\Desktop\clojure-clr-master\Clojure\Clojure\Clojure.csproj" (3) on node 1 (default targets).
+RestorePackages:
+  "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\.nuget\NuGet.exe" install "C:\Users\?????????????\Desktop\
+  clojure-clr-master\Clojure\Clojure\packages.config"   -RequireConsent -o "C:\Users\?????????????\Desktop\clojure-clr-
+  master\Clojure\packages"
+  All packages listed in packages.config are already installed.
+C:\Program Files\Mono\lib\mono\msbuild\15.0\bin\Microsoft.Common.CurrentVersion.targets(3069,5): error MSB4018: The "Ge
+nerateResource" task failed unexpectedly. [C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure\Clojure.cs
+proj]
+C:\Program Files\Mono\lib\mono\msbuild\15.0\bin\Microsoft.Common.CurrentVersion.targets(3069,5): error MSB4018: System.
+MethodAccessException: Method `System.__ComObject..ctor()' is inaccessible from method `System.__ComObject..ctor()' [C:
+\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure\Clojure.csproj]
+C:\Program Files\Mono\lib\mono\msbuild\15.0\bin\Microsoft.Common.CurrentVersion.targets(3069,5): error MSB4018:   at (w
+rapper managed-to-native) System.Object.__icall_wrapper_mono_throw_method_access(intptr,intptr) [C:\Users\?????????????
+\Desktop\clojure-clr-master\Clojure\Clojure\Clojure.csproj]
+C:\Program Files\Mono\lib\mono\msbuild\15.0\bin\Microsoft.Common.CurrentVersion.targets(3069,5): error MSB4018:   at Sy
+stem.__ComObject..ctor () [0x00000] in <90e799dcb847491591a76a20a364359c>:0  [C:\Users\?????????????\Desktop\clojure-cl
+r-master\Clojure\Clojure\Clojure.csproj]
+C:\Program Files\Mono\lib\mono\msbuild\15.0\bin\Microsoft.Common.CurrentVersion.targets(3069,5): error MSB4018:   at (w
+rapper cominterop-invoke) System.__ComObject..ctor() [C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure
+\Clojure.csproj]
+C:\Program Files\Mono\lib\mono\msbuild\15.0\bin\Microsoft.Common.CurrentVersion.targets(3069,5): error MSB4018:   at (w
+rapper managed-to-native) System.Reflection.MonoCMethod.InternalInvoke(System.Reflection.MonoCMethod,object,object[],Sy
+stem.Exception&) [C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure\Clojure.csproj]
+C:\Program Files\Mono\lib\mono\msbuild\15.0\bin\Microsoft.Common.CurrentVersion.targets(3069,5): error MSB4018:   at Sy
+stem.Reflection.MonoCMethod.InternalInvoke (System.Object obj, System.Object[] parameters, System.Boolean wrapException
+s) [0x00005] in <9fd0c98d7e204973974540576ecf83d0>:0  [C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojur
+e\Clojure.csproj]
+Done Building Project "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure\Clojure.csproj" (default targe
+ts) -- FAILED.
+
+Project "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\ClojureCLR.sln" (2) is building "C:\Users\??????????
+???\Desktop\clojure-clr-master\Clojure\Clojure.Tests\Clojure.Tests.csproj" (5) on node 1 (default targets).
+RestorePackages:
+  "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\.nuget\NuGet.exe" install "C:\Users\?????????????\Desktop\
+  clojure-clr-master\Clojure\Clojure.Tests\packages.config"   -RequireConsent -o "C:\Users\?????????????\Desktop\clojur
+  e-clr-master\Clojure\packages"
+  All packages listed in packages.config are already installed.
+Done Building Project "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Tests\Clojure.Tests.csproj" (d
+efault targets) -- FAILED.
+
+Project "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\ClojureCLR.sln" (2) is building "C:\Users\??????????
+???\Desktop\clojure-clr-master\Clojure\Clojure.Main\Clojure.Main.csproj" (7) on node 1 (default targets).
+RestorePackages:
+  "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\.nuget\NuGet.exe" install "C:\Users\?????????????\Desktop\
+  clojure-clr-master\Clojure\Clojure.Main\packages.config"   -RequireConsent -o "C:\Users\?????????????\Desktop\clojure
+  -clr-master\Clojure\packages"
+  All packages listed in packages.config are already installed.
+Project "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Main\Clojure.Main.csproj" (7) is building "C
+:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Compile\Clojure.Compile.csproj" (8:2) on node 1 (defau
+lt targets).
+Project "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Compile\Clojure.Compile.csproj" (8:2) is bui
+lding "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Source\Clojure.Source.csproj" (9:2) on node 1
+(default targets).
+GenerateTargetFrameworkMonikerAttribute:
+Skipping target "GenerateTargetFrameworkMonikerAttribute" because all output files are up-to-date with respect to the i
+nput files.
+C:\Program Files\Mono\lib\mono\msbuild\15.0\bin\Microsoft.CSharp.CurrentVersion.targets(141,9): warning MSB3884: Could
+not find rule set file "MinimumRecommendedRules.ruleset". [C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Cl
+ojure.Source\Clojure.Source.csproj]
+CoreCompile:
+  C:\Program Files\Mono\lib\mono\msbuild\15.0\bin\Roslyn\csc.exe /noconfig /nowarn:1701,1702 /nostdlib+ /errorreport:pr
+  ompt /warn:4 /define:DEBUG;TRACE /highentropyva- /reference:"C:\Program Files\Reference Assemblies\Microsoft\Framewor
+  k\.NETFramework\v4.0\mscorlib.dll" /reference:"C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramewor
+  k\v4.0\System.Core.dll" /debug+ /debug:full /filealign:512 /optimize- /out:"\Debug 4.0\Clojure.Source.dll" /target:li
+  brary /utf8output clojure\samples\attributes\C.cs clojure\samples\genclass\C.cs clojure\samples\interop\C.cs GlobalSu
+  ppressions.cs "C:\Users\836D~1\AppData\Local\Temp\.NETFramework,Version=v4.0.AssemblyAttributes.cs"
+C:\Program Files\Mono\lib\mono\msbuild\15.0\bin\Roslyn\Microsoft.CSharp.Core.targets(52,5): error MSB6006: "csc.exe" ex
+ited with code 1. [C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Source\Clojure.Source.csproj]
+Done Building Project "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Source\Clojure.Source.csproj"
+(default targets) -- FAILED.
+
+Done Building Project "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Compile\Clojure.Compile.csproj
+" (default targets) -- FAILED.
+
+Done Building Project "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Main\Clojure.Main.csproj" (def
+ault targets) -- FAILED.
+
+Project "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\ClojureCLR.sln" (2) is building "C:\Users\??????????
+???\Desktop\clojure-clr-master\Clojure\DlrConsole\DlrConsole.csproj" (10) on node 1 (default targets).
+RestorePackages:
+  "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\.nuget\NuGet.exe" install "C:\Users\?????????????\Desktop\
+  clojure-clr-master\Clojure\DlrConsole\packages.config"   -RequireConsent -o "C:\Users\?????????????\Desktop\clojure-c
+  lr-master\Clojure\packages"
+  All packages listed in packages.config are already installed.
+Done Building Project "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\DlrConsole\DlrConsole.csproj" (default
+ targets) -- FAILED.
+
+Project "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\ClojureCLR.sln" (2) is building "C:\Users\??????????
+???\Desktop\clojure-clr-master\Clojure\Csharp.Tests\Csharp.Tests.csproj" (11) on node 1 (default targets).
+RestorePackages:
+  "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\.nuget\NuGet.exe" install "C:\Users\?????????????\Desktop\
+  clojure-clr-master\Clojure\Csharp.Tests\packages.config"   -RequireConsent -o "C:\Users\?????????????\Desktop\clojure
+  -clr-master\Clojure\packages"
+  All packages listed in packages.config are already installed.
+Done Building Project "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Csharp.Tests\Csharp.Tests.csproj" (def
+ault targets) -- FAILED.
+
+Project "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\ClojureCLR.sln" (2) is building "C:\Users\??????????
+???\Desktop\clojure-clr-master\Clojure\BuildTasks\BuildTasks.csproj" (12) on node 1 (default targets).
+GenerateTargetFrameworkMonikerAttribute:
+Skipping target "GenerateTargetFrameworkMonikerAttribute" because all output files are up-to-date with respect to the i
+nput files.
+CoreCompile:
+  C:\Program Files\Mono\lib\mono\msbuild\15.0\bin\Roslyn\csc.exe /noconfig /nowarn:1701,1702 /nostdlib+ /errorreport:pr
+  ompt /warn:4 /define:DEBUG;TRACE /highentropyva+ /reference:"C:\Program Files\Reference Assemblies\Microsoft\Framewor
+  k\.NETFramework\v4.5\Microsoft.Build.Framework.dll" /reference:"C:\Program Files\Reference Assemblies\Microsoft\Frame
+  work\.NETFramework\v4.5\Microsoft.Build.Utilities.v4.0.dll" /reference:"C:\Program Files\Reference Assemblies\Microso
+  ft\Framework\.NETFramework\v4.5\Microsoft.CSharp.dll" /reference:"C:\Program Files\Reference Assemblies\Microsoft\Fra
+  mework\.NETFramework\v4.5\mscorlib.dll" /reference:"C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFra
+  mework\v4.5\System.Core.dll" /reference:"C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5
+  \System.Data.DataSetExtensions.dll" /reference:"C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramewo
+  rk\v4.5\System.Data.dll" /reference:"C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\Sys
+  tem.dll" /reference:"C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Xml.dll" /re
+  ference:"C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Xml.Linq.dll" /debug+ /d
+  ebug:full /filealign:512 /optimize- /out:\Debug\BuildTasks.dll /subsystemversion:6.00 /target:library /utf8output Set
+  EnvVar.cs Properties\AssemblyInfo.cs "C:\Users\836D~1\AppData\Local\Temp\.NETFramework,Version=v4.5.AssemblyAttribute
+  s.cs"
+C:\Program Files\Mono\lib\mono\msbuild\15.0\bin\Roslyn\Microsoft.CSharp.Core.targets(52,5): error MSB6006: "csc.exe" ex
+ited with code 1. [C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\BuildTasks\BuildTasks.csproj]
+Done Building Project "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\BuildTasks\BuildTasks.csproj" (default
+ targets) -- FAILED.
+
+Done Building Project "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\ClojureCLR.sln" (default targets) -- F
+AILED.
+
+Done Building Project "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\build.proj" (default targets) -- FAILE
+D.
+
+
+Build FAILED.
+
+"C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\build.proj" (default target) (1:2) ->
+"C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\ClojureCLR.sln" (default target) (2) ->
+"C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Main\Clojure.Main.csproj" (default target) (7) ->
+"C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Compile\Clojure.Compile.csproj" (default target) (8:
+2) ->
+"C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Source\Clojure.Source.csproj" (default target) (9:2)
+ ->
+(ResolveCodeAnalysisRuleSet target) ->
+  C:\Program Files\Mono\lib\mono\msbuild\15.0\bin\Microsoft.CSharp.CurrentVersion.targets(141,9): warning MSB3884: Coul
+d not find rule set file "MinimumRecommendedRules.ruleset". [C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\
+Clojure.Source\Clojure.Source.csproj]
+
+
+"C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\build.proj" (default target) (1:2) ->
+"C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\ClojureCLR.sln" (default target) (2) ->
+"C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure\Clojure.csproj" (default target) (3) ->
+(CoreResGen target) ->
+  C:\Program Files\Mono\lib\mono\msbuild\15.0\bin\Microsoft.Common.CurrentVersion.targets(3069,5): error MSB4018: The "
+GenerateResource" task failed unexpectedly. [C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure\Clojure.
+csproj]
+C:\Program Files\Mono\lib\mono\msbuild\15.0\bin\Microsoft.Common.CurrentVersion.targets(3069,5): error MSB4018: System.
+MethodAccessException: Method `System.__ComObject..ctor()' is inaccessible from method `System.__ComObject..ctor()' [C:
+\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure\Clojure.csproj]
+C:\Program Files\Mono\lib\mono\msbuild\15.0\bin\Microsoft.Common.CurrentVersion.targets(3069,5): error MSB4018:   at (w
+rapper managed-to-native) System.Object.__icall_wrapper_mono_throw_method_access(intptr,intptr) [C:\Users\?????????????
+\Desktop\clojure-clr-master\Clojure\Clojure\Clojure.csproj]
+C:\Program Files\Mono\lib\mono\msbuild\15.0\bin\Microsoft.Common.CurrentVersion.targets(3069,5): error MSB4018:   at Sy
+stem.__ComObject..ctor () [0x00000] in <90e799dcb847491591a76a20a364359c>:0  [C:\Users\?????????????\Desktop\clojure-cl
+r-master\Clojure\Clojure\Clojure.csproj]
+C:\Program Files\Mono\lib\mono\msbuild\15.0\bin\Microsoft.Common.CurrentVersion.targets(3069,5): error MSB4018:   at (w
+rapper cominterop-invoke) System.__ComObject..ctor() [C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure
+\Clojure.csproj]
+C:\Program Files\Mono\lib\mono\msbuild\15.0\bin\Microsoft.Common.CurrentVersion.targets(3069,5): error MSB4018:   at (w
+rapper managed-to-native) System.Reflection.MonoCMethod.InternalInvoke(System.Reflection.MonoCMethod,object,object[],Sy
+stem.Exception&) [C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure\Clojure.csproj]
+C:\Program Files\Mono\lib\mono\msbuild\15.0\bin\Microsoft.Common.CurrentVersion.targets(3069,5): error MSB4018:   at Sy
+stem.Reflection.MonoCMethod.InternalInvoke (System.Object obj, System.Object[] parameters, System.Boolean wrapException
+s) [0x00005] in <9fd0c98d7e204973974540576ecf83d0>:0  [C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojur
+e\Clojure.csproj]
+
+
+"C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\build.proj" (default target) (1:2) ->
+"C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\ClojureCLR.sln" (default target) (2) ->
+"C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Main\Clojure.Main.csproj" (default target) (7) ->
+"C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Compile\Clojure.Compile.csproj" (default target) (8:
+2) ->
+"C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Source\Clojure.Source.csproj" (default target) (9:2)
+ ->
+(CoreCompile target) ->
+  C:\Program Files\Mono\lib\mono\msbuild\15.0\bin\Roslyn\Microsoft.CSharp.Core.targets(52,5): error MSB6006: "csc.exe"
+exited with code 1. [C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Source\Clojure.Source.csproj]
+
+
+"C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\build.proj" (default target) (1:2) ->
+"C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\ClojureCLR.sln" (default target) (2) ->
+"C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\BuildTasks\BuildTasks.csproj" (default target) (12) ->
+  C:\Program Files\Mono\lib\mono\msbuild\15.0\bin\Roslyn\Microsoft.CSharp.Core.targets(52,5): error MSB6006: "csc.exe"
+exited with code 1. [C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\BuildTasks\BuildTasks.csproj]
+
+    1 Warning(s)
+3 Error(s)
+
+Time Elapsed 00:00:49.83
+
+Same here:
+
+clojure-clr-master\Clojure>MSBuild build.proj /target:Build /p:Configuration="Release 4.0" /p:Platform="Any CPU" /p:DirectLinking="true"
+Microsoft (R) Build Engine version 16.0.42-preview+g804bde742b for Mono
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Build started 12.05.2019 12:15:36.
+Project "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\build.proj" on node 1 (Build target(s)).
+Project "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\build.proj" (1) is building "C:\Users\?????????????\
+Desktop\clojure-clr-master\Clojure\ClojureCLR.sln" (2) on node 1 (default targets).
+ValidateSolutionConfiguration:
+  Building solution configuration "Release 4.0|Any CPU".
+Project "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\ClojureCLR.sln" (2) is building "C:\Users\??????????
+???\Desktop\clojure-clr-master\Clojure\Clojure\Clojure.csproj" (3) on node 1 (default targets).
+PrepareForBuild:
+  Creating directory "..\..\bin\4.0\Release\".
+  Creating directory "\Release 4.0\".
+RestorePackages:
+  "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\.nuget\NuGet.exe" install "C:\Users\?????????????\Desktop\
+  clojure-clr-master\Clojure\Clojure\packages.config"   -RequireConsent -o "C:\Users\?????????????\Desktop\clojure-clr-
+  master\Clojure\packages"
+  All packages listed in packages.config are already installed.
+C:\Program Files\Mono\lib\mono\msbuild\15.0\bin\Microsoft.Common.CurrentVersion.targets(3069,5): error MSB4018: The "Ge
+nerateResource" task failed unexpectedly. [C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure\Clojure.cs
+proj]
+C:\Program Files\Mono\lib\mono\msbuild\15.0\bin\Microsoft.Common.CurrentVersion.targets(3069,5): error MSB4018: System.
+MethodAccessException: Method `System.__ComObject..ctor()' is inaccessible from method `System.__ComObject..ctor()' [C:
+\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure\Clojure.csproj]
+C:\Program Files\Mono\lib\mono\msbuild\15.0\bin\Microsoft.Common.CurrentVersion.targets(3069,5): error MSB4018:   at (w
+rapper managed-to-native) System.Object.__icall_wrapper_mono_throw_method_access(intptr,intptr) [C:\Users\?????????????
+\Desktop\clojure-clr-master\Clojure\Clojure\Clojure.csproj]
+C:\Program Files\Mono\lib\mono\msbuild\15.0\bin\Microsoft.Common.CurrentVersion.targets(3069,5): error MSB4018:   at Sy
+stem.__ComObject..ctor () [0x00000] in <2d1d8ea6762241a4a87a9b15014d6d4b>:0  [C:\Users\?????????????\Desktop\clojure-cl
+r-master\Clojure\Clojure\Clojure.csproj]
+C:\Program Files\Mono\lib\mono\msbuild\15.0\bin\Microsoft.Common.CurrentVersion.targets(3069,5): error MSB4018:   at (w
+rapper cominterop-invoke) System.__ComObject..ctor() [C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure
+\Clojure.csproj]
+C:\Program Files\Mono\lib\mono\msbuild\15.0\bin\Microsoft.Common.CurrentVersion.targets(3069,5): error MSB4018:   at (w
+rapper managed-to-native) System.Reflection.MonoCMethod.InternalInvoke(System.Reflection.MonoCMethod,object,object[],Sy
+stem.Exception&) [C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure\Clojure.csproj]
+C:\Program Files\Mono\lib\mono\msbuild\15.0\bin\Microsoft.Common.CurrentVersion.targets(3069,5): error MSB4018:   at Sy
+stem.Reflection.MonoCMethod.InternalInvoke (System.Object obj, System.Object[] parameters, System.Boolean wrapException
+s) [0x00005] in <9fd0c98d7e204973974540576ecf83d0>:0  [C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojur
+e\Clojure.csproj]
+Done Building Project "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure\Clojure.csproj" (default targe
+ts) -- FAILED.
+
+Project "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\ClojureCLR.sln" (2) is building "C:\Users\??????????
+???\Desktop\clojure-clr-master\Clojure\Clojure.Tests\Clojure.Tests.csproj" (5) on node 1 (default targets).
+RestorePackages:
+  "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\.nuget\NuGet.exe" install "C:\Users\?????????????\Desktop\
+  clojure-clr-master\Clojure\Clojure.Tests\packages.config"   -RequireConsent -o "C:\Users\?????????????\Desktop\clojur
+  e-clr-master\Clojure\packages"
+  All packages listed in packages.config are already installed.
+Done Building Project "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Tests\Clojure.Tests.csproj" (d
+efault targets) -- FAILED.
+
+Project "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\ClojureCLR.sln" (2) is building "C:\Users\??????????
+???\Desktop\clojure-clr-master\Clojure\Clojure.Main\Clojure.Main.csproj" (7) on node 1 (default targets).
+RestorePackages:
+  "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\.nuget\NuGet.exe" install "C:\Users\?????????????\Desktop\
+  clojure-clr-master\Clojure\Clojure.Main\packages.config"   -RequireConsent -o "C:\Users\?????????????\Desktop\clojure
+  -clr-master\Clojure\packages"
+  All packages listed in packages.config are already installed.
+Project "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Main\Clojure.Main.csproj" (7) is building "C
+:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Compile\Clojure.Compile.csproj" (8:2) on node 1 (defau
+lt targets).
+Project "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Compile\Clojure.Compile.csproj" (8:2) is bui
+lding "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Source\Clojure.Source.csproj" (9:2) on node 1
+(default targets).
+GenerateTargetFrameworkMonikerAttribute:
+Skipping target "GenerateTargetFrameworkMonikerAttribute" because all output files are up-to-date with respect to the i
+nput files.
+C:\Program Files\Mono\lib\mono\msbuild\15.0\bin\Microsoft.CSharp.CurrentVersion.targets(141,9): warning MSB3884: Could
+not find rule set file "AllRules.ruleset". [C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Source\Cl
+ojure.Source.csproj]
+CoreCompile:
+  C:\Program Files\Mono\lib\mono\msbuild\15.0\bin\Roslyn\csc.exe /noconfig /nowarn:1701,1702 /nostdlib+ /errorreport:pr
+  ompt /warn:4 /define:DEBUG;TRACE /highentropyva- /reference:"C:\Program Files\Reference Assemblies\Microsoft\Framewor
+  k\.NETFramework\v4.0\mscorlib.dll" /reference:"C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramewor
+  k\v4.0\System.Core.dll" /debug+ /debug:full /filealign:512 /optimize- /out:"\Release 4.0\Clojure.Source.dll" /target:
+  library /utf8output clojure\samples\attributes\C.cs clojure\samples\genclass\C.cs clojure\samples\interop\C.cs Global
+  Suppressions.cs "C:\Users\836D~1\AppData\Local\Temp\.NETFramework,Version=v4.0.AssemblyAttributes.cs"
+C:\Program Files\Mono\lib\mono\msbuild\15.0\bin\Roslyn\Microsoft.CSharp.Core.targets(52,5): error MSB6006: "csc.exe" ex
+ited with code 1. [C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Source\Clojure.Source.csproj]
+Done Building Project "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Source\Clojure.Source.csproj"
+(default targets) -- FAILED.
+
+Done Building Project "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Compile\Clojure.Compile.csproj
+" (default targets) -- FAILED.
+
+Done Building Project "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Main\Clojure.Main.csproj" (def
+ault targets) -- FAILED.
+
+Project "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\ClojureCLR.sln" (2) is building "C:\Users\??????????
+???\Desktop\clojure-clr-master\Clojure\DlrConsole\DlrConsole.csproj" (10) on node 1 (default targets).
+PrepareForBuild:
+  Creating directory "bin\Release\".
+RestorePackages:
+  "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\.nuget\NuGet.exe" install "C:\Users\?????????????\Desktop\
+  clojure-clr-master\Clojure\DlrConsole\packages.config"   -RequireConsent -o "C:\Users\?????????????\Desktop\clojure-c
+  lr-master\Clojure\packages"
+  All packages listed in packages.config are already installed.
+Done Building Project "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\DlrConsole\DlrConsole.csproj" (default
+ targets) -- FAILED.
+
+Project "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\ClojureCLR.sln" (2) is building "C:\Users\??????????
+???\Desktop\clojure-clr-master\Clojure\Csharp.Tests\Csharp.Tests.csproj" (11) on node 1 (default targets).
+PrepareForBuild:
+  Creating directory "bin\Release\".
+RestorePackages:
+  "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\.nuget\NuGet.exe" install "C:\Users\?????????????\Desktop\
+  clojure-clr-master\Clojure\Csharp.Tests\packages.config"   -RequireConsent -o "C:\Users\?????????????\Desktop\clojure
+  -clr-master\Clojure\packages"
+  All packages listed in packages.config are already installed.
+Done Building Project "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Csharp.Tests\Csharp.Tests.csproj" (def
+ault targets) -- FAILED.
+
+Project "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\ClojureCLR.sln" (2) is building "C:\Users\??????????
+???\Desktop\clojure-clr-master\Clojure\BuildTasks\BuildTasks.csproj" (12) on node 1 (default targets).
+PrepareForBuild:
+  Creating directory "bin\Release\".
+  Creating directory "\Release\".
+GenerateTargetFrameworkMonikerAttribute:
+Skipping target "GenerateTargetFrameworkMonikerAttribute" because all output files are up-to-date with respect to the i
+nput files.
+CoreCompile:
+  C:\Program Files\Mono\lib\mono\msbuild\15.0\bin\Roslyn\csc.exe /noconfig /nowarn:1701,1702 /nostdlib+ /errorreport:pr
+  ompt /warn:4 /define:TRACE /highentropyva+ /reference:"C:\Program Files\Reference Assemblies\Microsoft\Framework\.NET
+  Framework\v4.5\Microsoft.Build.Framework.dll" /reference:"C:\Program Files\Reference Assemblies\Microsoft\Framework\.
+  NETFramework\v4.5\Microsoft.Build.Utilities.v4.0.dll" /reference:"C:\Program Files\Reference Assemblies\Microsoft\Fra
+  mework\.NETFramework\v4.5\Microsoft.CSharp.dll" /reference:"C:\Program Files\Reference Assemblies\Microsoft\Framework
+  \.NETFramework\v4.5\mscorlib.dll" /reference:"C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework
+  \v4.5\System.Core.dll" /reference:"C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\Syste
+  m.Data.DataSetExtensions.dll" /reference:"C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.
+  5\System.Data.dll" /reference:"C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.dl
+  l" /reference:"C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Xml.dll" /referenc
+  e:"C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Xml.Linq.dll" /debug:pdbonly /
+  filealign:512 /optimize+ /out:\Release\BuildTasks.dll /subsystemversion:6.00 /target:library /utf8output SetEnvVar.cs
+   Properties\AssemblyInfo.cs "C:\Users\836D~1\AppData\Local\Temp\.NETFramework,Version=v4.5.AssemblyAttributes.cs"
+C:\Program Files\Mono\lib\mono\msbuild\15.0\bin\Roslyn\Microsoft.CSharp.Core.targets(52,5): error MSB6006: "csc.exe" ex
+ited with code 1. [C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\BuildTasks\BuildTasks.csproj]
+Done Building Project "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\BuildTasks\BuildTasks.csproj" (default
+ targets) -- FAILED.
+
+Done Building Project "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\ClojureCLR.sln" (default targets) -- F
+AILED.
+
+Done Building Project "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\build.proj" (Build target(s)) -- FAILE
+D.
+
+
+Build FAILED.
+
+"C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\build.proj" (Build target) (1) ->
+"C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\ClojureCLR.sln" (default target) (2) ->
+"C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Main\Clojure.Main.csproj" (default target) (7) ->
+"C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Compile\Clojure.Compile.csproj" (default target) (8:
+2) ->
+"C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Source\Clojure.Source.csproj" (default target) (9:2)
+ ->
+(ResolveCodeAnalysisRuleSet target) ->
+  C:\Program Files\Mono\lib\mono\msbuild\15.0\bin\Microsoft.CSharp.CurrentVersion.targets(141,9): warning MSB3884: Coul
+d not find rule set file "AllRules.ruleset". [C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Source\
+Clojure.Source.csproj]
+
+
+"C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\build.proj" (Build target) (1) ->
+"C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\ClojureCLR.sln" (default target) (2) ->
+"C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure\Clojure.csproj" (default target) (3) ->
+(CoreResGen target) ->
+  C:\Program Files\Mono\lib\mono\msbuild\15.0\bin\Microsoft.Common.CurrentVersion.targets(3069,5): error MSB4018: The "
+GenerateResource" task failed unexpectedly. [C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure\Clojure.
+csproj]
+C:\Program Files\Mono\lib\mono\msbuild\15.0\bin\Microsoft.Common.CurrentVersion.targets(3069,5): error MSB4018: System.
+MethodAccessException: Method `System.__ComObject..ctor()' is inaccessible from method `System.__ComObject..ctor()' [C:
+\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure\Clojure.csproj]
+C:\Program Files\Mono\lib\mono\msbuild\15.0\bin\Microsoft.Common.CurrentVersion.targets(3069,5): error MSB4018:   at (w
+rapper managed-to-native) System.Object.__icall_wrapper_mono_throw_method_access(intptr,intptr) [C:\Users\?????????????
+\Desktop\clojure-clr-master\Clojure\Clojure\Clojure.csproj]
+C:\Program Files\Mono\lib\mono\msbuild\15.0\bin\Microsoft.Common.CurrentVersion.targets(3069,5): error MSB4018:   at Sy
+stem.__ComObject..ctor () [0x00000] in <2d1d8ea6762241a4a87a9b15014d6d4b>:0  [C:\Users\?????????????\Desktop\clojure-cl
+r-master\Clojure\Clojure\Clojure.csproj]
+C:\Program Files\Mono\lib\mono\msbuild\15.0\bin\Microsoft.Common.CurrentVersion.targets(3069,5): error MSB4018:   at (w
+rapper cominterop-invoke) System.__ComObject..ctor() [C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure
+\Clojure.csproj]
+C:\Program Files\Mono\lib\mono\msbuild\15.0\bin\Microsoft.Common.CurrentVersion.targets(3069,5): error MSB4018:   at (w
+rapper managed-to-native) System.Reflection.MonoCMethod.InternalInvoke(System.Reflection.MonoCMethod,object,object[],Sy
+stem.Exception&) [C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure\Clojure.csproj]
+C:\Program Files\Mono\lib\mono\msbuild\15.0\bin\Microsoft.Common.CurrentVersion.targets(3069,5): error MSB4018:   at Sy
+stem.Reflection.MonoCMethod.InternalInvoke (System.Object obj, System.Object[] parameters, System.Boolean wrapException
+s) [0x00005] in <9fd0c98d7e204973974540576ecf83d0>:0  [C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojur
+e\Clojure.csproj]
+
+
+"C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\build.proj" (Build target) (1) ->
+"C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\ClojureCLR.sln" (default target) (2) ->
+"C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Main\Clojure.Main.csproj" (default target) (7) ->
+"C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Compile\Clojure.Compile.csproj" (default target) (8:
+2) ->
+"C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Source\Clojure.Source.csproj" (default target) (9:2)
+ ->
+(CoreCompile target) ->
+  C:\Program Files\Mono\lib\mono\msbuild\15.0\bin\Roslyn\Microsoft.CSharp.Core.targets(52,5): error MSB6006: "csc.exe"
+exited with code 1. [C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Source\Clojure.Source.csproj]
+
+
+"C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\build.proj" (Build target) (1) ->
+"C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\ClojureCLR.sln" (default target) (2) ->
+"C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\BuildTasks\BuildTasks.csproj" (default target) (12) ->
+  C:\Program Files\Mono\lib\mono\msbuild\15.0\bin\Roslyn\Microsoft.CSharp.Core.targets(52,5): error MSB6006: "csc.exe"
+exited with code 1. [C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\BuildTasks\BuildTasks.csproj]
+
+    1 Warning(s)
+    3 Error(s)
+
+Time Elapsed 00:00:32.38
+
+msbuild build.proj /p:Runtime=Mono
+Microsoft (R) Build Engine version 16.0.42-preview+g804bde742b for Mono
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Build started 12.05.2019 12:17:20.
+Project "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\build.proj" on node 1 (default targets).
+Project "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\build.proj" (1) is building "C:\Users\?????????????\
+Desktop\clojure-clr-master\Clojure\ClojureCLR.sln" (2) on node 1 (default targets).
+ValidateSolutionConfiguration:
+  Building solution configuration "Debug|Any CPU".
+Project "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\ClojureCLR.sln" (2) is building "C:\Users\??????????
+???\Desktop\clojure-clr-master\Clojure\Clojure\Clojure.csproj" (3) on node 1 (default targets).
+RestorePackages:
+  "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\.nuget\NuGet.exe" install "C:\Users\?????????????\Desktop\
+  clojure-clr-master\Clojure\Clojure\packages.config"   -RequireConsent -o "C:\Users\?????????????\Desktop\clojure-clr-
+  master\Clojure\packages"
+  All packages listed in packages.config are already installed.
+C:\Program Files\Mono\lib\mono\msbuild\15.0\bin\Microsoft.Common.CurrentVersion.targets(3069,5): error MSB4018: The "Ge
+nerateResource" task failed unexpectedly. [C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure\Clojure.cs
+proj]
+C:\Program Files\Mono\lib\mono\msbuild\15.0\bin\Microsoft.Common.CurrentVersion.targets(3069,5): error MSB4018: System.
+MethodAccessException: Method `System.__ComObject..ctor()' is inaccessible from method `System.__ComObject..ctor()' [C:
+\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure\Clojure.csproj]
+C:\Program Files\Mono\lib\mono\msbuild\15.0\bin\Microsoft.Common.CurrentVersion.targets(3069,5): error MSB4018:   at (w
+rapper managed-to-native) System.Object.__icall_wrapper_mono_throw_method_access(intptr,intptr) [C:\Users\?????????????
+\Desktop\clojure-clr-master\Clojure\Clojure\Clojure.csproj]
+C:\Program Files\Mono\lib\mono\msbuild\15.0\bin\Microsoft.Common.CurrentVersion.targets(3069,5): error MSB4018:   at Sy
+stem.__ComObject..ctor () [0x00000] in <568a5b30b21c406e99c1d0295b09a2db>:0  [C:\Users\?????????????\Desktop\clojure-cl
+r-master\Clojure\Clojure\Clojure.csproj]
+C:\Program Files\Mono\lib\mono\msbuild\15.0\bin\Microsoft.Common.CurrentVersion.targets(3069,5): error MSB4018:   at (w
+rapper cominterop-invoke) System.__ComObject..ctor() [C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure
+\Clojure.csproj]
+C:\Program Files\Mono\lib\mono\msbuild\15.0\bin\Microsoft.Common.CurrentVersion.targets(3069,5): error MSB4018:   at (w
+rapper managed-to-native) System.Reflection.MonoCMethod.InternalInvoke(System.Reflection.MonoCMethod,object,object[],Sy
+stem.Exception&) [C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure\Clojure.csproj]
+C:\Program Files\Mono\lib\mono\msbuild\15.0\bin\Microsoft.Common.CurrentVersion.targets(3069,5): error MSB4018:   at Sy
+stem.Reflection.MonoCMethod.InternalInvoke (System.Object obj, System.Object[] parameters, System.Boolean wrapException
+s) [0x00005] in <9fd0c98d7e204973974540576ecf83d0>:0  [C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojur
+e\Clojure.csproj]
+Done Building Project "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure\Clojure.csproj" (default targe
+ts) -- FAILED.
+
+Project "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\ClojureCLR.sln" (2) is building "C:\Users\??????????
+???\Desktop\clojure-clr-master\Clojure\Clojure.Tests\Clojure.Tests.csproj" (5) on node 1 (default targets).
+RestorePackages:
+  "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\.nuget\NuGet.exe" install "C:\Users\?????????????\Desktop\
+  clojure-clr-master\Clojure\Clojure.Tests\packages.config"   -RequireConsent -o "C:\Users\?????????????\Desktop\clojur
+  e-clr-master\Clojure\packages"
+  All packages listed in packages.config are already installed.
+Done Building Project "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Tests\Clojure.Tests.csproj" (d
+efault targets) -- FAILED.
+
+Project "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\ClojureCLR.sln" (2) is building "C:\Users\??????????
+???\Desktop\clojure-clr-master\Clojure\Clojure.Main\Clojure.Main.csproj" (7) on node 1 (default targets).
+RestorePackages:
+  "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\.nuget\NuGet.exe" install "C:\Users\?????????????\Desktop\
+  clojure-clr-master\Clojure\Clojure.Main\packages.config"   -RequireConsent -o "C:\Users\?????????????\Desktop\clojure
+  -clr-master\Clojure\packages"
+  All packages listed in packages.config are already installed.
+Project "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Main\Clojure.Main.csproj" (7) is building "C
+:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Compile\Clojure.Compile.csproj" (8:2) on node 1 (defau
+lt targets).
+Project "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Compile\Clojure.Compile.csproj" (8:2) is bui
+lding "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Source\Clojure.Source.csproj" (9:2) on node 1
+(default targets).
+GenerateTargetFrameworkMonikerAttribute:
+Skipping target "GenerateTargetFrameworkMonikerAttribute" because all output files are up-to-date with respect to the i
+nput files.
+C:\Program Files\Mono\lib\mono\msbuild\15.0\bin\Microsoft.CSharp.CurrentVersion.targets(141,9): warning MSB3884: Could
+not find rule set file "MinimumRecommendedRules.ruleset". [C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Cl
+ojure.Source\Clojure.Source.csproj]
+CoreCompile:
+  C:\Program Files\Mono\lib\mono\msbuild\15.0\bin\Roslyn\csc.exe /noconfig /nowarn:1701,1702 /nostdlib+ /errorreport:pr
+  ompt /warn:4 /define:DEBUG;TRACE /highentropyva- /reference:"C:\Program Files\Reference Assemblies\Microsoft\Framewor
+  k\.NETFramework\v4.0\mscorlib.dll" /reference:"C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramewor
+  k\v4.0\System.Core.dll" /debug+ /debug:full /filealign:512 /optimize- /out:"\Debug 4.0\Clojure.Source.dll" /target:li
+  brary /utf8output clojure\samples\attributes\C.cs clojure\samples\genclass\C.cs clojure\samples\interop\C.cs GlobalSu
+  ppressions.cs "C:\Users\836D~1\AppData\Local\Temp\.NETFramework,Version=v4.0.AssemblyAttributes.cs"
+C:\Program Files\Mono\lib\mono\msbuild\15.0\bin\Roslyn\Microsoft.CSharp.Core.targets(52,5): error MSB6006: "csc.exe" ex
+ited with code 1. [C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Source\Clojure.Source.csproj]
+Done Building Project "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Source\Clojure.Source.csproj"
+(default targets) -- FAILED.
+
+Done Building Project "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Compile\Clojure.Compile.csproj
+" (default targets) -- FAILED.
+
+Done Building Project "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Main\Clojure.Main.csproj" (def
+ault targets) -- FAILED.
+
+Project "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\ClojureCLR.sln" (2) is building "C:\Users\??????????
+???\Desktop\clojure-clr-master\Clojure\DlrConsole\DlrConsole.csproj" (10) on node 1 (default targets).
+RestorePackages:
+  "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\.nuget\NuGet.exe" install "C:\Users\?????????????\Desktop\
+  clojure-clr-master\Clojure\DlrConsole\packages.config"   -RequireConsent -o "C:\Users\?????????????\Desktop\clojure-c
+  lr-master\Clojure\packages"
+  All packages listed in packages.config are already installed.
+Done Building Project "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\DlrConsole\DlrConsole.csproj" (default
+ targets) -- FAILED.
+
+Project "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\ClojureCLR.sln" (2) is building "C:\Users\??????????
+???\Desktop\clojure-clr-master\Clojure\Csharp.Tests\Csharp.Tests.csproj" (11) on node 1 (default targets).
+RestorePackages:
+  "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\.nuget\NuGet.exe" install "C:\Users\?????????????\Desktop\
+  clojure-clr-master\Clojure\Csharp.Tests\packages.config"   -RequireConsent -o "C:\Users\?????????????\Desktop\clojure
+  -clr-master\Clojure\packages"
+  All packages listed in packages.config are already installed.
+Done Building Project "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Csharp.Tests\Csharp.Tests.csproj" (def
+ault targets) -- FAILED.
+
+Project "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\ClojureCLR.sln" (2) is building "C:\Users\??????????
+???\Desktop\clojure-clr-master\Clojure\BuildTasks\BuildTasks.csproj" (12) on node 1 (default targets).
+GenerateTargetFrameworkMonikerAttribute:
+Skipping target "GenerateTargetFrameworkMonikerAttribute" because all output files are up-to-date with respect to the i
+nput files.
+CoreCompile:
+  C:\Program Files\Mono\lib\mono\msbuild\15.0\bin\Roslyn\csc.exe /noconfig /nowarn:1701,1702 /nostdlib+ /errorreport:pr
+  ompt /warn:4 /define:DEBUG;TRACE /highentropyva+ /reference:"C:\Program Files\Reference Assemblies\Microsoft\Framewor
+  k\.NETFramework\v4.5\Microsoft.Build.Framework.dll" /reference:"C:\Program Files\Reference Assemblies\Microsoft\Frame
+  work\.NETFramework\v4.5\Microsoft.Build.Utilities.v4.0.dll" /reference:"C:\Program Files\Reference Assemblies\Microso
+  ft\Framework\.NETFramework\v4.5\Microsoft.CSharp.dll" /reference:"C:\Program Files\Reference Assemblies\Microsoft\Fra
+  mework\.NETFramework\v4.5\mscorlib.dll" /reference:"C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFra
+  mework\v4.5\System.Core.dll" /reference:"C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5
+  \System.Data.DataSetExtensions.dll" /reference:"C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramewo
+  rk\v4.5\System.Data.dll" /reference:"C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\Sys
+  tem.dll" /reference:"C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Xml.dll" /re
+  ference:"C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Xml.Linq.dll" /debug+ /d
+  ebug:full /filealign:512 /optimize- /out:\Debug\BuildTasks.dll /subsystemversion:6.00 /target:library /utf8output Set
+  EnvVar.cs Properties\AssemblyInfo.cs "C:\Users\836D~1\AppData\Local\Temp\.NETFramework,Version=v4.5.AssemblyAttribute
+  s.cs"
+C:\Program Files\Mono\lib\mono\msbuild\15.0\bin\Roslyn\Microsoft.CSharp.Core.targets(52,5): error MSB6006: "csc.exe" ex
+ited with code 1. [C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\BuildTasks\BuildTasks.csproj]
+Done Building Project "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\BuildTasks\BuildTasks.csproj" (default
+ targets) -- FAILED.
+
+Done Building Project "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\ClojureCLR.sln" (default targets) -- F
+AILED.
+
+Done Building Project "C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\build.proj" (default targets) -- FAILE
+D.
+
+
+Build FAILED.
+
+"C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\build.proj" (default target) (1) ->
+"C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\ClojureCLR.sln" (default target) (2) ->
+"C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Main\Clojure.Main.csproj" (default target) (7) ->
+"C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Compile\Clojure.Compile.csproj" (default target) (8:
+2) ->
+"C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Source\Clojure.Source.csproj" (default target) (9:2)
+ ->
+(ResolveCodeAnalysisRuleSet target) ->
+  C:\Program Files\Mono\lib\mono\msbuild\15.0\bin\Microsoft.CSharp.CurrentVersion.targets(141,9): warning MSB3884: Coul
+d not find rule set file "MinimumRecommendedRules.ruleset". [C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\
+Clojure.Source\Clojure.Source.csproj]
+
+
+"C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\build.proj" (default target) (1) ->
+"C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\ClojureCLR.sln" (default target) (2) ->
+"C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure\Clojure.csproj" (default target) (3) ->
+(CoreResGen target) ->
+  C:\Program Files\Mono\lib\mono\msbuild\15.0\bin\Microsoft.Common.CurrentVersion.targets(3069,5): error MSB4018: The "
+GenerateResource" task failed unexpectedly. [C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure\Clojure.
+csproj]
+C:\Program Files\Mono\lib\mono\msbuild\15.0\bin\Microsoft.Common.CurrentVersion.targets(3069,5): error MSB4018: System.
+MethodAccessException: Method `System.__ComObject..ctor()' is inaccessible from method `System.__ComObject..ctor()' [C:
+\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure\Clojure.csproj]
+C:\Program Files\Mono\lib\mono\msbuild\15.0\bin\Microsoft.Common.CurrentVersion.targets(3069,5): error MSB4018:   at (w
+rapper managed-to-native) System.Object.__icall_wrapper_mono_throw_method_access(intptr,intptr) [C:\Users\?????????????
+\Desktop\clojure-clr-master\Clojure\Clojure\Clojure.csproj]
+C:\Program Files\Mono\lib\mono\msbuild\15.0\bin\Microsoft.Common.CurrentVersion.targets(3069,5): error MSB4018:   at Sy
+stem.__ComObject..ctor () [0x00000] in <568a5b30b21c406e99c1d0295b09a2db>:0  [C:\Users\?????????????\Desktop\clojure-cl
+r-master\Clojure\Clojure\Clojure.csproj]
+C:\Program Files\Mono\lib\mono\msbuild\15.0\bin\Microsoft.Common.CurrentVersion.targets(3069,5): error MSB4018:   at (w
+rapper cominterop-invoke) System.__ComObject..ctor() [C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure
+\Clojure.csproj]
+C:\Program Files\Mono\lib\mono\msbuild\15.0\bin\Microsoft.Common.CurrentVersion.targets(3069,5): error MSB4018:   at (w
+rapper managed-to-native) System.Reflection.MonoCMethod.InternalInvoke(System.Reflection.MonoCMethod,object,object[],Sy
+stem.Exception&) [C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure\Clojure.csproj]
+C:\Program Files\Mono\lib\mono\msbuild\15.0\bin\Microsoft.Common.CurrentVersion.targets(3069,5): error MSB4018:   at Sy
+stem.Reflection.MonoCMethod.InternalInvoke (System.Object obj, System.Object[] parameters, System.Boolean wrapException
+s) [0x00005] in <9fd0c98d7e204973974540576ecf83d0>:0  [C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojur
+e\Clojure.csproj]
+
+
+"C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\build.proj" (default target) (1) ->
+"C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\ClojureCLR.sln" (default target) (2) ->
+"C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Main\Clojure.Main.csproj" (default target) (7) ->
+"C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Compile\Clojure.Compile.csproj" (default target) (8:
+2) ->
+"C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Source\Clojure.Source.csproj" (default target) (9:2)
+ ->
+(CoreCompile target) ->
+  C:\Program Files\Mono\lib\mono\msbuild\15.0\bin\Roslyn\Microsoft.CSharp.Core.targets(52,5): error MSB6006: "csc.exe"
+exited with code 1. [C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\Clojure.Source\Clojure.Source.csproj]
+
+
+"C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\build.proj" (default target) (1) ->
+"C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\ClojureCLR.sln" (default target) (2) ->
+"C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\BuildTasks\BuildTasks.csproj" (default target) (12) ->
+  C:\Program Files\Mono\lib\mono\msbuild\15.0\bin\Roslyn\Microsoft.CSharp.Core.targets(52,5): error MSB6006: "csc.exe"
+exited with code 1. [C:\Users\?????????????\Desktop\clojure-clr-master\Clojure\BuildTasks\BuildTasks.csproj]
+
+    1 Warning(s)
+    3 Error(s)
+
+Time Elapsed 00:00:27.74
+
+ Stop throwing exceptions on locals with primitive type hints
+ There is no real reason for this exception and it makes high performance well typed code impossible to write.
+
+I think this was fixed in the past but maybe regressed somehow?
+ Expose environment vars that control spec to Mono platforms
+ *nix platforms generally cannot set environment variables of the form `clojure.spec.check-asserts` with hyphens and dots. This patch gives two environment variables that control spec *nix friendly names when compiling on Mono.
+ fixing bug with print repl failing for exception stackframes without …
+ …class or method.
+
+Specifically, in Arcadia it is sometimes the case that exceptions are thrown, some stackframes of which have null values for `.GetType` and `.GetMethod` (evaluating `(map (fn [a b] b) [1 2 3])` seems to cause this, for example). This breaks the exception handling machinery itself, which crashes the REPL.
+ Compile spec namespaces early on Mono
+ This enables building from a fresh clone. Might need to do the same on Windows. Also, this backs out of a regression in Clojure.Compile.csproj that reintroduced a Windows specific build step without checking the platform variable.
+ fixing bug with print-trace-element for missing methods, classes
+ `clojure.stacktrace/print-trace-element` does not handle case of StackFrames that lack a method or a class, which can come up on Unity's version of Mono on OSX at least. This fixes that, also uses `printf`.
+ Fixing bug with stacktrace for missing methods
+ The process of computing printouts for stacktraces in the REPL itself throws for certain Exceptions, in particular those with StackFrames with missing methods. This then kills the REPL.
+```
+(.adfadf :bla)
+```
+will kill the REPL, for example, if things are set up to print the complete stacktrace.
+This can be fixed by checking if the method and class is actually there or not before computing the printout.
+ Remove .Net 3.x as a requirement in referenced assemblies
+ These shouldn't be needed, and they were preventing the build from running inside a .Net 4.6 environment.
+ Update NuGet.targets to work with Mono
+ Fixes build scripts to work with modern mono deployment on *nix.
+ Replace slashes in InitClassName with dollar signs
+ There seems to be a bug in Mono where types with slashes in their name are not findable by normal means. This patch changes the names generated by `InitClassName` to use `$` instead of `/`.
+ Support direct-linking compiler option on *nix
+ Fixes problem with hyphens in Unix environment variables
+ - fixed system culture dependency in PrintfTests and RatioTests by setting InvariantCulture (failed on computer with Czech default culture)
+ - added some sugar to DlrConsole just to see that DLR API is not implemented yet :)
+
+Generally, I follow Clojure's policy on contributions (because I must): http://clojure.org/community/contributing
+
+That requires a signed Contributor's Agreement from anyone contributing code.  
+
+Also following Clojure's practice of not doing pull requests, but using JIRA for creating issues and delivering patches.  http://dev.clojure.org/jira/browse/CLJCLR
+
+For the system culture dependency, the change is simple enough that I can just do that.  
+The DLRConsole changes are more significant and I would not make them without following protocol.
+I'm curious as to why you are interested in DLRConsole.  That was not intended for general use, just a check program I wrote a long time ago to verify I had the pieces I needed for minimal DLR integration.
+
+
+Thanks for feedback, I appreciate picking the "correct piece" of the commit (the DlrConsole piece was not ment to be along, it was there by mistake).
+
+Just to mention, I am not using Clojure, Scheme or any other LISP to actually code (yet). I've just wanted to try it, because there are advantages of course. And being a .NET guy, I tend to squeeze as much under CLR as possible, to make further use in work.
+
+Regarding the DLR stuff and why I've tried it: I've been harvesting a piece of SW to leverage IronPython and IronRuby as scripting languages, I've used that for test scripting and lightweight DevOps automation on some bigger business projects, so I've just wondered if I can add Clojure-CLR as DLR runtime without bigger effort. I've tried IronScheme before, but it used Microsoft.Dynamic and Microsoft.Scripting source code incompatible with mine. So for the time being I've decided to postpone efforts regarding Clojure-CLR or IronScheme.
+
+
+Test changes will be in 1.9.
+
+ Improve (type-args) description
+ 
+Pull requests not an accepted method, per Clojure's approach.
+A doc change will occur in the 1.9 release.
+
+ Update and rename readme.txt to README.md
+ Better markdown to me rendered by github.
+
+I'm still following ClojureJVM on this. They still have readme.txt.
+:)
+
+ Fix build on Linux and OSX
+ There were 2 problems:
+1. (Affected OSX and Linux) Wrong path to "packages.config". Xbuild tried to search it in SolutionDir, not in ProjectDir. 
+2. (Affected Linux) Linux has case-sensitive file system, so xbuild couldn't start "nuget.exe"
+
+Command for build with mono:
+EnableNuGetPackageRestore=true MONO_IOMAP=all xbuild build.proj /target:Build /p:Configuration="Release 4.0" /p:Platform="Any CPU"
+
+Add Jira-issue http://dev.clojure.org/jira/browse/CLJCLR-70
+
+
+Prefer patches on JIRA.
+Need to have signed the Clojure Contributor's Agreement.
+These fixes are straightforward and have bee made.
+
+
+ Stop type lookups on lexically bound symbols
+ This is a port of @ztellman's pending patch http://dev.clojure.org/jira/browse/CLJ-1529
+
+This patch avoids unnecessary lookups on symbols that are known to be lexically bound, resulting in significant speedup in many cases. Details are on the Jira page.
+
+In the event of @ztellman's branch getting merged in to Clojure-JVM, merging this PR should reproduce its behavior.
+
+Handled when we updated to ClojureJVM fix for CLJ-1529.
+
+ Use dlls over cljs when their timestamps are equal
+ This case comes up when a project is e.g. cloned off a git repo and the DLLs and CLJ files get identical timestamps.
+
+Fixed.  Just pulled patch.
+
+
+ Add fast path for RT.classForName
+ Namespace qualified types skip the slow string comparison code path.
+This commit also documents when each lookup path can be expected to
+succeed.
+
+Fixed.  Just applied the patch.
+
+
+ Added a couple of tests
+ Added tests for compare-and-set! and (by-ref)
+
+Unfortunately, cannot accept patches / pull requests unless you have contributor's agreement on file with Clojure central.
+
+Also, I prefer to follow the outlines for creating issues and attaching patches set forth on dev.clojure.org.
+
+
+```
+     Hi,
+```
+
+  I made these patches a while ago and back then being quite new to clojure
+clr am not sure if they are any good. Anyhow, for future needs I signed the
+Clojure contributor agreement and will use dev.clojure.org for further
+issues+patches.
+
+```
+          ::Antti::
+```
+
+
+ Modify .nuget/NuGet.targets to fix problem with nuget downloads under mo...
+ ...no and osx
+
+Exec cmd (under xbuild@osx):
+EnableNuGetPackageRestore=ture Runtime=MONO xbuild ClojureCLR.sln
+
+Error message:
+clojure-clr/Clojure/ClojureCLR.sln (default targets) ->
+(Build target) ->
+clojure-clr/Clojure/Clojure/Clojure.csproj (default targets) ->
+clojure-clr/Clojure/.nuget/nuget.targets (RestorePackages target) ->
+
+```
+clojure-clr/Clojure/.nuget/nuget.targets: error : Command 'mono --runtime=v4.0.30319 clojure-clr/Clojure/.nuget/NuGet.exe install "packages.config" -source ""  -RequireConsent -o "clojure-clr/Clojure/packages"' exited with code: 1.
+```
+
+Reason:
+different of position PakcageConfig.
+
+This appears to have gotten fixed somewhere along the way.
+
+ don't prepend *compiler-path* to assembly name
+ The following console output illustrates the bug fixed in this commit:
+
+```
+    c:\github\VideoDump>(set CLOJURE_COMPILE_PATH=bin) & Clojure.Compile.exe program
+    Compiling program to bin -- 366 milliseconds.
+
+    c:\github\VideoDump>dir bin
+     Volume in drive C has no label.
+     Volume Serial Number is C201-2D30
+
+     Directory of c:\github\VideoDump\bin
+
+    06/20/2013  12:16 PM    <DIR>          .
+    06/20/2013  12:16 PM    <DIR>          ..
+    06/20/2013  11:58 AM             4,608 bin_SLASH_program.exe
+    06/20/2013  11:58 PM             6,144 program.clj.dll
+                   3 File(s)         15,360 bytes
+                   2 Dir(s)  114,253,045,760 bytes free
+```
+
+`GenClass.GenerateClass` should not prepend the `*compiler-path*` to the
+assembly name that is given to `GenContext.CreateWithExternalAssembly`;
+the latter method already accounts for the `*compiler-path*` when
+determining where to place the generated assembly.
+
+Fixed in latest commit on master.
+
+http://dev.clojure.org/jira/browse/CLJCLR-23
+
+On Thu, Jun 20, 2013 at 12:28 PM, Matt McGill notifications@github.comwrote:
+
+> The following console output illustrates the bug fixed in this commit:
+> 
+> ```
+> c:\github\VideoDump>(set CLOJURE_COMPILE_PATH=bin) & Clojure.Compile.exe program
+> Compiling program to bin -- 366 milliseconds.
+> 
+> c:\github\VideoDump>dir bin
+>  Volume in drive C has no label.
+>  Volume Serial Number is C201-2D30
+> 
+>  Directory of c:\github\VideoDump\bin
+> 
+> 06/20/2013  12:16 PM    <DIR>          .
+> 06/20/2013  12:16 PM    <DIR>          ..
+> 06/20/2013  11:58 AM             4,608 bin_SLASH_program.exe
+> 06/20/2013  11:58 PM             6,144 program.clj.dll
+>                3 File(s)         15,360 bytes
+>                2 Dir(s)  114,253,045,760 bytes free
+> ```
+> 
+> GenClass.GenerateClass should not prepend the _compiler-path_ to the
+> assembly name that is given to GenContext.CreateWithExternalAssembly;
+> the latter method already accounts for the _compiler-path_ when
+> 
+> ## determining where to place the generated assembly.
+> 
+> You can merge this Pull Request by running
+> 
+>   git pull https://github.com/mmcgill/clojure-clr FixGenClassForExes
+> 
+> Or view, comment on, or merge it at:
+> 
+>   https://github.com/clojure/clojure-clr/pull/7
+> Commit Summary
+> - don't prepend _compiler-path_ to assembly name
+> 
+> File Changes
+> - _M_ Clojure/Clojure/CljCompiler/GenClass.cshttps://github.com/clojure/clojure-clr/pull/7/files#diff-0(2)
+> 
+> Patch Links:
+> - https://github.com/clojure/clojure-clr/pull/7.patch
+> - https://github.com/clojure/clojure-clr/pull/7.diff
+
+
+Thanks!
+
+
+ Fixed Tests in Clojure.Test
+ Fixed bugs in io.clj and pprint.clj for the Clojure.Test project. Also
+added function Clojure.String/split to test_cl_format.clj to support
+pprint.clj test fix. All Test will now pass.
+
+Commit 4d9f04e  2013.03.14
+
+
+Thanks for merging
+
+
+ Updated Dist task
+ Updated Dist task because repetitive DLR include  was causing the build
+to failing under mono 3.0.3
+
+ Update build.proj & protocols.clj
+ Updated SourceFiles parameter to allow ClojureCLR test to run
+
+Updated arr with ^objects type information so the aget function will be properly resolved
+
+ Embed AOT compiled Clojure assemblies in resource file
+ I've reverted my previous changes & started from scratch. There's now a utility called ResPack that gets run as a post-build step (after Clojure.Compile) and embeds all the AOT compiled assemblies into one binary resource file called Clojure.resources. The RT has been modified to try to load assemblies from Clojure.resources as a last resort.
+
+This is meant to make it easier for people who want to call Clojure code from C# or another .NET language, since they can now just copy Clojure.resources to their bin directory and no longer require references to the AOT compiled Clojure assemblies.
+
+ Respect parameters to RT.load
+ Respect tryLoadAsEmbeddedResource parameter & revert to original behaviour (FileNotFoundException) if false.
+
+ Embed .clj.dll assemblies in Clojure.dll
+ I've embedded all of ClojureCLR's .clj.dll assemblies in Clojure.dll to reduce the number of assemblies that need to be referenced when calling Clojure code from C#. I've probably included some assemblies that aren't necessary. Only minor changes to the runtime needed to be made to get it to work.
+

@@ -1,0 +1,41 @@
+﻿ Update googlemock and googletest
+ Review default visibility of compiler and linker options
+ Derive pack filename from project name for most simple setup (closes #101)
+ Merge pull request #102 from cginternals/unify_variable_markup_for_cmake_configure_file
+
+Unify use of CMake variable syntax
+ Merge pull request #93 from chistopher/master
+
+update ADAPT file
+ Remove mentioning of logos again
+ Merge branch 'master' into HEAD
+ Unify use of CMake variable syntax within configuration-in-files (closes #94)
+ CMake: enable policy CMP0077.
+
+This policy makes it easier for users to set library option()s when used
+as CMake subproject.
+ Merge pull request #95 from cginternals/fix_adapt_formatting
+
+Fix markdown formatting for ADAPT.md
+ fix markdown formatting for ADAPT.md
+ Work on README.md
+ Work on README.md
+ update ADAPT file
+ Update README.md
+ Update README.md
+ Merge pull request #91 from osechet/feature/integrate-gcov
+
+Manage test coverage
+ Use new logo for deployment and docs
+ Review and extend to examples
+ Merge branch 'master' into feature/integrate-gcov
+ Work on readmes
+ Work on readmes
+ Work on readmes
+ Update README.md
+ Update README.md
+ Update README.md
+ add cmake-init logo
+ Update README.md
+ Update README.md
+ Update README.md

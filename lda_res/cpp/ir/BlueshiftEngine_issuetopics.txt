@@ -1,0 +1,68 @@
+﻿NUMTopics = 2
+(0, '0.030*"editor" + 0.023*"project" + 0.020*"run" + 0.018*"source" + 0.018*"code" + 0.016*"cmake" + 0.013*"engine" + 0.013*"thank" + 0.013*"open" + 0.013*"qtwidget"')
+(1, '0.044*"engine" + 0.026*"editor" + 0.022*"support" + 0.015*"source" + 0.015*"implement" + 0.015*"add" + 0.015*"release" + 0.013*"thank" + 0.013*"feature" + 0.013*"script"')
+
+------------------------
+NUMTopics = 3
+(0, '0.033*"editor" + 0.025*"project" + 0.023*"run" + 0.020*"source" + 0.020*"code" + 0.017*"cmake" + 0.014*"engine" + 0.014*"thank" + 0.014*"open" + 0.014*"qtwidget"')
+(1, '0.004*"editor" + 0.004*"engine" + 0.004*"source" + 0.004*"thank" + 0.004*"code" + 0.004*"add" + 0.004*"support" + 0.004*"run" + 0.004*"project" + 0.004*"release"')
+(2, '0.049*"engine" + 0.029*"editor" + 0.024*"support" + 0.016*"source" + 0.016*"add" + 0.016*"release" + 0.016*"implement" + 0.014*"thank" + 0.014*"script" + 0.014*"feature"')
+
+------------------------
+NUMTopics = 4
+(0, '0.036*"editor" + 0.027*"project" + 0.024*"run" + 0.021*"code" + 0.021*"source" + 0.018*"cmake" + 0.015*"engine" + 0.015*"thank" + 0.015*"open" + 0.015*"qtwidget"')
+(1, '0.004*"editor" + 0.004*"engine" + 0.004*"source" + 0.004*"thank" + 0.004*"code" + 0.004*"support" + 0.004*"add" + 0.004*"run" + 0.004*"project" + 0.004*"release"')
+(2, '0.052*"engine" + 0.031*"editor" + 0.025*"support" + 0.017*"source" + 0.017*"implement" + 0.017*"release" + 0.017*"add" + 0.014*"thank" + 0.014*"script" + 0.014*"feature"')
+(3, '0.004*"editor" + 0.004*"engine" + 0.004*"source" + 0.004*"code" + 0.004*"thank" + 0.004*"run" + 0.004*"project" + 0.004*"add" + 0.004*"support" + 0.004*"release"')
+
+------------------------
+NUMTopics = 5
+(0, '0.037*"editor" + 0.028*"project" + 0.025*"run" + 0.022*"source" + 0.022*"code" + 0.019*"cmake" + 0.016*"engine" + 0.016*"thank" + 0.016*"open" + 0.016*"qtwidget"')
+(1, '0.004*"editor" + 0.004*"engine" + 0.004*"source" + 0.004*"thank" + 0.004*"support" + 0.004*"add" + 0.004*"code" + 0.004*"release" + 0.004*"run" + 0.004*"implement"')
+(2, '0.054*"engine" + 0.032*"editor" + 0.026*"support" + 0.018*"source" + 0.018*"implement" + 0.017*"add" + 0.017*"release" + 0.015*"thank" + 0.015*"script" + 0.015*"feature"')
+(3, '0.004*"editor" + 0.004*"engine" + 0.004*"source" + 0.004*"run" + 0.004*"code" + 0.004*"thank" + 0.004*"project" + 0.004*"support" + 0.004*"add" + 0.004*"release"')
+(4, '0.004*"editor" + 0.004*"project" + 0.004*"source" + 0.004*"thank" + 0.004*"code" + 0.004*"run" + 0.004*"qtwidget" + 0.004*"engine" + 0.004*"find" + 0.004*"open"')
+
+------------------------
+NUMTopics = 6
+(0, '0.038*"editor" + 0.028*"project" + 0.025*"run" + 0.022*"code" + 0.022*"source" + 0.019*"cmake" + 0.016*"engine" + 0.016*"open" + 0.016*"thank" + 0.016*"qtwidget"')
+(1, '0.004*"editor" + 0.004*"engine" + 0.004*"source" + 0.004*"thank" + 0.004*"add" + 0.004*"support" + 0.004*"code" + 0.004*"implement" + 0.004*"run" + 0.004*"release"')
+(2, '0.056*"engine" + 0.032*"editor" + 0.027*"support" + 0.018*"source" + 0.018*"implement" + 0.018*"add" + 0.018*"release" + 0.015*"thank" + 0.015*"script" + 0.015*"feature"')
+(3, '0.004*"editor" + 0.004*"source" + 0.004*"engine" + 0.004*"run" + 0.004*"code" + 0.004*"project" + 0.004*"thank" + 0.004*"add" + 0.004*"cmake" + 0.004*"support"')
+(4, '0.004*"editor" + 0.004*"project" + 0.004*"source" + 0.004*"thank" + 0.004*"code" + 0.004*"run" + 0.004*"engine" + 0.004*"find" + 0.004*"open" + 0.004*"qtwidget"')
+(5, '0.005*"engine" + 0.005*"editor" + 0.004*"source" + 0.004*"support" + 0.004*"thank" + 0.004*"release" + 0.004*"add" + 0.004*"code" + 0.004*"run" + 0.004*"implement"')
+
+------------------------
+NUMTopics = 7
+(0, '0.039*"editor" + 0.029*"project" + 0.026*"run" + 0.023*"code" + 0.023*"source" + 0.019*"cmake" + 0.016*"open" + 0.016*"engine" + 0.016*"qtwidget" + 0.016*"thank"')
+(1, '0.004*"editor" + 0.004*"engine" + 0.004*"source" + 0.004*"thank" + 0.004*"support" + 0.004*"add" + 0.004*"code" + 0.004*"run" + 0.004*"release" + 0.004*"implement"')
+(2, '0.057*"engine" + 0.033*"editor" + 0.027*"support" + 0.018*"implement" + 0.018*"source" + 0.018*"add" + 0.018*"release" + 0.015*"thank" + 0.015*"feature" + 0.015*"script"')
+(3, '0.004*"editor" + 0.004*"source" + 0.004*"engine" + 0.004*"run" + 0.004*"code" + 0.004*"project" + 0.004*"thank" + 0.004*"add" + 0.004*"cmake" + 0.004*"support"')
+(4, '0.004*"editor" + 0.004*"project" + 0.004*"source" + 0.004*"thank" + 0.004*"code" + 0.004*"run" + 0.004*"find" + 0.004*"open" + 0.004*"qtwidget" + 0.004*"cmake"')
+(5, '0.005*"engine" + 0.005*"editor" + 0.004*"support" + 0.004*"source" + 0.004*"release" + 0.004*"add" + 0.004*"thank" + 0.004*"feature" + 0.004*"system" + 0.004*"implement"')
+(6, '0.005*"engine" + 0.005*"editor" + 0.004*"source" + 0.004*"thank" + 0.004*"project" + 0.004*"code" + 0.004*"run" + 0.004*"support" + 0.004*"implement" + 0.004*"add"')
+
+------------------------
+NUMTopics = 8
+(0, '0.005*"editor" + 0.004*"project" + 0.004*"run" + 0.004*"engine" + 0.004*"cmake" + 0.004*"code" + 0.004*"source" + 0.004*"open" + 0.004*"file" + 0.004*"crash"')
+(1, '0.004*"editor" + 0.004*"engine" + 0.004*"source" + 0.004*"thank" + 0.004*"code" + 0.004*"add" + 0.004*"support" + 0.004*"run" + 0.004*"project" + 0.004*"release"')
+(2, '0.057*"engine" + 0.033*"editor" + 0.027*"support" + 0.018*"implement" + 0.018*"source" + 0.018*"add" + 0.018*"release" + 0.015*"feature" + 0.015*"script" + 0.015*"thank"')
+(3, '0.004*"editor" + 0.004*"engine" + 0.004*"source" + 0.004*"thank" + 0.004*"code" + 0.004*"run" + 0.004*"support" + 0.004*"add" + 0.004*"project" + 0.004*"release"')
+(4, '0.004*"editor" + 0.004*"project" + 0.004*"source" + 0.004*"thank" + 0.004*"code" + 0.004*"run" + 0.004*"open" + 0.004*"find" + 0.004*"cmake" + 0.004*"qtwidget"')
+(5, '0.005*"engine" + 0.005*"editor" + 0.004*"support" + 0.004*"source" + 0.004*"release" + 0.004*"thank" + 0.004*"add" + 0.004*"feature" + 0.004*"system" + 0.004*"code"')
+(6, '0.039*"editor" + 0.029*"project" + 0.026*"run" + 0.023*"source" + 0.023*"code" + 0.020*"cmake" + 0.017*"engine" + 0.017*"thank" + 0.016*"qtwidget" + 0.016*"open"')
+(7, '0.004*"engine" + 0.004*"editor" + 0.004*"add" + 0.004*"support" + 0.004*"thank" + 0.004*"release" + 0.004*"source" + 0.004*"implement" + 0.004*"code" + 0.004*"new"')
+
+------------------------
+NUMTopics = 9
+(0, '0.004*"editor" + 0.004*"project" + 0.004*"run" + 0.004*"engine" + 0.004*"cmake" + 0.004*"code" + 0.004*"source" + 0.004*"open" + 0.004*"file" + 0.004*"crash"')
+(1, '0.004*"editor" + 0.004*"engine" + 0.004*"source" + 0.004*"thank" + 0.004*"run" + 0.004*"code" + 0.004*"project" + 0.004*"add" + 0.004*"support" + 0.004*"provide"')
+(2, '0.058*"engine" + 0.034*"editor" + 0.028*"support" + 0.019*"implement" + 0.019*"add" + 0.019*"source" + 0.019*"release" + 0.016*"feature" + 0.016*"script" + 0.016*"thank"')
+(3, '0.004*"editor" + 0.004*"engine" + 0.004*"source" + 0.004*"run" + 0.004*"code" + 0.004*"thank" + 0.004*"project" + 0.004*"add" + 0.004*"support" + 0.004*"cmake"')
+(4, '0.004*"editor" + 0.004*"project" + 0.004*"thank" + 0.004*"source" + 0.004*"code" + 0.004*"run" + 0.004*"find" + 0.004*"open" + 0.004*"cmake" + 0.004*"qtwidget"')
+(5, '0.005*"engine" + 0.005*"editor" + 0.004*"support" + 0.004*"source" + 0.004*"release" + 0.004*"thank" + 0.004*"add" + 0.004*"feature" + 0.004*"system" + 0.004*"implement"')
+(6, '0.006*"engine" + 0.006*"editor" + 0.005*"source" + 0.005*"project" + 0.005*"run" + 0.005*"thank" + 0.004*"code" + 0.004*"add" + 0.004*"cmake" + 0.004*"support"')
+(7, '0.004*"engine" + 0.004*"editor" + 0.004*"support" + 0.004*"add" + 0.004*"release" + 0.004*"thank" + 0.004*"implement" + 0.004*"feature" + 0.004*"new" + 0.004*"source"')
+(8, '0.040*"editor" + 0.030*"project" + 0.026*"run" + 0.023*"code" + 0.023*"source" + 0.020*"cmake" + 0.017*"open" + 0.017*"qtwidget" + 0.017*"thank" + 0.017*"engine"')
+
+------------------------

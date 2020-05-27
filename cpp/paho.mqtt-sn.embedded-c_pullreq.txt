@@ -1,0 +1,86 @@
+﻿ Updated MQTTSNGateway README
+ Updated MQTTSNGateway README as per current working of gateway.
+ Update MQTTSNPacket.c
+ Looks like a bug in MQTTSNPacket_len(). If the input parameter is 255, it will return 256, but the actual packet size will be 258.
+ Revert "Fix bug for messages of length 0x100"
+ Reverts eclipse/paho.mqtt-sn.embedded-c#187
+
+ Fix bug for messages of length 0x100
+ If the parameter `length` is 255 bytes the result of the previous `MQTTSNPacket_len` implementation was 256 bytes. But such a message actually needs a 3-octet long Length field, so it should return 258 instead.
+
+Signed-off-by: Martin Kirsche <martin.kirsche@gmail.com>
+  Fix bug for messages of length 0x100
+ If the parameter `length` is 255 bytes the result of the previous `MQTTSNPacket_len` implementation was 256 bytes. But such a message actually needs a 3-octet long Length field, so it should return 258 instead.
+ BugFix of #171 and PINGREQ and PINGRESP error of Adapter class
+ 
+ Support for MacOS
+ Got it to compile on MacOS. I had to split semaphore into Semaphore and NamedSemaphore classes like in boost. Semaphore is implemented with Grand Central Dispatch because sem_init returns not implemented error MacOS. NamedSemaphore uses the spin lock approach like in boost for sem_timedwait. sem_getvalue is also not supported on MacOS so I had to remove it, this is the only possible source of problems in this patch.
+
+Note the change in MQTTSNSearchClient.c, there seems to be a bug: (gatewayaddress_len > 0) is always true, I assume it must be (*gatewayaddress_len > 0)
+ Fix documentation of MQTTSNPacket_decode
+ Added a documentation for the missing parameters buf and buflen and
+removed the non-existing parameter getcharfn.
+
+Signed-off-by: Martin Kirsche <martin.kirsche@gmail.com>
+ BugFix of #149 and #151
+ update README
+ Improve documentation
+ This PR should improve the README of the MQTTSNGateway. I missed information about support of IPv6. I found nothing on my first try, but then I had a look at Issues and PRs and I found an old PR #60, which adds support for it. Stuff like that should be mentioned somewhere in my opinion, so that people can easliy find out if support is available.
+ Add functions of Aggregating Gateway, QoS-1 and forwarder encapsulation.
+ 
+ Message loss for subscribed topics after gateway restart #134
+ 
+ Install the gateway into any directories. #124
+ 
+ You can select Aggregate or Transparent gateway in the config file setting.
+ Forwarder encapsulation is available.
+QoS-1 PUBLISH is available.
+
+
+ Pre-defined-topic and Forwarder Encapsulation are supported.
+ Set parameters in the gateway.conf and related files as follows:     
+When **PredefinedTopic** is **YES**, Pre-definedTopicID file specified by **PredefinedTopicList** is effective.     
+This file defines Pre-definedTopics of the clients. In this file, ClientID,TopicName and TopicID are declared in CSV format.        
+When **Forwarder** is YES, Forwarder Encapsulation Message is available. Connectable Forwarders are specifed by **ForwardersList** file. In this file, ForwarderIds and those sensorNet addresses are declared in CSV format.    
+ install the gateway system-wide
+ I wanted to be able to build and run this from a system-wide environment without needing to know the location of the git clone. 
+So I updated the Makefile to take a prefix and install the components there...
+ Add Pre-defined-topic
+ Pre-defined-topic is available.   
+ Add two test programs.
+ Add two programs to test the non-clean session.
+one is MQTT-SNPub and the other is MQTT-SNSub. 
+ Update:  It's safer to use s6_addr32 macro than implementation specific union details.
+ 
+ Improve UDPv6 code portability
+ Hi,
+It's safer to use `s6_addr32` macro than implementation specific union details.
+
+Signed-off-by: Mariusz Suchora <mariusz.suchora@tieto.com>
+ Added sudo apt-get install libssl-dev
+ 
+ BugFix of #105
+ 
+ BugFix of #105
+ Hi,
+This should improve matching topics. New tests were also added. Please review.
+
+Signed-off-by: Mariusz <mariusz.suchora@tieto.com>
+ BugFix  of #107
+ Signed-off-by: tomoaki <tomoaki@tomy-tech.com>
+ Develop
+ 
+ Gateway improvements
+ Hi,
+Here are some improvements for MQTTGateway.  I hope you will find them useful. 
+ BugFix of #93
+ 
+Signed-off-by: tomoaki <tomoaki@tomy-tech.com>
+ BugFix of #93
+ 
+Signed-off-by: tomoaki <tomoaki@tomy-tech.com>
+ BugFix of #93
+ BugFix of #93 
+Signed-off-by: tomoaki <tomoaki@tomy-tech.com>
+ BugFix of #93
+ Signed-off-by: tomoaki <tomoaki@tomy-tech.com>

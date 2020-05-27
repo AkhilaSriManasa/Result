@@ -1,0 +1,1849 @@
+﻿ declare default operator This silences a spew of gcc warnings (-Wdeprecated-copy).
+
+# Pull Request Template
+
+## Description
+
+It is apparently deprecated to declare a copy constructor without declaring an assignment operator. -Wdeprecated-copy is part of -Wall in gcc 9
+
+Fixes # (issue)
+
+## Type of change
+
+## How Has This Been Tested?
+
+recompiled
+
+**Test Configuration**:
+* Firmware version:
+* Hardware:
+* Toolchain: gcc 9
+* SDK:
+
+## Checklist:
+
+- [X] My code follows the style guidelines of this project
+- [X] I have performed a self-review of my own code
+- [ ] I have commented my code, particularly in hard-to-understand areas
+- [ ] I have made corresponding changes to the documentation
+- [ ] My changes generate no new warnings
+- [ ] I have added tests that prove my fix is effective or that my feature works
+- [ ] New and existing unit tests pass locally with my changes
+- [ ] Any dependent changes have been merged and published in downstream modules
+
+ Support for Secodary CommandBuffers + Execute commands
+ 
+ Multisampling support
+ Using @timoore's multisample branch as a building block and reference implemented mulitsampling support.  To enable multisampling simply set the WindowTraits.samples to the preferred number of samples such as 2, 4, 8.
+ Fix typo in take_when_avilable.
+ # Pull Request Template
+
+## Description
+
+Fixing a typo to change take_when_avilable to take_when_available.
+
+Fixes # (issue)
+
+## Type of change
+
+Please delete options that are not relevant.
+
+- Typo
+
+
+ Add missing initializer
+ # Pull Request Template
+
+## Description
+
+fixes vsgrendertotexture hang
+
+Fixes # (issue)
+
+## Type of change
+
+Please delete options that are not relevant.
+
+- [ ] Bug fix (non-breaking change which fixes an issue)
+- [ ] New feature (non-breaking change which adds functionality)
+- [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
+- [ ] This change requires a documentation update
+
+## How Has This Been Tested?
+
+Please describe the tests that you ran to verify your changes. Provide instructions so we can reproduce. Please also list any relevant details for your test configuration
+
+- [ ] Test A
+- [ ] Test B
+
+**Test Configuration**:
+* Firmware version:
+* Hardware:
+* Toolchain:
+* SDK:
+
+## Checklist:
+
+- [ ] My code follows the style guidelines of this project
+- [ ] I have performed a self-review of my own code
+- [ ] I have commented my code, particularly in hard-to-understand areas
+- [ ] I have made corresponding changes to the documentation
+- [ ] My changes generate no new warnings
+- [ ] I have added tests that prove my fix is effective or that my feature works
+- [ ] New and existing unit tests pass locally with my changes
+- [ ] Any dependent changes have been merged and published in downstream modules
+
+Thanks for the fix.  I'll merge with the multisample branch as well.
+
+Now merged and checked in.
+
+My plan is to cherry-pick into master parts of this work that don't related directly to multsampling, I want to isolate just the parts of interest to the multsampling and multsampling_alternate branches so it's easier to compare the changes and make judgements on them.
+
+ Complete multisample support in context and compile traversal
+ Change context::graphicsPipelineStates to two vectors,
+defaultPipelineStates and overridePipelineStates, which are applied
+Not a typo, but a personal convention when a class / struct field doesn't
+have an underscore or other member designator on it. Do whatever you like
+there.
+
+Tim
+
+On Tue, May 19, 2020 at 7:03 PM Robert Osfield <notifications@github.com>
+wrote:
+
+> *@robertosfield* commented on this pull request.
+> ------------------------------
+>
+> In src/vsg/state/GraphicsPipeline.cpp
+> <https://github.com/vsg-dev/VulkanSceneGraph/pull/180#discussion_r427459317>
+> :
+>
+> > @@ -398,15 +398,20 @@ void RasterizationState::apply(VkGraphicsPipelineCreateInfo& pipelineInfo) const
+>  //
+>  // MultisampleState
+>  //
+> -MultisampleState::MultisampleState() :
+> +MultisampleState::MultisampleState(VkSampleCountFlagBits rasterizationSamples_) :
+>
+> The trailing VAR_ looks like typo in the context of the rest of the VSG
+> that doesn't use that convention for function parameter, I'd rather be
+> explicit with an preceding in_VAR or just a simple renamed like samples.
+>
+> Also use of two constructors here is a bit overkill when a default value
+> of VkSampleCountFlagBits would have sufficed.
+>
+> I will merge this PR and then fix these issues. I mention here as note for
+> future changes.
+>
+> —
+> You are receiving this because you authored the thread.
+> Reply to this email directly, view it on GitHub
+> <https://github.com/vsg-dev/VulkanSceneGraph/pull/180#pullrequestreview-414649218>,
+> or unsubscribe
+> <https://github.com/notifications/unsubscribe-auth/AABAQAM4RCENZXMBEXJFHF3RSK3WXANCNFSM4NEPJWRA>
+> .
+>
+
+
+My intention is/was to skip the combining and just iterate over the
+different pipeline state lists; I don't see that _pipelineStates is used
+anywhere else. For this initial work I was trying to keep my changes to a
+minimum, just to make sure that we were on the right track.
+
+Tim
+
+On Tue, May 19, 2020 at 7:10 PM Robert Osfield <notifications@github.com>
+wrote:
+
+> *@robertosfield* commented on this pull request.
+> ------------------------------
+>
+> In src/vsg/state/GraphicsPipeline.cpp
+> <https://github.com/vsg-dev/VulkanSceneGraph/pull/180#discussion_r427463303>
+> :
+>
+> >      _allocator(allocator)
+>  {
+> +    _pipelineStates.insert(_pipelineStates.end(), pipelineStates.begin(), pipelineStates.end());
+>
+> Moving the pipeline states into the GraphicsPipeline::Implemention is
+> messier than the parent code doing the combining. I don't know why you just
+> didn't add to the original code. I will merge and then revert to the
+> original code that does the combining in a more linear step by step way
+> rather than mixing things up in the constructor.
+>
+> —
+> You are receiving this because you authored the thread.
+> Reply to this email directly, view it on GitHub
+> <https://github.com/vsg-dev/VulkanSceneGraph/pull/180#pullrequestreview-414654427>,
+> or unsubscribe
+> <https://github.com/notifications/unsubscribe-auth/AABAQAI7XY7O73OAYJC7JRTRSK4PRANCNFSM4NEPJWRA>
+> .
+>
+
+
+On Tue, 19 May 2020 at 18:25, timoore <notifications@github.com> wrote:
+
+> My intention is/was to skip the combining and just iterate over the
+> different pipeline state lists; I don't see that _pipelineStates is used
+> anywhere else. For this initial work I was trying to keep my changes to a
+> minimum, just to make sure that we were on the right track.
+>
+
+At a later date I'll do a review of what parts need to be cached in the
+various *::Implementation classes.  The intent is to cache local objects to
+prevent the associated Vulkan objects being deleted that the
+*::Implementation require to exist for them to function correctly.
+
+As for keeping changes to a minimum, it changed the way it was working and
+would have required just two line of code to be changed to handle your
+changes to Context *pipelineStates.
+
+As a general comment, where code is rarely called I prioritize readability
+over efficiency.
+
+W,r,t use of naming conventions, while it isn't entirely solidified yet
+across the whole VSG, introducing new conventions in an adhoc, personal
+preference way, is a step towards inchorency in the code base.  This is why
+I flag it up as trying to fix inconsistencies after they've been introduced
+is a lot more effort and likely to miss problems than not introducing them
+in the first place.
+
+For naming right now, public members and public methods all have no prefix
+or suffix.  Protected members have a proceeding _underscore.  Parameters
+that share a number with a member variable I have been using in_name to
+avoid collision.  I have never felt the postfix _ is helpful, it's just a
+workaround to a problem that almost never exists in realworld code, and a
+workaround that a natural human language meaning, the case of preceeding _
+is essentially a shorthand for m_name which is shorthand for
+membervariable_name, having name_ be short hand for in_name, or m_name I
+find counter intuitive.
+
+Once I formalize the naming conventions I'll write all this up.  So far
+I've been testing out a few different approaches to see how that look in
+practice in a live applications.  As I go I find certainly things don't
+seem to fit and I change them.   For instance in an early experiment with
+file extensions I tried out both .h and .hpp and the later just felt
+cumbersome and counter-intuitive, i.e. .h is a header file, while .hpp is a
+header plus plus?  .cpp is a c plus plus file so that makes intuitive
+sense.  Some odd conventions have appeared around C++ over the years, some
+that are widely adopted are just plain odd if you take a step back.
+
+
+ Moore/multisample
+ # Pull Request Template
+
+## Description
+
+This implements the creation of a multisampled frame buffer for vsg::Viewer. If the new WindowTraits::samples member requests more than 1 bit of sampling, then a render pass and frame buffer are created with a multisampled attachment that automatically resolves, via subpass flags, to the swapchain attachment.
+
+A FrameAssembly class has been added to abstract the interaction between the RenderGraph and a window or render-to-texture frame buffer. If you like the approach, I might add more convenience functions to that class with the objective of supporting multisampling render-to-texture.
+
+An update to vsgviewer in vsgExamples is being submitted as well.
+
+## Type of change
+
+Please delete options that are not relevant.
+
+- [ ] Bug fix (non-breaking change which fixes an issue)
+- [ ] New feature (non-breaking change which adds functionality)
+- [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
+- [X] This change requires a documentation update
+
+Great to the addition of multi-sampling support, I am taken aback by just how much files have been changed to provide this functionality.  The changes are too extensive for me to be able to just slot directly into the VSG without a deep dive into the topic and the approach taken in this implementation.
+
+What I'll do is create a multisample branch, we can then use that to merge the functionality for wider review.
+
+My plan is to do review of subpass and secondary command buffers next week, There is some overlap between the files that will changed with the ones change in adding multi-pass support so it'll be worth me doing the reviews somewhat in parallel.
+
+One of the things I'm keen to do is mirror language used in the underlying Vulkan implementation as our classes that encapsulate that functionality.  Where we introduce new language we'll need to make sure that it provides clarity in how it fits into the wider application and scene graph.  I don't know where we'll end up on this, but it's something I'm keeping in mind as I merged changes or make changes.
+
+I'll have a chance to make the multisample branch in the next hour when I get back to my dev system.
+
+I have created a multisample branch on vsg-dev/VulkanSceneGraph and merged this PR into it.
+
+    https://github.com/vsg-dev/VulkanSceneGraph/tree/multisample
+
+I'll do the same for the PR to vsgExamples.  
+
+Next week I'll dive into the topic and figure out a route through.
+
+I agree with putting this in a branch for now. If I make a path to support multisampled render-to-texture, I'll create a pull request against that branch.
+
+I also agree about using Vulkan vocabulary for concepts, classes and functions in VSG. I kind of made up "FrameAssembly" because its something that a user would think of as a frame buffer, but a Vulkan FrameBuffer is something much more limited.
+
+
+Naming is hard. Can take several iterations to get it right.
+
+If needs be we can create more branches to experiment with various options.
+
+On Sat, 16 May 2020 at 14:32, timoore <notifications@github.com> wrote:
+
+> I agree with putting this in a branch for now. If I make a path to support
+> multisampled render-to-texture, I'll create a pull request against that
+> branch.
+>
+> I also agree about using Vulkan vocabulary for concepts, classes and
+> functions in VSG. I kind of made up "FrameAssembly" because its something
+> that a user would think of as a frame buffer, but a Vulkan FrameBuffer is
+> something much more limited.
+>
+> —
+> You are receiving this because you modified the open/close state.
+> Reply to this email directly, view it on GitHub
+> <https://github.com/vsg-dev/VulkanSceneGraph/pull/179#issuecomment-629646320>,
+> or unsubscribe
+> <https://github.com/notifications/unsubscribe-auth/AAKEGUAPXHVH2FYL72B7BODRR2IWFANCNFSM4NC4BP4Q>
+> .
+>
+
+
+@timoore phew, just walked the narrow ledge whilst juggling to pull the more general purpose changes in the multismaple branch into master, and then merged the changes back into multisample and multisample_alternate) so that these two multisample branches just contain the parts that a very specific to the multi-sampling support.  I "think" it's all merged back and forth correctly, with both master and the multisample branches working fine, would be worth being mindful that regressions might be introduced with me doing the juggling of code.
+
+At this point the multisample and multisample_alternate branches are the same code wise.
+
+I have also got most of the key changes in the vsgExamples multisample branches merged into master.
+
+If you are planning any further changes yourself you'll need to pull from VSG and vsgExmaple repo's multisample branch.
+
+I will now take a breather from review all this code and when I come back I'll see if I can spot a cleaner alternative to the FrameAssembly functionality.  It might be that the FrameAssembly is right approach, and just by looking into it all more deeply this might be the final approach to be merged with master.  Any experiments I'll multisample_alternate branch so we compare like for like.
+
+
+
+@timoore Just getting back to reviewing the multipass branch.  Could you explain the motivation behind FrameAssembly as it's not yet clear to me what problem it solves and how it's intended to be used. If not obvious to me then I'm sure others following along behind will be similarly unsure about what it's all about.
+
+@timoore I've decided rather think about refactoring FrameAssembly to something different I would just learn what it takes at the Vulkan level to support multi-sampling bare bones without any extra classes.  
+
+The first step has been to reset the multisample_alternate branch to master, so it now is a none functioning multisample branch.  As I pulled what I could from the multisample branch into master I'm not starting from scratch.  All the goodness in Context/GraphicsPipeline etc. is all there.  What I'm missing is all the multi-sampling glue inside RenderGraph/Window and FrameAssembly.  
+
+I am beginning to suspect FameAssembly is there to solve more than the problem of multi-sampling, so I'm still curious about what problems it might provide solutions too.  Essentially I'm interesting in the problems that need resolving rather than the solution.  I think this is kinda orthogonal to the task of supporting multi-sampling, hence my decision to attempt to build multi-sampling support from master.  Even if this new multisample_alternate path goes nowhere I'll still have learned something :-)
+
+Hi,
+Originally, FrameAssembly was written to remove a bunch of special-case
+code inside RenderGraph for the support of offscreen rendering. It is
+simply the aggregate of a render pass and a framebuffer which is needed to
+actually do rendering. It turns out that the attachments may change, like
+for a Window, but that's OK because the FrameAssembly just returns a render
+pass and framebuffer that is valid for the current frame. The rest of VSG
+doesn't care if those are associated with a surface somehow are are backed
+entirely by images.
+
+Multisample requires a sightly more complicated attachment and subpass
+structure, and different clear values, but again the details can be hidden
+behind FrameAssembly. Render passes and framebuffers are always going to be
+tightly bound together; therefore, I think that the FrameAssembly class has
+a lot of potential for managing the creation of subpasses and attachments.
+
+Tim
+
+On Wed, May 20, 2020 at 6:45 PM Robert Osfield <notifications@github.com>
+wrote:
+
+> @timoore <https://github.com/timoore> I've decided rather think about
+> refactoring FrameAssembly to something different I would just learn what it
+> takes at the Vulkan level to support multi-sampling bare bones without any
+> extra classes.
+>
+> The first step has been to reset the multisample_alternate branch to
+> master, so it now is a none functioning multisample branch. As I pulled
+> what I could from the multisample branch into master I'm not starting from
+> scratch. All the goodness in Context/GraphicsPipeline etc. is all there.
+> What I'm missing is all the multi-sampling glue inside RenderGraph/Window
+> and FrameAssembly.
+>
+> I am beginning to suspect FameAssembly is there to solve more than the
+> problem of multi-sampling, so I'm still curious about what problems it
+> might provide solutions too. Essentially I'm interesting in the problems
+> that need resolving rather than the solution. I think this is kinda
+> orthogonal to the task of supporting multi-sampling, hence my decision to
+> attempt to build multi-sampling support from master. Even if this new
+> multisample_alternate path goes nowhere I'll still have learned something
+> :-)
+>
+> —
+> You are receiving this because you were mentioned.
+> Reply to this email directly, view it on GitHub
+> <https://github.com/vsg-dev/VulkanSceneGraph/pull/179#issuecomment-631593525>,
+> or unsubscribe
+> <https://github.com/notifications/unsubscribe-auth/AABAQAPLXJNKLWRRGVKB4G3RSQCLFANCNFSM4NC4BP4Q>
+> .
+>
+
+
+Thanks for the explanation.
+
+Hi @timoore, 
+
+I have now got the multsample_alternate branch working so functionally it's identical to the multsample branch, the only difference between the two is the use of FrameAssumbly.
+
+As I've done this work and been using the original multsample branch as reference it feels like FrameAssembly is reinventing some of the RenderGraph functionality, filling in gaps where it's not yet flexible enough, in particular decoupling from the explicit Window dependency.  This takes us back to the previous changes you had to make to RenderGraph that again shone a light on the deficiencies of RenderGraph as it stood.
+
+My current inclination is towards fixing RenderGraph so it's more flexible, decoupling from the explict coupling with Window in a more wholesale way than with your earlier changes for the render to texture work.
+
+What I think it worth doing next is look at refactoring RenderGraph, and I'll start that after lunch.  I don't think it need be a massive change to how one interfaces with it and how it works internally.
+
+On the multisampling front I'll do a another review of the multisample_alternate and multisample branches to see if I've missed anything.  The multisample_alternate is lighter-weight version that achieves the same functionality so I think it's a better candidate for merging with master.
+
+For yourself I think it would be worth reviewing the multisample_alternate branch, partly to spot anything missing in what I implemented, and partly to see how I took elements of your work and introduced in ways that are simplifications of it.  Expressing a solution to a problem in the simplest way is one of the driving forces for my work on the VSG, it's one of the big lessons from working on the OSG over the years, too often I merged complicated code that made the code harder and harder to maintain.  Simpler code that fulfills the requirements is harder to write initially but long term it's far easier to maintain.
+
+@timoore I have done another code review and pretty happy with the multisample_alternate branch, it only adds another 105 lines of code vs the 228 added by the multsample brach, and doesn't added any new levels of indirection that the FrameAssembly does.
+
+I will leave the multisample branch up for the time being as we can use it as a reference for a refactor of RenderGraph. 
+
+I'll start taking a look. I agree that RenderGraph should be decoupled from
+Window; there's absolutely nothing special about a window that's
+relevant to RenderGraph. Even the changing extent is something that
+offscreen rendering should handle. To my mind RenderGraph has one job:
+render a graph in a VkRenderPass. The Vulkan RenderPass and Framebuffer are
+tightly coupled, although not always. Should they be tied in the
+RenderGraph, or in another object that' closer to the Vulkan metal?
+
+Tim
+
+On Thu, May 21, 2020 at 12:58 PM Robert Osfield <notifications@github.com>
+wrote:
+
+> Hi @timoore <https://github.com/timoore>,
+>
+> I have now got the multsample_alternate branch working so functionally
+> it's identical to the multsample branch, the only difference between the
+> two is the use of FrameAssumbly.
+>
+> As I've done this work and been using the original multsample branch as
+> reference it feels like FrameAssembly is reinventing some of the
+> RenderGraph functionality, filling in gaps where it's not yet flexible
+> enough, in particular decoupling from the explicit Window dependency. This
+> takes us back to the previous changes you had to make to RenderGraph that
+> again shone a light on the deficiencies of RenderGraph as it stood.
+>
+> My current inclination is towards fixing RenderGraph so it's more
+> flexible, decoupling from the explict coupling with Window in a more
+> wholesale way than with your earlier changes for the render to texture work.
+>
+> What I think it worth doing next is look at refactoring RenderGraph, and
+> I'll start that after lunch. I don't think it need be a massive change to
+> how one interfaces with it and how it works internally.
+>
+> On the multisampling front I'll do a another review of the
+> multisample_alternate and multisample branches to see if I've missed
+> anything. The multisample_alternate is lighter-weight version that achieves
+> the same functionality so I think it's a better candidate for merging with
+> master.
+>
+> For yourself I think it would be worth reviewing the multisample_alternate
+> branch, partly to spot anything missing in what I implemented, and partly
+> to see how I took elements of your work and introduced in ways that are
+> simplifications of it. Expressing a solution to a problem in the simplest
+> way is one of the driving forces for my work on the VSG, it's one of the
+> big lessons from working on the OSG over the years, too often I merged
+> complicated code that made the code harder and harder to maintain. Simpler
+> code that fulfills the requirements is harder to write initially but long
+> term it's far easier to maintain.
+>
+> —
+> You are receiving this because you were mentioned.
+> Reply to this email directly, view it on GitHub
+> <https://github.com/vsg-dev/VulkanSceneGraph/pull/179#issuecomment-632022189>,
+> or unsubscribe
+> <https://github.com/notifications/unsubscribe-auth/AABAQAIK7UQR2KBDRLUVNADRSUCL7ANCNFSM4NC4BP4Q>
+> .
+>
+
+
+On Thu, 21 May 2020 at 14:18, timoore <notifications@github.com> wrote:
+
+> I'll start taking a look. I agree that RenderGraph should be decoupled from
+> Window; there's absolutely nothing special about a window that's
+> relevant to RenderGraph. Even the changing extent is something that
+> offscreen rendering should handle. To my mind RenderGraph has one job:
+> render a graph in a VkRenderPass. The Vulkan RenderPass and Framebuffer are
+> tightly coupled, although not always. Should they be tied in the
+> RenderGraph, or in another object that' closer to the Vulkan metal?
+>
+
+I want to avoid having multiple levels of indirection, we already have
+RenderPass -> RenderPass::Implementation ->VkRenderPass, so I really don't
+want to add more.
+
+RenderGraph is a about pulling together all the high level objects required
+to do graphics rendering, it's an object that you configure once and then
+have it be actively used there after without much need to querying it's
+current state, so it's configure at start up and pretty well forget for the
+rest of the lifetime of the app.
+
+The configuration of the RenderGraph to suite rendering to a window or an
+off screen buffer is something that once done at startup, having a couple
+of help functions do this configuration for us should be fine.
+
+RenderGraph isn't quite there yet though... so it just need to go through a
+bit further distillation.   If it turns out that it can't be adapted to fit
+the requirements then we can look at adding another layer of
+RenderPass/Framebuffer management, I'd much rather avoid adding more
+classes as it's just more code for users to understand and more code for us
+to debug and maintain.
+
+
+@timoore as a heads up.  To help explore the deficinces of the present RenderGraph I've updated the vsgrendertorexture to make the creation of RenderGraph and CommandGraph clearer and more explicit.
+
+https://github.com/vsg-dev/vsgExamples/commit/5b31de119ce7a06cd66d03417682678340abb6cd
+
+The RenderGraph setup side looks pretty clean to me, the helper function to create the RendeGraph to texture could possibly do with some convenience methods in the core VSG to help out, but I'm pretty happy at the basic level of the present interface.
+
+Internally it's less ideal so I'll now focus on the "if (window)" blocks in CompileTraversal and RenderGraph.
+
+
+@timoore A quick heads up.  I've done a bit of work on a new RenderGraph_refinement branch, in particular looking at ways to decouple RenderGraph from Window so it just works with RenderPass and Framebuffers.  I can see a route through, but getting there will require some changes beyond RenderGraph.
+
+One of the tweaks I made was to add a RenderPass::maxSamples() method that returns the high attachment samples value and  use this in the CompileTraversal to help do part of the decoupling.
+
+    https://github.com/vsg-dev/VulkanSceneGraph/compare/RenderGraph_refinement
+
+I also fixed a resize issue that occurred during multi-sampling, which I also cherry-picked into master.  
+
+A made further changes to experiment a little.  I have a good enough feel that more can be done with RenderGraph to decouple it from Window but haven't get a strong feel for any particular solution.  Rather than force some conclusion on this matter I've decided to just let the topic sit for a few days/week and come back to it.  
+
+Tomorrow, I'm going to move back to considering the topic subpasses, secondary command buffers and execute command.  That work might have some input on the RenderGraph_refinement work.
+
+@timoore FYI, I've renamed the original multisample branch to FrameAssembly in VSG and vsgExamples as it's main focus/unique aspect is now the FrameAssembly rather than muiltisampling.  
+
+I'm keen to avoid possible confusion with end users as multisampling is now part of master.
+
+ Multi threaded viewer support
+ Implemented multi-threaded record traversals.
+
+Tested using vsgmultigpu and vsgrendertexture examples from vsgExamples.
+ window creation error on ubuntu 20 lts
+ event not handled, response_type 
+
+?
+You'll need to give us more information about the circumstances of the error such as how to go about reproducing it ourselves. As things stand it's too cryptic to be able to relate it to anything in particular.  
+
+Was this issue one generated when running one of the vsgExamples like vsgdraw?  What is it with your own application?  What was the console output.  Does it crash?  If so what's the stack trace.
+
+
+This error is generated in window init in vsgDraw in vsgExamples of course on master vsg branch. same version works perfectely on both ubuntu 18.04 and 19.
+I will investigate further to understand where this cryptic error comes from. I suspect window creation :o)
+
+Which window manager are you using?
+
+Could you try another?
+
+On Wed, 13 May 2020 at 19:22, neshume <notifications@github.com> wrote:
+
+> This error is generated in window init in vsgDraw in vsgExamples of course
+> on master vsg branch. same version works perfectely on both ubuntu 18.04
+> and 19.
+> I will investigate further to understand where this cryptic error comes
+> from. I suspect window creation :o)
+>
+> —
+> You are receiving this because you commented.
+> Reply to this email directly, view it on GitHub
+> <https://github.com/vsg-dev/VulkanSceneGraph/issues/177#issuecomment-628164649>,
+> or unsubscribe
+> <https://github.com/notifications/unsubscribe-auth/AAKEGUAYQVHZVPR6EZZH5Z3RRLQN7ANCNFSM4M7W3IRQ>
+> .
+>
+
+
+On Wed, 13 May 2020 at 19:46, Robert Osfield <robert.osfield@gmail.com>
+wrote:
+
+> Could you try another?
+>
+
+I suggest this to help characterise the problem better, it's obviously not
+a solution :-)
+
+Would also be worth looking at the version of X11, Xcb on the different
+versions of Ubuntu.
+
+
+using standard ubuntu unmodified. not even the problematic wayland. will try to change. investigating further...
+
+Does the window work at all?  Or is it just a new warning?
+
+the mystery is now solved. It seems that upgrade to ubuntu 20 messed up the graphics drivers and reinstall of the drivers (nvidia) did not help. What did help is delete the intel_icd.x86_64.json from /usr/share/vulkan/icd.d    . vulkan nvidia now works perfectely and window is created. The issue was vulkan implementation on ubuntu 20 that got broken and gave no error messages including vulkaninfo. so It's an ubuntu + nvidia issue.
+
+Did other vulkan applications work before your fix?
+
+I will be upgrading to 20.04 LTS but not this week, need to get threading working fully first :-)
+
+I checked initialization only not visual but it seems that vulkan was broken regarding window surface but did not report it as an error. Be carefull with the upgrade and good luck. backup before!!
+
+ Refactor window initialization
+ Changed vsg::Window Vulkan object setup so that rather it all being done in the constructors that Vulkan objects are initialized just in time/on demand.  This approach allow users to inject their own Vulkan objects when required to customized setup.
+ Window minimized
+ Added support for window minimization so that rendering is switched off when the window is not visible.  Currently only fully support with Xcb_Window.cpp.  The *Window::visible() for Win32, macOS and Android still need to be implemented.
+ Replaced T const& usage with const T& for consistency with rest of VSG
+ Early in the project experimented with T const& usage to see how it natural it would be but have always found it awkward from a natural language perspective so have replaced with const T& usage to keep it consistent with the rest of the VSG.
+ Replace vsg::Result usage with vsg::Exception
+ To streamline the public interface and implementation of Vulkan support the original vsg::Result<> create(..) approach has been replaced by moving the Vulkan intialization into the constructors and throwing vsg::Exception{} on failures.
+ Refactor result
+ # Pull Request Template
+
+## Description
+
+Please include a summary of the change and which issue is fixed. Please also include relevant motivation and context. List any dependencies that are required for this change.
+
+Fixes # (issue)
+
+## Type of change
+
+Please delete options that are not relevant.
+
+- [ ] Bug fix (non-breaking change which fixes an issue)
+- [ ] New feature (non-breaking change which adds functionality)
+- [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
+- [ ] This change requires a documentation update
+
+## How Has This Been Tested?
+
+Please describe the tests that you ran to verify your changes. Provide instructions so we can reproduce. Please also list any relevant details for your test configuration
+
+- [ ] Test A
+- [ ] Test B
+
+**Test Configuration**:
+* Firmware version:
+* Hardware:
+* Toolchain:
+* SDK:
+
+## Checklist:
+
+- [ ] My code follows the style guidelines of this project
+- [ ] I have performed a self-review of my own code
+- [ ] I have commented my code, particularly in hard-to-understand areas
+- [ ] I have made corresponding changes to the documentation
+- [ ] My changes generate no new warnings
+- [ ] I have added tests that prove my fix is effective or that my feature works
+- [ ] New and existing unit tests pass locally with my changes
+- [ ] Any dependent changes have been merged and published in downstream modules
+
+ RenderGraph support for rendering to an explicit FrameBuffer
+ This provides minimal support for rendering to off-screen buffers by
+allowing the VSG objects normally provided by Window to be stored
+directly in the RenderGraph object.
+
+# Pull Request Template
+
+## Description
+
+This is early, yet hopefully useful, work in supporting offscreen rendering for a variety of purposes.
+
+Fixes # (issue)
+New functionality
+## Type of change
+
+Please delete options that are not relevant.
+
+- [ ] New feature (non-breaking change which adds functionality)
+
+## How Has This Been Tested?
+
+Tested with an example that will soon be submitted to vsgExamples
+
+**Test Configuration**:
+* Firmware version:
+* Hardware: NVidia GTX 1070
+* Toolchain: Linux Fedora 31
+* SDK: 1.2.131.2
+
+## Checklist:
+
+- [ ] My code follows the style guidelines of this project
+- [ ] I have performed a self-review of my own code
+- [ ] I have commented my code, particularly in hard-to-understand areas
+- [ ] I have made corresponding changes to the documentation
+- [ ] My changes generate no new warnings
+- [ ] I have added tests that prove my fix is effective or that my feature works
+Submission to vsgExamples will follow
+- [ ] New and existing unit tests pass locally with my changes
+Don't know. vsgExamples Desktop apps work.
+- [ ] Any dependent changes have been merged and published in downstream modules
+
+Just done a quick pass through.  My first thought was perhaps rather the new local Rendergraph::renderPass and framebuffer members being fallbacks when the Window doesn't provide it, just have these set explicitly when using a Window.
+
+I'll have a think about this once I see your vsgExample example.
+
+A different framebuffer is provided by Window on each frame via window->framebuffer(window-nextImageIndex()). I was thinking that a cleaner implementation would use a new "FrameBufferProvider" class that would be a superclass of Window. Window would provided a frame buffer based on the next image index. For the sake of demo I didn't do that.
+
+On Mon, 4 May 2020 at 15:17, timoore <notifications@github.com> wrote:
+
+> A different framebuffer is provided by Window on each frame via
+> window->framebuffer(window-nextImageIndex()). I was thinking that a cleaner
+> implementation would use a new "FrameBufferProvider" class that would be a
+> superclass of Window. Window would provided a frame buffer based on the
+> next image index. For the sake of demo I didn't do that.
+>
+
+Forgot about the mutl-bffering.
+
+Perhaps just holding a list of framebuffer in RenderGraph and cycle
+through.  If you just have just one then you keep recycling it on every
+frame :-)
+
+
+> Forgot about the mutl-bffering.
+
+> Perhaps just holding a list of framebuffer in RenderGraph and cycle
+through.  If you just have just one then you keep recycling it on every
+frame :-)
+
+There's all the hair around acquireNextImage(). I think it's fine to have that functionality in the Window class, maybe not expose it as such to the Viewer.
+
+
+On Mon, 4 May 2020 at 15:48, timoore <notifications@github.com> wrote:
+
+> Forgot about the mutl-bffering.
+>
+> Perhaps just holding a list of framebuffer in RenderGraph and cycle
+> through. If you just have just one then you keep recycling it on every
+> frame :-)
+>
+> There's all the hair around acquireNextImage(). I think it's fine to have
+> that functionality in the Window class, maybe not expose it as such to the
+> Viewer.
+>
+"all the hair" that's a good summary or the hoops and hurdles you have to
+navigate when dealing with a swapchain that be potentially skip entries as
+the frames progress.
+
+Trying to git all these Vulkan aspect into the square peg of scene graph
+isn't always straight forward...
+
+I'm can't get to the proper review right away.  What I likely do later is
+merge the changes and see if there opportunities to streamline/unfiy things
+better at a later date.
+
+
+> Trying to git all these Vulkan aspect into the square peg of scene graph
+isn't always straight forward...
+
+I think that VSG does a pretty good job of that.
+
+> I'm can't get to the proper review right away.  What I likely do later is
+merge the changes and see if there opportunities to streamline/unfiy things
+better at a later date.
+
+Ok. If this approach doesn't run into any problems, I'll propose a cleanup later too.
+
+
+I will merge as is, and the let it settle for a bit.  
+
+As I was doing another code review it occurred to me that we could possible have the viewer push the framebuffer to use when it changes, so that the RenderGraph would just have one current active framebuffer attached to it at any time.
+
+I will be returning to the multi-threeded viewer work this week so be revisiting CommandGraph/RenderGraph very soon and can review these class with this wider remit and keep in mind this topic as that time.
+
+
+
+ Refactored Window instance extension name setup to simplify and make more extensible.
+ 
+ a small fix to CMAKE files to allow proper include paths when VSG is an external lib
+ 
+
+# Pull Request Template
+
+## Description
+
+Please include a summary of the change and which issue is fixed. Please also include relevant motivation and context. List any dependencies that are required for this change.
+
+Fixes # (issue)
+
+## Type of change
+
+- [ ] build system related Bug fix (non-breaking change which fixes an issue)
+
+## How Has This Been Tested?
+- VulkanSceneGraph was added as a sub-module and used externally.
+
+Do you have an example that illustrates the problem this change resolves for you?  I'd like to recreate the problem and see the cause.  Thanks.
+
+I have shared a private repo with you that points to my fork .. I can create a public repo that points to the original VSG and that will illustrate the issue. Will that be OK Robert?
+
+ Restructured commands and staet from vsg/vk directory into vsg/commands, vsg/state directories
+ 
+ Removed CullTraversal as RecordTraversal has taken over it's functionality
+ 
+ vsg::Intersector base class & vsg::LineSegmentIntersector
+ Developed and tested in vsgExamples/Descktop/vsgintersection before being introduced into the VulkanSceneGraph.
+ Window frame refactor
+ Refactored the way that Fence is managed, moving it out from Window::Frame into RecordAndSubmitTask.  Cleaned up associated code.
+ issue with OperationThreadQueue::Latch
+ following https://github.com/vsg-dev/VulkanSceneGraph/pull/163 rejection
+**Describe the bug**
+MT Freeze (Latch stays locked after count reached 0)
+
+**To Reproduce**
+```
+#include <vsg/all.h>
+
+struct SimpleOp : public vsg::Operation
+{
+    SimpleOp(vsg::ref_ptr<vsg::Latch> l): latch(l) {}
+
+    void run() override
+    {
+        latch->count_down();
+    }
+
+    vsg::ref_ptr<vsg::Latch> latch;
+};
+
+int main(int argc, char** argv)
+{
+    vsg::ref_ptr<vsg::OperationThreads> threads(new vsg::OperationThreads(1));
+    threads->run();
+    for(int i =0;i<1000000;++i)
+    {
+        vsg::ref_ptr<vsg::Latch> latch(new vsg::Latch(1));
+        vsg::ref_ptr<SimpleOp> op(new SimpleOp(latch));
+        threads->add(op);
+        latch->wait();
+    }
+}
+```
+**Expected behavior**
+to exit properly
+
+@robertosfield Considering the time since which I contribute to your projects, I'd expect a little more respect ...
+
+To provoke a bug you first subclassed from vsg::Latch and then suggest it's
+a bug in Latch.
+
+This looks like it breaks the design of Latch and which is why it's not
+working for you.  You implementation of reset looks invalid to me, it
+ignores the condition variable that needs to be managed correctly.
+
+Next week I'll review Latch and if a reset() looks a desirable feature I'll
+implement it without breaking it and without needing the crazy refactor
+that you've proposed.
+
+On future if you want a new feature added to a class like Latch go ask a
+question on vsg-users rather than presume that your changes are valid usage.
+
+
+On Sat, 11 Apr 2020 at 15:27, Julien Valentin <notifications@github.com>
+wrote:
+
+> @robertosfield <https://github.com/robertosfield> Considering the time
+> since which I contribute to your projects, I hope a little more respect ...
+>
+> —
+> You are receiving this because you were mentioned.
+> Reply to this email directly, view it on GitHub
+> <https://github.com/vsg-dev/VulkanSceneGraph/issues/164#issuecomment-612433344>,
+> or unsubscribe
+> <https://github.com/notifications/unsubscribe-auth/AAKEGUE57MBMRIXKRJQACLTRMB44RANCNFSM4MGAJ6LA>
+> .
+>
+
+
+look issue on github please...
+
+What happens when you remove the unnecessary  repeated call to threads->run()?  On call prior to the loop is all that should be done.  
+
+Is this only there to delay the call it latch->watch() in the main thread?
+
+Is so then try sticking a sleep or other delay call as this would more reliably recreate the possible problem condition.
+
+Next week when I'm back at work I'll investigate.
+
+> What happens when you remove the unnecessary repeated call to threads->run()? On call prior to the loop is all that should be done.
+> 
+
+same issue
+
+> Is this only there to delay the call it latch->watch() in the main thread?
+
+no, I just wrote it too quickly
+
+
+
+I had some time available today so I recreate the test case above and got it to recreate the hang, I then moved a Latch implementation local to the cpp, so it can be easily modified, and changed the code across to using ::create rather then new as it's good practice VSG usage (less likely to forgot to use ref_ptr<>> and it also means we can use auto for better code readability.  
+
+As a workaround for the hang I found that using std::condition_variable::wait_for() rather than wait() prevents the hang. bit it doesn't actually address the condition that is causing the hang so I would describe this as a workaround rather than a fix.  I'd like to get to the bottom of why the count_down() and wait() are failing occasionally.  My guess is there some issue with the atomic variable usage that need tightening up.  I have some ideas but will tinker with these in the week.
+
+With this version of the test program with a debug build I'm typically getting around 0-10 timeouts reported.  My guess is that the timeout in this wait_for() version would a hang in the wait() version for each of these timeouts. With a release build I'm get far fewer timeout warnings, I have to use 10x number of iterations to provoke any.
+
+`
+#include <vsg/all.h>
+
+class MyLatch : public vsg::Inherit<vsg::Object, MyLatch>
+{
+public:
+    MyLatch(size_t num) :
+        _count(num) {}
+
+    void count_up()
+    {
+        ++_count;
+    }
+
+    void count_down()
+    {
+        --_count;
+        if (is_ready())
+        {
+            std::unique_lock lock(_mutex);
+            _cv.notify_all();
+        }
+    }
+
+    bool is_ready() const
+    {
+        return (_count == 0);
+    }
+
+    void wait()
+    {
+        std::chrono::duration waitDuration = std::chrono::milliseconds(100);
+        // use while loop to return immediate when latch already released
+        // and to handle cases where the condition variable releases spuriously.
+        while (_count != 0)
+        {
+            std::unique_lock lock(_mutex);
+            if (_cv.wait_for(lock, waitDuration) == std::cv_status::timeout)
+            {
+                std::cout<<"_cv.wait_for(lock, waitDuration) timed out"<<std::endl;
+            }
+        }
+    }
+
+    std::atomic_size_t& count() { return _count; }
+
+protected:
+    virtual ~MyLatch() {}
+
+    std::atomic_size_t _count;
+    std::mutex _mutex;
+    std::condition_variable _cv;
+};
+
+struct SimpleOp : public vsg::Inherit<vsg::Operation, SimpleOp>
+{
+    SimpleOp(vsg::ref_ptr<MyLatch> l): latch(l) {}
+
+    void run() override
+    {
+        latch->count_down();
+    }
+
+    vsg::ref_ptr<MyLatch> latch;
+};
+
+
+int main(int argc, char** argv)
+{
+    vsg::CommandLine arguments(&argc, argv);
+
+    auto numThreads = arguments.value(1, "-t");
+    auto numIterations = arguments.value(1000000, "-n");
+
+    auto threads = vsg::OperationThreads::create(numThreads);
+    threads->run();
+    for(int i =0; i<numIterations; ++i)
+    {
+        auto latch = MyLatch::create(1);
+        auto op = SimpleOp::create(latch);
+        threads->add(op);
+        latch->wait();
+    }
+
+    return 0;
+}
+`
+
+The CmakeFile.txt used for this test was:
+`cmake_minimum_required(VERSION 2.6)
+
+PROJECT(latchbug)
+
+FIND_PACKAGE(vsg)
+
+SET(SOURCES
+    main.cpp
+)
+
+set(CMAKE_CXX_STANDARD 17)
+
+ADD_EXECUTABLE(latchbug ${SOURCES})
+
+TARGET_LINK_LIBRARIES(latchbug vsg::vsg)
+`
+
+
+I've spent some time testing and reviewing the code and have implemented the follow wait() implementation.  I'm currently running a stress test with 40 threads and many iterations. it's been running for over half an hour successfully iterating away, still only 20% through the stress test with hints of hangs.  This fix is to move the check of the _count to after the mutex lock but before the call to _cv.wait().  If this stress test goes fine I'll check in the fix tomorrow:
+
+    void wait()
+    {
+        // use while loop to return immediate when latch already released
+        // and to handle cases where the condition variable releases spuriously.
+        if (_count > 0)
+        {
+            for(;;)
+            {
+                std::unique_lock lock(_mutex);
+                if (_count > 0) _cv.wait(lock);
+                else break;
+            }
+        }
+    }
+
+
+Active wait is not of my education....
+Without taking that into account, this pattern seems abstractly ok.
+I really would like to know the source of your aversion to mutex for a simple barrier...
+
+You asking me to teach you mulit-threading?
+
+A condition variable used in the above wait is not an active wait, the thread is put to sleep while the thread sits in the wait.  The thread(s) sitting on the condition_variable::wait() is(are) only woken by the thread that calls count_down() condition_variable::notify_all(), or notify_one().
+
+The for(;;) loop is only there because on some implementations the condition_variable::wait() can be released spuriously, as mentioned in the comment explaining this.
+
+The condition_variable exists for this type of threading task, a mutex exists for another, an atomic for another, you use the most efficient tool for the task.
+
+If you don't understand something yet, that's OK, just ask for an explanation.  It's also important to not presume something is wrong because it's different to what your current level of skill/understanding leads you to assume.  I'm 30 years into my career and I'm still learning.
+
+I have simplified the fix further and applied two other refinements of the Latch:
+
+https://github.com/vsg-dev/VulkanSceneGraph/commit/279d636995ee422ea9df03e1cfd3de324eae3f74
+
+With these changes the latchbug test program runs successful at all times and when running within valgrind tools=helgrind reports no issues.
+
+Please note, the fix part of this commit is a single line change - simply moving the lock outside the loop. It's also important to understand that the wait() doesn't sit on the mutex lock, the condition_variable::wait() will release the acquired mutex while it's waiting, then require it once it's been signaled to continue.  The benift for use of condition_variable here is to avoid acquiring mutex locks for any longer than is absolutely necessary.
+
+https://github.com/vsg-dev/VulkanSceneGraph/commit/279d636995ee422ea9df03e1cfd3de324eae3f74
+
+is very ok thanks 
+
+
+ repair the Barrier taking account read accesses
+ following https://github.com/vsg-dev/VulkanSceneGraph/pull/162
+
+## Fixes
+https://github.com/vsg-dev/VulkanSceneGraph/issues/160
+
+## Type of change
+
+Mutex instead of condition
+
+And efficient latch is designed around a condition variable, just throwing this away is not a solution.
+
+your problem is that condition variable can be waited after it has been notified...It's obvious in the code you have copy paste from internet
+
+the only way current design could be used safely is by launching a waiting thread before the workers
+
+If there is a usage case that is problem then create a simple test case
+that illustrates the problem.  I will then look at it.  If you don't do it
+I'll write it myself when I have a clear run at it.
+
+On Sat, 11 Apr 2020 at 09:58, Julien Valentin <notifications@github.com>
+wrote:
+
+> the only way current design could be used safely is by launching a waiting
+> thread before the workers
+>
+> —
+> You are receiving this because you modified the open/close state.
+> Reply to this email directly, view it on GitHub
+> <https://github.com/vsg-dev/VulkanSceneGraph/pull/163#issuecomment-612371203>,
+> or unsubscribe
+> <https://github.com/notifications/unsubscribe-auth/AAKEGUHJUJZYH7DU7CVOJT3RMAWK5ANCNFSM4MFXUMBA>
+> .
+>
+
+
+test case:
+```
+mainthread init latch to 1
+mainthread lauching 1 worker with latch->count_down
+mainthread latch.wait
+```
+for i in `seq 0 2000000`; do  ./a.out 
+In some cases worker will have finished before wait and latch wait forever
+
+ repair the Barrier
+ Fixes # (issue)
+https://github.com/vsg-dev/VulkanSceneGraph/issues/160
+## Type of change
+
+Muteces instead of atomic int and condition
+
+The Latch implementation was based inspired by examples of latches implemented elsewhere.  Resorting to using mutexes is not good for performance.  I'd much rather find out the cause of the problem and address it than resort to what look like heavy handed fixes.
+
+The first step has to be create a small discrete example that illustrates the bug then hammer this with a tool like valgrind.  The provided Issue #160 is related to an experimental branch which itself may contain problems that are leading to what you think is the latch failing, or it could simply be that the driver is failing in the suggest usage.
+
+> The Latch implementation was based inspired by examples of latches implemented elsewhere. Resorting to using mutexes is not good for performance. I'd much rather find out the cause of the problem and address it than resort to what look like heavy handed fixes.
+> 
+
+Can't escape theses write access...
+
+> The first step has to be create a small discrete example that illustrates the bug then hammer this with a tool like valgrind. The provided Issue #160 is related to an experimental branch which itself may contain problems that are leading to what you think is the latch failing, or it could simply be that the driver is failing in the suggest usage.
+
+It's strange that 2 of my "experiments" branches exhibit both the same issue without having the same synchronisation design...
+
+
+
+Sorry but the changes just aren't good enough.  We can't just go throwing a sledge hammer around in the core VSG on a whim because some experimental branch did something odd when a used in a non standard way.
+
+Next week I'll write a stress test for OperationQiueue and it's \Latch and see what I come up with.
+
+FYI, I have a 16 core machine, multi GPU system to work with, paged databases.  I have nearly two decades experience of working on mulit-threaded OSG.  You just need to wait till I get on to this stuff.
+
+As a general comment, for performance multi-threading in the VSG/Vulkan is far less important than it was with the OSG as it's some much faster.  If you have project you want to get on with then for now just do them single threaded, if hit a bottle neck then post a question/explanation to vsg-users.
+
+If you just doing the multi-threaded stuff for fun then please play on you own repo for the time being, as I'm afraid having to deal with this half backed submissions is just taking me away from other work.
+
+ remove rtti requirement
+ Current VSG requires rtti to support constexpr function `type_name`.  However, in lots of organizations such requirement is explicitly forbidden or discouraged, e.g. [Google's C++ guidel](https://google.github.io/styleguide/cppguide.html#Run-Time_Type_Information__RTTI_)
+
+I believe it's possible to remove such `typeid` call in type_name.h without changing the overall design.  Please let me know if I should go ahead and give it a try.
+
+The typeid is used as a fallback.  If there is improvement that could be made without increasing complexity then please dive in.
+
+As a general comment type_name() is not a feature that will be called on inner loops that will be critical to performance.  Ease of maintenance trumps performance in this case.
+
+"fallback" is the part I'm not sure about. how about make `VSG_type_name` for new classes mandatory using static_assert?
+```c++
+template<typename T>
+constexpr const char* type_name() noexcept 
+{ 
+    static_assert(false, __FUNC__); 
+    return ""; 
+};
+``` 
+
+I don't quite get why forcing a definition is required, sure it's ideal that users provide their own, but you only need type_name() if you are implementating serialization or want human readable output from type_name().
+
+The OSG uses RTTI elsewhere, without certain tasks become pretty awkward, so there isn't going to a case where the use of typeid here is going to suddenly make the VSG compatible without RTTI.
+
+I've just read through the Google RTTI guidelines linked to above and the usage case in type_name() isn't what they are discussing at all, it's a very distinct usage case where the name of type is required for IO or human readable console output used in debugging, it's not being used for if () else blocks decisions as discussed in the motivations of the Google RTTI.
+
+Elsewhere the VSG extensively uses virtual functions and double dispatch as recommend by the Google RTTI, in all there cases where extensibility, performance, robustness and maintainability favour avoiding RTTI.
+
+I'm pretty happy with the RTTI usage in the VSG, it's used just where it's the useful for the job and not extensively through the code.
+
+my concern about the fallback call, `typeinfo::name()`, is that according to the [cpp reference](https://en.cppreference.com/w/cpp/types/type_info/name) :
+
+> Returns an implementation defined null-terminated character string containing the name of the type. No guarantees are given; in particular, the returned string can be identical for several types and change between invocations of the same program. 
+
+it might cause problem when generating tiles on one platform with a different compiler but use them on another.
+
+I agree it's not a big problem though.
+
+On Fri, 10 Apr 2020 at 18:29, Linan Wang <notifications@github.com> wrote:
+
+> my concern about the fallback call, typeinfo::name(), is that according
+> to the cpp reference
+> <https://en.cppreference.com/w/cpp/types/type_info/name> :
+>
+> Returns an implementation defined null-terminated character string
+> containing the name of the type. No guarantees are given; in particular,
+> the returned string can be identical for several types and change between
+> invocations of the same program.
+>
+> it might cause problem when generating tiles on one platform with a
+> different compiler but use them on another.
+>
+> I agree it's not a big problem though.
+>
+The problem is an issue for serialization as then you have issues about
+portability across platforms.  For debug message just some info is more
+useful than non.
+
+If we force users to define the type then type_name() won't work for any
+types that aren't written specifically for the VSG.  Right now name
+vsg::type_name<std::vector<float>>() gives you a useful value rather than
+prevent compilation.
+
+So the issue comes down is it useful enough to leave it with a fallback or
+problematic enough that we have to prevent the more general purpose usage.
+
+If it turns out that type_name<> ends up being misued with the assumption
+that it'll always provide a serializable format then we'd have to revisit
+it.
+
+Personally I err on the assumption that VSG users will be sensible and
+won't need protecting from all possible misuse.
+
+
+ Threading issue with OperationThreadQueue::Latch
+ **Describe the bug**
+MT Freeze (Latch stays locked after count reach 0)
+
+**To Reproduce**
+[video](https://streamable.com/gsqyld)
+The bug emerged when i used Latch in vsg-dev:subpass_threading branch...
+Hard to reproduce, but launching lot of instances of the **vgssubpass** example yield application freeze in some windows 
+(launch 6 instances and swap between windows seems to be a good way to provoke the bug)
+
+**Desktop**
+ - OS: Ubuntu 18.04.1
+
+**Additional context**
+The issue might affect DataPager but harder to reproduce
+I fix it locally with https://github.com/vsg-dev/VulkanSceneGraph/commit/b4429c414c0fa10bc81e92e89dcbdec53dabda14 using a mutex instead of a condition_variable 
+
+The way you test multi-threading is my running multiple threads within a single application, not by running lots of separate programs.  See a problem behavior when you are thrashing your window manager is a stress test of completely different kind.  It could be that you are hitting a window manager issue, or a driver issue, or CPU bug or a memory bug.
+
+The way to create a stress test for the VSG threads is to write a single application with multiple threads that contend over the same resources.
+
+I'm closing this "Issue" as it's a dubious test, on an experimental branch that has no relevance to master.  Any of the work that may make in from the experimental branch will be thoroughly vetted.  If then we find problems we need to establish it with a single application. multi-threaded test.
+
+If it was a driver bug or a window manager issue my fix wouldn't work. 
+But it does... You're bad faith
+
+
+Threading problems are often a very difficult to pin down and fix.  Some
+"fixes" can just avoid a race condition but aren't fixes at all.  In this
+instance you "fixes" are sledge hammer hacks that change the conditions
+without actual pinpointing and fixing the actual bug if an actual bug
+actually exists.
+
+What you are reading as bad faith is years of experience of dealing with
+threading problems and how it's most effective to deal with them.  Me
+saying you aren't helping progress things forward on this is not some
+random statement.  You are doing stuff that it's clear you don't yet have
+the experience and insight to tackle.
+
+On Sat, 11 Apr 2020 at 09:46, Julien Valentin <notifications@github.com>
+wrote:
+
+> If it was a driver bug or a window manager issue my fix wouldn't work.
+> But it does... You're bad faith
+>
+> —
+> You are receiving this because you modified the open/close state.
+> Reply to this email directly, view it on GitHub
+> <https://github.com/vsg-dev/VulkanSceneGraph/issues/160#issuecomment-612369153>,
+> or unsubscribe
+> <https://github.com/notifications/unsubscribe-auth/AAKEGUGEYTQY5KVPMYDPKR3RMAU6NANCNFSM4MFOKD3A>
+> .
+>
+
+
+ Fix getQueueFamily crash on macOS
+ 
+## Description
+
+on macOS, the last `bestFamily` result of PhysicalDevice::getQueueFamily(), the queueFamily with `queueFlags=VK_QUEUE_GRAPHICS_BIT`  contains 0 queue, thus cause crashes. it's solved by using the first best match.
+
+Fixes #157
+
+## Type of change
+
+Please delete options that are not relevant.
+
+- [x] Bug fix (non-breaking change which fixes an issue)
+- [ ] New feature (non-breaking change which adds functionality)
+- [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
+- [ ] This change requires a documentation update
+
+## How Has This Been Tested?
+
+Examples in vsgExamples/Desktop no longer crashes.
+
+**Test Configuration**:
+* Firmware version: macOS 10.15.4
+* Hardware: MacBook Pro (Retina, 13-inch, Early 2015) Intel Iris Graphics 6100 1536 MB
+* Toolchain: XCode
+* SDK: MoltenVK 1.2.135
+
+## Checklist:
+
+- [x] My code follows the style guidelines of this project
+- [x] I have performed a self-review of my own code
+- [x] I have commented my code, particularly in hard-to-understand areas
+- [x] I have made corresponding changes to the documentation
+- [x] My changes generate no new warnings
+- [ ] I have added tests that prove my fix is effective or that my feature works
+- [ ] New and existing unit tests pass locally with my changes
+- [ ] Any dependent changes have been merged and published in downstream modules
+
+ Subpass threading with integration of NextSubPass and ExecuteSecondaryCB
+ one commit stand for a bug fix (MT freeze) https://github.com/mp3butcher/VulkanSceneGraphPrototype/commit/01e1e6cec259178cf543b73829d3f6f5a6a5a823 that may still affect DataPager 
+The bug is present in vsg-dev:subpass_threading and is reproducible by launching lot of instances of the vsgsubpass example (launch 6 instance and swap between windows seems to be a good way to provoke it)
+Did you mean to generate a PR into alternate_subpass?
+
+> one commit stand for a bug fix (MT freeze) [3a73d0d](https://github.com/vsg-dev/VulkanSceneGraph/commit/3a73d0d6870572f6f74c5964769da7f45c2c446f) that may still affect DataPager
+> The bug is present in vsg-dev:subpass_threading and is reproducible by launching lot of instances of the vsgsubpass example (launch 6 instance and swap between windows seems to be a good way to provoke it)
+
+Indeed.. I PR on alternate_subpass:
+- so you can check the bug present and exibited subpass_threading
+- because it's a different design than subpass_threading
+
+The PR changes 22 files, with 34 commits, this makes is really hard to know what is what when trying to compare and understand what you are intending or what problems you have.  It's getting to the point where it's too unwieldy a set of changes to mange.
+
+This kinda highlights the problem with moving ahead of where I'm ready to work on.  The changes are too fundamental to just merge with master with problem review of the issues being tackled.  We have to get these features right.
+
+I don't have any design document and high level guidance on your own thinking on these various elements of work so I have to read what I can from the code and what you to my questions and do my best guess as to what you are thinking and how this relates to the code.  I'm also have to learn about the Vulkan features at the same time.
+
+Put all this together and it's a bit of nightmare to reign things in enough so I can do what is right for the code long term. This is why I've been saying I need to have the clear time to think about stuff myself and why I need you patience for me to catch and put the time in.  
+
+For this PR I'm not sure there is any point in it.  The alternate_subpass branch is a deliberately an alternate implementation, it's not meant to be merged with your own approach.   It's supposed to be there so I can look at different approaches and cherry-pick the bests that will eventually make it into master.
+
+I could rebase this refactoring to reduce the number of commits but i don't know which branch to push to:
+- subpass branch is unthreaded  with "lego" commands design
+- subpass_thread branch is threaded  with "lego" commands design
+- this branch is threaded with integrated commands design (no lego commands to play with)
+I leave this to your jugement
+
+The most useful thing right now would be pause and wait for me to review the various branches and learn about the Vulkan features, your implementations and do my own thinking.
+
+@juval  I have now completed my first iteration of adding multi-threaded record traversals to vsg::Viewer, instigated by calling Viewer::setupThreading() after all the RecordAndSubmitTasks are assigned.  
+
+Note the thread functionality is self contained within Viewer, with only three methods Viewer::setupThreading(), Viewer::stopThreading and Viewer::recordAndSubmit().  The thread setup uses std::thread in combination with a new vsg::FrameBlock and vsg::Barrier class, rather than leverage the general purpose vsg::OperationThreads like you work.  
+
+The reason why this is appropriate is that for best performance you want to assign a thread to a specific cpu core(s) so that core works on the same data each frame keeping it's cache warm, rather than have the tasks of recording floating from core to core.  The vsgmultigpu example illustrates how the created threads affinity can be setup.
+
+Another advantage of handling the threading up at the Viewer class is that it can make decisions about what type of threading to use - which it should be thread per task, or thread per command graph and what combination of these to use if different tasks have different numbers of command graphs.  This approach allows all the tasks and the command recording within them to run fully multi-threaded.  The approach you took was multi-threaded within each task, but each task was done in series.
+
+Another strength of the new approach is that all synchronization objects and the thread setup are all managed within one class and a small set of methods, rather than have synchronization objects being spread across objects.  Having these objects be spread out increases the chances that code changes inadvertently break the design/implementation constraints.
+
+While the direction for viewer level multi-threading is now established (and in master) I haven't attempted to tackle the issue of primary/secondary CommandBuffer and ExecuteCommands.  I am keen to get these fully supported but don't know yet how best to integrate them.  
+
+This branch is obviously a starting point that I'll use as a reference, but it's complicated because it now contains multi-threading work that isn't going to be merged with master.
+
+When I start tackling the secondary CommandBuffer/Graph/ExecuteCommands functionality I will need to create a new branch and cherry-pick what elements are in this branch or in the other subpass branch into it.  I'll need to create an example, or examples to test out the secondary CommandBuffer/Graph/ExecuteCommands functionality and cherry-pick from your subpass branch where appropriate.
+
+I'm happy to take suggestions on what type of functionality that is important to preserve in this process.  It's been a full on week working on multi-threading so I won't attempt to tackle the above work until next week.
+
+@juval Over the last few days I've been working on secondary CommandBuffer/Graph support and ExecuteCommands.  I've used your subpass branch work as a reference and have leaned a lot about what is required to implement the functionality.  Conceptually the new work is very close to your original implementation, but design/implementation wise differs.  Usage wise it's very close, but with a few small differences that should hopefully make it easier to understand and use.  The work is checked into the ExecuteCommands branches of VSG and vsgExamples:
+
+https://github.com/vsg-dev/VulkanSceneGraph/tree/ExecuteCommands
+https://github.com/vsg-dev/vsgExamples/tree/ExecuteCommands
+
+The new implementation isn't yet compatible with mulit-threaded CommandGraph recording, multi-threaded viewer functionality was added separately a few weeks ago, what is missing is the coordination of the recording of the secondaries with the calls to vkCmdExecuteCommands.  
+
+Just getting secondaries working is complex enough (kudos there in beating me to it by several months) so I haven't tried to deal with the multi-threading part in my ExecuteCommands work so far.  Now that I've got the single threaded case working fine I'll move on the multi-threading case.  I'm hoping that use of vsg::Latch should be sufficient, but I'll need to get down and implement stuff to find out what will work or not.  I'm hoping to wrap this all up this weekend.
+
+I hope the new design/implementation will make sense to you, it's main difference is the way that the functionality is encapsulated more tightly within each class, with less dependencies on the specifics of the internal implementation details of other classes.  I'm pretty happy with the end result even if the birth of it hasn't been straight forward.
+
+
+
+@juval I have got the multi-threading work, expanded the vsgexecutecommands example to allow for loading of user defined models, animation paths and doing performance test:
+
+https://github.com/vsg-dev/VulkanSceneGraph/pull/184
+https://github.com/vsg-dev/vsgExamples/blob/master/Desktop/vsgexecutecommands/vsgexecutecommands.cpp
+
+I haven't yet implemented the lazy updating of the secondary CommandGraphs, but that should be possible with the new design with a few additions.  I won't tackle this right away as I have a whole load of client work to get back to.
+
+I have merged the ExecuteCommands branches with master of VSG and vsgExamples.  As far as I can tell all the functionality in the various subpass threading branches is now available in the respective master even if design/implementation wise it differs.  For me this provides closure on these previous work so I'll be deleting this branches today. If there are any features missing from VSG master w.r.t subpass and VkExecuteCommands let me know.
+
+
+I haven't taken the time to review your work...notably on threading stuff but i've got my idea here:
+Associate commandgraph to their respective PassGraph::SubPass (strong subpass2cg and weak cg2subpas) would allow to schedule  commandbuffer threaded production (using PassGraph to drive scheduler).
+A simple schedule policy like:
+```
+Parse PassGraph to find independant cgs
+while (card(parser.found>0)
+    if(card(parser.found)<numthreadavailable)
+        try to find new cgs to process based on last iteration processed
+    assign parser.found to available threads
+    threads.join()
+end loop
+```
+
+> 
+> 
+> I haven't taken the time to review your work...notably on threading stuff but i've got my idea here:
+> Associate commandgraph to their respective PassGraph::SubPass (strong subpass2cg and weak cg2subpas) would allow to schedule commandbuffer threaded production (using PassGraph to drive scheduler).
+> A simple schedule policy like:
+> 
+> ```
+> Parse PassGraph to find independant cgs
+> while (card(parser.found>0)
+>     if(card(parser.found)<numthreadavailable)
+>         try to find new cgs to process based on last iteration processed
+>     assign parser.found to available threads
+>     threads.join()
+> end loop
+> ```
+
+scheduling  would allow to get rid of any sync primitives
+
+I decided not to follow the PassGraph approach, I found it overly complicated and obfuscated the underlying connection to Vulkan.  I went with straight configuration of the RenderPass, it's more long winded to setup but it's got a direct connection to VkRenderPass setup so easier to leverage Vulkan documentation and understanding.
+
+I'm really happy with the threading approach now in master.  I scales better as it works across RecordAndSubmitTask boundaries, and simpler with the synchronization functionality more closely encapsulated to the threading itself.
+
+For me the subpass work was appreciated as a reference but on the design and implementation side a bit more experience helps to produce something a bit cleaner and more flexible.  My hope is that you'll be able to learn from the approach I've taken and be able to gain some insights in how to tackle OO design and threading better. 
+
+
+
+> I think you don't understand the 
+> 
+> > 
+> > 
+> > > I haven't taken the time to review your work...notably on threading stuff but i've got my idea here:
+> > > Associate commandgraph to their respective PassGraph::SubPass (strong subpass2cg and weak cg2subpas) would allow to schedule commandbuffer threaded production (using PassGraph to drive scheduler).
+> > > A simple schedule policy like:
+> > > ```
+> > > Parse PassGraph to find independant cgs
+> > > while (card(parser.found>0)
+> > >     if(card(parser.found)<numthreadavailable)
+> > >         try to find new cgs to process based on last iteration processed
+> > >     assign parser.found to available threads
+> > >     threads.join()
+> > > end loop
+> > > ```
+> > 
+> > scheduling would allow to get rid of any sync primitives
+> 
+> I decided not to follow the PassGraph approach, I found it overly complicated and obfuscated the underlying connection to Vulkan. I went with straight configuration of the RenderPass, it's more long winded to setup but it's got a direct connection to VkRenderPass setup so easier to leverage Vulkan documentation and understanding.
+> 
+> I'm really happy with the threading approach now in master. I scales better as it works across RecordAndSubmitTask boundaries, and simpler with the synchronization functionality more closely encapsulated to the threading itself.
+> 
+> For me the subpass work was appreciated as a reference but on the design and implementation side a bit more experience helps to produce something a bit cleaner and more flexible. My hope is that you'll be able to learn from the approach I've taken and be able to gain some insights in how to tackle OO design and threading better.
+
+I think you misunderstand the purpose i want to give to PassGraph : 
+- I originally used it to simplify renderpass definition, you find obfuscated but it's just a (too inlined?) nodal represenation of the render pass...
+- The second usage i came through is to take this graph as a knowledge base in order to schedule commandgraph production: as each cg is given a renderpass and a subpass index one could replace it with a PassGraph::Subpass weak pointer. And storing as the strong ptrs these cg in the supass would give a way to schedule without any synchronization cg (command graph) production operations (through navigation in the passgraph and check if associated cgs are dirties).
+
+... I found potential in this  idea this last weeks, but i'm too busy with the job to code these days...
+I'll try to study your threading  implementation on free time...
+
+On Mon, 25 May 2020 at 17:48, Julien Valentin <notifications@github.com>
+wrote:
+
+> I think you misunderstand the purpose i want to give to PassGraph :
+>
+>    - I originally used it to simplify renderpass definition, you find
+>    obfuscated but it's just a (too inlined?) nodal represenation of the render
+>    pass...
+>    - The second usage i came through is to take this graph as a knowledge
+>    base in order to schedule commandgraph production: as each cg is given a
+>    renderpass and a subpass index one could replace it with a
+>    PassGraph::Subpass weak pointer. And storing as the strong ptrs these cg in
+>    the supass would give a way to schedule without any synchronization cg
+>    (command graph) production operations (through navigation in the passgraph
+>    and check if associated cgs are dirties).
+>
+>
+I am really experienced at trying to review 3rd party code and trying to
+make sense of it.  It's been a big part of my job for the last 20 years.  I
+struggled to make sense of why all this extra complexity.  If I struggled
+with it then for sure other people coming down the line will be left
+confused about all these interconnecting classes where the only role was to
+fill in the RenderPassCreateInfo structure.  With the OSG project I was
+left with code that is overly complicated and different to understand and
+really hard to explain to others and maintain.
+
+For the VSG project to succeed I can't allow it follow this same mistake.
+Code that makes it into the VSG need to justify it's existence, it needs to
+minimal and complete and totally focused on what it does.  Code that meets
+this requirement is hard to write.  Can take several goes to get it right.
+Good code looks trivial when you read it, it looks obvious how it works.
+This type of code is the hardest to write.
+
+>
+>
+> ... I found potential in this idea this last weeks, but i'm too busy with
+> the job to code these days...
+> I'll try to study your threading implementation on free time...
+>
+It's some of my best threading work so I'd recommend it.  It's far better
+than anything in the OSG.
+
+
+ macOS crash: std::out_of_range
+ **Describe the bug**
+A clear and concise description of what the bug is.
+
+**To Reproduce**
+Steps to reproduce the behavior:
+Compile and run vsgViewer on vsgExample
+
+**Expected behavior**
+not to crash
+
+**Screenshots**
+If applicable, add screenshots to help explain your problem.
+
+**Desktop (please complete the following information):**
+ - OS: macOS
+ - Version 10.15.4
+
+**Additional context**
+```
+Process:               vsgviewer [31011]
+Path:                  /Volumes/VOLUME/*/vsgviewer
+Identifier:            vsgviewer
+Version:               0
+Code Type:             X86-64 (Native)
+Parent Process:        fish [18955]
+Responsible:           iTerm2 [2064]
+User ID:               501
+
+Date/Time:             2020-04-09 20:37:40.131 +0100
+OS Version:            Mac OS X 10.15.4 (19E287)
+Report Version:        12
+Anonymous UUID:        B841763D-4F4E-2985-72EB-C780E300810A
+
+Sleep/Wake UUID:       00912829-3322-4BE3-B76E-3FDA1F2A74B3
+
+Time Awake Since Boot: 30000 seconds
+Time Since Wake:       8100 seconds
+
+System Integrity Protection: enabled
+
+Crashed Thread:        0  Dispatch queue: com.apple.main-thread
+
+Exception Type:        EXC_CRASH (SIGABRT)
+Exception Codes:       0x0000000000000000, 0x0000000000000000
+Exception Note:        EXC_CORPSE_NOTIFY
+
+Application Specific Information:
+terminating with uncaught exception of type std::out_of_range: Index out of range
+abort() called
+
+Thread 0 Crashed:: Dispatch queue: com.apple.main-thread
+0   libsystem_kernel.dylib        	0x00007fff705d333a __pthread_kill + 10
+1   libsystem_pthread.dylib       	0x00007fff7068fe60 pthread_kill + 430
+2   libsystem_c.dylib             	0x00007fff7055a808 abort + 120
+3   libc++abi.dylib               	0x00007fff6d7ba458 abort_message + 231
+4   libc++abi.dylib               	0x00007fff6d7ab8a7 demangling_terminate_handler() + 238
+5   libobjc.A.dylib               	0x00007fff6f2e65b1 _objc_terminate() + 104
+6   libc++abi.dylib               	0x00007fff6d7b9887 std::__terminate(void (*)()) + 8
+7   libc++abi.dylib               	0x00007fff6d7bc1a2 __cxxabiv1::failed_throw(__cxxabiv1::__cxa_exception*) + 27
+8   libc++abi.dylib               	0x00007fff6d7bc169 __cxa_throw + 113
+9   vsgviewer                     	0x000000010df2f241 0x10de1d000 + 1122881
+10  vsgviewer                     	0x000000010debf306 vkGetDeviceQueue + 70
+11  vsgviewer                     	0x000000010de8f25a vsg::Device::getQueue(unsigned int, unsigned int) + 106
+12  vsgviewer                     	0x000000010de70580 vsg::Viewer::compile(vsg::BufferPreferences) + 512
+13  vsgviewer                     	0x000000010de22cc1 0x10de1d000 + 23745
+14  libdyld.dylib                 	0x00007fff7048bcc9 start + 1
+
+Thread 1:
+0   libsystem_pthread.dylib       	0x00007fff7068bb68 start_wqthread + 0
+
+Thread 2:: Dispatch queue: com.apple.root.utility-qos
+0   libsystem_kernel.dylib        	0x00007fff705ce516 kevent_id + 10
+1   libdispatch.dylib             	0x00007fff7044d8b9 _dispatch_kq_poll + 163
+2   libdispatch.dylib             	0x00007fff7044d057 _dispatch_event_loop_poke + 500
+3   com.apple.analyticsd          	0x00007fff4ddb0c97 CoreAnalytics::Client::init() + 109
+4   com.apple.analyticsd          	0x00007fff4ddb0979 CoreAnalytics::Client::get()::$_0::__invoke(void*) + 177
+5   libdispatch.dylib             	0x00007fff70432658 _dispatch_client_callout + 8
+6   libdispatch.dylib             	0x00007fff704337de _dispatch_once_callout + 20
+7   com.apple.analyticsd          	0x00007fff4ddb088a CoreAnalytics::Client::get() + 54
+8   com.apple.analyticsd          	0x00007fff4ddb38af analytics_is_event_used + 15
+9   com.apple.analyticsd          	0x00007fff4ddb3732 analytics_send_event_lazy + 54
+10  libDiagnosticMessagesClient.dylib	0x00007fff6cf9d062 msgtracer_vlog_with_keys_skip_nulls + 146
+11  libDiagnosticMessagesClient.dylib	0x00007fff6cf9cfb2 msgtracer_log_with_keys + 126
+12  com.apple.Metal               	0x00007fff3ba38947 __createContextTelemetryDataWithQueueLabelAndCallstack_block_invoke + 1049
+13  libdispatch.dylib             	0x00007fff704316c4 _dispatch_call_block_and_release + 12
+14  libdispatch.dylib             	0x00007fff70432658 _dispatch_client_callout + 8
+15  libdispatch.dylib             	0x00007fff70440aa8 _dispatch_root_queue_drain + 663
+16  libdispatch.dylib             	0x00007fff70441097 _dispatch_worker_thread2 + 92
+17  libsystem_pthread.dylib       	0x00007fff7068c9f7 _pthread_wqthread + 220
+18  libsystem_pthread.dylib       	0x00007fff7068bb77 start_wqthread + 15
+
+Thread 3:: Dispatch queue: com.apple.CoreAnalytics::Client
+0   libsystem_kernel.dylib        	0x00007fff705ccdfa mach_msg_trap + 10
+1   libsystem_kernel.dylib        	0x00007fff705cd170 mach_msg + 60
+2   libxpc.dylib                  	0x00007fff706e4a6d _xpc_pipe_routine + 279
+3   libxpc.dylib                  	0x00007fff706c9bf2 xpc_pipe_routine_with_flags + 56
+4   libxpc.dylib                  	0x00007fff706c9a7e _xpc_interface_routine + 175
+5   libxpc.dylib                  	0x00007fff706ce65f _xpc_look_up_endpoint + 191
+6   libxpc.dylib                  	0x00007fff706ce53e _xpc_connection_bootstrap_look_up_slow + 368
+7   libxpc.dylib                  	0x00007fff706ce110 _xpc_connection_init + 371
+8   libxpc.dylib                  	0x00007fff706cdf72 _xpc_connection_activate_if_needed + 73
+9   libxpc.dylib                  	0x00007fff706cfb7d xpc_connection_resume + 64
+10  com.apple.analyticsd          	0x00007fff4ddb0e20 void applesauce::dispatch::v1::async<void applesauce::dispatch::ManagedObject<CoreAnalytics::Client>::execute_wrapped<CoreAnalytics::Client::init()::$_1>(CoreAnalytics::Client::init()::$_1&&) const::'lambda'()>(dispatch_queue_s*, CoreAnalytics::Client::init()::$_1&&)::'lambda'(void*)::__invoke(void*) + 204
+11  libdispatch.dylib             	0x00007fff70432658 _dispatch_client_callout + 8
+12  libdispatch.dylib             	0x00007fff70437c44 _dispatch_lane_serial_drain + 597
+13  libdispatch.dylib             	0x00007fff704385d6 _dispatch_lane_invoke + 363
+14  libdispatch.dylib             	0x00007fff70441c09 _dispatch_workloop_worker_thread + 596
+15  libsystem_pthread.dylib       	0x00007fff7068ca3d _pthread_wqthread + 290
+16  libsystem_pthread.dylib       	0x00007fff7068bb77 start_wqthread + 15
+
+Thread 4:
+0   libsystem_pthread.dylib       	0x00007fff7068bb68 start_wqthread + 0
+
+Thread 5:
+0   libsystem_pthread.dylib       	0x00007fff7068bb68 start_wqthread + 0
+
+Thread 0 crashed with X86 Thread State (64-bit):
+  rax: 0x0000000000000000  rbx: 0x000000010f356dc0  rcx: 0x00007ffee1de1a08  rdx: 0x0000000000000000
+  rdi: 0x0000000000000307  rsi: 0x0000000000000006  rbp: 0x00007ffee1de1a30  rsp: 0x00007ffee1de1a08
+   r8: 0x00007ffee1de18d0   r9: 0x00007ffee1de1aa0  r10: 0x000000010f356dc0  r11: 0x0000000000000246
+  r12: 0x0000000000000307  r13: 0x0000003000000008  r14: 0x0000000000000006  r15: 0x0000000000000016
+  rip: 0x00007fff705d333a  rfl: 0x0000000000000246  cr2: 0x000000010e2cf4a0
+  
+Logical CPU:     0
+Error Code:      0x02000148
+Trap Number:     133
+
+
+Binary Images:
+       0x10de1d000 -        0x10e36eff3 +vsgviewer (0) <1D7B94E5-36E9-37D6-9607-FF6FDC1345BC> /Volumes/VOLUME/*/vsgviewer
+       0x10e5eb000 -        0x10e5ee047  libobjc-trampolines.dylib (787.1) <CCA8AC98-12A2-3984-ACD6-1D77DAD6C0AD> /usr/lib/libobjc-trampolines.dylib
+       0x10f28c000 -        0x10f31deff  dyld (750.5) <1F893B81-89A5-3502-8510-95B97B9F730D> /usr/lib/dyld
+    0x7fff2bcc8000 -     0x7fff2bdc8ffe  com.apple.driver.AppleIntelBDWGraphicsMTLDriver (14.5.22 - 14.0.5) <2402AEB2-5B9E-3E38-97EE-2ED37DCB324E> /System/Library/Extensions/AppleIntelBDWGraphicsMTLDriver.bundle/Contents/MacOS/AppleIntelBDWGraphicsMTLDriver
+    0x7fff32155000 -     0x7fff32155fff  com.apple.Accelerate (1.11 - Accelerate 1.11) <8BE0965F-6A6A-35B0-89D0-F0A75835C2CA> /System/Library/Frameworks/Accelerate.framework/Versions/A/Accelerate
+    0x7fff32156000 -     0x7fff3216cfff  libCGInterfaces.dylib (524.2) <9092665A-D5C7-3ED8-A7D5-9216B48F8E3E> /System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vImage.framework/Versions/A/Libraries/libCGInterfaces.dylib
+    0x7fff3216d000 -     0x7fff327c3fef  com.apple.vImage (8.1 - 524.2) <DAE0E5C5-BA70-325D-8B4C-6B821F009CBF> /System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vImage.framework/Versions/A/vImage
+    0x7fff327c4000 -     0x7fff32a2bff7  libBLAS.dylib (1303.60.1) <4E980D6B-4B3A-33D6-B52C-AFC7D120D11A> /System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libBLAS.dylib
+    0x7fff32a2c000 -     0x7fff32efffef  libBNNS.dylib (144.100.2) <C05F9F9D-4498-37BD-9C1C-2F7B920B401D> /System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libBNNS.dylib
+    0x7fff32f00000 -     0x7fff3329bfff  libLAPACK.dylib (1303.60.1) <F8E9D081-7C60-32EC-A47D-2D30CAD73C5F> /System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libLAPACK.dylib
+    0x7fff3329c000 -     0x7fff332b1fec  libLinearAlgebra.dylib (1303.60.1) <79CB28C5-F811-3EAF-AD8E-7D7D879FE662> /System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libLinearAlgebra.dylib
+    0x7fff332b2000 -     0x7fff332b7ff3  libQuadrature.dylib (7) <EB7C9E98-D1E7-314C-90B4-3EB04428CC7C> /System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libQuadrature.dylib
+    0x7fff332b8000 -     0x7fff33328fff  libSparse.dylib (103) <8C55F5F2-6AE3-393C-B2FF-22B8CFCBD7FC> /System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libSparse.dylib
+    0x7fff33329000 -     0x7fff3333bfef  libSparseBLAS.dylib (1303.60.1) <08F6D629-5DAC-3A99-B261-2B6095DD38B4> /System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libSparseBLAS.dylib
+    0x7fff3333c000 -     0x7fff33513fd7  libvDSP.dylib (735.100.4) <0744F29B-F822-3571-9B4A-B592146D4E03> /System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libvDSP.dylib
+    0x7fff33514000 -     0x7fff335d6fef  libvMisc.dylib (735.100.4) <E6C94B52-931B-3858-AF4D-C2EA52ACB7F5> /System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libvMisc.dylib
+    0x7fff335d7000 -     0x7fff335d7fff  com.apple.Accelerate.vecLib (3.11 - vecLib 3.11) <66282197-81EE-316F-978E-EF1471551DEF> /System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/vecLib
+    0x7fff335d8000 -     0x7fff33637ff0  com.apple.Accounts (113 - 113) <4B85E422-169E-396D-898A-DD1A7715EC6D> /System/Library/Frameworks/Accounts.framework/Versions/A/Accounts
+    0x7fff33781000 -     0x7fff34540ff5  com.apple.AppKit (6.9 - 1894.40.150) <FDDF35FF-4007-3F0B-B59C-03CFF3A0A73B> /System/Library/Frameworks/AppKit.framework/Versions/C/AppKit
+    0x7fff34590000 -     0x7fff34590fff  com.apple.ApplicationServices (48 - 50) <CABCF23C-55E5-35E1-AAF0-EE5DDE3FDB03> /System/Library/Frameworks/ApplicationServices.framework/Versions/A/ApplicationServices
+    0x7fff34591000 -     0x7fff345fcfff  com.apple.ApplicationServices.ATS (377 - 493.0.4.1) <6AA4BBCC-43AF-3EBF-8EB5-7916A3B563AA> /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ATS.framework/Versions/A/ATS
+    0x7fff34695000 -     0x7fff346d3ff0  libFontRegistry.dylib (274.0.4.2) <FBF6EC26-42C0-334E-B67C-871AD50DB0BC> /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ATS.framework/Versions/A/Resources/libFontRegistry.dylib
+    0x7fff3472e000 -     0x7fff3475dfff  com.apple.ATSUI (1.0 - 1) <D8C604E9-D854-3A32-B37B-819197537A63> /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ATSUI.framework/Versions/A/ATSUI
+    0x7fff3475e000 -     0x7fff34762ffb  com.apple.ColorSyncLegacy (4.13.0 - 1) <2359E2CD-8FCE-32D7-AF76-F4D9A3D9D9F8> /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSyncLegacy.framework/Versions/A/ColorSyncLegacy
+    0x7fff347fc000 -     0x7fff34853ffa  com.apple.HIServices (1.22 - 675.1) <B2DEE96F-ED7A-3924-A2E2-44BB7A950BD8> /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/HIServices.framework/Versions/A/HIServices
+    0x7fff34854000 -     0x7fff34862fff  com.apple.LangAnalysis (1.7.0 - 1.7.0) <1603F2CC-DC51-3E15-B6B5-0A9F9AB0C045> /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/LangAnalysis.framework/Versions/A/LangAnalysis
+    0x7fff34863000 -     0x7fff348a8ffa  com.apple.print.framework.PrintCore (15.4 - 516.2) <525E8A4B-297B-3CAC-8A4A-6C7E211D7A21> /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/PrintCore
+    0x7fff348a9000 -     0x7fff348b3ff7  com.apple.QD (4.0 - 413) <1EAEF5BC-D649-3E42-87BC-43CCEE4D5274> /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/QD.framework/Versions/A/QD
+    0x7fff348b4000 -     0x7fff348c1ffc  com.apple.speech.synthesis.framework (9.0.24 - 9.0.24) <C2E5BBFC-2EF0-3FFE-A1CF-960631DC249C> /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/SpeechSynthesis.framework/Versions/A/SpeechSynthesis
+    0x7fff348c2000 -     0x7fff349a3ffa  com.apple.audio.toolbox.AudioToolbox (1.14 - 1.14) <4222CBDF-D637-30DB-BA45-C6E222BABB24> /System/Library/Frameworks/AudioToolbox.framework/Versions/A/AudioToolbox
+    0x7fff349a5000 -     0x7fff349a5fff  com.apple.audio.units.AudioUnit (1.14 - 1.14) <73D89D5E-05D5-3F64-BE02-2B2ED6AD6C03> /System/Library/Frameworks/AudioUnit.framework/Versions/A/AudioUnit
+    0x7fff34d38000 -     0x7fff350c6ffd  com.apple.CFNetwork (1125.2 - 1125.2) <1D4D81F7-FC48-3588-87FC-481E2586E345> /System/Library/Frameworks/CFNetwork.framework/Versions/A/CFNetwork
+    0x7fff35147000 -     0x7fff3543bff3  com.apple.HIToolbox (2.1.1 - 994.6) <C03A48FC-1A02-320D-9147-F4687A1BBC6F> /System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/HIToolbox.framework/Versions/A/HIToolbox
+    0x7fff35486000 -     0x7fff3548cfff  com.apple.speech.recognition.framework (6.0.3 - 6.0.3) <E6BE4EC1-5C53-38BB-AAFD-E7BF7A8975BC> /System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/SpeechRecognition.framework/Versions/A/SpeechRecognition
+    0x7fff35634000 -     0x7fff3572afff  com.apple.ColorSync (4.13.0 - 3394.7) <FC6CFACE-CDD8-3811-BAB6-C9F82AC0A594> /System/Library/Frameworks/ColorSync.framework/Versions/A/ColorSync
+    0x7fff35a15000 -     0x7fff35f1effb  com.apple.audio.CoreAudio (5.0 - 5.0) <CF50C6CC-6753-3D64-A76B-21CE211A98E8> /System/Library/Frameworks/CoreAudio.framework/Versions/A/CoreAudio
+    0x7fff35f71000 -     0x7fff35fa9fff  com.apple.CoreBluetooth (1.0 - 1) <D2943204-C3A0-3C09-A7A9-BF75822678B4> /System/Library/Frameworks/CoreBluetooth.framework/Versions/A/CoreBluetooth
+    0x7fff35faa000 -     0x7fff36394fe8  com.apple.CoreData (120 - 977.3) <9A33F390-687F-3EE2-8293-4E564A164469> /System/Library/Frameworks/CoreData.framework/Versions/A/CoreData
+    0x7fff36395000 -     0x7fff364c0ffe  com.apple.CoreDisplay (1.0 - 186.5.25) <53F750C6-947A-39AE-984E-41939B858A68> /System/Library/Frameworks/CoreDisplay.framework/Versions/A/CoreDisplay
+    0x7fff364c1000 -     0x7fff36940ffb  com.apple.CoreFoundation (6.9 - 1675.129) <9E632A1E-9622-33D6-BCCE-23AC16DAA6B7> /System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation
+    0x7fff36942000 -     0x7fff36fb6fe0  com.apple.CoreGraphics (2.0 - 1355.13) <54528FE3-21A7-3F64-B7AA-F6B95394488D> /System/Library/Frameworks/CoreGraphics.framework/Versions/A/CoreGraphics
+    0x7fff36fc4000 -     0x7fff3731fff0  com.apple.CoreImage (15.0.0 - 940.9) <CA78A35D-E15E-3D98-BDEF-9F3D9039DB78> /System/Library/Frameworks/CoreImage.framework/Versions/A/CoreImage
+    0x7fff378a9000 -     0x7fff378a9fff  com.apple.CoreServices (1069.22 - 1069.22) <888FE7B9-CE6C-3C7C-BA33-63364462228A> /System/Library/Frameworks/CoreServices.framework/Versions/A/CoreServices
+    0x7fff378aa000 -     0x7fff3792ffff  com.apple.AE (838.1 - 838.1) <2BAB1B88-C198-3D20-8DA3-056E66510E7A> /System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/AE.framework/Versions/A/AE
+    0x7fff37930000 -     0x7fff37c11ff7  com.apple.CoreServices.CarbonCore (1217 - 1217) <D0FECC17-7E16-308F-98EA-AF311CB77FE6> /System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/CarbonCore.framework/Versions/A/CarbonCore
+    0x7fff37c12000 -     0x7fff37c5fffd  com.apple.DictionaryServices (1.2 - 323.6) <11513ED9-8B4B-39BB-A6B2-AA6AA0A2DF72> /System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/DictionaryServices.framework/Versions/A/DictionaryServices
+    0x7fff37c60000 -     0x7fff37c68ff7  com.apple.CoreServices.FSEvents (1268.100.1 - 1268.100.1) <CE3D8B13-2583-3527-8532-D5DDAAD7D56B> /System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/FSEvents.framework/Versions/A/FSEvents
+    0x7fff37c69000 -     0x7fff37ea2ffc  com.apple.LaunchServices (1069.22 - 1069.22) <E51EE658-608C-3034-9635-4FDF1E241E62> /System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/LaunchServices.framework/Versions/A/LaunchServices
+    0x7fff37ea3000 -     0x7fff37f3bff1  com.apple.Metadata (10.7.0 - 2076.3) <EE42CCA1-FEC2-3F1C-9B62-2E73EFB05FCC> /System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/Metadata.framework/Versions/A/Metadata
+    0x7fff37f3c000 -     0x7fff37f69fff  com.apple.CoreServices.OSServices (1069.22 - 1069.22) <A0654B4E-3194-3066-911F-FF1FBEE1D2C2> /System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/OSServices.framework/Versions/A/OSServices
+    0x7fff37f6a000 -     0x7fff37fd1fff  com.apple.SearchKit (1.4.1 - 1.4.1) <D4F82BC9-FD9B-3E04-B78E-D9E2A73B0BD7> /System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/SearchKit.framework/Versions/A/SearchKit
+    0x7fff37fd2000 -     0x7fff37ff6ff5  com.apple.coreservices.SharedFileList (131.4 - 131.4) <AEB4E42C-F5A2-3F63-80B0-4226483AD4F5> /System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/SharedFileList.framework/Versions/A/SharedFileList
+    0x7fff3831b000 -     0x7fff384d2ffc  com.apple.CoreText (643.1.4.4 - 643.1.4.4) <5D4EA236-DC1B-3772-95C5-7F4B6CFEAF84> /System/Library/Frameworks/CoreText.framework/Versions/A/CoreText
+    0x7fff384d3000 -     0x7fff38517ffb  com.apple.CoreVideo (1.8 - 344.3) <8507ED54-43C3-3E5B-BC74-512FE510BF8D> /System/Library/Frameworks/CoreVideo.framework/Versions/A/CoreVideo
+    0x7fff38518000 -     0x7fff385a5ffc  com.apple.framework.CoreWLAN (13.0 - 1601.2) <C1C2BBD4-EA97-3CC1-845D-1F1578E68380> /System/Library/Frameworks/CoreWLAN.framework/Versions/A/CoreWLAN
+    0x7fff3883c000 -     0x7fff38842fff  com.apple.DiskArbitration (2.7 - 2.7) <D7617B57-B01C-3848-8818-593FB12039E9> /System/Library/Frameworks/DiskArbitration.framework/Versions/A/DiskArbitration
+    0x7fff38a34000 -     0x7fff38b5fffa  com.apple.FileProvider (276 - 276) <B3EB6E66-807E-3F67-951F-88B8484FB8CD> /System/Library/Frameworks/FileProvider.framework/Versions/A/FileProvider
+    0x7fff38b77000 -     0x7fff38f3cff8  com.apple.Foundation (6.9 - 1675.129) <9A74FA97-7F7B-3929-B381-D9514B1E4754> /System/Library/Frameworks/Foundation.framework/Versions/C/Foundation
+    0x7fff38fa9000 -     0x7fff38ff9ff7  com.apple.GSS (4.0 - 2.0) <16DE732E-4A48-3C8A-BD61-8AF810F3A48C> /System/Library/Frameworks/GSS.framework/Versions/A/GSS
+    0x7fff39136000 -     0x7fff3924aff3  com.apple.Bluetooth (7.0.4 - 7.0.4f6) <9003721F-8543-3A21-BF11-2A981614F481> /System/Library/Frameworks/IOBluetooth.framework/Versions/A/IOBluetooth
+    0x7fff392b0000 -     0x7fff39354ff3  com.apple.framework.IOKit (2.0.2 - 1726.100.16) <3D8BA34A-AAF7-3AF2-9B5B-189AC4755404> /System/Library/Frameworks/IOKit.framework/Versions/A/IOKit
+    0x7fff39356000 -     0x7fff39367ffb  com.apple.IOSurface (269.11 - 269.11) <887CD3FD-1BB8-3BB7-B7F8-6A0BA4B3AEAE> /System/Library/Frameworks/IOSurface.framework/Versions/A/IOSurface
+    0x7fff393e6000 -     0x7fff39542fee  com.apple.ImageIO.framework (3.3.0 - 1976.3.4.4) <EDAA3E6B-6D65-3807-86C2-91736BC0AF88> /System/Library/Frameworks/ImageIO.framework/Versions/A/ImageIO
+    0x7fff39543000 -     0x7fff39546fff  libGIF.dylib (1976.3.4.4) <A4627958-EB22-3ADA-92BE-16229F9E9767> /System/Library/Frameworks/ImageIO.framework/Versions/A/Resources/libGIF.dylib
+    0x7fff39547000 -     0x7fff39600fff  libJP2.dylib (1976.3.4.4) <43672561-0E75-3A32-B428-697C6DA13BD8> /System/Library/Frameworks/ImageIO.framework/Versions/A/Resources/libJP2.dylib
+    0x7fff39601000 -     0x7fff39624fe3  libJPEG.dylib (1976.3.4.4) <52DC775B-CAB5-32B7-AC86-D9AAF7851BE9> /System/Library/Frameworks/ImageIO.framework/Versions/A/Resources/libJPEG.dylib
+    0x7fff398a0000 -     0x7fff398bafef  libPng.dylib (1976.3.4.4) <0B79BE68-50CD-3C99-9CF4-2396CD203EF8> /System/Library/Frameworks/ImageIO.framework/Versions/A/Resources/libPng.dylib
+    0x7fff398bb000 -     0x7fff398bcfff  libRadiance.dylib (1976.3.4.4) <E506A652-A423-3170-8032-0B03FF367FE8> /System/Library/Frameworks/ImageIO.framework/Versions/A/Resources/libRadiance.dylib
+    0x7fff398bd000 -     0x7fff39906ffb  libTIFF.dylib (1976.3.4.4) <0419D70A-E156-3B5D-A8B0-33BA29B54A08> /System/Library/Frameworks/ImageIO.framework/Versions/A/Resources/libTIFF.dylib
+    0x7fff3ae68000 -     0x7fff3ae7aff3  com.apple.Kerberos (3.0 - 1) <DC673FF3-4DC9-3C23-9718-343AB36B2984> /System/Library/Frameworks/Kerberos.framework/Versions/A/Kerberos
+    0x7fff3ae7b000 -     0x7fff3ae7bfff  libHeimdalProxy.dylib (77) <A970C7A8-7CCD-3701-A459-078BD5E8FE4E> /System/Library/Frameworks/Kerberos.framework/Versions/A/Libraries/libHeimdalProxy.dylib
+    0x7fff3ba30000 -     0x7fff3bafafff  com.apple.Metal (212.5.15 - 212.5.15) <2CBB178E-434E-31D3-BAE2-ED3EA801D4BC> /System/Library/Frameworks/Metal.framework/Versions/A/Metal
+    0x7fff3bb17000 -     0x7fff3bb54ff7  com.apple.MetalPerformanceShaders.MPSCore (1.0 - 1) <5DF84B7A-9DD0-36DB-8686-D669CDA93D59> /System/Library/Frameworks/MetalPerformanceShaders.framework/Frameworks/MPSCore.framework/Versions/A/MPSCore
+    0x7fff3bb55000 -     0x7fff3bbdffe2  com.apple.MetalPerformanceShaders.MPSImage (1.0 - 1) <CDC36001-66DA-3BBD-A9AA-2470B634B9C9> /System/Library/Frameworks/MetalPerformanceShaders.framework/Frameworks/MPSImage.framework/Versions/A/MPSImage
+    0x7fff3bbe0000 -     0x7fff3bc05ff4  com.apple.MetalPerformanceShaders.MPSMatrix (1.0 - 1) <1E4FE6EF-6D42-3439-835C-F4F20B05E0F5> /System/Library/Frameworks/MetalPerformanceShaders.framework/Frameworks/MPSMatrix.framework/Versions/A/MPSMatrix
+    0x7fff3bc06000 -     0x7fff3bc1bffb  com.apple.MetalPerformanceShaders.MPSNDArray (1.0 - 1) <8F8F0C2E-C4EC-3418-A06A-42B8280DDC9D> /System/Library/Frameworks/MetalPerformanceShaders.framework/Frameworks/MPSNDArray.framework/Versions/A/MPSNDArray
+    0x7fff3bc1c000 -     0x7fff3bd7affc  com.apple.MetalPerformanceShaders.MPSNeuralNetwork (1.0 - 1) <6BEFB262-2538-3A12-9E9F-A7CF94D2B68A> /System/Library/Frameworks/MetalPerformanceShaders.framework/Frameworks/MPSNeuralNetwork.framework/Versions/A/MPSNeuralNetwork
+    0x7fff3bd7b000 -     0x7fff3bdcaff4  com.apple.MetalPerformanceShaders.MPSRayIntersector (1.0 - 1) <4D352B8E-97D8-34FA-B2AF-3AB4E3149E2E> /System/Library/Frameworks/MetalPerformanceShaders.framework/Frameworks/MPSRayIntersector.framework/Versions/A/MPSRayIntersector
+    0x7fff3bdcb000 -     0x7fff3bdccff5  com.apple.MetalPerformanceShaders.MetalPerformanceShaders (1.0 - 1) <07F3B58C-F362-35F2-9A79-F38015A78DDA> /System/Library/Frameworks/MetalPerformanceShaders.framework/Versions/A/MetalPerformanceShaders
+    0x7fff3ce53000 -     0x7fff3ce5fffe  com.apple.NetFS (6.0 - 4.0) <7A96A8FE-17F3-3850-8E81-9DDDC5A48DDB> /System/Library/Frameworks/NetFS.framework/Versions/A/NetFS
+    0x7fff3ce60000 -     0x7fff3cfb7ff3  com.apple.Network (1.0 - 1) <D1C8FDDE-C822-3C40-BB26-18F24CFC8AE2> /System/Library/Frameworks/Network.framework/Versions/A/Network
+    0x7fff3f9e8000 -     0x7fff3fa40fff  com.apple.opencl (3.5 - 3.5) <3F0E363C-9380-3226-A4D1-67E740079AAD> /System/Library/Frameworks/OpenCL.framework/Versions/A/OpenCL
+    0x7fff3fa41000 -     0x7fff3fa5dfff  com.apple.CFOpenDirectory (10.15 - 220.40.1) <58835104-9E7A-32E8-862B-530CE899C9B4> /System/Library/Frameworks/OpenDirectory.framework/Versions/A/Frameworks/CFOpenDirectory.framework/Versions/A/CFOpenDirectory
+    0x7fff3fa5e000 -     0x7fff3fa69ffd  com.apple.OpenDirectory (10.15 - 220.40.1) <D846BA35-59A1-3B78-B1C8-7E0EDE972AD2> /System/Library/Frameworks/OpenDirectory.framework/Versions/A/OpenDirectory
+    0x7fff403cf000 -     0x7fff403d1fff  libCVMSPluginSupport.dylib (17.10.22) <65052150-BEFD-38D8-A789-560C2FB1644A> /System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libCVMSPluginSupport.dylib
+    0x7fff403d2000 -     0x7fff403d7fff  libCoreFSCache.dylib (176.11) <AEAEE894-BA4B-334F-90E1-7374DFB41979> /System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libCoreFSCache.dylib
+    0x7fff403d8000 -     0x7fff403dcfff  libCoreVMClient.dylib (176.11) <29D2B5C2-CBFF-308A-ADD8-A559B760C494> /System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libCoreVMClient.dylib
+    0x7fff403dd000 -     0x7fff403e5ff7  libGFXShared.dylib (17.10.22) <7FF5455A-3D5D-33D2-9C41-A51ABE53CE66> /System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libGFXShared.dylib
+    0x7fff403e6000 -     0x7fff403f0fff  libGL.dylib (17.10.22) <08450555-3BC8-3457-8F5E-E2BBE895C0C7> /System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libGL.dylib
+    0x7fff403f1000 -     0x7fff40425ff7  libGLImage.dylib (17.10.22) <5182EE22-2914-30E0-A87D-C38F345F695B> /System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libGLImage.dylib
+    0x7fff405bb000 -     0x7fff405f7fff  libGLU.dylib (17.10.22) <2FE69FE7-B60D-3D05-824B-CD4958E2C7B8> /System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libGLU.dylib
+    0x7fff41033000 -     0x7fff41042ff7  com.apple.opengl (17.10.22 - 17.10.22) <4E9C4B23-6D44-3804-AFF8-84C3B060E8F5> /System/Library/Frameworks/OpenGL.framework/Versions/A/OpenGL
+    0x7fff42000000 -     0x7fff42282ff2  com.apple.QuartzCore (1.11 - 840.18) <16502545-A0F3-3367-929B-DD80A6440226> /System/Library/Frameworks/QuartzCore.framework/Versions/A/QuartzCore
+    0x7fff42e03000 -     0x7fff4314cff1  com.apple.security (7.0 - 59306.101.1) <430E04FE-F068-3476-9CA2-72CB5F040D1F> /System/Library/Frameworks/Security.framework/Versions/A/Security
+    0x7fff4314d000 -     0x7fff431d5ffb  com.apple.securityfoundation (6.0 - 55236.60.1) <BC15B825-955D-33CF-B416-A64D69A1D008> /System/Library/Frameworks/SecurityFoundation.framework/Versions/A/SecurityFoundation
+    0x7fff43204000 -     0x7fff43208ff8  com.apple.xpc.ServiceManagement (1.0 - 1) <C66FC9CF-224B-348C-94A5-ABAC579F5C0A> /System/Library/Frameworks/ServiceManagement.framework/Versions/A/ServiceManagement
+    0x7fff43eb3000 -     0x7fff43f21ff7  com.apple.SystemConfiguration (1.19 - 1.19) <71AC15DE-7018-3D2B-B599-F2972F0288AE> /System/Library/Frameworks/SystemConfiguration.framework/Versions/A/SystemConfiguration
+    0x7fff47e7e000 -     0x7fff47f43ff7  com.apple.APFS (1412.101.1 - 1412.101.1) <2F5A48FB-9788-3A24-87FE-C1B7DDBC8A07> /System/Library/PrivateFrameworks/APFS.framework/Versions/A/APFS
+    0x7fff49050000 -     0x7fff49051ff1  com.apple.AggregateDictionary (1.0 - 1) <FE9B8728-9C37-367E-91A6-2D1321D485A0> /System/Library/PrivateFrameworks/AggregateDictionary.framework/Versions/A/AggregateDictionary
+    0x7fff495eb000 -     0x7fff49608ff4  com.apple.AppContainer (4.0 - 448.100.6) <FBA274DA-2172-31C8-9759-AFB227E0E7E7> /System/Library/PrivateFrameworks/AppContainer.framework/Versions/A/AppContainer
+    0x7fff4965d000 -     0x7fff4966bff7  com.apple.AppSandbox (4.0 - 448.100.6) <B38CE066-5303-3FBF-B0D3-A0D3889E2005> /System/Library/PrivateFrameworks/AppSandbox.framework/Versions/A/AppSandbox
+    0x7fff49ae6000 -     0x7fff49b0affb  com.apple.framework.Apple80211 (13.0 - 1602.3) <7D1A08A0-27B0-3F53-BFC4-A2A482B055A0> /System/Library/PrivateFrameworks/Apple80211.framework/Versions/A/Apple80211
+    0x7fff49dc8000 -     0x7fff49dd7fd7  com.apple.AppleFSCompression (119.100.1 - 1.0) <E1B024EB-DAB1-30A1-A43D-01D9E9357F2B> /System/Library/PrivateFrameworks/AppleFSCompression.framework/Versions/A/AppleFSCompression
+    0x7fff49ed6000 -     0x7fff49ee1ff7  com.apple.AppleIDAuthSupport (1.0 - 1) <BE6A7C6D-060E-38E9-A010-61975ECE5E43> /System/Library/PrivateFrameworks/AppleIDAuthSupport.framework/Versions/A/AppleIDAuthSupport
+    0x7fff49f23000 -     0x7fff49f6bff7  com.apple.AppleJPEG (1.0 - 1) <C163D80A-6818-3C36-B9A9-7CC8777FE593> /System/Library/PrivateFrameworks/AppleJPEG.framework/Versions/A/AppleJPEG
+    0x7fff4a359000 -     0x7fff4a37bfff  com.apple.applesauce (1.0 - 16.25) <A6C6D37B-9AA5-3137-A02E-F61798A908B0> /System/Library/PrivateFrameworks/AppleSauce.framework/Versions/A/AppleSauce
+    0x7fff4a43a000 -     0x7fff4a43dffb  com.apple.AppleSystemInfo (3.1.5 - 3.1.5) <52444963-7A5E-36C8-BAAA-FFF8A0D14612> /System/Library/PrivateFrameworks/AppleSystemInfo.framework/Versions/A/AppleSystemInfo
+    0x7fff4a4d7000 -     0x7fff4a4e6ff9  com.apple.AssertionServices (1.0 - 223.100.31) <2DA45CD2-C755-397C-977C-F4C6435A1272> /System/Library/PrivateFrameworks/AssertionServices.framework/Versions/A/AssertionServices
+    0x7fff4b079000 -     0x7fff4b2b9ff0  com.apple.audio.AudioToolboxCore (1.0 - 1104.80) <EE6A2BD9-843C-3CC3-AEFC-6D7855DBB331> /System/Library/PrivateFrameworks/AudioToolboxCore.framework/Versions/A/AudioToolboxCore
+    0x7fff4b2bd000 -     0x7fff4b3d9ff3  com.apple.AuthKit (1.0 - 1) <0A3A05D4-0795-35B8-8729-4BF252D52E60> /System/Library/PrivateFrameworks/AuthKit.framework/Versions/A/AuthKit
+    0x7fff4b596000 -     0x7fff4b59fff7  com.apple.coreservices.BackgroundTaskManagement (1.0 - 104) <2088BC70-5329-3390-A851-C4ECF654047C> /System/Library/PrivateFrameworks/BackgroundTaskManagement.framework/Versions/A/BackgroundTaskManagement
+    0x7fff4b5a0000 -     0x7fff4b641ff5  com.apple.backup.framework (1.11.4 - 1298.4.19) <1F848C06-11E3-3D85-8358-7E37AD2BE9D7> /System/Library/PrivateFrameworks/Backup.framework/Versions/A/Backup
+    0x7fff4b642000 -     0x7fff4b6ceff6  com.apple.BaseBoard (466.3 - 466.3) <1EFE4339-9393-3B15-8DC9-2BE9B03F3062> /System/Library/PrivateFrameworks/BaseBoard.framework/Versions/A/BaseBoard
+    0x7fff4b7d0000 -     0x7fff4b80cff7  com.apple.bom (14.0 - 219.2) <4B7C18B2-1E51-376E-9D6A-CE3F58D2AE53> /System/Library/PrivateFrameworks/Bom.framework/Versions/A/Bom
+    0x7fff4c388000 -     0x7fff4c3d7fff  com.apple.ChunkingLibrary (307 - 307) <4A5C3E8E-1E95-3363-8A78-CCD55770F064> /System/Library/PrivateFrameworks/ChunkingLibrary.framework/Versions/A/ChunkingLibrary
+    0x7fff4d248000 -     0x7fff4d258ffb  com.apple.CommonAuth (4.0 - 2.0) <E09BBBBE-ECDD-3442-8D4E-27A12F5E2347> /System/Library/PrivateFrameworks/CommonAuth.framework/Versions/A/CommonAuth
+    0x7fff4d26c000 -     0x7fff4d283fff  com.apple.commonutilities (8.0 - 900) <1E6CE910-4B06-3704-A47D-06337A6F0992> /System/Library/PrivateFrameworks/CommonUtilities.framework/Versions/A/CommonUtilities
+    0x7fff4ddaf000 -     0x7fff4ddceffc  com.apple.analyticsd (1.0 - 1) <F33987F5-A14A-3A55-8D26-FDE9A57B9269> /System/Library/PrivateFrameworks/CoreAnalytics.framework/Versions/A/CoreAnalytics
+    0x7fff4e355000 -     0x7fff4e365ff3  com.apple.CoreEmoji (1.0 - 107) <AC83B860-61BD-384E-81BF-CA3CBE655968> /System/Library/PrivateFrameworks/CoreEmoji.framework/Versions/A/CoreEmoji
+    0x7fff4e9a5000 -     0x7fff4ea0fff0  com.apple.CoreNLP (1.0 - 213) <687A4C31-A307-3255-83BE-9B123971FF62> /System/Library/PrivateFrameworks/CoreNLP.framework/Versions/A/CoreNLP
+    0x7fff4ee3d000 -     0x7fff4ee45ff8  com.apple.CorePhoneNumbers (1.0 - 1) <17E6A3B0-A181-3295-8B19-E139EDF12E4B> /System/Library/PrivateFrameworks/CorePhoneNumbers.framework/Versions/A/CorePhoneNumbers
+    0x7fff4f832000 -     0x7fff4f855fff  com.apple.CoreSVG (1.0 - 129) <53213F48-F888-3EBE-AE30-E9303E9B712C> /System/Library/PrivateFrameworks/CoreSVG.framework/Versions/A/CoreSVG
+    0x7fff4f856000 -     0x7fff4f889fff  com.apple.CoreServicesInternal (446.7 - 446.7) <4C4834E0-EA46-36DE-BA11-16B8826DD754> /System/Library/PrivateFrameworks/CoreServicesInternal.framework/Versions/A/CoreServicesInternal
+    0x7fff4f88a000 -     0x7fff4f8b8ffd  com.apple.CSStore (1069.22 - 1069.22) <39E431F9-3584-34DF-A64D-C5895AA72068> /System/Library/PrivateFrameworks/CoreServicesStore.framework/Versions/A/CoreServicesStore
+    0x7fff4fddc000 -     0x7fff4fe72ff7  com.apple.CoreSymbolication (11.4 - 64535.33.1) <DCA00787-D285-3944-AAFA-CAF78775B8D3> /System/Library/PrivateFrameworks/CoreSymbolication.framework/Versions/A/CoreSymbolication
+    0x7fff4ff0a000 -     0x7fff50036ff6  com.apple.coreui (2.1 - 609.4) <55EACF17-86EA-3F6E-A2CF-AF2F08C5F295> /System/Library/PrivateFrameworks/CoreUI.framework/Versions/A/CoreUI
+    0x7fff50037000 -     0x7fff501edff5  com.apple.CoreUtils (6.2 - 620.34) <172FC306-619F-3451-9BCA-F0B0D0B58EFD> /System/Library/PrivateFrameworks/CoreUtils.framework/Versions/A/CoreUtils
+    0x7fff50327000 -     0x7fff5033aff1  com.apple.CrashReporterSupport (10.13 - 15016) <8AB4A416-A174-386B-8A96-5F16EAA3FCDE> /System/Library/PrivateFrameworks/CrashReporterSupport.framework/Versions/A/CrashReporterSupport
+    0x7fff503f3000 -     0x7fff50405ff8  com.apple.framework.DFRFoundation (1.0 - 252.40.1) <852E7EE8-EC39-3CFF-9605-9F971F7BCED5> /System/Library/PrivateFrameworks/DFRFoundation.framework/Versions/A/DFRFoundation
+    0x7fff50406000 -     0x7fff5040bfff  com.apple.DSExternalDisplay (3.1 - 380) <61597AB3-7E66-339D-A709-50D4F9B3D8E9> /System/Library/PrivateFrameworks/DSExternalDisplay.framework/Versions/A/DSExternalDisplay
+    0x7fff50495000 -     0x7fff5050fff0  com.apple.datadetectorscore (8.0 - 659) <F7BA8B28-FD51-34A7-A423-63878638D00E> /System/Library/PrivateFrameworks/DataDetectorsCore.framework/Versions/A/DataDetectorsCore
+    0x7fff5055b000 -     0x7fff50598ff8  com.apple.DebugSymbols (194 - 194) <0406F803-6865-370E-9D32-01EF177B5E7A> /System/Library/PrivateFrameworks/DebugSymbols.framework/Versions/A/DebugSymbols
+    0x7fff50599000 -     0x7fff50720ff2  com.apple.desktopservices (1.14.4 - 1281.4.19) <82777143-A900-33D0-BCFA-2511C89C9EAD> /System/Library/PrivateFrameworks/DesktopServicesPriv.framework/Versions/A/DesktopServicesPriv
+    0x7fff520b9000 -     0x7fff524d4ff1  com.apple.vision.FaceCore (4.3.0 - 4.3.0) <E081D201-B82C-3AE3-8B58-1E909CE053B3> /System/Library/PrivateFrameworks/FaceCore.framework/Versions/A/FaceCore
+    0x7fff52b65000 -     0x7fff52c9cffc  libFontParser.dylib (277.2.4.2) <B59E080A-9FC3-3511-9024-E6D5461E60D1> /System/Library/PrivateFrameworks/FontServices.framework/libFontParser.dylib
+    0x7fff52c9d000 -     0x7fff52cd1fff  libTrueTypeScaler.dylib (277.2.4.2) <3A485687-23E8-3C53-83B0-1AA9625DCD37> /System/Library/PrivateFrameworks/FontServices.framework/libTrueTypeScaler.dylib
+    0x7fff52d36000 -     0x7fff52d46ff6  libhvf.dylib (1.0 - $[CURRENT_PROJECT_VERSION]) <5A0F87CA-81C0-3444-B958-AAC7BD4319BC> /System/Library/PrivateFrameworks/FontServices.framework/libhvf.dylib
+    0x7fff56227000 -     0x7fff56228fff  libmetal_timestamp.dylib (902.14.9) <E675DA7E-A99D-3351-94D1-3485CD86808B> /System/Library/PrivateFrameworks/GPUCompiler.framework/Versions/3902/Libraries/libmetal_timestamp.dylib
+    0x7fff578d8000 -     0x7fff578defff  com.apple.GPUWrangler (5.1.16 - 5.1.16) <F91AD6D6-8242-348C-8296-AF1DD8DBA2EF> /System/Library/PrivateFrameworks/GPUWrangler.framework/Versions/A/GPUWrangler
+    0x7fff57bfd000 -     0x7fff57c23ff1  com.apple.GenerationalStorage (2.0 - 314) <54182052-9E17-3A2A-8943-8915E6D319CE> /System/Library/PrivateFrameworks/GenerationalStorage.framework/Versions/A/GenerationalStorage
+    0x7fff58d52000 -     0x7fff58d60ffb  com.apple.GraphVisualizer (1.0 - 100.1) <7289AEE6-C577-3D89-A99E-98551218EB7D> /System/Library/PrivateFrameworks/GraphVisualizer.framework/Versions/A/GraphVisualizer
+    0x7fff58f00000 -     0x7fff58fbeff4  com.apple.Heimdal (4.0 - 2.0) <C4838DCE-48FB-3828-9FB2-097BA2848C99> /System/Library/PrivateFrameworks/Heimdal.framework/Versions/A/Heimdal
+    0x7fff5b13f000 -     0x7fff5b147ff5  com.apple.IOAccelerator (438.4.5 - 438.4.5) <4B2F1D11-C36B-3C48-9934-8A973348A966> /System/Library/PrivateFrameworks/IOAccelerator.framework/Versions/A/IOAccelerator
+    0x7fff5b154000 -     0x7fff5b16afff  com.apple.IOPresentment (1.0 - 37) <2FE66352-4CF9-3F79-944D-053E2AD451D6> /System/Library/PrivateFrameworks/IOPresentment.framework/Versions/A/IOPresentment
+    0x7fff5b4f2000 -     0x7fff5b53dff1  com.apple.IconServices (438.3 - 438.3) <2431AD46-37B8-367F-A1DC-119C781B1453> /System/Library/PrivateFrameworks/IconServices.framework/Versions/A/IconServices
+    0x7fff5b6fb000 -     0x7fff5b702ffa  com.apple.InternationalSupport (1.0 - 45.2) <296B6979-342E-35B8-A58B-B0797DFBA789> /System/Library/PrivateFrameworks/InternationalSupport.framework/Versions/A/InternationalSupport
+    0x7fff5b98f000 -     0x7fff5b9aeffd  com.apple.security.KeychainCircle.KeychainCircle (1.0 - 1) <D0F59C6D-F069-3F0D-81C2-CBFC2E6B7101> /System/Library/PrivateFrameworks/KeychainCircle.framework/Versions/A/KeychainCircle
+    0x7fff5bae3000 -     0x7fff5bbb1ffd  com.apple.LanguageModeling (1.0 - 215.1) <3FAF1700-F7D4-3F92-88AA-A3920702B8BB> /System/Library/PrivateFrameworks/LanguageModeling.framework/Versions/A/LanguageModeling
+    0x7fff5bbb2000 -     0x7fff5bbfafff  com.apple.Lexicon-framework (1.0 - 72) <212D02CE-11BC-3C7F-BDFD-DF1A0C4017EE> /System/Library/PrivateFrameworks/Lexicon.framework/Versions/A/Lexicon
+    0x7fff5bc01000 -     0x7fff5bc06ff3  com.apple.LinguisticData (1.0 - 353.18) <BA3869B7-9C39-32DA-A4BA-12F1BC4B04CF> /System/Library/PrivateFrameworks/LinguisticData.framework/Versions/A/LinguisticData
+    0x7fff5cf6d000 -     0x7fff5cfb9fff  com.apple.spotlight.metadata.utilities (1.0 - 2076.3) <EF8AC054-B15F-375F-AACB-018DC73CD16E> /System/Library/PrivateFrameworks/MetadataUtilities.framework/Versions/A/MetadataUtilities
+    0x7fff5cfba000 -     0x7fff5d08bffa  com.apple.gpusw.MetalTools (1.0 - 1) <BA343D96-58EA-374A-818C-E42968101EA8> /System/Library/PrivateFrameworks/MetalTools.framework/Versions/A/MetalTools
+    0x7fff5d2be000 -     0x7fff5d2dcfff  com.apple.MobileKeyBag (2.0 - 1.0) <0837C5C4-A860-387C-8F31-9A4627A3132F> /System/Library/PrivateFrameworks/MobileKeyBag.framework/Versions/A/MobileKeyBag
+    0x7fff5d53f000 -     0x7fff5d56fff7  com.apple.MultitouchSupport.framework (3440.1 - 3440.1) <0AA68A0D-23F6-3628-A93F-8F8018B84920> /System/Library/PrivateFrameworks/MultitouchSupport.framework/Versions/A/MultitouchSupport
+    0x7fff5da6e000 -     0x7fff5da78fff  com.apple.NetAuth (6.2 - 6.2) <D324C7CC-E614-35F6-8619-DECBE90ECAEB> /System/Library/PrivateFrameworks/NetAuth.framework/Versions/A/NetAuth
+    0x7fff5e483000 -     0x7fff5e4ceffb  com.apple.OTSVG (1.0 - 643.1.4.4) <DCCAD72C-ED3E-3FB9-80C8-4DB36362C28A> /System/Library/PrivateFrameworks/OTSVG.framework/Versions/A/OTSVG
+    0x7fff5f6d6000 -     0x7fff5f6e1ff2  com.apple.PerformanceAnalysis (1.243.2 - 243.2) <FFE831BE-C133-38BE-A6B4-BEEB9FD6BF37> /System/Library/PrivateFrameworks/PerformanceAnalysis.framework/Versions/A/PerformanceAnalysis
+    0x7fff5f6e2000 -     0x7fff5f70affb  com.apple.persistentconnection (1.0 - 1.0) <F16D4768-61F2-3298-8E37-0EAF612A55C0> /System/Library/PrivateFrameworks/PersistentConnection.framework/Versions/A/PersistentConnection
+    0x7fff620c8000 -     0x7fff620e1ffb  com.apple.ProtocolBuffer (1 - 274.24.9.16.3) <05BE7640-A9FD-3963-8199-E60DE3C37A7E> /System/Library/PrivateFrameworks/ProtocolBuffer.framework/Versions/A/ProtocolBuffer
+    0x7fff62540000 -     0x7fff62569ff1  com.apple.RemoteViewServices (2.0 - 148) <680F9F89-C44B-3AB3-B9EA-155B41B7295A> /System/Library/PrivateFrameworks/RemoteViewServices.framework/Versions/A/RemoteViewServices
+    0x7fff626ce000 -     0x7fff62709ff0  com.apple.RunningBoardServices (1.0 - 223.100.31) <28C26D68-F1F5-3ADC-832B-AF63336F35FB> /System/Library/PrivateFrameworks/RunningBoardServices.framework/Versions/A/RunningBoardServices
+    0x7fff63fe6000 -     0x7fff63fe9ff5  com.apple.SecCodeWrapper (4.0 - 448.100.6) <87710569-BCB4-37C1-B56D-F0EB89863A78> /System/Library/PrivateFrameworks/SecCodeWrapper.framework/Versions/A/SecCodeWrapper
+    0x7fff6415c000 -     0x7fff64283ff1  com.apple.Sharing (1526.14 - 1526.14) <8D0C1BC4-5133-399B-9EFC-74CAEF4FA389> /System/Library/PrivateFrameworks/Sharing.framework/Versions/A/Sharing
+    0x7fff65696000 -     0x7fff6598cfff  com.apple.SkyLight (1.600.0 - 450.9) <C6AF6A79-C673-3B9E-95E0-993F43AE7EED> /System/Library/PrivateFrameworks/SkyLight.framework/Versions/A/SkyLight
+    0x7fff661d9000 -     0x7fff661e7ffb  com.apple.SpeechRecognitionCore (6.0.91 - 6.0.91) <4678A6DB-D56E-393F-90BD-5AF4F3664440> /System/Library/PrivateFrameworks/SpeechRecognitionCore.framework/Versions/A/SpeechRecognitionCore
+    0x7fff66a19000 -     0x7fff66a22ff7  com.apple.SymptomDiagnosticReporter (1.0 - 1238.100.26) <A2197A8A-796E-321C-8EBB-075AED9995B0> /System/Library/PrivateFrameworks/SymptomDiagnosticReporter.framework/Versions/A/SymptomDiagnosticReporter
+    0x7fff66cd8000 -     0x7fff66ce8ff3  com.apple.TCC (1.0 - 1) <AEE98D6E-03FD-3C80-90AC-5B45B4AE7A2E> /System/Library/PrivateFrameworks/TCC.framework/Versions/A/TCC
+    0x7fff6720b000 -     0x7fff672d1ff0  com.apple.TextureIO (3.10.9 - 3.10.9) <362C5815-6A2B-3CA8-B577-C5D4978EF981> /System/Library/PrivateFrameworks/TextureIO.framework/Versions/A/TextureIO
+    0x7fff67492000 -     0x7fff676eaff0  com.apple.UIFoundation (1.0 - 661.2) <27837A1C-A833-3F99-B8D8-84A583EEA523> /System/Library/PrivateFrameworks/UIFoundation.framework/Versions/A/UIFoundation
+    0x7fff6835d000 -     0x7fff6837dffc  com.apple.UserManagement (1.0 - 1) <6F223C62-641C-3F7E-BE20-B0C9F19709C7> /System/Library/PrivateFrameworks/UserManagement.framework/Versions/A/UserManagement
+    0x7fff693b9000 -     0x7fff693bafff  com.apple.WatchdogClient.framework (1.0 - 67.101.1) <1D6C2858-0A09-380E-8718-14131D9A0FE1> /System/Library/PrivateFrameworks/WatchdogClient.framework/Versions/A/WatchdogClient
+    0x7fff69fe6000 -     0x7fff69fe9ffa  com.apple.dt.XCTTargetBootstrap (1.0 - 16091) <B40E4B60-2DB5-30ED-A210-3ED708862162> /System/Library/PrivateFrameworks/XCTTargetBootstrap.framework/Versions/A/XCTTargetBootstrap
+    0x7fff6a063000 -     0x7fff6a071ff5  com.apple.audio.caulk (1.0 - 32.3) <DFE1EBB6-9A42-3227-8601-5CFCB1F665CD> /System/Library/PrivateFrameworks/caulk.framework/Versions/A/caulk
+    0x7fff6a3b3000 -     0x7fff6a3b5ff3  com.apple.loginsupport (1.0 - 1) <B84ABC31-431B-3F99-BABE-44ED0A7DB3C0> /System/Library/PrivateFrameworks/login.framework/Versions/A/Frameworks/loginsupport.framework/Versions/A/loginsupport
+    0x7fff6a3b6000 -     0x7fff6a3c9ffd  com.apple.login (3.0 - 3.0) <8FAC178E-0C61-3E48-844A-CB4446CC7BC6> /System/Library/PrivateFrameworks/login.framework/Versions/A/login
+    0x7fff6ce94000 -     0x7fff6cec7ffa  libAudioToolboxUtility.dylib (1104.80) <C34C8FCE-54DE-3884-8074-057B06807D22> /usr/lib/libAudioToolboxUtility.dylib
+    0x7fff6cece000 -     0x7fff6cf02fff  libCRFSuite.dylib (48) <E52BECF7-1819-3998-ACC4-8D1A332CE4EB> /usr/lib/libCRFSuite.dylib
+    0x7fff6cf05000 -     0x7fff6cf0ffff  libChineseTokenizer.dylib (34) <EE842A48-3D30-34B0-B9D2-F045DE582650> /usr/lib/libChineseTokenizer.dylib
+    0x7fff6cf9b000 -     0x7fff6cf9dff7  libDiagnosticMessagesClient.dylib (112) <BE749883-9400-334A-8FBF-F3321CF205F5> /usr/lib/libDiagnosticMessagesClient.dylib
+    0x7fff6cfe3000 -     0x7fff6d19affb  libFosl_dynamic.dylib (100.4) <68038226-8CAA-36B5-B5D6-510F900B318D> /usr/lib/libFosl_dynamic.dylib
+    0x7fff6d1c1000 -     0x7fff6d1c7ff3  libIOReport.dylib (54) <FA47D01E-E02C-3178-9C10-DF4E7F6351B0> /usr/lib/libIOReport.dylib
+    0x7fff6d2a9000 -     0x7fff6d2b0fff  libMatch.1.dylib (36) <815A4553-4763-369F-A77C-62663A586D60> /usr/lib/libMatch.1.dylib
+    0x7fff6d2df000 -     0x7fff6d2fffff  libMobileGestalt.dylib (826.100.27) <4B771C86-0CB7-3B06-8F41-5A40DDF66D72> /usr/lib/libMobileGestalt.dylib
+    0x7fff6d471000 -     0x7fff6d472fff  libSystem.B.dylib (1281.100.1) <DB8310F1-272D-3533-A840-3B390AF55C26> /usr/lib/libSystem.B.dylib
+    0x7fff6d4ff000 -     0x7fff6d500fff  libThaiTokenizer.dylib (3) <DC582222-7C1F-3C27-8C3A-BAF696A2197D> /usr/lib/libThaiTokenizer.dylib
+    0x7fff6d518000 -     0x7fff6d52efff  libapple_nghttp2.dylib (1.39.2) <268F4E3E-95DC-35FB-82DC-5B0D1855A676> /usr/lib/libapple_nghttp2.dylib
+    0x7fff6d563000 -     0x7fff6d5d5ff7  libarchive.2.dylib (72.100.1) <65E0870E-02AB-365D-84F9-5800B5BB69FC> /usr/lib/libarchive.2.dylib
+    0x7fff6d5d6000 -     0x7fff6d66ffe5  libate.dylib (3.0.1) <4477640F-CC1B-3825-B877-69508F367E3D> /usr/lib/libate.dylib
+    0x7fff6d673000 -     0x7fff6d673ff3  libauto.dylib (187) <FD0E5750-7004-36A7-B9C2-D6B6B4EF559B> /usr/lib/libauto.dylib
+    0x7fff6d739000 -     0x7fff6d749ffb  libbsm.0.dylib (60.100.1) <B0373A39-DBC6-3A84-879B-BA46E30D04BF> /usr/lib/libbsm.0.dylib
+    0x7fff6d74a000 -     0x7fff6d756fff  libbz2.1.0.dylib (44) <FFCD4427-AF87-36D2-8097-8870FDC75A1B> /usr/lib/libbz2.1.0.dylib
+    0x7fff6d757000 -     0x7fff6d7a9fff  libc++.1.dylib (902.1) <08199809-33CA-321E-9B9D-FD5B2BC64580> /usr/lib/libc++.1.dylib
+    0x7fff6d7aa000 -     0x7fff6d7bfffb  libc++abi.dylib (902) <1C880020-396D-3F91-BE27-5A09A9239F68> /usr/lib/libc++abi.dylib
+    0x7fff6d7c0000 -     0x7fff6d7c0fff  libcharset.1.dylib (59) <4E63BA25-04A3-329A-923D-251155C03F30> /usr/lib/libcharset.1.dylib
+    0x7fff6d7c1000 -     0x7fff6d7d2fff  libcmph.dylib (8) <D4C5E0A8-92D9-33D5-9F83-6F4742FFBE29> /usr/lib/libcmph.dylib
+    0x7fff6d7d3000 -     0x7fff6d7eafd7  libcompression.dylib (87) <7F258A06-E01D-32D2-9CD2-6B2931DA5DA7> /usr/lib/libcompression.dylib
+    0x7fff6dac4000 -     0x7fff6dadaff7  libcoretls.dylib (167) <EFC237BB-78F7-33C6-BFF9-53860062DD99> /usr/lib/libcoretls.dylib
+    0x7fff6dadb000 -     0x7fff6dadcfff  libcoretls_cfhelpers.dylib (167) <2E542A2B-7730-33EE-9B3B-154B08608AA6> /usr/lib/libcoretls_cfhelpers.dylib
+    0x7fff6e099000 -     0x7fff6e0f8ff7  libcups.2.dylib (483.6) <F446DEF0-66C0-31AD-88E1-919B05F06C90> /usr/lib/libcups.2.dylib
+    0x7fff6e204000 -     0x7fff6e204fff  libenergytrace.dylib (21) <FFB9FB70-8DBD-3025-BC92-51F02481A489> /usr/lib/libenergytrace.dylib
+    0x7fff6e205000 -     0x7fff6e21dfff  libexpat.1.dylib (19.60.2) <1ED53818-578C-3D17-8761-68792CCAD685> /usr/lib/libexpat.1.dylib
+    0x7fff6e22b000 -     0x7fff6e22dfff  libfakelink.dylib (149.1) <B04F9A05-7E52-3382-9186-F603BE4BFBB2> /usr/lib/libfakelink.dylib
+    0x7fff6e23c000 -     0x7fff6e241fff  libgermantok.dylib (24) <8091F952-B592-38E3-982B-7DEA0A44E211> /usr/lib/libgermantok.dylib
+    0x7fff6e242000 -     0x7fff6e24bff7  libheimdal-asn1.dylib (564.100.1) <2D639331-43CF-331F-98F4-CDF41990A468> /usr/lib/libheimdal-asn1.dylib
+    0x7fff6e24c000 -     0x7fff6e33cfff  libiconv.2.dylib (59) <9458704B-A702-37CB-9707-66ABBB5DB71E> /usr/lib/libiconv.2.dylib
+    0x7fff6e33d000 -     0x7fff6e594fff  libicucore.A.dylib (64260.0.1) <DCC4A4EE-32FD-350F-84D8-E857F2F29855> /usr/lib/libicucore.A.dylib
+    0x7fff6e5ae000 -     0x7fff6e5affff  liblangid.dylib (133) <E9595222-602B-38F0-8572-0F1872A00527> /usr/lib/liblangid.dylib
+    0x7fff6e5b0000 -     0x7fff6e5c8ff3  liblzma.5.dylib (16) <0AA1EB11-A433-327E-B8DB-7395CFF06554> /usr/lib/liblzma.5.dylib
+    0x7fff6e5e0000 -     0x7fff6e687ff7  libmecab.dylib (883.10) <13136C11-8763-37BA-AEB2-676092798DAA> /usr/lib/libmecab.dylib
+    0x7fff6e688000 -     0x7fff6e8eafe1  libmecabra.dylib (883.10) <6AC22857-F528-35CE-94A9-D70F6F766C15> /usr/lib/libmecabra.dylib
+    0x7fff6ec57000 -     0x7fff6ec86fff  libncurses.5.4.dylib (57) <6BD6F430-C8B3-39D8-87B5-2C16E6578FD5> /usr/lib/libncurses.5.4.dylib
+    0x7fff6edb6000 -     0x7fff6f231ff5  libnetwork.dylib (1880.100.30) <9519B6F8-44E2-3F53-B995-1527C5333240> /usr/lib/libnetwork.dylib
+    0x7fff6f2d1000 -     0x7fff6f304fde  libobjc.A.dylib (787.1) <20AC082F-2DB7-3974-A2D4-8C5E01787584> /usr/lib/libobjc.A.dylib
+    0x7fff6f317000 -     0x7fff6f31bfff  libpam.2.dylib (25.100.1) <D5CEC1AD-A2EC-362C-B71A-22FD521917F1> /usr/lib/libpam.2.dylib
+    0x7fff6f31e000 -     0x7fff6f354ff7  libpcap.A.dylib (89.100.1) <171BAAB0-A5C8-32C5-878E-83D46073BF8C> /usr/lib/libpcap.A.dylib
+    0x7fff6f3d8000 -     0x7fff6f3f0fff  libresolv.9.dylib (67.40.1) <92A522F9-95E2-35EE-A8AD-FC8DEE6B2C1F> /usr/lib/libresolv.9.dylib
+    0x7fff6f3f2000 -     0x7fff6f436ff7  libsandbox.1.dylib (1217.101.2) <5E362637-203E-3170-B988-1C470A6B0642> /usr/lib/libsandbox.1.dylib
+    0x7fff6f44c000 -     0x7fff6f636ff7  libsqlite3.dylib (308.4) <BBC375B7-AF20-3D2C-8826-78D3BDC8A004> /usr/lib/libsqlite3.dylib
+    0x7fff6f887000 -     0x7fff6f88affb  libutil.dylib (57) <07ED7CF0-1744-3386-B8B2-0DDBD446999E> /usr/lib/libutil.dylib
+    0x7fff6f88b000 -     0x7fff6f898ff7  libxar.1.dylib (425.2) <625F24E1-1A0F-3301-9F99-F0F3DADE0287> /usr/lib/libxar.1.dylib
+    0x7fff6f89e000 -     0x7fff6f980ff7  libxml2.2.dylib (33.3) <24147A90-E3EB-3926-BFB0-5F0FC9F706E2> /usr/lib/libxml2.2.dylib
+    0x7fff6f984000 -     0x7fff6f9acfff  libxslt.1.dylib (16.9) <8C8648B1-F2CA-38EA-A409-D6F19715C6E6> /usr/lib/libxslt.1.dylib
+    0x7fff6f9ad000 -     0x7fff6f9bfff3  libz.1.dylib (76) <6A449C6A-DF88-36C1-8F2D-DB9A808263B5> /usr/lib/libz.1.dylib
+    0x7fff7026d000 -     0x7fff70272ff3  libcache.dylib (83) <5F90FFCE-403B-3724-991D-BA32401D99C5> /usr/lib/system/libcache.dylib
+    0x7fff70273000 -     0x7fff7027efff  libcommonCrypto.dylib (60165) <C7A5E3F7-1E5A-3785-875A-B6647082B614> /usr/lib/system/libcommonCrypto.dylib
+    0x7fff7027f000 -     0x7fff70286fff  libcompiler_rt.dylib (101.2) <A517E149-2D25-3C04-BCEF-F69149C85B18> /usr/lib/system/libcompiler_rt.dylib
+    0x7fff70287000 -     0x7fff70290ff7  libcopyfile.dylib (166.40.1) <1A5270B5-0D97-35DA-9296-4F4A428BC6A2> /usr/lib/system/libcopyfile.dylib
+    0x7fff70291000 -     0x7fff70323fe3  libcorecrypto.dylib (866.100.30) <FCDEC0D1-8C30-3989-BDD1-996BBC715C29> /usr/lib/system/libcorecrypto.dylib
+    0x7fff70430000 -     0x7fff70470ff0  libdispatch.dylib (1173.100.2) <EB592997-B11C-3AB3-85B1-F725F3D0B412> /usr/lib/system/libdispatch.dylib
+    0x7fff70471000 -     0x7fff704a7fff  libdyld.dylib (750.5) <D2A07EF5-A64B-3692-BE13-89DAA2EC5E80> /usr/lib/system/libdyld.dylib
+    0x7fff704a8000 -     0x7fff704a8ffb  libkeymgr.dylib (30) <CC5A2B43-770B-3C6C-BA10-AA3A6B4A142D> /usr/lib/system/libkeymgr.dylib
+    0x7fff704a9000 -     0x7fff704b5ff3  libkxld.dylib (6153.101.6) <77282DCB-83D6-3199-874E-9A4A0FD7D4F3> /usr/lib/system/libkxld.dylib
+    0x7fff704b6000 -     0x7fff704b6ff7  liblaunch.dylib (1738.100.39) <A7FF7357-600F-3014-8C28-A4F367717E8D> /usr/lib/system/liblaunch.dylib
+    0x7fff704b7000 -     0x7fff704bcff7  libmacho.dylib (959.0.1) <D8FED478-25A2-3844-AE4B-A5C9F9827615> /usr/lib/system/libmacho.dylib
+    0x7fff704bd000 -     0x7fff704bfff3  libquarantine.dylib (110.40.3) <51E0304F-AB11-3BF7-99DC-BB916CC9088B> /usr/lib/system/libquarantine.dylib
+    0x7fff704c0000 -     0x7fff704c1ff7  libremovefile.dylib (48) <078F29AB-26BA-3493-BCAA-E1E75A187521> /usr/lib/system/libremovefile.dylib
+    0x7fff704c2000 -     0x7fff704d9ff3  libsystem_asl.dylib (377.60.2) <0F1BAC19-2AE0-3F8E-9B90-AACF819B2BF7> /usr/lib/system/libsystem_asl.dylib
+    0x7fff704da000 -     0x7fff704daff7  libsystem_blocks.dylib (74) <32224AFF-C06F-3279-B753-097194EDEF49> /usr/lib/system/libsystem_blocks.dylib
+    0x7fff704db000 -     0x7fff70562fff  libsystem_c.dylib (1353.100.2) <4F5EED22-4D46-3F04-8C64-C492CDAD70EB> /usr/lib/system/libsystem_c.dylib
+    0x7fff70563000 -     0x7fff70566ffb  libsystem_configuration.dylib (1061.101.1) <2A2C778D-07EB-35C7-A954-8BF8FD74BD75> /usr/lib/system/libsystem_configuration.dylib
+    0x7fff70567000 -     0x7fff7056afff  libsystem_coreservices.dylib (114) <FDA41CC4-170A-3D93-85BD-838A563B03C4> /usr/lib/system/libsystem_coreservices.dylib
+    0x7fff7056b000 -     0x7fff70573fff  libsystem_darwin.dylib (1353.100.2) <B567B86D-8818-38A4-A861-03EB83B55867> /usr/lib/system/libsystem_darwin.dylib
+    0x7fff70574000 -     0x7fff7057bfff  libsystem_dnssd.dylib (1096.100.3) <7C690DF5-E119-33FB-85CD-9EFC67A36E40> /usr/lib/system/libsystem_dnssd.dylib
+    0x7fff7057c000 -     0x7fff7057dffb  libsystem_featureflags.dylib (17) <415D83EF-084C-3485-B757-53001870EA94> /usr/lib/system/libsystem_featureflags.dylib
+    0x7fff7057e000 -     0x7fff705cbff7  libsystem_info.dylib (538) <17049D3F-C798-3651-B391-1551FC699D3E> /usr/lib/system/libsystem_info.dylib
+    0x7fff705cc000 -     0x7fff705f8ff7  libsystem_kernel.dylib (6153.101.6) <E76440E1-D1E8-3D9A-8B47-D01F554FF1C4> /usr/lib/system/libsystem_kernel.dylib
+    0x7fff705f9000 -     0x7fff70640fff  libsystem_m.dylib (3178) <74741FA8-5C29-3241-9046-4FC91C6A6D4A> /usr/lib/system/libsystem_m.dylib
+    0x7fff70641000 -     0x7fff70668fff  libsystem_malloc.dylib (283.100.5) <97833239-2F83-3AEB-A426-0593997C8A54> /usr/lib/system/libsystem_malloc.dylib
+    0x7fff70669000 -     0x7fff70676ffb  libsystem_networkextension.dylib (1095.100.29) <C9E988B2-6A18-35C0-9577-63201E9D6018> /usr/lib/system/libsystem_networkextension.dylib
+    0x7fff70677000 -     0x7fff70680ff7  libsystem_notify.dylib (241.100.2) <E405F84B-BD4F-3874-9755-CB3EC86E18D5> /usr/lib/system/libsystem_notify.dylib
+    0x7fff70681000 -     0x7fff70689fef  libsystem_platform.dylib (220.100.1) <6EF12F34-C33F-36BF-9A9A-2A35EA19EFE0> /usr/lib/system/libsystem_platform.dylib
+    0x7fff7068a000 -     0x7fff70694fff  libsystem_pthread.dylib (416.100.3) <A8514582-E000-3854-911A-0A73D2C79600> /usr/lib/system/libsystem_pthread.dylib
+    0x7fff70695000 -     0x7fff70699ff3  libsystem_sandbox.dylib (1217.101.2) <E9D78CDE-FB67-32E7-BABC-9EFC23AA0DC6> /usr/lib/system/libsystem_sandbox.dylib
+    0x7fff7069a000 -     0x7fff7069cfff  libsystem_secinit.dylib (62.100.2) <AAC639E5-7103-3366-A602-8FC6944E2C13> /usr/lib/system/libsystem_secinit.dylib
+    0x7fff7069d000 -     0x7fff706a4ffb  libsystem_symptoms.dylib (1238.100.26) <487B92DE-45F9-39F9-A478-89BBD478157D> /usr/lib/system/libsystem_symptoms.dylib
+    0x7fff706a5000 -     0x7fff706bbff2  libsystem_trace.dylib (1147.100.8) <BB90B1FD-8C09-3DF4-BD8B-9E4AEADFEA2B> /usr/lib/system/libsystem_trace.dylib
+    0x7fff706bd000 -     0x7fff706c2ff7  libunwind.dylib (35.4) <CC87C836-BE9D-334E-A0E6-0297D52E9D73> /usr/lib/system/libunwind.dylib
+    0x7fff706c3000 -     0x7fff706f8ffe  libxpc.dylib (1738.100.39) <32B0E31E-9DA3-328B-A962-BC9591B93537> /usr/lib/system/libxpc.dylib
+
+External Modification Summary:
+  Calls made by other processes targeting this process:
+    task_for_pid: 0
+    thread_create: 0
+ Improve CI
+ Relates to #155.
+
+It seems I have to open a new PR as the previous one was automatically closed after merge.
+
+ATM, improvements include:
+- Remove branch constraint on PR builds

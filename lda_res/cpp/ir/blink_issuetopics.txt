@@ -1,0 +1,68 @@
+﻿NUMTopics = 2
+(0, '0.002*"file" + 0.002*"blink" + 0.002*"source" + 0.001*"find" + 0.001*"program" + 0.001*"change" + 0.001*"work" + 0.001*"use" + 0.001*"code" + 0.001*"include"')
+(1, '0.039*"file" + 0.026*"blink" + 0.017*"source" + 0.013*"find" + 0.010*"use" + 0.010*"work" + 0.010*"program" + 0.009*"change" + 0.009*"include" + 0.008*"code"')
+
+------------------------
+NUMTopics = 3
+(0, '0.002*"file" + 0.002*"blink" + 0.001*"find" + 0.001*"source" + 0.001*"program" + 0.001*"change" + 0.001*"work" + 0.001*"use" + 0.001*"code" + 0.001*"compile"')
+(1, '0.003*"file" + 0.002*"blink" + 0.002*"find" + 0.002*"source" + 0.001*"program" + 0.001*"use" + 0.001*"try" + 0.001*"change" + 0.001*"work" + 0.001*"object"')
+(2, '0.040*"file" + 0.027*"blink" + 0.017*"source" + 0.014*"find" + 0.010*"use" + 0.010*"work" + 0.010*"program" + 0.010*"change" + 0.009*"include" + 0.009*"code"')
+
+------------------------
+NUMTopics = 4
+(0, '0.002*"file" + 0.002*"blink" + 0.001*"find" + 0.001*"source" + 0.001*"program" + 0.001*"change" + 0.001*"work" + 0.001*"use" + 0.001*"code" + 0.001*"compile"')
+(1, '0.003*"file" + 0.002*"blink" + 0.002*"find" + 0.002*"source" + 0.001*"use" + 0.001*"program" + 0.001*"work" + 0.001*"include" + 0.001*"try" + 0.001*"debug"')
+(2, '0.045*"file" + 0.029*"blink" + 0.017*"source" + 0.013*"find" + 0.012*"program" + 0.011*"work" + 0.011*"change" + 0.010*"use" + 0.010*"code" + 0.009*"address"')
+(3, '0.032*"file" + 0.023*"blink" + 0.016*"source" + 0.013*"find" + 0.011*"include" + 0.011*"section" + 0.010*"use" + 0.010*"error" + 0.010*"build" + 0.010*"project"')
+
+------------------------
+NUMTopics = 5
+(0, '0.002*"file" + 0.002*"blink" + 0.001*"find" + 0.001*"source" + 0.001*"program" + 0.001*"change" + 0.001*"work" + 0.001*"use" + 0.001*"code" + 0.001*"try"')
+(1, '0.003*"file" + 0.002*"blink" + 0.002*"find" + 0.002*"source" + 0.001*"use" + 0.001*"program" + 0.001*"try" + 0.001*"work" + 0.001*"change" + 0.001*"start"')
+(2, '0.041*"file" + 0.028*"blink" + 0.018*"source" + 0.014*"find" + 0.011*"use" + 0.010*"work" + 0.010*"program" + 0.010*"change" + 0.009*"include" + 0.009*"code"')
+(3, '0.002*"file" + 0.002*"blink" + 0.002*"source" + 0.001*"program" + 0.001*"find" + 0.001*"change" + 0.001*"use" + 0.001*"project" + 0.001*"path" + 0.001*"work"')
+(4, '0.002*"file" + 0.002*"blink" + 0.001*"find" + 0.001*"source" + 0.001*"section" + 0.001*"work" + 0.001*"include" + 0.001*"change" + 0.001*"compile" + 0.001*"object"')
+
+------------------------
+NUMTopics = 6
+(0, '0.002*"file" + 0.002*"blink" + 0.001*"find" + 0.001*"source" + 0.001*"program" + 0.001*"change" + 0.001*"work" + 0.001*"use" + 0.001*"code" + 0.001*"compile"')
+(1, '0.003*"file" + 0.002*"blink" + 0.002*"find" + 0.002*"source" + 0.001*"use" + 0.001*"program" + 0.001*"work" + 0.001*"try" + 0.001*"debug" + 0.001*"change"')
+(2, '0.041*"file" + 0.028*"blink" + 0.018*"source" + 0.014*"find" + 0.011*"use" + 0.010*"work" + 0.010*"program" + 0.010*"change" + 0.009*"include" + 0.009*"code"')
+(3, '0.003*"file" + 0.003*"blink" + 0.002*"source" + 0.002*"find" + 0.002*"error" + 0.002*"program" + 0.002*"use" + 0.002*"path" + 0.002*"change" + 0.002*"project"')
+(4, '0.002*"file" + 0.001*"blink" + 0.001*"source" + 0.001*"find" + 0.001*"work" + 0.001*"section" + 0.001*"include" + 0.001*"change" + 0.001*"program" + 0.001*"code"')
+(5, '0.002*"file" + 0.002*"blink" + 0.001*"find" + 0.001*"source" + 0.001*"code" + 0.001*"use" + 0.001*"change" + 0.001*"work" + 0.001*"program" + 0.001*"section"')
+
+------------------------
+NUMTopics = 7
+(0, '0.002*"file" + 0.002*"blink" + 0.001*"find" + 0.001*"source" + 0.001*"program" + 0.001*"change" + 0.001*"work" + 0.001*"use" + 0.001*"code" + 0.001*"compile"')
+(1, '0.003*"file" + 0.002*"blink" + 0.002*"find" + 0.002*"source" + 0.001*"program" + 0.001*"use" + 0.001*"change" + 0.001*"start" + 0.001*"work" + 0.001*"include"')
+(2, '0.042*"file" + 0.028*"blink" + 0.018*"source" + 0.014*"find" + 0.011*"use" + 0.011*"work" + 0.010*"program" + 0.010*"change" + 0.010*"include" + 0.009*"code"')
+(3, '0.002*"file" + 0.002*"blink" + 0.002*"source" + 0.001*"program" + 0.001*"find" + 0.001*"change" + 0.001*"use" + 0.001*"project" + 0.001*"include" + 0.001*"work"')
+(4, '0.002*"file" + 0.001*"blink" + 0.001*"source" + 0.001*"find" + 0.001*"section" + 0.001*"work" + 0.001*"include" + 0.001*"change" + 0.001*"code" + 0.001*"compile"')
+(5, '0.002*"file" + 0.001*"blink" + 0.001*"find" + 0.001*"source" + 0.001*"code" + 0.001*"use" + 0.001*"change" + 0.001*"section" + 0.001*"issue" + 0.001*"object"')
+(6, '0.005*"file" + 0.005*"blink" + 0.003*"error" + 0.003*"find" + 0.003*"section" + 0.003*"source" + 0.003*"project" + 0.003*"path" + 0.002*"compiler" + 0.002*"build"')
+
+------------------------
+NUMTopics = 8
+(0, '0.002*"file" + 0.002*"blink" + 0.001*"find" + 0.001*"source" + 0.001*"program" + 0.001*"change" + 0.001*"work" + 0.001*"use" + 0.001*"code" + 0.001*"include"')
+(1, '0.004*"file" + 0.003*"blink" + 0.002*"find" + 0.002*"source" + 0.002*"program" + 0.002*"use" + 0.001*"change" + 0.001*"start" + 0.001*"work" + 0.001*"try"')
+(2, '0.042*"file" + 0.028*"blink" + 0.018*"source" + 0.014*"find" + 0.011*"use" + 0.011*"work" + 0.010*"program" + 0.010*"change" + 0.010*"include" + 0.009*"code"')
+(3, '0.002*"file" + 0.002*"blink" + 0.002*"source" + 0.001*"program" + 0.001*"change" + 0.001*"use" + 0.001*"find" + 0.001*"work" + 0.001*"project" + 0.001*"would"')
+(4, '0.002*"file" + 0.001*"blink" + 0.001*"source" + 0.001*"find" + 0.001*"work" + 0.001*"section" + 0.001*"include" + 0.001*"change" + 0.001*"program" + 0.001*"code"')
+(5, '0.002*"file" + 0.002*"blink" + 0.001*"find" + 0.001*"source" + 0.001*"code" + 0.001*"use" + 0.001*"change" + 0.001*"object" + 0.001*"work" + 0.001*"issue"')
+(6, '0.003*"file" + 0.002*"blink" + 0.002*"source" + 0.002*"find" + 0.002*"work" + 0.002*"program" + 0.002*"use" + 0.001*"try" + 0.001*"project" + 0.001*"application"')
+(7, '0.003*"file" + 0.003*"blink" + 0.002*"source" + 0.002*"find" + 0.002*"section" + 0.002*"use" + 0.002*"include" + 0.002*"change" + 0.002*"error" + 0.002*"code"')
+
+------------------------
+NUMTopics = 9
+(0, '0.002*"file" + 0.002*"blink" + 0.001*"find" + 0.001*"program" + 0.001*"source" + 0.001*"change" + 0.001*"work" + 0.001*"use" + 0.001*"code" + 0.001*"compile"')
+(1, '0.003*"file" + 0.002*"blink" + 0.002*"find" + 0.002*"source" + 0.001*"program" + 0.001*"use" + 0.001*"change" + 0.001*"work" + 0.001*"start" + 0.001*"debug"')
+(2, '0.042*"file" + 0.028*"blink" + 0.018*"source" + 0.014*"find" + 0.011*"use" + 0.011*"work" + 0.010*"program" + 0.010*"change" + 0.010*"include" + 0.009*"code"')
+(3, '0.002*"file" + 0.002*"blink" + 0.001*"source" + 0.001*"program" + 0.001*"use" + 0.001*"change" + 0.001*"find" + 0.001*"project" + 0.001*"include" + 0.001*"path"')
+(4, '0.002*"file" + 0.001*"blink" + 0.001*"source" + 0.001*"find" + 0.001*"work" + 0.001*"section" + 0.001*"include" + 0.001*"change" + 0.001*"program" + 0.001*"code"')
+(5, '0.002*"file" + 0.001*"blink" + 0.001*"find" + 0.001*"source" + 0.001*"code" + 0.001*"use" + 0.001*"change" + 0.001*"program" + 0.001*"work" + 0.001*"object"')
+(6, '0.003*"file" + 0.002*"blink" + 0.002*"source" + 0.002*"find" + 0.002*"work" + 0.002*"program" + 0.002*"use" + 0.002*"try" + 0.002*"project" + 0.001*"application"')
+(7, '0.003*"file" + 0.002*"blink" + 0.002*"source" + 0.002*"find" + 0.001*"use" + 0.001*"change" + 0.001*"code" + 0.001*"program" + 0.001*"section" + 0.001*"include"')
+(8, '0.002*"file" + 0.002*"blink" + 0.002*"source" + 0.002*"find" + 0.001*"object" + 0.001*"work" + 0.001*"change" + 0.001*"program" + 0.001*"code" + 0.001*"section"')
+
+------------------------

@@ -1,0 +1,32 @@
+﻿ 250条数据的时候查询一次要800多毫秒
+ 您好，我在项目中参考了您demo中的写法，搜索的时候耗时较多，请问这是正常的吗？
+1.加载数据;
+2.解析数据
+3.匹配数据
+其中1,2整个过程基本只执行一次;随后数据保存在内存中,
+搜索动作只执行3操作.基本上是很快的.
+如果是搜索的时候耗时要800多毫秒,肯定是哪里有些问题.
+我demo中的搜索方法,数据达到3000多条时,也都比较快.
+
+你可以对比一下[ContactsSearch.apk](https://github.com/handsomezhou/PinyinSearchLibrary/blob/master/external_res/bin/ContactsSearch.apk?raw=true)的执行效率.
+
+PS:ContactsSearch.apk运行后如果没有数据,请记得给其读取联系人权限.
+
+
+Thank You，我重新分析了一下问题，我数据库中的数据是加密的，把数据从数据库中拉出来到完全完成解密，耗费大概300ms左右，然后在内存中完成拼音解析并匹配又耗时300ms左右，我在想能否直接把拼音存到数据库中，直接用sql去匹配不知道是否可行，我还没想好怎么存储。再次感谢!
+
+如果数据量在万条以内,可以加载完数据,解密,再解析数据,让它一直在内存中,只有第一次的时候会慢一点.
+每次去搜索的时候,不要再进行上述步骤,直接匹配数据就可以了.
+如果有数据增加或者删除,再重新走一遍上述流程.
+
+不建议直接把拼音存数据库,sql去匹配达不到理想的效果.
+如果每次解密嫌比较慢,数据又不敏感的话,倒是建议在数据库中存复制一份明文的数据,然后直接加载这份明文的数据.PS:这种情况注意密文与明文数据同步就可以了.
+
+
+
+
+ modify the issue that the contacts index view height is wrong
+ test step:
+1. scroll the contacts list to  the end;
+2. click the quick search character, and you can see the height of contacts index view is wrong.
+

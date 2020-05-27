@@ -1,0 +1,352 @@
+﻿ Custom book repository in the Linux application
+ Is it possible to load a custom book catalog in the Linux app, as you can on Android? I see some preset catalog options, but nothing else.
+ nits for compatibility with Ubuntu Focal Fossa
+ I wanted to compile FBReader using a laptop with recent Ubuntu Focal Fossa. I found a new nits have to be fixed to compile FBReader from master:
+- in recent curllib
+./x86_64-linux-gnu/curl/curl.h:630:#define CURLE_SSL_CACERT CURLE_PEER_FAILED_VERIFICATION
+- gcc is a little bit more pedantic
+ crash
+ ```
+Program received signal SIGABRT, Aborted.
+0x00007ffff663aefb in raise () from /lib64/libc.so.6
+Missing separate debuginfos, use: dnf debuginfo-install OpenEXR-libs-2.2.0-11.fc28.x86_64 adwaita-qt4-1.0-4.fc28.x86_64 bzip2-libs-1.0.6-26.fc28.x86_64 dbus-libs-1.12.10-1.fc28.x86_64 expat-2.2.5-3.fc28.x86_64 fontconfig-2.13.0-5.fc28.x86_64 freetype-2.8-10.fc28.x86_64 fribidi-1.0.2-1.fc28.x86_64 gamin-0.1.10-30.fc28.x86_64 glib2-2.56.4-1.fc28.x86_64 ilmbase-2.2.0-11.fc28.x86_64 jasper-libs-2.0.14-5.fc28.x86_64 jbigkit-libs-2.1-15.fc28.x86_64 kde-runtime-libs-17.08.3-6.fc28.x86_64 kdelibs-4.14.38-6.fc28.x86_64 lcms2-2.9-4.fc28.x86_64 libICE-1.0.9-12.fc28.x86_64 libSM-1.2.2-8.fc28.x86_64 libX11-1.6.7-1.fc28.x86_64 libXau-1.0.8-11.fc28.x86_64 libXcursor-1.1.15-1.fc28.x86_64 libXext-1.3.3-8.fc28.x86_64 libXfixes-5.0.3-5.fc28.x86_64 libXi-1.7.9-6.fc28.x86_64 libXinerama-1.1.3-10.fc28.x86_64 libXrandr-1.5.1-5.fc28.x86_64 libXrender-0.9.10-5.fc28.x86_64 libblkid-2.32.1-1.fc28.x86_64 libcap-2.25-9.fc28.x86_64 libffi-3.1-16.fc28.x86_64 libgcc-8.3.1-2.fc28.x86_64 libgcrypt-1.8.4-1.fc28.x86_64 libgpg-error-1.33-1.fc28.x86_64 libicu-60.2-2.fc28.x86_64 libjpeg-turbo-1.5.3-7.fc28.x86_64 libmng-2.0.3-7.fc28.x86_64 libmount-2.32.1-1.fc28.x86_64 libpng-1.6.34-6.fc28.x86_64 libselinux-2.8-1.fc28.x86_64 libstdc++-8.3.1-2.fc28.x86_64 libtiff-4.0.10-1.fc28.x86_64 libunibreak-4.0-2.fc28.x86_64 libuuid-2.32.1-1.fc28.x86_64 libwebp-1.0.2-1.fc28.x86_64 libxcb-1.13-1.fc28.x86_64 lz4-libs-1.8.1.2-4.fc28.x86_64 openssl-libs-1.1.0i-1.fc28.x86_64 pcre-8.43-1.fc28.x86_64 pcre2-10.33-2.fc28.x86_64 qt-4.8.7-45.fc28.x86_64 qt-x11-4.8.7-45.fc28.x86_64 sqlite-libs-3.22.0-5.fc28.x86_64 systemd-libs-238-12.git07f8cd5.fc28.x86_64 xz-libs-5.2.4-2.fc28.x86_64 zlib-1.2.11-8.fc28.x86_64 zlibrary-0.99.4-2.fc28.x86_64
+(gdb) br
+Breakpoint 1 at 0x7ffff663aefb
+(gdb) bt
+#0  0x00007ffff663aefb in raise () at /lib64/libc.so.6
+#1  0x00007ffff66255b9 in abort () at /lib64/libc.so.6
+#2  0x00007ffff6ffab3b in __gnu_cxx::__verbose_terminate_handler() [clone .cold.1] () at /lib64/libstdc++.so.6
+#3  0x00007ffff7000fac in __cxxabiv1::__terminate(void (*)()) () at /lib64/libstdc++.so.6
+#4  0x00007ffff7001007 in  () at /lib64/libstdc++.so.6
+#5  0x00007ffff7001268 in  () at /lib64/libstdc++.so.6
+#6  0x00007ffff6ffcb05 in std::__throw_out_of_range_fmt(char const*, ...) [clone .cold.5] () at /lib64/libstdc++.so.6
+#7  0x00007ffff709ad4b in std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::substr(unsigned long, unsigned long) const () at /lib64/libstdc++.so.6
+#8  0x00000000005b7ca9 in FindFileIdRunnable::run() (this=0xb2f210) at FindFileIdRunnable.cpp:73
+#9  0x00000000005a4427 in SQLiteDataBase::executeAsTransaction(DBRunnable&) (this=0x907fe0, runnable=...) at SQLiteDataBase.cpp:100
+#10 0x00000000005ae970 in BooksDB::setFileSize(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, int) (this=0x907fe0, fileName="123.fb2", size=2577269) at BooksDB.cpp:232
+#11 0x00000000005abd90 in BooksDBUtil::saveInfo(ZLFile const&) (file=...) at BooksDBUtil.cpp:122
+#12 0x00000000005ab689 in BooksDBUtil::getBook(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, bool) (filePath="123.fb2", checkFile=true) at BooksDBUtil.cpp:48
+#13 0x00000000004626b1 in FBReader::createBook(ZLFile const&, shared_ptr<Book>&) (bookFile=..., book=...) at FBReader.cpp:233
+#14 0x00000000004621fb in FBReader::initWindow() (this=0x96e430) at FBReader.cpp:194
+#15 0x00007ffff7656dc5 in ZLQtLibraryImplementation::run(ZLApplication*) () at /lib64/libzlui.so.0.99
+#16 0x0000000000469cd1 in main(int, char**) (argc=2, argv=0x7fffffffd6d8) at main.cpp:28
+
+```
+
+
+patch fixe it
+```
+diff -uNra a/fbreader/src/database/booksdb/runnables/FindFileIdRunnable.cpp b/fbreader/src/database/booksdb/runnables/FindFileIdRunn
+able.cpp
+--- a/fbreader/src/database/booksdb/runnables/FindFileIdRunnable.cpp    2012-11-30 21:41:25.000000000 +0900
++++ b/fbreader/src/database/booksdb/runnables/FindFileIdRunnable.cpp    2020-02-20 14:41:52.597614293 +0800
+@@ -70,6 +70,9 @@
+                        return true;
+                }
+                std::size_t index2 = resolvedPath.find(BooksDBQuery::ArchiveEntryDelimiter, index);
++               if(index2 > resolvedPath.size()) {
++                   return false;
++               }
+                findName = resolvedPath.substr(index, index2 - index);
+                index = index2 + 1;
+                findParent = ((DBIntValue &) *physId).value();
+```
+ Fix icon name
+ Often GTK icons packs will have a scalable (SVG) version of the icon installed in `/usr/share/icons/hicolor/scalable/apps/FBReader.svg` for example.
+
+See here: https://wiki.archlinux.org/index.php/Desktop_entries
+ Fix return type
+ GCC won't let you return a bool when the return type is `shared_ptr<Book>`. Closest we can get to an error condition is NULL.
+ Fix Curl constant
+ The compiler was throwing an error because these constants have the same
+value, and represent a duplicate case value.
+
+Seen when compiling against curl 7.68. using GCC 9.2.0 on Linux.
+Oops, already done in #311 
+
+ Italic rendered as normal text in epub
+ See the screenshots. One of them is taken in Atril, a desktop application: the phrase  "they have begun to arrive" is in italic. The other is taken on a smartphone, in FBReader: the same phrase in the very same file is rendered as normal text.
+
+Since quotes are usually "highlighted" only by being rendered as italic, when they are not, it becomes difficult to make sense of a sentence with a quote. Again, see the second screenshot. With the quote displayed as normal text the sentence is a nonsense.
+
+In the file this is the place:
+
+```
+<p class="calibre6">“Thank you!” said Bilbo with a gasp. It was not the correct thing to say, but <em class="calibre5">they have begun to arrive</em> had flustered him badly. He liked visitors, but he liked to know them before they arrived, and he preferred to ask them himself
+```
+
+Also in the CSS of this epub file calibre5 is font-style: italic.
+
+![Atril](https://user-images.githubusercontent.com/26425206/74105303-a3cf1f00-4b6d-11ea-82d2-25ca0127e016.png)
+
+![FBReader](https://user-images.githubusercontent.com/26425206/74105304-a9c50000-4b6d-11ea-82ea-8bb2c6639f70.png)
+
+ Font style size not recognized
+ Hi,
+on Linux changing the font size for standard paragraph has no effect.
+Changing font type works fine.
+Changing the the font size for all other text sections works as well.
+
+Please fix that bug, because some books became unreadable because the font size is set to smallest size available.
+Unclear: where you're changing the font size and how? What type of book?
+May be screenshots could be useful...
+
+
+I change the font size in: _Look and Feel Preferences_ -> _Style_ 
+
+1) this text section has font style _Basic_ which is used for code. I can change this font size
+2) this text section is _Standard Paragraph_ used for the reading content. I cannot change this font size. But I can change the font type (e.g. from arial to courier)
+
+As you can see, different formatted text in between an standard paragraph can also be changed.
+
+Btw: changing the system language has no effect to the Preference Menu  Widgets :-( only to the drop down menu
+
+![fbreader](https://user-images.githubusercontent.com/13254396/69481919-d2164b80-0e15-11ea-9f8f-1eda90636ddf.png)
+
+
+> What type of book?
+
+Or if possible the book itself?
+
+
+its  epub format.
+The book is copyright protected, so I can not send the book.
+But the error occurs  on several different epub books.
+I can provide style sheet information.
+
+Example format which is not recognized:
+`<h2 class="title"><a id="ch13lvl2sec560"></a>How it works...</h2>`
+Text in a simple `<p>` tag or without any tag
+
+What is recognized:
+Text in a code tag
+`<code class="literal">compile()</code>`
+
+The style information for the example image:
+
+```
+class="literal">platform</code> module. The local context is where new variables will be created:<pre class="programlisting">        globals = {'__builtins__':__builtins__, 
+                   'Path': Path, 
+                   'platform': platform} 
+        locals = {} 
+        exec(code, globals, locals) 
+        return locals['Configuration'] 
+</pre></li>
+<li class="listitem">This returns only the defined <code class="literal">Configuration</code> class from the locals which are set by the executed module. Any other variables will be ignored.</li>
+</ol>
+</div>
+</div>
+<div class="section" title="How it works..."><div class="titlepage"><div><div><h2 class="title"><a id="ch13lvl2sec560"></a>How it works...</h2>
+</div>
+</div>
+</div>
+<p>The details of the Python language—syntax and semantics—are embodied in the <code class="literal">compile()</code> and <code class="literal">exec()</code> functions. The <code class="literal">exec()</code> function reflects the way Python handles global and local variables. There are two namespaces provided to this function. The global <code class="literal">namespace</code> instance includes <code class="literal">__builtins__</code> plus a class and module that might be used in the file.</p>
+<p>The local variable namespace will have the new class created in it. This namespace has a <code class="literal">__dict__</code> attribute that makes it accessible via dictionary methods. Because of this, we can then extract the class by name. The function returns the class object for use throughout the application.</p>
+<p>We can put any kind of object into the attributes of a class. Our example showed mapping objects. There's no limitation on what can be done when creating attributes at the class level.</p>
+<p>We can have complex calculations within the <code class="literal">class</code> statement. We can use this to create attributes which are derived from other attributes. We can execute any kind of statement, including <code class="literal">if</code> statements and <code class="literal">for</code> statements to create attribute values.</p>
+</div>
+<div class="section" title="There's more..."><div class="titlepage"><div><div><h2 class="title"><a id="ch13lvl2sec561"></a>There's more...</h2>
+```
+When opening the book with _Sigil_ everything works fine ;-)
+
+"section" title"section" titleI guess the book has fixed font size in it. That's weird (for a e-book).
+I'm not sure a reader _must_ handle that.
+Anyways, this is why I prefer FB2 format: it's logical+structural vs.
+visual (epub/html)
+
+
+ fix compatibility with curl-7.62
+ https://github.com/curl/curl/commit/3f3b26d6fe
+
+Fixes #310.
+@geometer: no interest in similar pull requests?
+
+Sorry, the project is dead. We are working on a new incarnation of FBReader/C++, but it is not open-source at the moment. 
+
+Thanks for clarifying that!  And thanks for FBReader :-)  I hope you'll be able to open your further work, too.
+
+ Build error when upgrading from curl 7.61.1 -> 7.62.0
+ Build error:
+
+```
+make[2]: Entering directory '/build/source/zlibrary/core/src/unix/curl'
+Compiling ZLCurlNetworkManager.o ...ZLCurlNetworkManager.cpp: In member function 'virtual std::__cxx11::string ZLCurlNetworkManager::perform(const Vector&) const':
+ZLCurlNetworkManager.cpp:288:5: error: duplicate case value
+     case CURLE_SSL_CACERT:
+     ^~~~
+ZLCurlNetworkManager.cpp:282:5: note: previously used here
+     case CURLE_PEER_FAILED_VERIFICATION:
+     ^~~~
+make[2]: *** [/build/source/zlibrary/core/../../makefiles/subdir.mk:15: ZLCurlNetworkManager.o] Error 1
+make[2]: Leaving directory '/build/source/zlibrary/core/src/unix/curl'
+make[1]: *** [Makefile:41: .objects] Error 1
+make[1]: Leaving directory '/build/source/zlibrary/core'
+make: *** [Makefile:9: all] Error 1
+builder for '/nix/store/68wwfvvga47pzjfwx2awzi49w5qbf8z6-fbreader-qt4-0.99.6.drv' failed with exit code 2
+```
+
+Relevant curl commit: https://github.com/curl/curl/commit/3f3b26d6feb0667714902e836af608094235fca2
+
+Mentioned in:
+
+https://github.com/NixOS/nixpkgs/pull/49514#issuecomment-441371276
+https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=913382
+
+
+Thanks for #311 @vcunat!
+
+ Search tool – space not supported
+ 
+OS: _Fedora_. Component: fbreader.x86_64  0.99.4-2.fc29 @fedora
+
+- To reproduce: set as search pattern  ' _pattern_ '  ('_space pattern space_') then apply.
+- Actual result: tool **removes** spaces part of a search term.
+- Expected result: tool to **not** remove spaces part of a search term.
+
+Documented URL link is obsolete. It is **redirected** to an HTTPS site:
+```
+$ rpm -qfi `which FBReader` | sed -n '16p'
+URL         : http://www.fbreader.org/
+```
+
+I also have this issue with the mobile app. It *severely* impairs the ability to search for exact results. For example, I'm trying to search for the word "rill". Since it is a very uncommon word, if I just could make a search for " rill" (with a space in front), I would get to the necessary place in the text instantly. But because the search tool disregards the space, I'm getting tons of "shrill"s, "thrill"s, and so on.
+
+ Is this project still alive?
+ Is this project still alive?  Nothing has been committed since 2016.
+FBReader became proprietary (previously discussed at https://www.reddit.com/r/fdroid/comments/8yhtp5/fbreader_not_updated_on_fdroid/).
+
+Development of the freely licensed app continues at https://gitlab.com/axet/android-book-reader (https://f-droid.org/en/packages/com.github.axet.bookreader/ ).
+
+
+ New icon is ugly as it's hard to see white on white.
+ ![fb](https://user-images.githubusercontent.com/14617699/44892006-1b4b1e80-aceb-11e8-9db3-c84d2f94853a.png)
+
+ paragraphs count 
+ can anyone explain to me how this library counts the paragraphs number ?! and on what HTML tags it depends ?! 
+ BooksDB.cpp:148:10: error: could not convert ‘false’ from ‘bool’ to ‘…
+ …shared_ptr<Book>’
+
+```
+Compiling BooksDB.o ...BooksDB.cpp: In member function ‘shared_ptr<Book> BooksDB::loadBook(const string&)’:
+BooksDB.cpp:148:10: error: could not convert ‘false’ from ‘bool’ to ‘shared_ptr<Book>’
+   return false;
+          ^~~~~
+```
+
+```
+$ gcc --version
+gcc (GCC) 6.3.0
+Copyright (C) 2016 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+```
+ Allow empty user in authentication dialog
+ 
+ Hierarchical TOC
+ Fbreader premium wont display TOC when its hierarchical
+Here's the tox.ncx file in the epub giving me issues.
+[toc.ncx.txt](https://github.com/geometer/FBReader/files/1677792/toc.ncx.txt)
+
+
+In the latest FBReader? (2.8.8?) Could you please send the ePub (here, or to geometer@fbreader.org).
+
+From your reponse email:
+It is not a valid XML file. Just replace “Logistics & Supply Chain Management” with “Logistics &amp; Supply Chain Management”
+
+"&" with "&amp;amp;" ;)
+
+ FBReader Premium can't add external card storage directory as place to look for books
+ I just got an Azpen A1050 tablet.  It's a quad-core 1.3ghz device, with a 10.1" screen, 16GB internal storage, and 1GB RAM running Android 6.01 Marshmallow.  It can take an up to 32GB MicroSD card as external storage. The eBooks I want FBReader to read are on the card I added which I previous used with another tablet.
+
+When I tell FBReader to add /Storage/extsd/ to the places it will look for books, it fails with a Permission Denied error.  Various other Android apps, like the VLC media player, have no problems accessing directories on the card and adding them as places to look, so this looks like an FBReader for Android bug.
+
+I've faced with the similar situation. But I can't add directory from internal storage. My device is OnePlus 7 Pro. 
+
+ How to deal with online book switching?
+ hello,I integrated fbreader in my project, and now I have a problem: my books come from the network, and each chapter is requested from the server and saved to memory card. I'm now opening each chapter as a book using the openBookInternal() method. But when the last chapter was switched to the next chapter, the page animation disappeared, how should I deal with it, or what better way to deal with my needs? Thank you！
+ Support ODF
+ Is it possible to give support for ODF? This is an open standard similar to DOC.
+ FB2: proper alignment and formatting of epigraph descendants
+ Currently,  **`<epigraph>`** alignment is ignored for descendant. For example, if I want to align all epigraphs in the fb2 document to the right but their descendants (i.e. `<p>, <poem>, <stanza>`) to the left (of epigraph, not a document! - it's important), I can't do this.
+
+For example, for 
+```
+    <section>
+     <epigraph>
+      <poem>
+       <stanza>
+        <v>Поет зима — аукает,</v>
+        <v>Мохнатый лес баюкает</v>
+        <v>Стозвоном сосняка.</v>
+        <v>Кругом с тоской глубокою</v>
+        <v>Плывут в страну далекую</v>
+        <v>Седые облака.</v>
+       </stanza>
+       <text-author>С. Есенин</text-author>
+      </poem>
+     </epigraph>
+     <p>Скучно зимой на пасеке.</p>
+```
+I'd like to align section's `<epigraph>` to the right side of page, but also align `<stanza>` to the left of **`<epigraph>`** block, and `<text-author>` should be aligned to the right side of epigraph.
+
+It's a low priority feature request.
+
+P.S. Thanks for the great app!
+ I Patch FBReader code to enable build in Mac OSX El Capitan .. now the build is ok...
+ 
+Only header insert and small chance...
+Super source compliments... & rtf format white table is clean.... & other also...
+https://github.com/pehohlva/QOASIS/blob/master/src/ebook/fbreader_build_mac.patch
+
+nice day...
+piter
+
+ How to import fbreader as module to embed in existing project
+ We are building book store and we want FBReader as our EPUB reader, the store code is already implemented and we want to add FBreader as a module, how it is possible? 
+ desktop file exec line is wrong in Linux
+ Lines 23-24 of the "desktop" file currently reads:
+
+    TryExec=FBReader
+    Exec=FBReader %F
+
+but the executable, at least in linux, which is case-sensitive, is "fbreader" in lower-case characters.
+
+The result is that fbreader does not load when opened by xdg-open, which is how many gui file managers decide how to open files.
+
+The trivial fix is to change the word to all lower case.
+
+BTW, You really should include lines in that file for mime-types, at a minimum:
+
+    MimeType=application/x-mobipocket-ebook;application/epub+zip
+
+It is confusing that the package is installed (in Arch Linux, at least) as lowercase fbreader but is executed as mixed-case FBReader.  If everything were lowercase, it would follow the typical convention for linux packages and executables.
+
+ sort linker input files
+ when building packages (e.g. for openSUSE Linux)
+(random) filesystem order of input files
+influences ordering of functions in the output,
+thus without the patch, builds (in disposable VMs) would usually differ.
+
+See https://reproducible-builds.org/ for why this matters.
+
+Setting LC_ALL is needed because locales influence how sorting happens.
+ Can't make on MacOS
+ when I make, I get a wrong message says like this 'Compiling ZLibrary.o .../bin/sh: /Developer/usr/bin/gcc-4.2: No such file or directory', I don't know what is wrong. Please help me.
+ FBReader Linux -- Text on toolbar icons?
+ Hi, I didn't see a place to ask questions about FBReader -- Is it possible to enable text on the toolbar icons?
+ FBReader won't  build
+ I've tried the master branch.  I've tried 0.99, 0.99.5, 0.99.5alpha, 0.99.6-freebsdport.  What is actually supposed to build and work?
+ I can not start the program
+ I Installed FBReader 0.99.4, dpkg -i fbreader_0.99.4-1_amd64.deb command. I posted in terminal fbreader and got the message: command not found.
+I tried to find a program: dpkg --list|grep fb.
+And I get answers: ii  fbreader                              0.99.4-1                             amd64        e-book reader
+Help me to understand!
+The binary might be installed as ```FBReader```.
+
+ String length option
+ [Feature]
+It is necessary to add option of length of a line for more comfortable reading.
+now it can achieve regulation of indents, but it has the shortcomings
+
+// However the project seems is dead
+

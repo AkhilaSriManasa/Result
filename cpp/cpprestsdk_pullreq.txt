@@ -1,0 +1,253 @@
+﻿ Add constructor from all integer types.
+ Fixes #1428
+ Fix compilation errors with Android NDK
+ I compiled cpprestsdk with android-ndk-r16b and got some error information. I tried to fix them and it's works for me.
+1. std::to_string not support by Android NDK with gnustl. Using `utility::conversions::details::to_string` instead of `std::to_string` when `__ANDROID__` was defined.
+2. if `BOOST_ASIO_HAS_STD_CHRONO` defined, `boost::chrono::microseconds` cannot cast to `boost::asio::steady_timer::duration`.
+
+> Scanning dependencies of target cpprest
+> [  3%] Building CXX object Release/src/CMakeFiles/cpprest.dir/http/client/http_client_asio.cpp.o
+> /home/xiaofan/workspace/casablanca/Release/src/http/client/http_client_asio.cpp:1873:21: error: no matching member function for call to 'expires_from_now'
+>             m_timer.expires_from_now(m_duration);
+>             ~~~~~~~~^~~~~~~~~~~~~~~~
+> /home/xiaofan/workspace/casablanca/Build_android/build/Boost-for-Android/build/out/x86/include/boost-1_70/boost/asio/basic_waitable_timer.hpp:605:15: note: candidate function not viable: no known conversion from
+>       'boost::chrono::microseconds' (aka 'duration<long long, ratio<1LL, 1000000LL> >') to 'const boost::asio::basic_waitable_timer<std::chrono::_V2::steady_clock,
+>       boost::asio::wait_traits<std::chrono::_V2::steady_clock>, boost::asio::executor>::duration' (aka 'const duration<long long, ratio<1, 1000000000> >') for 1st argument
+>   std::size_t expires_from_now(const duration& expiry_time)
+>               ^
+> /home/xiaofan/workspace/casablanca/Build_android/build/Boost-for-Android/build/out/x86/include/boost-1_70/boost/asio/basic_waitable_timer.hpp:577:12: note: candidate function not viable: requires 0 arguments, but
+>       1 was provided
+>   duration expires_from_now() const
+>            ^
+> /home/xiaofan/workspace/casablanca/Build_android/build/Boost-for-Android/build/out/x86/include/boost-1_70/boost/asio/basic_waitable_timer.hpp:637:15: note: candidate function not viable: requires 2 arguments, but
+>       1 was provided
+>   std::size_t expires_from_now(const duration& expiry_time,
+>               ^
+> /home/xiaofan/workspace/casablanca/Release/src/http/client/http_client_asio.cpp:1884:25: error: no matching member function for call to 'expires_from_now'
+>             if (m_timer.expires_from_now(m_duration) > 0)
+>                 ~~~~~~~~^~~~~~~~~~~~~~~~
+> /home/xiaofan/workspace/casablanca/Build_android/build/Boost-for-Android/build/out/x86/include/boost-1_70/boost/asio/basic_waitable_timer.hpp:605:15: note: candidate function not viable: no known conversion from
+>       'boost::chrono::microseconds' (aka 'duration<long long, ratio<1LL, 1000000LL> >') to 'const boost::asio::basic_waitable_timer<std::chrono::_V2::steady_clock,
+>       boost::asio::wait_traits<std::chrono::_V2::steady_clock>, boost::asio::executor>::duration' (aka 'const duration<long long, ratio<1, 1000000000> >') for 1st argument
+>   std::size_t expires_from_now(const duration& expiry_time)
+>               ^
+> /home/xiaofan/workspace/casablanca/Build_android/build/Boost-for-Android/build/out/x86/include/boost-1_70/boost/asio/basic_waitable_timer.hpp:577:12: note: candidate function not viable: requires 0 arguments, but
+>       1 was provided
+>   duration expires_from_now() const
+>            ^
+> /home/xiaofan/workspace/casablanca/Build_android/build/Boost-for-Android/build/out/x86/include/boost-1_70/boost/asio/basic_waitable_timer.hpp:637:15: note: candidate function not viable: requires 2 arguments, but
+>       1 was provided
+>   std::size_t expires_from_now(const duration& expiry_time,
+>               ^
+> 2 errors generated.
+> Release/src/CMakeFiles/cpprest.dir/build.make:335: recipe for target 'Release/src/CMakeFiles/cpprest.dir/http/client/http_client_asio.cpp.o' failed
+> make[2]: *** [Release/src/CMakeFiles/cpprest.dir/http/client/http_client_asio.cpp.o] Error 1
+> CMakeFiles/Makefile2:108: recipe for target 'Release/src/CMakeFiles/cpprest.dir/all' failed
+> make[1]: *** [Release/src/CMakeFiles/cpprest.dir/all] Error 2
+> Makefile:140: recipe for target 'all' failed
+> make: *** [all] Error 2
+> 
+ Deregister cancellation callbacks
+ Potentially resolves the problem described in https://github.com/microsoft/cpprestsdk/issues/589.
+We have a workflow where we use the same long-lived cancellation_token_source for lots of tasks. We then use `when_all` to schedule some work once those tasks complete. We were seeing continuous growth in memory usage, and also in the amount of time it would take to create new tasks and to deregister any cancellation callbacks that were associated with the cancellation_token.
+Here is some repro code:
+```cpp
+pplx::cancellation_token_source cts;
+auto token = cts.get_token();
+std::string msg;
+auto start_time = std::chrono::high_resolution_clock::now();
+auto end_time = std::chrono::high_resolution_clock::now();
+std::array<pplx::task<void>, 100> tasks;
+std::ofstream ofs("data.csv");
+ofs << "construction time,deregister_callback time\n";
+for (int i = 0; i < 1000; ++i)
+{
+  auto token_reg = token.register_callback([&]() {});
+
+  start_time = std::chrono::high_resolution_clock::now();
+  for (auto& task : tasks)
+  {
+    task = pplx::task<void>([&] {}, token);
+  }
+  end_time = std::chrono::high_resolution_clock::now();
+  msg = std::to_string(std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time).count()) +","; // construction time
+
+  pplx::when_all(std::begin(tasks), std::end(tasks));
+
+  start_time = std::chrono::high_resolution_clock::now();
+  token.deregister_callback(token_reg);
+  end_time = std::chrono::high_resolution_clock::now();
+  msg += std::to_string(std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time).count()) + "\n"; // deregister_callback
+
+  ofs << msg;
+}
+```
+**Test Results On Master**
+Takes about 30s to execute. Memory usage starts around 2.4MB and climbs to around 13MB (using VS memory diagnostic tool).
+The timing data gathered in the test is reflected in these charts:
+![image](https://user-images.githubusercontent.com/42590547/81992639-cb180b00-95f8-11ea-96a9-5f8f000f25af.png)
+![image](https://user-images.githubusercontent.com/42590547/81992672-e256f880-95f8-11ea-8a78-78d5d089e9e4.png)
+
+**Test Results On This Branch**
+Takes about 1s to execute. The VS memory diagnostic tool didn't have enough time to take a sample, so I increased the number of loop iterations to 100,000. The Memory usage starts around 2.2MB and stayed around there, ending at 2.4MB.
+The timing data gathered in the test is reflected in these charts:
+![image](https://user-images.githubusercontent.com/42590547/81993317-48904b00-95fa-11ea-81c7-37ccf3907051.png)
+![image](https://user-images.githubusercontent.com/42590547/81994542-f3a20400-95fc-11ea-8feb-3a09e644c0ac.png)
+
+
+ Delete apparently broken .vcxprojs and .pfxes.
+ 
+ Use CMAKE_INSTALL_INCLUDEDIR for all include paths
+ PR #1383 switched to use ${CMAKE_INSTALL_INCLUDEDIR} as the destination
+to install cpprestsdk headers.
+
+That change did not update the INTSTALL_INTERFACE for the cpprest target
+and also did not update all the places where the include directory was
+hard coded.
+ Allow disabling SSL certificate revocation checks
+ Preamble: this is my first real contribution, so if you will have patience with me and be kind, I would appreciate it.
+
+This change adds a new property to http_client to allow disabling certificate revocation independently even if certificate validation is turned on.
+
+A comment was left on PR #687:
+[In my opinion, a complete solution to issue #664 would also allow disabling certificate revocation checking without completely disabling certificate validation as well.](
+https://github.com/microsoft/cpprestsdk/pull/687#issuecomment-387291622_)
+
+This should more fully resolve issue #664
+
+Note: This only applies to http_client, not websockets or asio. Those use boost and I am not sure if it allows toggling this the way WinHttp does.
+ Revert "libcpprestsdk: fix building as a static library (#1344)"
+ This reverts commit cb7ca74e5f3bdbde363ed4ddb5655e76931397bd.
+
+Issues concerning OpenSSL linking dependency (#1384, #1388)
+and cross compiling (#1378) have been reported.
+
+- Fixes #1384, #1388
+
+ Show found version of openssl (cmake UNIX)
+ This is an addition to commit cb7ca74. A message is added for cmake
+UNIX target systems, which shows the version of **`openssl`** found by
+`pkg_search_module()`. Furthermore, the minimum required version of 1.0.0
+is added to `pkg_search_module()` like in the subsequent
+`find_package(OpenSSL 1.0.0 REQUIRED)`.
+
+Example of the cmake output including the message:
+```console
+  -- Found PkgConfig: /usr/bin/pkg-config (found version "1.6.3")
+  -- Checking for one of the modules 'openssl>=1.0.0'
+  -- Found openssl version 1.1.1d on system
+  -- Performing Test _SSL_LEAK_SUPPRESS_AVAILABLE
+```
+
+ Mint v2.10.16.
+ 
+ Fix uncaught exception
+ PR #1310 added TCP_NODELAY as a performance optimization to ASIO-based `http_client` and `http_listener`. Unfortunately, the innocent-looking `set_option` can throw `boost::system::system_error`, which was not handled and therefore results in `std::terminate`.
+
+I've never seen this happen on various Windows and Linux environments, but on a macOS VM we have now seen the `http_client`-side issue if the server closes the socket with just the right timing. It's hard to test, often takes 10 minutes in that environment.
+
+My approach here is to ignore errors (we've seen EBADF and EINVAL), since this is a performance optimization only, and hard errors will be picked up by the write operation on the socket which follows immediately.
+
+ Update submodule websocketpp to 0.8.2
+ - Update to **`WebSocket++/0.8.2`**
+  commit zaphoyd/websocketpp@56123c87598f8b1dd471be83ca841ceae07f95ba
+- Fixes build issues with boost 1.70 and newer
+ CMake fixes + CMake search for OpenSSL (macOS)
+ - Homebrew sometimes appends the version of a package to it' directory name. Thus, one could have `/usr/local/Cellar/openssl@1.1/` instead of `/usr/local/Cellar/openssl/`, or even both. I fixed the search for `OPENSSL_ROOT_DIR` and limited it's contents to one path only. 
+- Added the `<package>-config-version.in.cmake` file configuration for CMake `find_package` usage. 
+- Corrected condition in `<package>-config.in.cmake` for Boost usage. There was a `@CPPREST_USES_BOOST@ AND OFF` condition, which is always false. The result was that the Boost libraries and includes were not included in the users CMake project. 
+- Use `CMAKE_INSTALL_INCLUDEDIR` to install headers. `cpprestsdk` already uses `CMAKE_INSTALL_LIBDIR` & `CMAKE_INSTALL_BINDIR`
+ Fix compilation with GCC 4.8/4.9
+ Sorry, I broke them in commit 53fab3aa124eb712c0d5c4861438ecdbc5b5c2d5.
+Should resolve #1377, based on https://godbolt.org/z/whpF2e.
+ Attempt to repair VS2015 builds.
+ 
+ Static analyzer (PVS Studio) fixes
+ Some fixes from PVS Studio static analyzer.
+
+Product page: https://www.viva64.com/en/pvs-studio/
+How to use for free: https://www.viva64.com/en/b/0600/
+
+Thanks for SDK, used that in own projects.
+ Remove redundant std::move noted by gcc 9.2 (-Wredundant-move)
+ Resolves #1369 
+ Expose json::value::parse for UTF8 string on Windows
+ Surfactant for @DHowett-MSFT's #1349.
+
+More functionality with less code!
+ libcpprestsdk: fix building as a static library
+ On Unix, try to use pkg-config to find OpenSSL. This will automatically
+find any dependent libraries and put them in the correct order for
+linking. If pkg-config is not available or system is not UNIX, fallback
+on current mechanism
+
+Signed-off-by: Adam Duskett <aduskett@gmail.com>
+[Retrieved (and slightly updated) from:
+https://git.buildroot.net/buildroot/tree/package/libcpprestsdk/0001-libcpprestsdk-fix-building-as-a-static-library.patch]
+Signed-off-by: Fabrice Fontaine <fontaine.fabrice@gmail.com>
+ Use C++11 synchronization classes under macOS too
+ There doesn't seem to be any reason to prefer using Boost libraries to
+standard C++ classes under macOS, so use the latter ones unconditionally
+on this platform too, just as it was already done for the other Unix
+systems.
+
+This notably avoids dependencies on the compiled Boost libraries, which
+don't have to be compiled before building C++ REST SDK any more.
+
+---
+
+See #1338. The tests do pass, of course:
+```
+% ./test_runner *_test.dylib
+Loaded libhttpclient_test.dylib...
+Loaded libhttplistener_test.dylib...
+Loaded libjson_test.dylib...
+Loaded libpplx_test.dylib...
+Loaded libstreams_test.dylib...
+Loaded liburi_test.dylib...
+Loaded libutils_test.dylib...
+Loaded libwebsocketsclient_test.dylib...
+=== Running tests from: <static> ===
+=== Running tests from: libhttpclient_test.dylib ===
+...
+All test cases PASSED
+
+Finished running all 837 tests.
+Took 26974.2ms
+```
+ Add Ubuntu 18.04 testing.
+ 
+ Fix tcp::resolver data race in the asio backend and be defensive against empty results
+ Move TCP resolver to asio_context rather than asio_client, as that type is not safe to touch from multiple threads. @vinniefalco confirmed over Twitter that constructing resolvers is cheap https://twitter.com/FalcoVinnie/status/1230780333613670401
+ Defend against DNS returning no valid DNS entries rather than crashing.
+ 
+ Mint v2.10.15.
+ 
+ Turn VS2015 back on now that vcpkg is fixed.
+ 
+ Update vcpkg and boost on Android
+ This also disables websockets on Android as our dependent project websocketpp appears to be unable to tolerate libc++ and is now unmaintained.
+ Fix more http test build fails in certain configurations
+ 
+ Use LC_ALL_MASK rather than LC_ALL when calling newlocale
+ Resolves #1329 as @jason-ha suggests
+ Add support for HTTP redirecti in ASIO-based http_client
+ HTTP redirect is currently supported by the WinHttp back-end, but has to be handled manually in user code when C++ REST SDK is built with the ASIO-based back-end. This kind of platform difference is frustrating for users.
+
+Solving this issue has been requested several times, e.g. #222.  A previous PR #373 was abandoned.
+
+This PR enables us to pass the 'outside tests' that were identified as failing in #27, even after reverting both PR #499 (which worked around the problem by permitting `MovedPermanent` in the test) and another similar case from commit 4e19c0cfb439febf6b3ee20efc857313ca2ba7f7.
+
+If this PR seems acceptable, it should be straightforward to use the new `http_client_config` options in the `http_client_winhttp` implementation also, which would solve #171 more elegantly.
+
+Thoughts on how the headers sent with the redirect request are decided would be welcome!
+ Use websocketpp from hunter
+ Version previously setup as hunter patch.
+
+Look for websocketpp in hunter and use that rather than repo
+version - piggy-back on existing mechanism that looks for an installed
+version of websocketpp and tries to use that.
+
+ Enable HTTP compression support on all platforms
+ You can set CPPREST_EXCLUDE_COMPRESSION
+Fix #1165

@@ -1,0 +1,111 @@
+﻿ Translated using Weblate (Esperanto)
+
+Currently translated at 100.0% (623 of 623 strings)
+
+Translation: Silence/Silence-Android
+Translate-URL: https://translate.silence.dev/projects/silence/silence-android/eo/
+ Translated using Weblate (Portuguese)
+
+Currently translated at 100.0% (623 of 623 strings)
+
+Translation: Silence/Silence-Android
+Translate-URL: https://translate.silence.dev/projects/silence/silence-android/pt/
+ update thread cache when receiving a new identity
+ Translated using Weblate (Romanian)
+
+Currently translated at 94.2% (587 of 623 strings)
+
+Translation: Silence/Silence-Android
+Translate-URL: https://translate.silence.dev/projects/silence/silence-android/ro/
+ Slight cleanup for ConfirmIdentityDialog change.
+
+Closes https://github.com/signalapp/Signal-Android/pull/3225
+// FREEBIE
+
+Upstream commit: https://github.com/signalapp/Signal-Android/commit/ec60c248498f225c5fdf385b1188df276cd567ff
+ Translated using Weblate (Polish)
+
+Currently translated at 100.0% (623 of 623 strings)
+
+Translation: Silence/Silence-Android
+Translate-URL: https://translate.silence.dev/projects/silence/silence-android/pl/
+ Translated using Weblate (French)
+
+Currently translated at 100.0% (623 of 623 strings)
+
+Translation: Silence/Silence-Android
+Translate-URL: https://translate.silence.dev/projects/silence/silence-android/fr/
+ Translated using Weblate (Esperanto)
+
+Currently translated at 100.0% (623 of 623 strings)
+
+Translation: Silence/Silence-Android
+Translate-URL: https://translate.silence.dev/projects/silence/silence-android/eo/
+ Translated using Weblate (Esperanto)
+
+Currently translated at 100.0% (3 of 3 strings)
+
+Translation: Silence/Distribution
+Translate-URL: https://translate.silence.dev/projects/silence/distribution/eo/
+ Translated using Weblate (Polish)
+
+Currently translated at 100.0% (623 of 623 strings)
+
+Translation: Silence/Silence-Android
+Translate-URL: https://translate.silence.dev/projects/silence/silence-android/pl/
+ Translated using Weblate (Esperanto)
+
+Currently translated at 100.0% (623 of 623 strings)
+
+Translation: Silence/Silence-Android
+Translate-URL: https://translate.silence.dev/projects/silence/silence-android/eo/
+ populate subscription list on first start
+ send and calculate digest for MMS messages
+ Support for attachment digests
+
+// FREEBIE
+
+Upstream commit: https://github.com/signalapp/Signal-Android/commit/79e925051ac3f0f1dacfd96a4c18fd9253c30018
+ Show videos in media overview
+
+Fixes https://github.com/WhisperSystems/Signal-Android/issues/5941
+Closes https://github.com/WhisperSystems/Signal-Android/pull/6152
+// FREEBIE
+
+Upstream commit: https://github.com/signalapp/Signal-Android/commit/83e31cac074ff7945128af2ccdebc9c2d3cbeae1
+ Support for generating video thumbnails
+
+// FREEBIE
+
+Upstream commit: https://github.com/signalapp/Signal-Android/commit/a4c17e5325827f4c44e29148adcaf10862dff33d
+ Translated using Weblate (French)
+
+Currently translated at 100.0% (623 of 623 strings)
+
+Translation: Silence/Silence-Android
+Translate-URL: https://translate.silence.dev/projects/silence/silence-android/fr/
+ Remove dedicated MMS download controls
+
+// FREEBIE
+
+Upstream commit: https://github.com/signalapp/Signal-Android/commit/235a8472d985498ade58e57c957f8f883348578e
+ bump version code
+
+Enable database migration from the stable branch
+ apply patches on current branch
+ fix menu on 1-SIM phones
+ Revert "update libsignal"
+
+This reverts commit 05c806cd41059a7ae9d6e5616703a30af4fbbb86.
+ update libsignal
+ use default SIM to send drafts
+ start secure session from the current subscription only
+ display new SIM card notification on OTHER channel
+ improve update for >24 APIs
+ do not print a warning about subbscription ID on old API versions
+ use ConfirmIdentityDialog instead of ReceiveKeyDialog
+
+also switch to AppCompatDialog
+
+Upstream commit: https://github.com/signalapp/Signal-Android/commit/72bd6d5844590f7087f36fafaf582acfa63a5f3f
+ use proper session when downloading MMS messages

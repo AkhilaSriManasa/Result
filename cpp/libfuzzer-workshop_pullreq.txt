@@ -1,0 +1,20 @@
+﻿ [still WIP] Development of libfuzzer-workshop for new libFuzzer version 2/2
+ This is continuation of change reffered in #5 
+
+Still WIP and if You, Dor1s , could have a look at it - and one (!) commit with plot twist to accept that.
+
+Build on libFuzzer-update branch.
+
+Commits try to be as small and modular as they could to ease reverting or changing them without any problem.
+
+Cheers! 
+ libFuzzer update 1/2
+ Hello
+
+Here is some update made to libFuzzer and checkout shell script.
+Building on top of it libfuzzer-workshop are being updated in JulianVolodia/development branch.
+
+It is first of two PRs reffered to #5 issue.
+
+Cheers.
+ Using -dump_coverage I don't know why but "ASAN_OPTIONS

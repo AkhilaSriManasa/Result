@@ -1,0 +1,265 @@
+﻿ QFJ-22 update documentation for Acceptor configurations
+  including failover, SocketAcceptPort and SocketAcceptAddress
+ QFJ-684 - added charset support to BytesField
+ **Changes**
+- `quickfix.BytesField` uses `org.quickfixj.CharsetSupport`
+
+This is the last remaining item from QFJ-789, so possibly this could be closed as well.
+ QFJ-375 - configurable timeout multiplier
+ Fixes QFJ-375
+
+**Changes**
+
+- session timeout multiplier is configurable (default values retained)
+- documentation update
+ [Snyk] Upgrade org.dom4j:dom4j from 2.1.1 to 2.1.3
+ <h3>Snyk has created this PR to upgrade org.dom4j:dom4j from 2.1.1 to 2.1.3.</h3>
+:information_source: Keep your dependencies up-to-date. This makes it easier to fix existing vulnerabilities and to more quickly identify and fix newly disclosed vulnerabilities when they affect your project.
+<hr/>
+
+- The recommended version is **1 version** ahead of your current version.
+- The recommended version was released **23 days ago**, on 2020-04-12.
+
+The recommended version fixes:
+
+Severity                   | Issue                | Exploit Maturity 
+:-------------------------:|:-------------------------|:-------------------------
+<img src="https://res.cloudinary.com/snyk/image/upload/w_20,h_20/v1561977819/icon/h.png" width="20" height="20" title="high severity"/>  | XML External Entity (XXE) Injection<br/> [SNYK-JAVA-ORGDOM4J-565810](https://snyk.io/vuln/SNYK-JAVA-ORGDOM4J-565810) | No Known Exploit 
+
+<hr/>
+
+**Note:** *You are seeing this because you or someone else with access to this repository has authorized Snyk to open upgrade PRs.*
+
+For more information: 
+
+🧐 [View latest project report](https://app.snyk.io/org/quickfix-j/project/9e149855-1327-42e5-88ef-9c50fd6c3092?utm_source&#x3D;github&amp;utm_medium&#x3D;upgrade-pr)
+
+🛠 [Adjust upgrade PR settings](https://app.snyk.io/org/quickfix-j/project/9e149855-1327-42e5-88ef-9c50fd6c3092/settings/integration?utm_source&#x3D;github&amp;utm_medium&#x3D;upgrade-pr)
+
+🔕 [Ignore this dependency or unsubscribe from future upgrade PRs](https://app.snyk.io/org/quickfix-j/project/9e149855-1327-42e5-88ef-9c50fd6c3092/settings/integration?pkg&#x3D;org.dom4j:dom4j&amp;utm_source&#x3D;github&amp;utm_medium&#x3D;upgrade-pr#auto-dep-upgrades)
+
+<!--- (snyk:metadata:{"prId":"cf772aec-b782-4c66-9510-1aef6aa83860","dependencies":[{"name":"org.dom4j:dom4j","from":"2.1.1","to":"2.1.3"}],"packageManager":"maven","type":"auto","projectUrl":"https://app.snyk.io/org/quickfix-j/project/9e149855-1327-42e5-88ef-9c50fd6c3092?utm_source=github&utm_medium=upgrade-pr","projectPublicId":"9e149855-1327-42e5-88ef-9c50fd6c3092","env":"prod","prType":"upgrade","vulns":["SNYK-JAVA-ORGDOM4J-565810"],"issuesToFix":[{"issueId":"SNYK-JAVA-ORGDOM4J-565810","severity":"high","title":"XML External Entity (XXE) Injection","exploitMaturity":"no-known-exploit"}],"upgrade":["SNYK-JAVA-ORGDOM4J-565810"],"upgradeInfo":{"versionsDiff":1,"publishedDate":"2020-04-12T10:15:10.000Z"},"templateVariants":[],"hasFixes":true,"isMajorUpgrade":false,"isBreakingChange":false}) --->
+
+"https://res.cloudinary.com/snyk/image/upload/w_20,h_20/v1561977819/icon/h.png" widthgithub&utm_medium Support setting RefreshOnLogon for Initiators
+ Fixes #262 
+
+
+ Add custom tags to Logon message.
+ Adds possibility to specify tags via setting `LogonTag` or `LogonTag<n>`.
+Example:
+```
+LogonTag=553=user
+LogonTag1=554=password 
+```
+
+It is checked whether a data dictionary is present to determine whether the specified tag is a header field. Otherwise it is put into the body of the message.
+ Checkstyle configuration (WIP)
+ 
+ Optimise session reset to reduce Calendar creation
+ Attempts to improve Calendar-based memory churn seen in #282 by accessing original calendars and keeping a local cache of temporary ones.
+ Add method to DataDictionary to get the value for a given enum value name
+  - this is useful for mapping from/to the XML representation obtained
+from `Message.toXML()`
+ - since the DataDictionary is kind of a memory hog we do not store the
+values in yet another HashMap (which would cause Node objects to be created) but iterate over the entries on each call to `getValue(int, String)`
+  -- it is up to the user's application to cache the returned values if desired
+ Remove unit test obsoleted by change in the order of 'persist' and 'send'
+ The unit test was obsoleted due to this PR: https://github.com/quickfix-j/quickfixj/pull/242
+
+The condition described in the test is no longer possible:
+>The purpose of this test is to simulate the situation where a logon response is received before a logon request can be successfully persisted to the MessageStore.
+
+ Add optional TLS SNI initiator support
+ Fixes #276. 
+ [Snyk] Upgrade jaxen:jaxen from 1.1.6 to 1.2.0
+ <h3>Snyk has created this PR to upgrade jaxen:jaxen from 1.1.6 to 1.2.0.</h3>
+:information_source: Keep your dependencies up-to-date. This makes it easier to fix existing vulnerabilities and to more quickly identify and fix newly disclosed vulnerabilities when they affect your project.
+<hr/>
+
+- The recommended version is **1 version** ahead of your current version.
+- The recommended version was released **a year ago**, on 2019-04-14.
+
+
+<hr/>
+
+**Note:** *You are seeing this because you or someone else with access to this repository has authorized Snyk to open upgrade PRs.*
+
+For more information:
+
+🧐 [View latest project report](https://app.snyk.io/org/quickfix-j/project/9e149855-1327-42e5-88ef-9c50fd6c3092?utm_source&#x3D;github&amp;utm_medium&#x3D;upgrade-pr)
+
+🛠 [Adjust upgrade PR settings](https://app.snyk.io/org/quickfix-j/project/9e149855-1327-42e5-88ef-9c50fd6c3092/settings/integration?utm_source&#x3D;github&amp;utm_medium&#x3D;upgrade-pr)
+
+🔕 [Ignore this dependency or unsubscribe from future upgrade PRs](https://app.snyk.io/org/quickfix-j/project/9e149855-1327-42e5-88ef-9c50fd6c3092/settings/integration?pkg&#x3D;jaxen:jaxen&amp;utm_source&#x3D;github&amp;utm_medium&#x3D;upgrade-pr#auto-dep-upgrades)
+
+<!--- (snyk:metadata:{"dependencies":[{"name":"jaxen:jaxen","from":"1.1.6","to":"1.2.0"}],"packageManager":"maven","type":"auto","projectUrl":"https://app.snyk.io/org/quickfix-j/project/9e149855-1327-42e5-88ef-9c50fd6c3092?utm_source=github&utm_medium=upgrade-pr","projectPublicId":"9e149855-1327-42e5-88ef-9c50fd6c3092","env":"prod","prType":"upgrade","vulns":[],"issuesToFix":[],"upgrade":[],"upgradeInfo":{"versionsDiff":1,"publishedDate":"2019-04-14T23:48:00.000Z"},"templateVariants":[],"hasFixes":false,"isMajorUpgrade":false,"isBreakingChange":false}) --->
+
+ [Snyk] Upgrade org.apache.maven:maven-plugin-api from 3.5.0 to 3.6.3
+ <h3>Snyk has created this PR to upgrade org.apache.maven:maven-plugin-api from 3.5.0 to 3.6.3.</h3>
+:information_source: Keep your dependencies up-to-date. This makes it easier to fix existing vulnerabilities and to more quickly identify and fix newly disclosed vulnerabilities when they affect your project.
+<hr/>
+
+- The recommended version is **7 versions** ahead of your current version.
+- The recommended version was released **4 months ago**, on 2019-11-19.
+
+The recommended version fixes:
+
+Severity                   | Issue                | Exploit Maturity 
+:-------------------------:|:-------------------------|:-------------------------
+<img src="https://res.cloudinary.com/snyk/image/upload/w_20,h_20/v1561977819/icon/h.png" width="20" height="20" title="high severity"/>  | Shell Command Injection<br/> [SNYK-JAVA-ORGCODEHAUSPLEXUS-31522](https://snyk.io/vuln/SNYK-JAVA-ORGCODEHAUSPLEXUS-31522) | No Known Exploit 
+<img src="https://res.cloudinary.com/snyk/image/upload/w_20,h_20/v1561977819/icon/m.png" width="20" height="20" title="medium severity"/>  | Directory Traversal<br/> [SNYK-JAVA-ORGCODEHAUSPLEXUS-31521](https://snyk.io/vuln/SNYK-JAVA-ORGCODEHAUSPLEXUS-31521) | No Known Exploit 
+<img src="https://res.cloudinary.com/snyk/image/upload/w_20,h_20/v1561977819/icon/l.png" width="20" height="20" title="low severity"/>  | XML External Entity (XXE) Injection<br/> [SNYK-JAVA-ORGCODEHAUSPLEXUS-461102](https://snyk.io/vuln/SNYK-JAVA-ORGCODEHAUSPLEXUS-461102) | No Known Exploit 
+
+<hr/>
+
+**Note:** *You are seeing this because you or someone else with access to this repository has authorized Snyk to open upgrade PRs.*
+
+For more information:
+
+🧐 [View latest project report](https://app.snyk.io/org/quickfix-j/project/50fe797e-f509-4fbc-8918-986f7f344a52?utm_source&#x3D;github&amp;utm_medium&#x3D;upgrade-pr)
+
+🛠 [Adjust upgrade PR settings](https://app.snyk.io/org/quickfix-j/project/50fe797e-f509-4fbc-8918-986f7f344a52/settings/integration?utm_source&#x3D;github&amp;utm_medium&#x3D;upgrade-pr)
+
+🔕 [Ignore this dependency or unsubscribe from future upgrade PRs](https://app.snyk.io/org/quickfix-j/project/50fe797e-f509-4fbc-8918-986f7f344a52/settings/integration?pkg&#x3D;org.apache.maven:maven-plugin-api&amp;utm_source&#x3D;github&amp;utm_medium&#x3D;upgrade-pr#auto-dep-upgrades)
+
+<!--- (snyk:metadata:{"dependencies":[{"name":"org.apache.maven:maven-plugin-api","from":"3.5.0","to":"3.6.3"}],"packageManager":"maven","type":"auto","projectUrl":"https://app.snyk.io/org/quickfix-j/project/50fe797e-f509-4fbc-8918-986f7f344a52?utm_source=github&utm_medium=upgrade-pr","projectPublicId":"50fe797e-f509-4fbc-8918-986f7f344a52","env":"prod","prType":"upgrade","vulns":["SNYK-JAVA-ORGCODEHAUSPLEXUS-31522","SNYK-JAVA-ORGCODEHAUSPLEXUS-31521","SNYK-JAVA-ORGCODEHAUSPLEXUS-461102"],"issuesToFix":[{"issueId":"SNYK-JAVA-ORGCODEHAUSPLEXUS-31522","severity":"high","title":"Shell Command Injection","exploitMaturity":"no-known-exploit"},{"issueId":"SNYK-JAVA-ORGCODEHAUSPLEXUS-31521","severity":"medium","title":"Directory Traversal","exploitMaturity":"no-known-exploit"},{"issueId":"SNYK-JAVA-ORGCODEHAUSPLEXUS-461102","severity":"low","title":"XML External Entity (XXE) Injection","exploitMaturity":"no-known-exploit"}],"upgrade":["SNYK-JAVA-ORGCODEHAUSPLEXUS-31522","SNYK-JAVA-ORGCODEHAUSPLEXUS-31521","SNYK-JAVA-ORGCODEHAUSPLEXUS-461102"],"upgradeInfo":{"versionsDiff":7,"publishedDate":"2019-11-19T19:30:02.000Z"},"templateVariants":[],"hasFixes":true,"isMajorUpgrade":false,"isBreakingChange":false}) --->
+
+"https://res.cloudinary.com/snyk/image/upload/w_20,h_20/v1561977819/icon/h.png" width"https://res.cloudinary.com/snyk/image/upload/w_20,h_20/v1561977819/icon/m.png" width"https://res.cloudinary.com/snyk/image/upload/w_20,h_20/v1561977819/icon/l.png" widthgithub&utm_medium [Snyk] Upgrade net.sf.saxon:Saxon-HE from 9.8.0-4 to 9.9.1-6
+ <h3>Snyk has created this PR to upgrade net.sf.saxon:Saxon-HE from 9.8.0-4 to 9.9.1-6.</h3>
+:information_source: Keep your dependencies up-to-date. This makes it easier to fix existing vulnerabilities and to more quickly identify and fix newly disclosed vulnerabilities when they affect your project.
+<hr/>
+
+- The recommended version is **12 versions** ahead of your current version.
+- The recommended version was released **3 months ago**, on 2019-12-06.
+
+
+<hr/>
+
+**Note:** *You are seeing this because you or someone else with access to this repository has authorized Snyk to open upgrade PRs.*
+
+For more information:
+
+🧐 [View latest project report](https://app.snyk.io/org/quickfix-j/project/50fe797e-f509-4fbc-8918-986f7f344a52?utm_source&#x3D;github&amp;utm_medium&#x3D;upgrade-pr)
+
+🛠 [Adjust upgrade PR settings](https://app.snyk.io/org/quickfix-j/project/50fe797e-f509-4fbc-8918-986f7f344a52/settings/integration?utm_source&#x3D;github&amp;utm_medium&#x3D;upgrade-pr)
+
+🔕 [Ignore this dependency or unsubscribe from future upgrade PRs](https://app.snyk.io/org/quickfix-j/project/50fe797e-f509-4fbc-8918-986f7f344a52/settings/integration?pkg&#x3D;net.sf.saxon:Saxon-HE&amp;utm_source&#x3D;github&amp;utm_medium&#x3D;upgrade-pr#auto-dep-upgrades)
+
+<!--- (snyk:metadata:{"dependencies":[{"name":"net.sf.saxon:Saxon-HE","from":"9.8.0-4","to":"9.9.1-6"}],"packageManager":"maven","type":"auto","projectUrl":"https://app.snyk.io/org/quickfix-j/project/50fe797e-f509-4fbc-8918-986f7f344a52?utm_source=github&utm_medium=upgrade-pr","projectPublicId":"50fe797e-f509-4fbc-8918-986f7f344a52","env":"prod","prType":"upgrade","vulns":[],"issuesToFix":[],"upgrade":[],"upgradeInfo":{"versionsDiff":12,"publishedDate":"2019-12-06T15:41:59.000Z"},"templateVariants":[],"hasFixes":false,"isMajorUpgrade":false,"isBreakingChange":false}) --->
+
+ [Snyk] Upgrade org.slf4j:slf4j-api from 1.7.25 to 1.7.30
+ <h3>Snyk has created this PR to upgrade org.slf4j:slf4j-api from 1.7.25 to 1.7.30.</h3>
+:information_source: Keep your dependencies up-to-date. This makes it easier to fix existing vulnerabilities and to more quickly identify and fix newly disclosed vulnerabilities when they affect your project.
+<hr/>
+
+- The recommended version is **5 versions** ahead of your current version.
+- The recommended version was released **3 months ago**, on 2019-12-16.
+
+
+<hr/>
+
+**Note:** *You are seeing this because you or someone else with access to this repository has authorized Snyk to open upgrade PRs.*
+
+For more information:
+
+🧐 [View latest project report](https://app.snyk.io/org/quickfix-j/project/a2ba7698-887e-4fdb-b1ae-1da9d52abae3?utm_source&#x3D;github&amp;utm_medium&#x3D;upgrade-pr)
+
+🛠 [Adjust upgrade PR settings](https://app.snyk.io/org/quickfix-j/project/a2ba7698-887e-4fdb-b1ae-1da9d52abae3/settings/integration?utm_source&#x3D;github&amp;utm_medium&#x3D;upgrade-pr)
+
+🔕 [Ignore this dependency or unsubscribe from future upgrade PRs](https://app.snyk.io/org/quickfix-j/project/a2ba7698-887e-4fdb-b1ae-1da9d52abae3/settings/integration?pkg&#x3D;org.slf4j:slf4j-api&amp;utm_source&#x3D;github&amp;utm_medium&#x3D;upgrade-pr#auto-dep-upgrades)
+
+<!--- (snyk:metadata:{"dependencies":[{"name":"org.slf4j:slf4j-api","from":"1.7.25","to":"1.7.30"}],"packageManager":"maven","type":"auto","projectUrl":"https://app.snyk.io/org/quickfix-j/project/a2ba7698-887e-4fdb-b1ae-1da9d52abae3?utm_source=github&utm_medium=upgrade-pr","projectPublicId":"a2ba7698-887e-4fdb-b1ae-1da9d52abae3","env":"prod","prType":"upgrade","vulns":[],"issuesToFix":[],"upgrade":[],"upgradeInfo":{"versionsDiff":5,"publishedDate":"2019-12-16T21:03:36.000Z"},"templateVariants":[],"hasFixes":false,"isMajorUpgrade":false,"isBreakingChange":false}) --->
+
+ Restyle QFJ-905 - adding support for MULTIPLECHARVALUE
+ 
+A duplicate of #264 with additional commits that automatically address
+incorrect style, created by [Restyled][].
+
+Since the original Pull Request was opened as a fork in a contributor's
+repository, we are unable to create a Pull Request branching from it with only
+the style fixes.
+
+The following Restylers [made fixes](https://restyled.io/gh/quickfix-j/repos/quickfixj/jobs/224100):
+
+- clang-format
+
+
+To incorporate these changes, you can either:
+
+1. Merge this Pull Request *instead of* the original, or
+
+1. Ask your contributor to locally incorporate these commits and push them to
+   the original Pull Request
+
+   <details>
+       <summary>Expand for example instructions</summary>
+
+       ```console
+       git remote add upstream https://github.com/quickfix-j/quickfixj.git
+       git fetch upstream pull/<this PR number>/head
+       git merge --ff-only FETCH_HEAD
+       git push
+       ```
+
+   </details>
+
+
+**NOTE**: As work continues on the original Pull Request, this process will
+re-run and update (force-push) this Pull Request with updated style fixes as
+necessary. If the style is fixed manually at any point (i.e. this process finds
+no fixes to make), this Pull Request will be closed automatically.
+
+Sorry if this was unexpected. To disable it, see our [documentation][].
+
+[restyled]: https://restyled.io
+[documentation]: https://github.com/restyled-io/restyled.io/wiki/Disabling-Restyled
+
+
+ Add ShortSaleRestriction
+ Add ShortSaleRestriction please see : https://github.com/quickfix-j/quickfixj/issues/267, also ended up correcting whitespace.
+
+Fixes #267 
+ QFJ-951 - test case covering JIRA description
+ I'm going through open JIRAs to see what still needs fixing.
+
+Just added a unit test case suggested in the JIRA. The issue was fixed by https://github.com/quickfix-j/quickfixj/pull/148.
+
+I think the JIRA ticket should be marked as fixed in QFJ 2.1.0
+ LGTM alert fix
+ Fixed last LGTM alert - unnecessary null check.
+ QFJ-905 - adding support for MULTIPLECHARVALUE
+ **Changes**
+
+- added support for MULTIPLECHARVALUE
+
+ QFJ-636 - custom fields in component blocks are not added to parent
+ **Changes**
+
+- Custom FIX tags are copied to "parent" components.
+
+Unfortunately it is not possible to do a reverse operation as the custom fields copied to "parent" would pollute every child component when retrieving it via "get*" methods. This is something that we don't want, especially when is an existing test case `quickfix.MessageTest#testComponent`.
+
+Arguably we could change the class generation and add extra "get*" methods with additional arguments indicating that all (or selected ones) fields from "parent" components should be copied, but I think it might be a little overhead. The first attempt was done in https://github.com/quickfix-j/quickfixj/pull/210, but I think this is unnecessary clutter.
+
+I updated the javadoc for `quickfix.MessageComponent#copyFrom` and `quickfix.MessageComponent#copyTo` to point out the difference in behaviour.
+ Only check for ApplVerID on Logon and application messages
+ Fixes #260 
+ Fix variable interpolation with custom properties for SessionID
+ There is no way to resolve variableValues from custom place (without using system properties) for SessionId fields. But they are used for FIX session creation.
+ fix LGTM errors and one typo
+ 
+ Fix LGTM errors
+ 
+ Introduce separate thread pool for establishing Initiator connections
+ Fixes #254
+
+ * introduced separate thread pool with 3 threads for connection establishment
+ * changed `enabled` flag in `Session` to `volatile` and removed synchronization from `setEnabled`/`isEnabled` since I could not find any good reason why it was synchronized
+ Notes on reporting security issues.
+ Following up on #252 
+ Fix Sending Messages Example Code in User Manual
+ There seems to have been a side effect from the QuickFix C++ Manual. I've updated the example code which was not changed to Java.
+ QFJ-981 / QFJ-982 Remove settings from DataDictionary class
+ Not much testing on this but here's where we're/I'm thinking of going with it.
+ Persistence is done before sending and will fail if message cannot be stored or sequence number cannot be incremented.
+ This applies a fix from quickfix's main repository https://github.com/quickfix/quickfix/commit/5fb3d4ffc44775295d5525fb30335d57e869f27e.

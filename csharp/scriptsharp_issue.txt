@@ -1,0 +1,759 @@
+﻿ Equivalent of javascript URL object in Script#
+ Is there any equivalent class/utility available for javascript URL object which can be used in Script# ??
+ Trying to implement ProgressEvent, inheriting from ElementEvent but there is no public constructor
+ I'm attempting to implement the ProgressEvent to use with my FileAPI-FileReader class.   It derives from ElementEvent and I'm trying to inherit from the ElementEvent class but the compiler is complaining about the fact that ElementEvent essentially doesn't have a public constructor.
+
+Is there another way to make this happen?
+ SSPackagereference in .prj 
+ I have written unit tests for my dev code. I am have exposed internals of dev code for my uts using "internalsvisibleto". Problem is in test code I need to use SSPackageReference for referring to my dev code due to internalsvisibleto. On compiling it is generating a single js file with all dev and test code together. 
+This creates problem while performing code coverage etc.
+Is there any way I can avoid dev code getting clubbed into test.js file?
+ Bugfix/70
+ Adding test case to validate the fix.
+wrong branch
+
+ Bugfix/59
+ Fixing bug 59
+ Bugfix/59
+ 
+it was supposed to have only one commit. I will rebase and do it again
+
+ VS 2017 15.5.0 Preview 2 Breaks ScriptSharp Compilation
+ FYI: 
+
+It looks like the latest preview build of VS 2017 breaks Script# compilation due to mscorlib conflict resolution.
+
+I've logged a bug here: https://developercommunity.visualstudio.com/content/problem/138986/1550-preview-2-breaks-scriptsharp-compilation.html . Please add comments and upvote there.
+Thanks for the heads up - I've voted
+
+Do you think compiling the Script# mscrolib to a greater version than 4.0 would work around this issue?
+
+
+Possibly. That might work for individuals who are willing to do their own builds but given this project has essentially been "done" for several years, I think it's unlikely that an updated package will be released. (As an aside, we've been migrating our Script# to TypeScript using the excellent Rosetta project)
+
+Do you have any info on how to get Rosetta going?
+
+@scottdurow  Let's take this offline. Email me at michael at campbrain.com and I can give you some pointers.
+
+This should be solved as workaround was provided:
+
+> This can probably be resolved by setting the following property in the MSBuild project file:
+> 
+> `<DisableHandlePackageFileConflicts>true</DisableHandlePackageFileConflicts>`
+
+ Declaring Name Space variables
+ Hi, 
+Is there anyway to declare variable outside namespace in script#?
+
+Thanks,
+Athira
+ Vstest
+ 
+ Need help with Bing Map V8
+ What class structure/attributes do I need to get the following results:
+Microsoft.Maps.loadModule(.........
+
+I'm not sure how to implement this in the library so that I can use.
+
+I'm looking to implement support for loading the Search module and am finding this to be a bit tricky.
+Has it changed from https://github.com/nikhilk/scriptsharp/blob/d79f89354dc6b9eb61da56cae35ce84fbfe1e94f/src/Libraries/Microsoft/BingMaps/Map.cs ?
+
+Brilliant. This is what I needed. Thanks!
+
+Get Outlook for iOS
+
+
+
+
+On Thu, Mar 16, 2017 at 2:55 AM -0600, "Scott Durow" <notifications@github.com> wrote:
+
+
+
+
+
+
+
+
+
+
+
+
+Has it changed from https://github.com/nikhilk/scriptsharp/blob/d79f89354dc6b9eb61da56cae35ce84fbfe1e94f/src/Libraries/Microsoft/BingMaps/Map.cs ?
+
+
+
+—
+You are receiving this because you authored the thread.
+Reply to this email directly, view it on GitHub, or mute the thread.
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+ Bing Map V8 Question
+ I've implemented the MapOptions class but it generates JS as Microsoft.Maps.MapOptions and it needs to generate 
+var mapOptions = {};
+
+I'm sure there is an attribute (or combination) that I should be using.  Can you point me in the correct direction?
+You probably have got a [ScriptName] attribute?
+Don't put any attributes on the class unless you need to. A common attribute is [PreserveCase] if you don't want method names to be output as camelCase.
+
+Here's what I have for the class definition:
+namespace Microsoft.Maps {
+
+    public sealed class MapOptions {
+        public bool t;
+        public bool AllowHidingLabelsOfRoad;
+        public MapColor BackgroundColor;
+        public string Credentials;
+        public bool DisablePanning;
+        public bool DisableScrollWheelZoom;
+        public bool DisableStreetside;
+        public bool DisableStreetsideAutoCoverage;
+        public bool DisableZooming;
+        public bool EnableClickableLogo;
+        public bool EnableInertia;
+        public bool LiteMode;
+        public MapLocationRect maxBounds;
+        public int MaxZoom;
+        public int MinZoom;
+        // public NavigationBarMode NavigationBareMode;
+        // public NavigationBarOrientation NavigationBarOrientation;
+        public bool ShowBreadcrumb;
+        public bool ShowDashboard;
+        public bool ShoLocateMeButton;
+        public bool ShowMapTypeSelector;
+        public bool ShowScalebar;
+        public bool ShowTrafficButton;
+        public bool ShowTermsLink;
+        public bool ShowZoomButtons;
+        // public StreetsideOptions StreetSideOptions;
+
+    }
+}
+
+Here's the code that uses the class:
+            Element e = Document.CreateElement("myMap");
+            MapOptions options = new MapOptions();
+            options.Credentials = "";
+            Map map = new Map(e, options);
+
+This is what produced in the resulting JS:
+    var e = document.createElement('myMap');
+    var options = new Microsoft.Maps.MapOptions();
+    options.credentials = '';
+    var map = new Microsoft.Maps.Map(e, options);
+
+Any other ideas?
+
+
+Right - got you!
+You need to add the following Attributes to the MapOptions Class
+
+```
+[Imported]
+[IgnoreNamespace]
+[ScriptName("Object")]
+public sealed class MapOptions
+```
+
+That got it done!  Thanks for the combination 👍 
+
+ Duplicate-named member error - overloaded methods and constructors
+ Is there a trick to overloaded methods and constructors or are they just not supported?
+
+Ex:
+        [ScriptName("tryLocationToPixel")]
+        public MapPoint[] TryLocationsToPixels(MapLocation[] locations) {
+            return null;
+        }
+
+        [ScriptName("tryLocationToPixel")]
+        public MapPoint[] TryLocationsToPixels(MapLocation[] locations, MapPointReference pointReference) {
+            return null;
+        }
+
+or 
+        public Map(Element element, MapViewOptions options) {}
+        public Map(string elementName, MapOptions options) { }
+        public Map(string elementName, MapViewOptions options) { }
+
+
+You can overload methods provided the class is marked as Imported
+
+```
+[Imported]
+    public class ImportedClass
+    {
+       
+      
+        public ImportedClass(string s)
+        {
+
+        }
+        public ImportedClass(int i)
+        {
+
+        }
+        public void Foo(int i)
+        {
+
+        }
+
+        public void Foo(string s)
+        {
+
+        }
+    }
+```
+
+
+Perfect!
+
+ Attempted to Add Support for Bing Map V8 - Build and Use issues
+ I really like what ScriptSharp can do for me and I have a large project with dependencies on maps.  Bing Map V7 is end of life in June, 2017 so I want to use V8.  I decided to take a crack at adding support (Libraries\BingMapsV8) .  I limited my work to initializing a map while I get my feet wet.  I have a successful build but I haven't been able to use it.
+
+I've followed the instructions for uninstalling the release version from VS and then adding the Script# Local.  I've created a project and I can see that it's included ScriptSharp.0.8 in the packages folder.  This leads me to believe that I have the dll's with my new code.  Unfortunately whenever I try to build the application I get:
+1>------ Build started: Project: Application1, Configuration: Debug Any CPU ------
+1>  Consider app.config remapping of assembly "mscorlib, Culture=neutral, PublicKeyToken=8fc0e3af5abcb6c4" from Version "0.7.0.0" [] to Version "0.8.0.0" [C:\Dev_Area\scriptsharp-cc\BingMapV8\ScriptLibrary1\packages\ScriptSharp.0.8\tools\mscorlib.dll] to solve conflict and get rid of warning.
+1>C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Common.targets(1605,5): warning MSB3247: Found conflicts between different versions of the same dependent assembly.
+1>  Application1 -> C:\Dev_Area\scriptsharp-cc\BingMapV8\ScriptLibrary1\Application1\bin\Debug\Application1.dll
+1>C:\Dev_Area\scriptsharp-cc\BingMapV8\ScriptLibrary1\packages\ScriptSharp.0.8\tools\ScriptSharp.targets(36,5): error : The assembly 'C:\Dev_Area\scriptsharp-cc\BingMapV8\ScriptLibrary1\packages\ScriptSharp.Lib.HTML.0.8\lib\Script.Web.dll' is not a valid script assembly.
+========== Build: 0 succeeded, 1 failed, 0 up-to-date, 0 skipped ==========
+
+
+Any ideas?
+The NuGet package for script# is 0.7.5 and this is the version I use since it is stable. 
+I've been meaning to create a branch for this version since I don't want to move to 0.8 due to the breaking changes.
+
+I would recommend creating a separate assembly import for Bing Maps V8 to replace the existing one rather than adding it directly into the ScriptSharp compiler package it's self.
+
+Thanks for the feedback. Is there documentation on the wiki explaining how to create an import?  
+
+Get Outlook for iOS
+
+
+
+
+On Fri, Mar 3, 2017 at 5:18 AM -0700, "Scott Durow" <notifications@github.com> wrote:
+
+
+
+
+
+
+
+
+
+
+
+
+The NuGet package for script# is 0.7.5 and this is the version I use since it is stable.
+
+I've been meaning to create a branch for this version since I don't want to move to 0.8 due to the breaking changes.
+
+
+I would recommend creating a separate assembly import for Bing Maps V8 to replace the existing one rather than adding it directly into the ScriptSharp compiler package it's self.
+
+
+
+—
+You are receiving this because you authored the thread.
+Reply to this email directly, view it on GitHub, or mute the thread.
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+I apologize but I'm new to GitHub and contributing to open source.  I gave it some thought this morning and decided to try and just create a new Script# Script Library and use the source from the original Bing Map V8 work I did.  I had to remove some of the attributes ([ScriptImport]) to make it compile.  I then found that I couldn't have overloaded constructors.  I overcame these issues and generated a very minimal implementation of the Map class.  I then created another Script# Script Library and named it Unit Test.  I included a project reference to the Bing Map V8 project.  I was able to create an instance of the Map and set some properties.  The unit test project compiled but it didn't output any JS.
+
+Am I on the write track?   
+
+One other note: I'm attempting to use VS 2015.  Should I stick with VS 2012?
+
+Spent a bit more time to flush out more thoughts.  It looks like VS2015 is a bit finicky about generating Script# projects.  It also looks like it brings in V7.6?  
+
+I decided to create a Script# template project from one that I created with VS2012.  I then used that template to generate additional projects and they all behave as expected and generate javascript.  
+
+So I now have a Bing Map V8 project that generates script and dlls.  I then have a test harness that utilizes the Bing Map V8 dll.  The test project is generating js and the output is aligning with the Bing Map V8 documentation.  I'm going to keep going down this path unless someone informs me that there is a different approach that I should take.
+
+Definitely on the right path! Do you have a Git Repo for your new import library?
+I need to move some code over to the V7 API 👍 
+
+How are you getting on with this - can you point me at your repo? I'd like to help!
+
+Hi Scott,
+I have a version that allows for creating the map with options and push pins. Need to fill in the remaining sub classes. 
+I've never contributed to open source before. What's the best way?  Do I just create a git repo and publish to it?  Or do I publish to this repo?
+Get Outlook for iOS
+
+
+
+
+On Thu, Mar 9, 2017 at 5:03 AM -0700, "Scott Durow" <notifications@github.com> wrote:
+
+
+
+
+
+
+
+
+
+
+
+
+How are you getting on with this - can you point me at your repo? I'd like to help!
+
+
+
+—
+You are receiving this because you authored the thread.
+Reply to this email directly, view it on GitHub, or mute the thread.
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+I recommend creating your own repo for the Script# Bing Maps V8 Import 👍 
+
+I'll do that today and send you the details. Thanks for your help!
+
+Get Outlook for iOS
+
+
+
+
+On Thu, Mar 9, 2017 at 9:56 AM -0700, "Scott Durow" <notifications@github.com> wrote:
+
+
+
+
+
+
+
+
+
+
+
+
+I recommend creating your own repo for the Script# Bing Maps V8 Import 👍
+
+
+
+—
+You are receiving this because you authored the thread.
+Reply to this email directly, view it on GitHub, or mute the thread.
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+Hi Scott,
+
+I am on holiday but was able to get the GitHub project created.  The url is: 
+https://github.com/larrywelch/ScriptSharpBingMapsV8Import
+I welcome any advice or guidance.  The repo includes all files from the v7 library but the project only includes the files that have been updated for v8.
+
+ MapEvents.AddHandler MapEventArg vs MapMouseEventArgs
+ I'm implementing a control that will display pushpins on a bing map.  When the user hovers or clicks on the pushpin I'd like to display an info box.  I've been able to successfully register for and handle the event.  However, the MapEventArg object doesn't contain enough data.  Using the debugger I discovered that the object passed to the event handler was actually a MapMouseEventArg.  Simple solution then, just cast the object to a MapMouseEventArg and finish up my code.  Unfortunately that didn't work.  Following is the js code that was produced:
+IGT.AG.ClientUI.View.ContractsWithinRadiusView.mapPinClickEventHandler = function IGT_AG_ClientUI_View_ContractsWithinRadiusView$mapPinClickEventHandler(args) {
+    var m = Type.safeCast(args, MapEventArgs);
+    var mArgs = Type.safeCast(args, MapMouseEventArgs);
+    if (mArgs != null) {
+        if (mArgs.targetType === 'pushpin') {
+...
+
+The debugger reports that MapEventArgs is undefined.  I can manually alter the resulting code to get it to work but I'd rather understand what I'm doing wrong, or fix something if it's broken.
+
+Any help will be greatly appreciated!
+ Unable to build using the source
+ I downloaded a copy of the source and tried to build using VS 2015 Community edition.  I get the following build errors:
+1>CSC : error CS8021: No value for RuntimeMetadataVersion found. No assembly containing System.Object was found nor was a value for RuntimeMetadataVersion specified through options.
+
+this one repeats for what looks like a lot of projects:
+Severity	Code	Description	Project	File	Line	Suppression State
+Error	CS0006	Metadata file 'C:\Dev_Area\ScriptSharp\scriptsharp-cc\scriptsharp-cc\bin\Debug\mscorlib.dll' could not be found	Web	C:\Dev_Area\ScriptSharp\scriptsharp-cc\scriptsharp-cc\src\Libraries\Web\CSC	1	Active
+
+I have only ever built using VS2012 - but once built you can install it inside VS2015.
+
+I was able to build with VS2012.  Thanks.
+
+ MapEventArgs seem to be missing a lot of properties
+ The MapEventArgs class seems to be missing a great deal of properties.  Is this for a reason or just lack of resources.  Also, is there a specific version of Bing Map that this library is targeting?
+It is probably that these properties didn't exist when the import was created.
+
+You can create your own import and add the properties.
+
+ MapInfoBox and event handling
+ I'd like to add an event handler to the MapInfoBox.  It looks like I would do that through the MapInfoBoxOptions.Actions.  However, the MapInfoBoxAction defines the EventHandler property as a string.  Am I missing something?  Is there another way to register for events?
+I was able to determine what I was doing wrong.  I know understand that I need to register for a MapPushPin events using MapEvents.AddHandler(pin, "click", mapPinClickEventHandler);  And it's in that handler that I can display the MapInfoBox.
+
+Having an issue with the event args but it's not related to the MapInfoBox so I'm going to close this issue and open a new one.
+
+ DateTime
+ I know System.DateTime class was removed.
+What can I do about my huge project using it?
+Will just changing everything to "Date" solve it? Can I get the DateTime class and add it manually?
+
+Thanks,
+Rotem.
+
+In all honesty I've not seen the benefit of the changes made after v0.7.6  - I still use this release which is very stable.
+
+
+I see. It's just that I work in a big company and need to find a solution for this. I would like to find something that will allow us to advance to the newer versions. Any ideas?
+
+
+You have to ask yourself why you need to advance to the newer version. Nikhil isn't developing this any further. If you need an active project, you should check out Bridge 2.0 which will be released soon - this looks like it will be more compatible with Script# 0.7.6 since it is merging with http://saltarelle-compiler.com/
+
+
+OK, thank you so much for your help!
+
+
+ Remove scriptsharp.com link
+ The project domain expired at the end of 2015 and has been taken over by an unrelated blogger/spammer. Let's not direct traffic that way in future.
+
+ IDeferred wrapper doesn't support some important promise chaining scenarios
+ jQuery promises implement Promises/A+ specification, and hence support this part of the spec:
+
+2.2.7.1. #If either onFulfilled or onRejected returns a value x, run the Promise Resolution Procedure
+see the documentation here:
+https://promisesaplus.com/#point-41
+
+ScriptSharp's IDeferred wrapper for the promise doesn't support returning values from onFulfilled callbacks at all, because Action and Callback are defined as delegates that always return void. Here are JavaScript example scenarios that won't be possible to implement in ScriptSharp because of this problem:
+
+```
+var a = $.Deferred();
+
+a.promise()
+  .then(function (result1) {
+    return result1 * 5;
+  })
+  .then(function (result2) {
+    return result2 + " as text";
+  })
+  .then(function (result3) {
+    var b = $.Deferred();
+
+    setTimeout(function () {
+      b.resolve(result3 + " delayed");
+    }, 100);
+
+    return b.promise();
+  })
+  .then(function (result4) {
+    alert(result4); // alerts "25 as text delayed"
+  });
+
+a.resolve(5);
+```
+
+JSFiddle: http://jsfiddle.net/alexarg/dzzj13h4
+
+I believe the published Script.jQuery nuget package only supports jQuery up to version ~1.10 which i don't believe had support for the Promises/A+ specification. 
+
+Since Script# is no longer actively maintained, i would suggest you fork: https://github.com/nikhilk/scriptsharp/tree/cc/src/Libraries/jQuery make whatever changes are needed and publish a new nuget package.
+
+
+ Unable to Build - ScriptSharp 0.7.5.1 - Visual Studio 2012 (Windows 10)
+ Hi nikhilk,
+
+I have not been able to build a Script# project. The error as follows:
+
+The "ScriptCompilerTask" task could not be loaded from the assembly C:\TestProject\packages\ScriptSharp.0.7.5.1\tools\ScriptSharp.Build.dll. Could not load file or assembly 'Microsoft.Build.Utilities, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a' or one of its dependencies. The system cannot find the file specified. Confirm that the <UsingTask> declaration is correct, that the assembly and all its dependencies are available, and that the task contains a public class that implements Microsoft.Build.Framework.ITask.
+
+Can you help?
+
+Cheers,
+Sy
+
+Can you confirm that the ScriptSharp.Build.dll file is in your
+packages\ScriptSharp.0.7.5.1\tools\
+folder?
+
+On 24 September 2015 at 01:40, syafrin-liong notifications@github.com
+wrote:
+
+> Hi nikhilk,
+> 
+> I have not been able to build a Script# project. The error as follows:
+> 
+> The "ScriptCompilerTask" task could not be loaded from the assembly
+> C:\TestProject\packages\ScriptSharp.0.7.5.1\tools\ScriptSharp.Build.dll.
+> Could not load file or assembly 'Microsoft.Build.Utilities,
+> Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a' or one
+> of its dependencies. The system cannot find the file specified. Confirm
+> that the declaration is correct, that the assembly and all its dependencies
+> are available, and that the task contains a public class that implements
+> Microsoft.Build.Framework.ITask.
+> 
+> Can you help?
+> 
+> Cheers,
+> Sy
+> 
+> —
+> Reply to this email directly or view it on GitHub
+> https://github.com/nikhilk/scriptsharp/issues/438.
+
+
+Hi michaelaird, 
+
+Thank you for your reply. What happened was Script# requires .NET 2.0 to build targets and on my Windows 10 the older .NET Frameworks are not installed by default. Once installed, all works fine.
+
+Cheers,
+Sy
+
+
+ ScriptSharp's lack of resources
+ Hey guys,
+
+I started using the ScriptSharp API to work on some already existing C#/S# projects. I learned the basics by looking at already existing code, but then I got really intrigued and wanted to work with ScriptSharp for my own projects. To my own disappointment, http://www.scriptsharp.com no longer is owned by Script# (nor nikhilk). I can't find any guides. I can't find any documentation.
+
+So my question; is this API dead or dieing? Is it not used anymore? Is there better approaches than Script# for compiling C# into JS? Have I been looking in the wrong place? Why isn't there any documentation?
+
+Thank you,
+Jeremie Shaker
+
+Given the commit activity (last one more than 2 years ago) and how fast the JavaScript language spec is evolving -- I would consider Script# as dead.
+
+
+I would say that it's "done". As you've noticed, there doesn't appear to be any activity on the core and the attempt at v4.6 was never really released.
+
+For new development, I would suggest TypeScript. Or checkout this: http://bridge.net/ ( i haven't used Bridge but it looks promising)
+
+
+Yeah, I've moves onto TypeScript, as it appears even Google started using for 
+projects such as Angular 2. Thanks!
+Sent with [inky](http://inky.com?kme=signature)
+"Michael Aird" notifications@github.com wrote:
+
+> I would say that it's "done". As you've noticed, there doesn't appear to be 
+> any activity on the core and the attempt at v4.6 was never really released.
+> For new development, I would suggest TypeScript. Or checkout this: 
+> [http://bridge.net/](http://bridge.net/) ( i haven't used Bridge but it looks 
+> promising)
+> — 
+> 
+> Reply to this email directly or [view it on 
+> GitHub](https://github.com/nikhilk/scriptsharp/issues/437#issuecomment-158070535).![](https://github.com/notifications/beacon/AMZwsyKn95YXuigDoNzMIntQ6KCQ0evBks5pHdHMgaJpZM4FJKpx.gif)
+
+
+OK, I should chime in here --
+
+First, apologies for not responding sooner, but its hard to be active on a front that isn't on your radar day in and day out.
+
+Its been awesome to work on script#, see so many users, and apps built on it over the life of the project. Thanks for all the support over the years. Hopefully, I'll get to meet and have paths cross with folks I know in other contexts.
+
+But now even more so than before, its time to look at what comes next. For me, its been a new and different set of priorities for the last couple of years (though I am still active on github), and for web app development, there so much to look forward to, with much improved JavaScript all around, and TypeScript bringing those improvements for use today. That said I still love c# and c# to javascript will always have special meaning.
+
+Thanks!!!
+
+
+Thanks for taking the time to reply!
+
+It would have been a fun experience to build an entire web project in C# and the whole OOP structure, but I've made the move to TypeScript, just as Google has, and it's been great.
+
+Have a good evening!
+Jeremie Shaker
+
+Sent from my iPhone
+
+> On Dec 6, 2015, at 1:00 PM, Nikhil Kothari notifications@github.com wrote:
+> 
+> OK, I should chime in here --
+> 
+> First, apologies for not responding sooner, but its hard to be active on a front that isn't on your radar day in and day out.
+> 
+> Its been awesome to work on script#, see so many users, and apps built on it over the life of the project. Thanks for all the support over the years. Hopefully, I'll get to meet and have paths cross with folks I know in other contexts.
+> 
+> But now even more so than before, its time to look at what comes next. For me, its been a new and different set of priorities for the last couple of years (though I am still active on github), and for web app development, there so much to look forward to, with much improved JavaScript all around, and TypeScript bringing those improvements for use today. That said I still love c# and c# to javascript will always have special meaning.
+> 
+> Thanks!!!
+> 
+> —
+> Reply to this email directly or view it on GitHub.
+
+
+@nikhilk : I totally understand that you've moved on to other things but I wanted to take a minute to thank you for the work you've done in the past. 
+
+When we started our project 3+ years ago, there was no TypeScript. For a group of devs with strong C# skills but weak JavaScript skills, it allowed us to create amazing, responsive, cleanly coded viewmodels that are still in use on a daily basis.
+
+Even though we're in the process of transitioning many 1,000's of lines of code to TypeScript, we wouldn't be where we are today without Script#. 
+
+Thanks for all your work! 
+
+
+ Any plans to generate  Type Script (.ts) files from Script Sharp. It would be help ful<EOM>
+ 
+ Pull Request
+ 
+ Generation of script is interrupted when certain code pattern is found
+ Generation of script is interrupted when certain code pattern is found
+
+Hi,
+We have the following script# code
+
+```
+[ScriptIgnoreNamespace]
+[ScriptImport]
+[ScriptName("Object")]
+public class SubmitDetails
+{
+    [ScriptField, ScriptName(PreserveCase = true)]
+    public string ChainedActionName { get { return null; } set { } }
+}
+
+public class ActionBehavior
+{
+    public string ProcessName;
+}
+
+[ScriptName("Object")]
+public class ConstructOpenFormArg
+{
+    public string ProcessName;
+    public string ActionName;
+
+    public ConstructOpenFormArg(string processName, string actionName)
+    {
+        ProcessName = processName;
+        ActionName = actionName;
+    }
+}
+
+public static class ActionManager
+{
+    private static void RedirectAfterSubmit(ActionBehavior initiateActionObject, SubmitDetails submitDetails)
+    {
+        ConstructOpenFormArg arg = new ConstructOpenFormArg(initiateActionObject.ProcessName, submitDetails.ChainedActionName);
+    }
+}
+```
+
+The script that gets generated is this:
+
+  define('Module1', ['ss'], function(ss) {
+  var $global = this;
+
+  function ActionBehavior() {
+  }
+  var ActionBehavior$ = {
+  };
+
+  function Object(processName, actionName) {
+    this.processName = processName;
+    this.actionName = actionName;
+  }
+  var Object$ = {
+  };
+
+  function ActionManager() {
+  }
+  ActionManager._redirectAfterSubmit = function(initiateActionObject, submitDetails) {
+    var arg = { 
+  return $exports;
+});
+
+As you can see the script generation stops at var arg = {
+
+Any idea what is causing it?
+
+Thanks in advance,
+Greg.
+
+Actually I found a workaround.
+If I remove the attribute [ScriptName("Object")] from the class ConstructOpenFormArg it works fine.
+
+Many thanks.
+
+
+ Script.Web Javascript output file
+ Hy Nikhil,
+
+Thank's very much for your very useful tool. I use it since 2 years now, when to day I tried to acces the following class:
+System.Web.Navigator
+
+Where is the javascript version of this class please ? I cannot find the corresponding javascript source code as result of the S# compiler.
+
+Can you help me ?
+
+Regards, PR
+
+This represents the built in window.navigator object.
+
+
+ Giving error "Unable to resolve referenced type"
+ Hi,
+In my project script# is giving following error.
+  C:\Program Files (x86)\ScriptSharp\v1.0\ScriptSharp.targets(36,5): error : Un
+able to resolve referenced type <namespace>. Make sure all needed assemblies have been explicitly referenced. [<csproj file path>].
+I have made sure that all the assemblies for the project are provided.
+
+There are 3 projects : 
+1)Module.Contracts : which has only interfaces and a cs file with enums and constants.
+2)Module : Has classes that are derived from interfaces.
+3)Application 
+
+in this Module and Application are having ref. of Module.Contracts.
+thnks.
+
+ removed redundant semicolon
+ removed redundant semicolon
+
+ Roslyn and implicit conversions
+ I'm trying out CTP 4 of Visual Studio "14" and there are issues with compiling Script# projects that use implicit conversions. I've experienced this with Number to/from decimal conversions.
+
+I've opened a Connect bug for this here: https://connect.microsoft.com/VisualStudio/feedback/details/1000442/roslyn-doesnt-respect-static-implicit-conversions-in-script
+
+I figured I would also report here in case it is actually a Script# issue that needs to be addressed.
+
+Update: This only affects decimal conversions. Roslyn explicitly ignores the user-defined implicit conversions on decimal. The workaround is to cast to float and the implicit conversion of float to Number then kicks in.
+
+
+ Add ability to specify the default member case preservation in an assembly
+ Add ability to specify the default member case preservation to be used throughout an assembly. The compiler always defaults to not preserving member casing without this feature.
+
+Also add the ability to specify the case preservation of all members of a type through ScriptName.PreserveCase property on the type.
+

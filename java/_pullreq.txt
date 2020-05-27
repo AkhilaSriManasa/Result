@@ -1,0 +1,284 @@
+﻿ Bump jackson-databind from 2.9.10.1 to 2.9.10.4 in /webcam-capture-examples/webcam-capture-websockets
+ Bumps [jackson-databind](https://github.com/FasterXML/jackson) from 2.9.10.1 to 2.9.10.4.
+<details>
+<summary>Commits</summary>
+<ul>
+<li>See full diff in <a href="https://github.com/FasterXML/jackson/commits">compare view</a></li>
+</ul>
+</details>
+<br />
+
+
+[![Dependabot compatibility score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=com.fasterxml.jackson.core:jackson-databind&package-manager=maven&previous-version=2.9.10.1&new-version=2.9.10.4)](https://help.github.com/articles/configuring-automated-security-fixes)
+
+Dependabot will resolve any conflicts with this PR as long as you don't alter it yourself. You can also trigger a rebase manually by commenting `@dependabot rebase`.
+
+[//]: # (dependabot-automerge-start)
+[//]: # (dependabot-automerge-end)
+
+---
+
+<details>
+<summary>Dependabot commands and options</summary>
+<br />
+
+You can trigger Dependabot actions by commenting on this PR:
+- `@dependabot rebase` will rebase this PR
+- `@dependabot recreate` will recreate this PR, overwriting any edits that have been made to it
+- `@dependabot merge` will merge this PR after your CI passes on it
+- `@dependabot squash and merge` will squash and merge this PR after your CI passes on it
+- `@dependabot cancel merge` will cancel a previously requested merge and block automerging
+- `@dependabot reopen` will reopen this PR if it is closed
+- `@dependabot close` will close this PR and stop Dependabot recreating it. You can achieve the same result by closing it manually
+- `@dependabot ignore this major version` will close this PR and stop Dependabot creating any more for this major version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this minor version` will close this PR and stop Dependabot creating any more for this minor version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this dependency` will close this PR and stop Dependabot creating any more for this dependency (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot use these labels` will set the current labels as the default for future PRs for this repo and language
+- `@dependabot use these reviewers` will set the current reviewers as the default for future PRs for this repo and language
+- `@dependabot use these assignees` will set the current assignees as the default for future PRs for this repo and language
+- `@dependabot use this milestone` will set the current milestone as the default for future PRs for this repo and language
+
+You can disable automated security fix PRs for this repo from the [Security Alerts page](https://github.com/sarxos/webcam-capture/network/alerts).
+
+</details>
+ Remove redundant initialization
+ Remove redundant initialization. We don't need to initialize t1 and t2 to a value since below k and p are explicitly defined in for loop and there's no other implicit conditions that may cause an runtime error if t1 and t2 are not initialized
+ Address MacOS Catalina no webcam found issue 
+ This PR attempts to address the issue in #723 
+
+The updated .dylib is from 1.4-SNAPSHOT of OpenIMAJ.  The author has addressed in the issues in Catalina where it is necessary to ask the user's permission to access the camera.  The OpenIMAJGrabber is updated to reflect changes in the native interface.
+
+I have tested this now on Catalina and it does detect all connected webcams.  However there is a problem trying to open the session from java, this error occurs:
+
+This app has crashed because it has a hardened runtime and attempted to access privacy-sensitive data without an entitlement indicating its intent to access this data.  The app must have the 'com.apple.security.device.camera' entitlement.
+
+I suspect if you package your java program into an .app with the correct entitlements it will work.  I haven't tried this because OpenJDK 14 has some trouble with jpackage right now.
+
+
+ Minor updates
+ 
+ [SECURITY] Use HTTPS to resolve dependencies in Maven Build
+ [![mitm_build](https://user-images.githubusercontent.com/1323708/59226671-90645200-8ba1-11e9-8ab3-39292bef99e9.jpeg)](https://medium.com/@jonathan.leitschuh/want-to-take-over-the-java-ecosystem-all-you-need-is-a-mitm-1fc329d898fb?source
+- [Want to take over the Java ecosystem? All you need is a MITM!](https://medium.com/@jonathan.leitschuh/want-to-take-over-the-java-ecosystem-all-you-need-is-a-mitm-1fc329d898fb?source=friends_link&sk=3c99970c55a899ad9ef41f126efcde0e)
+- [Update: Want to take over the Java ecosystem? All you need is a MITM!](https://medium.com/bugbountywriteup/update-want-to-take-over-the-java-ecosystem-all-you-need-is-a-mitm-d069d253fe23?source=friends_link&sk=8c8e52a7d57b98d0b7e541665688b454)
+
+---
+
+This is a security fix for a  vulnerability in your [Apache Maven](https://maven.apache.org/) `pom.xml` file(s).
+
+The build files indicate that this project is resolving dependencies over HTTP instead of HTTPS.
+This leaves your build vulnerable to allowing a [Man in the Middle](https://en.wikipedia.org/wiki/Man-in-the-middle_attack) (MITM) attackers to execute arbitrary code on your or your computer or CI/CD system.
+
+This vulnerability has a CVSS v3.0 Base Score of [8.1/10](https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H).
+
+[POC code](https://max.computer/blog/how-to-take-over-the-computer-of-any-java-or-clojure-or-scala-developer/) has existed since 2014 to maliciously compromise a JAR file in-flight.
+MITM attacks against HTTP are [increasingly common](https://security.stackexchange.com/a/12050), for example [Comcast is known to have done it to their own users](https://thenextweb.com/insights/2017/12/11/comcast-continues-to-inject-its-own-code-into-websites-you-visit/#).
+
+This contribution is a part of a submission to the [GitHub Security Lab](https://securitylab.github.com/) Bug Bounty program.
+
+## Detecting this and Future Vulnerabilities
+
+This vulnerability was automatically detected by [LGTM.com](https://lgtm.com) using this [CodeQL Query](https://lgtm.com/rules/1511115648721/).
+
+As of September 2019 LGTM.com and Semmle are [officially a part of GitHub](https://github.blog/2019-09-18-github-welcomes-semmle/).
+
+You can automatically detect future vulnerabilities like this by enabling the free (for open-source) [LGTM App](https://github.com/marketplace/lgtm).
+
+I'm not an employee of GitHub nor of Semmle, I'm simply a user of [LGTM.com](https://lgtm.com) and an open-source security researcher.
+
+## Source
+
+Yes, this contribution was automatically generated, however, the code to generate this PR was lovingly hand crafted to bring this security fix to your repository.
+
+The source code that generated and submitted this PR can be found here:
+[JLLeitschuh/bulk-security-pr-generator](https://github.com/JLLeitschuh/bulk-security-pr-generator)
+
+## Opting-Out
+
+If you'd like to opt-out of future automated security vulnerability fixes like this, please consider adding a file called
+`.github/GH-ROBOTS.txt` to your repository with the line:
+
+```
+User-agent: JLLeitschuh/bulk-security-pr-generator
+Disallow: *
+```
+
+This bot will respect the [ROBOTS.txt](https://moz.com/learn/seo/robotstxt) format for future contributions.
+
+Alternatively, if this project is no longer actively maintained, consider [archiving](https://help.github.com/en/github/creating-cloning-and-archiving-repositories/about-archiving-repositories) the repository.
+
+## CLA Requirements
+
+_This section is only relevant if your project requires contributors to sign a Contributor License Agreement (CLA) for external contributions._
+
+It is unlikely that I'll be able to directly sign CLAs. However, all contributed commits are already automatically signed-off.
+
+> The meaning of a signoff depends on the project, but it typically certifies that committer has the rights to submit this work under the same license and agrees to a Developer Certificate of Origin 
+> (see [https://developercertificate.org/](https://developercertificate.org/) for more information).
+>
+> \- [Git Commit Signoff documentation](https://developercertificate.org/)
+
+If signing your organization's CLA is a strict-requirement for merging this contribution, please feel free to close this PR.
+
+## Tracking
+
+All PR's generated as part of this fix are tracked here: 
+https://github.com/JLLeitschuh/bulk-security-pr-generator/issues/2
+ Exclude unused transitive dependency
+ Hello, I noticed that the transitive dependency `com.google.android.tools:dx` can be safely excluded from direct dependency `com.nativelibs4java:bridj`  in module `webcam-capture-driver-openimaj`. This makes the dependency tree of the module slimmer.
+ Bump httpclient from 4.1.3 to 4.3.6 in /webcam-capture-addons/webcam-capture-addon-spycam
+ Bumps httpclient from 4.1.3 to 4.3.6.
+
+[![Dependabot compatibility score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=org.apache.httpcomponents:httpclient&package-manager=maven&previous-version=4.1.3&new-version=4.3.6)](https://help.github.com/articles/configuring-automated-security-fixes)
+
+Dependabot will resolve any conflicts with this PR as long as you don't alter it yourself. You can also trigger a rebase manually by commenting `@dependabot rebase`.
+
+[//]: # (dependabot-automerge-start)
+[//]: # (dependabot-automerge-end)
+
+---
+
+<details>
+<summary>Dependabot commands and options</summary>
+<br />
+
+You can trigger Dependabot actions by commenting on this PR:
+- `@dependabot rebase` will rebase this PR
+- `@dependabot recreate` will recreate this PR, overwriting any edits that have been made to it
+- `@dependabot merge` will merge this PR after your CI passes on it
+- `@dependabot squash and merge` will squash and merge this PR after your CI passes on it
+- `@dependabot cancel merge` will cancel a previously requested merge and block automerging
+- `@dependabot reopen` will reopen this PR if it is closed
+- `@dependabot ignore this [patch|minor|major] version` will close this PR and stop Dependabot creating any more for this minor/major version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this dependency` will close this PR and stop Dependabot creating any more for this dependency (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot use these labels` will set the current labels as the default for future PRs for this repo and language
+- `@dependabot use these reviewers` will set the current reviewers as the default for future PRs for this repo and language
+- `@dependabot use these assignees` will set the current assignees as the default for future PRs for this repo and language
+- `@dependabot use this milestone` will set the current milestone as the default for future PRs for this repo and language
+
+You can disable automated security fix PRs for this repo from the [Security Alerts page](https://github.com/sarxos/webcam-capture/network/alerts).
+
+</details>
+ Bump jackson-databind from 2.5.1 to 2.9.10.1 in /webcam-capture-examples/webcam-capture-websockets
+ Bumps [jackson-databind](https://github.com/FasterXML/jackson) from 2.5.1 to 2.9.10.1.
+<details>
+<summary>Commits</summary>
+
+- See full diff in [compare view](https://github.com/FasterXML/jackson/commits)
+</details>
+<br />
+
+[![Dependabot compatibility score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=com.fasterxml.jackson.core:jackson-databind&package-manager=maven&previous-version=2.5.1&new-version=2.9.10.1)](https://help.github.com/articles/configuring-automated-security-fixes)
+
+Dependabot will resolve any conflicts with this PR as long as you don't alter it yourself. You can also trigger a rebase manually by commenting `@dependabot rebase`.
+
+[//]: # (dependabot-automerge-start)
+[//]: # (dependabot-automerge-end)
+
+---
+
+<details>
+<summary>Dependabot commands and options</summary>
+<br />
+
+You can trigger Dependabot actions by commenting on this PR:
+- `@dependabot rebase` will rebase this PR
+- `@dependabot recreate` will recreate this PR, overwriting any edits that have been made to it
+- `@dependabot merge` will merge this PR after your CI passes on it
+- `@dependabot squash and merge` will squash and merge this PR after your CI passes on it
+- `@dependabot cancel merge` will cancel a previously requested merge and block automerging
+- `@dependabot reopen` will reopen this PR if it is closed
+- `@dependabot ignore this [patch|minor|major] version` will close this PR and stop Dependabot creating any more for this minor/major version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this dependency` will close this PR and stop Dependabot creating any more for this dependency (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot use these labels` will set the current labels as the default for future PRs for this repo and language
+- `@dependabot use these reviewers` will set the current reviewers as the default for future PRs for this repo and language
+- `@dependabot use these assignees` will set the current assignees as the default for future PRs for this repo and language
+- `@dependabot use this milestone` will set the current milestone as the default for future PRs for this repo and language
+
+You can disable automated security fix PRs for this repo from the [Security Alerts page](https://github.com/sarxos/webcam-capture/network/alerts).
+
+</details>
+ Run code inspection
+ Sorry for this huge PR.
+
+I was warned by my IDE for a non atomic operation.
+So I decide to check where it was from and I found that `volatile double fps` was sometime got and set at the same time. So I replaced it by an AtomicDouble...
+
+And then I decided to run a code inspection.
+
+I corrected some of the warnings.
+Each warning type is splitting on a different commit so it will be easier to review.
+ Support Java11
+ 1) Added `<artifactId>jaxb-api</artifactId>` to webcam-capture-driver-ipcam dependencies (see: https://stackoverflow.com/questions/52502189/java-11-package-javax-xml-bind-does-not-exist)
+
+2) Added `<artifactId>maven-surefire-plugin</artifactId>` to webcam-capture-parent plugins since `<groupId>org.apache.felix</groupId> <artifactId>maven-bundle-plugin</artifactId>` was packed with an unsupported version for Java 11. `mvn test` now works almost smoothly (see 3th steps)...
+
+3) Upgraded all unit test dependencies: some of them were crashing on Java 11. Upgrade them resolve the problem. I did not investigate more. (thanks to `mvn versions:display-dependency-updates`)
+ dependencies: update VlcJ from 2.4.1 to 3.12.1
+ 
+ dependencies: update JavaCV from 1.3.3 to 1.5.1
+ 
+ Dependencies update vlcj
+ I did not update VlcJ to 4.2.0 since the API has some breaking change and I do not know how to use this library.
+ Dependencies update javacv
+ 
+ cleanup resource folder and enhance unit test coverage to 40.5%
+ @sarxos , please review changes. I created new request for cleanup resource folder.
+thanks,
+Alex
+ fixes: Webcam.close() does not return #651
+ SynchronousQueue can throw InterruptedException if the queue transfer result was `null`. Users should call `Thread.interrupted()` when deciding if the thread was actually interrupted.
+ raspberrypi drivers using raspixxx CLI
+ wrap raspistill, raspistillyuv, raspivid, raspividyuv as web cam driver.
+ raspberrypi raspistill driver
+ Hi yuripourre,
+
+Please review my pull as we discussed before.
+
+thanks,
+Anping Mao
+ raspistill webcam driver pull request
+ Hi Sarxos,
+
+I watched webcam capture for a long time. I would like to contribute raspistill driver. Now it is not finish yet, but I want to pull to you for a quick review and give me some suggestion.
+
+thanks,
+Alex Mao
+ Fixed typos in README.md
+ 
+ #653 Fix dependency conflict issue for com.nativelibs4java:bridj:jar 
+ https://github.com/sarxos/webcam-capture/issues/653
+ Update README.md
+ - Update some links
+- Add more links
+- Fix typo
+ fix outdated repo url
+ 
+ Fix minSize < curSize
+ Fix #626 
+Thanks to @kbaik
+ Fix - WebcamPicker generic List type
+ 
+ Fix README for JavaCV
+ 1) Update the link.
+
+2) Modify the documentation according to:
+ - https://mvnrepository.com/artifact/com.github.sarxos/webcam-capture-driver-javacv
+ - https://mvnrepository.com/artifact/com.github.sarxos/webcam-capture-driver-opencv
+
+ Tested on Raspbian 9.3 (stretch)
+ Raspberry PI v1
+ Fix webcam-capture-0.3.12-dist.zip link
+ Closes #615
+ Add new FFmpeg driver
+ Hello @sarxos,
+
+I rewrote the FFmpeg driver from scratch (using bgr24 as you suggested). It seems stable even with high frame rates.
+
+My only concern is that getImageBytes methods are dealing with BGR instead of RGB (is that a problem?).
+
+You can find a working example at [my repository](https://github.com/yuripourre/webcam-capture-ffmpegcliv2/blob/webcam-capture-driver/src/main/java/ffmpegcli/BGRExample.java).
+
+Please feel free to suggest any modification.
+ Update READMEs
+ 

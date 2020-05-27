@@ -1,0 +1,68 @@
+﻿NUMTopics = 2
+(0, '0.086*"version" + 0.083*"upgrade" + 0.078*"copyright" + 0.078*"readmemd" + 0.076*"feature" + 0.076*"request" + 0.076*"onlyoffice" + 0.075*"fix" + 0.075*"update" + 0.075*"redistribution"')
+(1, '0.211*"upgrade" + 0.211*"version" + 0.156*"copyright" + 0.101*"readmemd" + 0.064*"feature" + 0.046*"onlyoffice" + 0.046*"request" + 0.028*"patch" + 0.027*"merge" + 0.027*"add"')
+
+------------------------
+NUMTopics = 3
+(0, '0.084*"version" + 0.081*"upgrade" + 0.078*"copyright" + 0.078*"readmemd" + 0.076*"feature" + 0.076*"request" + 0.076*"onlyoffice" + 0.075*"fix" + 0.075*"update" + 0.075*"redistribution"')
+(1, '0.217*"upgrade" + 0.216*"version" + 0.159*"copyright" + 0.102*"readmemd" + 0.064*"feature" + 0.045*"onlyoffice" + 0.045*"request" + 0.025*"patch" + 0.025*"merge" + 0.025*"add"')
+(2, '0.078*"version" + 0.077*"upgrade" + 0.077*"copyright" + 0.077*"readmemd" + 0.077*"feature" + 0.077*"request" + 0.077*"onlyoffice" + 0.077*"merge" + 0.077*"add" + 0.077*"patch"')
+
+------------------------
+NUMTopics = 4
+(0, '0.084*"version" + 0.081*"upgrade" + 0.078*"copyright" + 0.078*"readmemd" + 0.076*"feature" + 0.076*"request" + 0.076*"onlyoffice" + 0.076*"fix" + 0.076*"update" + 0.075*"redistribution"')
+(1, '0.220*"upgrade" + 0.219*"version" + 0.161*"copyright" + 0.102*"readmemd" + 0.063*"feature" + 0.044*"request" + 0.044*"onlyoffice" + 0.024*"update" + 0.024*"fix" + 0.024*"merge"')
+(2, '0.077*"version" + 0.077*"update" + 0.077*"fix" + 0.077*"upgrade" + 0.077*"readmemd" + 0.077*"request" + 0.077*"copyright" + 0.077*"onlyoffice" + 0.077*"feature" + 0.077*"merge"')
+(3, '0.082*"version" + 0.081*"upgrade" + 0.080*"copyright" + 0.078*"readmemd" + 0.077*"feature" + 0.076*"patch" + 0.076*"onlyoffice" + 0.076*"redistribution" + 0.076*"add" + 0.076*"merge"')
+
+------------------------
+NUMTopics = 5
+(0, '0.077*"version" + 0.077*"upgrade" + 0.077*"copyright" + 0.077*"readmemd" + 0.077*"fix" + 0.077*"onlyoffice" + 0.077*"request" + 0.077*"feature" + 0.077*"update" + 0.077*"add"')
+(1, '0.079*"upgrade" + 0.078*"copyright" + 0.078*"version" + 0.077*"readmemd" + 0.077*"fix" + 0.077*"onlyoffice" + 0.077*"update" + 0.077*"feature" + 0.077*"request" + 0.076*"patch"')
+(2, '0.077*"version" + 0.077*"upgrade" + 0.077*"fix" + 0.077*"update" + 0.077*"copyright" + 0.077*"readmemd" + 0.077*"request" + 0.077*"feature" + 0.077*"onlyoffice" + 0.077*"patch"')
+(3, '0.078*"version" + 0.078*"upgrade" + 0.077*"copyright" + 0.077*"readmemd" + 0.077*"feature" + 0.077*"onlyoffice" + 0.077*"fix" + 0.077*"update" + 0.077*"request" + 0.077*"patch"')
+(4, '0.221*"version" + 0.221*"upgrade" + 0.162*"copyright" + 0.103*"readmemd" + 0.063*"feature" + 0.043*"request" + 0.043*"onlyoffice" + 0.024*"redistribution" + 0.024*"merge" + 0.024*"add"')
+
+------------------------
+NUMTopics = 6
+(0, '0.077*"version" + 0.077*"upgrade" + 0.077*"readmemd" + 0.077*"copyright" + 0.077*"fix" + 0.077*"update" + 0.077*"feature" + 0.077*"onlyoffice" + 0.077*"request" + 0.077*"redistribution"')
+(1, '0.077*"upgrade" + 0.077*"copyright" + 0.077*"version" + 0.077*"readmemd" + 0.077*"update" + 0.077*"fix" + 0.077*"feature" + 0.077*"onlyoffice" + 0.077*"request" + 0.077*"patch"')
+(2, '0.077*"version" + 0.077*"upgrade" + 0.077*"readmemd" + 0.077*"copyright" + 0.077*"feature" + 0.077*"update" + 0.077*"fix" + 0.077*"request" + 0.077*"onlyoffice" + 0.077*"patch"')
+(3, '0.081*"version" + 0.081*"upgrade" + 0.080*"copyright" + 0.078*"readmemd" + 0.078*"feature" + 0.076*"patch" + 0.076*"onlyoffice" + 0.076*"add" + 0.075*"redistribution" + 0.075*"merge"')
+(4, '0.080*"version" + 0.080*"upgrade" + 0.079*"copyright" + 0.078*"readmemd" + 0.077*"feature" + 0.076*"redistribution" + 0.076*"add" + 0.076*"merge" + 0.076*"request" + 0.076*"patch"')
+(5, '0.223*"upgrade" + 0.223*"version" + 0.163*"copyright" + 0.103*"readmemd" + 0.063*"feature" + 0.043*"request" + 0.043*"onlyoffice" + 0.023*"fix" + 0.023*"update" + 0.023*"merge"')
+
+------------------------
+NUMTopics = 7
+(0, '0.077*"version" + 0.077*"upgrade" + 0.077*"readmemd" + 0.077*"copyright" + 0.077*"feature" + 0.077*"onlyoffice" + 0.077*"request" + 0.077*"fix" + 0.077*"update" + 0.077*"redistribution"')
+(1, '0.082*"upgrade" + 0.081*"copyright" + 0.080*"version" + 0.078*"readmemd" + 0.077*"feature" + 0.076*"patch" + 0.076*"onlyoffice" + 0.076*"add" + 0.076*"merge" + 0.075*"request"')
+(2, '0.077*"version" + 0.077*"upgrade" + 0.077*"readmemd" + 0.077*"copyright" + 0.077*"feature" + 0.077*"request" + 0.077*"onlyoffice" + 0.077*"update" + 0.077*"merge" + 0.077*"patch"')
+(3, '0.077*"version" + 0.077*"upgrade" + 0.077*"copyright" + 0.077*"feature" + 0.077*"readmemd" + 0.077*"onlyoffice" + 0.077*"request" + 0.077*"patch" + 0.077*"update" + 0.077*"add"')
+(4, '0.206*"version" + 0.206*"upgrade" + 0.172*"copyright" + 0.105*"readmemd" + 0.072*"feature" + 0.038*"redistribution" + 0.038*"request" + 0.038*"merge" + 0.038*"add" + 0.038*"onlyoffice"')
+(5, '0.235*"version" + 0.235*"upgrade" + 0.144*"copyright" + 0.098*"readmemd" + 0.052*"request" + 0.052*"onlyoffice" + 0.052*"fix" + 0.052*"update" + 0.052*"feature" + 0.007*"merge"')
+(6, '0.077*"version" + 0.077*"upgrade" + 0.077*"copyright" + 0.077*"readmemd" + 0.077*"feature" + 0.077*"request" + 0.077*"onlyoffice" + 0.077*"update" + 0.077*"merge" + 0.077*"fix"')
+
+------------------------
+NUMTopics = 8
+(0, '0.077*"upgrade" + 0.077*"version" + 0.077*"copyright" + 0.077*"readmemd" + 0.077*"feature" + 0.077*"onlyoffice" + 0.077*"request" + 0.077*"redistribution" + 0.077*"fix" + 0.077*"merge"')
+(1, '0.077*"upgrade" + 0.077*"copyright" + 0.077*"version" + 0.077*"readmemd" + 0.077*"feature" + 0.077*"onlyoffice" + 0.077*"request" + 0.077*"update" + 0.077*"patch" + 0.077*"fix"')
+(2, '0.077*"version" + 0.077*"upgrade" + 0.077*"copyright" + 0.077*"readmemd" + 0.077*"feature" + 0.077*"request" + 0.077*"onlyoffice" + 0.077*"merge" + 0.077*"patch" + 0.077*"update"')
+(3, '0.077*"upgrade" + 0.077*"version" + 0.077*"copyright" + 0.077*"readmemd" + 0.077*"feature" + 0.077*"onlyoffice" + 0.077*"request" + 0.077*"patch" + 0.077*"update" + 0.077*"merge"')
+(4, '0.077*"upgrade" + 0.077*"version" + 0.077*"copyright" + 0.077*"readmemd" + 0.077*"feature" + 0.077*"onlyoffice" + 0.077*"request" + 0.077*"merge" + 0.077*"update" + 0.077*"redistribution"')
+(5, '0.237*"upgrade" + 0.237*"version" + 0.145*"copyright" + 0.098*"readmemd" + 0.052*"request" + 0.052*"onlyoffice" + 0.052*"fix" + 0.052*"update" + 0.052*"feature" + 0.006*"merge"')
+(6, '0.077*"upgrade" + 0.077*"copyright" + 0.077*"version" + 0.077*"readmemd" + 0.077*"feature" + 0.077*"request" + 0.077*"onlyoffice" + 0.077*"update" + 0.077*"merge" + 0.077*"patch"')
+(7, '0.207*"version" + 0.207*"upgrade" + 0.173*"copyright" + 0.105*"readmemd" + 0.072*"feature" + 0.038*"add" + 0.038*"redistribution" + 0.038*"patch" + 0.038*"merge" + 0.038*"onlyoffice"')
+
+------------------------
+NUMTopics = 9
+(0, '0.077*"upgrade" + 0.077*"version" + 0.077*"copyright" + 0.077*"readmemd" + 0.077*"feature" + 0.077*"onlyoffice" + 0.077*"request" + 0.077*"merge" + 0.077*"update" + 0.077*"fix"')
+(1, '0.077*"upgrade" + 0.077*"copyright" + 0.077*"version" + 0.077*"readmemd" + 0.077*"feature" + 0.077*"onlyoffice" + 0.077*"request" + 0.077*"update" + 0.077*"patch" + 0.077*"fix"')
+(2, '0.077*"upgrade" + 0.077*"version" + 0.077*"copyright" + 0.077*"readmemd" + 0.077*"feature" + 0.077*"onlyoffice" + 0.077*"request" + 0.077*"merge" + 0.077*"patch" + 0.077*"update"')
+(3, '0.077*"upgrade" + 0.077*"version" + 0.077*"copyright" + 0.077*"readmemd" + 0.077*"feature" + 0.077*"onlyoffice" + 0.077*"request" + 0.077*"update" + 0.077*"patch" + 0.077*"merge"')
+(4, '0.077*"upgrade" + 0.077*"version" + 0.077*"copyright" + 0.077*"readmemd" + 0.077*"feature" + 0.077*"onlyoffice" + 0.077*"request" + 0.077*"merge" + 0.077*"update" + 0.077*"redistribution"')
+(5, '0.238*"upgrade" + 0.238*"version" + 0.145*"copyright" + 0.098*"readmemd" + 0.052*"fix" + 0.052*"update" + 0.052*"request" + 0.052*"onlyoffice" + 0.052*"feature" + 0.005*"redistribution"')
+(6, '0.077*"upgrade" + 0.077*"copyright" + 0.077*"version" + 0.077*"readmemd" + 0.077*"feature" + 0.077*"onlyoffice" + 0.077*"request" + 0.077*"merge" + 0.077*"update" + 0.077*"fix"')
+(7, '0.208*"version" + 0.208*"upgrade" + 0.174*"copyright" + 0.106*"readmemd" + 0.072*"feature" + 0.038*"onlyoffice" + 0.038*"request" + 0.038*"merge" + 0.038*"patch" + 0.038*"redistribution"')
+(8, '0.077*"upgrade" + 0.077*"copyright" + 0.077*"version" + 0.077*"readmemd" + 0.077*"feature" + 0.077*"onlyoffice" + 0.077*"request" + 0.077*"merge" + 0.077*"patch" + 0.077*"update"')
+
+------------------------

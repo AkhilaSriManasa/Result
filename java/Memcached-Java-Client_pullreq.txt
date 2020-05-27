@@ -1,0 +1,36 @@
+﻿ Adding a fake traffic daemon thread
+ 
+ 默认调用的时候errorHandler 都为空，如果memcache服务不可用的时候，没有log.error日志，添加了log.error日志
+ 默认调用的时候errorHandler 都为空，如果memcache服务不可用的时候，没有log.error日志，添加了log.error日志
+
+ 1. add feature to support Object keys(@see interface TransBytecode);2.fi...
+ Hi,
+I feel limited when i found out that only String can be used as the key,so i changed it to Serializable Object.
+Please check @see interface TransBytecode;@see testcase MemCachedBenchTcpKey,MemCachedBenchUdpKey and MemCachedBenchBinaryKey.
+
+ add synchronized to protect the map, to fix the bug:
+ java.util.ConcurrentModificationException
+         at java.util.IdentityHashMap.remove(IdentityHashMap.java:729)
+         at com.ycache.danga.MemCached.SockIOPool.clearHostFromPool(Unknown Source)
+         at com.ycache.danga.MemCached.SockIOPool.createSocket(Unknown Source)
+         at com.ycache.danga.MemCached.SockIOPool.getConnection(Unknown Source)
+         at com.ycache.danga.MemCached.SockIOPool.getSock(Unknown Source)
+         at com.ycache.danga.MemCached.MemCachedClient.get(Unknown Source)
+         at com.ycache.danga.MemCached.MemCachedClient.get(Unknown Source)
+         at com.yihaodian.common.ycache.memcache.impl.BaseMemcacheProxy.get(Unknown Source)
+
+ 在计算虚拟节点的Hash值时,用服务器列表的位置来计算比使用服务器的"ip:port"要稳定(只要保持服务器列表的次序不变)
+ ```
+            //byte[] d = md5.digest((servers[i] + "-" + j).getBytes());
+            byte[] d = md5.digest(("SHARD-" + i + "-NODE-" + j).getBytes());  //@wjw_add: 在计算虚拟节点的Hash值时,用服务器列表的位置来计算比使用服务器的"ip:port"要稳定(只要保持服务器列表的次序不变)
+```
+
+ remove the extra semicolon
+ remove the extra semicolon
+
+ check whether a SchoonerSockIO is still alive in SchoonerSockIOFactory.v...
+ Add functions to check whether a SchoonerSockIO is still alive and can detect the condition in which the server actively closes the connection.
+
+ Timeout workaround for hanging threads under load
+ This works around the problem we have in issue #20.
+

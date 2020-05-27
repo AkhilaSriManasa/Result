@@ -1,0 +1,53 @@
+﻿ fix remaining zk container images
+ fix epel ansible installation for tests
+
+this was fixed already in the dev branch, but is required to get the tests back working on master
+ fix 1 for kafka hostname
+ fix typo in topic name
+ Merge pull request #167 from istresearch/hotfix-1.2.1
+
+Hotfix 1.2.1
+ documentation updates for new url
+
+URL changed from istresearch.com to dmoztools.net for better stability
+ change istresearch.com to something more stable
+
+Hopefully this fixes the crawler integration tests which have been failing, tested locally and works
+ initial commit for 1.2.1
+
+Fixes unit tests as seen in dev, fixes docker login command
+ Update design.rst (#134)
+ Switch rtd docs from master to latest
+ Merge pull request #110 from istresearch/release-1.2
+
+Release 1.2
+ version bump scutils requirements to 1.2.0
+ Merge branch 'master' into release-1.2
+ Add email support
+ Updated Release date
+ Switch from 1.2rc1 to 1.2 official
+ Scutils v1.2.0
+ add docs about docker hostnames
+ Merge pull request #109 from shakyj/master
+
+Updated dmoz link
+ updated dmoz link
+ Remove dev branch note
+ Updated readme with temporary 1.2 note
+ Removed old utils copy for docker image
+ update release-1.2 build branch for readme
+ Update to version 1.2rc1
+
+I think I covered everything, but I am guessing I have missed something.
+ Updated to scutils
+The prep for scutils 1.2.0 package. This houses the updated requirements for the scutils package.
+
+Removed conda_env.yml because it is out of date an unsupported, potentially confusing people.
+ fix typos
+ Add start_urls question to FAQ
+ Remove extra travis pip checks
+
+scutils is up on pypi, and we shouldnt need to run `pip freeze` anymore
+ Update requirements via piprot
+
+Updates all projects with the latest pip requirements. Ran all offline tests fine, pushing to travis to finsih the integration tests.

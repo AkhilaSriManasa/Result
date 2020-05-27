@@ -1,0 +1,219 @@
+﻿ fix core build error
+ 
+ 新手求助 打包问题
+ 请问打包时提示 
+
+Could not find artifact info.xiaomo:core:pom:2017.2 in central https://repo.maven.apache.org/maven2 
+是什么原因
+
+
+
+
+
+fixed on [#27](https://github.com/houko/SpringBootUnity/pull/27)
+
+ 添加日志
+ 
+ add plugins
+ 
+ change comment
+ 
+ 测试文件
+ 
+ 消除编辑器报错
+ 
+ Develop
+ 
+ Merge pull request #17 from xiaomoinfo/develop
+ Develop
+ Develop
+ 
+ md
+ 
+ Develop
+ 
+ screen
+ 
+ Update README.md
+ 
+ api数据库
+ <!-- Love SpringBootUnity? Please consider supporting our collective:
+👉  https://opencollective.com/SpringBootUnity/donate -->
+api中的数据库是空的?
+数据库填你自己的啊
+
+ 配置后启动总是找不到IP
+ Caused by: java.net.UnknownHostException: ip
+	at java.net.InetAddress.getAllByName0(InetAddress.java:1280)
+	at java.net.InetAddress.getAllByName(InetAddress.java:1192)
+	at java.net.InetAddress.getAllByName(InetAddress.java:1126)
+	at com.mysql.jdbc.StandardSocketFactory.connect(StandardSocketFactory.java:188)
+	at com.mysql.jdbc.MysqlIO.<init>(MysqlIO.java:298)
+	... 57 common frames omitted
+Disconnected from the target VM, address: '127.0.0.1:50286', transport: 'socket'
+
+
+已解决 ：windows 系统中C:\Windows\System32\drivers\etc  的HOSTS文件中添加127.0.0.1       ip
+
+ 怎么启动项目呢
+ 怎么启动项目呢
+如果连怎么启动项目都不知道的话，要先了解一下spring boot 比较好。不然这个项目的东西也是完全看不懂的
+
+先图文并茂的简介一下 怎么启动就行 
+
+ 修复网络爬虫文件夹没有自动创建的bug
+ <!-- Love SpringBootUnity? Please consider supporting our collective:
+👉  https://opencollective.com/SpringBootUnity/donate -->
+
+爬虫项目启动后会执行以下操作
+1. 占用端口 8080
+2. 自动创建数据库表
+3. 判断d://yys目录是否存在 不存在则会自动创建
+4. 拉取 阴阳师的图片 并保存自本地
+5. 把阴阳师的相关数据插入到数据库
+
+本爬虫项目是一个使用网络爬虫的场景的具体示例，演示了一个具体需求的流程。
+
+
+![image](https://user-images.githubusercontent.com/12625278/30236182-7eb81d46-9546-11e7-89f4-4c953119dabd.png)
+
+![image](https://user-images.githubusercontent.com/12625278/30236145-d4bc96d2-9545-11e7-998c-ce90c6a895b3.png)
+
+
+![image](https://user-images.githubusercontent.com/12625278/30236187-983d2ea0-9546-11e7-9cf0-c96bfe37e70d.png)
+
+
+
+ website 登录无法跳转到登录页面
+ <!-- Love SpringBootUnity? Please consider supporting our collective:
+👉  https://opencollective.com/SpringBootUnity/donate -->
+
+http://localhost:8080/user/toLogin
+    直接输出  login
+![qjai pac21 qfl rf f iy9](https://user-images.githubusercontent.com/12625278/30235743-c4ace26c-953e-11e7-93da-391bd1d8848d.png)
+![22 ajajlq 6zdyn th2 d 3](https://user-images.githubusercontent.com/12625278/30235745-c4df43f6-953e-11e7-8e04-076d35c96558.png)
+![45 ifr mgfme8zv r aeg](https://user-images.githubusercontent.com/12625278/30235744-c4da793e-953e-11e7-9733-ce6ef609d814.png)
+
+
+bug己修复，多谢指正 @ljmomo 
+
+![ofvr32jv h26s9 5 0vjvk](https://user-images.githubusercontent.com/12625278/30235853-c43382ee-9540-11e7-842b-05630e2be39e.png)
+
+登录之后是这样子的，点击用户名会退出登录。
+
+
+注意：   项目启动之前，先在 application.properties 里面的邮箱配置一下
+
+ 添加贡献者名单
+ ![c8q th8u g9rc tl81mqbjh](https://user-images.githubusercontent.com/12625278/30235963-cfe645d4-9542-11e7-8745-f26ec08d8372.png)
+
+ 怎么没有配置dubbo
+ 分模块可以使用dubbo吗，没有看到使用dubbo啊
+我没有研究过duboo哦，如果你有好的demo。可以贡献代码喔。  @zhouxinghui  非常感谢
+
+ Activating Open Collective
+ This pull request adds backers and sponsors from your Open Collective https://opencollective.com/SpringBootUnity ❤️
+  
+  It adds two badges at the top to show the latest number of backers and sponsors. It also adds placeholders so that the avatar/logo of new backers/sponsors can automatically be shown without having to update your README.md. [[more info](https://github.com/opencollective/opencollective/wiki/Github-banner)]. See how it looks on [this repo](https://github.com/apex/apex#backers).
+You can also add a "Donate" button to your website and automatically show your backers and sponsors there with our widgets. Have a look here: https://opencollective.com/widgets
+
+  P.S: As with any pull request, feel free to comment or suggest changes. The only thing "required" are the placeholders on the README because we believe it's important to acknowledge the people in your community that are contributing (financially or with code!).
+
+  Thank you for your great contribution to the open source community. You are awesome! 🙌
+  And welcome to the open collective community! 😊
+
+  Come chat with us in the #opensource channel on https://slack.opencollective.com - great place to ask questions and share best practices with other open source sustainers!
+  
+@xdamman thank you
+
+ mongodb 为什么配置到非本地时会报错呢？
+ Description:
+
+Cannot determine embedded database driver class for database type NONE
+
+Action:
+
+If you want an embedded database please put a supported one on the classpath. If you have database settings to be loaded from a particular profile you may need to active it (no profiles are currently active).
+
+2017.1版本己修复，不好意思。久等 
+
+ 我试了一下 的确可以启动了，请问是哪里配置的问题呢？ 因为我自己写demo测试好像是会报这个错误，一直没搞明白原因是啥，请教一下，谢谢 @xiaomoinfo 
+
+1.5.6版本的改动，如果你没配置数据库信息会报错。他报错的意思是 因为你没有配置数据库信息，程序启动的时候无法决定如何去连接。 
+
+你如果想忽略这个错误，可以在 你的启动函数里 加个这个注解 
+` @EnableAutoConfiguration(exclude={DataSourceAutoConfiguration.class,HibernateJpaAutoConfiguration.class}) `
+
+
+
+![f bdd h b0l re2ju i7d](https://user-images.githubusercontent.com/12625278/30235942-7fc52412-9542-11e7-983b-014ec222858f.png)
+
+
+ 问一下，你的项目里模块的打包是不是有点问题，既然要被其他模块引用，至少打包成jar吧
+ 
+现在就是打的是jar包啊...有什么问题吗?@wuyuansu
+
+ 多模块打 jar ,war包
+ 我想请问一下多模块boot 项目如果打 jar 包 或 war包，我的boot项目，使用install 无法打包成功。
+
+具体为引用的mybatis 模块 打为jar包 无法扫描到。
+![Uploading image.png…]()
+
+![Uploading image.png…]()
+
+没明白你说的是什么意思。你引的mybatis是我项目的mybatis模块还是官方的mybatis依赖包。
+
+使用的是官方的，我service在mybatis 中，打包为jar
+![Uploading image.png…]()
+
+ , mybatis模块也打为jar包，启动时，spring扫描不到service注解，导致
+![Uploading image.png…]() ，引用不了mybatis模块。
+
+
+
+
+
+我的这个项目中也有引用到mybatis的，仔细对照一下看看哪里出了问题
+
+已经解决了，谢谢。
+
+ 1.8->1.7
+ crawler 模块使用了 lambda 表达式.1.8->1.7
+
+[ERROR] /E:/my_data/IdeaProject/test/github/xiaomo-info-java/crawler/src/main/java/info/xiaomo/crawler/schedule/ScheduledTasks.java:[44,50] -source 1.7 中不支持方法引用
+  (请使用 -source 8 或更高版本以启用方法引用)
+[INFO] 1 error
+[INFO] -------------------------------------------------------------
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Summary:
+[INFO]
+[INFO] xiaomo ............................................. SUCCESS [  0.323 s]
+[INFO] core ............................................... SUCCESS [  1.030 s]
+[INFO] website ............................................ SUCCESS [  0.968 s]
+[INFO] socket ............................................. SUCCESS [  0.353 s]
+[INFO] scheduled .......................................... SUCCESS [  0.250 s]
+[INFO] rabbitmq ........................................... SUCCESS [  0.300 s]
+[INFO] redis .............................................. SUCCESS [  0.270 s]
+[INFO] async .............................................. SUCCESS [  0.244 s]
+[INFO] mongodb ............................................ SUCCESS [  0.622 s]
+[INFO] security ........................................... SUCCESS [  0.420 s]
+[INFO] mybatis ............................................ SUCCESS [  0.297 s]
+[INFO] freemarker ......................................... SUCCESS [  0.359 s]
+[INFO] velocity ........................................... SUCCESS [  0.427 s]
+[INFO] multipleSource ..................................... SUCCESS [  0.424 s]
+[INFO] api ................................................ SUCCESS [  0.620 s]
+[INFO] crawler ............................................ FAILURE [  0.346 s]
+[INFO] application ........................................ SKIPPED
+[INFO] aries .............................................. SKIPPED
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 8.000 s
+[INFO] Finished at: 2017-02-07T03:36:33+08:00
+[INFO] Final Memory: 54M/699M
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.5.1:compile (default-compile) on project crawler: Compilation failure
+[ERROR] /E:/my_data/IdeaProject/test/github/xiaomo-info-java/crawler/src/main/java/info/xiaomo/crawler/schedule/ScheduledTasks.java:[44,50] -source 1.7 中不支持方法引用
+[ERROR] (请使用 -source 8 或更高版本以启用方法引用)
+thank you 
+

@@ -1,0 +1,402 @@
+﻿ Maven Dependency issue
+ I have developed H2o machine learning model and trying to deploy on confluent Kafka v 5.2.1 platform (localhost for testing). Intellij IDE using.
+
+pom.xml
+<repositories>
+        <repository>
+            <id>confluent</id>
+            <url>https://packages.confluent.io/maven/</url>
+           
+
+        </repository>
+
+    </repositories>
+
+
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.kafka</groupId>
+            <artifactId>kafka-streams</artifactId>
+            <version>2.3.0-ccs</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.kafka</groupId>
+            <artifactId>kafka-clients</artifactId>
+            <version>2.3.0-ccs</version>
+        </dependency>
+
+        <!-- For Scala developers -->
+        <dependency>
+            <groupId>org.apache.kafka</groupId>
+            <artifactId>kafka-streams-scala_2.11</artifactId>
+            <!-- or
+            <artifactId>kafka-streams-scala_2.12</artifactId>
+            -->
+            <version>2.3.0-ccs</version>
+        </dependency>
+
+        <!-- Dependencies below are required/recommended only when using Apache Avro. -->
+        <dependency>
+            <groupId>io.confluent</groupId>
+            <artifactId>kafka-avro-serializer</artifactId>
+            <version>5.3.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.avro</groupId>
+            <artifactId>avro</artifactId>
+            <version>1.8.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.avro</groupId>
+            <artifactId>avro-maven-plugin</artifactId>
+            <version>1.8.2</version>
+        </dependency>
+    </dependencies>
+
+
+
+copied from confluent website and paste in pom.xml
+
+Getting following error during compile maven
+
+[WARNING] The POM for org.apache.kafka:kafka-streams:jar:2.3.0-ccs is missing, no dependency information available
+[WARNING] The POM for org.apache.kafka:kafka-clients:jar:2.3.0-ccs is missing, no dependency information available
+[WARNING] The POM for org.apache.kafka:kafka-streams-scala_2.11:jar:2.3.0-ccs is missing, no dependency information available
+
+Please suggest. I tried so many options but couldn't resolve. If possible please guide me.
+ 
+Resolved issue:
+instead of this version 2.3.0-ccs, use only 2.3.0 in all three places. 
+
+ Fix link to Kafka Streams API Docs
+ 
+ Static bug #12 fix for Kafka_Streams_TensorFlow_Image_Recognition_Example.java
+ Static bug #12 fix for Kafka_Streams_TensorFlow_Image_Recognition_Example.java
+
+H2O module was already fixed with PR #13 
+
+Those IntegrationTest contains still these prolems, but in real life test should not contain implementation anyway.
+ TopologyTestDriver based unit tests
+ This is PR related to Issue #11
+
+It contains also some Readme updates and renaming of one directory due to typo.
+When adding H2O unit test, implementation classes refactored to use same base class:
+https://github.com/jukkakarvanen/kafka-streams-machine-learning-examples/tree/unit_tests/h2o-gbm/src/main/java/com/github/megachucky/kafka/streams/machinelearning
+
+
+
+ Class static used to pass info between stream steps
+ 
+Kafka_Streams_TensorFlow_Image_Recognition_Example use class static variables to pass information between foreach and mapValues steps.
+
+So I expect rather interesting problems if executed with multiple threads.
+
+I have fix for this, but it is on top of changes related to #11
+Similar problems noticed also in other classes.
+
+Yeah, to be honest, my first implementation was "quick and dirty", also I am not coding daily anymore - thus, I forgot some best practices about Java coding in last years :-) 
+
+Thank you so much for these improvements and pull requests.
+
+I merged your fix. Thank you. 
+
+I will keep the ticket open as reminder for the other classes. I will refactor the other classes, too.
+
+ TopologyTestDriver based unit tests
+ Current unit tests contains copy of actual implementation, not testing actual code in src folder.
+
+There is example how to utilize TopologyTestDriver and actually testing actual implementation:
+https://github.com/jukkakarvanen/kafka-streams-machine-learning-examples/pull/1/files
+
+This is not done as pull request because the implementation is done on top Open pull request:
+https://github.com/kaiwaehner/kafka-streams-machine-learning-examples/pull/10
+
+This same changes could be moved on top of current branch without module split.
+
+I can add similar also for other class where there are actual implementation.
+There are a couple of test where the actual implementation class is missing.
+
+Seems that the way of testing is inherited from kafka-streams-examples, so I created pull request also to there to get better test there:
+https://github.com/confluentinc/kafka-streams-examples/pull/219
+
+This is great refactoring. I just merged the pull request. 
+(I just moved the TestEmbeddedKafkaCluster and TestKafkaStreams into the same folder to keep it simple without the different packages) 
+
+I will do the same refactoring for the other examples.
+
+I think one more good step is the following recommendation from "Kafka Streams in Action book":
+
+_Strive to keep business logic in standalone classes that are entirely independent
+of your Kafka Streams application. This makes them easy to unit test._
+
+I will extract the "business logic" (in this case doing the model prediction for airline delays) into its own class. With this in place, it is even easier to add new business logic, models, and unit tests.
+
+ Splitting Different Examples to independent modules
+ This is rather radical refactoring of the project, but I hope this split would make it easier to understand relationship and dependencies of each example.
+
+What do you think about this kind of split?
+
+Folder (modules) split now based on Example sections in Readme. 
+I expect also that StreamsStarterApp.java could be removed and that way whole src folder.
+
+You might have better idea how to split or name these modules and how to restructure Readme, but here is my proposal.
+
+Sorry, this version still contains those Windows unit test workarounds:
+https://github.com/kaiwaehner/kafka-streams-machine-learning-examples/issues/9
+
+I can also remove those if wanted.
+ JUnit test not working in Windows
+ The JUnit test are failing in Windows due to https://issues.apache.org/jira/browse/KAFKA-6647
+
+The same problem seems to be also mentioned here:
+https://github.com/kaiwaehner/kafka-streams-machine-learning-examples/issues/4#issuecomment-418805593
+
+I merged it. Hopefully https://issues.apache.org/jira/browse/KAFKA-6647 will be fixed soon, then we can remove your workaround and just use the regular Kafka Streams test classes.
+
+As side note: Confluent recommends to NOT use Kafka and especially Kafka Streams on Windows. We have seen several issues and (strange) errors and inconsistencies. 
+
+Yes, currently I am used to develop with IntelliJ IDEA in Windows. Now with this fix you can run the test easily in IDE before launching application inside Docker Linux container.
+
+The application is still failing with exception in cleanup method in Window, but for me it does not matter because I run it inside Docker anyway to avoid the problems you mentioned. 
+
+It would be easy to fix actual application removing the cleanup, because it is only "development time workaround" and to my understanding these examples does not contain anything to cleanup.
+
+
+
+ Error on  maven test
+ [INFO]
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO]
+[INFO] Results:
+[INFO]
+[INFO] Tests run: 0, Failures: 0, Errors: 0, Skipped: 0
+[INFO]
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  22.589 s
+[INFO] Finished at: 2018-11-22T10:12:38Z
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-surefire-plugin:2.20:test (default-test) on project kafka-streams-machine-learning-examples: There are test failures.
+[ERROR]
+[ERROR] Please refer to /data/home/linuxadmin/project/kafka-streams-machine-learning-examples/target/surefire-reports for the individual test results.
+[ERROR] Please refer to dump files (if any exist) [date]-jvmRun[N].dump, [date].dumpstream and [date]-jvmRun[N].dumpstream.
+[ERROR] The forked VM terminated without properly saying goodbye. VM crash or System.exit called?
+[ERROR] Command was /bin/sh -c cd /data/home/linuxadmin/project/kafka-streams-machine-learning-examples && /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java -jar /data/home/linuxadmin/project/kafka-streams-machine-learning-examples/target/surefire/surefirebooter8594516186798539983.jar /data/home/linuxadmin/project/kafka-streams-machine-learning-examples/target/surefire 2018-11-22T10-12-37_631-jvmRun1 surefire3166622089630056442tmp surefire_01187852086155324446tmp
+[ERROR] Error occurred in starting fork, check output in log
+[ERROR] Process Exit Code: 1
+[ERROR] org.apache.maven.surefire.booter.SurefireBooterForkException: The forked VM terminated without properly saying goodbye. VM crash or System.exit called?
+[ERROR] Command was /bin/sh -c cd /data/home/linuxadmin/project/kafka-streams-machine-learning-examples && /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java -jar /data/home/linuxadmin/project/kafka-streams-machine-learning-examples/target/surefire/surefirebooter8594516186798539983.jar /data/home/linuxadmin/project/kafka-streams-machine-learning-examples/target/surefire 2018-11-22T10-12-37_631-jvmRun1 surefire3166622089630056442tmp surefire_01187852086155324446tmp
+[ERROR] Error occurred in starting fork, check output in log
+[ERROR] Process Exit Code: 1
+[ERROR]         at org.apache.maven.plugin.surefire.booterclient.ForkStarter.fork(ForkStarter.java:679)
+[ERROR]         at org.apache.maven.plugin.surefire.booterclient.ForkStarter.fork(ForkStarter.java:533)
+[ERROR]         at org.apache.maven.plugin.surefire.booterclient.ForkStarter.run(ForkStarter.java:279)
+[ERROR]         at org.apache.maven.plugin.surefire.booterclient.ForkStarter.run(ForkStarter.java:243)
+[ERROR]         at org.apache.maven.plugin.surefire.AbstractSurefireMojo.executeProvider(AbstractSurefireMojo.java:1077)
+[ERROR]         at org.apache.maven.plugin.surefire.AbstractSurefireMojo.executeAfterPreconditionsChecked(AbstractSurefireMojo.java:907)
+[ERROR]         at org.apache.maven.plugin.surefire.AbstractSurefireMojo.execute(AbstractSurefireMojo.java:785)
+[ERROR]         at org.apache.maven.plugin.DefaultBuildPluginManager.executeMojo(DefaultBuildPluginManager.java:137)
+[ERROR]         at org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:210)
+[ERROR]         at org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:156)
+[ERROR]         at org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:148)
+[ERROR]         at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject(LifecycleModuleBuilder.java:117)
+[ERROR]         at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject(LifecycleModuleBuilder.java:81)
+[ERROR]         at org.apache.maven.lifecycle.internal.builder.singlethreaded.SingleThreadedBuilder.build(SingleThreadedBuilder.java:56)
+[ERROR]         at org.apache.maven.lifecycle.internal.LifecycleStarter.execute(LifecycleStarter.java:128)
+[ERROR]         at org.apache.maven.DefaultMaven.doExecute(DefaultMaven.java:305)
+[ERROR]         at org.apache.maven.DefaultMaven.doExecute(DefaultMaven.java:192)
+[ERROR]         at org.apache.maven.DefaultMaven.execute(DefaultMaven.java:105)
+[ERROR]         at org.apache.maven.cli.MavenCli.execute(MavenCli.java:956)
+[ERROR]         at org.apache.maven.cli.MavenCli.doMain(MavenCli.java:288)
+[ERROR]         at org.apache.maven.cli.MavenCli.main(MavenCli.java:192)
+[ERROR]         at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+[ERROR]         at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+[ERROR]         at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+[ERROR]         at java.lang.reflect.Method.invoke(Method.java:498)
+[ERROR]         at org.codehaus.plexus.classworlds.launcher.Launcher.launchEnhanced(Launcher.java:289)
+[ERROR]         at org.codehaus.plexus.classworlds.launcher.Launcher.launch(Launcher.java:229)
+[ERROR]         at org.codehaus.plexus.classworlds.launcher.Launcher.mainWithExitCode(Launcher.java:415)
+[ERROR]         at org.codehaus.plexus.classworlds.launcher.Launcher.main(Launcher.java:356)
+[ERROR]
+[ERROR] -> [Help 1]
+[ERROR]
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR]
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoExecutionException
+
+@RaghuDV15 This sounds like a problem with your computer resources. 
+Do you have the right operating system (Linux, MacOS X), Java 8, enough memory?
+
+Maven FAQ also gives this hint:
+_"... there is a fair chance your test suite is leaking some kind of OS-level resource that makes things worse at every run."_
+
+@RaghuDV15 FYI: I hit the same exception today after changing the Kafka version in my pom.xml. So you need to ensure that all versions work well together and that the installed and configured Java JDK is correct. Then it works well.
+
+ Kafka_Streams_TensorFlow_Image_Recognition_Example fails to compile
+ At 195/196 line it fails to compile as the metod is expected to return an array instead returning a object of Tensor
+[196,60] array required, but org.tensorflow.Tensor found****
+@rroyhere Strange. Works for me. Build runs through, including compiling the Java class and running the Unit test successfully. I also did not change anything regarding this example last months and many people already tried it out. 
+I could assume that a newer TensorFlow version could have some breaking changes, but this projects includes all dependencies and correct versions. 
+
+I assume you just cloned the project and did 'mvn clean package'? 
+
+Can you please give more details: 
+- Operating system
+- Java version
+- Steps to execute the build
+- Where is this exception? In the Kafka_Streams_TensorFlow_Image_Recognition_Example.java or in the Unit test?
+
+Thanks.
+
+Sorry, later I forgot to update here, I actually had changed the dependency of org.tensorflow to 1.8.0 as 1.3.0 was not available to our company internal repository, later felt that might be the reason. I will update it manually in my local repo and try and let you know. Thanks
+
+Got it. This would explain the API changes in TensorFlow. It should work if you use the right version.
+
+I am not totally happy with this example anyway because it uses the low level TensorFlow API. This is very complex for people who just want to see the integration (though, it does its job, showing how to embed a TensorFlow model into Kafka Streams microservice) . 
+I will build another example using Keras and TensorFlow, which makes it much easier. This is high priority on my TODO list... :-)
+
+ Error on timestamp 
+ Thank you for prompt reply yesterday. Now, I got this error when I send the massage. Here is an error.
+
+Possibly because a pre-0.10 producer client was used to write this record to Kafka without embedding a timestamp, or because the input topic was created before upgrading the Kafka cluster to 0.10+. Use a different TimestampExtractor to process this data.
+
+Sounds like you are using a very old version of Apache Kafka? Which version do you use? I tested it with Kafka 1.1. and 2.0.
+
+Pre-0.10 is very old. It did not include timestamps in a message. So it seems to be not compatible.
+
+Hi kaiwaehner, 
+
+I used the kafka in confluent-5.0.0, and kafka_2.11-2.0.0. It also shown the errors like that. 
+
+That's really strange. I will check with Confluent engineers why this can happen with the current version of Kafka and come back to this thread.
+
+Can you please give more details about the steps you do and where this happens?
+
+Are you doing the airline example step-by-step as explained or anything else?
+How do you send the message? With kafkacat or another command?
+
+Here is a hint from a colleague if you use kafkacat like in my example:
+
+_Make sure they use librdkafka >= v0.11.4. Old versions of Ubuntu/Debian will have outdated librdkafkas. Verify with `kafkacat -V`_
+
+Maybe this helps.
+
+Problem solved. I used the kafka producer to send the massage and it work fine. 
+
+ Could not load the H20 GBM
+ It shown this error massage when I use java command.
+
+Error: Could not find or load main class com.github.megachucky.kafka.streams.machinelearning.Kafka_Streams_MachineLearning_H2O_GBM_Example
+
+java -cp target/kafka-streams-machine-learning-examples-1.0-SNAPSHOT-jar-with-dependencies.jar com.github.megachucky.kafka.streams.machinelearning.Kafka_Streams_MachineLearning_H2O_GBM_Example
+
+
+Solved
+
+Great that you got it working.
+
+I assume you forgot to do the Maven build so that it did not find the (generated) JAR file...
+
+> It shown this error massage when I use java command.
+> 
+> Error: Could not find or load main class com.github.megachucky.kafka.streams.machinelearning.Kafka_Streams_MachineLearning_H2O_GBM_Example
+> 
+> java -cp target/kafka-streams-machine-learning-examples-1.0-SNAPSHOT-jar-with-dependencies.jar com.github.megachucky.kafka.streams.machinelearning.Kafka_Streams_MachineLearning_H2O_GBM_Example
+
+Hello, 
+sorry for disturbing, but I have the same problem.
+Please, could you share with solution,
+Thanks)
+
+@Uldanay Did you do "mvn clean package" successfully? Which Operating System and Java version?
+
+ Error executing example
+ Hi,
+
+First, congrats for this examples.
+
+I have a problem when trying to execute the example. This is the error:
+
+> Exception in thread "main" java.lang.ClassNotFoundException: com.github.megachucky.kafka.streams.machinelearning.modelss.gbm_pojo_test
+>         at java.net.URLClassLoader.findClass(Unknown Source)
+>         at java.lang.ClassLoader.loadClass(Unknown Source)
+>         at sun.misc.Launcher$AppClassLoader.loadClass(Unknown Source)
+>         at java.lang.ClassLoader.loadClass(Unknown Source)
+>         at java.lang.Class.forName0(Native Method)
+>         at java.lang.Class.forName(Unknown Source)
+>         at com.github.megachucky.kafka.streams.machinelearning.Kafka_Streams_MachineLearning_H2O_GBM_Example.main(Kafka_Streams_MachineLearning_H2O_GBM_Example.java:38)
+
+Do I need to do something special with the POJO?
+
+Thanks,
+Sorry for late response, @rsegura . I did not get an email notification. 
+
+No, there is no need to do anything special.
+
+Do you get this during Maven build or when running the Main class by yourself? 
+
+If not during Maven build, can you please check if your "fat jar" has the class included?
+
+I tried it again on my Macbook. Works fine from scratch with new checkout.
+
+I upgraded to the recent Kafka release 2.0 and tested again. Still working fine for me. Please try again and let me know. Thank you.
+
+Hi, 
+Thank for Share, 
+I have installed jdk1.8.0_181 and kafka 2 with zookeeper and reinicied
+Apache Maven 3.5.2 
+but  i have a problem when trying to execute mvn compile package
+
+Results :
+
+Tests in error:
+  com.github.megachucky.kafka.streams.machinelearning.test.Kafka_Streams_MachineLearning_DL4J_DeepLearning_Iris_IntegrationTest: java.nio.file.FileSystemException: C:\Users\-----\AppData\Local\Temp\junit8850107424176097916\junit8391030063973189677\IrisInputTopic-0\00000000000000000000.timeindex: The process cannot access the file because it is being used (..)nother process.
+  com.github.megachucky.kafka.streams.machinelearning.test.Kafka_Streams_MachineLearning_H2O_DeepLearning_Example_IntegrationTest: java.nio.file.FileSystemException: C:\Users\------\AppData\Local\Temp\junit6471400984483457428\junit2268153206073467573\AirlineInputTopic-0\00000000000000000000.timeindex: The process cannot access the file because it is being (..) by another process.
+  com.github.megachucky.kafka.streams.machinelearning.test.Kafka_Streams_MachineLearning_H2O_GBM_Example_IntegrationTest: java.nio.file.FileSystemException: C:\Users\-----\AppData\Local\Temp\junit466078204952140194\junit4113150626764005236\AirlineInputTopic-0\00000000000000000000.timeindex: The process cannot access the file because it is being used by an(..)r process.
+  shouldRecognizeImages(com.github.megachucky.kafka.streams.machinelearning.test.Kafka_Streams_TensorFlow_Image_Recognition_Example_IntegrationTest): java.nio.file.DirectoryNotEmptyException: \tmp\kafka-streams\kafka-streams-tensorflow-image-recognition-integration-test\0_0
+  com.github.megachucky.kafka.streams.machinelearning.test.Kafka_Streams_TensorFlow_Image_Recognition_Example_IntegrationTest: C:\Users\------\AppData\Local\Temp\kafka-1474664452892431010\version-2\log.1: The process cannot access the fil(..)cause it is being used by another process.
+
+Tests run: 8, Failures: 0, Errors: 5, Skipped: 0
+
+
+I dont know what it is.
+
+Looks like you run this on Windows? 
+
+`C:\Users-----\AppData\Local\Temp\`
+
+Well, I never tested on Windows. Kafka in general does not work on Windows. You often get strange exceptions. For that reason, I recommend to use Linux / Mac all the time (either via VM or cloud - if you have to use Windows OS).
+
+Though, in this case it might be some file / directory issue.
+
+ Use Kafka Streams' `EmbeddedKafkaCluster` instead of KafkaEmbedded
+ Refactor 
+Use Kafka Streams' `EmbeddedKafkaCluster` instead of KafkaEmbedded -- part of Kafka Streams unit test package (thus you need to include kafka stream with `<scope>test</scope>` for you unit tests, too.
+
+https://github.com/apache/kafka/blob/1.1/streams/src/test/java/org/apache/kafka/streams/integration/utils/EmbeddedKafkaCluster.java
+Resolved. Replaced custom test utils with natively embedded Kafka Streams test utils.
+
+ visualization- prediction output
+ hi.
+great software build :)!
+Would there be an easy way to attach visualization to the prediction output?
+Many thanks,
+Best,
+Andrew
+Hi Andrew,
+
+that's a good point. A nice UI always helps to present this. It is pretty easy. You could use Kafka Connect to send the prediction to a UI like Kibana or Granana. Or you can use a Kafka Consumer API to integrate it with any existing UI application.  
+
+I plan build a nice demo around Kafka + Machine Learning + Real Time Dashboard, too. I will probably leverage KSQL here. It allows to build continuous queries easily. These can send be pushed to a dashboard.
+
+ Use `transform` instead of `foreach`
+ Hey Kai,
+
+I think you can use `transform` that can return a new stream, with the similar function but return the result `p` as the value and even with a new key (right now it is `null`).
+
+By doing this you also do not need to declare a `static String airlineDelayPreduction` :)

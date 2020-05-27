@@ -1,0 +1,48 @@
+﻿ Update README.md
+ Merge pull request #114 from nickntg/nuget
+
+Nuget command for Windows
+ Merge branch 'master' of https://github.com/nickntg/C-Sharp-Algorithms into nuget
+ Revert "* Turned the primes document into an embedded resource to avoid having it as a separate file having to be carried around in the nuget."
+
+This reverts commit 100563f5ab6b9a4aa4e29a1391a25c4d3b302740.
+ Revert "* Added a nuspec for the project that packs everything from the algorithms output directory."
+
+This reverts commit 8aef6ecdbd2620bba667e017551e92c46123a656.
+ Added a nuspec for the project that packs everything from the algorithms output directory.
+ Merge pull request #124 from nickntg/master
+
+Turned the primes document into an embedded resource.
+ Splitting based on \n.
+ Trying to parse with \r\n again.
+ More testing code to show marks in line.
+ Test commit to see the text line that causes the exception to be raised.
+ Merge pull request #125 from Gutsonok/master
+
+Fixed #117 and one more bug in ChainedHashTable
+ Add a few more assertions to unit tests of ChainHashTable
+ Divide one test on some tests and add new tests for ChainedHashTable
+ Fix bug with nonexplicit singleton hash table store in ChainedHashTable
+
+Two or greater ChainedHashTable objects have the same LinkedList array for storing values.
+Fix this by creating a new array for every ChainedHashTable objects.
+ Fix bug with CopyTo method of ChainedHashTable
+
+If a hashTable node contain a list with some values then the method CopyTo try to fill an array by the end from this node.
+But need check existing next element in the list in the hashTable node.
+ Split based on LF instead of CR/LF.
+ Moved the test under the right folder.
+ Moved instantiation after internal initialization.
+ Added test for primes list.
+ Turned the primes document into an embedded resource.
+ Update README.md
+ Merge pull request #94 from j-rewerts/b-tree
+
+Implemented a basic Btree (#31)
+ Update build_and_test.yml (#122)
+ Update build_and_test.yml
+ Merge branch 'master' of https://github.com/aalhour/C-Sharp-Algorithms
+ Added build_and_test.yml github workflow
+ Update build_and_test.yml
+ Update build_and_test.yml
+ Update build_and_test.yml

@@ -1,0 +1,75 @@
+﻿ Create Marie
+ 
+ Update API_version.json
+ 
+ Translations to PT-BR
+ I'm a brazilian guy, student of Information Technology. Trying to help the translation to be more clear to a brazilian.
+ Update translation.kr.json
+ 
+ updated new version
+ 
+ Messages changes
+ Messages changes
+ General corrections
+ 
+ update french need 17 lines from english
+ update french need 17 lines from english
+ update english for " needed
+ update english for " needed
+ Update 繁體中文.json
+ 
+ Update 한국어.json
+ 
+ Update Español.json
+ add lines 271 - 288 and translate it
+ Update Italiano.json
+ 
+ French fix somes errors
+ 
+ update to be same with english
+ 
+ Fix for Readme.md
+ 
+ create
+ 
+ Debugging
+ arrange from English
+
+ Update translation.zh_CN.json
+ 
+ Update 简体中文.json
+ 
+ rename
+ 
+ Debugging
+ 
+ Debugging
+ 
+ Change the label
+ file label:正體中文-台灣.json (Translations/Interface/正體中文-台灣.json)
+
+change
+
+file label:繁體中文.json (Translations/Interface/繁體中文.json)
+
+ conflicted
+
+
+ Update 繁體中文-台灣.json
+ Little changes for the common terms used in Taiwan
+
+ change zh_tw LanguageName to prevent collision
+ prevent name collision with "Chinese" in [简体中文.json](https://github.com/Lunat1q/Catchem-PoGo/blob/master/Translations/Interface/%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87.json)
+
+ Update 正體中文-台灣.json
+ Update
+
+ Update 简体中文.json
+ Update
+
+ Update translation.zh_CN.json
+ New translation
+
+ Update translation.zh_tw.json
+ Update
+

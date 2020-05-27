@@ -1,0 +1,552 @@
+﻿ Fix child resolve for types with generic interfaces
+ Similar to #127 , when attempting to resolve an open generic type from a child container it would fail to lookup for the generic definition in the parent container.
+
+There was already a test covering just this case in
+https://github.com/grumpydev/TinyIoC/blob/master/tests/TinyIoC.Tests/TinyIoCTests.cs#L3367
+but because it was within a RESOLVE_OPEN_GENERICS region with that directive never being set it was failing.
+
+Not sure how your testing matrix is setup but now that I've added the directive to the file header it runs those tests properly.
+
+This also resolves #128 
+Thanks for the PR, I see there is a test for this but not sure why ` if (_Parent._RegisteredTypes.TryGetValue(registration, out factory))` was moved out if tests were passing before?
+
+ Resolve Issues with 1.4 alpha nuget packages
+ References: #135
+
+- [ ] Listing dependencies in it (NetStandard 1.2-2.0, pcl 4.6, net45)? Is this fine?
+- [ ] Source Includes don't seem to be running even though file content is specified. I'm not sure if this is just an issue with the new csproj file format.
+- [ ] ASP.NET Package says it targets NetStandard 2.0 as well. Figure out if we can just skip this project during build.
+ GitHub Actions, Run on latest .NET Core SDK/macOS, new csproj, dotnet project structure
+ I'm not 100% happy with the generated nuget package for three reasons
+
+- it's listing dependencies in it (NetStandard 1.2-2.0, pcl 4.6, net45), 
+- looking at the NuSpec it should be doing source includes (I'm going to merge and release a beta tag and do more testing). It's a pita to setup GitHub artifacts as it requires auth, but diffing the NuSpec it's doing the same thing.
+- ASP.NET Package says it targets NetStandard 2.0 as well, needed to do that to get it to build xplat without having an extra solution file..., for some crazy reason it compiles...
+
+The advantages to merging...
+
+- We are now building on every commit against NetStandard 1.2-2.0, pcl, NET 4.5.
+- Unit tests now run as part of the build on .NET Core and .NET 4.5
+- Automatic versioning based on semver 
+- Tags get automatically pushed to nuget.
+- Updated project structure a bit to match greater .net community (familiarity).
+- Fixed many issues and now with it building end users can see exactly what compiler flags and references they may need in the various environments.
+- Updated Samples and removed old ones, verified the new ones work.
+
+I think all of my issues listed above are minor and we can work through via a beta tag. Worst case it's possible to manually specify a NuSpec file and go back to 100% old behavior it's just not ideal, I'd rather have the tooling do all the work.
+Still need to update the new project format to do source NuGet Packages: https://gist.github.com/attilah/fd3e71f03fd258c496179e0200c57b0b#file-x-y-z-sources-csproj  https://medium.com/@attilah/source-code-only-nuget-packages-8f34a8fb4738
+
+It might be really tough to use the new project system to do source only includes. We'll have to figure that out. It would be dead simple if we wanted to change to non source code includes having many different project frameworks... @grumpydev please look over my last few commits. I decided to delete a bunch of really old samples / code that is just dead and you wouldn't find in the real world. Someone can do a pr for UWP, but my guess it wouldn't even be needed as it builds as .NET Standard 2.0 which the core package supports.
+
+No problem with removing the old samples etc., but would be nice to create a named branch that still has them in before applying this PR, just so they're easily accessible if anyone does need them (don't underestimate the lifetime of old tech in enterprises 😁 )
+
+Any good ideas for a branch name? I'm really close to merging this in. I was thinking `legacy-samples` or just doing a tag on the commit closest to the last nuget package and users can just browse by old tag. This probably would be better.
+
+I created the https://github.com/grumpydev/TinyIoC/tree/1.3.0 1.3.0 tag for the previous release that users can browse.
+
+@grumpydev I'm going to merge this now (if you are ok with the changes) that the previous tag is created.  I'm not 100% happy with the generated nuget package for three reasons
+
+- it's listing dependencies in it (NetStandard 1.2-2.0, pcl 4.6, net45), 
+- looking at the NuSpec it should be doing source includes (I'm going to merge and release a beta tag and do more testing). It's a pita to setup GitHub artifacts as it requires auth, but diffing the NuSpec it's doing the same thing.
+- ASP.NET Package says it targets NetStandard 2.0 as well, needed to do that to get it to build xplat without having an extra solution file..., for some crazy reason it compiles...
+
+The advantages to merging...
+
+- We are now building on every commit against NetStandard 1.2-2.0, pcl, NET 4.5.
+- Unit tests now run as part of the build on .NET Core and .NET 4.5
+- Automatic versioning based on semver 
+- Tags get automatically pushed to nuget.
+- Updated project structure a bit to match greater .net community (familiarity).
+- Fixed many issues and now with it building end users can see exactly what compiler flags and references they may need in the various environments.
+- Updated Samples and removed old ones, verified the new ones work.
+
+I think all of my issues listed above are minor and we can work through via a beta tag. Worst case it's possible to manually specify a NuSpec file and go back to 100% old behavior it's just not ideal, I'd rather have the tooling do all the work.
+
+@grumpydev Looks like I don't have GitHub access to add a secret. Can you create a new NuGet api key (with access to all the tiny packages) and create a GitHub secret with the name `NUGET_KEY` and the api key as the value. As well can you add me to the other Tiny packages on NuGet / create a Tiny Org and add me if you wish to be able to create GitHub secrets.
+
+@niemyjski should be done
+
+@grumpydev Thank you! I realize these are a lot of changes, please forgive me.
+
+
+@grumpydev one last thing, should we remove TinyMessenger since it's here: https://github.com/grumpydev/TinyMessenger? I didn't diff them to see the differences.
+
+@niemyjski I can't honestly remember which one is newer version of messenger, or if they're the same.
+
+ NuGet Support & Build System
+ The NuGet package you have published is ages old, kindly update the package. VS2019 suggested using "Nancy" package when using container and other classes in code. I have to use it as of now, please update your package. Maybe use some automated build system for pushing stuff to NuGet automatically.
+We'd be willing to accept GitHub actions support as a PR. I'll see what we can do to update this package.
+
+> We'd be willing to accept GitHub actions support as a PR. I'll see what we can do to update this package.
+
+I can give you access to the package in nuget if I haven't already.
+
+Can you please add me to nuget: `niemyjski` 
+
+I just did a bunch of work to get it working on Mac and GitHub actions (clone and run) as well as the new project system. Still more todo.
+
+ It would be nice to have a .NET Core test app
+ It would be nice to have a .NET Core test application to easily test changes on that runtime. I submitted a PR to add one (along with a compatibility fix for TinyMessenger) here https://github.com/grumpydev/TinyIoC/pull/132
+Resolved by #132  
+
+ Add dotnet core test app
+ It would be helpful to have a test project for .NET Core.
+
+This PR does so without materially changing the existing .NET Framework 3.5 test project.  This PR provides a new .NET Core test project, moving code that is common to both it and the original test project into shared projects.
+
+In creating this change, I found a problem with TinyMessenger on .NET Core and fixed it. I did not attempt to deal with ASP .NET extensions, which don't compile for .NET Core.
+Resolves #133 
+
+Some of the file moves (like to TinyIoC.cs) include whitespace changes to each line of the file. I'm not happy about that and will resolve it. I'm not sure if Visual Studio did it when I moved the files from within it, or if something else happened.
+
+I fixed the renames without changes (used a force push, since I doubt anyone has seen this PR yet). It is in better shape now, and should be OK to merge if you can handle the structural changes to the solution.
+
+I'm really torn here and maybe others can weigh in on this. One of the advantages of this library was a wide array of platform support and a single file, but that's starting to become irrelevant as they are no longer supported and net standard is the new king and long term successor. Which brings me to my next point, why not just support full framework (lowest still supported?) and the lowest net standard possible in one project. At what point does everyone just use the built in Microsoft DI that works on net standard (I'm all for multiple options and choice). With that said, I'd rather be simplifying and removing code than splitting this up into multiple projects. @grumpydev @benaadams @xinmyname @phillip-haydon
+
+@niemyjski  I can remove the shared projects from the PR to reduce the number of changes. The PR would be left with two new projects (the .NET Core app and its external assembly). The .NET Core app and the external assembly project could reference the .cs files that they need directly.
+
+That doesn't address your other concerns but at least it simplifies this PR.
+
+I think we should only have one project and no shared projects as it was before and just update things to work in the new world. We can always do multitargetting in a single project. But this seems like a bigger change and probably should be community decided.
+
+I updated the PR (using a force push) to use use multi-targeting as requested. The library projects continue to build for .NET Framework 3.5, but now TinyIoC also builds for .NET Standard 2.0 and TinyIoC.ExternalTypes also builds for .NET Standard 1.1 (1.0 did not suffice due to some attributes that were referenced).
+
+TinyIoC.Tests now builds for .NET Framework 4.5 (rather than 4.0) and .NET Core 2.1. That was the combination that provided least-common denominator support for running tests in Visual Studio (16.5.4) with Test Explorer. I had been hoping to build .NET Framework 4.0 and .NET Core 1.0, but couldn't find packages that supported that combination (whether nugets or using other references).
+
+It's not clear to me if there is a strong need to run the tests in a .NET Framework 4.0 environment or not, or if it's OK that they might bit-rot for that framework going forward.
+
+Also note that the final commit of the PR pares down what appears to me to be unnecessary project properties, since I can get builds to work as-is on my environment. I don't have experience with the Bootstrapper properties, which appear to me to be set up to ensure that the right frameworks were installed. I could have left those properties alone in the TinyIoC and TinyIoC.ExternalTypes projects (since they still target .NET Framework 3.5), but I would have had to update them in the TinyIoC.Tests project (which moved from .NET Framework 4.0 to 4.5). I didn't know how to update them for .NET 4.5. If it matters I can figure that out, but if it doesn't it seems easier to just drop those properties altogether.
+
+Looks good, thanks for updating that, I had a single question via comment and then I can merge it. I'm thinking that going forward we should only support what Microsoft officially supports as far as runtimes (NET 48, .NET Core 3.1 LTS), otherwise it's going to be a pain to run tests / verify code compiles on super outdated runtimes (e.g., you have to go searching for the .NET Core 2.1 runtime).
+
+I'm cool either way. 
+
+It was maddening finding the minimum versions combination of runtimes that worked in Visual Studio today. That combination very well might not work in the future when a VS update requires a test platform update, etc.
+
+As the code stands, there are issues running the tests outside of Visual Studio.  "dotnet test" does not work with this PR, for instance. I think that it would be more likely that it would work if all of the runtimes (and possibly the library projects) were built for newer versions. 
+
+Thanks for the pr!
+
+ System.IO.FileNotFoundException with UWP and TinyIoC 1.3.0
+ 1. Create new Xamarin project - UWP
+2. Add TinyIoC 1.3.0 to all projects in solution
+3. Add TinyIoCContainer to App.xaml.cs:
+using TinyIoC;
+using Xamarin.Forms;
+using XFDependencyInjectionTest.Models;
+using XFDependencyInjectionTest.Services;
+using XFDependencyInjectionTest.Views;
+
+namespace XFDependencyInjectionTest
+{
+    public partial class App : Application
+    {
+        public static TinyIoCContainer tinyIoCContainer;
+
+        public App()
+        {
+            InitializeComponent();
+            tinyIoCContainer = new TinyIoCContainer();
+            tinyIoCContainer.Register<IDataStore<Item>, MockDataStore>();
+            DependencyService.Register<MockDataStore>();
+            MainPage = new MainPage();
+        }
+    }
+}
+
+4. Inject object into constructor of viewmodel:
+    public class AboutViewModel : BaseViewModel
+    {
+        public AboutViewModel(IDataStore<Item> dataStore) : base(dataStore)
+        {
+            Title = "About";
+            OpenWebCommand = new Command(async () => await Browser.OpenAsync("https://xamarin.com"));
+        }
+
+5. Build/run UWP project.
+
+Error: : 'Could not load file or assembly 'XLabs.Ioc.TinyIOC, Version=2.0.5782.12282, Culture=neutral, PublicKeyToken=null'. The system cannot find the file specified.'
+
+Bin directory contains XLabs.Ioc.dll and XLabs.Ioc.TinyIOC.WP8.dll.  Version numbers for DLLs do not match version in error.
+You'll need to define compiler directives, did you do this? Also, we don't set the assembly version anywhere so I'd try and track that down. Are there any build errors or warnings?
+
+Same project doesn't work on Android either.
+
+Can you please answer my previous questions.
+
+I'm closing this until my previous questions are answered. 
+
+ Injecting IEnumerable<Type> to constructor - unnamed registrations
+ Hi guys,
+
+I found out the following issue:
+
+When I register multiple implementations for the same interface - but do it individually one by one, the unnamed one (if present) isn't resolved when using constructor injection of IEnumerable<Type>. On the other hand, it works when using ResolveAll<Type> method.
+
+Consider following registration example:
+
+`
+TinyIoCContainer.Current.Register<Interface, Impl1>();
+TinyIoCContainer.Current.Register<Interface, Impl2>("2");
+`
+
+When calling 
+
+`TinyIoCContainer.Current.ResolveAll<Interface>();`
+
+resulting list contains both of registered implementations. But if it's used this way:
+
+`
+TinyIoCContainer.Current.Resolve<CtorTest>();
+`
+
+where class CtorTest looks like this:
+
+`
+public class CtorTest
+{
+
+		public CtorTest(IEnumerable<Interface> impls)
+		{
+		}
+	}
+`
+
+resulting list contains only named registrations. When I was digging in sources, I found out that in following method: 
+
+` 
+private object GetIEnumerableRequest(Type type)
+{
+
+            #if NETFX_CORE
+            		var genericResolveAllMethod = this.GetType().GetGenericMethod("ResolveAll", type.GenericTypeArguments, new[] { typeof(bool) });
+            #else
+            var genericResolveAllMethod = this.GetType().GetGenericMethod(BindingFlags.Public | BindingFlags.Instance, "ResolveAll", type.GetGenericArguments(), new[] { typeof(bool) });
+            //#endif
+            return genericResolveAllMethod.Invoke(this, new object[] { false });
+        }
+`
+
+the last row invokes method with last parameter set to `false `. This parameter is actually **includeUnnamed** parameter in ResolveAll<Type> method. When ResolveAll<Type> is called directly (as in fisrst example) it falls to default call, where **includeUnnamed** is set to true. That's why it works in first example, but doesn't work in second.
+
+My question is - is that a purpose ? If so, can you examplain me why? 
+
+Thanks,
+Patrik
+I'm really not sure on that one, but to me it should be resolved as that's the behavior I've seen with the new Microsoft di. Can you create some tests covering all scenarios and add a pr for this.
+
+ Provide requested type as factory param
+ For `RESOLVE_OPEN_GENERICS` add a new "__requestedType" parameter when calling a factory method providing the type object for the type being resolved. This allows factory methods for registered open generic types to properly resolve the particular closed generic type requested.
+Could you please add a test for this
+
+I'll see what I can do but it probably won't be for a few days given my work schedule.
+
+ Bubble open generic registrations from parent scopes
+ Ensure that registered open generics can be resolved from child containers.
+Any chance we can get a unit test for this?
+
+ Fix Resolve for Types with Generic Interfaces
+ Resolving types with generic interfaces failed. The given generic type was converted into it's generic definition before it was passed to the parent container. #126
+Thanks for the PR!, We really need to get automated tests setup for this project.
+
+ Resolving generic type from parent container fails
+ Resolving generic types registered to parent containers is not working.
+The code snipped demonstrates this by registring a generic dictionary to a container, create a child container and try to resolve the dictionary.
+
+```c#
+            var parentContext = new TinyIoC.TinyIoCContainer();
+            var dict = new Dictionary<string, string>();
+            parentContext.Register<IDictionary<string, string>>(dict);
+
+            var childContext = parentContext.GetChildContainer();
+            var myDict = childContext.Resolve<IDictionary<string, string>>();  // TinyIoCResolutionException
+            Assert.AreSame(dict, myDict);
+```
+
+I tried the same with named object registration, but still it's not working:
+
+```c#
+            var parentContext = new TinyIoC.TinyIoCContainer();
+            var dict = new Dictionary<string, string>();
+            parentContext.Register<IDictionary<string, string>>(dict, "MyDict");
+
+            var childContext = parentContext.GetChildContainer();
+            var myDict = childContext.Resolve<IDictionary<string, string>>("MyDict");  // TinyIoCResolutionException
+            Assert.AreSame(dict, myDict);
+```
+
+As a workaround i registered the dictionary as "object" - then it's working. So it's for sure related to the generic type.
+
+```c#
+            var parentContext = new TinyIoC.TinyIoCContainer();
+            var dict = new Dictionary<string, string>();
+            parentContext.Register<object>(dict, "MyDict");
+
+            var childContext = parentContext.GetChildContainer();
+            var myDict = childContext.Resolve<object>("MyDict");
+            Assert.AreSame(dict, myDict);   // OK
+```
+Would you mind submitting a pr and test for this.
+
+Sorry, i was not yet able to find the issue. The code above are actually unit tests i used to check whether the problem is in my code or somewhere in TinyIoC. So they are usage examples...
+Surely if i find the real issue i will create a PR!
+
+Thanks for the PR!
+
+ Fix typos
+ Fixed following typos:
+registation(s) -> registration(s)
+Attemps -> Attempts
+sucessfully -> successfully
+Attemped -> Attempted
+Thanks for the PR
+
+ Platform compatibility
+ I couldn't find any info about platform compatibility in the wiki.
+
+I would like to use TinyIoC for a Unity game potentially targeting pc/mac/linux/xbox/ps4/android/ios.
+
+I'm guessing pc, mac and linux should be no problem - at least it is working fine so far. I don't have other devices yet to make any tests.
+
+Are those platforms (mobile and console) officially (or not so officially) supported by TinyIoC and  TinyMessenger?
+We have it working on .net standard and .net 4.5 full framework on linux, macOS and windows without issue.
+
+Ran into namespace not being available after nuget install on .net core 2.1 , I guess that is .net standard 2.0.3, with Visual Studio Pro. Maybe there is something more to this.
+
+We are also targeting .net standard 2.0 here (https://github.com/exceptionless/Exceptionless.Net/tree/master/src/Exceptionless). Can you see what you are missing by looking at our csproj? It would be really nice to drop some target frameworks and clean up the code a bit.
+
+  Unnecessary SuppressFinalizes
+ Why do `SafeDictionary` and `TinyIoCContainer` both call `GC.SuppressFinalize` when neither have finalizers? 🤔 
+
+
+From https://github.com/NancyFx/Nancy/issues/2896
+I'm really not sure, were you able to get to the bottom of this?
+
+Either they used to have finalisers, they should have them and I forgot to add them, or its a mistake :)
+
+
+
+You dont have to have a finalizer to gain benefit from `GC.SuppressFinalize`  When you call it, the object is removed from the finalizer queue.  With it not in the finalizer queue, theres no wasted performance of having the object on the queue, fetching from the queue, and the GC having to reflect and figure out there's no finalizer to run.  
+
+The generally accepted pattern is objects that implement IDisposable call this, since IDisposable objects will get thrown into the finalizer queue whereas objects without IDisposable, I believe get GC'd practically immediately.
+
+ Regestering of concrete classes with factory lambda does not allow AsSingleton().
+ I ran into the issue that you cannot delegate factories with the AsSingleton() method.
+
+ ```csharp
+container.Register<MyConcreteClass>((c, o) =>
+{
+    var dependency = c.Resolve<MyDependency>();
+    return new MyConcreteClass(() => dependency.AFunction);
+}).AsSingleton();
+```
+
+does not work. It throws an exception an `Register`
+
+I believe it is more like a missing feature, But I found no reason why it is not supported.
+Can this be fixed?
+ Why nuget install doesn't create a refencable TinyIOC dll ?
+ With a shared dll it's possible to share same dll through separated projects and wouldn't be required to bring same TinyIOC.cs code on all projects.
+Currently it only does a source file (https://github.com/grumpydev/TinyIoC#overview) but it could be added value to Brin in a nuget package. You should only have to bring it into one of your shared assemblies and reference it from your other ones.
+
+ Fix TinyIoC for use in dotnetstandard builds
+ I think this duplicates a small bit of the work done by #106 but this was the most minimal change set I could make for a build complete for me when adding TinyIoC.cs to a new .NET Standard 1.0 project. 
+
+I may be off base, but I thought this might save someone 5 minutes. 
+Thanks for the PR
+
+ AppDomain GetAssemblies
+ I think the line that undef's `APPDOMAIN_GETASSEMBLIES` here: https://github.com/grumpydev/TinyIoC/blob/master/src/TinyIoC/TinyIoC.cs#L53 should be extended to additional netstandard versions.. My understanding (I could be wrong) is that AppDomain is not part of the netstandard as it's gone away in netcore.
+
+ Condition Looks odd..
+ https://github.com/grumpydev/TinyIoC/blob/c706619f8c5711529f2ce67566da906596ff9637/src/TinyIoC/TinyIoC.cs#L4249
+ Just wondering - If I have grasped the intent of the code correctly, should that last bit on the line above not be `&& !NETSTANDARD1_6` or perhaps `|| NETSTANDARD1_6` ? 
+The reason I say that is because at the moment this is resulting in a duplicate type being incuded when targeting `net45` and `netstandard1.6`
+
+Yeah, we'll have to update this for the other net standards as well. We probably need to do a poll and see what versions we still need to support and support only that.
+
+ Open Generic Types aren't resolvable using ResolveAll
+ 
+ Added TinyIoCConstructorAttribute with tests
+ I found that I was writing some pretty ugly `UsingConstructor()` lambdas and decided there could be a better alternative. Added the option of specifying which constructor(s) to use with an attribute.
+
+Also added the option of using internal constructors.
+Thanks for the PR
+
+ BUG: Child container unable to resolve open generic.
+ BUG: A child container was unable to resolve an open generic registered with its parent container.
+Thanks for the PR
+
+ Is the nuget package compatible with Visual Studio 2015 and UWP projects?
+ Adding TinyIoC with Nuget in a blank UWP Project in Visual Studio 2015 don't include the .cs file in the project
+I have run into this problem aswell, seems like its compatible with UAP, but theres no content added. This should be looked into and compatibility removed for uap to prevent it being installed if its not compatible?
+
+ Has .net core 1.1 broken Tiny ?
+ Has .net core 1.1 broken TinyIoC? Integrating Tiny into an empty .net core app in VS2017 produces a rake of errors, mostly in the serialization section that should probably be switched off. But the #serialization preprocessor directive is not getting unset, likely because the existing preprocessor variables NETSTANDARD1_0 --> NETSTANDARD1_6 are not present. I tried adding a test for NETSTANDARD1_7, with no luck.
+
+What NETSTANDARD is .net core 1.1? [This page](https://docs.microsoft.com/en-us/dotnet/articles/core/tutorials/libraries) should list it, but doesn't. Has anyone else struck this?
+
+[Related Stack question](http://stackoverflow.com/questions/42999052/tinyioc-not-integrating-in-a-net-core-app-1-1)
+Same here.
++1
+
+The lowest I've tested this on is .net standard 1.2 in production. .net standard does not mean .net core. You may need to set some compiler directives like NETSTANDARD1_5 and bring in a nuget package or two. If you need any more information please let me know.
+
+ Fix TinyIoCContainer.ResolveAll(Type resolveType) to include unnamed …
+ Fix `TinyIoCContainer.ResolveAll(Type resolveType)` to include unnamed registrations, which matches the summery, and `ResolveAll<ResolveType>()`.
+
+Issue related: #63 
+Nice find, thanks for the pr.
+
+ Fixed duplicate ReverseTypeExtender definition
+ This conditional was always returning true.
+ Added RegistrationName attribute.
+ Would these changes be useful??? I added a RegistrationName attribute, with which users can tag their classes. Inside Tiny, the value is available as an extension method on System.Type. As such, autoregister can look at the attribute to decide which implementations of an interface are distinct, and which are overrides.
+
+The particular sticky situation that inspired this is described [here](http://stackoverflow.com/questions/41035068/autoregister-and-named-registrations-in-tinyioc). You can see the changes in action [here](https://github.com/bbsimonbb/TinyConsole). With these changes, users can provide their own implementations of my interfaces, without needing to know anything about TinyIoC, beyond the [RegistrationName] attribute. And I don't need to know anything about their implementations beyond how to load their assembly.
+
+Love your work. This is my first pull request , so please excuse my manners. My changes work, but there is one failing unit test. It passses if I run it on its own, so I don't know what to make of this. I would be happy to provide more unit tests and documentation if you think the change has potential.
+ Resolving a service registered on a parent container with a dependency registered in a child container throws
+ Given the service types defined at the bottom, the following code works, and prints `"A bar."` as expected:
+
+```cs
+var container = new TinyIoCContainer();
+
+container.Register<IFoo, Foo>();
+var child = container.GetChildContainer();
+
+child.Register<IBar, Bar>();
+var foo = child.Resolve(typeof(IFoo)) as IFoo;
+
+Console.WriteLine(foo?.TheFoo ?? "null");
+```
+
+If, however, I add another service level (i.e. Foo->Baz->Qux instead of just Foo->Bar), resolving a `IFoo` throws an exception stating that `IQux` cannot be resolved:
+
+```cs
+var container = new TinyIoCContainer();
+
+container.Register<IFoo, Foo>();
+container.Register<IBar, Baz>();
+
+var child = container.GetChildContainer();
+
+child.Register<IQux>(new Qux());
+
+var foo = child.Resolve(typeof(IFoo)) as IFoo; // this throws
+```
+
+Note that `IQux` is registered on the same container from which I'm trying to resolve an `IFoo`. If I set a breakpoint on that line and try `child.Resolve<IQux>()` or `child.Resolve(typeof(IQux))` in a watch window, it works fine. However, when resolving the `Baz` instance needed to fulfill `Foo`'s dependencies, it seems it can no longer find the `Qux` registration.
+
+Am I doing something unsupported here, or is this a bug in TinyIoC?
+
+```c#
+public interface IFoo
+{
+    string TheFoo { get; }
+}
+
+public interface IBar
+{
+    string TheBar { get; }
+}
+
+public interface IQux
+{
+    string TheQux { get; }
+}
+
+public class Foo : IFoo
+{
+    private readonly IBar _bar;
+
+    public Foo(IBar bar)
+    {
+        _bar = bar;
+    }
+
+    public string TheFoo => _bar.TheBar;
+}
+
+public class Bar : IBar
+{
+    public string TheBar { get; } = "A bar.";
+}
+
+public class Baz : IBar
+{
+    private readonly IQux _bar;
+
+    public Baz(IQux bar)
+    {
+        _bar = bar;
+    }
+
+    public string TheBar => _bar.TheQux;
+}
+
+public class Qux : IQux
+{
+    public string TheQux { get; } = "A qux.";
+}
+```
+After sleeping on this, and then trying again, I also realized this works:
+
+```
+var container = new TinyIoCContainer();
+
+container.Register<IFoo, Foo>().AsMultiInstance();
+container.Register<IBar, Baz>().AsMultiInstance();
+
+var child = container.GetChildContainer();
+
+child.Register<IQux>(new Qux());
+
+var foo = child.Resolve(typeof(IFoo)) as IFoo; // this works now!
+```
+
+I tried to understand why by reading the documentation on lifetimes (a couple of times...) but I still don't get it. Why does this make it work?
+
+
+The dependency to IQux exists only in the child container, so if the singleton (belonging to the parent container) is requested by the child container it could satisfy the IQux dependency, but the Qux instance would be disposed when the child container ends.
+
+This would be very strange since a the singleton (in the parent container) suddenly would be disposed after it's dependency was disposed.
+
+In summary, a singleton must obtain it's dependencies only from siblings (in same container) or from parents; never from children.
+
+Edit: Yes, none of your classes are disposables, but above rule/principle is still valid.
+
+But why doesn't this apply to the `Foo -> Bar` dependency in the first example?
+
+Let's rename them, to make it more obvious - we have two cases: `FooInParent -> BarInChild` vs `FooInParent -> BazInChild -> QuxInChild`. I'm always resolving from the child container.
+
+IIUC, the second case doesn't work because when the child container is disposed, so is the `QuxInChild` instance, which makes the `BazInChild` instance, and thereby the `FooInParent` instance, invalid.
+
+For the first case, I thought that disposing the child container would also dispose `BarInChild`, invalidating the `FooInParent` instance in the same way, but apparently not. Why?
+
+(Sorry for asking so many questions, but I'm a curious guy :) Since I know how to make my code work for now, finding out why is mostly for my own learning, and not so urgent as it was...)
+
+Your first scenario, where IBar is registered in the child container, does not work. Are you sure it passes for you? I copy-pasted your code into a unit test to be certain. An exception is thrown: Unable to resolve type: IBar.
+
+A container tracks all objects that should be disposed once the container is disposed.
+A singleton is tracked in the container which it is registered (so the singleton may be re-used by multiple child containers).
+A multi-instance is tracked in the container from which it was resolved.
+
+Since the singleton is created on-demand, the singleton must always be created as if the first Resolve call was made directly on the container containing the singleton registration (parent in your case).
+
+This is also why when using callback factories (like `.Register<T>(Func<TinyIoCContainer,NamedParameterOverloads,T>)` for example), you always is passed the container which originally requested the resolution. This way you can ensure your callback factory can resolve any dependencies belonging to the child containers rather than relying on the parent container.
+However, using only callback factories you would not be able to reproduce your issue since a callback/delegate registration is not a singleton registration.
+
+
+
+ Nuget package not updated since Dec 2014
+ The latest package published at nuget.org is dated 17 Dec 2014. There have been various commits to master since then, including features such as core CLR compatibility.
+
+Is it possible to get a newer nuget package version?
+
++1
+
+Don't really know what else to say, an updated nuget would be sweet.
+
+We'll get this updated with the next release.
+

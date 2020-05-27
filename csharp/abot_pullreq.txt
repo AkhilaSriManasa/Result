@@ -1,0 +1,90 @@
+﻿ Meta Tag Crawling
+ This feature adds functionality allowing the crawler to process links obtained from inside an HTML `<meta>` tag. The URL is then added to the list of links which can then be further processed.
+
+I have created a new property in Abot2, `CrawlConfiguration.cs`, named `FollowMetaRedirects` defaulting to false.
+ Fix missing Read with encoding in abot2
+ 
+ Remove Async events from readme example
+ 
+ Dotnet standard
+ Creation of Abot2 namespace (nuget v2.0.41 and beyond).
+ Change visibility of method GetRawData
+ It is necessary in order to reuse this method in inherited classes.
+ Spelling corrections.
+ New to Abot, was exploring the code for a bit and thought I might as well fix some spelling errors in the comments, because why not :D
+ Changed visibility in some class fields
+ - Added `protected` keyword to `_rateLimiterLookUp` dictionary in `DomainRateLimiter` class, because that dictionary needs to be visible in case the `GetRateLimiter` method is overridden by a subclass (see pull request https://github.com/sjdirect/abot/pull/194)
+- Added `virtual` keyword to HTML document properties in `CrawledPage` to make it possible to override them in a custom subclass.
+ Workaround for using standard HtmlAgilityPack library
+ * Set custom library field using reflection
+* Made rate limiter dictionary visible to sub-classes
+ Make method `GetRateLimiter` overridable
+ - Fixed small typo
+- Converted `GetRateLimiter` from private to protected virtual
+ UseDefaultCredentials possibility
+ Added UseDefaultCredentials for WebRequest object (app.config field)
+ Update misleading HttpRequestTimeoutInSeconds XML comment
+ Comment talks about milliseconds whereas the setting is about seconds
+ R# Cleanup
+ 
+ Referencing HAP nuget package instead of external lib
+ 
+ Use HtmlDocument.MaxDepthLevel from latest HAP to replace local fix.
+ HtmlDocument.MaxDepthLevel behaves the same as OptionMaxNestedChildNodes  and throws a catch-able exception rather than the problematic stackoverflowexception.
+ Fixed issue of MaxNestedChildren to work with latest HtmlAgilityPack.
+ Fixed issue of MaxNestedChildren to work with latest HtmlAgilityPack version that exposes OptionFixNestedTags property.
+
+Had to fix the tests as now the parsing succeeds ( with no StackOverflowException)
+ Update dependency versions
+ 
+ Update dependency versions
+ Updated every dependency but Automapper. Will try to remove automapper later.
+ Enable automatic decompression on HttpWebRequest
+ Had issues with gzipped website (for example https://www.nianticlabs.com/) not being decompressed and therefore the content basically unreadable. Related to this SO answer: http://stackoverflow.com/a/2815876
+
+ Update to NUnit3.5
+ Updated nuget package "NUnit" to 3.5.
+- `ExpectedExceptionAttribute` into `Assert.Throws<T>`
+- Added arguments to `IgnoreAttribute`
+- Installed nuget package `Microsoft.AspNet.Providers.Core` in order to add reference to the missing `System.Web.Providers.dll`
+- Changed the target framework version of some projects to `4.5.2`
+- `SetUpAttribute` and `TearDownAttribute` into `OneTimeSetUpAttribute` and `OneTimeTearDownAttribute`
+- Small refactorings etc.
+
+ add README_Chinese.md
+ I found almost no information on Chinese use of the process, put the README file according to their own understanding of the translation a bit.
+
+ #107 Add option to limit the maximun links to crawl per page
+ 
+ Update HtmlAgilityPack
+ https://htmlagilitypack.codeplex.com/SourceControl/changeset/108454
+
+AgilityPack has now been updated to resolve the stackoverflow issue. We no longer need the stackoverflow issue workaround.
+- updated HtmlAgilityPack to 1.4.9.5
+- remove redundant HtmlAgilityPack binary
+- updated some tests to reflect change
+
+ Upgrade all nuget packages to latest compatible version. Fix the Html…
+ … agility pack deprecated API call.
+
+Added strong namer package to auto sign all dependencies.
+
+ Fix README.md internal link
+ 
+ Fire event on robots txt parse complete
+ I did it but i dont like that i exposed RobotsDotText with Robots, to do in better way i wold probably need to change a bit more code. Let me know what you think
+
+ Temporary fix for Crawl() on Mono.
+ On Mono, abot would not crawl due to an exception caused by HttpWebResponse.IsMutuallyAuthenticated, which seems to be not implemented.
+
+This commit fixes #123
+
+ Grammar fixes.
+ 
+ Fix base href resolving
+ 
+ Icc refactor
+ Now with the correct project file. 
+
+ Refactor to add ICrawlConfiguration interface
+ 

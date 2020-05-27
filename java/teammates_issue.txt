@@ -1,0 +1,518 @@
+﻿ [#10105] "Expand all" does not expand all tabs for some result views when clicked
+ Fixes #10105
+
+**Question View:**
+![qn](https://user-images.githubusercontent.com/28994607/82860338-d13cae80-9f4b-11ea-9555-879fe16394a9.gif)
+
+**GRQ View:**
+![grq](https://user-images.githubusercontent.com/28994607/82860345-d7cb2600-9f4b-11ea-9529-74612a70d292.gif)
+
+**RGQ View:**
+![rgq](https://user-images.githubusercontent.com/28994607/82860351-da2d8000-9f4b-11ea-9d36-7c0bd126ce4f.gif)
+
+**GQR View:**
+![gqr](https://user-images.githubusercontent.com/28994607/82860355-dbf74380-9f4b-11ea-8a02-208020bc27fd.gif)
+
+**RQG View:**
+![rqg](https://user-images.githubusercontent.com/28994607/82860357-dd287080-9f4b-11ea-9a84-b271bc9662c0.gif)
+
+**Outline of Solution**
+- Add a `isExpandAll` input to the abstract base classes for the different group by views and
+- Propogate the `isExpandAll` attribute from the `instructor-session-result-page-component` to the child and grandchildren.
+ [#10104] Append team name to participants name
+ Resolves #10104
+
+**GRQ View**
+![GRQ](https://user-images.githubusercontent.com/42177597/82859647-e7e20600-9f49-11ea-975c-26f3490ff4a4.gif)
+
+**RGQ View**
+![RGQ](https://user-images.githubusercontent.com/42177597/82859659-ee707d80-9f49-11ea-8c5a-3c072fd4ced3.gif)
+
+ [#10114] Fix UI of disabled delete button in instructor courses page
+ Fixes #10114 
+
+**Before**:
+<img width="1059" alt="Screenshot 2020-05-25 at 21 26 49" src="https://user-images.githubusercontent.com/32880438/82817147-0d7df980-9ecf-11ea-80a6-df649b197e15.png">
+
+**After**:
+<img width="1049" alt="Screenshot 2020-05-25 at 21 26 17" src="https://user-images.githubusercontent.com/32880438/82817174-18388e80-9ecf-11ea-9b46-a6251d12b0e2.png">
+
+
+**Outline of Solution**
+- add missing `dropdown-item` attribute to corresponding HTML element.
+
+ [#10103] Add Remind All button for "Participants who have not responded to any question" tab
+ Fixes #10103 
+
+**Snapshot**:
+![remind-all-button](https://user-images.githubusercontent.com/32880438/82811377-339d9c80-9ec3-11ea-96e1-0abf218378ac.gif)
+
+**Outline of Solution**
+- add `Remind All` button in `instructor-session-no-response-panel`
+- add function `openSendReminderModal` to handle `send-reminders-to-student-modal` logic
+- add in-line CSS to position the button
+- improve UI spacing on `send-reminders-to-student-modal`
+- fix comment typo in .ts file of `send-reminders-to-student-modal`
+
+Hi @Derek-Hardy, these parts of your pull request do not appear to follow our [contributing guidelines](https://github.com/TEAMMATES/teammates/blob/master/docs/process.md#step-4-submit-a-pr):
+
+1. PR Title
+   * Issue Reference (`#<issue-number>`) missing.
+
+
+ Fix UI of disabled delete button in instructor courses page  
+ **Environment**: `master` branch at commit 74777e453f1453bd34c577bac50d7f19c9cd7315
+
+**Steps to reproduce**
+1. Create course with instructor without modifying rights
+2. Click Other Actions button
+
+**Expected behaviour**
+Disabled delete button is displayed properly
+
+**Actual behaviour**
+Button is off centered and styling does not convey disabled
+
+**Additional info**
+![disabled-delete](https://user-images.githubusercontent.com/31800234/82783821-dc330880-9e91-11ea-97a7-6e8d4013ec44.PNG)
+
+ [#9382] Remove unused items in Feedback*QuestionDetails and Feedback*ResponseDetails classes
+ Part of #9382
+
+This removes unused methods `extractQuestionDetails`, `extractResponseDetails` (the question/response construction logic is moved to the front-end and sent as request body), `isQuestionSkipped`, and `validateResponseAttributes` (not the right place), and adds a slight refactor to `FeedbackMsqQuestionDetails` such that it is no longer dependent to logic package. One more architecture violation is fixed.
+
+The `Feedback*QuestionDetailsTest` cases that involve only extraction are no longer meaningful and thus removed; those that involve validation are still meaningful and should be improved after this.
+
+ [#10111] Fix flaky tests
+ Fixes #10111 
+ Fix flaky tests
+ Currently these two takes are flaky:
+- `ActionFactoryTest`: Due to hardcoded `Backdoor-Key` value, the test will fail for anyone who modified the said config value.
+- `SessionLinksRecoveryActionTest`: Due to the captcha key being dependent on the config value. Need to hard-code to `null` so that at this level the captcha will always be bypassed.
+ Hide certain fields in CommentOutput for participant comments
+ <!-- Issue title: [brief description of bug] -->
+
+- **Environment**: master
+
+**Steps to reproduce**
+- Set a MCQ/MSQ question to only show responses.
+![image](https://user-images.githubusercontent.com/13977235/82766954-3b344700-9dd8-11ea-9961-83027f02d070.png)
+- Fill in dummy responses **with participant comment** as a student **using a different account**.
+(The above steps can be also replaced with: Setting an everyone-can-view question -> moderate responses (submit dummy responses **with participant comment**) -> Setting the question back to anonymous question)
+![image](https://user-images.githubusercontent.com/13977235/82767021-fd83ee00-9dd8-11ea-8ef6-bc5b8848ee57.png)
+- Go to result page
+
+**Expected behaviour**
+
+The JSON data returned from the backend shall not expose giver name
+
+**Actual behaviour**
+
+The JSON data returned from the backend exposes the giver name in participant comment.
+```json
+{
+          "responseId": "aglub19hcHBfaWRyHQsSEEZlZWRiYWNrUXVlc3Rpb24YgICAgICAyAoM%benny.c.tmms@gmail.tmt%benny.c.tmms@gmail.tmt",
+          "giver": "Anonymous student 1086443366",
+          "relatedGiverEmail": "Anonymous student 1086443366@@Anonymous student 1086443366.com",
+          "giverTeam": "Anonymous student 1086443366's Team",
+          "giverSection": "Tutorial Group 1",
+          "recipient": "Anonymous student 1086443366",
+          "recipientTeam": "Anonymous student 1086443366's Team",
+          "recipientSection": "None",
+          "responseDetails": {
+            "answer": "<p>b</p>",
+            "isOther": false,
+            "otherFieldContent": "",
+            "questionType": "MCQ"
+          },
+          "participantComment": {
+            "commentGiverName": "Benny Charles",
+            "lastEditorName": "Benny Charles",
+            "feedbackResponseCommentId": 4679521487814656,
+            "commentText": "<p>abc</p>",
+            "commentGiver": "benny.c.tmms@gmail.tmt",
+            "createdAt": 1590361609611,
+            "lastEditorEmail": "benny.c.tmms@gmail.tmt",
+            "lastEditedAt": 1590361609611,
+            "isVisibilityFollowingFeedbackQuestion": true,
+            "showGiverNameTo": [],
+            "showCommentTo": []
+          },
+          "instructorComments": []
+        },
+```
+
+
+**Additional info**
+Hint:
+- We should hide this fields (by setting them to `null`) in the API layers. It is OK to do this as the frontend is not supposed to use the fields. If it get used, we will also get bugs/errors which are good indicators of wrong logic.
+- You can do this easily by modifying `CommentOutput`.
+
+ Add all responses for the student in student all records page
+ V6 screenshot:
+
+![image](https://user-images.githubusercontent.com/13977235/82766514-ac71fb00-9dd4-11ea-8b20-cbd6395b1039.png)
+
+![image](https://user-images.githubusercontent.com/13977235/82766511-a67c1a00-9dd4-11ea-9870-8c91c61007ab.png)
+
+![image](https://user-images.githubusercontent.com/13977235/82766507-9b28ee80-9dd4-11ea-9b74-36d4bea9b244.png)
+
+For each session tab, we shall show all responses the student given in the feedback session in the form of GRQ\RGQ
+
+Hint:
+- Use `getFeedbackSessionsForInstructor` method in `FeedbackSessionsService` to get all sessions.
+- Use `/result` to get the data for each session and filter by giver or recipient.
+- Reuse component `GrqRgqViewResponsesComponent` to display them
+- You will also need to deal with the instructor comment feature. Take a look at `preprocessComments` in `InstructorSessionResultPageComponent`
+#9797 might be a bit of help :)
+
+ Show profile picture popover in instructor result page
+ V6 screenshot:
+Per question:
+![image](https://user-images.githubusercontent.com/13977235/82766270-821f3e00-9dd2-11ea-9941-2681c2fca440.png)
+
+Other views
+![image](https://user-images.githubusercontent.com/13977235/82766280-94997780-9dd2-11ea-9548-5a477aaac747.png)
+![image](https://user-images.githubusercontent.com/13977235/82766285-ae3abf00-9dd2-11ea-9683-f4b304a7b732.png)
+
+However, we shall not show the popover for anonymous response.
+
+The task shall be done after #10107. Once we have `giverEmail`, we just need to construct the URL to the profile picture endpoint to get the picture.
+
+Hint:
+- There are already example in the code about how to get profile picture by using courseId and studentEmail.
+- Beside the `giverEmail` introduced in #10107, you shall also add `recipientEmail`. The same hint follows.
+- There is a popover in `StudentListComponent` which is the same as this one. See if you can extract them to an common component.
+ Append email after participants' name for GRQ/RGQ/GQR/RQG view
+ V6 screenshot:
+![image](https://user-images.githubusercontent.com/13977235/82766117-2607ea00-9dd1-11ea-9c6c-cdf3e1f42d89.png)
+
+V7 screenshot:
+![image](https://user-images.githubusercontent.com/13977235/82766128-43d54f00-9dd1-11ea-9cf9-05e9546b6181.png)
+
+However, one should note that the email will **only** be shown if the giver name is visible. For example:
+
+![image](https://user-images.githubusercontent.com/13977235/82766153-73845700-9dd1-11ea-8f81-eb7c1cc6f3fc.png)
+
+Anonymous response won't show the email (or there is no point to be anonymous :P)
+
+Hint:
+- This involves changes to both frontend and backend.
+- You need to add a new field (maybe called `giverEmail`) to `ResponseOut`. Remember to make it `@Nullable`.
+- A tricky thing is to know when to fill the field and when not to. You can search for `isGiverVisible` method in `FeedbackSessionResultsBundle`
+
+
+ [#10042] Add mobile compatibility to indivual question
+ Added 'md' to the respective divs so the label and content feel better on small widths.
+Updated the mi-width on the editor, this way the editor's placeholder will not overflow on smaller widths.
+
+Part of #10042 
+
+Before:
+
+![before](https://user-images.githubusercontent.com/65744119/82760805-550f6300-9db3-11ea-8388-29256d3ab0f1.jpeg)
+
+After:
+
+![7E4BCF8E-7072-47A1-A398-2454234B2505](https://user-images.githubusercontent.com/65744119/82760935-162ddd00-9db4-11ea-9752-7927473aa5a1.jpeg)
+
+
+Hi @pablo-arroyo, these parts of your pull request do not appear to follow our [contributing guidelines](https://github.com/TEAMMATES/teammates/blob/master/docs/process.md#step-4-submit-a-pr):
+
+1. PR Title
+   * Issue Reference (`#<issue-number>`) missing.
+
+
+Hello, thanks for contributing to TEAMMATES! It seems your PR is failing the CI check because you need to update the snapshot for the file you're changing. You can check out https://github.com/TEAMMATES/teammates/pull/9997#issuecomment-605014375 for more info :)
+
+I'm so sorry! I just pushed a commit with the updated snapshot,
+
+
+
+ "Expand all" does not expand all tabs for some result views when clicked
+ - **Environment**: master
+
+**Steps to reproduce**
+- Go to instructor result page
+- Select a view except "per question view".
+- Click expand all
+
+This is the same for all views except per question view.
+
+**Expected behaviour**
+
+All tabs should be expanded
+
+**Actual behaviour**
+
+![image](https://user-images.githubusercontent.com/13977235/82746424-55244a00-9d44-11ea-9269-11ab7dbfe87c.png)
+
+**Additional info**
+Hint: 
+- In `SectionTabModel`, you will find `isTabExpanded`. However, the variable only controls one level of expansion. Definitely we don't want to introduce many `isTabExpanded` everywhere. Is there any way to get rid of it?
+- Can we access child components directly in the parent component and call their methods?
+ 
+ Append team name after participants' name for GRQ/RGQ view 
+ V6 screenshot:
+
+![image](https://user-images.githubusercontent.com/13977235/82746307-1c37a580-9d43-11ea-9030-201a4e721053.png)
+
+
+V7 screenshot:
+![image](https://user-images.githubusercontent.com/13977235/82746313-28236780-9d43-11ea-96c8-ab6cf5db68c8.png)
+
+Hint:
+- You will need to change `GroupedResponsesComponent` and `GrqRgqViewResponsesComponent`
+- A possible implementation is to create a map from user name to team name
+
+ Add Remind All button for "Participants who have not responded to any question" tab
+ V6 screenshot:
+![image](https://user-images.githubusercontent.com/13977235/82746128-235db400-9d41-11ea-9553-c67fdf60127e.png)
+
+This will pop-up:
+![image](https://user-images.githubusercontent.com/13977235/82746162-9830ee00-9d41-11ea-81ed-e76165bbd53f.png)
+
+Hint:
+- You need to reuse the component `SendRemindersToStudentModalComponent`
+- You need to interact with the endpoint `RemindFeedbackSessionSubmissionAction` by using the method `remindFeedbackSessionSubmissionForStudent`.
+- There are already example usages in the codebase (Note that `Select all respondents` should be selected when the model pops out (The behavior is not the same as that of the existing use case))
+I would like to work on this issue
+
+ Add participant comment for student result page
+ V6 screenshot:
+![image](https://user-images.githubusercontent.com/13977235/82746040-260bd980-9d40-11ea-83b8-ed52f0755ac5.png)
+
+This apply to all `responsesToSelf`, `responsesFromSelf`, and `otherResponses` in the student result page.
+
+Hint:
+- There are already examples in instructor result view.
+- You shall use `CommentRowComponent`
+- You only need to change `StudentViewResponsesComponent`
+ Make status message over comment modal
+ - **Environment**: master
+
+**Steps to reproduce**
+- Go to instructor result page per question view
+- Open comment modal
+- Click 'Add'
+
+
+**Expected behaviour**
+Error status message should be over the modal.
+
+
+**Actual behaviour**
+![image](https://user-images.githubusercontent.com/13977235/82745921-a92c3000-9d3e-11ea-93c2-fe33a4034662.png)
+
+**Additional info**
+Hint: Should be a simple CSS fix.
+
+ [#10042] Improve Mobile UI for Course Pages
+ Part of #10042 Instructor Pages: Course Details & Edit Pages
+have made some changes on buttons there was a problem with them on mobile devices, and also have made some changes on text structures(also was a problem on other devices.)
+Hi @altynbeq, these parts of your pull request do not appear to follow our [contributing guidelines](https://github.com/TEAMMATES/teammates/blob/master/docs/process.md#step-4-submit-a-pr):
+
+1. PR Title
+   * Issue Reference (`#<issue-number>`) missing.
+1. PR Description
+   * Should contain GitHub keyword to auto-close issue it fixes: Refer [here](https://help.github.com/articles/closing-issues-via-commit-messages/#keywords-for-closing-issues) for a list of accepted keywords.
+
+
+Hi @altynbeq, these parts of your pull request do not appear to follow our [contributing guidelines](https://github.com/TEAMMATES/teammates/blob/master/docs/process.md#step-4-submit-a-pr):
+
+1. PR Description
+   * Should contain GitHub keyword to auto-close issue it fixes: Refer [here](https://help.github.com/articles/closing-issues-via-commit-messages/#keywords-for-closing-issues) for a list of accepted keywords.
+
+
+Hello, thanks for contributing to TEAMMATES! Please read the issue closely, especially under the heading "Expectations".  I would also need you to verify your fixes, so please include at least a screenshot (or gif if you prefer) of the before vs after, thanks!
+
+@altynbeq, please do not attempt to merge this `docker` branch.
+
+ [#10081] Increase section font size
+ Fixes #10081 
+Can you post a screenshot showing your modifications? Thanks
+
+ [#10065] Lift up "Add New Course" and "Sort By" buttons from table
+ Fixes #10065
+
+Before vs After-
+
+Before:
+
+<img width="1552" alt="TEAMMATES - Online Peer FeedbackEvaluation System" src="https://user-images.githubusercontent.com/17513390/82690291-8d128b00-9c79-11ea-8141-d091a4b95281.png">
+
+After:
+<img width="1552" alt="teammatesprocess md at r" src="https://user-images.githubusercontent.com/17513390/82690304-956ac600-9c79-11ea-8402-51344fc0f9be.png">
+
+ [#10065] Lift up "Add New Course" and "Sort By" buttons from table
+ Fixes #10065
+
+Before vs After- 
+
+Before:
+<img width="1552" alt="TEAMMATES - Online Peer FeedbackEvaluation System" src="https://user-images.githubusercontent.com/17513390/82685916-98ae8380-9c72-11ea-99c3-d1d797bb0a7e.png">
+
+After:
+<img width="1552" alt="teammatesprocess md at r" src="https://user-images.githubusercontent.com/17513390/82686016-c3004100-9c72-11ea-84b8-1520d2f2dd56.png">
+
+
+ Add "Sort by" for unregistered students and "Remind students to join" option in the Instructor-Courses-Page
+ - **Environment**: Instructor-Courses-Page
+
+**Description of feature/enhancement**
+So, I was thinking about adding one more "Sort by", where the instructor can sort his courses by the  number of unregistered students of each course and then give him the option to remind them to join via email directly. I am thinking about two possible ways to remind the students: 1)add a "Remind students to join" link reference in the number of the unregistered students or 2)add one more button in the dropdown menu named "Remind" for the instructor to automatically send a "remind" email to his students.
+
+**Justification**
+I noticed that the instructor doesn't have an option where he can see the courses ordered by the number of unregistered students, which I believe can cause inconvenience when an instructor has to handle more than 2-3 courses. Also, if the instructor wants to remind his students to join the course he has to do it from the "View" page (which is 3 clicks until he gets to "Remind students to join").
+The first way of "remind" only requires 1 click instead of 3 and the second way requires only 2 clicks instead of 3.
+
+I think this can really enhance an instructor's experience when it comes to handling it students and courses and I would like to start working on it!
+
+
+Thanks for the suggestion @Aliki-Ntouzgou 
+Indeed it can be useful in cases where an instructor is handling many courses. However, based on our experience, that is a rare case. Most teachers teach 1-2 courses at any time. Furthermore, 'registering' is optional and almost no instructor requires students to register in a course. Instead, students submit responses using the submission links sent by TEAMMATES.
+
+Given the above, we are unlikely to implement this enhancement in the near future.
+
+> Thanks for the suggestion @Aliki-Ntouzgou
+> Indeed it can be useful in cases where an instructor is handling many courses. However, based on our experience, that is a rare case. Most teachers teach 1-2 courses at any time. Furthermore, 'registering' is optional and almost no instructor requires students to register in a course. Instead, students submit responses using the submission links sent by TEAMMATES.
+> 
+> Given the above, we are unlikely to implement this enhancement in the near future.
+
+
+
+> > Thanks for the suggestion @Aliki-Ntouzgou
+> > Indeed it can be useful in cases where an instructor is handling many courses. However, based on our experience, that is a rare case. Most teachers teach 1-2 courses at any time. Furthermore, 'registering' is optional and almost no instructor requires students to register in a course. Instead, students submit responses using the submission links sent by TEAMMATES.
+> > Given the above, we are unlikely to implement this enhancement in the near future.
+
+I completely understand, thank you for your time!
+
+ [#9989] Migrate GET /courses/enroll/students to RESTful API
+ Resolves #9989 
+@xpdavid after moving the method to student service I noticed the dependency on `instructor-course-enroll-page` since the interface for `StudentListResults` is exported from there. I tried to remove the method altogether since it looked very similar to `getStudentsFromCourse()` but that was not possible because then the "Team" & "Section" columns in existing students wouldn't show up during manual testing.
+
+I did a little digging and realised it was because the `StudentAttributes` structure refers to "Teams" as `teamName` and "Sections" as `sectionName` while the `Student` structure refers to them as `team` and `section` respectively. This meant that even if I refactored, the `studentListDataToHandsontableData()` method wouldn't  be able to properly map the teams & sections. 
+
+If you have any suggestions on how to remove the component dependency introduced let me know, otherwise I think we might have to live with it :")
+
+EDIT: Nevermind, I just realised the already there in course service, I just moved it to student service. So tldr no issue I'm guess haha
+
+ [#10079] Add a dropdown button for the "Action(s)" section in Courses page
+ Fixes #10079 
+
+**Outline of Solution**
+
+*This is how the Action(s) section in the Instructor-Courses-Page looked like:*
+![2020-05-16 (1)](https://user-images.githubusercontent.com/61196321/82577803-2a938f00-9b94-11ea-81b9-532f8cce28b2.png)
+
+*This is how it looks like now:*
+![bjbjb](https://user-images.githubusercontent.com/61196321/82577922-5adb2d80-9b94-11ea-8cc2-1d028a837ce2.png)
+
+I added in the HTML code "ngbDropdown" and "ngbDropdownMenu" classes and updated the SCSS code for the layout of the corresponding button and the menu. Also, updated its "__snapshots__" file.
+
+> Your PR seems to be failing the CI linting check, could you try and run the it locally to verify? Thanks
+Of course! I will let you know
+
+ [#10088] Add notification on no result for instructor search
+ Fixes #10088 
+
+![image](https://user-images.githubusercontent.com/32454748/82542185-2495b200-9b84-11ea-92d3-2bf9e4549da9.png)
+
+**Outline of Solution**
+
+Add check for empty array for early termination.
+
+The bug was caused by `forkJoin` not executing when given an empty array, so a check for empty array would solve the issue.
+
+@ccyccyccy would you like to write the tests for it in this PR? If not it's okay, can do it another time
+
+I think can do in another PR. We are updating the search page anyway right?
+
+ [#10087] Course Details page text should be aligned to the left
+ Fixes #10087 
+
+**Outline of Solution**
+![image](https://user-images.githubusercontent.com/28994607/82532849-b990af00-9b74-11ea-8f05-4a617e6ae365.png)
+ [#10084] Fix dropdown menu items cursor not changing to pointer on hover
+ Fixes #10084 
+
+**Outline of Solution**
+
+Add `cursor: pointer;` on relevant styles
+
+![image](https://user-images.githubusercontent.com/32454748/82526118-b7732400-9b65-11ea-9c5d-c9655feb9891.png)
+
+![image](https://user-images.githubusercontent.com/32454748/82525903-2bf99300-9b65-11ea-9411-1c2df5d5133c.png)
+
+![image](https://user-images.githubusercontent.com/32454748/82525967-49c6f800-9b65-11ea-946c-1315191884d9.png)
+
+Hi @ccyccyccy, these parts of your pull request do not appear to follow our [contributing guidelines](https://github.com/TEAMMATES/teammates/blob/master/docs/process.md#step-4-submit-a-pr):
+
+1. PR Title
+   * Issue Reference (`#<issue-number>`) missing.
+
+
+Can you add a screenshot for manual verification of the fix? Thanks!
+
+Updated with screenshots.
+
+ [#9382] Add example boxes for restoring deleted session section of instructor help page
+ Part of #9382
+
+**Outline of Solution**
+Added boxes for the relevant sections and fixed some indentation for template file. 
+Screenshots below
+
+**Viewing Sessions**
+![image](https://user-images.githubusercontent.com/28994607/82522019-c6080e00-9b5a-11ea-8865-8ae4a46f0c52.png)
+
+**Restoring a deleted session**
+![image](https://user-images.githubusercontent.com/28994607/82522067-e20baf80-9b5a-11ea-8898-ee0125ec138a.png)
+
+**Permanently delete a session**
+![image](https://user-images.githubusercontent.com/28994607/82522078-e932bd80-9b5a-11ea-9197-475fa4d27ec6.png)
+
+**Restore/Delete all sessions**
+![image](https://user-images.githubusercontent.com/28994607/82522093-f059cb80-9b5a-11ea-9615-cd14b83947a7.png)
+
+ [#9382] Add almost all comment features for result page
+ Part of #9382
+
+Continue from #10011 and close #10011 (also close #9778) when merged.
+
+**Features**
+
+Instructor Comment:
+
+![image](https://user-images.githubusercontent.com/13977235/82503012-512aca80-9aad-11ea-97f4-c759e673c1b0.png)
+![image](https://user-images.githubusercontent.com/13977235/82503059-6869b800-9aad-11ea-993a-be6c5d217ffb.png)
+
+![image](https://user-images.githubusercontent.com/13977235/82503085-77e90100-9aad-11ea-9b66-762789287146.png)
+
+Participant Comment:
+
+![image](https://user-images.githubusercontent.com/13977235/82503333-eaf27780-9aad-11ea-943b-6fa40ff98298.png)
+
+![image](https://user-images.githubusercontent.com/13977235/82503354-f5ad0c80-9aad-11ea-97fb-a3e93be21350.png)
+
+**Outline of Solution**
+
+The components of comment features have been highly modularized. Here is the hierarchy.
+
+- `CommentTableModalComponent`
+    - `CommentTableComponent`
+        - `CommentRowComponent`
+            - `CommentEditFormComponent`
+
+For several considerations, the instructor comments are **NOT** updated in `sectionsModel` and `questionsModel`:
+- There are two points of truth `sectionsModel` and `questionsModel`. It is hard to sync them
+- There are many data transformations in the result page. For performance consideration, we shall not update those two models (as every time the models change, the sub-components will recompute the transformation, we purposely design this as the page is read-only except for the instructor comment)
+
+Instead, we make a map at the root page from `responseId` to `CommentTableModel`.
+```typescript
+instructorCommentTableModel: Record<string, CommentTableModel> = {};
+```
+We make here as the single point of truth for instructor comments.
+
+All API requests are sent from the root page (so this would close #10010) and the coupling within components are minimized.
+

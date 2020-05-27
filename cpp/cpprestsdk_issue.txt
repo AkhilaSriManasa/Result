@@ -1,0 +1,754 @@
+﻿ centos 7 can not compile it success
+ OS:centos 7
+cmake:3,16
+make:3.82
+
+step:
+git clone ...
+git submodule init
+
+cd Release directory
+
+cmake -DOPENSSL_INCLUDE_DIR=/usr/include/openssl  ..
+
+make
+
+and cause follow error
+
+https://paste.ubuntu.com/p/wdmRbyxc9t/
+ Segfault : Valgrind show this issue
+ `/build/cpprest-2i1wUL/cpprest-2.10.2/Release/src/websockets/client/ws_client_wspp.cpp:315: web::websockets::client::details::wspp_callback_client::connect_impl()::<lambda(websocketpp::connection_hdl)> [with WebsocketConfigType 
+E 2020-05-23T20:12:03.961556993Z ==1== Process terminating with default action of signal 6 (SIGABRT): dumping core
+ 
+E 2020-05-23T20:12:03.961559880Z ==1==    at 0x8871E97: raise (raise.c:51)
+ 
+E 2020-05-23T20:12:03.961578657Z ==1==    by 0x8873800: abort (abort.c:79)
+ 
+E 2020-05-23T20:12:03.961593788Z ==1==    by 0x8863399: __assert_fail_base (assert.c:92)
+ 
+E 2020-05-23T20:12:03.961598275Z ==1==    by 0x8863411: __assert_fail (assert.c:101)
+ 
+E 2020-05-23T20:12:03.961601046Z ==1==    by 0x4FE7C0D: std::_Function_handler<void (std::weak_ptr<void>), pplx::task<void> web::websockets::client::details::wspp_callback_client::connect_impl<websocketpp::config::asio_tls_client>()::{lambda(std::weak_ptr<void>)#4}>::_M_invoke(std::_Any_data const&, std::weak_ptr<void>&&) (in /usr/lib/x86_64-linux-gnu/libcpprest.so.2.10)
+ 
+E 2020-05-23T20:12:03.961604801Z ==1==    by 0x4FF2866: websocketpp::connection<websocketpp::config::asio_tls_client>::handle_terminate(websocketpp::connection<websocketpp::config::asio_tls_client>::terminate_status, std::error_code const&) (in /usr/lib/x86_64-linux-gnu/libcpprest.so.2.10)
+ 
+E 2020-05-23T20:12:03.961625295Z ==1==    by 0x500497C: websocketpp::transport::asio::connection<websocketpp::config::asio_tls_client::transport_config>::handle_async_shutdown(std::shared_ptr<boost::asio::basic_waitable_timer<std::chrono::_V2::steady_clock, boost::asio::wait_traits<std::chrono::_V2::steady_clock>, boost::asio::waitable_timer_service<std::chrono::_V2::steady_clock, boost::asio::wait_traits<std::chrono::_V2::steady_clock> > > >, std::function<void (std::error_code const&)>, boost::system::error_code const&) (in /usr/lib/x86_64-linux-gnu/libcpprest.so.2.10)
+ 
+E 2020-05-23T20:12:03.961637505Z ==1==    by 0x50052E9: void std::__invoke_impl<void, void (websocketpp::transport::asio::connection<websocketpp::config::asio_tls_client::transport_config>::*&)(std::shared_ptr<boost::asio::basic_waitable_timer<std::chrono::_V2::steady_clock, boost::asio::wait_traits<std::chrono::_V2::steady_clock>, boost::asio::waitable_timer_service<std::chrono::_V2::steady_clock, boost::asio::wait_traits<std::chrono::_V2::steady_clock> > > >, std::function<void (std::error_code const&)>, boost::system::error_code const&), std::shared_ptr<websocketpp::transport::asio::connection<websocketpp::config::asio_tls_client::transport_config> >&, std::shared_ptr<boost::asio::basic_waitable_timer<std::chrono::_V2::steady_clock, boost::asio::wait_traits<std::chrono::_V2::steady_clock>, boost::asio::waitable_timer_service<std::chrono::_V2::steady_clock, boost::asio::wait_traits<std::chrono::_V2::steady_clock> > > >&, std::function<void (std::error_code const&)>&, boost::system::error_code const&>(std::__invoke_memfun_deref, void (websocketpp::transport::asio::connection<websocketpp::config::asio_tls_client::transport_config>::*&)(std::shared_ptr<boost::asio::basic_waitable_timer<std::chrono::_V2::steady_clock, boost::asio::wait_traits<std::chrono::_V2::steady_clock>, boost::asio::waitable_timer_service<std::chrono::_V2::steady_clock, boost::asio::wait_traits<std::chrono::_V2::steady_clock> > > >, std::function<void (std::error_code const&)>, boost::system::error_code const&), std::shared_ptr<websocketpp::transport::asio::connection<websocketpp::config::asio_tls_client::transport_config> >&, std::shared_ptr<boost::asio::basic_waitable_timer<std::chrono::_V2::steady_clock, boost::asio::wait_traits<std::chrono::_V2::steady_clock>, boost::asio::waitable_timer_service<std::chrono::_V2::steady_clock, boost::asio::wait_traits<std::chrono::_V2::steady_clock> > > >&, std::function<void (std::error_code const&)>&, boost::system::error_code const&) (in /usr/lib/x86_64-linux-gnu/libcpprest.so.2.10)
+ 
+E 2020-05-23T20:12:03.961658611Z ==1==    by 0x500538C: std::_Function_handler<void (boost::system::error_code const&), std::_Bind<void (websocketpp::transport::asio::connection<websocketpp::config::asio_tls_client::transport_config>::*(std::shared_ptr<websocketpp::transport::asio::connection<websocketpp::config::asio_tls_client::transport_config> >, std::shared_ptr<boost::asio::basic_waitable_timer<std::chrono::_V2::steady_clock, boost::asio::wait_traits<std::chrono::_V2::steady_clock>, boost::asio::waitable_timer_service<std::chrono::_V2::steady_clock, boost::asio::wait_traits<std::chrono::_V2::steady_clock> > > >, std::function<void (std::error_code const&)>, std::_Placeholder<1>))(std::shared_ptr<boost::asio::basic_waitable_timer<std::chrono::_V2::steady_clock, boost::asio::wait_traits<std::chrono::_V2::steady_clock>, boost::asio::waitable_timer_service<std::chrono::_V2::steady_clock, boost::asio::wait_traits<std::chrono::_V2::steady_clock> > > >, std::function<void (std::error_code const&)>, boost::system::error_code const&)> >::_M_invoke(std::_Any_data const&, boost::system::error_code const&) (in /usr/lib/x86_64-linux-gnu/libcpprest.so.2.10)
+ 
+E 2020-05-23T20:12:03.961674729Z ==1==    by 0x4FFC479: void boost::asio::detail::strand_service::dispatch<boost::asio::detail::binder1<std::function<void (boost::system::error_code const&)>, boost::system::error_code> >(boost::asio::detail::strand_service::strand_impl*&, boost::asio::detail::binder1<std::function<void (boost::system::error_code const&)>, boost::system::error_code>&) (in /usr/lib/x86_64-linux-gnu/libcpprest.so.2.10)
+ 
+E 2020-05-23T20:12:03.961681350Z ==1==    by 0x4FFC70F: void boost::asio::detail::wrapped_handler<boost::asio::io_service::strand, std::function<void (boost::system::error_code const&)>, boost::asio::detail::is_continuation_if_running>::operator()<boost::system::error_code>(boost::system::error_code const&) (in /usr/lib/x86_64-linux-gnu/libcpprest.so.2.10)
+ 
+E 2020-05-23T20:12:03.961696478Z ==1==    by 0x4FFCA82: boost::asio::ssl::detail::io_op<boost::asio::basic_stream_socket<boost::asio::ip::tcp, boost::asio::stream_socket_service<boost::asio::ip::tcp> >, boost::asio::ssl::detail::shutdown_op, boost::asio::detail::wrapped_handler<boost::asio::io_service::strand, std::function<void (boost::system::error_code const&)>, boost::asio::detail::is_continuation_if_running> >::operator()(boost::system::error_code, unsigned long, int) (in /usr/lib/x86_64-linux-gnu/libcpprest.so.2.10)
+ 
+E 2020-05-23T20:12:09.426462564Z --1-- Discarding syms at 0x10de3350-0x10de9d7f in /lib/x86_64-linux-gnu/libnss_files-2.27.so due to munmap()
+ 
+E 2020-05-23T20:12:09.429180725Z --1-- Discarding syms at 0x2be31f80-0x2be3579b in /lib/x86_64-linux-gnu/libnss_dns-2.27.so due to munmap()
+ 
+E 2020-05-23T20:12:09.430214088Z --1-- Discarding syms at 0x2c03b830-0x2c04b152 in /lib/x86_64-linux-gnu/libresolv-2.27.so due to munmap()
+ 
+
+
+
+ Add constructor from all integer types.
+ Fixes #1428
+ json::value doesn't have constructor from long
+ The following code doesn't compile.
+It does compile with MSVC prior 16.7 but it is a bug.
+
+```cpp
+long l = 1L;
+
+json::value v = l;
+```
+ The futex facility returned an unexpected error code.Aborted (core dumped)
+ I have been using `cpprestsdk` in one of my projects for quite some months now. But today suddenly I am having this issue out of nowhere. 
+
+Some details of my system: I am using Ubuntu 18.04 and `cpprestsdk`'s version is `2.10.2-6`.
+```
+==10436== 1 errors in context 3 of 13:
+==10436== Thread 1:
+==10436== Invalid write of size 1
+==10436==    at 0x5F9CE54: web::http::details::_http_request::_http_request(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) (in /usr/lib/x86_64-linux-gnu/libcpprest.so.2.10)
+==10436==    by 0x153DEF: void __gnu_cxx::new_allocator<web::http::details::_http_request>::construct<web::http::details::_http_request, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >(web::http::details::_http_request*, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&&) (new_allocator.h:136)
+==10436==    by 0x1526AA: void std::allocator_traits<std::allocator<web::http::details::_http_request> >::construct<web::http::details::_http_request, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >(std::allocator<web::http::details::_http_request>&, web::http::details::_http_request*, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&&) (alloc_traits.h:475)
+==10436==    by 0x150BB7: std::_Sp_counted_ptr_inplace<web::http::details::_http_request, std::allocator<web::http::details::_http_request>, (__gnu_cxx::_Lock_policy)2>::_Sp_counted_ptr_inplace<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >(std::allocator<web::http::details::_http_request>, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&&) (shared_ptr_base.h:526)
+==10436==    by 0x14EB5E: std::__shared_count<(__gnu_cxx::_Lock_policy)2>::__shared_count<web::http::details::_http_request, std::allocator<web::http::details::_http_request>, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >(std::_Sp_make_shared_tag, web::http::details::_http_request*, std::allocator<web::http::details::_http_request> const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&&) (shared_ptr_base.h:637)
+==10436==    by 0x14C52D: std::__shared_ptr<web::http::details::_http_request, (__gnu_cxx::_Lock_policy)2>::__shared_ptr<std::allocator<web::http::details::_http_request>, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >(std::_Sp_make_shared_tag, std::allocator<web::http::details::_http_request> const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&&) (shared_ptr_base.h:1295)
+==10436==    by 0x148BB4: std::shared_ptr<web::http::details::_http_request>::shared_ptr<std::allocator<web::http::details::_http_request>, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >(std::_Sp_make_shared_tag, std::allocator<web::http::details::_http_request> const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&&) (shared_ptr.h:344)
+==10436==    by 0x14474D: std::shared_ptr<web::http::details::_http_request> std::allocate_shared<web::http::details::_http_request, std::allocator<web::http::details::_http_request>, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >(std::allocator<web::http::details::_http_request> const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&&) (shared_ptr.h:691)
+==10436==    by 0x13E3FB: std::shared_ptr<web::http::details::_http_request> std::make_shared<web::http::details::_http_request, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&&) (shared_ptr.h:707)
+==10436==    by 0x12FCB4: web::http::http_request::http_request(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) (http_msg.h:854)
+==10436==    by 0x136881: web::http::client::http_client::request(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, pplx::cancellation_token const&) (http_client.h:505)
+==10436==    by 0x137375: HTTPInterface::get(std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::initializer_list<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&) (http_helpers.hpp:128)
+==10436==  Address 0xc06c370 is 0 bytes after a block of size 768 alloc'd
+==10436==    at 0x4C3017F: operator new(unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==10436==    by 0x153CEE: __gnu_cxx::new_allocator<std::_Sp_counted_ptr_inplace<web::http::details::_http_request, std::allocator<web::http::details::_http_request>, (__gnu_cxx::_Lock_policy)2> >::allocate(unsigned long, void const*) (new_allocator.h:111)
+==10436==    by 0x152558: std::allocator_traits<std::allocator<std::_Sp_counted_ptr_inplace<web::http::details::_http_request, std::allocator<web::http::details::_http_request>, (__gnu_cxx::_Lock_policy)2> > >::allocate(std::allocator<std::_Sp_counted_ptr_inplace<web::http::details::_http_request, std::allocator<web::http::details::_http_request>, (__gnu_cxx::_Lock_policy)2> >&, unsigned long) (alloc_traits.h:436)
+==10436==    by 0x1509E1: std::__allocated_ptr<std::allocator<std::_Sp_counted_ptr_inplace<web::http::details::_http_request, std::allocator<web::http::details::_http_request>, (__gnu_cxx::_Lock_policy)2> > > std::__allocate_guarded<std::allocator<std::_Sp_counted_ptr_inplace<web::http::details::_http_request, std::allocator<web::http::details::_http_request>, (__gnu_cxx::_Lock_policy)2> > >(std::allocator<std::_Sp_counted_ptr_inplace<web::http::details::_http_request, std::allocator<web::http::details::_http_request>, (__gnu_cxx::_Lock_policy)2> >&) (allocated_ptr.h:104)
+==10436==    by 0x14EAF6: std::__shared_count<(__gnu_cxx::_Lock_policy)2>::__shared_count<web::http::details::_http_request, std::allocator<web::http::details::_http_request>, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >(std::_Sp_make_shared_tag, web::http::details::_http_request*, std::allocator<web::http::details::_http_request> const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&&) (shared_ptr_base.h:635)
+==10436==    by 0x14C52D: std::__shared_ptr<web::http::details::_http_request, (__gnu_cxx::_Lock_policy)2>::__shared_ptr<std::allocator<web::http::details::_http_request>, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >(std::_Sp_make_shared_tag, std::allocator<web::http::details::_http_request> const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&&) (shared_ptr_base.h:1295)
+==10436==    by 0x148BB4: std::shared_ptr<web::http::details::_http_request>::shared_ptr<std::allocator<web::http::details::_http_request>, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >(std::_Sp_make_shared_tag, std::allocator<web::http::details::_http_request> const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&&) (shared_ptr.h:344)
+==10436==    by 0x14474D: std::shared_ptr<web::http::details::_http_request> std::allocate_shared<web::http::details::_http_request, std::allocator<web::http::details::_http_request>, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >(std::allocator<web::http::details::_http_request> const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&&) (shared_ptr.h:691)
+==10436==    by 0x13E3FB: std::shared_ptr<web::http::details::_http_request> std::make_shared<web::http::details::_http_request, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&&) (shared_ptr.h:707)
+==10436==    by 0x12FCB4: web::http::http_request::http_request(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) (http_msg.h:854)
+==10436==    by 0x136881: web::http::client::http_client::request(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, pplx::cancellation_token const&) (http_client.h:505)
+==10436==    by 0x137375: HTTPInterface::get(std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::initializer_list<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&) (http_helpers.hpp:128)
+==10436== 
+==10436== ERROR SUMMARY: 13 errors from 13 contexts (suppressed: 0 from 0)
+Aborted (core dumped)
+```
+Please let me know if you need anymore details.
+ Not able to close WebsocketClient If the connection is failed 
+ Hi,
+
+My sample Code:
+
+```
+socket_client = websocket_client();
+try
+    {
+        socket_client.connect(Url_Address).wait();
+    }
+    catch(const websocket_exception& e)
+    {
+        std::cout << "error while connecting to the websocket server: "<< e.what() << "\n";
+        return FAILURE;
+    }
+    catch (std::exception& e)
+    {
+        std::cout <<  "...... error while connecting to the websocket server: "<< e.what() << '\n';
+        return FAILURE;
+    }
+    return SUCCESS;
+```
+
+And Close method
+
+```
+try
+    {
+        printf("Closing websocket connection  \n");fflush(stdout);
+        socket_client.close().wait();
+       printf("websocket Closed successfully  \n");fflush(stdout);
+    }
+    catch(const websocket_exception& e)
+    {
+        std::cout << "error while closing web socket"<< e.what() << "\n";
+        return FAILURE;
+    }
+    return SUCCESS;
+```
+
+If I try the code with `Url_Address="";` The connect method is going into the catch block and then returning the failure. 
+But when I'm trying to close the web socket,
+I expected that the websocket close will be failed with some message and will be going in the catch block of close method.
+
+But the line `socket_client.close().wait();` is blocking forever and not exiting the code. I believe it is because of wait(). 
+
+Is there something I can do ` like wait(5); // wait for 5 or n milli seconds ? and then exit`. 
+When I try to pass wait(5), I'm getting `error: no matching function for call to ?pplx::task<void>::wait(int)?`
+
+Also tried with unsigned int and getting the following `error: no matching function for call to ?pplx::task<void>::wait(unsigned int&)?
+`
+
+What best suggestion I can in this scenario, as we are supposed to handle socket failure as well.
+
+
+ pplx\threadpool.h is not downloaded by default when vcpkg install
+ I run `vcpkg install cpprest:x86-windows` and `pplx\threadpool.h` is not downloaded by default, could it be downloaded by default?
+
+I guess I need to upgrade, then I run `git pull`, it just list lots of version diff, seems the version not diff too much:
+```
+  cpprestsdk:x64-windows           2.10.15-1 -> 2.10.16
+  cpprestsdk:x86-windows           2.10.15-1 -> 2.10.16 
+```
+How to make `threadpool.h` downloaded by default when vcpkg install ? 
+ vcpkg upgrade  Error: Port definition not found.
+ When I execute `vcpkg upgrade`, I got error `Port definition not found.`.
+
+Generally how to solve it? reinstall boost takes lots of time, should I really remove `recurse`? 
+
+Thank you. Cmd:
+
+```
+C:\vcpkg>vcpkg upgrade
+Error: while loading boost-disjoint-sets:x86-windows: Port definition not found.
+Please run "vcpkg remove boost-disjoint-sets:x86-windows" and re-attempt.
+
+C:\vcpkg>vcpkg remove boost-disjoint-sets:x86-windows
+The following packages will be removed:
+  * boost:x86-windows
+    boost-disjoint-sets:x86-windows
+Additional packages (*) need to be removed to complete this operation.
+If you are sure you want to remove them, run the command with the --recurse option
+
+```
+https://github.com/microsoft/vcpkg/issues/11463
+
+ Fix compilation errors with Android NDK
+ I compiled cpprestsdk with android-ndk-r16b and got some error information. I tried to fix them and it's works for me.
+1. std::to_string not support by Android NDK with gnustl. Using `utility::conversions::details::to_string` instead of `std::to_string` when `__ANDROID__` was defined.
+2. if `BOOST_ASIO_HAS_STD_CHRONO` defined, `boost::chrono::microseconds` cannot cast to `boost::asio::steady_timer::duration`.
+
+> Scanning dependencies of target cpprest
+> [  3%] Building CXX object Release/src/CMakeFiles/cpprest.dir/http/client/http_client_asio.cpp.o
+> /home/xiaofan/workspace/casablanca/Release/src/http/client/http_client_asio.cpp:1873:21: error: no matching member function for call to 'expires_from_now'
+>             m_timer.expires_from_now(m_duration);
+>             ~~~~~~~~^~~~~~~~~~~~~~~~
+> /home/xiaofan/workspace/casablanca/Build_android/build/Boost-for-Android/build/out/x86/include/boost-1_70/boost/asio/basic_waitable_timer.hpp:605:15: note: candidate function not viable: no known conversion from
+>       'boost::chrono::microseconds' (aka 'duration<long long, ratio<1LL, 1000000LL> >') to 'const boost::asio::basic_waitable_timer<std::chrono::_V2::steady_clock,
+>       boost::asio::wait_traits<std::chrono::_V2::steady_clock>, boost::asio::executor>::duration' (aka 'const duration<long long, ratio<1, 1000000000> >') for 1st argument
+>   std::size_t expires_from_now(const duration& expiry_time)
+>               ^
+> /home/xiaofan/workspace/casablanca/Build_android/build/Boost-for-Android/build/out/x86/include/boost-1_70/boost/asio/basic_waitable_timer.hpp:577:12: note: candidate function not viable: requires 0 arguments, but
+>       1 was provided
+>   duration expires_from_now() const
+>            ^
+> /home/xiaofan/workspace/casablanca/Build_android/build/Boost-for-Android/build/out/x86/include/boost-1_70/boost/asio/basic_waitable_timer.hpp:637:15: note: candidate function not viable: requires 2 arguments, but
+>       1 was provided
+>   std::size_t expires_from_now(const duration& expiry_time,
+>               ^
+> /home/xiaofan/workspace/casablanca/Release/src/http/client/http_client_asio.cpp:1884:25: error: no matching member function for call to 'expires_from_now'
+>             if (m_timer.expires_from_now(m_duration) > 0)
+>                 ~~~~~~~~^~~~~~~~~~~~~~~~
+> /home/xiaofan/workspace/casablanca/Build_android/build/Boost-for-Android/build/out/x86/include/boost-1_70/boost/asio/basic_waitable_timer.hpp:605:15: note: candidate function not viable: no known conversion from
+>       'boost::chrono::microseconds' (aka 'duration<long long, ratio<1LL, 1000000LL> >') to 'const boost::asio::basic_waitable_timer<std::chrono::_V2::steady_clock,
+>       boost::asio::wait_traits<std::chrono::_V2::steady_clock>, boost::asio::executor>::duration' (aka 'const duration<long long, ratio<1, 1000000000> >') for 1st argument
+>   std::size_t expires_from_now(const duration& expiry_time)
+>               ^
+> /home/xiaofan/workspace/casablanca/Build_android/build/Boost-for-Android/build/out/x86/include/boost-1_70/boost/asio/basic_waitable_timer.hpp:577:12: note: candidate function not viable: requires 0 arguments, but
+>       1 was provided
+>   duration expires_from_now() const
+>            ^
+> /home/xiaofan/workspace/casablanca/Build_android/build/Boost-for-Android/build/out/x86/include/boost-1_70/boost/asio/basic_waitable_timer.hpp:637:15: note: candidate function not viable: requires 2 arguments, but
+>       1 was provided
+>   std::size_t expires_from_now(const duration& expiry_time,
+>               ^
+> 2 errors generated.
+> Release/src/CMakeFiles/cpprest.dir/build.make:335: recipe for target 'Release/src/CMakeFiles/cpprest.dir/http/client/http_client_asio.cpp.o' failed
+> make[2]: *** [Release/src/CMakeFiles/cpprest.dir/http/client/http_client_asio.cpp.o] Error 1
+> CMakeFiles/Makefile2:108: recipe for target 'Release/src/CMakeFiles/cpprest.dir/all' failed
+> make[1]: *** [Release/src/CMakeFiles/cpprest.dir/all] Error 2
+> Makefile:140: recipe for target 'all' failed
+> make: *** [all] Error 2
+> 
+[![CLA assistant check](https://cla.opensource.microsoft.com/pull/badge/signed)](https://cla.opensource.microsoft.com/microsoft/cpprestsdk?pullRequest
+ websocket build error
+ I'm build a project written in last year by others, and got following error with `websocket`, in this source code file: https://github.com/pcman-bbs/pcman-windows/blob/master/Lite/Websocket.cpp
+
+The error messages:
+
+```
+Severity	Code	Description	Project	File	Line	Suppression State
+Error	LNK2019	unresolved external symbol _CONF_modules_unload referenced in function "public: __thiscall boost::asio::ssl::detail::openssl_init_base::do_init::~do_init(void)" (??1do_init@openssl_init_base@detail@ssl@asio@boost@@QAE@XZ)	Lite	MyDir\Lite\Websocket.obj	1	
+Error	LNK2019	unresolved external symbol _ERR_reason_error_string referenced in function "public: virtual class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > __thiscall boost::asio::error::detail::ssl_category::message(int)const " (?message@ssl_category@detail@error@asio@boost@@UBE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@H@Z)	Lite	MyDir\Lite\Websocket.obj	1	
+Error	LNK2019	unresolved external symbol "__declspec(dllimport) public: __thiscall web::websockets::client::details::websocket_client_task_impl::websocket_client_task_impl(class web::websockets::client::websocket_client_config)" (__imp_??0websocket_client_task_impl@details@client@websockets@web@@QAE@Vwebsocket_client_config@234@@Z) referenced in function "public: __thiscall std::_Ref_count_obj<class web::websockets::client::details::websocket_client_task_impl>::_Ref_count_obj<class web::websockets::client::details::websocket_client_task_impl><class web::websockets::client::websocket_client_config>(class web::websockets::client::websocket_client_config &&)" (??$?0Vwebsocket_client_config@client@websockets@web@@@?$_Ref_count_obj@Vwebsocket_client_task_impl@details@client@websockets@web@@@std@@QAE@$$QAVwebsocket_client_config@client@websockets@web@@@Z)	Lite	MyDir\Lite\Websocket.obj	1	
+Error	LNK2019	unresolved external symbol "__declspec(dllimport) public: class Concurrency::task<class web::websockets::client::websocket_incoming_message> __thiscall web::websockets::client::details::websocket_client_task_impl::receive(void)" (__imp_?receive@websocket_client_task_impl@details@client@websockets@web@@QAE?AV?$task@Vwebsocket_incoming_message@client@websockets@web@@@Concurrency@@XZ) referenced in function "public: class Concurrency::task<class web::websockets::client::websocket_incoming_message> __thiscall web::websockets::client::websocket_client::receive(void)" (?receive@websocket_client@client@websockets@web@@QAE?AV?$task@Vwebsocket_incoming_message@client@websockets@web@@@Concurrency@@XZ)	Lite	MyDir\Lite\Websocket.obj	1	
+Error	LNK2019	unresolved external symbol "__declspec(dllimport) public: void __thiscall web::websockets::client::details::websocket_client_task_impl::close_pending_tasks_with_error(class web::websockets::client::websocket_exception const &)" (__imp_?close_pending_tasks_with_error@websocket_client_task_impl@details@client@websockets@web@@QAEXABVwebsocket_exception@345@@Z) referenced in function __catch$??R<lambda_6faaa49c60b61750ef16c4ff707b1ae7>@@QBE@V?$task@X@Concurrency@@@Z$0	Lite	MyDir\Lite\Websocket.obj	1	
+
+```
+
+Seems complicated, how to solve these errors? 
+I'm new to C++, and after Hard internet searching, I got it this kind of error message is about `C++ class declare deifnition`, have declare but not define it. I'm doing some more explore and try.
+
+ How to upgrade the following library
+ I am using the old version of AzureSDK library, **libazuresdk.so** and Old version of **libcpprestsdk.so,**
+How can I upgrade directly in ubuntu ?? 
+
+Please help with the commands its urgent
+ Deregister cancellation callbacks
+ Potentially resolves the problem described in https://github.com/microsoft/cpprestsdk/issues/589.
+We have a workflow where we use the same long-lived cancellation_token_source for lots of tasks. We then use `when_all` to schedule some work once those tasks complete. We were seeing continuous growth in memory usage, and also in the amount of time it would take to create new tasks and to deregister any cancellation callbacks that were associated with the cancellation_token.
+Here is some repro code:
+```cpp
+pplx::cancellation_token_source cts;
+auto token = cts.get_token();
+std::string msg;
+auto start_time = std::chrono::high_resolution_clock::now();
+auto end_time = std::chrono::high_resolution_clock::now();
+std::array<pplx::task<void>, 100> tasks;
+std::ofstream ofs("data.csv");
+ofs << "construction time,deregister_callback time\n";
+for (int i = 0; i < 1000; ++i)
+{
+  auto token_reg = token.register_callback([&]() {});
+
+  start_time = std::chrono::high_resolution_clock::now();
+  for (auto& task : tasks)
+  {
+    task = pplx::task<void>([&] {}, token);
+  }
+  end_time = std::chrono::high_resolution_clock::now();
+  msg = std::to_string(std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time).count()) +","; // construction time
+
+  pplx::when_all(std::begin(tasks), std::end(tasks));
+
+  start_time = std::chrono::high_resolution_clock::now();
+  token.deregister_callback(token_reg);
+  end_time = std::chrono::high_resolution_clock::now();
+  msg += std::to_string(std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time).count()) + "\n"; // deregister_callback
+
+  ofs << msg;
+}
+```
+**Test Results On Master**
+Takes about 30s to execute. Memory usage starts around 2.4MB and climbs to around 13MB (using VS memory diagnostic tool).
+The timing data gathered in the test is reflected in these charts:
+![image](https://user-images.githubusercontent.com/42590547/81992639-cb180b00-95f8-11ea-96a9-5f8f000f25af.png)
+![image](https://user-images.githubusercontent.com/42590547/81992672-e256f880-95f8-11ea-8a78-78d5d089e9e4.png)
+
+**Test Results On This Branch**
+Takes about 1s to execute. The VS memory diagnostic tool didn't have enough time to take a sample, so I increased the number of loop iterations to 100,000. The Memory usage starts around 2.2MB and stayed around there, ending at 2.4MB.
+The timing data gathered in the test is reflected in these charts:
+![image](https://user-images.githubusercontent.com/42590547/81993317-48904b00-95fa-11ea-81c7-37ccf3907051.png)
+![image](https://user-images.githubusercontent.com/42590547/81994542-f3a20400-95fc-11ea-8feb-3a09e644c0ac.png)
+
+
+[![CLA assistant check](https://cla.opensource.microsoft.com/pull/badge/signed)](https://cla.opensource.microsoft.com/microsoft/cpprestsdk?pullRequest
+ How to compress or decompress data?
+ When I send the following header line to force compression, then I can't find a function to decompress the response.
+
+```
+crequest.headers().add(header_names::accept_encoding, L"br, deflate, gzip");
+```
+No one knows?
+
+ How to read the HTTP header?
+ When I receive a response from the server I would like to read the HTTP header tags, but iterating through the HTTP_RESPONSE object doesn't seem to work and only gives me hexacrap.
+
+```
+Count of header fields:18
+Headerline: 00000237C47FE330, 00000237C48926E0
+Headerline: 00000237C47FE180, 00000237C47FE2D0
+Headerline: 00000237C47FE450, 00000237C4871A50
+Headerline: 00000237C488E1D0, 00000237C48873D0
+Headerline: 00000237C488ED30, 00000237C4888140
+Headerline: 00000237C488EE10, 00000237C47FE150
+Headerline: 00000237C47FDD00, 00000237C488E760
+Headerline: 00000237C488E5C0, 00000237C488E5E0
+Headerline: 00000237C47FDF10, 00000237C4814480
+Headerline: 00000237C4887970, 00000237C4871410
+Headerline: 00000237C4871DD0, 00000237C488E420
+Headerline: 00000237C488E240, 00000237C4892560
+Headerline: 00000237C48714D0, 00000237C4871F10
+Headerline: 00000237C4871ED0, 00000237C488EA40
+Headerline: 00000237C47FE4B0, 00000237C48718D0
+Headerline: 00000237C4892200, 00000237C488E960
+Headerline: 00000237C47FE480, 00000237C488EC70
+Headerline: 00000237C4871950, 00000237C4887F60
+```
+
+```
+http_headers respHeaders = responsex.headers();
+            if (!respHeaders.empty())
+            {
+                std::cout << "Count of header fields:" << respHeaders.size() << std::endl;
+                for (auto it = respHeaders.begin(); it != respHeaders.end(); it++)
+                {
+                    std::cout << "Headerline: " << it->first.c_str() << ", " << it->second.c_str() << std::endl;
+                }
+            }
+```
+
+Also why can I not write `it < respHeaders.end()`? It says it can't find this operator, but that's standard for maps and this is a map at it's base.
+These are not C++ REST SDK questions.
+
+I guess you're on Windows and the header names and values which are `utility::string_t` are therefore wide character strings. Outputting a `const wchar_t*` to a narrow character stream has the behaviour you saw. Use `std::wcout` (or `ucout`).
+
+You are incorrect about map iterators, they do not provide `op<`.
+
+@garethsb-sony Ah yes you're right, it was that. I'm a bit confused when to use what with this lib. Sadly it uses it's own string lib but then not really but it's not very clear what it uses.
+
+🤷‍♂️ Certainly, C++ REST SDK could have settled on UTF-8 `char` on every platform, but current situation seems perfectly clear to me, just use `utility::string_t` almost everywhere with this library's interfaces. It doesn't have "its own string lib", you're guaranteed it's a `std::basic_string<T>` (`T` 
+Okay thanks mate.
+
+For windows, I don't really understand why it enforces the usage of wchar_t. It is such a hassle to write a gazillion of conversions back and forth all the time. I've tried to undef that silly behavior, but then I saw there are functions implemented for Windows like win32encrypt..something, which comes by default ONLY with a wstrng argument.
+
+std::string doesn't care if it holds binary data, unsigned char, UTF8 or whatever, so what is the reason wstring was picked as ONLY option for Windows ?
+
+
+
+ Quick question:  what's the quickest way to change the SO_LINGER to 0 to the sockets underneath the stack?
+ We are running into a strange behavior when using cpprestsdk along with azure-storage-cpp sdk and when over 24 processes are running fetching blobs from azure end point, there are over 4500 socket in one minute burst that are in TIME_WAIT state and somehow it capped our network throughput at 600 MB/s on an E64s_v3 azure node.
+
+Any hint in debugging this issue or a quick patch to set SO_LINGER to 0 would be highly appreciated!
+Thanks,
+
+Yang
+ http_listener cause another listener crash
+ Simply make two `http_listener` bind to same url and start them, the latter one will got an exception of  `http_listener is already registered for this path` and the former one will crash too, which shouldn't be.
+
+Simple code to reproduce:
+```c++
+http_listener listener(uri("http://localhost:3000/"));
+http_listener another(uri("http://localhost:3000/"));
+listener.start().wait(); // OK
+try
+{
+    another.start().wait();
+}
+catch(const std::exception& ex)
+{
+    // exception of "http_listener is already registered for this path"
+}
+
+listener.close().wait(); // Got exception "no listener registered for that host"
+
+```
+ Delete apparently broken .vcxprojs and .pfxes.
+ 
+ vcpkg updates?
+ When can we expect a newer version of cpprestsdk in vcpkg? It's several version behind from months ago.
+cpprestsdk is up-to-date in vcpkg.
+See: https://github.com/microsoft/vcpkg/blob/master/ports/cpprestsdk/CONTROL
+`Version: 2.10.16`
+
+Then why does search show me an old version?
+
+```
+vcpkg search cpprestsdk
+bitserializer-cpp... 0.8              This is an implementation of the BitSerializer archive for serialization JSON ...
+cpprestsdk           2.10.14-1        C++11 JSON, REST, and OAuth library The C++ REST SDK is a Microsoft project fo...
+```
+
+And why does the update think there's nothing to update?
+
+```
+ vcpkg update
+Your feedback is important to improve Vcpkg! Please take 3 minutes to complete our survey by running: vcpkg contact --survey
+Using local portfile versions. To update the local portfiles, use `git pull`.
+No packages need updating.
+```
+
+vcpkg list
+
+```
+cpprestsdk:x64-windows                             2.10.14-1        C++11 JSON, REST, and OAuth library The C++ REST...
+cpprestsdk[brotli]:x64-windows                                      Brotli compression support
+cpprestsdk[compression]:x64-windows                                 HTTP Compression support
+cpprestsdk[default-features]:x64-windows                            Features installed by default
+cpprestsdk[websockets]:x64-windows                                  Websockets support
+```
+
+vcpkg version
+
+```
+vcpkg version
+Vcpkg package management program version 2020.02.04-nohash
+```
+
+
+The sources of vcpkg on your system are outdated.
+If you have obtained vcpkg using
+`git clone https://github.com/Microsoft/vcpkg.git`
+then update it using e.g.:
+`git pull`
+
+
+Okay you are right, thanks, but it seems weird that the version of vcpkg influences the content of packages stored and managed on a server. How is this even related and why?
+
+The packages are not stored on a server, they are built locally on your system.
+The "recipes", which include the version of a package and how to build it, are stored locally in the `CONTROL` and `portfile.cmake` files.
+See e.g. inside the folder `./ports/cpprestsdk/` of your local vcpkg git directory. In case of cpprestsdk, the source code is downloaded from github and then compiled locally (from `portfile.cmake`):
+```cmake
+vcpkg_from_github(
+    OUT_SOURCE_PATH SOURCE_PATH
+    REPO Microsoft/cpprestsdk
+    REF v2.10.16
+    SHA512 d850b26051439dd10edcecd006075c64c61c565193cd76870af175bd343a72ecc59485deb0f907807071a57dd256b67139ad5d016f19cb38f7142357f430be1c
+    HEAD_REF master
+) 
+```
+This downloads the file `Microsoft-cpprestsdk-v2.10.16.tar.gz`, which you will find in the `./downloads` subdir ...
+
+
+I bursted out laughing. Okay but thanks for the explanation.
+
+ CMake error if OPENSSL_ROOT_DIR is not set
+ It seems there is an error even if OpenSSL is found:
+
+```
+CMake Error at Release/cmake/cpprest_find_openssl.cmake:40 (list):
+  list GET given empty list
+Call Stack (most recent call first):
+  Release/cmake/cpprest_find_websocketpp.cmake:18 (cpprest_find_openssl)
+  Release/src/CMakeLists.txt:68 (cpprest_find_websocketpp)
+
+
+-- OPENSSL_ROOT_DIR = 
+-- Could NOT find PkgConfig (missing: PKG_CONFIG_EXECUTABLE) 
+-- Checking for one of the modules 'openssl'
+-- Found OpenSSL: /opt/local/lib/libcrypto.dylib (found suitable version "1.1.1g", minimum required is "1.0.0")  
+```
+ Async http request task never get called.
+ I am using async http request function, and found for some request,  the returned task never get invoked.
+
+      web::http::http_request curReq;                                                                                                                                                                                   
+      curReq._set_base_uri("some_url");        
+     // set up headers                                                                                                                                                                                                                         
+      const auto reqId = m_reqId.fetch_add(1);                                                                                                                                                                                                                                                                                                                                                                                            
+     web::http::client::http_client m_client("some_url", http_client_config());                                                                                                                                                
+     return m_client.request(curReq).then([this, msgId, reqId](pplx::task<http_response> t) {                                                                                                                                          
+             std::cout << "entering then for reqId: " << reqId << std::endl;         // For some request, this line is never printed.                                                                                                                                                         
+             const auto& resp = t.get(); 
+       }     
+
+
+The requested url is working normally, I used python to send the same times of requests and received all the responses..  so it should be some other issue.
+
+What's the reason of this ? 
+In the test, I sent a lot of request in a short period of time, at the beginning there was response. 
+After some point, all the later requests' response were gone, that's the returned task was not called at all. 
+
+ missing cmake package version file (can't use cmake package versioning)
+ The `cpprestsdk` port is missing the package version file. Therefore it is not possible in cmake to use package version checking as in `find_package(cpprestsdk 2.8.0 CONFIG REQUIRED)`
+
+### Repro
+
+1. Setup a working vcpkg with VS2019 for simplicity
+2. `vcpkg install cpprestsdk`
+3. Create your app's `CMakeLists.txt` with the needed toolchain file
+4. Add to that `CMakeLists.txt` the following: `find_package(cpprestsdk 2.8.0 CONFIG REQUIRED)`
+
+### Result
+
+```
+[cmake] CMake Error at C:/njs/vcpkg/scripts/buildsystems/vcpkg.cmake:329 (_find_package):
+[cmake]   Could not find a configuration file for package "cpprestsdk" that is
+[cmake]   compatible with requested version "2.8.0".
+[cmake] 
+[cmake]   The following configuration files were considered but not accepted:
+[cmake] 
+[cmake]     C:/njs/vcpkg/installed/x86-windows-static-md-v142-sdk81/share/cpprestsdk/cpprestsdk-config.cmake, version: unknown
+[cmake] 
+[cmake] Call Stack (most recent call first):
+[cmake]   CMakeLists.txt:127 (find_package)
+```
+
+### Expected
+
+No errors and a later successful compile using the `cpprestsdk` library.
+
+### Solution
+
+Add package versioning information to the port as described in official cmake docs https://cmake.org/cmake/help/v3.0/manual/cmake-packages.7.html#package-version-file
+
+Usually you just set the version as project's property, and then you use CMake's helpers to create a simple Config + Version file like
+
+```cmake
+project(xxxx VERSION 2.8.0 LANGUAGES CXX)
+...
+include(CMakePackageConfigHelpers)
+write_basic_package_version_file(
+    ${CMAKE_CURRENT_BINARY_DIR}/xxxxxxxxxxxx.cmake
+    COMPATIBILITY SameMajorVersion
+)
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/xxxxxxxxxxxxxx.cmake DESTINATION ${CMAKE_INSTALL_DATADIR}/cmake/xxxxxxxxxxxxxxxx)
+```
+
+### Notes and related issues
+
+No reasonable alternative other than to remove package version in `find_package()`. Otherwise, the alternative is to implement what is already built into cmake.
+
+https://github.com/microsoft/cpprestsdk/issues/1382
+https://github.com/microsoft/cpprestsdk/issues/686
+https://github.com/microsoft/vcpkg/issues/10938
+Is the file `cpprestsdk-config-version.cmake` installed on your system?
+It should be there, e.g.:
+`vcpkg\installed\x86-windows\share\cpprestsdk\cpprestsdk-config-version.cmake`
+
+Ah-ha! This issue was fixed here 5 days after my original report on 20 April in the vcpkg repo.
+I just now tested with the current v2.10.16 and it happily works.
+Sorry for noise. Thanks for very helpful library -- I've used cpprest since 2016.
+
+ wrong path value returned by http_request::request_uri()
+ I have the next request:
+
+`http://localhost:8888//api/v1/ws_auth`
+
+I'm trying to handle this request but have got very strange values in return value of `http_request::request_uri`:
+
+```
+const web::uri& uri = request.request_uri() // request is the http_request parameter of callback
+auto path = uri.path(); // "/v1/ws_auth"
+auto host = uri.host(); // "api"
+```
+I guess the reason is double "//" in the uri after authority section, but a want to handle it correctly instead of having wrong host and path values. What's the right way to handle and fix that?
+
+[RFC 3986 Section 3](https://tools.ietf.org/html/rfc3986#section-3) and [Section 4.2](https://tools.ietf.org/html/rfc3986#section-4.2) make clear this is going to be a tricky case because a path beginning `//` is valid within a URL which has a scheme and authority (host:port), but a relative reference that consists only of the path part **cannot** begin with `//`.
+
+The client (browser or whatever) will have actually sent a request like
+```
+GET //api/v1/ws_auth HTTP/1.1
+Host: localhost:8888
+```
+The `//api/v1/ws_auth` is known as the `request-target` in [RFC 7230](https://tools.ietf.org/html/rfc7230#section-5.3). The `request-target` in an HTTP 1.1 request is permitted to be an absolute URL or just the absolute path, so it's natural for a server (cpprestsdk...) to interpret it as a URL reference, but that breaks in your example.
+
+Thanks for an answer.
+But how can I handle this case on the server side? I suppose that clients can make any kind of requests, including incorrect requests like this. Will it be right to explicitly check the host value on emptiness because of the relative uri can't have host?
+
+I think this may need a bug fix in the calls to `set_request_uri` inside the `http_listener` implementations. However, you may currently be able to work around it, by examining the components of the `request_uri` in your handler and reconstructing the full path from the `host`, `port` and `path`. Not ideal.
+
+Or fix the client(s) not to make requests with the pesky extra `/` as I assume you already treat `http://localhost:8888/api/v1/ws_auth` identically?
+
+Ok, thanks.
+So, I will have to explicitly check the `request_uri` on the server side. I think I haven't to reconstruct the full path but just inform the client about an incorrect request.
+I have also noticed that `request.relative_uri()` throws an exception when such kind of request is received. Maybe it's just a circumstance to make decision about an incorrect request
+
+Yes, if you can explain to clients that the correct URL is `http://localhost:8888/api/...` not `http://localhost:8888//api/...` then you just need to reject. If so, you may also want to reject a request_uri path that begins `//` also, in case the current behaviour is accepted as bug in C++ REST SDK code and fixed.
+
+
+ apt-get version is not detected by cmake
+ Feel free to dismiss this issue. I installed cpprestsdk on ubuntu as per the instructions but for some odd reason it wasn't detected by cmake (inside clion if that is important). I then removed it and built from source and installed using ninja and it worked.
+My best guess is the bug is in slightly older version of cpprestsdk because I saw apt version is a few minor version behind but has since been fixed. 
+ websocket client connection is getting closed if I do sleep(100ms) after reading each message
+ Hi,
+
+While I'm reading response from websocket_client; If I adda sleep of 100ms after reading each message; I'm getting error with WebsocketException (e.what() = Websocket connection has closed) ? Is there something or some parameter I need to set to keep the client connection to server alive. I'm looking at the server logs and do not see the server disconnected the connection ?
+
+Here is what I'm doing. I'm using a normal client instead of callback client for web socket.
+
+```
+
+pplx::task<std::string> receive_text_msg_helper(websocket_client& client)
+{
+
+  auto t = client.receive().then([](websocket_incoming_message ret_msg) 
+  {
+    try
+    {
+      auto ret_str = ret_msg.extract_string().get();
+      return ret_str;
+    }
+    catch(const websocket_exception& e) 
+    {
+      std::cout << "error while reading response from server "<< e.what() << "\n";
+    }
+  });
+  
+  return t;
+}
+int main()
+{
+ websocket_client client;
+  try
+  {
+      client.connect(url)).wait();
+  }
+  catch(const websocket_exception& e) 
+  {
+      // error
+  }
+ // have a thread to keep writing data to socket
+
+ while(true)
+    {
+      std::cout << "reading response...\n";
+      pplx::task<std::string> read_response_task = receive_text_msg_helper(client);
+      try
+      {
+        read_response_task.wait();
+      }
+      catch(const websocket_exception& e) 
+      {
+        std::cout << "error while reading message response from server"<< e.what() << "\n";
+      }
+      task_done = read_response_task.is_done();
+      if(!task_done)
+      {
+        std::cout << "something is wrong with reading task...\n";
+      }
+      response_string = read_response_task.get();
+      std::this_thread::sleep_for(std::chrono::milliseconds(100)); // sleep for 100 ms
+   } // end of while loop
+} // end of main
+```
+
+I've a thread to keep writing data to server using socket_client while the main thread is reading responses from socket_client.
+
+If I sleep for each x milli seconds in each read : I'm getting the following error with WebSocketException: with e.what() is giving "Websocket connection has closed". If I remove the sleep, every thing is working great.
+
+Do I have to set any keep_alive setting for the client connection ?  I don't see any parameter for keep_alive for long: 
+
+To process each message: we take about 3-4 seconds, what is the best way to not face this issue ?
+
+Thank you.
+Hi,
+
+Can you please assist on how to fix this issue ?
+
+Hi,
+
+Any suggestions on how to fix this issue ? Also when running the websocket code in valgrind, getting some socket closed exceptions.
+
+Thank you
+
+ Add a note how to install cpprestsdk with Conan
+ Hi!
+Please add to the guidelines how to install `cpprestsdk` with Conan dependency manager: https://conan.io/
+
+The command will be `conan install cpprestsdk/2.10.15` (but user can choose another version or choose another installation option).
+
+Thank you!
+ Opening and closing http listener
+ I am using cpprestsdk for my application. Now we are accessing the rest api which works fine when we access it sequentially. But when we run concurrently say running a batch file with so many request at the same time then we observe that thread count increases and also handles get increasing as seen in task manager.
+I observe that thread count and handle gets increase whenever api is hit continuously, if I do a pause of 1 sec between api hit in batch file then thread count and handles significantly reduced.
+I am using the same code as mention in this blog
+https://blogs.msdn.microsoft.com › ...
+Write your own REST Web Server using C++ using CPP REST SDK - Microsoft
+
+Any help or leads is appreciated
+
+ Compression not working on windows
+ Hi, 
+
+I try to enable the compression on my app.
+
+It was working fine be without the compression but now [winhttpsendrequest](https://docs.microsoft.com/en-us/windows/win32/api/winhttp/nf-winhttp-winhttpsendrequest) returns the error **ERROR_INVALID_PARAMETER**
+
+I suspect that the Content-Length header is present.
+
+I do not find any documentation on compression please let me know if there is one.
+Is there anything wrong with my code?
+
+```c++
+web::http::http_request request;
+request.headers().add("Accept", "application/json");
+request.headers().add("Authorization", auth);
+
+const auto length = bodyString.size();
+request.set_compressor(web::http::compression::builtin::algorithm::GZIP); // this line cause the error
+request.set_body(concurrency::streams::bytestream::open_istream(std::move(bodyString)), length, contentType);
+
+client.request(request).get();
+```
+
+Thanks,
+ websocket client : Does not send exception/error on sending non-utf8 characters. 
+ Hi,
+We are using cpprest websockets and we are trying to send utf-8 messages to a server.
+It indeed throws exception that, "payload contains invalid data". Need to add .wait() on send as well.
+
+ Use CMAKE_INSTALL_INCLUDEDIR for all include paths
+ PR #1383 switched to use ${CMAKE_INSTALL_INCLUDEDIR} as the destination
+to install cpprestsdk headers.
+
+That change did not update the INTSTALL_INTERFACE for the cpprest target
+and also did not update all the places where the include directory was
+hard coded.
+ Allow disabling SSL certificate revocation checks
+ Preamble: this is my first real contribution, so if you will have patience with me and be kind, I would appreciate it.
+
+This change adds a new property to http_client to allow disabling certificate revocation independently even if certificate validation is turned on.
+
+A comment was left on PR #687:
+[In my opinion, a complete solution to issue #664 would also allow disabling certificate revocation checking without completely disabling certificate validation as well.](
+https://github.com/microsoft/cpprestsdk/pull/687#issuecomment-387291622_)
+
+This should more fully resolve issue #664
+
+Note: This only applies to http_client, not websockets or asio. Those use boost and I am not sure if it allows toggling this the way WinHttp does.

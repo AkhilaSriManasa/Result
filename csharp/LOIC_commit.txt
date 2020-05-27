@@ -1,0 +1,48 @@
+﻿ Merge branch 'stable'
+ Close Issue #79
+ Optimization
+ Unleashed
+ Surprise
+ Some syntax changes
+ Merge branch 'stable'
+ .gitignore
+ Merge branch 'stable'
+ Optimization
+ Merge pull request #71 from agentFinland/master
+
+Clarifications to README
+ Merge branch 'stable'
+ Specify 4.0 runtime (I think internally it is 4.5 anyway)
+ Merge branch 'stable'
+ End-of-line
+ Packages for Debian/Ubuntu
+ Merge branch 'stable'
+ Add loic.sh and loic-net4.5.sh to stable branch
+ Copy loic.sh to loic-net4.5.sh and update it to .net 4.5
+ Do no overwrite an existing LOIC.exe.config
+ Add new packages to fix issues #72 and #74 - Also fix start crash
+ loic.sh: migrate to xbuild
+
+Issue: #72
+
+References:
+https://github.com/NewEraCracker/LOIC/issues/11#issuecomment-602103
+https://stackoverflow.com/questions/27594393/compiled-mono-missing-default-net-libraries-system-object-is-not-defined-or-i
+ loic.sh: change url to https
+ Minor correction to Info section
+
+- corrected start of second sentence because it was not a complete sentence
+ Corrected wording, grammar, and minor formatting in README
+
+- improved clarity by correcting phrasing
+- removed redundancies
+- removed unnecessary capitols
+- added missing capitolization
+- minor grammar corrections
+ Restore +x bit for loic.sh
+ So I Herd U Liek .NET 4
+ Trying to improve OS detection. Typos fixed
+ Merge branch 'stable'
+ Merge branch 'abatishchev' into stable
+
+Empty merge to syncronize branches

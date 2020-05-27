@@ -1,0 +1,323 @@
+﻿ Replace in-source googletest with external googletest setup
+ This PR removes the in-source googletest release and relies on an external source tree of googletest.
+The project would then be integrated into the own cmake build tree for testing.
+
+On Ubuntu systems, the sources can be installed using
+```shell
+apt install googletest
+```
+which is available since Ubuntu 18.04.
+As general solution, the environment variable `googletest_DIR` is used to search for the sources.
+
+Open issues / questions:
+* Provide an easy way to download the latest googletest sources (a git submodule?).
+I remember that when we first decided to include googletest directly in cmake-init, it was generally advised not to use any pre-built versions of gtest/gmock, because the compiler settings have to match those of the project it is included in exactly. Therefore, it was advised to always compile gtest/gmock with the project itself. Has this policy changed since then?
+
+I'm not sure if the policy changed but this PR uses a gmock integration where it is compiled in the context of the own project (by means of compiler). No pre-built version of gmock and gtest is used.
+
+However, I need to check if we need to pass additional compiler or linker flags to gmock/gtest that are specified in the own project. I'm currently unaware of compiler settings that would affect ABI changes.
+
+We should add the info you gave above (how to install the sources and the environment variable) to the documentation and possible to the error message as well. I'm not sure about the external project, in my experience that is not nice to handle, so I would rather leave it like this, especially if installing the source is so easy as to install a package on ubuntu.
+
+:shipit: 
+
+ Is the .ignore file necessary?
+ I can not find where this file is used, so I wondered whether this file is necessary at all? 
+Indeed, this file is not used within cmake-init. This file is a blacklist of file paths to ignore for the line counting service from the [tokei](https://github.com/XAMPPRocky/tokei) line counter. Explicit documentation on this is pending.
+
+Thank you for the information. The tool looks interresting.
+
+ fix broken link in ReadMe
+ The link to the CMakeInitialization section was broken
+ Handle deprecation of CMP0037
+ CMake 3.13 issues the following warning:
+```
+CMake Deprecation Warning at cmake/Custom.cmake:6 (cmake_policy):
+  The OLD behavior for policy CMP0037 will be removed from a future version
+  of CMake.
+
+  The cmake-policies(7) manual explains that the OLD behaviors of all
+  policies are deprecated and that a policy should be set to OLD only under
+  specific short-term circumstances.  Projects should be ported to the NEW
+  behavior and not rely on setting a policy to OLD.
+Call Stack (most recent call first):
+  source/tests/CMakeLists.txt:19 (set_policy)
+```
+
+The immediate impact for cmake-init may be the usage of the registered target name `test` which cannot be used anymore once the policy is removed.
+I suggest to use another target name or attach to the then-registered `test`-target.
+ Use target_link_options to pass linker options
+ As of CMake 3.13, the previously missing function [`target_link_options`](https://cmake.org/cmake/help/v3.13/command/target_link_options.html) was introduced. I suggest to use this instead of `target_link_libraries`. The current implementation does not allow passing linker options for MSVC.
+
+Details:
+Options (and linker options, too) start with a front slash for MSVC (e.g., `/LTCG`). As we use `target_link_libraries` to pass this option to the linker, CMake assumes library names to link against and gracefully converts our Unix-encoded path separator to Windows-encoded path separators, resulting in `\LTCG` being passed to the linker.
+ Unify use of CMake variable syntax
+ ...within configuration-in-files (closes #94).
+
+This PR renders all `configure_file` calls to be either `COPYONLY` (which does not resolve cmake variables) or `@ONLY` (which does not resolve variables in the *dollar-braces* syntax).
+ Small "adapt" improvement
+ To simplify the "adapt" operation:
+- in `deploy/CMakeLists.txt`, replace `include(packages/pack-template.cmake)` with `include(packages/pack-${META_PROJECT_NAME}.cmake)`
+- Remove the corresponding line from `ADAPT.md`
+
+ Option to generate cppcheck reports as xml file
+ It would be nice to have an option to generate ccpcheck reports as an xml file. When calling cppcheck, using the `--xml --output-fileMy version of cppcheck (1.82 on Ubuntu 18.04) does not document the `--output-file` parameter. However, the parameter is usable and your suggestion is reasonable.
+
+What I would want to discuss are actual implementation details.
+
+(1) You suggest to add a cmake option. I wonder if such option would toggle the xml-output for all health checks or just for cppcheck. More specifically, would such an option be called `OPTION_XML_REPORTS` or `OPTION_CPPCHECK_XML_REPORTS`.
+
+(2) Alternative approaches are the ability to extend the command-line arguments passed to cppcheck at a more visible location in the setup.
+Example:
+```cmake
+set(CPPCHECK_FLAGS "--enable=all --verbose --suppress=missingIncludeSystem
+--xml --output-file="\\${CMAKE_CURRENT_BINARY_DIR}/cppcheck-\\${target}.xml")
+```
+
+(3) What I currently test is the addition of more cmake targets where their names encode the output to xml.
+An example of the current health check targets:
+* check-all
+* check-baselib
+* check-fiblib
+* cppcheck-baselib
+* cppcheck-fiblib
+* clang-tidy-baselib
+* clang-tidy-fiblib
+
+I'm thinking of adding these additional cmake targets:
+* check-all-xml
+* check-baselib-xml
+* check-fiblib-xml
+* cppcheck-baselib-xml
+* cppcheck-fiblib-xml
+* clang-tidy-baselib-xml
+* clang-tidy-fiblib-xml
+
+The 3 solutions seem interesting. My personal need is only about cppcheck so a `OPTION_CPPCHECK_XML_REPORTS` would be good. However I agree it would be better to have a more general mechanism.
+For that reason, the `OPTION_XML_REPORTS` could be interesting but what happens if a future health tool cannot generate an XML report?
+
+I don't really like the 2nd suggestion. It forces people to know the arguments. It isn't very flexible neither. When manually building the project, I may want to get normal cppcheck reports and only generate the XML reports when running CI/CD. 
+
+I like the 3rd option but I'm afraid it would make the project more and more complex if new health tools are added in the future.
+
+
+ Integrate Hunter support
+ Sources:
+ * [globjects integration into Hunter](https://github.com/hunter-packages/globjects)
+ * [Hunter documentation](https://docs.hunter.sh/en/latest/)
+ Replace global settings with local ones
+ The list of specific settings is to be collected.
+I don't understand what is meant by this at all. Please explain it a bit more detailed.
+
+As one example, the output directories per target type can be specified by target instead of a global option. Thus, we may move them to the `cmake/CompileOptions.cmake` file.
+
+ download googletest at configure time via externalproject
+ also fixes errors when building source/test as standalone project (includes where missing or too late)
+I used the last option mentioned in [googletest readme](https://github.com/google/googletest/tree/master/googletest#incorporating-into-an-existing-cmake-project) with code from the [linked article](https://crascit.com/2015/07/25/cmake-gtest/) to include google test and mock.
+
+ What's the problem with gtest/mingw?
+ https://github.com/cginternals/cmake-init/blob/3be6f85df401d0e667b5a64ce9e65584bf10a313/source/CMakeLists.txt#L24
+
+Does anyone know/remember, why testing with gtest on mingw fails? I uncommented this and got strange cmake errors, I gues this is why it is disabled. But can't find the issue or bug regarding ctest. Can we fix this somehow to enable testing on Windows with mingw?
+Likely issues are unsupported C++ features within MinGW distributions. However, I'm not aware of any specifics. Can you provide the cmake errors?
+
+ Fix markdown formatting for ADAPT.md
+ `<project>` doesn't show up on GitHub without escaping the opening angle bracket.
+ Unify use of CMake variable syntax within configuration-in-files
+ Current mixed use
+* [ ] source/version.h.in
+* [ ] README.md
+ update ADAPT file
+ logos were not in mentioned folder
+
+<project>_version.h is now version.h.in removing the need for renaming
+
+import of version header was moved from fibcmd to baselib and has metaproject prefix (template/template-version.h)
+
+ Use PIC only for dynamic libraries (closes #82)
+ 
+I wouldn't do such magic. In my experience, the policy of using PIC only for dynamic libraries is very problematic, because I have often the case that I develop a dynamic library, which in turn uses a dependency which I link in as a static library because I don't want to have to deploy an additional shared library (think of small utility libraries for xml, gzip, whatever). In that case, one needs to build the static library using PIC turned on.
+
+So instead of doing such an internal magic, which is hard to find and to disable, maybe we should just adhere to the standard other build systems use as well: Have an Option for PIC, so that I can pass -DOPTION_USE_PIC:bool=on etc. in cases as described before.
+
+The documentation suggests that using this variable is not sufficient in recreating the default behavior.
+
+The default behavior differentiates between shared and module libraries and the other target types.
+Once we set the variable (and if we use a cmake option, the variable es either ON or OFF, unset is not an option), all targets are bound to the setting (disregarding the type).
+
+ Manage test coverage
+ Add targets to generate test coverage report using gcov and lcov. Tests targets are automatically registered for test coverage if coverage option is enabled.
+Thanks for contributing.
+I tested this PR and added support for other executables besides tests.
+
+@sbusch42 I think we can merge this.
+
+ Add Windows support to Travis CI template
+ 
+Added with b942a86e54d61d25640acca8acb69c0a9af58954.
+
+ NSIS 3 support for MUI2
+ 
+ Add example to find library dependencies to configure script
+ Since CMake 3.0 there is a feature to search for dependencies of a target within the `-config.cmake` configure script.
+This PR adds an example to our template.
+
+An actual use can be seen in https://github.com/cginternals/globjects/pull/359.
+ Bug Report: Separator Issue in  .localconfig/default
+ in file .localconfig/default
+```bash
+export CMAKE_PREFIX_PATH="${CMAKE_PREFIX_PATH}:D:/cmake-init-master/thirdparty/qt5"
+```
+this does not work in windows got error running ./configure debug
+
+---
+
+I change separator from **:** to **;** 
+```bash
+export CMAKE_PREFIX_PATH="${CMAKE_PREFIX_PATH};D:/cmake-init-master/thirdparty/qt5"
+```
+
+ It works !
+
+
+It seems like you are using the configure scripts on a Windows file system. As these scripts are written using bash, their original intent is to get used on UNIXoid systems where directory paths are not allowed to contain a colon character.
+Can you specify your setup? I think your intended compiler and the shell you want to use are important.
+
+Compiler vs 2017 win64
+Shell google git bash
+
+On Fri, 14 Sep 2018 at 7:22 pm, Willy Scheibel <notifications@github.com> wrote:
+
+It seems like you are using the configure scripts on a Windows file system. As these scripts are written using bash, their original intent is to get used on UNIXoid systems where directory paths are not allowed to contain a colon character.
+Can you specify your setup? I think your intended compiler and the shell you want to use are important.
+
+?
+You are receiving this because you authored the thread.
+Reply to this email directly, view it on GitHub<https://github.com/cginternals/cmake-init/issues/87#issuecomment-421289643>, or mute the thread<https://github.com/notifications/unsubscribe-auth/AKFrGVYyr-G3fLQe5xiA0t6TWsoSjC1sks5ua3U-gaJpZM4WozSH>.
+
+
+I don't see where this path "D:/cmake-init-master/thirdparty/qt5" would come from. It is not autogenerated by configure, so you must have added it yourself. The only thing included in the autogenerated files is an *example* that contains a path to where Qt might be found, you have to modify and adjust it yourself, so when using Windows you are of course required to change the separators from : to ;. So calling this a bug seems strange to me, as it is only an example line.
+
+To make things clearer, we could add one example for Windows and one for unix systems, both deactivated ...
+
+@scheibel: The setup is totally fine, I've used the configure script for years with Windows and git-bash, so this configure script it not really intended only for UNIX systems :)
+
+
+ which items in which files should be modified when creating a new project?
+ Can you specify what changes need to be made to cater for my own project?
+eg. change the name of template-config.cmake to xxx-config.cmake 
+I believe there are more items than template-config.cmake to be changed. Am I right?
+
+thanks.
+Thanks for trying out cmake-init.
+We have an [ADAPT](https://github.com/cginternals/cmake-init/blob/master/ADAPT) file that should be part of your download where we track the necessary changes to convert cmake-init into your project setup.
+
+cool mate it will be great to mention it in read me so that people can find it.
+
+On Fri, 14 Sep 2018 at 7:24 pm, Willy Scheibel <notifications@github.com> wrote:
+
+Thanks for trying out cmake-init.
+We have an ADAPT<https://github.com/cginternals/cmake-init/blob/master/ADAPT> file that should be part of your download where we track the necessary changes to convert cmake-init into your project setup.
+
+?
+You are receiving this because you authored the thread.
+Reply to this email directly, view it on GitHub<https://github.com/cginternals/cmake-init/issues/86#issuecomment-421290351>, or mute the thread<https://github.com/notifications/unsubscribe-auth/AKFrGaB77UExVKov-V4j55sMeuIaUjDBks5ua3W4gaJpZM4Wmr4b>.
+
+
+closed
+
+ Missing LATEX_COMPILER and LaTeX
+ Hi guys,
+```
+$ ./configure debug
+Configuring ...
+-- Selecting Windows SDK version 10.0.17134.0 to target Windows 10.0.14393.
+-- Could NOT find cppcheck (missing: cppcheck_EXECUTABLE)
+-- Check cppcheck skipped: cppcheck not found
+-- Could NOT find clang_tidy (missing: clang_tidy_EXECUTABLE)
+-- Check clang-tidy skipped: clang-tidy not found
+-- Lib baselib
+-- Lib fiblib
+-- Example fibcmd
+-- Example fibgui
+
+CMake Deprecation Warning at cmake/Custom.cmake:6 (cmake_policy):
+  The OLD behavior for policy CMP0037 will be removed from a future version
+  of CMake.
+  The cmake-policies(7) manual explains that the OLD behaviors of all
+  policies are deprecated and that a policy should be set to OLD only under
+  specific short-term circumstances.  Projects should be ported to the NEW
+  behavior and not rely on setting a policy to OLD.
+Call Stack (most recent call first):
+  source/tests/CMakeLists.txt:19 (set_policy)
+
+-- Test fiblib-test
+-- Doc api-docs
+-- Could NOT find LATEX (missing: LATEX_COMPILER)
+-- Disabled generation of documentation (missing LaTeX).
+-- Configuring done
+-- Generating done
+-- Build files have been written to: D:/cmake-init-master/build-debug
+
+Project configured. To build the project, use
+
+  cmake --build build-debug
+
+```
+
+I have installed [MikeTex](https://miktex.org/download) but still got the same mising.
+Help needed. 
+
+Thanks.
+
+
+solved out
+
+ Remove unneeded CMP0028 policy setting
+ Since `CMP0028` was introduced in CMake 3.0, and the minimum required version is `3.0`, there is
+no need to explicit set the policy.
+
+References:
+* https://cmake.org/cmake/help/git-master/manual/cmake-policies.7.html#policies-introduced-by-cmake-3-0
+* https://cmake.org/cmake/help/git-master/command/cmake_minimum_required.html
+Thanks for contributing.
+
+ simd detection script
+ avx512 not tested
+pls review
+ Disable PIC for static libraries
+ Debian uses the policy to enable position independent code for shared libraries and prohibit it for static libraries [1].
+I suggest cmake-init reflects this default.
+
+Sources
+[1] https://www.debian.org/doc/debian-policy/#s-libraries
+See #92.
+
+ Add possibility to build in nested folders
+ First of all a note: the `configure` script is awesome to use as a standalone script for other projects which are not based on *cmake-init*. However sometimes other projects require a setup with nested folders, e.g. expecting the build folder to be in `build/Release` or `build/Debug`.
+
+These changes would allow the configure script to be used in these cases.
+nice :)
+
+ Update .travis.yml
+ no need for sudo
+ [appveyor.yml] Simplify yaml syntax and fix watched file directories
+ As explained in [this well-written StackOverflow answer](https://stackoverflow.com/a/21699210/2560557), using `|-` allows us to write the commands without additional linebreaks in between.
+Additionally, this PR fixes the list of watched files - there is only a `source`, not a `sources` directory.
+Just for documentation: the appveyor tests fail because of the unmerged PR https://github.com/cginternals/cmake-init/pull/78.
+
+ Update googletest to 0fe96607d85cf3a25ac40da369db62bbee2939a5
+ Dump of the entire source at the current master, seems to work.
+
+Googletest should probably be updated again once there is a new release.
+This causes warnings about MACOSX_RPATH not being specified for the 4 gmock and gtest targets on macOS. It seems this was also the case when googletest was added, but that was fixed in 6df2e5a. There were also some other changes made to googletest in da2b52c, f505bef and 217786a. Should these changes maybe be preserved here?
+
+@j-o are you able to reproduce the `MACOSX_RPATH` issue? Are you able to fix this?
+I'd like to merge this PR soon.
+
+I have re-applied the mentioned commits and the warning is gone. 
+
+These changes need to be documented somehow for future updates to googletest. Maybe a `HOWTO-update-gtest` file in the `source/tests` directory?
+
+Yes, they should be documented. Unfortunately, they are not patchable outside of the Google CMakeLists.
+

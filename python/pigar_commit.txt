@@ -1,0 +1,54 @@
+﻿ Merge pull request #77 from damnever/auto-confirm
+
+--yes/--no to answer all possible questions
+ --yes/--no to answer all possible questions, close #76
+ More python versions
+ Merge pull request #74 from damnever/v0.10.0-final
+
+V0.10.0 final
+ Bump version to v0.10.0 final
+ Dirty fix for some packages
+ Change default log level to WARNING
+ Update CHANGELOG
+ Merge pull request #72 from damnever/ipy-notebook
+
+Jupyter notebook(.ipynb) support
+ Jupyter notebook(.ipynb) support
+ Fix potential 'no attribute' exception
+ Fix wrong method
+ Merge pull request #71 from damnever/v0.10
+
+Refactor the main logic
+ Replace travis-ci with GitHub actions
+ Update the GIF guide
+ Regenerate requirements and minor changes
+ Fix test cases
+ Update database
+ Refactor the main logic, the major api has been changed
+ Update LICENSE
+ Option to turn off filenames and line numbers in requirements.txt (#67)
+ Follow -r in requirements.txt while checking the latest versions
+
+* make parse_reqs read other requirements files recursively when a line has -r.
+
+* print filename as context information
+
+* remove filename logging from utils.py
+ Fix #63, make the path and *requirements.txt join together when the given path is a directory
+
+Co-authored-by: Xiaochao Dong <dxc.wolf@gmail.com>
+ Merge pull request #62 from bganglia/master
+
+Add conda installation instructions
+ add conda installation instructions
+ Merge pull request #55 from damnever/bump
+
+Bump version: 0.9.2
+ Bump version: 0.9.2
+ Merge pull request #54 from damnever/fix-37
+
+Support comparison operators
+ Support comparison operators, close #37
+ Merge pull request #51 from damnever/fix-49
+
+Upgrade requests to fix potential security vulnerabilities

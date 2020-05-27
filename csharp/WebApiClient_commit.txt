@@ -1,0 +1,32 @@
+﻿ 默认配置移除JsonStringType转换器
+ string值特殊处理
+ 优化UriEditor
+ 完善RepaceIgnoreCase
+ 完善RepaceIgnoreCase单元测试
+ 移除多余文件夹
+ 修复Replace的bug
+ 记录replaced结果
+ 使用Span替换Regex，提高UriEditor的性能
+ 直接json序列化性能更好
+ 优化KeyValueFormatter
+ 提高KeyValueFormatter的性能
+ KeyValueFormatter使用缓冲池复用
+ 增加接口修饰符号语法检查
+ Merge pull request #113 from BarlowDu/master
+
+代理类生成过程中字段名添加<>,避免与方法名重复
+ 选择性使用ConcurrentCache与ConcurrentDictionary
+ 代理类生成过程中字段名添加<>,避免与方法名重复
+ beta3
+ 将异常包装为HttpRequestException的内部异常
+ 整个请求流程流程中的异常包装为HttpRequestException
+ Update README.md
+ 重构ApiReturnDescriptor
+ 类型重命名
+ 增加HttpRequest静态类
+ 增加CancellationTokenLinker
+ Update README.md
+ Update README.md
+ Update README.md
+ Update README.md
+ 移除调试参数

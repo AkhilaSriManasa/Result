@@ -1,0 +1,843 @@
+﻿ 代理类生成过程中字段名添加<>,避免与方法名重复
+ 变更了代理类中三个字段(interceptor,interfaceType,apiMethods)的名称,分别添加了"<>".
+这样可以避免方法名与字段名重名的问题
+这个考虑得周到，应该使用一些c#语言层禁止的命名，比如<> 或$前缀
+
+ [建议] 是否可以提供一些性能数值，做些参考？
+ 很棒的一个项目，是否可以提供一些性能数值，做些参考？
+这个会有的，先透漏一下与原生HttpClient的性能比较;
+```
+BenchmarkDotNet=v0.12.1, OS=Windows 10.0.18363.836 (1909/November2018Update/19H2)
+Intel Core i7-8565U CPU 1.80GHz (Whiskey Lake), 1 CPU, 8 logical and 4 physical cores
+.NET Core SDK=3.1.201
+  [Host]     : .NET Core 3.1.3 (CoreCLR 4.700.20.11803, CoreFX 4.700.20.12001), X64 RyuJIT  [AttachedDebugger]
+  DefaultJob : .NET Core 3.1.3 (CoreCLR 4.700.20.11803, CoreFX 4.700.20.12001), X64 RyuJIT
+
+
+|                            Method |      Mean |     Error |    StdDev |
+|---------------------------------- |----------:|----------:|----------:|
+|  WebApiClientCore_GetAsModelAsync | 16.689 us | 0.2424 us | 0.2149 us |
+| HttpClientFactory_GetAsModelAsync |  2.123 us | 0.0415 us | 0.0389 us |
+
+```
+
+WebApiClient.JIT、WebApiClientCore和原生HttpClient三者比较
+```
+|                     Method |      Mean |     Error |    StdDev |
+|--------------------------- |----------:|----------:|----------:|
+|      WebApiClient_GetAsync | 25.716 us | 0.5106 us | 0.9838 us |
+|  WebApiClientCore_GetAsync | 16.047 us | 0.1231 us | 0.0961 us |
+|        HttpClient_GetAsync |  2.028 us | 0.0240 us | 0.0224 us |
+|     WebApiClient_PostAsync | 18.712 us | 0.3707 us | 0.3641 us |
+| WebApiClientCore_PostAsync |  8.799 us | 0.1696 us | 0.1666 us |
+|       HttpClient_PostAsync |  3.673 us | 0.0710 us | 0.0972 us |
+
+// * Hints *
+Outliers
+  Benchmark.WebApiClient_GetAsync: Default      -> 2 outliers were removed (30.90 us, 32.51 us)
+  Benchmark.WebApiClientCore_GetAsync: Default  -> 3 outliers were removed (16.53 us..16.78 us)
+  Benchmark.WebApiClient_PostAsync: Default     -> 1 outlier  was  removed, 2 outliers were detected (17.65 us, 23.91 us)
+  Benchmark.WebApiClientCore_PostAsync: Default -> 1 outlier  was  removed (10.14 us)
+  Benchmark.HttpClient_PostAsync: Default       -> 3 outliers were removed (4.05 us..5.06 us)
+
+// * Legends *
+  Mean   : Arithmetic mean of all measurements
+  Error  : Half of 99.9% confidence interval
+  StdDev : Standard deviation of all measurements
+  1 us   : 1 Microsecond (0.000001 sec)
+```
+
+谢谢回答
+
+ .netcore版本
+ 1. 将System.Text.Json替换Json.net
+2. 提升内置的HttpContent的性能
+3. 移除HttpApiFactory和HttApiConfig功能，使用DI和HttpClientFactory
+4. 移除AOT功能 
+5. 高效的ActionInvoker
+6. 所有特性都基于中间件思想开发
+7. 基于管道编排各个特性中间件
+8. 良好设计的HttpContext、ApiRequestContext、ApiParameterContext和ApiResponseContext
+ 本地地址设置代理无效
+ 本地地址设置代理无效,希望能增加本地地址的代理设定(例如系统自带的BypassProxyOnLocal)设置
+HttpClient对于localhost或回环ip永远是不生效，你可以使用局域网ip或机器名
+
+不是localhost，经过测试目前192.x，10.x系列的局域网保留IP都不会起作用。
+系统自带的API有BypassProxyOnLocal这个属性来决定是否针对局域网开启代理功能。
+
+问题不在webApiClient层，在HttpClient层就是这样的效果。
+
+目前测试下来局域往只有使用机器名才生效，WCF那套东西测试下来也有同样问题，按理说不应该是这样的效果才对。
+
+最有可能是winnet层的
+
+但是作为Windows的全局代理设定，这个是起作用的
+
+ 在 Blazor(wasm) 中运行报错
+ 如题，目前只是按照 README 进行了最简单的使用体验(一个 Get 接口)；
+
+具体报的错是 Resolve 时设置 UseProxy 属性出错，平台不支持，具体堆栈信息如下：
+
+```
+Microsoft.AspNetCore.Components.WebAssembly.Rendering.WebAssemblyRenderer[100]
+      Unhandled exception rendering component: Property UseProxy is not supported.
+System.PlatformNotSupportedException: Property UseProxy is not supported.
+  at System.Net.Http.HttpClientHandler.set_UseProxy (System.Boolean value) <0x2eeb288 + 0x0000c> in <filename unknown>:0 
+  at WebApiClient.DefaultHttpClientHandler..ctor () <0x2edbd88 + 0x0000c> in <filename unknown>:0 
+  at WebApiClient.HttpApiFactory.CreateHttpHandler () <0x2edba08 + 0x00024> in <filename unknown>:0 
+  at System.Lazy`1[T].ViaFactory (System.Threading.LazyThreadSafetyMode mode) <0x2ed2f28 + 0x00062> in <filename unknown>:0 
+  at System.Lazy`1[T].ExecutionAndPublication (System.LazyHelper executionAndPublication, System.Boolean useDefaultConstructor) <0x2ed2e48 + 0x00044> in <filename unknown>:0 
+  at System.Lazy`1[T].CreateValue () <0x2ed2d20 + 0x000b8> in <filename unknown>:0 
+  at System.Lazy`1[T].get_Value () <0x2ed29e8 + 0x0000c> in <filename unknown>:0 
+  at WebApiClient.HttpApiFactory.CreateHttpApi () <0x2ed2870 + 0x0000c> in <filename unknown>:0 
+  at WebApiClient.HttpApi.Resolve (System.String name) <0x2ed1e60 + 0x00042> in <filename unknown>:0 
+  at WebApiClient.HttpApi.Resolve[TInterface] (System.String name) <0x2ed1d28 + 0x00004> in <filename unknown>:0 
+  at WebApiClient.HttpApi.Resolve[TInterface] () <0x2ed1c60 + 0x0000a> in <filename unknown>:0 
+  at WebApiClientToBlazor.Pages.Index.OnInitializedAsync () [0x0001a] in C:\Users\depin\source\repos\WebApiClientToBlazor\WebApiClientToBlazor\Pages\Index.razor:17 
+  at Microsoft.AspNetCore.Components.ComponentBase.RunInitAndSetParametersAsync () <0x2dc6728 + 0x0013a> in <filename unknown>:0 
+```
+WebApiClient.JIT在跨平台体验一致性做了很多设置，但如果某些特殊平台不完全支持标准函数的话，就出现这样的问题，对于这个具体问题，在HttpApiFactory传入默认的Handler就不会触发调用了UserProxy属性。
+
+@Dudeping 下载WebApiClientCore这个包试试
+
+ 请问，如何动态的设置请求的head
+ 
+使用参数特性[Header]
+
+[Header]只能设置常量值
+如果要设置的值是在运行时才知道的，有什么更好的办法。
+我目前是用你提供的拦截器来实现的。
+
+ [Required] compatible with nullable reference types
+ ``` csproj
+<PropertyGroup>
+    <LangVersion>8.0</LangVersion>
+    <Nullable>enable</Nullable>
+</PropertyGroup>
+```
+We've already used nullable on WebApiClientCore branche.
+
+ 参数json序列化设置为驼峰
+ 没有找到能传入类似
+new JsonSerializerSettings{ContractResolver = new CamelCasePropertyNamesContractResolver()}的地方
+找到了，HttpApiConfig里有个属性FormatOptions.UseCamelCase
+
+ .net core 3.1 IgnoreWhenNull标注失效
+ 已添加标注
+![image](https://user-images.githubusercontent.com/15363011/76287672-f53f0b00-62df-11ea-9302-5e00dcf4251f.png)
+
+实际请求时依然会带上
+![image](https://user-images.githubusercontent.com/15363011/76287691-ff610980-62df-11ea-9513-a201ed15820a.png)
+
+默认只对key-value序列化生效，你可以配置为全部生效（包含json序列化）
+
+[IgnoreWhenNull(Scope = FormatScope.All)]
+
+ Translate Build messages, main api xmldoc and exception messages to english
+ This PR translates to english:
+
+* Build Messages
+* Exceptions Messages
+* Main XmlDoc
+So, yes, please, Merge it  👍 
+
+Thank you for doing such a great job. We are now launching the new WebApiClientCore branch, and you are cordially invited to help implement the resource files in English
+
+Hi @xljiulang , thanks ! I'll contribute to this awesome library, just let me know when it's ready to contribute.
+
+@ppadial 
+And the english version of readme.md, too difficult for someone like me who doesn't speak english ...Thank you!
+
+@xljiulang , sure, i'm glad to help.
+
+Just let me know when the branch is ready for action.
+
+Cheers!
+
+@ppadial 
+The mater branch of this repository is the `WebApiClientCore` branch, it has been developed to the beta2 release, and the coding is almost complete, except for the resx.en-us.resx file inside.
+
+Ok, i'll work on it.
+
+should i also work on the XmlDocumentation in c# code?
+
+ 无返回值的怎么定义接口。没有办法定义无返回值的接口。ITask必须加泛型
+ 
+无返回值的这么定义ITask HttpResponseMessage
+
+OK,相问下，为什么不能只定义ITask即可。
+
+ 数据返回过大导致异常
+ 请求的数据的过大时候，会导致返回异常。
+数据量是900多个实体对象。
+WebApiClient最新版本。
+请详细描述异常
+
+ Is there any roadmap in the future?
+ Is there any roadmap in the future?such as gRPC .
+ 生成的调用地址不是期望值
+ 版本：
+```xml
+<PackageReference Include="WebApiClient.Extensions.HttpClientFactory" Version="2.1.0" />
+<PackageReference Include="WebApiClient.JIT" Version="1.1.2" />
+```
+
+接口定义：
+```c#
+public interface IXXClientService<TEntity> : IHttpApi where TEntity : XXEntity, new()
+{	
+	[HttpPost("move")]
+	Task<HttpResponseMessage> MoveAsync([Required, JsonContent]XXEntityMoveContext context);
+}
+```
+
+依赖注入：
+```c#
+public static IServiceCollection AddXXClientServices(this IServiceCollection services, string serviceAddress)
+{
+	if (serviceAddress == null)
+		throw new ArgumentNullException(nameof(serviceAddress));
+
+	var timeout = TimeSpan.FromMinutes(2d);
+	
+	services.AddHttpApiTypedClient<IXXClientService>(c =>
+	{	
+		// 配置后的地址字符串为 ： http://ip:port/xx
+		c.HttpHost = new Uri(serviceAddress.AppendPathSegment("xx"));
+		c.HttpClient.Timeout = timeout;
+	});
+
+	return services;
+}
+```
+
+使用：
+```c#
+public class XXService: IXXService
+{
+	private readonly IXXClientService _clientService;
+	
+	public XXService(IXXClientService clientService)
+	{
+		_clientService = clientService;
+	}
+	
+	public async Task MoveAsync(params..)
+	{
+		XXEntityMoveContext context = GetContext();
+		await _clientService.MoveAsync(context);
+	}
+}
+```
+
+**问题：**
+_clientService.MoveAsync(context); 调用后，
+期望地址是：	        http://ip:port/xx/move
+但现在地址是：	http://ip:port/move
+
+少了这个 path：xx 
+重复的问题 #31
+
+
+ When to support .core 3.1?
+ As the title, when you would fully support this package with .net core 3.x? I upgrade my solution from .net core 2.2 to 3.1. There are lots of issues as below 
+
+1. WebApiClient does support Newtonsoft.Json, while .ent core 3.1 already switch to System.Text.Json. 
+
+2. I guess for the above reason, DateTime is NOT recognized any more when I post the object with datetime into web api, api side would get null.
+
+Looking forward to your answers. Thanks.
+默认的，asp.net core webApi使用 System.Text.Json，且默认配置只支持输入ISO8601的时间格式，所以有两个方法可以解决，方法1：给asp.net core增加DateTime的JsonConverter，以支持非ISO8601时间格式；方法2：在把webApiClient的HttpApiConfig.FormatOptions.DateTimeFormat设置为"O"
+
+@xljiulang  Thank you very much, but your proposal does NOT resolve my issue. Probably I didn't get the key point for how to use this setting. But when I add AddNewtonsoftJson after services.AddMVC(), this issue got disappear. Anyway, thank you very much. 
+
+Well,`System.text. Json` only supports the input time format of ISO8601 by default, so you need to configure the interface in WebApiClient with the time format of "O":
+```
+HttpApi.Register<YourWebApi>().ConfigureHttpApiConfig(c =>
+{
+     // iso8601 
+    c.FormatOptions.DateTimeFormat = "O";
+```
+
+
+ 日志问题
+ LoggerFactory 错误信息：
+System.ArgumentNullException:“Value cannot be null. ”
+
+不允许设置Null值
+
+解决了  不需要那个东西   直接会自动输出到日志工厂  看了半天文档  -。-
+
+谢谢了
+
+有个问题就是日志能不能格式化一下在输出到日志工厂    里面有好多转义字符
+
+继承trackefilterbase自己处理
+
+thaank you  速度很快 很赞
+
+ 是否支付k8s服务间的相互调用
+ 
+服务间使用http(s)接口，就可以适用
+
+ 泛型参数传递
+ 接口定义泛型参数，API工具调用接口正常，服务内调用，415
+
+```
+        [HttpPost("/Test/DeleteTest")]
+        ITask<BaseResult> DeleteTest([JsonContent]BaseIds<int> param);
+```
+
+实体
+```
+      public class BaseIds<T>
+     {
+        public List<T> Ids { get; set; }
+     }
+```
+
+接口
+```
+
+       [HttpPost]
+        public Task<BaseResult> DeleteTest(BaseIds<int> param)
+        {
+            return _service.DeleteTest(param);
+        }
+
+```
+ 当请求接口服务器地址是多个时怎么处理比较好
+ hi ，当系统请求的接口服务器有多个，这个应该怎么配置，只能用 每个方法添加hot地址吗？
+一套接口多个不同域名服务器？
+
+不好意思我可能没描述清楚，现在遇到情况是我调用的接口来自多个服务器，是每个服务器写一个iwebapi还是共用一个，在每个方法上添加服务器地址！我现在全局只有一个iwebapi ，针对多个服务器不是很清楚应该怎么写
+
+同一个域名的接口，可以写在一起，也可以分开写多个。不同域名的接口，肯定是要分开才好，因为域名是可以为一个IHttpApi对象声明的所有请求方法统一配置的。
+
+明白了，之前看教程是看到说全局对象单例，误以为是ihttpapi 对象，应该是继承该接口的对象，重新看了一遍教程，明白了，麻烦了，感谢🙏
+
+ 按照markdown 进阶 httpclientfactory 报错  net core 3.0 项目
+ 
+
+ services.AddHttpClient<IBaiduApi>().AddTypedClient<IBaiduApi>((client, p)             {
+                var httpApiConfig = new HttpApiConfig(client)
+                {
+                    HttpHost = new Uri("http://www.baidu.com/"),
+                  
+                };
+                return HttpApi.Create<IBaiduApi>(httpApiConfig);
+            });
+
+
+
+System.InvalidOperationException:“The HttpClient factory already has a registered client with the type 'Intelligence.Api.Interface.IBaiduApi'. Client types must be unique. Consider using inheritance to create multiple unique types with the same API surface.”
+
+
+
+https://github.com/xljiulang/WebApiClient.Extensions
+已解决请访问上面地址 
+希望作者也可以更新帮助文档中的内容
+
+在.net core 3.0中
+```
+services.AddHttpClient<IMyWebApi>().AddTypedClient<IMyWebApi>
+```
+按照wiki配置会提示httpclient重复注册的异常，extension使用是正常的
+```
+ return services
+                .AddHttpClient(typeof(TInterface).ToString())
+                .AddTypedClient((httpClient, provider) =>
+                {
+                    var httpApiConfig = new HttpApiConfig(httpClient)
+                    {
+                        ServiceProvider = provider
+                    };
+                    configOptions.Invoke(httpApiConfig, provider);
+                    return HttpApi.Create<TInterface>(httpApiConfig);
+                });
+```
+很奇怪，区别无非就是传入type改为了传入string，不知道是不是微软的bug
+
+
+
+ 有办法处理状态码为204的结果吗？目前是直接报错的
+ 请问，如果我的接口返回的是null，状态码为204，目前框架是直接报错的。有什么好的解决方案吗？比如添加怎么样的过滤器？
+异常详情是什么
+
+2019-11-25 21:23:57.407 +08:00 [ERR] 不支持将ContentType为的内容反序列化为Baison.E3OmniChannel.Inventory.Application.SimpleProductDto
+如果实际返回的内容为Xml，请为方法声明XmlReturnAttribute
+如果实际返回的内容为Json，请为方法声明JsonReturnAttribute
+WebApiClient.ApiReturnNotSupportedExteption: 不支持将ContentType为的内容反序列化为Baison.E3OmniChannel.Inventory.Application.SimpleProductDto
+如果实际返回的内容为Xml，请为方法声明XmlReturnAttribute
+如果实际返回的内容为Json，请为方法声明JsonReturnAttribute
+   at WebApiClient.Attributes.AutoReturnAttribute.GetTaskResult(ApiActionContext context)
+   at WebApiClient.Contexts.ApiActionContext.ExecHttpRequestAsync()
+   at WebApiClient.Contexts.ApiActionContext.ExecRequestAsync()
+   at WebApiClient.Contexts.ApiActionContext.ExecuteActionAsync[TResult]()
+   at WebApiClient.Contexts.ApiActionContext.ExecuteActionAsync[TResult]()
+   at WebApiClient.ApiTask`1.InvokeAsync()
+   at Baison.E3OmniChannel.Inventory.Application.Products.ProductAppService.GetFirstProduct(GetFirstProductInput input) in E:\00 百胜软件\01 Code_ASPNETCore\Order\Inventory.Application\Products\ProductAppService.cs:line 163
+   at lambda_method(Closure , Object )
+   at Microsoft.Extensions.Internal.ObjectMethodExecutorAwaitable.Awaiter.GetResult()
+   at Microsoft.AspNetCore.Mvc.Internal.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeNextActionFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Rethrow(ActionExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeInnerFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeNextExceptionFilterAsync()
+
+![image](https://user-images.githubusercontent.com/2412353/69648026-7cf06900-10a5-11ea-8f30-9173f0bb266f.png)
+见Wiki，添加[JsonReturn]特性即可解决。https://github.com/dotnetcore/WebApiClient/wiki/WebApiClient%E5%9F%BA%E7%A1%80
+
+ 一个方法里面调用多个请求产生 InvalidOperationException
+ 错误信息如下：
+```
+System.InvalidOperationException:“This instance has already started one or more requests. Properties can only be modified before sending the first request.”
+```
+代码调用如下：
+```
+var api = HttpApi.Resolve<IXuexiPcApi>();
+_result.TotalIntegral = await LoadTotalIntegralAsync(api);
+_result.TodayIntegral = await LoadTodayIntegralAsync(api);
+_result.Scores = await LoadIntegralAsync(api);
+```
+请不要在请求之后去修改HttpMessageHandler的某些属性。
+
+> 请不要在请求之后去修改HttpMessageHandler的某些属性。
+
+如果，改为串行是否可以呢？
+
+和并串没有关系，有些属性在第一次请求之后，就不能修改，比如设置SSL证书，因为这是关系到tcp连接层
+
+ Post方式提交数据时，怎么设置Content-Type 为text/plain的格式呢
+ 
+使用StringContent做参数
+
+ Any way to Mock the calls ?
+ Hi,
+
+there's any way to mock the calls using an HttpClient with an MockHttpMessageHandler?
+
+I have the following code:
+
+```c#
+public interface IKpmService
+    {
+        // GET {url}/api/repository/{id}/{version}
+        Task<ArtifactResponse> GetArtifactAsync(String id, String version);
+
+        // POST {url}/api/repository/{id}/{version}
+        Task<String> CreateArtifactAsync(String id, String version, ArtifactRequest artifactRequest);
+    }
+```
+
+And this class that configure the HttpApi stuff
+
+```c#
+public sealed class KpmApiClientManager
+    {
+        #region Constructor
+        public KpmApiClientManager(String repoUrl)
+        {
+            // Register Server Api
+            HttpApi.Register<IKPMServerApi>("kpm-api").ConfigureHttpApiConfig(c =>
+            {
+                c.HttpHost = new Uri(repoUrl);
+                c.FormatOptions.DateTimeFormat = DateTimeFormats.ISO8601_WithMillisecond;
+            });
+        }
+        #endregion
+
+        #region Methods
+        public IKPMServerApi getClient()
+        {
+            return HttpApi.Resolve<IKPMServerApi>();
+        }
+        #endregion
+    }
+```
+
+The register method dont allow me to modify the HttpClient since the property is readonly. To do it i have to use the HttpApi.Create method instead of Resolve in the getClient property sincethat one allows me to pass an HttpClient to the constructor.
+
+What's the difference between Register and Create in terms of Api ? What's the correct way to mockup and test calls from my "Client App" using this lib ?
+
+Thanks in advance
+可以使用ConfigureHttpMessageHandler()传入HttpMessageHandler的构建委托：
+```
+HttpApi.Register<IKPMServerApi>()
+    .ConfigureHttpMessageHandler(() => new MockHttpMessageHandler());
+
+HttpApi.Resolve<IKPMServerApi>();
+```
+ 
+
+Thanks for the quick response., i tried that method but when i execute the unit tests i got the following error:
+
+```System.ArgumentException : 参数必须为HttpClientHandler、SocketsHttpHandler或DelegatingHandler类型 (Parameter 'sourceHandler')```
+
+The test class i'm using as example:
+
+```c#
+public class Tests
+    {
+        private Mock<FakeHttpMessageHandler> _httpMessageHandler;
+        private readonly String _baseUrl = "http://base.url.local";
+
+        public KpmApiClientManagerTests()
+        {
+            _httpMessageHandler =
+                new Mock<FakeHttpMessageHandler>() { CallBase = true };
+        }
+
+        [Test]
+        public async Task TestGetAsync()
+        {
+            // Arrange
+            _httpMessageHandler.Setup(f => f.Send(It.IsAny<HttpRequestMessage>()))
+                .Returns(new HttpResponseMessage
+                {
+                    StatusCode = HttpStatusCode.OK,
+                    Content = new StringContent(
+                        JsonConvert.SerializeObject(
+                            new ArtifactResponse()
+                            {
+                                ContentB64 = "base64==",
+                                Metadata = new Metadata()
+                                {
+                                    FileCheckSum = "checksum",
+                                    FileName = "filename",
+                                    FileOriginalSize = 1024L
+                                }
+                            }))
+                });
+            var sut =
+                new KpmApiClientManager(_baseUrl, _httpMessageHandler.Object)
+                .getClient();
+
+            // Act
+            var response = await sut.GetAsync("ppadial", "1.0.0");
+
+            // Assert
+            response.Should().NotBeNull();
+            response.Should().BeOfType<ArtifactResponse>();
+            response.ContentB64.Should().NotBeNullOrWhiteSpace();
+            response.Metadata.Should().NotBeNull();
+            response.Metadata.FileName.Should().NotBeNullOrWhiteSpace();
+            response.Metadata.FileCheckSum.Should().NotBeNullOrWhiteSpace();
+            response.Metadata.FileOriginalSize.Should().BeGreaterThan(0L);
+        }
+    }
+```
+
+The class fakehttpmessagehandler that allows me to easy mock is
+```c#
+public class FakeHttpMessageHandler : HttpMessageHandler
+    {
+        public virtual HttpResponseMessage Send(HttpRequestMessage request)
+        {
+            throw new NotImplementedException("Now we can setup this method with our mocking framework");
+        }
+
+        protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, System.Threading.CancellationToken cancellationToken)
+        {
+            return Task.FromResult(Send(request));
+        }
+    }
+```
+
+Im using Moq.
+
+```
+HttpApi.Register<IKPMServerApi>("factoryName")
+HttpApi.Resolve<IKPMServerApi>("factoryName");
+```
+the Register factoryName is what the Resolve factoryName 
+
+I tried, but then i got the error ( i have edited the previous response) 
+
+HttpApiFactory默认配置了SetKeepCookieContainer(true)，这个行为将引发读取HttpApiConfig.IHttpHanlder属性，IHttpHanlder要求传入的HttpMessageHandler为HttpClientHandler、SocketsHttpHandler或DelegatingHandler，所以这里需要设置SetKeepCookieContainer(false):
+
+```
+HttpApi.Register<IKPMServerApi>()
+    .ConfigureHttpMessageHandler(() => new MockHttpMessageHandler())
+    .SetKeepCookieContainer(false);
+```
+```
+HttpApi.Resolve<IKPMServerApi>();
+```
+
+Hey,
+
+it worked, doing also some changes in my code. I Will post here the complete solution just in case it helps to someone else.
+
+One Fake MessageHandler
+```c#
+namespace sample.comms.catfacts.Tests.Support
+{
+    using System;
+    using System.Net.Http;
+    using System.Threading.Tasks;
+
+    public class FakeHttpMessageHandler : HttpMessageHandler
+    {
+        public virtual HttpResponseMessage Send(HttpRequestMessage request)
+        {
+            throw new NotImplementedException("Now we can setup this method with our mocking framework");
+        }
+
+        protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, System.Threading.CancellationToken cancellationToken)
+        {
+            return Task.FromResult(Send(request));
+        }
+    }
+}
+```
+
+Then, my API Class
+
+```c#
+namespace sample.comms.catfacts.Client
+{
+    [TraceFilter(OutputTarget = OutputTarget.Console | OutputTarget.Debug)]
+    [HttpHost("https://cat-fact.herokuapp.com")]
+    public interface ICatFactsApi : IHttpApi
+    {
+        // GET {url}/facts/random
+        [HttpGet("facts/random")]
+        [Cache(10 * 1000)]
+        [JsonReturn]
+        ITask<Fact> GetRandomFactAsync();
+    }
+}
+```
+
+My ApiManager
+```c#
+using System;
+using System.Net.Http;
+using WebApiClient;
+
+namespace sample.comms.catfacts.Client
+{
+    public sealed class CatFactsApiClientManager
+    {
+        #region Constructor
+        public CatFactsApiClientManager(String repoUrl)
+        {
+            HttpApi.Register<ICatFactsApi>().ConfigureHttpApiConfig(c =>
+            {
+                c.HttpHost = new Uri(repoUrl);
+                c.FormatOptions.DateTimeFormat = DateTimeFormats.ISO8601_WithMillisecond;
+            });
+        }
+        /// <summary>
+        /// Creates an API manager specifing the repositoryUrl and a MessageHandler
+        /// </summary>
+        /// <param name="repoUrl"></param>
+        /// <param name="httpMessageHandler"></param>
+        public CatFactsApiClientManager(String repoUrl, HttpMessageHandler httpMessageHandler)
+        {
+            HttpApi.Register<ICatFactsApi>()
+                .ConfigureHttpApiConfig(c =>
+                {
+                    c.HttpHost = new Uri(repoUrl);
+                    c.FormatOptions.DateTimeFormat = DateTimeFormats.ISO8601_WithMillisecond;
+                })
+                .ConfigureHttpMessageHandler( () => httpMessageHandler )
+                .SetKeepCookieContainer(false);
+        }
+        #endregion
+
+        #region Methods
+        public ICatFactsApi getClient()
+        {
+            return HttpApi.Resolve<ICatFactsApi>();
+        }
+        #endregion
+    }
+}
+```
+
+The Fact Class
+```c#
+using System;
+
+namespace sample.comms.catfacts.Model
+{
+    /// <summary>
+    /// Fact data
+    /// </summary>
+    /// <example>
+    /// {"used":false,"source":"user","type":"cat","deleted":false,"_id":"58f89cff11658e00113ddd26",
+    /// "user":"58f89c8d11658e00113ddd24","text":"Cats love to eat olives or for that matter anything preserved in brine.",
+    /// "__v":0,"updatedAt":"2019-08-24T20:20:02.145Z","createdAt":"2018-01-14T21:20:00.951Z"}
+    /// </example>
+    /// <see cref="https://alexwohlbruck.github.io/cat-facts/docs/models/fact.html"/>
+    public class Fact
+    {
+        public String _id { get; set; }
+        public int __v { get; set; }
+        public String user { get; set; }
+        public String text { get; set; }
+        public DateTime updatedAt { get; set; }
+        public DateTime sendDate { get; set; }
+        public bool deleted { get; set; }
+        public String source { get; set; }
+        public bool used { get; set; }
+        public String type { get; set; }
+    }
+}
+```
+
+And now one Test as example im using Moq and NUnit3
+```c#
+namespace sample.comms.kpm.Tests
+{
+    using NUnit.Framework;
+    using FluentAssertions;
+    using System.Collections.Generic;
+    using System;
+    using Moq;
+    using System.Net.Http;
+    using System.Net;
+    using Moq.Protected;
+    using System.Threading.Tasks;
+    using System.Threading;
+    using sample.comms.catfacts.Client;
+    using sample.comms.catfacts.Model;
+    using sample.comms.catfacts.Tests.Support;
+    using Newtonsoft.Json;
+    using sample.core;
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <seealso cref="https://gingter.org/2018/07/26/how-to-mock-httpclient-in-your-net-c-unit-tests/"/>
+    public class CatFactsApiClientManagerTests
+    {
+        private Mock<FakeHttpMessageHandler> _httpMessageHandler;
+        private readonly String _baseUrl = "http://localhost:5000";
+
+        public CatFactsApiClientManagerTests()
+        {
+            _httpMessageHandler =
+                new Mock<FakeHttpMessageHandler>(MockBehavior.Strict)
+                { CallBase = true };
+        }
+
+        [Test]
+        public async Task TestGetRandomFactAsync()
+        {      
+            // Arrange
+            _httpMessageHandler
+                .Protected()
+                .Setup<Task<HttpResponseMessage>>(
+                    "SendAsync",
+                    ItExpr.IsAny<HttpRequestMessage>(),
+                    ItExpr.IsAny<CancellationToken>()
+                )
+                .ReturnsAsync(new HttpResponseMessage
+                {
+                    StatusCode = HttpStatusCode.OK,
+                    Content = new StringContent(
+                        JsonConvert.SerializeObject(
+                            new Fact() {
+                                deleted = false,
+                                sendDate = DateTime.UtcNow,
+                                source = "source",
+                                text = " a funny fact",
+                                type = "cat",
+                                updatedAt = DateTime.UtcNow,
+                                used = true,
+                                user = "ppadial",
+                                _id = "alksjdfklsjd",
+                                __v = 0
+                            }))
+                });
+            var sut =
+                new CatFactsApiClientManager(_baseUrl, _httpMessageHandler.Object)
+                .getClient();
+
+            // Act
+            var response = await sut.GetRandomFactAsync();
+
+            // Assert
+            response.Should().NotBeNull();
+            response.Should().BeOfType<Fact>();
+            response.deleted.Should().BeFalse();
+            // other asserts
+        }
+    }
+}
+```
+
+
+The sample source code i've generated is in https://github.com/ppadial/netcore3-cli-sample
+
+ 有时会请求不到数据是怎么回事？
+ 如下图所示，偶尔能请求到数据，大部分情况下都会是这样
+![微信截图_20191008175257](https://user-images.githubusercontent.com/3008502/66469179-00d0a080-eaba-11e9-9424-d7f10f095b4e.png)
+
+图片的数据就是服务端返回的啊
+
+不是的。我用浏览器直接加参数请求，每次都能成功请求到数据。
+
+你这个图片上的数据也是请求得到啊，又不是客户端异常信息
+
+这就很奇怪了。我用官方的demo，就改了下Get 请求的地址和传入的参数，还是不行，但是用浏览器就能正确返回。
+
+ update net core 3.0
+ update net core 3.0
+ ITask<R> Retry 再走切面时，上下文为null
+ 重写 HeaderAttribute ，将一个cookie值通过header往三方接口传递。
+
+在第一次调用时 HttpContext.Current 正常
+在Retry的时候，HttpContext.Current 为 nulll，CallContext.HostContext 也为null 
+
+
+![image](https://user-images.githubusercontent.com/8923180/65738775-91e86480-e115-11e9-87b5-0b12d68b6911.png)
+
+
+请查阅HttpContext异步环境的相关资料，与本库无关
+
+ 老哥，我这种api在apicontroller上的，也能用这种方式吗
+ 
+问题不详
+
+ Error when API has a relative path
+ My Application is hosted in a subdirectory, so lets say it's local path is:
+
+http://localhost/myapp/
+
+and api method would then be:
+
+http://localhost/myapp/api/method
+
+when I register the api by 
+
+`
+            HttpApi.Register<ISlaApiClient>().ConfigureHttpApiConfig(c =>
+            {
+                c.HttpHost = new Uri("http://localhost/myapp");
+            });
+`
+
+and decorate the methods with 
+
+`[HttpGet("/api/method")]`
+
+it doesn't work, i need to register as` c.HttpHost = new Uri("http://localhost"); `and include myapp in the decorator:
+`[HttpGet("/myapp/api/method")]`
+
+I have a lot of environments and all have different path, that means I need to create separate api interface for each of them. Is there a way to include the relative path in the hostname?
+well，set c.HttpHostand then with method attribute [HttpGet("api/method")] is what u need.
+the full uri is created by new Uri(baseUri, path):
+http://localhost/myapp + api/method = http://localhost/api/method
+http://localhost/myapp/ + api/method = http://localhost/myapp/api/method
+http://localhost/myapp + /api/method = http://localhost/api/method
+http://localhost/myapp/ + /api/method = http://localhost/api/method
+
+ 添加回复内容与返回值转换功能
+ 

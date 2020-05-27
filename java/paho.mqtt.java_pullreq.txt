@@ -1,0 +1,378 @@
+﻿ Implementation specific timer for ClientState
+ On some platforms (eg: android) the clock backing System.nanoTime stops
+ For MQTTv5 release - drop1
+ Please make sure that the following boxes are checked before submitting your Pull Request, thank you!
+
+- [X] This change is against the develop branch, **not** master.
+- [X] You have signed the [Eclipse ECA](https://wiki.eclipse.org/ECA)
+- [X] All of your commits have been signed-off with the correct email address (the same one that you 
+      used to sign the CLA) _Hint: use the -s argument when committing_.
+- [ ] If This PR fixes an issue, that you reference the issue below. OR if this is a new issue that 
+      you are fixing straight away that you add some Description about the bug and how this will fix it.
+- [X] If this is new functionality, You have added the appropriate Unit tests.
+
+
+This PR is created to merge vert.x based MQTTv5 code in mqttv5develop branch.
+
+ missgint interface method
+ Please make sure that the following boxes are checked before submitting your Pull Request, thank you!
+
+- [x] This change is against the develop branch, **not** master.
+- [x] You have signed the [Eclipse ECA](https://wiki.eclipse.org/ECA)
+- [x] All of your commits have been signed-off with the correct email address (the same one that you 
+      used to sign the CLA) _Hint: use the -s argument when committing_.
+- [ ] If This PR fixes an issue, that you reference the issue below. OR if this is a new issue that 
+      you are fixing straight away that you add some Description about the bug and how this will fix it.
+- [ ] If this is new functionality, You have added the appropriate Unit tests.
+
+
+IMqttAsyncClient.java has no method.
+
+ Develop
+ Please make sure that the following boxes are checked before submitting your Pull Request, thank you!
+
+- [ ] This change is against the develop branch, **not** master.
+- [X] You have signed the [Eclipse ECA](https://wiki.eclipse.org/ECA)
+- [X] All of your commits have been signed-off with the correct email address (the same one that you 
+      used to sign the CLA) _Hint: use the -s argument when committing_.
+- [ ] If This PR fixes an issue, that you reference the issue below. OR if this is a new issue that 
+      you are fixing straight away that you add some Description about the bug and how this will fix it.
+- [ ] If this is new functionality, You have added the appropriate Unit tests.
+
+ Regression: In v1.2.3 introduced by PR #745
+ Signed-off-by: rdasgupt <ranjan.dasgupta@us.ibm.com>
+
+Please make sure that the following boxes are checked before submitting your Pull Request, thank you!
+
+- [X] This change is against the develop branch, **not** master.
+- [X] You have signed the [Eclipse ECA](https://wiki.eclipse.org/ECA)
+- [X] All of your commits have been signed-off with the correct email address (the same one that you 
+      used to sign the CLA) _Hint: use the -s argument when committing_.
+- [ ] If This PR fixes an issue, that you reference the issue below. OR if this is a new issue that 
+      you are fixing straight away that you add some Description about the bug and how this will fix it.
+- [ ] If this is new functionality, You have added the appropriate Unit tests.
+
+ Merge develop into master
+ Signed-off-by: Ranjan-Dasgupta <Ranjan.Dasgupta@us.ibm.com>
+
+Please make sure that the following boxes are checked before submitting your Pull Request, thank you!
+
+- [ ] This change is against the develop branch, **not** master.
+- [x] You have signed the [Eclipse ECA](https://wiki.eclipse.org/ECA)
+- [x] All of your commits have been signed-off with the correct email address (the same one that you 
+      used to sign the CLA) _Hint: use the -s argument when committing_.
+- [ ] If This PR fixes an issue, that you reference the issue below. OR if this is a new issue that 
+      you are fixing straight away that you add some Description about the bug and how this will fix it.
+- [ ] If this is new functionality, You have added the appropriate Unit tests.
+
+ Develop
+ Please make sure that the following boxes are checked before submitting your Pull Request, thank you!
+
+- [ ] This change is against the develop branch, **not** master.
+- [X] You have signed the [Eclipse ECA](https://wiki.eclipse.org/ECA)
+- [X] All of your commits have been signed-off with the correct email address (The same one that you used to sign the CLA) _Hint: use the -s argument when committing_.
+- [ ] If This PR fixes an issue, that you reference the issue below. OR if this is a new issue that you are fixing straight away that you add some Description about the bug and how this will fix it.
+- [ ] If this is new functionality, You have added the appropriate Unit tests.
+
+PR to merge develop branch to master for MQTTv3 1.2.3 service release.
+
+ Develop
+ Please make sure that the following boxes are checked before submitting your Pull Request, thank you!
+
+- [ ] This change is against the develop branch, **not** master.
+- [X] You have signed the [Eclipse ECA](https://wiki.eclipse.org/ECA)
+- [X] All of your commits have been signed-off with the correct email address (The same one that you used to sign the CLA) _Hint: use the -s argument when committing_.
+- [ ] If This PR fixes an issue, that you reference the issue below. OR if this is a new issue that you are fixing straight away that you add some Description about the bug and how this will fix it.
+- [ ] If this is new functionality, You have added the appropriate Unit tests.
+
+Merge develop branch to master for 1.2.3 service release.
+ Add tests for disconnectForcibly
+ Signed-off-by: Ranjan-Dasgupta <Ranjan.Dasgupta@us.ibm.com>
+
+Please make sure that the following boxes are checked before submitting your Pull Request, thank you!
+
+- [X] This change is against the develop branch, **not** master.
+- [X] You have signed the [Eclipse ECA](https://wiki.eclipse.org/ECA)
+- [X] All of your commits have been signed-off with the correct email address (The same one that you used to sign the CLA) _Hint: use the -s argument when committing_.
+- [ ] If This PR fixes an issue, that you reference the issue below. OR if this is a new issue that you are fixing straight away that you add some Description about the bug and how this will fix it.
+- [ ] If this is new functionality, You have added the appropriate Unit tests.
+
+Add tests for issue #644 
+ Fix conflicts in PR 596
+ Signed-off-by: Ranjan-Dasgupta <Ranjan.Dasgupta@us.ibm.com>
+
+Please make sure that the following boxes are checked before submitting your Pull Request, thank you!
+
+- [x] This change is against the develop branch, **not** master.
+- [x] You have signed the [Eclipse ECA](https://wiki.eclipse.org/ECA)
+- [x] All of your commits have been signed-off with the correct email address (The same one that you used to sign the CLA) _Hint: use the -s argument when committing_.
+- [x] If This PR fixes an issue, that you reference the issue below. OR if this is a new issue that you are fixing straight away that you add some Description about the bug and how this will fix it.
+- [ ] If this is new functionality, You have added the appropriate Unit tests.
+
+Issue #594 
+
+
+ Add more tests for connect disconnect tests for Async client
+ Please make sure that the following boxes are checked before submitting your Pull Request, thank you!
+
+- [x] This change is against the develop branch, **not** master.
+- [x] You have signed the [Eclipse ECA](https://wiki.eclipse.org/ECA)
+- [x] All of your commits have been signed-off with the correct email address (The same one that you used to sign the CLA) _Hint: use the -s argument when committing_.
+- [ ] If This PR fixes an issue, that you reference the issue below. OR if this is a new issue that you are fixing straight away that you add some Description about the bug and how this will fix it.
+- [ ] If this is new functionality, You have added the appropriate Unit tests.
+
+This PR adds tests for fix proposed by PR #727 
+ Fix for topic match issue #718
+ Please make sure that the following boxes are checked before submitting your Pull Request, thank you!
+
+- [X] This change is against the develop branch, **not** master.
+- [X] You have signed the [Eclipse ECA](https://wiki.eclipse.org/ECA)
+- [X] All of your commits have been signed-off with the correct email address (The same one that you used to sign the CLA) _Hint: use the -s argument when committing_.
+- [X] If This PR fixes an issue, that you reference the issue below. OR if this is a new issue that you are fixing straight away that you add some Description about the bug and how this will fix it.
+- [ ] If this is new functionality, You have added the appropriate Unit tests.
+
+Fix for issue #718 
+
+Adding more tests to test the fix.
+
+ Topic match fix 
+ Please make sure that the following boxes are checked before submitting your Pull Request, thank you!
+
+- [X] This change is against the develop branch, **not** master.
+- [X] You have signed the [Eclipse ECA](https://wiki.eclipse.org/ECA)
+- [X] All of your commits have been signed-off with the correct email address (The same one that you used to sign the CLA) _Hint: use the -s argument when committing_.
+- [X] If This PR fixes an issue, that you reference the issue below. OR if this is a new issue that you are fixing straight away that you add some Description about the bug and how this will fix it.
+- [ ] If this is new functionality, You have added the appropriate Unit tests.
+
+Fix for issue #718 
+
+Updated topic match test cases to test the fix.
+
+ Fix for Topic match #718, intermittent test failures, additional test cases for topic match
+ Signed-off-by: Ranjan-Dasgupta <Ranjan.Dasgupta@us.ibm.com>
+
+Please make sure that the following boxes are checked before submitting your Pull Request, thank you!
+
+- [X] This change is against the develop branch, **not** master.
+- [X] You have signed the [Eclipse ECA](https://wiki.eclipse.org/ECA)
+- [X] All of your commits have been signed-off with the correct email address (The same one that you used to sign the CLA) _Hint: use the -s argument when committing_.
+- [X] If This PR fixes an issue, that you reference the issue below. OR if this is a new issue that you are fixing straight away that you add some Description about the bug and how this will fix it.
+- [ ] If this is new functionality, You have added the appropriate Unit tests.
+
+Fix #718 
+Added more tests for Topic match
+Fix intermittent test failure specially when build and test invoked on local system.
+
+ Change MQTTException to IOException for client diconnected state
+ Please make sure that the following boxes are checked before submitting your Pull Request, thank you!
+
+- [X] This change is against the develop branch, **not** master.
+- [X] You have signed the [Eclipse ECA](https://wiki.eclipse.org/ECA)
+- [X] All of your commits have been signed-off with the correct email address (The same one that you used to sign the CLA) _Hint: use the -s argument when committing_.
+- [ ] If This PR fixes an issue, that you reference the issue below. OR if this is a new issue that you are fixing straight away that you add some Description about the bug and how this will fix it.
+- [ ] If this is new functionality, You have added the appropriate Unit tests.
+
+This PR fixes intermittent test failure caused by #736 
+
+ Fix #640 Use same time units in time computations
+ Additional I slightly changed some variable names to include time unit
+so to improve maintainability.
+
+Signed-off-by: maxp <maxpag@gmail.com>
+
+Please make sure that the following boxes are checked before submitting your Pull Request, thank you!
+
+- [x] This change is against the develop branch, **not** master.
+- [x] You have signed the [Eclipse ECA](https://wiki.eclipse.org/ECA)
+- [x] All of your commits have been signed-off with the correct email address (The same one that you used to sign the CLA) _Hint: use the -s argument when committing_.
+- [x] If This PR fixes an issue, that you reference the issue below. OR if this is a new issue that you are fixing straight away that you add some Description about the bug and how this will fix it.
+- [ ] If this is new functionality, You have added the appropriate Unit tests.
+
+ Fix URL to pathname conversion
+ Filename were taken from properties as URL. If a pathname contains
+characters that are not valid URL characters, they appear URL-encoded in
+the string (e.g. '@' -> '%40') causing the program to fail when trying
+to open the file.
+
+Signed-off-by: maxp <maxpag@gmail.com>
+
+Please make sure that the following boxes are checked before submitting your Pull Request, thank you!
+
+- [x] This change is against the develop branch, **not** master.
+- [x] You have signed the [Eclipse ECA](https://wiki.eclipse.org/ECA)
+- [x] All of your commits have been signed-off with the correct email address (The same one that you used to sign the CLA) _Hint: use the -s argument when committing_.
+- [x] If This PR fixes an issue, that you reference the issue below. OR if this is a new issue that you are fixing straight away that you add some Description about the bug and how this will fix it.
+- [ ] If this is new functionality, You have added the appropriate Unit tests.
+
+ Fix #640 Use same time units in time computations
+ Additional I slightly changed some variable names to include time unit
+so to improve maintainability.
+
+Signed-off-by: Massimiliano Pagani <maxpag@gmail.com>
+
+Please make sure that the following boxes are checked before submitting your Pull Request, thank you!
+
+- [x] This change is against the develop branch, **not** master.
+- [x] You have signed the [Eclipse ECA](https://wiki.eclipse.org/ECA)
+- [x] All of your commits have been signed-off with the correct email address (The same one that you used to sign the CLA) _Hint: use the -s argument when committing_.
+- [x] If This PR fixes an issue, that you reference the issue below. OR if this is a new issue that you are fixing straight away that you add some Description about the bug and how this will fix it.
+- [ ] If this is new functionality, You have added the appropriate Unit tests.
+
+Fix for #738 and #640
+ Fix for ping time interval
+ Signed-off-by: Ranjan-Dasgupta <Ranjan.Dasgupta@us.ibm.com>
+
+Please make sure that the following boxes are checked before submitting your Pull Request, thank you!
+
+- [X] This change is against the develop branch, **not** master.
+- [X] You have signed the [Eclipse ECA](https://wiki.eclipse.org/ECA)
+- [X] All of your commits have been signed-off with the correct email address (The same one that you used to sign the CLA) _Hint: use the -s argument when committing_.
+- [X] If This PR fixes an issue, that you reference the issue below. OR if this is a new issue that you are fixing straight away that you add some Description about the bug and how this will fix it.
+- [ ] If this is new functionality, You have added the appropriate Unit tests.
+
+Fix for #738 and #640
+ Fix for ping time interval 
+ Please make sure that the following boxes are checked before submitting your Pull Request, thank you!
+
+- [x] This change is against the develop branch, **not** master.
+- [x] You have signed the [Eclipse ECA](https://wiki.eclipse.org/ECA)
+- [x] All of your commits have been signed-off with the correct email address (The same one that you used to sign the CLA) _Hint: use the -s argument when committing_.
+- [x] If This PR fixes an issue, that you reference the issue below. OR if this is a new issue that you are fixing straight away that you add some Description about the bug and how this will fix it.
+- [ ] If this is new functionality, You have added the appropriate Unit tests.
+
+Fix for #790
+ fixed potential nullpointer in CommsCallback
+ - [x] This change is against the develop branch, **not** master.
+- [x] You have signed the [Eclipse ECA](https://wiki.eclipse.org/ECA)
+- [x] All of your commits have been signed-off with the correct email address (The same one that you used to sign the CLA) _Hint: use the -s argument when committing_.
+- [x] If This PR fixes an issue, that you reference the issue below. OR if this is a new issue that you are fixing straight away that you add some Description about the bug and how this will fix it.
+- [x] If this is new functionality, You have added the appropriate Unit tests. (no new functionality)
+
+This solves issue #740
+
+ Fix for #719
+ Fix for issue 719
+
+	modified:   org.eclipse.paho.client.mqttv3.test/src/test/java/org/eclipse/paho/client/mqttv3/test/SSLSessionResumptionTest.java
+	modified:   org.eclipse.paho.client.mqttv3/src/main/java/org/eclipse/paho/client/mqttv3/internal/CommsReceiver.java
+
+Please make sure that the following boxes are checked before submitting your Pull Request, thank you!
+
+- [ ] This change is against the develop branch, **not** master.
+- [X] You have signed the [Eclipse ECA](https://wiki.eclipse.org/ECA)
+- [X] All of your commits have been signed-off with the correct email address (The same one that you used to sign the CLA) _Hint: use the -s argument when committing_.
+- [X] If This PR fixes an issue, that you reference the issue below. OR if this is a new issue that you are fixing straight away that you add some Description about the bug and how this will fix it.
+- [ ] If this is new functionality, You have added the appropriate Unit tests.
+
+-----------------------
+
+Fix for issue #719
+
+How to recreate the problem?
+This problem can be recreated using "tcpkill" to block source port during connection. Steps are as follows:
+
+    Configure client with automatic reconnect option
+    Let client connect successfully and publish messages
+    Block source port:
+    $ tcpkill -9 src port 1883
+    Client will be disconnected and start a connection cycle
+    After about 60 seconds, stop tcpkill
+
+Analysis:
+ Fix for #719
+ If for any intermittent networking problem, client fails to receive connection ACK, client may go in hung state.
+
+ throw exception when no message ids available in persistBufferedMessage.
+ 
+Signed-off-by: ogis-yamazaki <Yamazaki_Shoji@ogis-ri.co.jp>
+
+Please make sure that the following boxes are checked before submitting your Pull Request, thank you!
+
+- [x] This change is against the develop branch, **not** master.
+- [x] You have signed the [Eclipse ECA](https://wiki.eclipse.org/ECA)
+- [x] All of your commits have been signed-off with the correct email address (The same one that you used to sign the CLA) _Hint: use the -s argument when committing_.
+- [ ] If This PR fixes an issue, that you reference the issue below. OR if this is a new issue that you are fixing straight away that you add some Description about the bug and how this will fix it.
+- [ ] If this is new functionality, You have added the appropriate Unit tests.
+
+Must throw exception when no message ids available in persistBufferedMessage, similer  to ClientState#send method.
+
+Apart from that found typo warning message.
+
+ Add try catch on ssl
+ Please make sure that the following boxes are checked before submitting your Pull Request, thank you!
+
+- [ ] This change is against the develop branch, **not** master.
+- [ ] You have signed the [Eclipse ECA](https://wiki.eclipse.org/ECA)
+- [ ] All of your commits have been signed-off with the correct email address (The same one that you used to sign the CLA) _Hint: use the -s argument when committing_.
+- [ ] If This PR fixes an issue, that you reference the issue below. OR if this is a new issue that you are fixing straight away that you add some Description about the bug and how this will fix it.
+- [ ] If this is new functionality, You have added the appropriate Unit tests.
+
+ get message id from token with DisconnectedMessageBuffer when offline publish
+ Signed-off-by: ogis-yamazaki <Yamazaki_Shoji@ogis-ri.co.jp>
+
+Please make sure that the following boxes are checked before submitting your Pull Request, thank you!
+
+- [x] This change is against the develop branch, **not** master.
+- [x] You have signed the [Eclipse ECA](https://wiki.eclipse.org/ECA)
+- [x] All of your commits have been signed-off with the correct email address (The same one that you used to sign the CLA) _Hint: use the -s argument when committing_.
+- [x] If This PR fixes an issue, that you reference the issue below. OR if this is a new issue that you are fixing straight away that you add some Description about the bug and how this will fix it.
+- [ ] If this is new functionality, You have added the appropriate Unit tests.
+
+## Problem
+When I publish offline using persistBuffer, I  cannot know messageId from returned Token, because in that case 0 is returned.
+
+## Fix
+
+Can know messageId from returned token.
+
+ Fix for issue #726
+ Please make sure that the following boxes are checked before submitting your Pull Request, thank you!
+
+- [x] This change is against the develop branch, **not** master.
+- [x] You have signed the [Eclipse ECA](https://wiki.eclipse.org/ECA)
+- [x] All of your commits have been signed-off with the correct email address (The same one that you used to sign the CLA) _Hint: use the -s argument when committing_.
+- [x] If This PR fixes an issue, that you reference the issue below. OR if this is a new issue that you are fixing straight away that you add some Description about the bug and how this will fix it.
+- [ ] If this is new functionality, You have added the appropriate Unit tests.
+
+fix #726
+
+When receive thread has been called stop() already, received thread doesn't call shutdown Connection().
+
+
+ Added decrementInFlight on removeMessage to synchronize actualInFlight.
+ Signed-off-by: ogis-yamazaki <Yamazaki_Shoji@ogis-ri.co.jp>
+
+Please make sure that the following boxes are checked before submitting your Pull Request, thank you!
+
+- [ ] This change is against the develop branch, **not** master.
+- [x] You have signed the [Eclipse ECA](https://wiki.eclipse.org/ECA)
+- [x] All of your commits have been signed-off with the correct email address (The same one that you used to sign the CLA) _Hint: use the -s argument when committing_.
+- [ ] If This PR fixes an issue, that you reference the issue below. OR if this is a new issue that you are fixing straight away that you add some Description about the bug and how this will fix it.
+- [ ] If this is new functionality, You have added the appropriate Unit tests.
+
+Added decrementInFlight on removeMessage to synchronize actualInFlight.
+
+If publish reach the maxInFlight, Unable to publish after removeMessage.
+
+
+ Fix for issue #572
+ Signed-off-by: Alexander Veit <alexander.veit@gmx.net>
+
+Please make sure that the following boxes are checked before submitting your Pull Request, thank you!
+
+- [ x] This change is against the develop branch, **not** master.
+- [x ] You have signed the [Eclipse ECA](https://wiki.eclipse.org/ECA)
+- [ x] All of your commits have been signed-off with the correct email address (The same one that you used to sign the CLA) _Hint: use the -s argument when committing_.
+- [x ] If This PR fixes an issue, that you reference the issue below. OR if this is a new issue that you are fixing straight away that you add some Description about the bug and how this will fix it.
+- [x ] If this is new functionality, You have added the appropriate Unit tests.
+
+ [patch] change default time to wait from -1 (wait indefinitely) to 60000 ms
+ Please make sure that the following boxes are checked before submitting your Pull Request, thank you!
+
+- [ ] This change is against the develop branch, **not** master.
+- [ ] You have signed the [Eclipse ECA](https://wiki.eclipse.org/ECA)
+- [x] All of your commits have been signed-off with the correct email address (The same one that you used to sign the CLA) _Hint: use the -s argument when committing_.
+- [x] If This PR fixes an issue, that you reference the issue below. OR if this is a new issue that you are fixing straight away that you add some Description about the bug and how this will fix it.
+- [ ] If this is new functionality, You have added the appropriate Unit tests.
+
+#711 

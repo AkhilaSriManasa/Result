@@ -1,0 +1,60 @@
+﻿ Disable symbol resolving for sections that do not need linking
+ Fix parsing of COFF debug sections
+ Reduce amount of calls to "GetModuleHandleA" during startup
+ Add support for reading symbols from statically linked DLLs
+
+See #8
+ Simplify process enumeration loop
+ Update Windows SDK version
+ Fix object files not being found sometimes due to relative paths (#29)
+
+Also added command line switch for attaching to running process by name
+ Clarify some things in the README
+
+See #28
+ Clean up readme
+ Check ClassID inside the COFF header to distinguish extended COFF files (#27)
+ Update README after changes made in #23 and #25 (#26)
+ Fix linking failing when using "/bigobj" compiler switch
+
+Fixes #23
+Closes #25
+ Add simple CMake build script (#24)
+
+Fixes #15
+ Fix crash when object file does not contain ".debug$S" sections
+
+See #23
+ Clarify linkage for "__blink_sync" and "__blink_release" in readme
+ Add support for "__blink_sync" and "__blink_release" callback functions an application can define to synchronize with blink
+
+Fixes #22
+ Add  ".c" and ".cxx" file extensions support
+ Do not filter compiler output for errors and instead print everything
+
+Fixes #21
+ Disable PCH compile flags
+
+Fixes #20
+ Ignore duplicated file modifications in a span of three seconds
+
+Fixes #13
+ Fall back to a default command-line if unable to find one in the object filesystem
+
+See #10 and #16
+ Fix compiler failing to compile when target application was created from a single source filesystem
+
+See #16
+ Clarified comment about no dependencies in readme
+ Clean up readme formatting slightly
+ Add build status badge to readme
+ Rename "x86-64" solution platform to "x64" for compatibility with CI tools
+ Fix file description table in readme
+ Add more information to README
+
+See #7
+Fixes #1
+ Delete object files after linking and always get project directory from common source path (#11)
+ Fall back to extracting project directory from source files if the link info stream is missing in the PDB
+
+Fixes #10

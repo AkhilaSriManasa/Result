@@ -1,0 +1,27 @@
+﻿ Merge the vNext changes into master.
+ 
+ Replace Redis with RabbitMQ
+ 
+ Re factoring of Language Services To Rely Less on Message Bus
+ As I promised here is my re-factoring that I did to make language services less reliant on the appharbor/compilify.net web front end and backend worker message bus infrastructure.  Let me know of any problems you have with the code and I will try to address them before the pull request is accepted.
+
+ Isn't Your Base32Encoder a Base36Encoder?
+ I think you Base32Encoder is actually a Base36Encoder. Because you have the 26 characters of the alphabet plus the 10 numbers.
+
+Base2 = 0 ... 1
+Base8 = 0 ... 7
+Base16 = 0 ... 9 A ... F
+Base64 = 0 ... 9 A ... Z a ... z and equal (=) and slash (/)
+
+Yours only goes
+
+0 ... 9 a ... z
+
+I know it doesn't really matter, just though I would point this out.
+
+ Social Links replaced by Github and Twitter buttons
+ Address issue #12, with Github buttons and twitter button. All buttons have the count associated with them.
+
+ Custom Error Pages
+ Addresses issue #21, custom error pages. Not the greatest looking error pages, but functionally it is a start.
+

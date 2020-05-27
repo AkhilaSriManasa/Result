@@ -1,0 +1,316 @@
+﻿ Added GetContentRegionHeight
+ ImGui had a `GetContentRegionWidth` function but surprisingly not one for `GetContentRegionHeight` so I decided to add the function here.
+ imgui_impl_osx.mm: import the glfw workaround to avoid missing mouse clicks.
+ This PR addresses the "missing clicks" issue on mac, which happens very easily with the trackpad when using the soft click feature (it generates very quick Press/Release events that often do not span over two frames).
+
+ example_apple: catch events from the right and other mouse buttons.
+ The macOS examples example_apple_metal and example_apple_opengl2 do not catch the `right` and `other` mouse buttons.
+
+As a consequence the Dear ImGui Demo does not work properly, for example the `Popups & Modal Windows / Context Menus` does not work as it requires a right click.
+
+Note: the glfw examples are fine on macOS, so this PR only fixes the Cocoa-based examples.
+ Fix SDL+Vulkan example when minimized
+ Fixes crash when minimized / recover from minimized of SDL_Vulkan example by adding additional events,
+SDL_WINDOWEVENT_MINIMIZED and SDL_WINDOWEVENT_RESTORED
+
+Thomas
+
+ Backends: Allegro: Don't call AddInputCharacter if the pressed key has no character.
+ - Commit ef13d95466f27b4a955d6f95da90822001ace25f moved the logic of checking for invalid Unicode codes from each backend to Dear ImGui's AddInputCharacter function proper.
+- Commit c8ea0a017d0ea851225f159f26816d86799163a8 then removed that logic, replacing it with something that inserts a question mark-like character in the case of an invalid Unicode code.
+- As a result, after these two commits, if an Allegro keypress has no associated character (arrow keys, End, Page Up, etc.), it will send zero with nobody to filter it out.
+- With this fix, no-character inputs won't even call AddInputCharacter to begin with.
+- Tested with arrow keys, Page Up, etc., tested with regular character keys, and tested with some Unicode symbols directly from the keyboard, like €.
+ Move visual studio 'Fix Projects' step to standalone script
+ - Move visual studio 'Fix Projects' step to standalone script
+- Simplify the script, so that it searches for a regex match instead of a hardcoded version.
+
+The rationale behind moving it to a standalone script is that it makes it easier for people to upgrade to a specific version that is most convenient for them.
+ Win32: Default to XInput9_1_0.dll
+ This PR concludes the discussion from #2716.
+
+PR consists of two separable commits, however they are logically related:
+* The first commit makes all Win32 examples link to xinput9_1_0.dll by default instead of xinput1_4.dll. This is realized by linking against xinput9_1_0.lib and making that compilation unit target Windows 7, unless specified otherwise.
+* The second commit addresses a nasty catch I spotted while working on the first one. When compiling examples, I noticed that XInput headers referenced XInput 1.4, but samples got linked against XInput 1.3. This could lead to some nasty bugs where the sample looks like it links against XInput 1.4, but in reality it doesn't. To address this, I verified all uses of `DXSDK_DIR`, and turns out they are all useless with the current setup. To avoid such ambiguities, I removed them all.
+ Cleanup OpenGL 3 loader detection
+ OpenGL 3 backend header has some logic to auto-detect the GL loader, however that is only necessary for the implementation in the cpp, not in the header. This change moves the code from the header to the cpp. This avoids unnecessary global macro pollution as well as potential for mistakes since previously `IMGUI_IMPL_OPENGL_LOADER_*` and `IMGUI_IMPL_OPENGL_*` would have to have consistent values every time `imgui_impl_opengl3.h` was included.
+
+ Improve window handling in the SDL backend
+ `SDL_Window*` is stored in a global (`g_Window`) by `ImGui_ImplSDL2_Init`. However some apis in the SDL backend use the global and some don't, creating potential for inconsistency/mistakes when starting a new frame, or when processing events. This change makes the SDL backend always use the window passed to `ImGui_ImplSDL2_Init` originally.
+ VtxOffset offset related fix (fixes blown up triangles on the screen)
+ It is possible to get VtxCurrentOffset and VtxCurrentIdx out of sync with buffers state. This scenario triggers it: Do PrimReserve , which thinks you are reserving too many vertices and triggers new draw command and vtxoffset update. Then you do unreserve same amount (leaving emptry draw command). Next clip rect update this draw command gets poped but does not restore vtx/idx buffer offset, resulting all following draw commands reference incorrect vertex data
+ Fix typo in TempInputScalar that causes AddressSanitizer to report a "stack-buffer-overflow"
+ I pulled the latest code today, and my `DragScalar` and `SliderScalar` scalar calls with `double` values suddenly cause a crash when I type in a value. I used `git bisect` to find that the commit with the error is 0679e0567764d5b3362628bdf1e75c608b2a1b8b.
+ Mouse: Add support for tracking multiple clicks more than just double
+ A question came up on the Discord about supporting triple click line select in text boxes. This change is the first step in that direction, giving imgui the ability to detect multiple clicks in a row.
+
+I have a follow up change that affects the text editing functionality. I'm trying to recruit some people to check how it feels on Mac/Linux unless you want to just add it to this PR.
+
+https://github.com/kudaba/imgui/commit/6ab9896af44dd2652b20aca19a89a9303ee738eb
+
+One issues I didn't address here is that by tracking with a char it will wrap after 127 consecutive clicks, but won't register as a new click until a full 256.
+ [vulkan] Allow the user to specify custom Vulkan proc addresses.
+ Some Vulkan applications don't link against libVulkan. Instead, proc addresses
+for Vulkan functions are resolved dynamically at runtime. When this is done, all
+translation units are compiled with `VK_NO_PROTOTYPES` defined somewhere and each
+Vulkan API callsite looking at a dispatch table. This scheme was incompatible
+with the working of imgui_impl_vulkan as specifying `VK_NO_PROTOTYPES` would cause
+compile failures. Now specifying
+`ImGui_ImplVulkan_InitInfo::GetVulkanProcAddressFn` will delegate proc address
+resolution responsibilities to the caller. If the caller does not specify this
+callback and has not compiled the imgui_impl_vulkan.cpp translation unit with
+`VK_NO_PROTOTYPES`, the proc address table is populated with static addresses as
+before. So existing users should not have to change anything.
+ UpdateMouseWheel now gives the axis with the dominant movement preced…
+ When using a touchpad gesture to perform mouse wheel scrolling, it is almost impossible to do horizontal scrolling as movement axes are not cleanly separated as for real mouse wheels. So for most of the horizontal movements `g.IO.MouseWheel !
+This suggestion adds a small test for the axis of major movement and skips the vertical mouse wheel scrolling block in case of dominant X axis movement. The result is, that now in the demo window horizontal scrolling with touchpad gestures works as expected (e.g. in the "Fizz Buzz" scroller).
+ Metrics: Fix metrics crash with viewports.
+ Looks like a change didn't get finished completely. The metrics windows crashes when hovering over a viewport's drawcmd.
+ Add native winapi OpenGL2 example
+ Mashed together DirectX9 + glfw opengl2 into a new example that runs on Winapi + OpenGL2
+Built on Visual studio 2017, win10, docking branch.
+
+Platform windows work:
+![2020-05-10_00-16-09](https://user-images.githubusercontent.com/610685/81486383-bfbd8c00-9254-11ea-9f98-69545cc2eb32.png)
+
+Project downgraded to use the same platform toolset as the rest.
+
+ Fix incorrect Korean Unicode ranges
+ from 0xD79D to 0xD7A3
+https://en.wikipedia.org/wiki/Hangul_Syllables
+
+ Fix applying docking settings
+ As per my comments in #2573 removing the call to DockContextBuildAddWindowsToNodes when applying settings. From what I can tell it was pushing the previous frame's window state into the dock system which was redundant anyway.
+ Request monitor update when dpi awarness is enabled
+ I noticed that my windows were increasing in size when I dragged them out of the main application. The issue what that I was calling ``ImGui_ImplWin32_EnableDpiAwareness`` after ``ImGui_ImplWin32_Init``. While the easy solution is to just call it first (which I do now), this seemed like a good way to make the function just act as expected without having to issue and error or assert or otherwise notify users of the problem.
+ Tables
+ (Click "Preview" to turn any http URL into a clickable link)
+
+PLEASE CAREFULLY READ:
+https://github.com/ocornut/imgui/issues/2261
+
+(Clear this template before submitting your PR)
+
+ [DX12] Fixed OBJECT_DELETED_WHILE_STILL_IN_USE error on viewport resizing.
+ Tested with detaching/attaching a viewport and resizing it. DX12 debug
+layer is clean.
+
+ Add a CMakeLists.txt for the example_emscipten example
+ Hello
+
+Since many projects use CMake and emscripten provides both emcmake and a cmake toolchain file, I thought it might be useful to provide a CMakeLists.txt example for use with emscripten.
+
+ Fix imgui_impl_opengl3 on MacOS
+ GLSL version '130' is not supported on MacOS.
+
+Output without this patch:
+```
+ERROR: ImGui_ImplOpenGL3_CreateDeviceObjects: failed to compile vertex shader!
+ERROR: 0:1: '' :  version '130' is not supported
+ERROR: 0:2: '' :  #version required and missing.
+
+ERROR: ImGui_ImplOpenGL3_CreateDeviceObjects: failed to compile fragment shader!
+ERROR: 0:1: '' :  version '130' is not supported
+ERROR: 0:2: '' :  #version required and missing.
+
+ERROR: ImGui_ImplOpenGL3_CreateDeviceObjects: failed to link shader program! (with GLSL '#version 130
+')
+ERROR: One or more attached shaders not successfully compiled
+```
+ Use Vulkan drawable size for frame buffer scale when using SDL and Vulkan
+ # Problem
+
+When running the Vulkan SDL example I noticed that the display can be scaled incorrectly. This occurs when the example is launched on a non-retina monitor that is used with a retina Macbook. It doesn't just look incorrect - the cursor behaves as though the display has been scaled correctly, making mouse input unusable.
+
+The first screenshot shows the expected behaviour with the SDL + OpenGL3 example, and the second shows the issue with the SDL + Vulkan example:
+
+## SDL + OpenGL3
+![Screenshot 2020-05-03 at 21 13 07](https://user-images.githubusercontent.com/1374614/80925494-1c6a0400-8d88-11ea-9e3d-fa3c0a85f722.png)
+
+## SDL + Vulkan
+![Screenshot 2020-05-03 at 21 13 18](https://user-images.githubusercontent.com/1374614/80925496-20962180-8d88-11ea-8424-7a2659d484d0.png)
+
+In `examples/imgui_impl_sdl.cpp` The code to determine the framebuffer scale looks like this:
+```cpp
+int w, h;
+int display_w, display_h;
+SDL_GetWindowSize(window, &w, &h);
+SDL_GL_GetDrawableSize(window, &display_w, &display_h);
+io.DisplaySize = ImVec2((float)w, (float)h);
+if (w > 0 && h > 0)
+    io.DisplayFramebufferScale = ImVec2((float)display_w / w, (float)display_h / h);
+```
+
+The code always uses `SDL_GL_GetDrawableSize` but when using Vulkan, `SDL_Vulkan_GetDrawableSize`[1] should be used instead.
+
+# Solution
+The correct `SDL_*_GetDrawableSize` function can be determined by inspecting whether the window has the Vulkan flag set. If it doesn't, the original behaviour is used:
+
+```cpp
+if (SDL_GetWindowFlags(window) & SDL_WINDOW_VULKAN)
+    SDL_Vulkan_GetDrawableSize(window, &display_w, &display_h);
+else
+    SDL_GL_GetDrawableSize(window, &display_w, &display_h);
+```
+
+However, `SDL_GL_GetDrawableSize` comes from `SDL_Video.h` which is included by default, but `SDL_Vulkan_GetDrawableSize` comes from `SDL_vulkan.h` which is not included by default. To prevent bringing a whole new include in, I propose forward declaring the function instead:
+
+```
+extern "C" {
+    extern DECLSPEC void SDLCALL SDL_Vulkan_GetDrawableSize(SDL_Window * window, int * w, int * h);
+}
+```
+
+# Testing
+Firstly, I encountered the issue mentioned in #3177 and had to apply the fix from that PR locally.
+
+Then I used the following Makefile from the root of the `imgui` repo to build the SDL OpenGL and Vulkan examples.
+
+```makefile
+IMGUI_SRC_DIR := .
+IMGUI_INCLUDE_DIR := .
+SDL2_INCLUDE_DIR := /usr/local/include/SDL2
+IMGUI_IMPL_INCLUDE_DIR := ./examples
+IMGUI_IMPL_SRC_DIR := ./examples
+GL3W_DIR := ./examples/libs/gl3w/GL
+GL3W_INCLUDE_DIR := ./examples/libs/gl3w
+OUT_GL := imgui-sdl-gl
+OUT_VULKAN := imgui-sdl-vulkan
+
+GL3W_CFLAGS := -Wall -I$(GL3W_INCLUDE_DIR)
+
+SDL_IMPL_CFLAGS = -I$(IMGUI_INCLUDE_DIR) -I$(IMGUI_IMPL_INCLUDE_DIR) -I$(SDL2_INCLUDE_DIR)
+OPENGL3_IMPL_CFLAGS = -I$(GL3W_INCLUDE_DIR) -I$(IMGUI_INCLUDE_DIR) -I$(IMGUI_IMPL_INCLUDE_DIR) -DIMGUI_IMPL_OPENGL_LOADER_GL3W
+VULKAN_IMPL_CFLAGS = -I$(IMGUI_INCLUDE_DIR) -I$(IMGUI_IMPL_INCLUDE_DIR)
+
+GL_CFLAGS := -Wall -I$(IMGUI_INCLUDE_DIR) -I$(IMGUI_IMPL_INCLUDE_DIR) -I$(SDL2_INCLUDE_DIR) -I$(GL3W_INCLUDE_DIR) -g -DIMGUI_IMPL_OPENGL_LOADER_GL3W
+GL_LFLAGS := -lSDL2 -framework OpenGL -framework Cocoa -framework IOKit -framework CoreVideo -lc++ -lvulkan
+
+VULKAN_CFLAGS := -Wall -I$(IMGUI_INCLUDE_DIR) -I$(IMGUI_IMPL_INCLUDE_DIR) -I$(SDL2_INCLUDE_DIR) -g
+VULKAN_LFLAGS := -lSDL2 -framework Cocoa -framework IOKit -framework CoreVideo -lc++ -lvulkan -lMoltenVK
+
+OBJS_IMGUI = \
+	imgui.o	\
+	imgui_demo.o \
+	imgui_draw.o \
+	imgui_widgets.o \
+
+OBJS_SDL = imgui_impl_sdl.o
+
+OBJS_GL = \
+	imgui_impl_opengl3.o \
+	gl3w.o \
+	main-gl.o \
+	main-gl
+
+OBJS_VULKAN = \
+	imgui_impl_vulkan.o \
+	main-vulkan.o \
+	main-vulkan
+
+.PHONY: all clean
+
+all: $(OBJS_IMGUI) $(OBJS_SDL) $(OBJS_GL) $(OBJS_VULKAN)
+
+main-gl: main-gl.o imgui.o imgui_demo.o imgui_draw.o imgui_widgets.o gl3w.o imgui_impl_sdl.o imgui_impl_opengl3.o
+	$(CXX) \
+		$(IMGUI_SRC_DIR)/main-gl.o \
+		$(IMGUI_IMPL_SRC_DIR)/imgui_impl_sdl.o \
+		$(IMGUI_IMPL_SRC_DIR)/imgui_impl_opengl3.o \
+		$(GL3W_DIR)/gl3w.o \
+		$(IMGUI_SRC_DIR)/imgui.o \
+		$(IMGUI_SRC_DIR)/imgui_demo.o \
+		$(IMGUI_SRC_DIR)/imgui_draw.o \
+		$(IMGUI_SRC_DIR)/imgui_widgets.o \
+		-o $(OUT_GL) $(GL_LFLAGS)
+
+main-vulkan: main-vulkan.o imgui.o imgui_demo.o imgui_draw.o imgui_widgets.o imgui_impl_sdl.o imgui_impl_vulkan.o
+	$(CXX) \
+		$(IMGUI_SRC_DIR)/main-vulkan.o \
+		$(IMGUI_IMPL_SRC_DIR)/imgui_impl_sdl.o \
+		$(IMGUI_IMPL_SRC_DIR)/imgui_impl_vulkan.o \
+		$(IMGUI_SRC_DIR)/imgui.o \
+		$(IMGUI_SRC_DIR)/imgui_demo.o \
+		$(IMGUI_SRC_DIR)/imgui_draw.o \
+		$(IMGUI_SRC_DIR)/imgui_widgets.o \
+		-o $(OUT_VULKAN) $(VULKAN_LFLAGS)
+
+imgui_impl_sdl.o: $(IMGUI_IMPL_SRC_DIR)/imgui_impl_sdl.cpp $(IMGUI_IMPL_SRC_DIR)/imgui_impl_sdl.h
+	$(CXX) $(SDL_IMPL_CFLAGS) -c $< -o $(IMGUI_IMPL_SRC_DIR)/$@
+
+imgui_impl_opengl3.o: $(IMGUI_IMPL_SRC_DIR)/imgui_impl_opengl3.cpp $(IMGUI_IMPL_SRC_DIR)/imgui_impl_opengl3.h
+	$(CXX) $(OPENGL3_IMPL_CFLAGS) -c $< -o $(IMGUI_IMPL_SRC_DIR)/$@
+
+imgui_impl_vulkan.o: $(IMGUI_IMPL_SRC_DIR)/imgui_impl_vulkan.cpp $(IMGUI_IMPL_SRC_DIR)/imgui_impl_vulkan.h
+	$(CXX) $(VULKAN_IMPL_CFLAGS) -c $< -o $(IMGUI_IMPL_SRC_DIR)/$@
+
+gl3w.o: $(GL3W_DIR)/gl3w.c $(GL3W_DIR)/gl3w.h $(GL3W_DIR)/glcorearb.h
+	$(CC) $(GL_CFLAGS) -c $< -o $(GL3W_DIR)/$@
+
+main-gl.o: $(IMGUI_IMPL_SRC_DIR)/example_sdl_opengl3/main.cpp
+	$(CXX) $(GL_CFLAGS) -c $< -o $(IMGUI_SRC_DIR)/$@
+
+main-vulkan.o: $(IMGUI_IMPL_SRC_DIR)/example_sdl_vulkan/main.cpp
+	$(CXX) $(VULKAN_CFLAGS) -c $< -o $(IMGUI_SRC_DIR)/$@
+
+clean:
+	rm -f $(IMGUI_SRC_DIR)/*.o
+	rm -f $(IMGUI_IMPL_SRC_DIR)/*.o
+	rm -f $(GL3W_DIR)/*.o
+	rm -f $(OUT_GL)
+	rm -f $(OUT_VULKAN)
+```
+
+Before applying the fix, this resulted in the screenshots above when launching the example code on a non-retina monitor that is attached to a retina Macbook. After applying the fix, the behaviour for the Vulkan example aligned with the OpenGL one as expected.
+
+The issue is not present when running the examples on just a retina Macbook, or with a retina display attached to a retina Macbook.
+
+# References
+
+[1] [libsdl.org/SDL_Vulkan_GetDrawableSize](https://wiki.libsdl.org/SDL_Vulkan_GetDrawableSize)
+ [WIP] Add ImGuiDockNodeFlags_OnlySplitSideways
+ Still working on this but had some success already. Feel free to comment!
+ Allow window size constraints to be applied to only the minimum or maximum sizes...
+ ... without using unintuitive arguments.
+
+This change is related to the function 
+`void SetNextWindowSizeConstraints(const ImVec2& size_min, const ImVec2& size_max, ImGuiSizeCallback custom_callback = NULL, void* custom_callback_data = NULL);`
+
+The comment on that function reads
+`// set next window size limits. use -1,-1 on either X/Y axis to preserve the current size. Sizes will be rounded down. Use callback to apply non-trivial programmatic constraints.`
+
+Intuitively, I would think this means I could do something like `SetNextWindowSizeConstraints(ImVec2(500, -1), ImVec2(-1, -1))` if I wanted to have a window that could never be less than 500 pixels wide, but was otherwise unrestricted in its sizing. In practice, this call will do nothing, since *both* the minimum and maximum for a given dimension must be >= 0.
+
+If I actually wanted the minimum size to be 500 pixels with no restriction on maximum size, I'd have to do something like `SetNextWindowSizeConstraints(ImVec2(500, -1), ImVec2(INFINITY, -1))` which seems unintuitive to me.
+
+This change allows using the API like the first example. 
+
+Potentially related question: What is the passed-in value of `new_size` to `CalcWindowSizeAfterConstraint` intended to be, compared to `window->SizeFull`? This PR attempts to keep the same behavior as the existing code, but I would think that the false condition of the ternary should be `new_size` instead of `window->SizeFull`.
+ Allow overriding ImDrawList in imconfig.
+ As some platforms need to implement their own geometry generation, e.g. through saving the drawcalls and passing them to a remote device, this PR adds a define to override ImDrawList. 
+
+The custom ImDrawList needs to inherit from the base class to avoid breaking existing code (even though the implementer would add their own).
+This seems to be the method that introduces the least change to the codebase.
+
+Will add an example implementation in a separate PR if accepted.
+
+ Apply arithmetic operators on numerical values
+ You can apply arithmetic operators +,-,*,/ on numerical values.
+e.g. [ 100 ], input '++2', result becomes [ 102 ]
+e.g. [ 100 ], input '--2', result becomes [  98 ]
+e.g. [ 100 ], input '*2', result becomes [ 200 ]
+e.g. [ 100 ], input '/2', result becomes [  50 ]
+ Merge pull request #11 from ocornut/docking
+ Upgrade from ocornut/imgui
+
+(Click "Preview" to turn any http URL into a clickable link)
+
+PLEASE CAREFULLY READ:
+https://github.com/ocornut/imgui/issues/2261
+
+(Clear this template before submitting your PR)
+
+ Docking: Fix DockBuilderRemoveNode() may cause read access violation. (#3111)
+ This PR fixes the issue #3111.
+
+Added NULL check for node before accessing ParentNode in DockBuilderRemoveNode(), as @ocornut suggested in #3111. (https://github.com/ocornut/imgui/issues/3111#issuecomment-611485445)

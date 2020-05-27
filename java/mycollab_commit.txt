@@ -1,0 +1,58 @@
+﻿ * Add missing files caused by wrong gitignore filters
+ * Upgrade Vaadin to 8.8.5
+* Fix checking database checking with the special timezone
+* Fix sql migration script not working with MySQL 5
+* Upgrade Kotlin version
+ Update the development progress
+ Prepare for 7.0.3
+ * Update the progress development
+ * Update the development progress: Add parent-child ticket relationship (In-progress)
+ Preparing for the next release
+ Preparing for the next release
+ Update the development progress
+ Update the development progress
+ Update the development progress
+ Fix unit tests broken
+ Update the new development progress
+ Update the development progress
+ Update the new development progress
+ Update the new development progress
+ Update the new version development progress
+ Update the new version development progress
+ * Minor changes of theme
+* Add spring boot quartz auto configuration
+ Minor updates on bashscript and deprecated API on Java 9
+ Update README
+ * Update screenshots
+* Minor improvement UIs
+ * Fix unit tests
+* Fix sql error
+ * The new file module (improved from the MyCollab 6.0.0)
+* Verify email status before sending email
+* Show error message when user edit ticket which has unset duration value
+* Can not display the right date value in project notification
+* Some long text don't display in the box
+* Prepare for the new MyCollab 7.0.1
+ * The new file module (improved from the MyCollab 6.0.0)
+* Verify email status before sending email
+* Show error message when user edit ticket which has unset duration value
+* Can not display the right date value in project notification
+* Some long text don't display in the box
+* Prepare for the new MyCollab 7.0.1
+* Can not display the right date value in project notification
+* Some long text don't display in the box
+* Prepare for the new MyCollab 7.0.1
+ * Update screenshots
+* Update the document links
+* Fix the inline edit saving user without losing focus
+* A couple of bug fixes
+ * Fix unit tests
+* Fix issue can not send email invitation when invite user
+ Enable error handling in MyCollab
+ Merge branch 'newdist'
+
+Prepare for the MyCollab 7.0.0
+ * Remove favorite views
+* Fix minor issues of the Vertical Tab sheet
+ * Fix unit test wrong
+* Improve the search of ticket assignment report

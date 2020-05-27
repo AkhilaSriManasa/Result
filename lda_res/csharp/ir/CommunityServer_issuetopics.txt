@@ -1,0 +1,68 @@
+﻿NUMTopics = 2
+(0, '0.002*"onlyoffice" + 0.002*"server" + 0.002*"error" + 0.002*"file" + 0.002*"document" + 0.002*"community" + 0.002*"install" + 0.002*"nextcloud" + 0.002*"change" + 0.002*"open"')
+(1, '0.037*"onlyoffice" + 0.029*"server" + 0.024*"file" + 0.020*"error" + 0.016*"community" + 0.016*"document" + 0.013*"install" + 0.013*"use" + 0.010*"nextcloud" + 0.009*"docker"')
+
+------------------------
+NUMTopics = 3
+(0, '0.002*"onlyoffice" + 0.002*"server" + 0.002*"community" + 0.002*"error" + 0.002*"file" + 0.002*"document" + 0.002*"install" + 0.001*"nextcloud" + 0.001*"docker" + 0.001*"issue"')
+(1, '0.003*"server" + 0.003*"onlyoffice" + 0.003*"file" + 0.002*"document" + 0.002*"community" + 0.002*"error" + 0.002*"nextcloud" + 0.002*"install" + 0.002*"docker" + 0.002*"change"')
+(2, '0.038*"onlyoffice" + 0.030*"server" + 0.025*"file" + 0.021*"error" + 0.017*"community" + 0.016*"document" + 0.014*"install" + 0.014*"use" + 0.010*"nextcloud" + 0.009*"docker"')
+
+------------------------
+NUMTopics = 4
+(0, '0.002*"onlyoffice" + 0.002*"server" + 0.002*"community" + 0.002*"document" + 0.002*"error" + 0.002*"file" + 0.002*"nextcloud" + 0.001*"install" + 0.001*"docker" + 0.001*"change"')
+(1, '0.030*"server" + 0.028*"onlyoffice" + 0.027*"error" + 0.022*"file" + 0.021*"use" + 0.017*"community" + 0.015*"install" + 0.013*"problem" + 0.011*"instal" + 0.011*"version"')
+(2, '0.045*"onlyoffice" + 0.028*"server" + 0.026*"file" + 0.021*"document" + 0.019*"nextcloud" + 0.016*"community" + 0.014*"change" + 0.013*"error" + 0.013*"open" + 0.012*"docker"')
+(3, '0.002*"onlyoffice" + 0.002*"server" + 0.002*"file" + 0.002*"community" + 0.002*"error" + 0.002*"nextcloud" + 0.002*"install" + 0.002*"document" + 0.002*"use" + 0.002*"change"')
+
+------------------------
+NUMTopics = 5
+(0, '0.002*"onlyoffice" + 0.002*"server" + 0.002*"community" + 0.002*"file" + 0.002*"error" + 0.002*"document" + 0.002*"install" + 0.001*"nextcloud" + 0.001*"docker" + 0.001*"change"')
+(1, '0.046*"onlyoffice" + 0.029*"server" + 0.026*"file" + 0.021*"document" + 0.019*"nextcloud" + 0.016*"community" + 0.015*"change" + 0.013*"open" + 0.013*"error" + 0.013*"docker"')
+(2, '0.031*"server" + 0.030*"onlyoffice" + 0.028*"error" + 0.023*"file" + 0.021*"use" + 0.017*"community" + 0.016*"install" + 0.013*"problem" + 0.011*"instal" + 0.011*"issue"')
+(3, '0.002*"onlyoffice" + 0.002*"server" + 0.002*"file" + 0.002*"community" + 0.002*"error" + 0.002*"install" + 0.002*"use" + 0.002*"document" + 0.002*"nextcloud" + 0.002*"issue"')
+(4, '0.003*"onlyoffice" + 0.002*"server" + 0.002*"file" + 0.002*"error" + 0.002*"document" + 0.002*"community" + 0.002*"use" + 0.002*"nextcloud" + 0.002*"docker" + 0.002*"install"')
+
+------------------------
+NUMTopics = 6
+(0, '0.002*"onlyoffice" + 0.002*"server" + 0.002*"file" + 0.002*"community" + 0.002*"error" + 0.002*"document" + 0.002*"install" + 0.002*"nextcloud" + 0.002*"docker" + 0.002*"change"')
+(1, '0.031*"server" + 0.029*"onlyoffice" + 0.028*"error" + 0.023*"file" + 0.022*"use" + 0.018*"community" + 0.016*"install" + 0.013*"problem" + 0.012*"instal" + 0.011*"version"')
+(2, '0.047*"onlyoffice" + 0.029*"server" + 0.027*"file" + 0.022*"document" + 0.020*"nextcloud" + 0.016*"community" + 0.015*"change" + 0.013*"error" + 0.013*"open" + 0.013*"docker"')
+(3, '0.002*"onlyoffice" + 0.002*"server" + 0.002*"file" + 0.002*"community" + 0.002*"error" + 0.002*"install" + 0.002*"use" + 0.002*"document" + 0.002*"nextcloud" + 0.002*"issue"')
+(4, '0.003*"onlyoffice" + 0.002*"server" + 0.002*"file" + 0.002*"error" + 0.002*"document" + 0.002*"community" + 0.002*"use" + 0.002*"nextcloud" + 0.002*"install" + 0.002*"docker"')
+(5, '0.002*"onlyoffice" + 0.002*"server" + 0.002*"file" + 0.002*"error" + 0.002*"use" + 0.002*"community" + 0.002*"nextcloud" + 0.001*"document" + 0.001*"install" + 0.001*"open"')
+
+------------------------
+NUMTopics = 7
+(0, '0.002*"onlyoffice" + 0.002*"server" + 0.002*"file" + 0.002*"document" + 0.002*"community" + 0.002*"nextcloud" + 0.002*"install" + 0.002*"change" + 0.002*"error" + 0.002*"docker"')
+(1, '0.003*"server" + 0.003*"onlyoffice" + 0.003*"file" + 0.002*"error" + 0.002*"community" + 0.002*"document" + 0.002*"install" + 0.002*"use" + 0.002*"nextcloud" + 0.002*"work"')
+(2, '0.048*"onlyoffice" + 0.030*"server" + 0.027*"file" + 0.022*"document" + 0.020*"nextcloud" + 0.016*"community" + 0.015*"change" + 0.014*"error" + 0.014*"open" + 0.013*"docker"')
+(3, '0.002*"onlyoffice" + 0.002*"server" + 0.002*"file" + 0.002*"community" + 0.002*"error" + 0.002*"install" + 0.002*"use" + 0.002*"document" + 0.002*"nextcloud" + 0.002*"issue"')
+(4, '0.003*"onlyoffice" + 0.002*"server" + 0.002*"file" + 0.002*"document" + 0.002*"error" + 0.002*"community" + 0.002*"nextcloud" + 0.002*"use" + 0.002*"docker" + 0.002*"change"')
+(5, '0.002*"onlyoffice" + 0.002*"server" + 0.002*"file" + 0.002*"error" + 0.002*"use" + 0.001*"nextcloud" + 0.001*"community" + 0.001*"document" + 0.001*"install" + 0.001*"open"')
+(6, '0.032*"server" + 0.029*"onlyoffice" + 0.029*"error" + 0.024*"file" + 0.022*"use" + 0.018*"community" + 0.016*"install" + 0.013*"problem" + 0.012*"instal" + 0.011*"issue"')
+
+------------------------
+NUMTopics = 8
+(0, '0.002*"onlyoffice" + 0.002*"server" + 0.002*"install" + 0.002*"file" + 0.001*"community" + 0.001*"error" + 0.001*"document" + 0.001*"nextcloud" + 0.001*"change" + 0.001*"docker"')
+(1, '0.006*"server" + 0.005*"onlyoffice" + 0.005*"file" + 0.004*"error" + 0.003*"install" + 0.003*"community" + 0.003*"use" + 0.003*"document" + 0.003*"instal" + 0.003*"problem"')
+(2, '0.003*"onlyoffice" + 0.003*"file" + 0.003*"server" + 0.002*"error" + 0.002*"install" + 0.002*"document" + 0.002*"community" + 0.002*"use" + 0.002*"open" + 0.002*"work"')
+(3, '0.002*"onlyoffice" + 0.002*"server" + 0.002*"file" + 0.002*"install" + 0.002*"error" + 0.002*"community" + 0.002*"use" + 0.002*"document" + 0.002*"nextcloud" + 0.001*"instal"')
+(4, '0.002*"onlyoffice" + 0.002*"server" + 0.002*"file" + 0.002*"error" + 0.002*"document" + 0.002*"community" + 0.002*"use" + 0.002*"install" + 0.002*"instal" + 0.002*"work"')
+(5, '0.002*"onlyoffice" + 0.002*"error" + 0.002*"server" + 0.001*"file" + 0.001*"use" + 0.001*"community" + 0.001*"install" + 0.001*"document" + 0.001*"nextcloud" + 0.001*"work"')
+(6, '0.032*"server" + 0.030*"onlyoffice" + 0.029*"error" + 0.024*"file" + 0.022*"use" + 0.018*"community" + 0.016*"install" + 0.013*"problem" + 0.012*"instal" + 0.011*"issue"')
+(7, '0.048*"onlyoffice" + 0.030*"server" + 0.027*"file" + 0.022*"document" + 0.020*"nextcloud" + 0.017*"community" + 0.015*"change" + 0.014*"error" + 0.014*"open" + 0.013*"docker"')
+
+------------------------
+NUMTopics = 9
+(0, '0.002*"onlyoffice" + 0.002*"server" + 0.002*"file" + 0.002*"install" + 0.001*"community" + 0.001*"document" + 0.001*"error" + 0.001*"change" + 0.001*"nextcloud" + 0.001*"docker"')
+(1, '0.003*"server" + 0.003*"file" + 0.003*"onlyoffice" + 0.002*"error" + 0.002*"install" + 0.002*"community" + 0.002*"use" + 0.002*"document" + 0.002*"instal" + 0.002*"problem"')
+(2, '0.003*"onlyoffice" + 0.002*"file" + 0.002*"server" + 0.002*"error" + 0.002*"install" + 0.002*"community" + 0.002*"use" + 0.002*"document" + 0.002*"work" + 0.002*"issue"')
+(3, '0.002*"server" + 0.002*"onlyoffice" + 0.002*"file" + 0.002*"install" + 0.002*"error" + 0.002*"community" + 0.002*"use" + 0.001*"instal" + 0.001*"document" + 0.001*"issue"')
+(4, '0.002*"onlyoffice" + 0.002*"server" + 0.002*"file" + 0.002*"document" + 0.002*"error" + 0.002*"community" + 0.002*"nextcloud" + 0.002*"install" + 0.002*"use" + 0.002*"change"')
+(5, '0.002*"onlyoffice" + 0.002*"error" + 0.002*"server" + 0.001*"file" + 0.001*"use" + 0.001*"community" + 0.001*"install" + 0.001*"document" + 0.001*"nextcloud" + 0.001*"work"')
+(6, '0.032*"server" + 0.030*"onlyoffice" + 0.029*"error" + 0.024*"file" + 0.023*"use" + 0.018*"community" + 0.017*"install" + 0.014*"problem" + 0.012*"instal" + 0.011*"issue"')
+(7, '0.048*"onlyoffice" + 0.030*"server" + 0.027*"file" + 0.022*"document" + 0.020*"nextcloud" + 0.017*"community" + 0.015*"change" + 0.014*"error" + 0.014*"open" + 0.013*"docker"')
+(8, '0.003*"onlyoffice" + 0.002*"server" + 0.002*"file" + 0.002*"document" + 0.002*"nextcloud" + 0.002*"install" + 0.002*"error" + 0.002*"community" + 0.002*"open" + 0.002*"docker"')
+
+------------------------

@@ -1,0 +1,36 @@
+﻿ Merge pull request #436 from dephell/more-types
+
+More types
+ make markdown lint on ci faster
+ run type checks on ci
+ fix markdown lint
+ sort imports
+ fix flake8
+ fix
+ type check commands
+ handle typing in actions
+ sort imports
+ fix lazy importing
+ annotate more
+ +simple annotations
+ annotate a few things
+ prepare
+ bump setup.py
+ bump version to 0.8.3
+ upd changelog
+ Merge pull request #431 from dephell/less-network
+
+Fewer network requests
+ sort imports
+ avoid network requests in apply_envs for deps convert
+ make one group releases count configurable
+ do not download too big files
+ fix typo
+ Merge pull request #430 from dephell/fix-envs
+
+Fix envs filtering in `deps convert`
+ fix requirment graph fast_apply
+ recursively re-apply deps
+ test more cases
+ support env in deps tree and colorize output
+ fix requirements comparation

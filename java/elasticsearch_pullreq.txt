@@ -1,0 +1,147 @@
+﻿ [8.0] [DOCS] Document impact of restore API's `include_global_state` param (#57067)
+ master backport of #57067
+ [7.8] [DOCS] Document impact of restore API's `include_global_state` param (#57067)
+ 7.8 backport of #57067
+ [7.x] [DOCS] Document impact of restore API's `include_global_state` param (#57067)
+ 7.x backport of #57067
+ [DOCS] Add scroll API reference docs
+ Changes:
+
+* Adds API reference docs for the scroll API
+* Documents several related parameters in the search API docs
+
+Relates to #56833
+ [ML] allow unran/incomplete forecasts to be deleted for stopped/failed jobs
+ If a job is NOT opened, forecasts should be able to be deleted, no matter their state.
+
+This also fixes a bug with expanding forecast IDs. We should check for wildcard `*` and `_all` when expanding the ids
+
+closes https://github.com/elastic/elasticsearch/issues/56419
+ Remove Mapper.updateFieldType()
+ When we had multiple mapping types, an update to a field in one type had to be
+propagated to the same field in all other types. This was done using the
+Mapper.updateFieldType() method, called at the end of a merge. However, now
+that we only have a single type per index, this method is unnecessary and can
+be removed.
+
+Relates to #41059
+Backport of #56986 
+ [DOCS] Add get snapshot repo API docs
+ Adds API reference docs for the get snapshot repo API.
+
+Relates to #56069
+ [7.8] Handle null parser in create data streams request
+ Relates to #53100 
+
+Fixes https://github.com/elastic/elasticsearch/issues/56799
+
+Backport of #57071 
+
+ [7.7] Handle exceptions when building _cat/indices response
+ The root cause of this bug was an unhandled exception in the `onResponse` method for the `_cat/indices` endpoint that resulted in completion of neither the response nor failure methods of the REST handler. Adding a try-catch around the code in the `onResponse` method resolves this specific problem.
+
+Backport of #56993 
+
+ [7.8] Fix delete_expired_data/nightly maintenance when many model snapshots need deleting (#57041)
+ Backports the following commits to 7.8:
+ - Fix delete_expired_data/nightly maintenance when many model snapshots need deleting (#57041)
+ [7.7.1] Fix delete_expired_data/nightly maintenance when many model snapshots…
+ Backport of #57041
+
+The queries performed by the expired data removers pull back entire documents where only a few fields are required. For ModelSnapshots in particular this is a problem as they contain quantiles which may be 100s of KB and the search size is set to 10,000.
+
+If the user is suffering with many accumulated snapshots that were not cleaned up due to #47103 the size of this search response could be very large. This change makes the search more efficient by only requesting the fields needed to work out which expired data should be deleted.
+ [DRAFT] Introduce Annotation.subtype field
+ This PR introduces `Annotation.subtype` field to distinguish annotations created for different purposes.
+Currently the two existing subtypes are `delayed_data` and `model_snapshot_stored`.
+This field is not required. Older annotations will have `null` value for it.
+
+Additionally, this PR makes `Annotation.type` field of type enum. Wire format stays "string" in order to achieve BWC.
+
+Relates https://github.com/elastic/elasticsearch/issues/55781
+ [ML] mark forecasts for force closed/failed jobs as failed
+ forecasts that are still running should be marked as failed/finished in the following scenarios:
+
+- Job is force closed
+- Job is re-assigned to another node.
+
+Forecasts are not "resilient". Their execution does not continue after a node failure. Consequently, forecasts marked as STARTED or SCHEDULED should be flagged as failed. These forecasts can then be deleted.
+
+Additionally, force closing a job kills the native task directly. This means that if a forecast was running, it is not allowed to complete and could still have the status of `STARTED` in the index.
+
+relates to https://github.com/elastic/elasticsearch/issues/56419
+ Add regex query support to wildcard field (approach 2) (#55548)
+ Backport of https://github.com/elastic/elasticsearch/pull/55548
+ Optimize `routingNodes` variable in AddIncrementallyTests
+ The `routingNodes` variable is unused. Replace `clusterState.getRoutingNodes()` with `routingNodes`.
+ Wildcard field - add support for null field with test (#57047)
+ Backport of https://github.com/elastic/elasticsearch/pull/57047
+ [Trivial] Insert new line
+ <!--
+Thank you for your interest in and contributing to Elasticsearch! There
+are a few simple things to check before submitting your pull request
+that can help with the review process. You should delete these items
+from your submission, but they are here to help bring them to your
+attention.
+-->
+
+- Have you signed the [contributor license agreement](https://www.elastic.co/contributor-agreement)?
+- Have you followed the [contributor guidelines](https://github.com/elastic/elasticsearch/blob/master/CONTRIBUTING.md)?
+- If submitting code, have you built your formula locally prior to submission with `gradle check`?
+- If submitting code, is your pull request against master? Unless there is a good reason otherwise, we prefer pull requests against master and will backport as needed.
+- If submitting code, have you checked that your submission is for an [OS and architecture that we support](https://www.elastic.co/support/matrix#show_os)?
+- If you are submitting this code for a class then read our [policy](https://github.com/elastic/elasticsearch/blob/master/CONTRIBUTING.md#contributing-as-part-of-a-class) for that.
+
+ Revert "Update joda time to 2.10.5 (#49748)"
+ This reverts commit f2369f6489d3cc8cbaad6d1450fe828424aba114.
+relates https://github.com/elastic/elasticsearch/pull/49748
+ [7.x] Fix delete_expired_data/nightly maintenance when many model snapshots need deleting (#57041)
+ Backports the following commits to 7.x:
+ - Fix delete_expired_data/nightly maintenance when many model snapshots need deleting (#57041)
+ [7.7] Adjust reload keystore test to pass in FIPS (#57050)
+ Backports the following commits to 7.7:
+ - Adjust reload keystore test to pass in FIPS (#57050)
+ [7.8] Adjust reload keystore test to pass in FIPS (#57050)
+ Backports the following commits to 7.8:
+ - Adjust reload keystore test to pass in FIPS (#57050)
+ [7.x] Adjust reload keystore test to pass in FIPS (#57050)
+ Backports the following commits to 7.x:
+ - Adjust reload keystore test to pass in FIPS (#57050)
+ [7.7] Fix key usage in SamlAuthenticatorTests (#57124)
+ Backports the following commits to 7.7:
+ - Fix key usage in SamlAuthenticatorTests (#57124)
+ [7.8] Fix key usage in SamlAuthenticatorTests (#57124)
+ Backports the following commits to 7.8:
+ - Fix key usage in SamlAuthenticatorTests (#57124)
+ [7.x] Fix key usage in SamlAuthenticatorTests (#57124)
+ Backports the following commits to 7.x:
+ - Fix key usage in SamlAuthenticatorTests (#57124)
+ SQL: change error message for comparison against fields in filtering
+ Change the error message wording for comparisons against fields in
+filtering (`s/variables/fields`).
+
+Fixes #57005.
+ Fix key usage in SamlAuthenticatorTests
+ In #51089 where SamlAuthenticatorTests were refactored, we missed
+to update one test case which meant that a single key would be
+used both for signing and encryption in the same run. As explained
+in #51089, and due to FIPS 140 requirements, BouncyCastle FIPS
+provider will block RSA keys that have been used for signing from
+being used for encryption and vice versa
+
+This commit changes testNoAttributesReturnedWhenTheyCannotBeDecrypted
+to always use the specific keys we have added for encryption.
+ Replace direct usage of compileOnly configuration for resolution
+ Removes direct access to compileOnly which is deprecated for direct resolution. (see deprecation warning in build scan https://gradle-enterprise.elastic.co/s/v7ggsljig4i44/deprecations#deprecation-1 ) 
+
+- registers a resolvable configuration that extends compileOnly for resolution purposes
+- also breaks up the integration tests in the build-tools project in separate sourceSet as discussed with @mark-vieira. 
+- leverages the core test fixtures plugin to share test fixtures among multiple sourceSets
+- some minor detangling on task dependencies in ThirdPartyAudit task do get better testability
+- tweak ThirdPartyAuditTaskIT to assert for non expected gradle deprecations
+ Fix Snapshot Javadoc Issues (#57083)
+ Fixing some incorrect JavaDoc and a typo.
+
+backport of #57083 
+ Track PUT/PUT_BLOCK operations on AzureBlobStore.
+ Backport of #56936

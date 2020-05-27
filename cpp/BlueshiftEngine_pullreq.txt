@@ -1,0 +1,7 @@
+﻿ Replace license with full text
+ Taken from https://www.apache.org/licenses/LICENSE-2.0.txt
+This helps github auto detect the license and show it in the header bar
+ Add a Codacy badge to README.md
+ None
+ Update README.md
+ 

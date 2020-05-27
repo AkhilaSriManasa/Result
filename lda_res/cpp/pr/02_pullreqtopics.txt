@@ -1,0 +1,68 @@
+﻿NUMTopics = 2
+(0, '0.103*"remove" + 0.103*"use" + 0.103*"operator" + 0.103*"readmemd" + 0.103*"simple" + 0.103*"else" + 0.103*"numeric" + 0.103*"update" + 0.035*"unecessary" + 0.035*"function"')
+(1, '0.111*"else" + 0.111*"remove" + 0.110*"void" + 0.110*"return" + 0.110*"proposal" + 0.110*"function" + 0.110*"unecessary" + 0.038*"update" + 0.038*"numeric" + 0.038*"simple"')
+
+------------------------
+NUMTopics = 3
+(0, '0.108*"use" + 0.108*"operator" + 0.108*"remove" + 0.108*"readmemd" + 0.108*"simple" + 0.108*"numeric" + 0.108*"update" + 0.108*"else" + 0.027*"unecessary" + 0.027*"function"')
+(1, '0.118*"else" + 0.118*"remove" + 0.118*"void" + 0.118*"proposal" + 0.118*"return" + 0.118*"function" + 0.117*"unecessary" + 0.030*"update" + 0.030*"numeric" + 0.030*"simple"')
+(2, '0.077*"remove" + 0.077*"else" + 0.077*"unecessary" + 0.077*"function" + 0.077*"return" + 0.077*"update" + 0.077*"void" + 0.077*"simple" + 0.077*"proposal" + 0.077*"readmemd"')
+
+------------------------
+NUMTopics = 4
+(0, '0.077*"remove" + 0.077*"else" + 0.077*"unecessary" + 0.077*"function" + 0.077*"use" + 0.077*"proposal" + 0.077*"return" + 0.077*"void" + 0.077*"simple" + 0.077*"operator"')
+(1, '0.122*"else" + 0.122*"remove" + 0.122*"proposal" + 0.122*"void" + 0.122*"return" + 0.122*"unecessary" + 0.122*"function" + 0.024*"numeric" + 0.024*"simple" + 0.024*"readmemd"')
+(2, '0.077*"remove" + 0.077*"else" + 0.077*"unecessary" + 0.077*"function" + 0.077*"return" + 0.077*"simple" + 0.077*"void" + 0.077*"readmemd" + 0.077*"proposal" + 0.077*"operator"')
+(3, '0.111*"update" + 0.111*"operator" + 0.111*"use" + 0.111*"numeric" + 0.111*"readmemd" + 0.111*"simple" + 0.111*"remove" + 0.111*"else" + 0.022*"function" + 0.022*"void"')
+
+------------------------
+NUMTopics = 5
+(0, '0.077*"remove" + 0.077*"else" + 0.077*"unecessary" + 0.077*"proposal" + 0.077*"return" + 0.077*"readmemd" + 0.077*"void" + 0.077*"numeric" + 0.077*"operator" + 0.077*"function"')
+(1, '0.077*"else" + 0.077*"remove" + 0.077*"proposal" + 0.077*"return" + 0.077*"unecessary" + 0.077*"update" + 0.077*"void" + 0.077*"numeric" + 0.077*"readmemd" + 0.077*"function"')
+(2, '0.077*"remove" + 0.077*"else" + 0.077*"unecessary" + 0.077*"return" + 0.077*"update" + 0.077*"proposal" + 0.077*"function" + 0.077*"simple" + 0.077*"readmemd" + 0.077*"void"')
+(3, '0.125*"remove" + 0.125*"else" + 0.125*"function" + 0.125*"void" + 0.125*"proposal" + 0.125*"return" + 0.125*"unecessary" + 0.021*"update" + 0.021*"readmemd" + 0.021*"numeric"')
+(4, '0.113*"use" + 0.113*"operator" + 0.113*"simple" + 0.113*"numeric" + 0.113*"readmemd" + 0.113*"update" + 0.113*"else" + 0.113*"remove" + 0.019*"unecessary" + 0.019*"return"')
+
+------------------------
+NUMTopics = 6
+(0, '0.077*"remove" + 0.077*"else" + 0.077*"function" + 0.077*"return" + 0.077*"use" + 0.077*"simple" + 0.077*"operator" + 0.077*"readmemd" + 0.077*"unecessary" + 0.077*"numeric"')
+(1, '0.077*"else" + 0.077*"remove" + 0.077*"function" + 0.077*"return" + 0.077*"void" + 0.077*"numeric" + 0.077*"simple" + 0.077*"proposal" + 0.077*"readmemd" + 0.077*"unecessary"')
+(2, '0.077*"remove" + 0.077*"else" + 0.077*"function" + 0.077*"return" + 0.077*"simple" + 0.077*"unecessary" + 0.077*"readmemd" + 0.077*"void" + 0.077*"operator" + 0.077*"update"')
+(3, '0.115*"update" + 0.115*"readmemd" + 0.115*"operator" + 0.115*"numeric" + 0.115*"use" + 0.115*"simple" + 0.115*"remove" + 0.115*"else" + 0.016*"function" + 0.016*"return"')
+(4, '0.077*"else" + 0.077*"remove" + 0.077*"function" + 0.077*"return" + 0.077*"use" + 0.077*"simple" + 0.077*"void" + 0.077*"operator" + 0.077*"numeric" + 0.077*"unecessary"')
+(5, '0.127*"else" + 0.127*"remove" + 0.127*"proposal" + 0.127*"unecessary" + 0.127*"void" + 0.127*"return" + 0.127*"function" + 0.018*"numeric" + 0.018*"simple" + 0.018*"operator"')
+
+------------------------
+NUMTopics = 7
+(0, '0.077*"remove" + 0.077*"else" + 0.077*"return" + 0.077*"proposal" + 0.077*"function" + 0.077*"unecessary" + 0.077*"readmemd" + 0.077*"numeric" + 0.077*"operator" + 0.077*"update"')
+(1, '0.077*"else" + 0.077*"remove" + 0.077*"update" + 0.077*"return" + 0.077*"proposal" + 0.077*"numeric" + 0.077*"function" + 0.077*"readmemd" + 0.077*"void" + 0.077*"unecessary"')
+(2, '0.077*"remove" + 0.077*"else" + 0.077*"function" + 0.077*"return" + 0.077*"update" + 0.077*"simple" + 0.077*"unecessary" + 0.077*"readmemd" + 0.077*"operator" + 0.077*"proposal"')
+(3, '0.077*"remove" + 0.077*"else" + 0.077*"update" + 0.077*"function" + 0.077*"return" + 0.077*"readmemd" + 0.077*"void" + 0.077*"numeric" + 0.077*"proposal" + 0.077*"operator"')
+(4, '0.116*"use" + 0.116*"operator" + 0.116*"readmemd" + 0.116*"numeric" + 0.116*"simple" + 0.116*"update" + 0.116*"else" + 0.116*"remove" + 0.014*"return" + 0.014*"function"')
+(5, '0.077*"remove" + 0.077*"else" + 0.077*"proposal" + 0.077*"unecessary" + 0.077*"numeric" + 0.077*"operator" + 0.077*"return" + 0.077*"simple" + 0.077*"void" + 0.077*"update"')
+(6, '0.129*"else" + 0.129*"remove" + 0.129*"void" + 0.129*"unecessary" + 0.129*"proposal" + 0.129*"function" + 0.129*"return" + 0.016*"simple" + 0.016*"update" + 0.016*"numeric"')
+
+------------------------
+NUMTopics = 8
+(0, '0.117*"use" + 0.117*"readmemd" + 0.117*"operator" + 0.117*"numeric" + 0.117*"simple" + 0.117*"update" + 0.117*"remove" + 0.117*"else" + 0.013*"function" + 0.013*"return"')
+(1, '0.077*"else" + 0.077*"remove" + 0.077*"function" + 0.077*"update" + 0.077*"return" + 0.077*"numeric" + 0.077*"void" + 0.077*"simple" + 0.077*"proposal" + 0.077*"readmemd"')
+(2, '0.077*"remove" + 0.077*"else" + 0.077*"function" + 0.077*"return" + 0.077*"update" + 0.077*"simple" + 0.077*"unecessary" + 0.077*"readmemd" + 0.077*"void" + 0.077*"operator"')
+(3, '0.077*"else" + 0.077*"remove" + 0.077*"function" + 0.077*"update" + 0.077*"void" + 0.077*"return" + 0.077*"numeric" + 0.077*"readmemd" + 0.077*"simple" + 0.077*"operator"')
+(4, '0.077*"else" + 0.077*"remove" + 0.077*"function" + 0.077*"return" + 0.077*"void" + 0.077*"simple" + 0.077*"use" + 0.077*"update" + 0.077*"unecessary" + 0.077*"numeric"')
+(5, '0.130*"else" + 0.130*"remove" + 0.130*"proposal" + 0.130*"unecessary" + 0.130*"void" + 0.130*"return" + 0.130*"function" + 0.014*"numeric" + 0.014*"simple" + 0.014*"operator"')
+(6, '0.077*"else" + 0.077*"remove" + 0.077*"function" + 0.077*"void" + 0.077*"return" + 0.077*"simple" + 0.077*"update" + 0.077*"unecessary" + 0.077*"proposal" + 0.077*"numeric"')
+(7, '0.077*"else" + 0.077*"remove" + 0.077*"return" + 0.077*"function" + 0.077*"operator" + 0.077*"update" + 0.077*"unecessary" + 0.077*"readmemd" + 0.077*"numeric" + 0.077*"simple"')
+
+------------------------
+NUMTopics = 9
+(0, '0.118*"use" + 0.118*"numeric" + 0.118*"readmemd" + 0.118*"operator" + 0.118*"simple" + 0.118*"update" + 0.118*"remove" + 0.118*"else" + 0.012*"function" + 0.012*"return"')
+(1, '0.077*"else" + 0.077*"remove" + 0.077*"function" + 0.077*"update" + 0.077*"return" + 0.077*"void" + 0.077*"numeric" + 0.077*"simple" + 0.077*"readmemd" + 0.077*"proposal"')
+(2, '0.077*"else" + 0.077*"remove" + 0.077*"function" + 0.077*"return" + 0.077*"update" + 0.077*"simple" + 0.077*"unecessary" + 0.077*"readmemd" + 0.077*"void" + 0.077*"operator"')
+(3, '0.077*"else" + 0.077*"remove" + 0.077*"function" + 0.077*"update" + 0.077*"void" + 0.077*"return" + 0.077*"numeric" + 0.077*"readmemd" + 0.077*"simple" + 0.077*"operator"')
+(4, '0.077*"else" + 0.077*"remove" + 0.077*"function" + 0.077*"return" + 0.077*"void" + 0.077*"simple" + 0.077*"operator" + 0.077*"update" + 0.077*"unecessary" + 0.077*"readmemd"')
+(5, '0.132*"else" + 0.132*"remove" + 0.132*"proposal" + 0.132*"unecessary" + 0.132*"void" + 0.132*"return" + 0.132*"function" + 0.013*"numeric" + 0.013*"simple" + 0.013*"operator"')
+(6, '0.077*"else" + 0.077*"remove" + 0.077*"function" + 0.077*"void" + 0.077*"simple" + 0.077*"return" + 0.077*"unecessary" + 0.077*"update" + 0.077*"proposal" + 0.077*"numeric"')
+(7, '0.077*"else" + 0.077*"remove" + 0.077*"return" + 0.077*"function" + 0.077*"operator" + 0.077*"update" + 0.077*"unecessary" + 0.077*"numeric" + 0.077*"readmemd" + 0.077*"simple"')
+(8, '0.077*"else" + 0.077*"remove" + 0.077*"return" + 0.077*"readmemd" + 0.077*"function" + 0.077*"simple" + 0.077*"update" + 0.077*"unecessary" + 0.077*"numeric" + 0.077*"void"')
+
+------------------------
