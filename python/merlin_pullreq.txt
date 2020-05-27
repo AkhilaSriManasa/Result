@@ -1,0 +1,162 @@
+﻿ fix: TypeError of run_merlin.py
+ using Python 3.6.10
+Fixed "TypeError: must be str, not NoneType" error that occurs in logger.info of run_merlin.py.
+ remove deprecated string class method call
+ Replaced a call to a deprecated string method which caused the code to fail in python 3.
+Only line 259 of src/logplot/logging_plotting.py is modified
+
+Here is an example of a stack trace
+>   File "./merlin/src/run_merlin.py", line 1320, in <module>
+>     main_function(cfg)
+>   File "./merlin/src/run_merlin.py", line 870, in main_function
+>     cmp_mean_vector = cmp_mean_vector, cmp_std_vector = cmp_std_vector,init_dnn_model_file=cfg.start_from_trained_model)
+>   File "./merlin/src/run_merlin.py", line 382, in train_DNN
+>     plotlogger.save_plot('training convergence',title='Progress of training and validation error',xlabel='epochs',ylabel='error')
+>   File "/xxx/merlin/src/logplot/logging_plotting.py", line 259, in save_plot
+>     filename = self.plot_path + "/" + string.replace(plot_name, " ", "_") + ".pdf"
+> AttributeError: module 'string' has no attribute 'replace'
+
+'Progress of training and validation error',xlabel Merge pull request #1 from CSTR-Edinburgh/master
+ Update
+ Track fest(vox/ival) and speech_tools repositories, should fix #345 and  #255
+ Speech Tools, Festival and Festvox are now on github so I think it is better to track them as submodule instead of downloading the archives.
+
+Also the github versions are more up-to-date with the modern compilers (gcc > 6) so it should fix #345 and #255 
+ Segfault Fix: Added isnan() check for tentative_f0 in GetTentativeF0 to WORLD's analysis tool
+ thus rejecting nan/-nan tentative_f0 values. Got these on large (50s) WAVs of synthesized speech.
+
+
+ Fixed frame number calculation to work for Python 2.x and 3.x (using floor division)
+ Now frame number in all binary_io.py versions across the repo should use classic Python 2.x floor division
+
+Addresses #448 
+ Update README.md
+ `numpy` already in `requirements.txt`.
+ Update label_normalization.py
+ Added end of string ('$') regex for last question in question set. This ensures that the last question only matches at the end of the HTS label string
+
+This is to sort out issue #434 
+
+To test:
+* run `merlin/egs/slt_arctic/s1/` recipe (demo is fine) just for duration model training
+* make a copy of `merlin/egs/slt_arctic/s1/experiments/slt_arctic_demo/duration_model/inter_module/binary_label_416`
+to `merlin/egs/slt_arctic/s1/experiments/slt_arctic_demo/duration_model/inter_module/binary_label_416_changed`
+* comment out lines 864 and 865 of `merlin/src/frontend/label_normalization.py`
+* run `merlin/egs/slt_arctic/s1/` recipe (demo is fine) just for duration model training
+* dump the `arctic_0060.lab` file to text for both versions
+    - ```dmp +fa merlin/egs/slt_arctic/s1/experiments/slt_arctic_demo/duration_model/inter_module/binary_label_416/arctic_a0060.lab >  merlin/egs/slt_arctic/s1/experiments/slt_arctic_demo/duration_model/inter_module/binary_label_416/arctic_a0060.txt```
+     - ```dmp +fa merlin/egs/slt_arctic/s1/experiments/slt_arctic_demo/duration_model/inter_module/binary_label_416_changed/arctic_a0060.lab >  merlin/egs/slt_arctic/s1/experiments/slt_arctic_demo/duration_model/inter_module/binary_label_416_changed/arctic_a0060.txt```
+* check the difference
+ ```diff merlin/egs/slt_arctic/s1/experiments/slt_arctic_demo/duration_model/inter_module/binary_label_416/arctic_a0060.txt merlin/egs/slt_arctic/s1/experiments/slt_arctic_demo/duration_model/inter_module/binary_label_416_changed/arctic_a0060.txt```
+
+ Fix typo in README
+ 
+ fix a small bug in `interpolate_f0`
+ fix a small bug in `interpolate_f0`
+ Added japanese question set compatible with OpenJTalk produced labels.
+ Works well with the Nitech-ATR speech database available with the HTS-demo (this is a conversion of the HTS-demo questions set to work with merlin).
+ BLSTM implementation in keras_lib
+ Hi,
+
+it seems that the current blstm implementation in keras_lib is just a backwards lstm and not a bidirectional lstm. This pull request fixes this, using the `Bidirectional` keras wrapper (https://keras.io/layers/wrappers/)
+
+ dropout bug fix
+ Current implementation of dropout uses python ifElse with symbolic variable. In my tests, I have always found this condition to be false regardless of the value of the variable. 
+
+ Updating World
+ + Fix FFT functions ( ref https://github.com/mmorise/World/commit/7a474fa47ff313238ea2685e7c8aaa237ed59af7)
++Update random and add reseed the pseudo-random number generator each time  extract f0, sp, ap (ref https://github.com/mmorise/World/commit/9a26692aff144db923daa7e6c75404ea6c9d9cbd )
++ Add sample rate parameter to  function InitializeCheapTrickOption  to same with new world version . (This allow this code compatible with some wrapper for world .
+ Example : https://github.com/JeremyCCHsu/Python-Wrapper-for-World-Vocoder )
+ Update requirements.txt
+ compile_tools.sh requires cmake in line 83
+
+https://github.com/CSTR-Edinburgh/merlin/blob/f64081a18c24af635d214336f841c5d86b62074c/tools/compile_tools.sh#L83
+ Update INSTALL.md
+ Add `unzip` to the list of linux dependencies
+
+`unzip` is required by scripts like  [egs/slt_arctic/s1/01_setup.sh](merlin/egs/slt_arctic/s1/01_setup.sh ).
+However, not all distributions have `unzip` installed by default.
+
+
+ potential fix for #245
+ With batches, the shapes are now: (batch_size, length, features) whereas it was (length, features). The concatenation axis has to be the dimension 2 now, whereas it was the dimension 1 previously. Using the last dimension (-1) do the trick, for both cases.
+ Fixing in slt_arctic/s2/run_demo.py to change architecture in full demo.
+ 
+ Add code : Support old HTS question file format
+ Some HTS question files use '\t' as the separator.
+ Integration with MagPhase vocoder v2.0
+ Update of recipes and source code to work with the new release of MagPhase vocoder (v2.0)
+
+### New in Version 2.0 (April 2018):
+
+* Constant frame-rate support.
+* Improved sound quality.
+* Two types of post-filter available.
+* Selectable number of coefficients for phase features (*real* and *imag*).
+* Selectable number of coefficients for the magnitude feature (*mag*).
+ corret error of runtime
+ I run the script of mandarin tts, find error of path，fix it。
+ Fix a potential mismatch between test_id_list and gen_test_file_list
+ Hi, this is really a minor issue but it can be annoying when it happens. When using Keras, at the DNNGEN step, the function predict stores the label data in a dictionary text_x whose keys are the ids of the label files  in gen_test_file_list. Since the dict is unordered, it sorts the list of file ids to retrieve the order of the files in gen_test_file_list. However this assumes that gen_test_file_list is ordered alphabetically which is not always the case (it is sorted by date of modification, at least on my system). For instance, I'm trying to use magphase, which requires to modify the label files, and I'm doing this modification via parallel processing that breaks the natural oder of the label files. Then of course, things will not go very well when predicting the durations...
+
+One fix could be to use an ordered dict but it's even simpler to just retrieve the file ids from the list of file names, that's the small modification proposed below.
+
+Thanks.
+ Parallel forced alignment
+ This PR solves "ERROR [+7031] during forced_alignment.py" as dicussed in #293.
+
+List of changes:
+
+- Alignment in parallel on multiple chunks of data (checks the "DNN_NUM_PARALLEL" environment variable and uses 8 by default). Speeds up alignment on multi-core machines but also helps with numerical issues on larger datasets (seems to occur already with e.g. 4k sentences)
+- Per-speaker normalisation fix (creates new "normaliser" per speaker instead of once)
+- Outputs "logprob.txt" containing sentence likelihoods
+- "work_dir" and "HTKDIR" can also be passed as commandline arguments instead of sed replacement, compatibility to sed replacement was retained though
+- "-a" command line parameters enables multi-speaker normalization
+
+I've tested the latest script in my environment with a 4000 sentence corpus, please report if this breaks any example scripts, which could happen for some sed reasons (pun intended).
+ Add egs/mandarin_voice demo
+ This is a mandarin speech synthesis demo using only 250 wav from thchs30 dataset (A11 speaker)
+
+* Synthetic speech samples: Listen to https://jackiexiao.github.io/MTTS/
+* A simple mandarin frontend is in https://github.com/jackiexiao/mtts 
+
+Some change (in src/frontend/label_normalisation.py )
+* add `question = question.replace('\\?', '.')` to support Question format like `QS "R-iong"  {*+iong?=*}`
+* `frame_number = int(end_time/50000) - int(start_time / 50000)` because my label's time stamp is exactly divisible by 50000 (different from like egs/slt_arctic‘s label), this modification reduces error
+
+ Parallel acoustic composition, layer freezing configuration parameter
+ This PR adds:
+
+**Parallel acoustic composition.**
+Test run with 100 sentences, 8 processes:
+
+```
+serial
+2018-02-14 12:56:49,685 ^[[1;32mINFO    ^[[0m       main    : creating acoustic (output) features
+2018-02-14 12:58:39,720 INFO           main    : normalising acoustic (output) features using method MVN
+
+parallel
+2018-02-14 12:45:05,138 ^[[1;32mINFO    ^[[0m       main    : creating acoustic (output) features
+2018-02-14 12:45:32,097 INFO           main    : normalising acoustic (output) features using method MVN
+
+```
+
+**Layer freezing configuration parameter**
+
+New parameter freeze_layers to specify the number of layers to freeze when doing transfer learning/speaker adaptation. This just adds the configuration parameter and uses the existing mechanism in deep_rnn.py.
+ test
+ 
+ performance optimize 
+ performance optimize
+code reformat
+ Voice conversion using MagPhase vocoder.
+ 
+ Fix travis build failure 
+ should be fixed now
+
+cc: @ronanki 
+
+ref: https://github.com/CSTR-Edinburgh/merlin/commit/1af513638aaf0bebe225e297e956a09da0280106#commitcomment-25811630
+ use MultiThread to accelerate silence remove
+ use MultiThread to accelerate silence remove

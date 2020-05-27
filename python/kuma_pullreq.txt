@@ -1,0 +1,1447 @@
+﻿ Remove standby push to eks cluster
+ The standby cluster is now fully running on EKS, we don't need to push to 2 clusters now
+ Create hook to fetch subscription data
+ Subscription data is also needed on the account settings Subscriptions component, so rather than duplicate the code, create a hook that both of them can use. The data needed is for this view:
+
+<img width="462" alt="Screen Shot 2020-05-26 at 10 29 46 AM" src="https://user-images.githubusercontent.com/650/82913573-79e31200-9f3c-11ea-92be-8c165ccf1b6c.png">
+
+
+Changes:
+- Move code that fetches subscription data into a custom hook 
+
+To test:
+- Management page should work just as it used to
+- Tests in `payments/pages/management.test.jsx` should still pass 
+
+Part of #7076 
+ Add base for new accounts pages
+ This sets up the basis for the new account management experience. It is ready for review in general but there is still at least one open question(https://github.com/mdn/kuma/issues/7073#issuecomment-633524429)
+
+Also, I have a test on the Python side to ensure the account page is not accessible by anonymous users but, it will be good to also have a happy path for logged in users. I need some assistance on getting that test setup/written.
+
+The new base account page is accessible at http://localhost.org:8000/en-US/accounts/
+
+Note the `s`. This is not ideal but, `account` clashes with an existing route we have. I did not want to block the account work on that so, moved ahead with `accounts` for now. We can resolve that while the rest of the work happens.
+
+I am also separating out the sidebar nav into a separate PR, again, to not block work on other components etc.
+
+@mindy @peterbe r?
+
+fix #7073
+ Bump eslint-plugin-react from 7.19.0 to 7.20.0
+ Bumps [eslint-plugin-react](https://github.com/yannickcr/eslint-plugin-react) from 7.19.0 to 7.20.0.
+<details>
+<summary>Release notes</summary>
+<p><em>Sourced from <a href="https://github.com/yannickcr/eslint-plugin-react/releases">eslint-plugin-react's releases</a>.</em></p>
+<blockquote>
+<h2>v7.20.0</h2>
+<h3>Added</h3>
+<ul>
+<li>support eslint v7 (<a href="https://github-redirect.dependabot.com/yannickcr/eslint-plugin-react/issues/2635">#2635</a>[] <a href="https://github.com/ljharb">@ljharb</a>, <a href="https://github.com/toshi-toma">@toshi-toma</a>)</li>
+<li>[<code>forbid-component-props</code>][]/[<code>forbid-dom-props</code>][]: Allow a custom message with forbid props (<a href="https://github-redirect.dependabot.com/yannickcr/eslint-plugin-react/issues/2615">#2615</a>[] <a href="https://github.com/mtamhankar1">@mtamhankar1</a>)</li>
+<li>[<code>jsx-no-literals</code>][]: add <code>ignoreProps</code> option to ignore props validation (<a href="https://github-redirect.dependabot.com/yannickcr/eslint-plugin-react/issues/2146">#2146</a>[] <a href="https://github.com/iiison">@iiison</a>)</li>
+</ul>
+<h3>Fixed</h3>
+<ul>
+<li>[<code>jsx-sort-props</code>][]: only use localeCompare when case is ignored (<a href="https://github-redirect.dependabot.com/yannickcr/eslint-plugin-react/issues/2556">#2556</a>[] <a href="https://github.com/tanmoyopenroot">@tanmoyopenroot</a>)</li>
+<li>[<code>jsx-key</code>][]: add a failing test case for optional chaining (<a href="https://github-redirect.dependabot.com/yannickcr/eslint-plugin-react/issues/2610">#2610</a>[] <a href="https://github.com/JonathanLee-LX">@JonathanLee-LX</a>)</li>
+ Bump stylelint from 13.3.3 to 13.5.0
+ Bumps [stylelint](https://github.com/stylelint/stylelint) from 13.3.3 to 13.5.0.
+<details>
+<summary>Release notes</summary>
+<p><em>Sourced from <a href="https://github.com/stylelint/stylelint/releases">stylelint's releases</a>.</em></p>
+<blockquote>
+<h2>13.5.0</h2>
+<ul>
+<li>Added: <code>alpha-value-notation</code> rule (<a href="https://github-redirect.dependabot.com/stylelint/stylelint/pull/4770">#4770</a>).</li>
+<li>Added: <code>color-function-notation</code> rule (<a href="https://github-redirect.dependabot.com/stylelint/stylelint/pull/4760">#4760</a>).</li>
+<li>Added: <code>hue-degree-notation</code> rule (<a href="https://github-redirect.dependabot.com/stylelint/stylelint/pull/4769">#4769</a>).</li>
+</ul>
+<h2>13.4.1</h2>
+<ul>
+<li>Fixed: <code>time-min-milliseconds</code> TypeError for <code>ignore: [&quot;delay&quot;]</code> and shorthand animation (<a href="https://github-redirect.dependabot.com/stylelint/stylelint/pull/4783">#4783</a>).</li>
+</ul>
+<h2>13.4.0</h2>
+<ul>
+<li>Added: <code>ignore:[&quot;delay&quot;]</code> to <code>time-min-milliseconds</code> (<a href="https://github-redirect.dependabot.com/stylelint/stylelint/pull/4743">#4743</a>).</li>
+<li>Added: <code>ignoreFunctions: []</code> to <code>value-keyword-case</code> (<a href="https://github-redirect.dependabot.com/stylelint/stylelint/pull/4733">#4733</a>).</li>
+<li>Fixed: improved performance when auto syntax is used (<a href="https://github-redirect.dependabot.com/stylelint/stylelint/pull/4729">#4729</a>).</li>
+<li>Fixed: <code>--report-needless-disables</code> respects stylelint-disable commands (<a href="https://github-redirect.dependabot.com/stylelint/stylelint/pull/4714">#4714</a>).</li>
+<li>Fixed: <code>at-rule-property-requirelist</code> TypeError for comments inside of font-face (<a href="https://github-redirect.dependabot.com/stylelint/stylelint/pull/4744">#4744</a>).</li>
+<li>Fixed: <code>declaration-block-trailing-semicolon</code> false positives for CSS-in-JS object notation (<a href="https://github-redirect.dependabot.com/stylelint/stylelint/pull/4749">#4749</a>).</li>
+<li>Fixed: <code>declaration-empty-line-before</code> false positives for inlines styles (<a href="https://github-redirect.dependabot.com/stylelint/stylelint/pull/4726">#4726</a>).</li>
+<li>Fixed: <code>media-feature-name-*</code> false positives for <code>forced-colors</code> (<a href="https://github-redirect.dependabot.com/stylelint/stylelint/pull/4775">#4775</a>).</li>
+<li>Fixed: <code>value-keyword-case</code> false positives WebExtension replacement keywords (<a href="https://github-redirect.dependabot.com/stylelint/stylelint/pull/4778">#4778</a>).</li>
+<li>Fixed: <code>value-keyword-case</code> false positives regression for mixed-case properties and the <code>ignoreProperties</code> option (<a href="https://github-redirect.dependabot.com/stylelint/stylelint/pull/4748">#4748</a>).</li>
+</ul>
+</blockquote>
+</details>
+<details>
+<summary>Changelog</summary>
+<p><em>Sourced from <a href="https://github.com/stylelint/stylelint/blob/master/CHANGELOG.md">stylelint's changelog</a>.</em></p>
+<blockquote>
+<h2>13.5.0</h2>
+<ul>
+<li>Added: <code>alpha-value-notation</code> rule (<a href="https://github-redirect.dependabot.com/stylelint/stylelint/pull/4770">#4770</a>).</li>
+<li>Added: <code>color-function-notation</code> rule (<a href="https://github-redirect.dependabot.com/stylelint/stylelint/pull/4760">#4760</a>).</li>
+<li>Added: <code>hue-degree-notation</code> rule (<a href="https://github-redirect.dependabot.com/stylelint/stylelint/pull/4769">#4769</a>).</li>
+</ul>
+<h2>13.4.1</h2>
+<ul>
+<li>Fixed: <code>time-min-milliseconds</code> TypeError for <code>ignore: [&quot;delay&quot;]</code> and shorthand animation (<a href="https://github-redirect.dependabot.com/stylelint/stylelint/pull/4783">#4783</a>).</li>
+</ul>
+<h2>13.4.0</h2>
+<ul>
+<li>Added: <code>ignore:[&quot;delay&quot;]</code> to <code>time-min-milliseconds</code> (<a href="https://github-redirect.dependabot.com/stylelint/stylelint/pull/4743">#4743</a>).</li>
+<li>Added: <code>ignoreFunctions: []</code> to <code>value-keyword-case</code> (<a href="https://github-redirect.dependabot.com/stylelint/stylelint/pull/4733">#4733</a>).</li>
+<li>Fixed: improved performance when auto syntax is used (<a href="https://github-redirect.dependabot.com/stylelint/stylelint/pull/4729">#4729</a>).</li>
+<li>Fixed: <code>--report-needless-disables</code> respects stylelint-disable commands (<a href="https://github-redirect.dependabot.com/stylelint/stylelint/pull/4714">#4714</a>).</li>
+<li>Fixed: <code>at-rule-property-requirelist</code> TypeError for comments inside of font-face (<a href="https://github-redirect.dependabot.com/stylelint/stylelint/pull/4744">#4744</a>).</li>
+<li>Fixed: <code>declaration-block-trailing-semicolon</code> false positives for CSS-in-JS object notation (<a href="https://github-redirect.dependabot.com/stylelint/stylelint/pull/4749">#4749</a>).</li>
+<li>Fixed: <code>declaration-empty-line-before</code> false positives for inlines styles (<a href="https://github-redirect.dependabot.com/stylelint/stylelint/pull/4726">#4726</a>).</li>
+<li>Fixed: <code>media-feature-name-*</code> false positives for <code>forced-colors</code> (<a href="https://github-redirect.dependabot.com/stylelint/stylelint/pull/4775">#4775</a>).</li>
+<li>Fixed: <code>value-keyword-case</code> false positives WebExtension replacement keywords (<a href="https://github-redirect.dependabot.com/stylelint/stylelint/pull/4778">#4778</a>).</li>
+<li>Fixed: <code>value-keyword-case</code> false positives regression for mixed-case properties and the <code>ignoreProperties</code> option (<a href="https://github-redirect.dependabot.com/stylelint/stylelint/pull/4748">#4748</a>).</li>
+</ul>
+</blockquote>
+</details>
+<details>
+<summary>Commits</summary>
+<ul>
+<li><a href="https://github.com/stylelint/stylelint/commit/a859f1ae08b2247f6116a08e1848cf44234bfc30"><code>a859f1a</code></a> 13.5.0</li>
+<li><a href="https://github.com/stylelint/stylelint/commit/8fb58b9373bfbe9f082cbc58c890e52ed790dfbb"><code>8fb58b9</code></a> Prepare 13.5.0</li>
+<li><a href="https://github.com/stylelint/stylelint/commit/9b00d0117149823406a48cdad6a7f984bc43d40f"><code>9b00d01</code></a> Fix inconsistent quoting in messages</li>
+<li><a href="https://github.com/stylelint/stylelint/commit/f669a5070e7d4383ed8f86f307a863c1d7153439"><code>f669a50</code></a> Fix guards against unfound nodes</li>
+<li><a href="https://github.com/stylelint/stylelint/commit/781d2ab0a301be0eb7aa7b6c7502efcba6e4ef53"><code>781d2ab</code></a> Add alpha-value-notation (<a href="https://github-redirect.dependabot.com/stylelint/stylelint/issues/4770">#4770</a>)</li>
+<li><a href="https://github.com/stylelint/stylelint/commit/8da3aa8af050d03017785e8842e0fc2d8873d147"><code>8da3aa8</code></a> Update CHANGELOG.md</li>
+<li><a href="https://github.com/stylelint/stylelint/commit/ff2de425a7164578d72b50f7e996662f7bb4609c"><code>ff2de42</code></a> Add hue-degree-notation (<a href="https://github-redirect.dependabot.com/stylelint/stylelint/issues/4769">#4769</a>)</li>
+<li><a href="https://github.com/stylelint/stylelint/commit/849c1374c020d3f689a30f386876dfbdb79e4c7f"><code>849c137</code></a> Add color-function-notation (<a href="https://github-redirect.dependabot.com/stylelint/stylelint/issues/4760">#4760</a>)</li>
+<li><a href="https://github.com/stylelint/stylelint/commit/6818c532775b05722e3c1979016bb5c0038b2ca1"><code>6818c53</code></a> 13.4.1</li>
+<li><a href="https://github.com/stylelint/stylelint/commit/7cf23e2969e15a6d28511fc606df0a64e2e92143"><code>7cf23e2</code></a> Prepare 13.4.1</li>
+<li>Additional commits viewable in <a href="https://github.com/stylelint/stylelint/compare/13.3.3...13.5.0">compare view</a></li>
+</ul>
+</details>
+<br />
+
+
+[![Dependabot compatibility score](https://api.dependabot.com/badges/compatibility_score?dependency-name=stylelint&package-manager=npm_and_yarn&previous-version=13.3.3&new-version=13.5.0)](https://dependabot.com/compatibility-score/?dependency-name=stylelint&package-manager=npm_and_yarn&previous-version=13.3.3&new-version=13.5.0)
+
+Dependabot will resolve any conflicts with this PR as long as you don't alter it yourself. You can also trigger a rebase manually by commenting `@dependabot rebase`.
+
+[//]: # (dependabot-automerge-start)
+[//]: # (dependabot-automerge-end)
+
+---
+
+<details>
+<summary>Dependabot commands and options</summary>
+<br />
+
+You can trigger Dependabot actions by commenting on this PR:
+- `@dependabot rebase` will rebase this PR
+- `@dependabot recreate` will recreate this PR, overwriting any edits that have been made to it
+- `@dependabot merge` will merge this PR after your CI passes on it
+- `@dependabot squash and merge` will squash and merge this PR after your CI passes on it
+- `@dependabot cancel merge` will cancel a previously requested merge and block automerging
+- `@dependabot reopen` will reopen this PR if it is closed
+- `@dependabot close` will close this PR and stop Dependabot recreating it. You can achieve the same result by closing it manually
+- `@dependabot ignore this major version` will close this PR and stop Dependabot creating any more for this major version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this minor version` will close this PR and stop Dependabot creating any more for this minor version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this dependency` will close this PR and stop Dependabot creating any more for this dependency (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot use these labels` will set the current labels as the default for future PRs for this repo and language
+- `@dependabot use these reviewers` will set the current reviewers as the default for future PRs for this repo and language
+- `@dependabot use these assignees` will set the current assignees as the default for future PRs for this repo and language
+- `@dependabot use this milestone` will set the current milestone as the default for future PRs for this repo and language
+- `@dependabot badge me` will comment on this PR with code to add a "Dependabot enabled" badge to your readme
+
+Additionally, you can set the following in your Dependabot [dashboard](https://app.dependabot.com):
+- Update frequency (including time of day and day of week)
+- Pull request limits (per update run and/or open at any time)
+- Automerge options (never/patch/minor, and dev/runtime dependencies)
+- Out-of-range updates (receive only lockfile updates, if desired)
+- Security updates (receive only security updates, if desired)
+
+
+
+</details>
+ Bump @babel/plugin-transform-runtime from 7.9.0 to 7.9.6
+ Bumps [@babel/plugin-transform-runtime](https://github.com/babel/babel) from 7.9.0 to 7.9.6.
+<details>
+<summary>Release notes</summary>
+<p><em>Sourced from <a href="https://github.com/babel/babel/releases">@babel/plugin-transform-runtime's releases</a>.</em></p>
+<blockquote>
+<h2>v7.9.6 (2020-04-29)</h2>
+<p>Thanks to <a href="https://github.com/Beraliv">@Beraliv</a>, <a href="https://github.com/ChintanAcharya">@ChintanAcharya</a>, <a href="https://github.com/dosentmatter">@dosentmatter</a>, <a href="https://github.com/jdreesen">@jdreesen</a> and <a href="https://github.com/johannes-z">@johannes-z</a> for their first PRs!</p>
+<h4>:eyeglasses: Spec Compliance</h4>
+<ul>
+<li><code>babel-plugin-proposal-object-rest-spread</code>
+<ul>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11471">#11471</a> Fix evaluation order with object spread, 2 (<a href="https://github.com/jridgewell">@jridgewell</a>)</li>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11412">#11412</a> Fix evaluation order with object spread (<a href="https://github.com/Zzzen">@Zzzen</a>)</li>
+</ul>
+</li>
+<li><code>babel-helper-replace-supers</code>, <code>babel-plugin-proposal-class-properties</code>, <code>babel-plugin-transform-classes</code>
+<ul>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11480">#11480</a> Super property eval order (<a href="https://github.com/jridgewell">@jridgewell</a>)</li>
+</ul>
+</li>
+</ul>
+<h4>:rocket: New Feature</h4>
+<ul>
+<li><code>babel-traverse</code>, <code>babel-types</code>
+<ul>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11448">#11448</a> Adding createFlowUnionType in place of createUnionTypeAnnotation without breaking change (<a href="https://github.com/Beraliv">@Beraliv</a>)</li>
+</ul>
+</li>
+</ul>
+<h4>:bug: Bug Fix</h4>
+<ul>
+<li><code>babel-helper-create-class-features-plugin</code>, <code>babel-helpers</code>, <code>babel-plugin-transform-modules-commonjs</code>, <code>babel-preset-env</code>
+<ul>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11495">#11495</a> Fix helpers.unsupportedIterableToArray for Map and Set (<a href="https://github.com/ChintanAcharya">@ChintanAcharya</a>)</li>
+</ul>
+</li>
+<li><code>babel-traverse</code>
+<ul>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11482">#11482</a> handle objectMethod in scope.isPure (<a href="https://github.com/Zzzen">@Zzzen</a>)</li>
+</ul>
+</li>
+<li><code>babel-plugin-transform-typescript</code>
+<ul>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11410">#11410</a> Throw error for TypeScript <code>declare const enum</code> (<a href="https://github.com/dosentmatter">@dosentmatter</a>)</li>
+</ul>
+</li>
+<li><code>babel-compat-data</code>
+<ul>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11462">#11462</a> chore: add node.js 14 support data (<a href="https://github.com/JLHwung">@JLHwung</a>)</li>
+</ul>
+</li>
+<li><code>babel-parser</code>
+<ul>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11449">#11449</a> Set exprAllowed to false for star token (<a href="https://github.com/existentialism">@existentialism</a>)</li>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11355">#11355</a> fix: disallow expression after binding identifier <code>of</code> (<a href="https://github.com/JLHwung">@JLHwung</a>)</li>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11417">#11417</a> fix: report missing plugins on type exports (<a href="https://github.com/JLHwung">@JLHwung</a>)</li>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11388">#11388</a> fix: do not push new token context when function is following dot/questionDot (<a href="https://github.com/JLHwung">@JLHwung</a>)</li>
+</ul>
+</li>
+<li><code>babel-helper-create-class-features-plugin</code>, <code>babel-plugin-proposal-class-properties</code>
+<ul>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11424">#11424</a>  Fix redeclaring private in nested class's superClass (<a href="https://github.com/jridgewell">@jridgewell</a>)</li>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11405">#11405</a> Fix nested classes reference private fields (<a href="https://github.com/jridgewell">@jridgewell</a>)</li>
+</ul>
+</li>
+<li><code>babel-traverse</code>, <code>babel-types</code>
+<ul>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11378">#11378</a> transform-spread: create TS types (not Flow) when using TS (<a href="https://github.com/Beraliv">@Beraliv</a>)</li>
+</ul>
+</li>
+<li><code>babel-standalone</code>
+<ul>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11395">#11395</a> chore: update stage preset in babel-standalone (<a href="https://github.com/JLHwung">@JLHwung</a>)</li>
+</ul>
+</li>
+<li><code>babel-plugin-transform-runtime</code>
+<ul>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11366">#11366</a> fix: replace backslashes with forward slashes from resolved path for … (<a href="https://github.com/johannes-z">@johannes-z</a>)</li>
+</ul>
+</li>
+<li><code>babel-generator</code>, <code>babel-plugin-proposal-decorators</code>, <code>babel-plugin-proposal-pipeline-operator</code>, <code>babel-plugin-proposal-throw-expressions</code>, <code>babel-plugin-transform-async-to-generator</code>
+<ul>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11382">#11382</a> Unify parens printing for postfix-like expressions (<a href="https://github.com/nicolo-ribaudo">@nicolo-ribaudo</a>)</li>
+</ul>
+</li>
+</ul>
+<h4>:nail_care: Polish</h4>
+<ul>
+<li><code>babel-parser</code>
+<ul>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11478">#11478</a> Add some parser missing plugins errors (<a href="https://github.com/JLHwung">@JLHwung</a>)</li>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11417">#11417</a> fix: report missing plugins on type exports (<a href="https://github.com/JLHwung">@JLHwung</a>)</li>
+</ul>
+</li>
+<li><code>babel-core</code>
+<ul>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11421">#11421</a> polish: recommend preset for js extensions (<a href="https://github.com/JLHwung">@JLHwung</a>)</li>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11397">#11397</a> fix: add classPrivateProperties and classPrivateMethods to missing plugin helper (<a href="https://github.com/JLHwung">@JLHwung</a>)</li>
+</ul>
+</li>
+</ul>
+<h4>:memo: Documentation</h4>
+</tr></table> ... (truncated)
+</blockquote>
+</details>
+<details>
+<summary>Changelog</summary>
+<p><em>Sourced from <a href="https://github.com/babel/babel/blob/master/CHANGELOG.md">@babel/plugin-transform-runtime's changelog</a>.</em></p>
+<blockquote>
+<h2>v7.9.6 (2020-04-29)</h2>
+<h4>:eyeglasses: Spec Compliance</h4>
+<ul>
+<li><code>babel-plugin-proposal-object-rest-spread</code>
+<ul>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11471">#11471</a> Fix evaluation order with object spread, 2 (<a href="https://github.com/jridgewell">@jridgewell</a>)</li>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11412">#11412</a> Fix evaluation order with object spread (<a href="https://github.com/Zzzen">@Zzzen</a>)</li>
+</ul>
+</li>
+<li><code>babel-helper-replace-supers</code>, <code>babel-plugin-proposal-class-properties</code>, <code>babel-plugin-transform-classes</code>
+<ul>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11480">#11480</a> Super property eval order (<a href="https://github.com/jridgewell">@jridgewell</a>)</li>
+</ul>
+</li>
+</ul>
+<h4>:rocket: New Feature</h4>
+<ul>
+<li><code>babel-traverse</code>, <code>babel-types</code>
+<ul>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11448">#11448</a> Adding createFlowUnionType in place of createUnionTypeAnnotation without breaking change (<a href="https://github.com/Beraliv">@Beraliv</a>)</li>
+</ul>
+</li>
+</ul>
+<h4>:bug: Bug Fix</h4>
+<ul>
+<li><code>babel-helper-create-class-features-plugin</code>, <code>babel-helpers</code>, <code>babel-plugin-transform-modules-commonjs</code>, <code>babel-preset-env</code>
+<ul>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11495">#11495</a> Fix helpers.unsupportedIterableToArray for Map and Set (<a href="https://github.com/ChintanAcharya">@ChintanAcharya</a>)</li>
+</ul>
+</li>
+<li><code>babel-traverse</code>
+<ul>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11482">#11482</a> handle objectMethod in scope.isPure (<a href="https://github.com/Zzzen">@Zzzen</a>)</li>
+</ul>
+</li>
+<li><code>babel-plugin-transform-typescript</code>
+<ul>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11410">#11410</a> Throw error for TypeScript <code>declare const enum</code> (<a href="https://github.com/dosentmatter">@dosentmatter</a>)</li>
+</ul>
+</li>
+<li><code>babel-compat-data</code>
+<ul>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11462">#11462</a> chore: add node.js 14 support data (<a href="https://github.com/JLHwung">@JLHwung</a>)</li>
+</ul>
+</li>
+<li><code>babel-parser</code>
+<ul>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11449">#11449</a> Set exprAllowed to false for star token (<a href="https://github.com/existentialism">@existentialism</a>)</li>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11355">#11355</a> fix: disallow expression after binding identifier <code>of</code> (<a href="https://github.com/JLHwung">@JLHwung</a>)</li>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11417">#11417</a> fix: report missing plugins on type exports (<a href="https://github.com/JLHwung">@JLHwung</a>)</li>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11388">#11388</a> fix: do not push new token context when function is following dot/questionDot (<a href="https://github.com/JLHwung">@JLHwung</a>)</li>
+</ul>
+</li>
+<li><code>babel-helper-create-class-features-plugin</code>, <code>babel-plugin-proposal-class-properties</code>
+<ul>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11424">#11424</a>  Fix redeclaring private in nested class's superClass (<a href="https://github.com/jridgewell">@jridgewell</a>)</li>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11405">#11405</a> Fix nested classes reference private fields (<a href="https://github.com/jridgewell">@jridgewell</a>)</li>
+</ul>
+</li>
+<li><code>babel-traverse</code>, <code>babel-types</code>
+<ul>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11378">#11378</a> transform-spread: create TS types (not Flow) when using TS (<a href="https://github.com/Beraliv">@Beraliv</a>)</li>
+</ul>
+</li>
+<li><code>babel-standalone</code>
+<ul>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11395">#11395</a> chore: update stage preset in babel-standalone (<a href="https://github.com/JLHwung">@JLHwung</a>)</li>
+</ul>
+</li>
+<li><code>babel-plugin-transform-runtime</code>
+<ul>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11366">#11366</a> fix: replace backslashes with forward slashes from resolved path for … (<a href="https://github.com/johannes-z">@johannes-z</a>)</li>
+</ul>
+</li>
+<li><code>babel-generator</code>, <code>babel-plugin-proposal-decorators</code>, <code>babel-plugin-proposal-pipeline-operator</code>, <code>babel-plugin-proposal-throw-expressions</code>, <code>babel-plugin-transform-async-to-generator</code>
+<ul>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11382">#11382</a> Unify parens printing for postfix-like expressions (<a href="https://github.com/nicolo-ribaudo">@nicolo-ribaudo</a>)</li>
+</ul>
+</li>
+</ul>
+<h4>:nail_care: Polish</h4>
+<ul>
+<li><code>babel-parser</code>
+<ul>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11478">#11478</a> Add some parser missing plugins errors (<a href="https://github.com/JLHwung">@JLHwung</a>)</li>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11417">#11417</a> fix: report missing plugins on type exports (<a href="https://github.com/JLHwung">@JLHwung</a>)</li>
+</ul>
+</li>
+<li><code>babel-core</code>
+<ul>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11421">#11421</a> polish: recommend preset for js extensions (<a href="https://github.com/JLHwung">@JLHwung</a>)</li>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11397">#11397</a> fix: add classPrivateProperties and classPrivateMethods to missing plugin helper (<a href="https://github.com/JLHwung">@JLHwung</a>)</li>
+</ul>
+</li>
+</ul>
+<h4>:memo: Documentation</h4>
+<ul>
+<li><code>babel-parser</code>
+<ul>
+<li><a href="https://github-redirect.dependabot.com/babel/babel/pull/11492">#11492</a> docs: update AST spec (<a href="https://github.com/JLHwung">@JLHwung</a>)</li>
+</ul>
+</li>
+</ul>
+</tr></table> ... (truncated)
+</blockquote>
+</details>
+<details>
+<summary>Commits</summary>
+<ul>
+<li><a href="https://github.com/babel/babel/commit/9c2846bcacc75aa931ea9d556950c2113765d43d"><code>9c2846b</code></a> v7.9.6</li>
+<li><a href="https://github.com/babel/babel/commit/7c80ed9598551de321919a9e6d8dd12539435a28"><code>7c80ed9</code></a> Update compat table script (<a href="https://github-redirect.dependabot.com/babel/babel/issues/11496">#11496</a>)</li>
+<li><a href="https://github.com/babel/babel/commit/fa98a0a5b355a34b1c737d782f0e8969c55b72c6"><code>fa98a0a</code></a> docs: update AST spec (<a href="https://github-redirect.dependabot.com/babel/babel/issues/11492">#11492</a>)</li>
+<li><a href="https://github.com/babel/babel/commit/2d8edf7c6f1b077e0c92cbd18a9b3b3f59642e88"><code>2d8edf7</code></a> Add note about experimental nature of @babel/eslint-* packages (<a href="https://github-redirect.dependabot.com/babel/babel/issues/11493">#11493</a>)</li>
+<li><a href="https://github.com/babel/babel/commit/93429f8b09e86937c8a986e16e948bd08ff048ab"><code>93429f8</code></a> Fix helpers.unsupportedIterableToArray for Map and Set (<a href="https://github-redirect.dependabot.com/babel/babel/issues/11495">#11495</a>)</li>
+<li><a href="https://github.com/babel/babel/commit/1b777f52663f1b3b9cc590478bccb0b4dde14ee1"><code>1b777f5</code></a> Update preset-env fixtures (<a href="https://github-redirect.dependabot.com/babel/babel/issues/11486">#11486</a>)</li>
+<li><a href="https://github.com/babel/babel/commit/c1d65d8842fda3c6fabbad07e40bd5aaa5061325"><code>c1d65d8</code></a> Fix evaluation order with object spread, 2 (<a href="https://github-redirect.dependabot.com/babel/babel/issues/11471">#11471</a>)</li>
+<li><a href="https://github.com/babel/babel/commit/83d365acb60db2943279cb6f3914c55f52b5702d"><code>83d365a</code></a> handle objectMethod in scope.isPure (<a href="https://github-redirect.dependabot.com/babel/babel/issues/11482">#11482</a>)</li>
+<li><a href="https://github.com/babel/babel/commit/0bbf2da568a8814e256a626cfdb274d8a61c3116"><code>0bbf2da</code></a> Super property eval order (<a href="https://github-redirect.dependabot.com/babel/babel/issues/11480">#11480</a>)</li>
+<li><a href="https://github.com/babel/babel/commit/2e4f18ac92a0230d9db835da2ee4ea56816e6536"><code>2e4f18a</code></a> Add some parser missing plugins errors (<a href="https://github-redirect.dependabot.com/babel/babel/issues/11478">#11478</a>)</li>
+<li>Additional commits viewable in <a href="https://github.com/babel/babel/compare/v7.9.0...v7.9.6">compare view</a></li>
+</ul>
+</details>
+<br />
+
+
+[![Dependabot compatibility score](https://api.dependabot.com/badges/compatibility_score?dependency-name=@babel/plugin-transform-runtime&package-manager=npm_and_yarn&previous-version=7.9.0&new-version=7.9.6)](https://dependabot.com/compatibility-score/?dependency-name=@babel/plugin-transform-runtime&package-manager=npm_and_yarn&previous-version=7.9.0&new-version=7.9.6)
+
+Dependabot will resolve any conflicts with this PR as long as you don't alter it yourself. You can also trigger a rebase manually by commenting `@dependabot rebase`.
+
+[//]: # (dependabot-automerge-start)
+[//]: # (dependabot-automerge-end)
+
+---
+
+<details>
+<summary>Dependabot commands and options</summary>
+<br />
+
+You can trigger Dependabot actions by commenting on this PR:
+- `@dependabot rebase` will rebase this PR
+- `@dependabot recreate` will recreate this PR, overwriting any edits that have been made to it
+- `@dependabot merge` will merge this PR after your CI passes on it
+- `@dependabot squash and merge` will squash and merge this PR after your CI passes on it
+- `@dependabot cancel merge` will cancel a previously requested merge and block automerging
+- `@dependabot reopen` will reopen this PR if it is closed
+- `@dependabot close` will close this PR and stop Dependabot recreating it. You can achieve the same result by closing it manually
+- `@dependabot ignore this major version` will close this PR and stop Dependabot creating any more for this major version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this minor version` will close this PR and stop Dependabot creating any more for this minor version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this dependency` will close this PR and stop Dependabot creating any more for this dependency (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot use these labels` will set the current labels as the default for future PRs for this repo and language
+- `@dependabot use these reviewers` will set the current reviewers as the default for future PRs for this repo and language
+- `@dependabot use these assignees` will set the current assignees as the default for future PRs for this repo and language
+- `@dependabot use this milestone` will set the current milestone as the default for future PRs for this repo and language
+- `@dependabot badge me` will comment on this PR with code to add a "Dependabot enabled" badge to your readme
+
+Additionally, you can set the following in your Dependabot [dashboard](https://app.dependabot.com):
+- Update frequency (including time of day and day of week)
+- Pull request limits (per update run and/or open at any time)
+- Automerge options (never/patch/minor, and dev/runtime dependencies)
+- Out-of-range updates (receive only lockfile updates, if desired)
+- Security updates (receive only security updates, if desired)
+
+
+
+</details>
+ Bump flow-bin from 0.111.3 to 0.125.1
+ Bumps [flow-bin](https://github.com/flowtype/flow-bin) from 0.111.3 to 0.125.1.
+<details>
+<summary>Commits</summary>
+<ul>
+<li>See full diff in <a href="https://github.com/flowtype/flow-bin/commits">compare view</a></li>
+</ul>
+</details>
+<details>
+<summary>Maintainer changes</summary>
+<p>This version was pushed to npm by <a href="https://www.npmjs.com/~flowtype">flowtype</a>, a new releaser for flow-bin since your current version.</p>
+</details>
+<br />
+
+
+[![Dependabot compatibility score](https://api.dependabot.com/badges/compatibility_score?dependency-name=flow-bin&package-manager=npm_and_yarn&previous-version=0.111.3&new-version=0.125.1)](https://dependabot.com/compatibility-score/?dependency-name=flow-bin&package-manager=npm_and_yarn&previous-version=0.111.3&new-version=0.125.1)
+
+Dependabot will resolve any conflicts with this PR as long as you don't alter it yourself. You can also trigger a rebase manually by commenting `@dependabot rebase`.
+
+[//]: # (dependabot-automerge-start)
+[//]: # (dependabot-automerge-end)
+
+---
+
+<details>
+<summary>Dependabot commands and options</summary>
+<br />
+
+You can trigger Dependabot actions by commenting on this PR:
+- `@dependabot rebase` will rebase this PR
+- `@dependabot recreate` will recreate this PR, overwriting any edits that have been made to it
+- `@dependabot merge` will merge this PR after your CI passes on it
+- `@dependabot squash and merge` will squash and merge this PR after your CI passes on it
+- `@dependabot cancel merge` will cancel a previously requested merge and block automerging
+- `@dependabot reopen` will reopen this PR if it is closed
+- `@dependabot close` will close this PR and stop Dependabot recreating it. You can achieve the same result by closing it manually
+- `@dependabot ignore this major version` will close this PR and stop Dependabot creating any more for this major version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this minor version` will close this PR and stop Dependabot creating any more for this minor version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this dependency` will close this PR and stop Dependabot creating any more for this dependency (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot use these labels` will set the current labels as the default for future PRs for this repo and language
+- `@dependabot use these reviewers` will set the current reviewers as the default for future PRs for this repo and language
+- `@dependabot use these assignees` will set the current assignees as the default for future PRs for this repo and language
+- `@dependabot use this milestone` will set the current milestone as the default for future PRs for this repo and language
+- `@dependabot badge me` will comment on this PR with code to add a "Dependabot enabled" badge to your readme
+
+Additionally, you can set the following in your Dependabot [dashboard](https://app.dependabot.com):
+- Update frequency (including time of day and day of week)
+- Pull request limits (per update run and/or open at any time)
+- Automerge options (never/patch/minor, and dev/runtime dependencies)
+- Out-of-range updates (receive only lockfile updates, if desired)
+- Security updates (receive only security updates, if desired)
+
+
+
+</details>
+ Bump newrelic from 6.5.0 to 6.8.0
+ Bumps [newrelic](https://github.com/newrelic/node-newrelic) from 6.5.0 to 6.8.0.
+<details>
+<summary>Release notes</summary>
+<p><em>Sourced from <a href="https://github.com/newrelic/node-newrelic/releases">newrelic's releases</a>.</em></p>
+<blockquote>
+<h2>v6.8.0</h2>
+<ul>
+<li>
+<p>Bumped @newrelic/native-metrics to ^5.1.0.</p>
+<p>Upgraded nan to ^2.14.1 to resolve 'GetContents' deprecation warning with Node 14. This version of the native metrics module is tested against Node 14 and includes a pre-built binary download backup for Node 14.</p>
+</li>
+<li>
+<p>Added whitespace trimming of license key configuration values.</p>
+<p>Previously, when a license key was entered with leading or trailing whitespace, it would be used as-is and result in a validation failure. This most commonly occurred with environment variable based configuration.</p>
+</li>
+<li>
+<p>Moved to GitHub actions for CI.</p>
+</li>
+<li>
+<p>Updated PR template and added initial issue templates.</p>
+</li>
+<li>
+<p>Converted most of the collector API unit tests to use the tap API. Split larger test groupings into their own test files.</p>
+</li>
+</ul>
+</blockquote>
+</details>
+<details>
+<summary>Changelog</summary>
+<p><em>Sourced from <a href="https://github.com/newrelic/node-newrelic/blob/master/NEWS.md">newrelic's changelog</a>.</em></p>
+<blockquote>
+<h3>6.8.0 (2020-05-21):</h3>
+<ul>
+<li>
+<p>Bumped @newrelic/native-metrics to ^5.1.0.</p>
+<p>Upgraded nan to ^2.14.1 to resolve 'GetContents' deprecation warning with Node 14. This version of the native metrics module is tested against Node 14 and includes a pre-built binary download backup for Node 14.</p>
+</li>
+<li>
+<p>Added whitespace trimming of license key configuration values.</p>
+<p>Previously, when a license key was entered with leading or trailing whitespace, it would be used as-is and result in a validation failure. This most commonly occurred with environment variable based configuration.</p>
+</li>
+<li>
+<p>Moved to GitHub actions for CI.</p>
+</li>
+<li>
+<p>Updated PR template and added initial issue templates.</p>
+</li>
+<li>
+<p>Converted most of the collector API unit tests to use the tap API. Split larger test groupings into their own test files.</p>
+</li>
+</ul>
+<h3>6.7.1 (2020-05-14):</h3>
+<ul>
+<li>
+<p>Added synthetics headers to transaction event intrinsics for DT</p>
+</li>
+<li>
+<p>Fixed stale comment documentation with regards to segment recording</p>
+</li>
+</ul>
+<h3>6.7.0 (2020-05-06):</h3>
+<ul>
+<li>
+<p>Added a configurable-length span queue to Infinite Tracing:
+infinite_tracing.span_events.queue_size.</p>
+<p>The queue length can be modified to balance the needs of keeping full traces
+against trade-off of memory usage and CPU overhead in a high-throughput
+application.</p>
+</li>
+<li>
+<p>Fixed issue where API.instrumentLoadedModule could throw an exception when it
+failed.</p>
+<p>Error details will now be caught and logged.</p>
+</li>
+<li>
+<p>Resolved non-proxy minimist security warnings by bumping dependencies.</p>
+<p>These updates only impact development dependencies. Thank you to <a href="https://github.com/devfreddy">@devfreddy</a> for
+the contribution.</p>
+<ul>
+<li>Updated minimist sub-deps to resolve most related security warnings.</li>
+<li>Updated tap to resolve remaining tap security warnings.</li>
+<li>Updated @newrelic/proxy.</li>
+</ul>
+</li>
+<li>
+<p>Updated remaining /api unit tests to use tap API.</p>
+</li>
+<li>
+<p>Updated @grpc/grpc-js to v1.0.3.</p>
+</li>
+</ul>
+<h3>6.6.0 (2020-04-20):</h3>
+</tr></table> ... (truncated)
+</blockquote>
+</details>
+<details>
+<summary>Commits</summary>
+<ul>
+<li><a href="https://github.com/newrelic/node-newrelic/commit/38629d74811eba4301f0e2360ff52faa40aa713a"><code>38629d7</code></a> 6.8.0</li>
+<li><a href="https://github.com/newrelic/node-newrelic/commit/2bc7edc1063e1821b69cba818b01b4d6f5310cc5"><code>2bc7edc</code></a> Merge pull request <a href="https://github-redirect.dependabot.com/newrelic/node-newrelic/issues/359">#359</a> from newrelic/release/v6.8.0</li>
+<li><a href="https://github.com/newrelic/node-newrelic/commit/f89b6e7f2d79eae5e7bf6685b71d4050fe309cbf"><code>f89b6e7</code></a> Updates release notes for 6.8.0.</li>
+<li><a href="https://github.com/newrelic/node-newrelic/commit/bb265ef0c71ef6db784c9fcfb48e23b7ba298d0e"><code>bb265ef</code></a> Merge pull request <a href="https://github-redirect.dependabot.com/newrelic/node-newrelic/issues/358">#358</a> from nijotz/check-license</li>
+<li><a href="https://github.com/newrelic/node-newrelic/commit/fe848ce02f54b9979efcf5fbb415069c1f569aca"><code>fe848ce</code></a> Check for license before running test</li>
+<li><a href="https://github.com/newrelic/node-newrelic/commit/f5932bfaf452a262f8001659d1e2ab876d5badf1"><code>f5932bf</code></a> Merge pull request <a href="https://github-redirect.dependabot.com/newrelic/node-newrelic/issues/356">#356</a> from michaelgoin/ConvertParseResponseUnitTests</li>
+<li><a href="https://github.com/newrelic/node-newrelic/commit/878c504c1b42c6fea75b7013f9781a55637fcf96"><code>878c504</code></a> replacing old rotated key with env reference</li>
+<li><a href="https://github.com/newrelic/node-newrelic/commit/a64f065f2b069c244e72b52d5329a249d100cc22"><code>a64f065</code></a> Merge pull request <a href="https://github-redirect.dependabot.com/newrelic/node-newrelic/issues/351">#351</a> from newrelic/StartConvertingCollectorUnitTests</li>
+<li><a href="https://github.com/newrelic/node-newrelic/commit/3f5a564a779cc9352bb4a923a560bb2220aca741"><code>3f5a564</code></a> Merge pull request <a href="https://github-redirect.dependabot.com/newrelic/node-newrelic/issues/353">#353</a> from newrelic/ExtractSmokeTestsToOwnWorkflow</li>
+<li><a href="https://github.com/newrelic/node-newrelic/commit/555c088b0c8b5fca4b2d6bc84334642ee70c3503"><code>555c088</code></a> Merge pull request <a href="https://github-redirect.dependabot.com/newrelic/node-newrelic/issues/355">#355</a> from nijotz/test-filtering</li>
+<li>Additional commits viewable in <a href="https://github.com/newrelic/node-newrelic/compare/v6.5.0...v6.8.0">compare view</a></li>
+</ul>
+</details>
+<details>
+<summary>Maintainer changes</summary>
+<p>This version was pushed to npm by <a href="https://www.npmjs.com/~michaelgoin">michaelgoin</a>, a new releaser for newrelic since your current version.</p>
+</details>
+<br />
+
+
+[![Dependabot compatibility score](https://api.dependabot.com/badges/compatibility_score?dependency-name=newrelic&package-manager=npm_and_yarn&previous-version=6.5.0&new-version=6.8.0)](https://dependabot.com/compatibility-score/?dependency-name=newrelic&package-manager=npm_and_yarn&previous-version=6.5.0&new-version=6.8.0)
+
+Dependabot will resolve any conflicts with this PR as long as you don't alter it yourself. You can also trigger a rebase manually by commenting `@dependabot rebase`.
+
+[//]: # (dependabot-automerge-start)
+[//]: # (dependabot-automerge-end)
+
+---
+
+<details>
+<summary>Dependabot commands and options</summary>
+<br />
+
+You can trigger Dependabot actions by commenting on this PR:
+- `@dependabot rebase` will rebase this PR
+- `@dependabot recreate` will recreate this PR, overwriting any edits that have been made to it
+- `@dependabot merge` will merge this PR after your CI passes on it
+- `@dependabot squash and merge` will squash and merge this PR after your CI passes on it
+- `@dependabot cancel merge` will cancel a previously requested merge and block automerging
+- `@dependabot reopen` will reopen this PR if it is closed
+- `@dependabot close` will close this PR and stop Dependabot recreating it. You can achieve the same result by closing it manually
+- `@dependabot ignore this major version` will close this PR and stop Dependabot creating any more for this major version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this minor version` will close this PR and stop Dependabot creating any more for this minor version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this dependency` will close this PR and stop Dependabot creating any more for this dependency (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot use these labels` will set the current labels as the default for future PRs for this repo and language
+- `@dependabot use these reviewers` will set the current reviewers as the default for future PRs for this repo and language
+- `@dependabot use these assignees` will set the current assignees as the default for future PRs for this repo and language
+- `@dependabot use this milestone` will set the current milestone as the default for future PRs for this repo and language
+- `@dependabot badge me` will comment on this PR with code to add a "Dependabot enabled" badge to your readme
+
+Additionally, you can set the following in your Dependabot [dashboard](https://app.dependabot.com):
+- Update frequency (including time of day and day of week)
+- Pull request limits (per update run and/or open at any time)
+- Automerge options (never/patch/minor, and dev/runtime dependencies)
+- Out-of-range updates (receive only lockfile updates, if desired)
+- Security updates (receive only security updates, if desired)
+
+
+
+</details>
+ check the WELCOME_EMAIL_FROM before it's too late
+ It ain't pretty but it's more important that it blocks launch than fails subtly in runtime. 
+
+These work:
+```python
+from email.utils import parseaddr
+
+EMAIL = "Janet Swisher - MDN Community Lead <mdn-admins@mozilla.org>"
+assert parseaddr(EMAIL)[1].count("@") == 1, parseaddr(EMAIL)
+
+EMAIL = "no-reply@mozilla.org"
+assert parseaddr(EMAIL)[1].count("@") == 1, parseaddr(EMAIL)
+```
+
+This crashes:
+```python
+EMAIL = "Janet Swisher, MDN Community Lead <mdn-admins@mozilla.org>"
+assert parseaddr(EMAIL)[1].count("@") == 1, parseaddr(EMAIL)
+```
+...with...
+```
+Traceback (most recent call last):
+  ...
+AssertionError: ('', 'Janet')
+```
+ fix welcome email sender address
+ Fixes https://github.com/mdn/kuma/issues/7121
+ update sub-modules
+ Update the `kumascript` and `locale` sub-modules. I also pushed new strings to Pontoon via https://github.com/mozilla-l10n/mdn-l10n/commit/92edb323146df0d370f39570e6a9ab390a8b4eea.
+ allow robots to /*users/
+ Fixes #7044 
+ link to MDN swag store
+ Fixes #7047
+
+I tested it by opening:
+* http://wiki.localhost.org:8000/en-US/docs/Web/HTML
+* http://localhost.org:8000/en-US/
+* http://localhost.org:8000/en-US/docs/Web/HTML
+* http://localhost.org:8000/en-US/payments/
+
+
+ SMTPServerDisconnected sending confirmation email
+ Fixes #6737
+
+We actually already have retry on the welcome email. But I increased the retry'ing there a bit. 
+The most important change is in the sending of verification emails. 
+
+To test; set in your `.env` this:
+```
+EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
+EMAIL_HOST=anything.for.testing
+```
+and then go to http://localhost.org:8000/en-US/users/account/email and try to trigger the sending of a verification email. It'll just sit there for ~30 seconds and eventually fail (because `anything.for.testing` won't actually work)
+ Implement new main menu and updated header
+ Implements new main menu. Also cleaned up our page header and some other small tweaks.
+
+@mindy r?
+
+fix #7010
+ about subscription management page in email
+ Fixes #7080
+ Change discount code text
+ Fixes #7082
+ welcome email deep links
+ Part of #6883
+ change default email email from
+ Part of #6883
+ don't run sendinblue signal handlers and checks without config
+ Fix #7100 
+
+The title says it all really
+ update sub-modules
+ Update the sub-modules. Just prior to this PR, I pushed new strings (https://github.com/mozilla-l10n/mdn-l10n/commit/4334c48c7585733c3135749f5624268ab6ad5a1a).
+ Bump uglify-js from 2.8.29 to 3.9.3
+ Bumps [uglify-js](https://github.com/mishoo/UglifyJS) from 2.8.29 to 3.9.3.
+<details>
+<summary>Release notes</summary>
+<p><em>Sourced from <a href="https://github.com/mishoo/UglifyJS/releases">uglify-js's releases</a>.</em></p>
+<blockquote>
+<h2>v3.9.3</h2>
+<p> </p>
+<h2>v3.9.2</h2>
+<p> </p>
+<h2>v3.9.1</h2>
+<p> </p>
+<h2>v3.9.0</h2>
+<p> </p>
+<h2>v3.8.1</h2>
+<p> </p>
+<h2>v3.8.0</h2>
+<p> </p>
+<h2>v3.7.7</h2>
+<p> </p>
+<h2>v3.7.6</h2>
+<p> </p>
+<h2>v3.7.5</h2>
+<p> </p>
+<h2>v3.7.4</h2>
+<p> </p>
+<h2>v3.7.3</h2>
+<p> </p>
+<h2>v3.7.2</h2>
+<p> </p>
+<h2>v3.7.1</h2>
+<p> </p>
+<h2>v3.7.0</h2>
+<p> </p>
+<h2>v3.6.9</h2>
+<p> </p>
+<h2>v3.6.8</h2>
+<p> </p>
+<h2>v3.6.7</h2>
+<p> </p>
+</tr></table> ... (truncated)
+</blockquote>
+</details>
+<details>
+<summary>Commits</summary>
+<ul>
+<li><a href="https://github.com/mishoo/UglifyJS/commit/30ed8f558038ea1017ecd8cb4a02851eaed92ac0"><code>30ed8f5</code></a> v3.9.3</li>
+<li><a href="https://github.com/mishoo/UglifyJS/commit/dc9e7cd1fef385477332e13a0a384f465e81a2fb"><code>dc9e7cd</code></a> suppress <code>ufuzz</code> false positives (<a href="https://github-redirect.dependabot.com/mishoo/UglifyJS/issues/3893">#3893</a>)</li>
+<li><a href="https://github.com/mishoo/UglifyJS/commit/76f40e25285e017d95780dac61e1f8fef395e8c2"><code>76f40e2</code></a> fix corner case in <code>collapse_vars</code> (<a href="https://github-redirect.dependabot.com/mishoo/UglifyJS/issues/3892">#3892</a>)</li>
+<li><a href="https://github.com/mishoo/UglifyJS/commit/8024f7f7a86023cf68f1f1b2496ec38c8bc200d8"><code>8024f7f</code></a> fix corner case in <code>ie8</code> (<a href="https://github-redirect.dependabot.com/mishoo/UglifyJS/issues/3890">#3890</a>)</li>
+<li><a href="https://github.com/mishoo/UglifyJS/commit/eb7fa252703c052f81e2ab491d84ba352648e4c9"><code>eb7fa25</code></a> fix corner case in <code>evaluate</code> (<a href="https://github-redirect.dependabot.com/mishoo/UglifyJS/issues/3888">#3888</a>)</li>
+<li><a href="https://github.com/mishoo/UglifyJS/commit/ee7647dc676b18355286609e9a4404dbcdcecc90"><code>ee7647d</code></a> fix corner case in <code>collapse_vars</code> (<a href="https://github-redirect.dependabot.com/mishoo/UglifyJS/issues/3885">#3885</a>)</li>
+<li><a href="https://github.com/mishoo/UglifyJS/commit/bd2f53bc8b505ff5bba4e899ea4886d856128b39"><code>bd2f53b</code></a> fix corner case in <code>evaluate</code> (<a href="https://github-redirect.dependabot.com/mishoo/UglifyJS/issues/3883">#3883</a>)</li>
+<li><a href="https://github.com/mishoo/UglifyJS/commit/e8a7956b6f0a71bed038a2b8936eb30d91e94d73"><code>e8a7956</code></a> fix corner case in <code>reduce_vars</code> (<a href="https://github-redirect.dependabot.com/mishoo/UglifyJS/issues/3881">#3881</a>)</li>
+<li><a href="https://github.com/mishoo/UglifyJS/commit/2b24dc25fbe78d25b41b2e48bc38fedc6965d572"><code>2b24dc2</code></a> fix corner cases in <code>evaluate</code> &amp; <code>reduce_vars</code> (<a href="https://github-redirect.dependabot.com/mishoo/UglifyJS/issues/3879">#3879</a>)</li>
+<li><a href="https://github.com/mishoo/UglifyJS/commit/35cc5aa06fd05437b6fa538ca3f32a876156d4da"><code>35cc5aa</code></a> extend <code>--reduce-test</code> to cover <code>minify()</code> bugs (<a href="https://github-redirect.dependabot.com/mishoo/UglifyJS/issues/3876">#3876</a>)</li>
+<li>Additional commits viewable in <a href="https://github.com/mishoo/UglifyJS/compare/v2.8.29...v3.9.3">compare view</a></li>
+</ul>
+</details>
+<br />
+
+
+[![Dependabot compatibility score](https://api.dependabot.com/badges/compatibility_score?dependency-name=uglify-js&package-manager=npm_and_yarn&previous-version=2.8.29&new-version=3.9.3)](https://dependabot.com/compatibility-score/?dependency-name=uglify-js&package-manager=npm_and_yarn&previous-version=2.8.29&new-version=3.9.3)
+
+Dependabot will resolve any conflicts with this PR as long as you don't alter it yourself. You can also trigger a rebase manually by commenting `@dependabot rebase`.
+
+[//]: # (dependabot-automerge-start)
+[//]: # (dependabot-automerge-end)
+
+---
+
+<details>
+<summary>Dependabot commands and options</summary>
+<br />
+
+You can trigger Dependabot actions by commenting on this PR:
+- `@dependabot rebase` will rebase this PR
+- `@dependabot recreate` will recreate this PR, overwriting any edits that have been made to it
+- `@dependabot merge` will merge this PR after your CI passes on it
+- `@dependabot squash and merge` will squash and merge this PR after your CI passes on it
+- `@dependabot cancel merge` will cancel a previously requested merge and block automerging
+- `@dependabot reopen` will reopen this PR if it is closed
+- `@dependabot close` will close this PR and stop Dependabot recreating it. You can achieve the same result by closing it manually
+- `@dependabot ignore this major version` will close this PR and stop Dependabot creating any more for this major version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this minor version` will close this PR and stop Dependabot creating any more for this minor version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this dependency` will close this PR and stop Dependabot creating any more for this dependency (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot use these labels` will set the current labels as the default for future PRs for this repo and language
+- `@dependabot use these reviewers` will set the current reviewers as the default for future PRs for this repo and language
+- `@dependabot use these assignees` will set the current assignees as the default for future PRs for this repo and language
+- `@dependabot use this milestone` will set the current milestone as the default for future PRs for this repo and language
+- `@dependabot badge me` will comment on this PR with code to add a "Dependabot enabled" badge to your readme
+
+Additionally, you can set the following in your Dependabot [dashboard](https://app.dependabot.com):
+- Update frequency (including time of day and day of week)
+- Pull request limits (per update run and/or open at any time)
+- Automerge options (never/patch/minor, and dev/runtime dependencies)
+- Out-of-range updates (receive only lockfile updates, if desired)
+- Security updates (receive only security updates, if desired)
+
+
+
+</details>
+ Bump prettier from 2.0.4 to 2.0.5
+ Bumps [prettier](https://github.com/prettier/prettier) from 2.0.4 to 2.0.5.
+<details>
+<summary>Release notes</summary>
+<p><em>Sourced from <a href="https://github.com/prettier/prettier/releases">prettier's releases</a>.</em></p>
+<blockquote>
+<h2>2.0.5</h2>
+<p><a href="https://github.com/prettier/prettier/blob/master/CHANGELOG.md#205">🔗 Changelog</a></p>
+</blockquote>
+</details>
+<details>
+<summary>Changelog</summary>
+<p><em>Sourced from <a href="https://github.com/prettier/prettier/blob/master/CHANGELOG.md">prettier's changelog</a>.</em></p>
+<blockquote>
+<h1>2.0.5</h1>
+<p><a href="https://github.com/prettier/prettier/compare/2.0.4...2.0.5">diff</a></p>
+<h4>Less: Fix formatting of <code>:extend</code> (<a href="https://github-redirect.dependabot.com/prettier/prettier/pull/7984">#7984</a> by <a href="https://github.com/fisker">@fisker</a>)</h4>
+<!-- prettier-ignore -->
+<pre lang="less"><code>// Input
+.class {
+  &amp;:extend(.some-class .some-other-class .some-very-loooooooooooooong-class all);
+}
+<p>// Prettier 2.0.4
+.class {
+&amp;:extend(
+.some-class .some-other-class .some-very-loooooooooooooong-class all
+);
+}</p>
+<p>// Prettier 2.0.4 (Second format)
+.class {
+&amp;: extend(
+.some-class .some-other-class .some-very-loooooooooooooong-class all
+);
+}</p>
+<p>// Prettier 2.0.5
+.class {
+&amp;:extend(
+.some-class .some-other-class .some-very-loooooooooooooong-class all
+);
+}
+</code></pre></p>
+<h4>Editor integration: Use <a href="https://www.npmjs.com/package/resolve"><code>resolve</code></a> if builtin <code>require.resolve</code> is overridden (<a href="https://github-redirect.dependabot.com/prettier/prettier/pull/8072">#8072</a> by <a href="https://github.com/fisker">@fisker</a>)</h4>
+<p>This fixes issues that the users of Atom and WebStorm faced with 2.0.4.</p>
+<p>Prettier now switches to using the <code>resolve</code> module for resolving configuration files and plugins if it detects that <code>require.resolve</code> isn't Node's builtin function (doesn't support the second argument), which happens in environments like editor extensions. To force the fallback, set the <code>PRETTIER_FALLBACK_RESOLVE</code> environment variable to <code>true</code>.</p>
+</blockquote>
+</details>
+<details>
+<summary>Commits</summary>
+<ul>
+<li><a href="https://github.com/prettier/prettier/commit/6b22977cb56127cc10e04425b0eca7c5eb304e6e"><code>6b22977</code></a> Release 2.0.5</li>
+<li><a href="https://github.com/prettier/prettier/commit/c65606f0a389d01180ee83b421d60d43a509bbb8"><code>c65606f</code></a> Bump resolve from 1.16.0 to 1.16.1 (<a href="https://github-redirect.dependabot.com/prettier/prettier/issues/8099">#8099</a>)</li>
+<li><a href="https://github.com/prettier/prettier/commit/6ad8a7fef31c77bc167077750e072ab992937a2e"><code>6ad8a7f</code></a> Use <code>resolve</code> if <code>require.resolve</code> is overridden (<a href="https://github-redirect.dependabot.com/prettier/prettier/issues/8072">#8072</a>)</li>
+<li><a href="https://github.com/prettier/prettier/commit/3ce819d72f5ab80be8c85f1956c66caae9a1a385"><code>3ce819d</code></a> chore: ignore test*.js in eslint and ts configs</li>
+<li><a href="https://github.com/prettier/prettier/commit/eaca5dbe2683d0eca21e6ac57c42cd57f4085397"><code>eaca5db</code></a> Correct <code>standalone test</code> environment variable (<a href="https://github-redirect.dependabot.com/prettier/prettier/issues/8080">#8080</a>)</li>
+<li><a href="https://github.com/prettier/prettier/commit/fc5f5462eaa2cb4bec49e6fb44ba1c48b071afaf"><code>fc5f546</code></a> Simplify production tests (<a href="https://github-redirect.dependabot.com/prettier/prettier/issues/8075">#8075</a>)</li>
+<li><a href="https://github.com/prettier/prettier/commit/71fbd6149a00c304202c2f29937fffceaf06eb56"><code>71fbd61</code></a> Refactor production tests (<a href="https://github-redirect.dependabot.com/prettier/prettier/issues/8073">#8073</a>)</li>
+<li><a href="https://github.com/prettier/prettier/commit/58905cdf579bde69610c45d4b3cfaf939c664d47"><code>58905cd</code></a> chore: update .gitignore and tsconfig.json</li>
+<li><a href="https://github.com/prettier/prettier/commit/1bfef8120622bf64ee8cce12e087a91303133a83"><code>1bfef81</code></a> Fix unexpected GitHub Actions failures (<a href="https://github-redirect.dependabot.com/prettier/prettier/issues/7980">#7980</a>)</li>
+<li><a href="https://github.com/prettier/prettier/commit/2a9f65104d0800e9c1222471b7f5cb2391ac1f49"><code>2a9f651</code></a> Enable GitHub Actions for a patch-release branch (<a href="https://github-redirect.dependabot.com/prettier/prettier/issues/8024">#8024</a>)</li>
+<li>Additional commits viewable in <a href="https://github.com/prettier/prettier/compare/2.0.4...2.0.5">compare view</a></li>
+</ul>
+</details>
+<br />
+
+
+[![Dependabot compatibility score](https://api.dependabot.com/badges/compatibility_score?dependency-name=prettier&package-manager=npm_and_yarn&previous-version=2.0.4&new-version=2.0.5)](https://dependabot.com/compatibility-score/?dependency-name=prettier&package-manager=npm_and_yarn&previous-version=2.0.4&new-version=2.0.5)
+
+Dependabot will resolve any conflicts with this PR as long as you don't alter it yourself. You can also trigger a rebase manually by commenting `@dependabot rebase`.
+
+[//]: # (dependabot-automerge-start)
+[//]: # (dependabot-automerge-end)
+
+---
+
+<details>
+<summary>Dependabot commands and options</summary>
+<br />
+
+You can trigger Dependabot actions by commenting on this PR:
+- `@dependabot rebase` will rebase this PR
+- `@dependabot recreate` will recreate this PR, overwriting any edits that have been made to it
+- `@dependabot merge` will merge this PR after your CI passes on it
+- `@dependabot squash and merge` will squash and merge this PR after your CI passes on it
+- `@dependabot cancel merge` will cancel a previously requested merge and block automerging
+- `@dependabot reopen` will reopen this PR if it is closed
+- `@dependabot close` will close this PR and stop Dependabot recreating it. You can achieve the same result by closing it manually
+- `@dependabot ignore this major version` will close this PR and stop Dependabot creating any more for this major version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this minor version` will close this PR and stop Dependabot creating any more for this minor version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this dependency` will close this PR and stop Dependabot creating any more for this dependency (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot use these labels` will set the current labels as the default for future PRs for this repo and language
+- `@dependabot use these reviewers` will set the current reviewers as the default for future PRs for this repo and language
+- `@dependabot use these assignees` will set the current assignees as the default for future PRs for this repo and language
+- `@dependabot use this milestone` will set the current milestone as the default for future PRs for this repo and language
+- `@dependabot badge me` will comment on this PR with code to add a "Dependabot enabled" badge to your readme
+
+Additionally, you can set the following in your Dependabot [dashboard](https://app.dependabot.com):
+- Update frequency (including time of day and day of week)
+- Pull request limits (per update run and/or open at any time)
+- Automerge options (never/patch/minor, and dev/runtime dependencies)
+- Out-of-range updates (receive only lockfile updates, if desired)
+- Security updates (receive only security updates, if desired)
+
+
+
+</details>
+ Bump jsesc from 2.5.2 to 3.0.1
+ Bumps [jsesc](https://github.com/mathiasbynens/jsesc) from 2.5.2 to 3.0.1.
+<details>
+<summary>Commits</summary>
+<ul>
+<li><a href="https://github.com/mathiasbynens/jsesc/commit/aee22b17cdc3478624505bff723634b4e7aa2fca"><code>aee22b1</code></a> Release v3.0.1</li>
+<li><a href="https://github.com/mathiasbynens/jsesc/commit/cdb9f32fcb3a536084248d7a4de830ad58296702"><code>cdb9f32</code></a> Tweak whitespace script</li>
+<li><a href="https://github.com/mathiasbynens/jsesc/commit/cca83b4092aac596ff831a583cead72c560cd269"><code>cca83b4</code></a> Escape non-ASCII whitespace in minimal mode (<a href="https://github-redirect.dependabot.com/mathiasbynens/jsesc/issues/62">#62</a>)</li>
+<li><a href="https://github.com/mathiasbynens/jsesc/commit/22598d9e543710e760c8eedb299c97c1b19d0c9f"><code>22598d9</code></a> Release v3.0.0</li>
+<li><a href="https://github.com/mathiasbynens/jsesc/commit/62a15954c3dba5b6022a801cf84a0f63e58adf31"><code>62a1595</code></a> Remove problematic test</li>
+<li><a href="https://github.com/mathiasbynens/jsesc/commit/c6aac4f679f16ffb3a10f35609c87c4b30bf9596"><code>c6aac4f</code></a> Avoid old-school Buffer usage in tests</li>
+<li><a href="https://github.com/mathiasbynens/jsesc/commit/b8094157eda6a06dff65359e89b10132d67b4044"><code>b809415</code></a> Remove stray require</li>
+<li><a href="https://github.com/mathiasbynens/jsesc/commit/a517c44369906a3bd628ef61232eed7357d74272"><code>a517c44</code></a> Replace string escaping with regex replace (<a href="https://github-redirect.dependabot.com/mathiasbynens/jsesc/issues/61">#61</a>)</li>
+<li><a href="https://github.com/mathiasbynens/jsesc/commit/56eab6d38d96343c0b347250ed3efbf1fda1e37e"><code>56eab6d</code></a> Test in modern versions of Node.js</li>
+<li><a href="https://github.com/mathiasbynens/jsesc/commit/c7be3b0852457dc299df2b8466036e953b43c504"><code>c7be3b0</code></a> Update test expectation</li>
+<li>Additional commits viewable in <a href="https://github.com/mathiasbynens/jsesc/compare/v2.5.2...v3.0.1">compare view</a></li>
+</ul>
+</details>
+<br />
+
+
+[![Dependabot compatibility score](https://api.dependabot.com/badges/compatibility_score?dependency-name=jsesc&package-manager=npm_and_yarn&previous-version=2.5.2&new-version=3.0.1)](https://dependabot.com/compatibility-score/?dependency-name=jsesc&package-manager=npm_and_yarn&previous-version=2.5.2&new-version=3.0.1)
+
+Dependabot will resolve any conflicts with this PR as long as you don't alter it yourself. You can also trigger a rebase manually by commenting `@dependabot rebase`.
+
+[//]: # (dependabot-automerge-start)
+[//]: # (dependabot-automerge-end)
+
+---
+
+<details>
+<summary>Dependabot commands and options</summary>
+<br />
+
+You can trigger Dependabot actions by commenting on this PR:
+- `@dependabot rebase` will rebase this PR
+- `@dependabot recreate` will recreate this PR, overwriting any edits that have been made to it
+- `@dependabot merge` will merge this PR after your CI passes on it
+- `@dependabot squash and merge` will squash and merge this PR after your CI passes on it
+- `@dependabot cancel merge` will cancel a previously requested merge and block automerging
+- `@dependabot reopen` will reopen this PR if it is closed
+- `@dependabot close` will close this PR and stop Dependabot recreating it. You can achieve the same result by closing it manually
+- `@dependabot ignore this major version` will close this PR and stop Dependabot creating any more for this major version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this minor version` will close this PR and stop Dependabot creating any more for this minor version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this dependency` will close this PR and stop Dependabot creating any more for this dependency (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot use these labels` will set the current labels as the default for future PRs for this repo and language
+- `@dependabot use these reviewers` will set the current reviewers as the default for future PRs for this repo and language
+- `@dependabot use these assignees` will set the current assignees as the default for future PRs for this repo and language
+- `@dependabot use this milestone` will set the current milestone as the default for future PRs for this repo and language
+- `@dependabot badge me` will comment on this PR with code to add a "Dependabot enabled" badge to your readme
+
+Additionally, you can set the following in your Dependabot [dashboard](https://app.dependabot.com):
+- Update frequency (including time of day and day of week)
+- Pull request limits (per update run and/or open at any time)
+- Automerge options (never/patch/minor, and dev/runtime dependencies)
+- Out-of-range updates (receive only lockfile updates, if desired)
+- Security updates (receive only security updates, if desired)
+
+
+
+</details>
+ Bump pretty-quick from 2.0.0 to 2.0.1
+ Bumps [pretty-quick](https://github.com/azz/pretty-quick) from 2.0.0 to 2.0.1.
+<details>
+<summary>Release notes</summary>
+<p><em>Sourced from <a href="https://github.com/azz/pretty-quick/releases">pretty-quick's releases</a>.</em></p>
+<blockquote>
+<h2>v2.0.1</h2>
+<h2><a href="http://git+https/github.com/azz/pretty-quick/compare/v2.0.0...v2.0.1">2.0.1</a> (2019-11-05)</h2>
+<h3>Bug Fixes</h3>
+<ul>
+<li>handling of submodules and .git path (<a href="http://git+https/github-redirect.dependabot.com/azz/pretty-quick/issues/90">#90</a>) (<a href="http://git+https/github-redirect.dependabot.com/azz/pretty-quick/issues/92">#92</a>) (<a href="http://git+https/github.com/azz/pretty-quick/commit/337066812d10ea6a1e229815cc0cadb98d3f866c">3370668</a>)</li>
+</ul>
+</blockquote>
+</details>
+<details>
+<summary>Commits</summary>
+<ul>
+<li><a href="https://github.com/azz/pretty-quick/commit/337066812d10ea6a1e229815cc0cadb98d3f866c"><code>3370668</code></a> fix: handling of submodules and .git path (<a href="https://github-redirect.dependabot.com/azz/pretty-quick/issues/90">#90</a>) (<a href="https://github-redirect.dependabot.com/azz/pretty-quick/issues/92">#92</a>)</li>
+<li><a href="https://github.com/azz/pretty-quick/commit/6862b2030ab689985ddfffce35fc41b6ac02b7e8"><code>6862b20</code></a> chore: update package.json (<a href="https://github-redirect.dependabot.com/azz/pretty-quick/issues/89">#89</a>)</li>
+<li><a href="https://github.com/azz/pretty-quick/commit/02438dca6e50d5e9b1301f5e0aa4ea6d1267c34c"><code>02438dc</code></a> chore: use shared prettier config (<a href="https://github-redirect.dependabot.com/azz/pretty-quick/issues/88">#88</a>)</li>
+<li><a href="https://github.com/azz/pretty-quick/commit/a8dfa9ed6cdd785401ba97b1b7d65a965dcf4317"><code>a8dfa9e</code></a> chore(deps): bump hoek from 4.2.0 to 4.2.1 (<a href="https://github-redirect.dependabot.com/azz/pretty-quick/issues/86">#86</a>)</li>
+<li><a href="https://github.com/azz/pretty-quick/commit/4e808007499e54cf55e7d745bf4f87d13df9953b"><code>4e80800</code></a> chore(deps): bump extend from 3.0.1 to 3.0.2 (<a href="https://github-redirect.dependabot.com/azz/pretty-quick/issues/80">#80</a>)</li>
+<li><a href="https://github.com/azz/pretty-quick/commit/65dfddeae183e280793ddd3701e4ee061693e8e4"><code>65dfdde</code></a> docs: make license live forever (<a href="https://github-redirect.dependabot.com/azz/pretty-quick/issues/87">#87</a>)</li>
+<li><a href="https://github.com/azz/pretty-quick/commit/be91e9689a77c85c139004f65901465d296517a9"><code>be91e96</code></a> chore(deps): bump nwmatcher from 1.4.3 to 1.4.4 (<a href="https://github-redirect.dependabot.com/azz/pretty-quick/issues/78">#78</a>)</li>
+<li><a href="https://github.com/azz/pretty-quick/commit/0e4bc042cb8d5c2d6e3d4742b32c2e04817910eb"><code>0e4bc04</code></a> chore(deps): bump sshpk from 1.13.1 to 1.16.1 (<a href="https://github-redirect.dependabot.com/azz/pretty-quick/issues/81">#81</a>)</li>
+<li>See full diff in <a href="https://github.com/azz/pretty-quick/compare/v2.0.0...v2.0.1">compare view</a></li>
+</ul>
+</details>
+<br />
+
+
+[![Dependabot compatibility score](https://api.dependabot.com/badges/compatibility_score?dependency-name=pretty-quick&package-manager=npm_and_yarn&previous-version=2.0.0&new-version=2.0.1)](https://dependabot.com/compatibility-score/?dependency-name=pretty-quick&package-manager=npm_and_yarn&previous-version=2.0.0&new-version=2.0.1)
+
+Dependabot will resolve any conflicts with this PR as long as you don't alter it yourself. You can also trigger a rebase manually by commenting `@dependabot rebase`.
+
+[//]: # (dependabot-automerge-start)
+[//]: # (dependabot-automerge-end)
+
+---
+
+<details>
+<summary>Dependabot commands and options</summary>
+<br />
+
+You can trigger Dependabot actions by commenting on this PR:
+- `@dependabot rebase` will rebase this PR
+- `@dependabot recreate` will recreate this PR, overwriting any edits that have been made to it
+- `@dependabot merge` will merge this PR after your CI passes on it
+- `@dependabot squash and merge` will squash and merge this PR after your CI passes on it
+- `@dependabot cancel merge` will cancel a previously requested merge and block automerging
+- `@dependabot reopen` will reopen this PR if it is closed
+- `@dependabot close` will close this PR and stop Dependabot recreating it. You can achieve the same result by closing it manually
+- `@dependabot ignore this major version` will close this PR and stop Dependabot creating any more for this major version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this minor version` will close this PR and stop Dependabot creating any more for this minor version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this dependency` will close this PR and stop Dependabot creating any more for this dependency (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot use these labels` will set the current labels as the default for future PRs for this repo and language
+- `@dependabot use these reviewers` will set the current reviewers as the default for future PRs for this repo and language
+- `@dependabot use these assignees` will set the current assignees as the default for future PRs for this repo and language
+- `@dependabot use this milestone` will set the current milestone as the default for future PRs for this repo and language
+- `@dependabot badge me` will comment on this PR with code to add a "Dependabot enabled" badge to your readme
+
+Additionally, you can set the following in your Dependabot [dashboard](https://app.dependabot.com):
+- Update frequency (including time of day and day of week)
+- Pull request limits (per update run and/or open at any time)
+- Automerge options (never/patch/minor, and dev/runtime dependencies)
+- Out-of-range updates (receive only lockfile updates, if desired)
+- Security updates (receive only security updates, if desired)
+
+
+
+</details>
+ Bump jest from 25.3.0 to 26.0.1
+ Bumps [jest](https://github.com/facebook/jest) from 25.3.0 to 26.0.1.
+<details>
+<summary>Release notes</summary>
+<p><em>Sourced from <a href="https://github.com/facebook/jest/releases">jest's releases</a>.</em></p>
+<blockquote>
+<h2>26.0.1</h2>
+<h3>Fixes</h3>
+<ul>
+<li><code>[jest-circus]</code> Populate <code>DescribeBlock.tests</code> to not break Detox reporter</li>
+</ul>
+<h2>26.0.0</h2>
+<h3>Features</h3>
+<ul>
+<li><code>[jest-environment-jsdom]</code> [<strong>BREAKING</strong>] Upgrade <code>jsdom</code> to v16 (<a href="https://github-redirect.dependabot.com/facebook/jest/pull/9606">#9606</a>)</li>
+<li><code>[@jest/fake-timers]</code> Add possibility to use a modern implementation of fake timers, backed by <code>@sinonjs/fake-timers</code> (<a href="https://github-redirect.dependabot.com/facebook/jest/pull/7776">#7776</a>)</li>
+<li><code>[jest-runtime]</code> Add <code>createMockFromModule</code> as an alias for <code>genMockFromModule</code> (<a href="https://github-redirect.dependabot.com/facebook/jest/pull/9962">#9962</a>)</li>
+</ul>
+<h3>Fixes</h3>
+<ul>
+<li><code>[babel-jest]</code> Handle <code>null</code> being passed to <code>createTransformer</code> (<a href="https://github-redirect.dependabot.com/facebook/jest/pull/9955">#9955</a>)</li>
+<li><code>[jest-circus, jest-console, jest-jasmine2, jest-reporters, jest-util, pretty-format]</code> Fix time durating formatting and consolidate time formatting code (<a href="https://github-redirect.dependabot.com/facebook/jest/pull/9765">#9765</a>)</li>
+<li><code>[jest-circus]</code> [<strong>BREAKING</strong>] Fail tests if a test takes a done callback and have return values (<a href="https://github-redirect.dependabot.com/facebook/jest/pull/9129">#9129</a>)</li>
+<li><code>[jest-circus]</code> [<strong>BREAKING</strong>] Throw a proper error if a test / hook is defined asynchronously (<a href="https://github-redirect.dependabot.com/facebook/jest/pull/8096">#8096</a>)</li>
+<li><code>[jest-circus]</code> Throw more descriptive error if hook is defined inside test (<a href="https://github-redirect.dependabot.com/facebook/jest/pull/9957">#9957</a>)</li>
+<li><code>[jest-circus]</code> [<strong>BREAKING</strong>] Align execution order of tests to match <code>jasmine</code>'s top to bottom order (<a href="https://github-redirect.dependabot.com/facebook/jest/pull/9965">#9965</a>)</li>
+<li><code>[jest-config, jest-resolve]</code> [<strong>BREAKING</strong>] Remove support for <code>browser</code> field (<a href="https://github-redirect.dependabot.com/facebook/jest/pull/9943">#9943</a>)</li>
+<li><code>[jest-haste-map]</code> Stop reporting files as changed when they are only accessed (<a href="https://github-redirect.dependabot.com/facebook/jest/pull/7347">#7347</a>)</li>
+<li><code>[jest-resolve]</code> Show relative path from root dir for <code>module not found</code> errors (<a href="https://github-redirect.dependabot.com/facebook/jest/pull/9963">#9963</a>)</li>
+<li><code>[jest-runtime]</code> Fix absolute path moduleNameMapper + jest.mock bug (<a href="https://github-redirect.dependabot.com/facebook/jest/pull/8727">#8727</a>)</li>
+</ul>
+<h3>Chore &amp; Maintenance</h3>
+<ul>
+<li><code>[*]</code> [<strong>BREAKING</strong>] TypeScript definitions requires a minimum of TypeScript v3.8 (<a href="https://github-redirect.dependabot.com/facebook/jest/pull/9823">#9823</a>)</li>
+<li><code>[*]</code> [<strong>BREAKING</strong>] Drop support for Node 8 (<a href="https://github-redirect.dependabot.com/facebook/jest/pull/9423">#9423</a>)</li>
+<li><code>[*]</code> Upgrade to chalk@4 (<a href="https://github-redirect.dependabot.com/facebook/jest/pull/9752">#9752</a>)</li>
+<li><code>[*]</code> Remove usage of <code>realpath-native</code> (<a href="https://github-redirect.dependabot.com/facebook/jest/pull/9952">#9952</a>)</li>
+<li><code>[docs]</code> Fix example reference implementation to use Jest with Phabricator (<a href="https://github-redirect.dependabot.com/facebook/jest/pull/8662">#8662</a>)</li>
+<li><code>[docs]</code> Added default compiler to tranform (<a href="https://github-redirect.dependabot.com/facebook/jest/pull/8583">#8583</a>)</li>
+<li><code>[docs]</code> Updated Testing Frameworks guide with React; make it generic (<a href="https://github-redirect.dependabot.com/facebook/jest/pull/9106">#9106</a>)</li>
+<li><code>[expect, jest-mock, pretty-format]</code> [<strong>BREAKING</strong>] Remove <code>build-es5</code> from package (<a href="https://github-redirect.dependabot.com/facebook/jest/pull/9945">#9945</a>)</li>
+<li><code>[@jest/fake-timers, @jest/environment]</code> [<strong>BREAKING</strong>] Rename <code>LolexFakeTimers</code> to <code>ModernFakeTimers</code> (<a href="https://github-redirect.dependabot.com/facebook/jest/pull/9960">#9960</a>)</li>
+<li><code>[jest-haste-map]</code> [<strong>BREAKING</strong>] removed <code>providesModuleNodeModules</code> (<a href="https://github-redirect.dependabot.com/facebook/jest/pull/8535">#8535</a>)</li>
+<li><code>[jest-runtime]</code> [<strong>BREAKING</strong>] Remove long-deprecated <code>require.requireActual</code> and <code>require.requireMock</code> methods (<a href="https://github-redirect.dependabot.com/facebook/jest/pull/9854">#9854</a>)</li>
+</ul>
+<h2>25.5.4</h2>
+<h3>Fixes</h3>
+<ul>
+<li><code>[jest-jasmine2]</code> Don't run <code>beforeAll</code> / <code>afterAll</code> in skipped describe blocks (<a href="https://github-redirect.dependabot.com/facebook/jest/pull/9931">#9931</a>)</li>
+</ul>
+<h3>Chore &amp; Maintenance</h3>
+<ul>
+<li><code>[jest-runtime]</code> Do not warn when mutating <code>require.cache</code> (<a href="https://github-redirect.dependabot.com/facebook/jest/pull/9946">#9946</a>)</li>
+</ul>
+<h2>25.5.3</h2>
+<h3>Chore &amp; Maintenance</h3>
+</tr></table> ... (truncated)
+</blockquote>
+</details>
+<details>
+<summary>Changelog</summary>
+<p><em>Sourced from <a href="https://github.com/facebook/jest/blob/master/CHANGELOG.md">jest's changelog</a>.</em></p>
+<blockquote>
+<h2>26.0.1</h2>
+<h3>Fixes</h3>
+<ul>
+<li><code>[jest-circus]</code> Backward compatibility for deprecated <code>DescribeBlock.tests</code> to not break e.g. Detox reporter</li>
+</ul>
+<h2>26.0.0</h2>
+<h3>Features</h3>
+<ul>
+<li><code>[jest-environment-jsdom]</code> [<strong>BREAKING</strong>] Upgrade <code>jsdom</code> to v16 (<a href="https://github-redirect.dependabot.com/facebook/jest/pull/9606">#9606</a>)</li>
+<li><code>[@jest/fake-timers]</code> Add possibility to use a modern implementation of fake timers, backed by <code>@sinonjs/fake-timers</code> (<a href="https://github-redirect.dependabot.com/facebook/jest/pull/7776">#7776</a>)</li>
+<li><code>[jest-runtime]</code> Add <code>createMockFromModule</code> as an alias for <code>genMockFromModule</code> (<a href="https://github-redirect.dependabot.com/facebook/jest/pull/9962">#9962</a>)</li>
+</ul>
+<h3>Fixes</h3>
+<ul>
+<li><code>[babel-jest]</code> Handle <code>null</code> being passed to <code>createTransformer</code> (<a href="https://github-redirect.dependabot.com/facebook/jest/pull/9955">#9955</a>)</li>
+<li><code>[jest-circus, jest-console, jest-jasmine2, jest-reporters, jest-util, pretty-format]</code> Fix time durating formatting and consolidate time formatting code (<a href="https://github-redirect.dependabot.com/facebook/jest/pull/9765">#9765</a>)</li>
+<li><code>[jest-circus]</code> [<strong>BREAKING</strong>] Fail tests if a test takes a done callback and have return values (<a href="https://github-redirect.dependabot.com/facebook/jest/pull/9129">#9129</a>)</li>
+<li><code>[jest-circus]</code> [<strong>BREAKING</strong>] Throw a proper error if a test / hook is defined asynchronously (<a href="https://github-redirect.dependabot.com/facebook/jest/pull/8096">#8096</a>)</li>
+<li><code>[jest-circus]</code> Throw more descriptive error if hook is defined inside test (<a href="https://github-redirect.dependabot.com/facebook/jest/pull/9957">#9957</a>)</li>
+<li><code>[jest-circus]</code> [<strong>BREAKING</strong>] Align execution order of tests to match <code>jasmine</code>'s top to bottom order (<a href="https://github-redirect.dependabot.com/facebook/jest/pull/9965">#9965</a>)</li>
+<li><code>[jest-config, jest-resolve]</code> [<strong>BREAKING</strong>] Remove support for <code>browser</code> field (<a href="https://github-redirect.dependabot.com/facebook/jest/pull/9943">#9943</a>)</li>
+<li><code>[jest-haste-map]</code> Stop reporting files as changed when they are only accessed (<a href="https://github-redirect.dependabot.com/facebook/jest/pull/7347">#7347</a>)</li>
+<li><code>[jest-resolve]</code> Show relative path from root dir for <code>module not found</code> errors (<a href="https://github-redirect.dependabot.com/facebook/jest/pull/9963">#9963</a>)</li>
+<li><code>[jest-runtime]</code> Fix absolute path moduleNameMapper + jest.mock bug (<a href="https://github-redirect.dependabot.com/facebook/jest/pull/8727">#8727</a>)</li>
+</ul>
+<h3>Chore &amp; Maintenance</h3>
+<ul>
+<li><code>[*]</code> [<strong>BREAKING</strong>] TypeScript definitions requires a minimum of TypeScript v3.8 (<a href="https://github-redirect.dependabot.com/facebook/jest/pull/9823">#9823</a>)</li>
+<li><code>[*]</code> [<strong>BREAKING</strong>] Drop support for Node 8 (<a href="https://github-redirect.dependabot.com/facebook/jest/pull/9423">#9423</a>)</li>
+<li><code>[*]</code> Upgrade to chalk@4 (<a href="https://github-redirect.dependabot.com/facebook/jest/pull/9752">#9752</a>)</li>
+<li><code>[*]</code> Remove usage of <code>realpath-native</code> (<a href="https://github-redirect.dependabot.com/facebook/jest/pull/9952">#9952</a>)</li>
+<li><code>[docs]</code> Fix example reference implementation to use Jest with Phabricator (<a href="https://github-redirect.dependabot.com/facebook/jest/pull/8662">#8662</a>)</li>
+<li><code>[docs]</code> Added default compiler to tranform (<a href="https://github-redirect.dependabot.com/facebook/jest/pull/8583">#8583</a>)</li>
+<li><code>[docs]</code> Updated Testing Frameworks guide with React; make it generic (<a href="https://github-redirect.dependabot.com/facebook/jest/pull/9106">#9106</a>)</li>
+<li><code>[expect, jest-mock, pretty-format]</code> [<strong>BREAKING</strong>] Remove <code>build-es5</code> from package (<a href="https://github-redirect.dependabot.com/facebook/jest/pull/9945">#9945</a>)</li>
+<li><code>[@jest/fake-timers, @jest/environment]</code> [<strong>BREAKING</strong>] Rename <code>LolexFakeTimers</code> to <code>ModernFakeTimers</code> (<a href="https://github-redirect.dependabot.com/facebook/jest/pull/9960">#9960</a>)</li>
+<li><code>[jest-haste-map]</code> [<strong>BREAKING</strong>] removed <code>providesModuleNodeModules</code> (<a href="https://github-redirect.dependabot.com/facebook/jest/pull/8535">#8535</a>)</li>
+<li><code>[jest-runtime]</code> [<strong>BREAKING</strong>] Remove long-deprecated <code>require.requireActual</code> and <code>require.requireMock</code> methods (<a href="https://github-redirect.dependabot.com/facebook/jest/pull/9854">#9854</a>)</li>
+</ul>
+<h2>25.5.4</h2>
+<h3>Fixes</h3>
+<ul>
+<li><code>[jest-jasmine2]</code> Don't run <code>beforeAll</code> / <code>afterAll</code> in skipped describe blocks (<a href="https://github-redirect.dependabot.com/facebook/jest/pull/9931">#9931</a>)</li>
+</ul>
+<h3>Chore &amp; Maintenance</h3>
+<ul>
+<li><code>[jest-runtime]</code> Do not warn when mutating <code>require.cache</code> (<a href="https://github-redirect.dependabot.com/facebook/jest/pull/9946">#9946</a>)</li>
+</ul>
+</tr></table> ... (truncated)
+</blockquote>
+</details>
+<details>
+<summary>Commits</summary>
+<ul>
+<li><a href="https://github.com/facebook/jest/commit/40b8e1e157c9981dda5a68d73fff647e80fc9f5c"><code>40b8e1e</code></a> v26.0.1</li>
+<li><a href="https://github.com/facebook/jest/commit/a04d28df5fc4a5edc127aa16b1d14d317aab07f7"><code>a04d28d</code></a> chore: update changelog for release</li>
+<li><a href="https://github.com/facebook/jest/commit/fb04716adb223ce2da1e6bb2b4ce7c011bad1807"><code>fb04716</code></a> v26.0.1-alpha.0</li>
+<li><a href="https://github.com/facebook/jest/commit/a8052935cd4d767ee2f47abea434db393207885b"><code>a805293</code></a> chore: re-add deleted tests property to circus events</li>
+<li><a href="https://github.com/facebook/jest/commit/3669a86e2cf4fcee1c62fced76bcde51527e4924"><code>3669a86</code></a> docs: create v26, fold v25.x into a single version (<a href="https://github-redirect.dependabot.com/facebook/jest/issues/9956">#9956</a>)</li>
+<li><a href="https://github.com/facebook/jest/commit/ef8605faa44a0177f32c8d64fd95e34bf2dab640"><code>ef8605f</code></a> chore: run yarn now that we've published as latest</li>
+<li><a href="https://github.com/facebook/jest/commit/343532a21f640ac2709c4076eef57e52279542e1"><code>343532a</code></a> v26.0.0</li>
+<li><a href="https://github.com/facebook/jest/commit/075854a08360c40f32b1f1da8db4fa61eea7c045"><code>075854a</code></a> chore: update changelog for release</li>
+<li><a href="https://github.com/facebook/jest/commit/68b65afc97688bd5b0b433f8f585da57dcd1d418"><code>68b65af</code></a> v26.0.0-alpha.2</li>
+<li><a href="https://github.com/facebook/jest/commit/d30a586b4baea82295aaabeb52d14e7488359363"><code>d30a586</code></a> fix: disallow hook definitions in tests (<a href="https://github-redirect.dependabot.com/facebook/jest/issues/9957">#9957</a>)</li>
+<li>Additional commits viewable in <a href="https://github.com/facebook/jest/compare/v25.3.0...v26.0.1">compare view</a></li>
+</ul>
+</details>
+<br />
+
+
+[![Dependabot compatibility score](https://api.dependabot.com/badges/compatibility_score?dependency-name=jest&package-manager=npm_and_yarn&previous-version=25.3.0&new-version=26.0.1)](https://dependabot.com/compatibility-score/?dependency-name=jest&package-manager=npm_and_yarn&previous-version=25.3.0&new-version=26.0.1)
+
+Dependabot will resolve any conflicts with this PR as long as you don't alter it yourself. You can also trigger a rebase manually by commenting `@dependabot rebase`.
+
+[//]: # (dependabot-automerge-start)
+[//]: # (dependabot-automerge-end)
+
+---
+
+<details>
+<summary>Dependabot commands and options</summary>
+<br />
+
+You can trigger Dependabot actions by commenting on this PR:
+- `@dependabot rebase` will rebase this PR
+- `@dependabot recreate` will recreate this PR, overwriting any edits that have been made to it
+- `@dependabot merge` will merge this PR after your CI passes on it
+- `@dependabot squash and merge` will squash and merge this PR after your CI passes on it
+- `@dependabot cancel merge` will cancel a previously requested merge and block automerging
+- `@dependabot reopen` will reopen this PR if it is closed
+- `@dependabot close` will close this PR and stop Dependabot recreating it. You can achieve the same result by closing it manually
+- `@dependabot ignore this major version` will close this PR and stop Dependabot creating any more for this major version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this minor version` will close this PR and stop Dependabot creating any more for this minor version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this dependency` will close this PR and stop Dependabot creating any more for this dependency (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot use these labels` will set the current labels as the default for future PRs for this repo and language
+- `@dependabot use these reviewers` will set the current reviewers as the default for future PRs for this repo and language
+- `@dependabot use these assignees` will set the current assignees as the default for future PRs for this repo and language
+- `@dependabot use this milestone` will set the current milestone as the default for future PRs for this repo and language
+- `@dependabot badge me` will comment on this PR with code to add a "Dependabot enabled" badge to your readme
+
+Additionally, you can set the following in your Dependabot [dashboard](https://app.dependabot.com):
+- Update frequency (including time of day and day of week)
+- Pull request limits (per update run and/or open at any time)
+- Automerge options (never/patch/minor, and dev/runtime dependencies)
+- Out-of-range updates (receive only lockfile updates, if desired)
+- Security updates (receive only security updates, if desired)
+
+
+
+</details>
+ Bump eslint-plugin-jest from 23.9.0 to 23.13.1
+ Bumps [eslint-plugin-jest](https://github.com/jest-community/eslint-plugin-jest) from 23.9.0 to 23.13.1.
+<details>
+<summary>Release notes</summary>
+<p><em>Sourced from <a href="https://github.com/jest-community/eslint-plugin-jest/releases">eslint-plugin-jest's releases</a>.</em></p>
+<blockquote>
+<h2>v23.13.1</h2>
+<h2><a href="https://github.com/jest-community/eslint-plugin-jest/compare/v23.13.0...v23.13.1">23.13.1</a> (2020-05-17)</h2>
+<h3>Bug Fixes</h3>
+<ul>
+<li><strong>no-if:</strong> use correct syntax for placeholder substitution in message (<a href="https://github.com/jest-community/eslint-plugin-jest/commit/6d1eda89ac48c93c2675dcf24a92574a20b2edb9">6d1eda8</a>)</li>
+</ul>
+<h2>v23.13.0</h2>
+<h1><a href="https://github.com/jest-community/eslint-plugin-jest/compare/v23.12.0...v23.13.0">23.13.0</a> (2020-05-16)</h1>
+<h3>Features</h3>
+<ul>
+<li><strong>valid-expect:</strong> support <code>minArgs</code> &amp; <code>maxArgs</code> options (<a href="https://github-redirect.dependabot.com/jest-community/eslint-plugin-jest/issues/584">#584</a>) (<a href="https://github.com/jest-community/eslint-plugin-jest/commit/9e0e2fa966b43c1099d11b2424acb1590c241c03">9e0e2fa</a>)</li>
+</ul>
+<h2>v23.12.0</h2>
+<h1><a href="https://github.com/jest-community/eslint-plugin-jest/compare/v23.11.0...v23.12.0">23.12.0</a> (2020-05-16)</h1>
+<h3>Features</h3>
+<ul>
+<li>deprecate <code>no-expect-resolves</code> rule (<a href="https://github.com/jest-community/eslint-plugin-jest/commit/b6a22e5aa98abcb57aac217c6d4583d0a3388e7b">b6a22e5</a>)</li>
+<li>deprecate <code>no-truthy-falsy</code> rule (<a href="https://github.com/jest-community/eslint-plugin-jest/commit/a67d92d2834568122f24bf3d8455999166da95ea">a67d92d</a>)</li>
+<li>deprecate <code>prefer-inline-snapshots</code> rule (<a href="https://github.com/jest-community/eslint-plugin-jest/commit/1360e9b0e840f4f778a9d251371c943919f84600">1360e9b</a>)</li>
+</ul>
+<h2>v23.11.0</h2>
+<h1><a href="https://github.com/jest-community/eslint-plugin-jest/compare/v23.10.0...v23.11.0">23.11.0</a> (2020-05-12)</h1>
+<h3>Features</h3>
+<ul>
+<li>create <code>no-restricted-matchers</code> rule (<a href="https://github-redirect.dependabot.com/jest-community/eslint-plugin-jest/issues/575">#575</a>) (<a href="https://github.com/jest-community/eslint-plugin-jest/commit/ac926e779958240506ee506047c9a5364bb70aea">ac926e7</a>)</li>
+</ul>
+<h2>v23.10.0</h2>
+<h1><a href="https://github.com/jest-community/eslint-plugin-jest/compare/v23.9.0...v23.10.0">23.10.0</a> (2020-05-09)</h1>
+<h3>Features</h3>
+<ul>
+<li><strong>no-deprecated-functions:</strong> support jest <code>version</code> setting (<a href="https://github-redirect.dependabot.com/jest-community/eslint-plugin-jest/issues/564">#564</a>) (<a href="https://github.com/jest-community/eslint-plugin-jest/commit/05f20b80ecd42b8d1f1f18ca19d4bc9cba45e22e">05f20b8</a>)</li>
+</ul>
+</blockquote>
+</details>
+<details>
+<summary>Changelog</summary>
+<p><em>Sourced from <a href="https://github.com/jest-community/eslint-plugin-jest/blob/master/CHANGELOG.md">eslint-plugin-jest's changelog</a>.</em></p>
+<blockquote>
+<h2><a href="https://github.com/jest-community/eslint-plugin-jest/compare/v23.13.0...v23.13.1">23.13.1</a> (2020-05-17)</h2>
+<h3>Bug Fixes</h3>
+<ul>
+<li><strong>no-if:</strong> use correct syntax for placeholder substitution in message (<a href="https://github.com/jest-community/eslint-plugin-jest/commit/6d1eda89ac48c93c2675dcf24a92574a20b2edb9">6d1eda8</a>)</li>
+</ul>
+<h1><a href="https://github.com/jest-community/eslint-plugin-jest/compare/v23.12.0...v23.13.0">23.13.0</a> (2020-05-16)</h1>
+<h3>Features</h3>
+<ul>
+<li><strong>valid-expect:</strong> support <code>minArgs</code> &amp; <code>maxArgs</code> options (<a href="https://github-redirect.dependabot.com/jest-community/eslint-plugin-jest/issues/584">#584</a>) (<a href="https://github.com/jest-community/eslint-plugin-jest/commit/9e0e2fa966b43c1099d11b2424acb1590c241c03">9e0e2fa</a>)</li>
+</ul>
+<h1><a href="https://github.com/jest-community/eslint-plugin-jest/compare/v23.11.0...v23.12.0">23.12.0</a> (2020-05-16)</h1>
+<h3>Features</h3>
+<ul>
+<li>deprecate <code>no-expect-resolves</code> rule (<a href="https://github.com/jest-community/eslint-plugin-jest/commit/b6a22e5aa98abcb57aac217c6d4583d0a3388e7b">b6a22e5</a>)</li>
+<li>deprecate <code>no-truthy-falsy</code> rule (<a href="https://github.com/jest-community/eslint-plugin-jest/commit/a67d92d2834568122f24bf3d8455999166da95ea">a67d92d</a>)</li>
+<li>deprecate <code>prefer-inline-snapshots</code> rule (<a href="https://github.com/jest-community/eslint-plugin-jest/commit/1360e9b0e840f4f778a9d251371c943919f84600">1360e9b</a>)</li>
+</ul>
+<h1><a href="https://github.com/jest-community/eslint-plugin-jest/compare/v23.10.0...v23.11.0">23.11.0</a> (2020-05-12)</h1>
+<h3>Features</h3>
+<ul>
+<li>create <code>no-restricted-matchers</code> rule (<a href="https://github-redirect.dependabot.com/jest-community/eslint-plugin-jest/issues/575">#575</a>) (<a href="https://github.com/jest-community/eslint-plugin-jest/commit/ac926e779958240506ee506047c9a5364bb70aea">ac926e7</a>)</li>
+</ul>
+<h1><a href="https://github.com/jest-community/eslint-plugin-jest/compare/v23.9.0...v23.10.0">23.10.0</a> (2020-05-09)</h1>
+<h3>Features</h3>
+<ul>
+<li><strong>no-deprecated-functions:</strong> support jest <code>version</code> setting (<a href="https://github-redirect.dependabot.com/jest-community/eslint-plugin-jest/issues/564">#564</a>) (<a href="https://github.com/jest-community/eslint-plugin-jest/commit/05f20b80ecd42b8d1f1f18ca19d4bc9cba45e22e">05f20b8</a>)</li>
+</ul>
+</blockquote>
+</details>
+<details>
+<summary>Commits</summary>
+<ul>
+<li><a href="https://github.com/jest-community/eslint-plugin-jest/commit/325ec775f228a7f414f4157d3b9fcb7f4c179235"><code>325ec77</code></a> chore(release): 23.13.1 [skip ci]</li>
+<li><a href="https://github.com/jest-community/eslint-plugin-jest/commit/ed341a6b38061365e693106b79bbb9a60839ec00"><code>ed341a6</code></a> chore(no-if): messageId <code>noConditionalExpect</code> -&gt; <code>conditionalInTest</code></li>
+<li><a href="https://github.com/jest-community/eslint-plugin-jest/commit/6d1eda89ac48c93c2675dcf24a92574a20b2edb9"><code>6d1eda8</code></a> fix(no-if): use correct syntax for placeholder substitution in message</li>
+<li><a href="https://github.com/jest-community/eslint-plugin-jest/commit/f249ee7caf0eee992762daa9761d8e47323b64b4"><code>f249ee7</code></a> chore: adjust test names</li>
+<li><a href="https://github.com/jest-community/eslint-plugin-jest/commit/d442f4fccba7eaa45bd3feb4c7782293cb6db09a"><code>d442f4f</code></a> chore(release): 23.13.0 [skip ci]</li>
+<li><a href="https://github.com/jest-community/eslint-plugin-jest/commit/9e0e2fa966b43c1099d11b2424acb1590c241c03"><code>9e0e2fa</code></a> feat(valid-expect): support <code>minArgs</code> &amp; <code>maxArgs</code> options (<a href="https://github-redirect.dependabot.com/jest-community/eslint-plugin-jest/issues/584">#584</a>)</li>
+<li><a href="https://github.com/jest-community/eslint-plugin-jest/commit/18424deb45bc0dd055455d846d9dd914571c439c"><code>18424de</code></a> chore(release): 23.12.0 [skip ci]</li>
+<li><a href="https://github.com/jest-community/eslint-plugin-jest/commit/1360e9b0e840f4f778a9d251371c943919f84600"><code>1360e9b</code></a> feat: deprecate <code>prefer-inline-snapshots</code> rule</li>
+<li><a href="https://github.com/jest-community/eslint-plugin-jest/commit/a67d92d2834568122f24bf3d8455999166da95ea"><code>a67d92d</code></a> feat: deprecate <code>no-truthy-falsy</code> rule</li>
+<li><a href="https://github.com/jest-community/eslint-plugin-jest/commit/b6a22e5aa98abcb57aac217c6d4583d0a3388e7b"><code>b6a22e5</code></a> feat: deprecate <code>no-expect-resolves</code> rule</li>
+<li>Additional commits viewable in <a href="https://github.com/jest-community/eslint-plugin-jest/compare/v23.9.0...v23.13.1">compare view</a></li>
+</ul>
+</details>
+<br />
+
+
+[![Dependabot compatibility score](https://api.dependabot.com/badges/compatibility_score?dependency-name=eslint-plugin-jest&package-manager=npm_and_yarn&previous-version=23.9.0&new-version=23.13.1)](https://dependabot.com/compatibility-score/?dependency-name=eslint-plugin-jest&package-manager=npm_and_yarn&previous-version=23.9.0&new-version=23.13.1)
+
+Dependabot will resolve any conflicts with this PR as long as you don't alter it yourself. You can also trigger a rebase manually by commenting `@dependabot rebase`.
+
+[//]: # (dependabot-automerge-start)
+[//]: # (dependabot-automerge-end)
+
+---
+
+<details>
+<summary>Dependabot commands and options</summary>
+<br />
+
+You can trigger Dependabot actions by commenting on this PR:
+- `@dependabot rebase` will rebase this PR
+- `@dependabot recreate` will recreate this PR, overwriting any edits that have been made to it
+- `@dependabot merge` will merge this PR after your CI passes on it
+- `@dependabot squash and merge` will squash and merge this PR after your CI passes on it
+- `@dependabot cancel merge` will cancel a previously requested merge and block automerging
+- `@dependabot reopen` will reopen this PR if it is closed
+- `@dependabot close` will close this PR and stop Dependabot recreating it. You can achieve the same result by closing it manually
+- `@dependabot ignore this major version` will close this PR and stop Dependabot creating any more for this major version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this minor version` will close this PR and stop Dependabot creating any more for this minor version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this dependency` will close this PR and stop Dependabot creating any more for this dependency (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot use these labels` will set the current labels as the default for future PRs for this repo and language
+- `@dependabot use these reviewers` will set the current reviewers as the default for future PRs for this repo and language
+- `@dependabot use these assignees` will set the current assignees as the default for future PRs for this repo and language
+- `@dependabot use this milestone` will set the current milestone as the default for future PRs for this repo and language
+- `@dependabot badge me` will comment on this PR with code to add a "Dependabot enabled" badge to your readme
+
+Additionally, you can set the following in your Dependabot [dashboard](https://app.dependabot.com):
+- Update frequency (including time of day and day of week)
+- Pull request limits (per update run and/or open at any time)
+- Automerge options (never/patch/minor, and dev/runtime dependencies)
+- Out-of-range updates (receive only lockfile updates, if desired)
+- Security updates (receive only security updates, if desired)
+
+
+
+</details>
+ Bump eslint-plugin-testing-library from 3.1.2 to 3.1.3
+ Bumps [eslint-plugin-testing-library](https://github.com/testing-library/eslint-plugin-testing-library) from 3.1.2 to 3.1.3.
+<details>
+<summary>Release notes</summary>
+<p><em>Sourced from <a href="https://github.com/testing-library/eslint-plugin-testing-library/releases">eslint-plugin-testing-library's releases</a>.</em></p>
+<blockquote>
+<h2>v3.1.3</h2>
+<h2><a href="https://github.com/testing-library/eslint-plugin-testing-library/compare/v3.1.2...v3.1.3">3.1.3</a> (2020-05-16)</h2>
+<h3>Bug Fixes</h3>
+<ul>
+<li><strong>await-async-utils:</strong> false positives (<a href="https://github-redirect.dependabot.com/testing-library/eslint-plugin-testing-library/issues/137">#137</a>) (<a href="https://github.com/testing-library/eslint-plugin-testing-library/commit/55575c9">55575c9</a>), closes <a href="https://github-redirect.dependabot.com/testing-library/eslint-plugin-testing-library/issues/118">#118</a></li>
+</ul>
+</blockquote>
+</details>
+<details>
+<summary>Commits</summary>
+<ul>
+<li><a href="https://github.com/testing-library/eslint-plugin-testing-library/commit/55575c9e6b8e9395cc4302efe2a59556b6cb3eaf"><code>55575c9</code></a> fix(await-async-utils): false positives (<a href="https://github-redirect.dependabot.com/testing-library/eslint-plugin-testing-library/issues/137">#137</a>)</li>
+<li><a href="https://github.com/testing-library/eslint-plugin-testing-library/commit/fef6445504e128699c5337e3fe7f35e3f62fa8d0"><code>fef6445</code></a> docs: fix reference to configurations column (<a href="https://github-redirect.dependabot.com/testing-library/eslint-plugin-testing-library/issues/136">#136</a>)</li>
+<li><a href="https://github.com/testing-library/eslint-plugin-testing-library/commit/e938bc6a0fb4d87459bb0e8d347920235cd456a1"><code>e938bc6</code></a> docs: add Belco90 as a contributor (<a href="https://github-redirect.dependabot.com/testing-library/eslint-plugin-testing-library/issues/132">#132</a>) [skip ci]</li>
+<li><a href="https://github.com/testing-library/eslint-plugin-testing-library/commit/9928e4b59e5f40328fa1e9be01131762a6d604a0"><code>9928e4b</code></a> docs: add gndelia as a contributor (<a href="https://github-redirect.dependabot.com/testing-library/eslint-plugin-testing-library/issues/131">#131</a>) [skip ci]</li>
+<li>See full diff in <a href="https://github.com/testing-library/eslint-plugin-testing-library/compare/v3.1.2...v3.1.3">compare view</a></li>
+</ul>
+</details>
+<br />
+
+
+[![Dependabot compatibility score](https://api.dependabot.com/badges/compatibility_score?dependency-name=eslint-plugin-testing-library&package-manager=npm_and_yarn&previous-version=3.1.2&new-version=3.1.3)](https://dependabot.com/compatibility-score/?dependency-name=eslint-plugin-testing-library&package-manager=npm_and_yarn&previous-version=3.1.2&new-version=3.1.3)
+
+Dependabot will resolve any conflicts with this PR as long as you don't alter it yourself. You can also trigger a rebase manually by commenting `@dependabot rebase`.
+
+[//]: # (dependabot-automerge-start)
+[//]: # (dependabot-automerge-end)
+
+---
+
+<details>
+<summary>Dependabot commands and options</summary>
+<br />
+
+You can trigger Dependabot actions by commenting on this PR:
+- `@dependabot rebase` will rebase this PR
+- `@dependabot recreate` will recreate this PR, overwriting any edits that have been made to it
+- `@dependabot merge` will merge this PR after your CI passes on it
+- `@dependabot squash and merge` will squash and merge this PR after your CI passes on it
+- `@dependabot cancel merge` will cancel a previously requested merge and block automerging
+- `@dependabot reopen` will reopen this PR if it is closed
+- `@dependabot close` will close this PR and stop Dependabot recreating it. You can achieve the same result by closing it manually
+- `@dependabot ignore this major version` will close this PR and stop Dependabot creating any more for this major version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this minor version` will close this PR and stop Dependabot creating any more for this minor version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this dependency` will close this PR and stop Dependabot creating any more for this dependency (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot use these labels` will set the current labels as the default for future PRs for this repo and language
+- `@dependabot use these reviewers` will set the current reviewers as the default for future PRs for this repo and language
+- `@dependabot use these assignees` will set the current assignees as the default for future PRs for this repo and language
+- `@dependabot use this milestone` will set the current milestone as the default for future PRs for this repo and language
+- `@dependabot badge me` will comment on this PR with code to add a "Dependabot enabled" badge to your readme
+
+Additionally, you can set the following in your Dependabot [dashboard](https://app.dependabot.com):
+- Update frequency (including time of day and day of week)
+- Pull request limits (per update run and/or open at any time)
+- Automerge options (never/patch/minor, and dev/runtime dependencies)
+- Out-of-range updates (receive only lockfile updates, if desired)
+- Security updates (receive only security updates, if desired)
+
+
+
+</details>
+ Set size for newsletter-hide
+ This resolves the problem with the BIG X :smile: 
+
+@mindy r?
+
+fix #7086
+ Change wording for discounts on MDN Merch Store
+ fix #7082 

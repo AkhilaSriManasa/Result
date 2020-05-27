@@ -1,0 +1,205 @@
+﻿ Custom plugins (DO NOT MERGE)
+ 
+ AWS Step Functions Integration
+ Integrates Metaflow with [AWS Step Functions](https://aws.amazon.com/step-functions/).
+
+Introduces a new command `step-functions`:
+ Revert "AWS Step Functions Integration"
+ This reverts commit 0f3765c5aa97a26fb4ea53d00e42defaab5a6dad.
+ [See PR #204 instead] AWS Step Functions Integration
+ Please see #204 
+ Kuberentes Plugin integration.
+ Added Kubernetes plugin for Metaflow. 
+
+The plugin currently support GPU/CPU clusters. It leverages S3 in the same way as AWS batch. We can alter the S3 dependency start using the Datastore directly.  
+Kubernetes is a soft dependency. But unlike `boto3`, I have not kept it a part of setup.py. 
+
+
+## Using The Plugin 
+- Usage is very similar to `@batch` decorator. 
+- on top of any `@step` add the `@kube` decorator or use `--with kube:cpu=2,memory=4000,image=python:3.7` in the CLI args. 
+
+         
+### Running with Conda 
+- To run with Conda it will need `'python-kubernetes':'10.0.1'` in the libraries argument to `@conda_base` step decorator
+- Use `image=python:3.6` when running with Conda in `--with kube:`. Ideally that should be the python version used/mentioned in conda.  
+
+### Small Example Flow 
+```python
+from metaflow import FlowSpec, step,kube
+class HelloKubeFlow(FlowSpec):
+    
+    @step
+    def start(self):
+        print("running Next Step on Kube")
+        self.next(self.kube_step)
+    
+    @kube(cpu=1,memory=2000)
+    @step
+    def kube_step(self):
+        print("Hello I am Running within a container")
+        self.next(self.end)
+    
+    @step
+    def end(self):
+        print("Done Computation")
+
+if __name__== '__main__':
+    HelloKubeFlow()
+```
+- Try it with Minikube.  
+
+## CLI Operations Available with Kube: 
+- ``python myflow.py kube list`` : Show the currently running jobs of flow. 
+- ``python myflow.py kube kill`` : Kills all jobs on Kube. Any Metaflow Runtime accessing those jobs will be gracefully exited. 
+
+More details can be found here : https://github.com/valayDave/metaflow-on-kubernetes-docs
+
+The `kube-deploy` command in the documetation link is  not a part of this PR as its experimental. 
+
+I need a small input on AWS credential loading for Metaflow config. I can convert it to a secret based approach on Kubernetes to make it a lot more secure. I would love to hear your thoughts on the same. I have used this plugin for training really large Deep learning models like ResNet and VGG. I addition, I have been working with this plugin for more than 2 months and have ran 100's of flows for the same plugin.
+
+Large model experimentation tests can be found here: https://github.com/valayDave/imagenet-with-metaflow
+
+PR Based on #16 
+ Trigger release on `published`
+ `created` event is not emitted when a draft release is published, while `published` event is always emitted with or without a draft release.
+ Bump metaflow version to 2.0.5 in preparation for release
+ 1. Fix broken logging of prefixes in `datatools.S3._read_many_files` [#195](https://github.com/Netflix/metaflow/pull/195) 
+2. Increase retry count for AWS Batch logs streaming [#197](https://github.com/Netflix/metaflow/pull/197)
+3. Upper bound pylint version to < 2.5.0 [#196 ](https://github.com/Netflix/metaflow/pull/196)
+ Increase retry count for AWS Batch logs streaming
+ Modify the retry behavior for log fetching on AWS Batch by adding
+jitters to exponential backoffs as well as reset the retry counter
+for every successful request.
+
+Additionally, fail the metaflow task even if AWS Batch task succeeds
+but we fail to stream the task logs back to the user's terminal.
+ pin pylint version to 2.4.4 since 2.5.0 does not like self.next() syntax
+ Tested locally by running `pip3 install .` in the repo folder. It can automatically downgrades pylint from `2.5.0` to `2.4.4`.
+ Fix logging of prefixes in datatools.S3._read_many_files
+ When `datatools.S3._read_many_files` is unsuccessful, instead of displaying the underlying error message, we get a `TypeError: 'map' object is not subscriptable` due to trying to access the first element of `prefixes` with `[0]`. The `prefixes` passed in is a generator (map) which doesn't support this sort of access. The simplest fix is ~to remove the attempted logging of the _first prefix_~ to assign to a list inside the function. 
+
+Better to report the underlying error correctly than a mysterious `'map' object is not subscriptable`. In my case I had an issue with a version of the [typing](https://pypi.org/project/typing/) library being incompatible with a version of [`certifi`](https://pypi.org/project/certifi/) which became obvious once the underlying error message was not being hidden.
+
+~If it's important to log the first prefix requested, we can instead change all callers of `_read_many_files` to pass a list instead of generator.~
+
+## Related Issues
+
+- Should Fix https://github.com/Netflix/metaflow/issues/104
+ Bump metaflow version to 2.0.4 in preparation for release
+ 
+ Mute `ThrottleException` for AWS Logs API for AWS Batch
+ Currently, the flow logs are polluted with  occasional `ThrottleExceptions`.
+They don't result in flow failures since we retry log fetching till the tasks
+are alive and do a best-effort pull after the tasks have finished. This patch
+swallows the `ThrottleExceptions` so that the end-user isn't thrown off track.
+
+resolves #184 
+ Allow files residing on s3 to be included using IncludeFile
+ This will cause the file to be brought from S3 and then repackaged as a
+Flow artifact.
+
+Fixes #156 
+ Add a IncludeMultipleFiles parameter to allow for file Globbing
+ This allows the specification of a parameter that will include
+multiple files based on the path glob specified.
+
+Fixes #96 
+ Remove spurious code in current.py
+ 
+ Expose Retry Count in Current Singleton
+ current.retry_count now returns the retry attempt (0, 1, .. so on)
+for a metaflow task
+ Expose job attempt configuration for AWS Batch jobs
+ StepFunctions cannot control the retrying strategy for AWS Batch since `$$.State.RetryCount` in SFN ContextObject is a number and AWS Batch only accepts strings as configuration values.
+
+So, instead of relying on StepFunctions to retry failed jobs, we will pass on the baton to AWS Batch instead.
+ Expose `create_job` and `register_job_definition` methods for SFN integration
+ 
+ Pre-empt log collection when Batch task crashes
+ Fix a bug where log collection gets into an infinite loop when AWS Batch job crashes before being executed on ECS. Clean up some log statements as well.
+ Add PYTHONNOUSERSITE explicitly
+ In some edge cases, `python -s` doesn't explicitly set PYTHONNOUSERSITE.
+
+More context - https://gitter.im/metaflow_org/community?at=5e8ee8315d148a0460f51623
+ Follow symlinks while packaging code for execution on AWS Batch
+ More context in #176
+ Set thresholds for retrying `describeJobs` in AWS Batch integration
+ `describeJobs` API for AWS Batch has particularly low concurrency limits. This PR adds throttling and jitter to the calls we make to aid in higher resiliency.
+ Release notes -
+ 1. Use a smaller standalone Conda installer for AWS Batch
+2. Add METAFLOW_S3_ENDPOINT_URL configuration (#130)
+3. Use the CLI datastore-root before checking for METAFLOW_DATASTORE_SYSROOT_S3
+4. Fix an issue where using the local metadata provider with Batch resulted
+   in .metaflow/.metaflow instead of just .metaflow
+5. Add a way to get parameter names passed to a flow (using
+   current.parameter_names) (#137)
+6. Properly indent on show (#92)
+7. Surpress superfluous message when running on Batch
+ Add support for GCP, starting with GCS
+ This PR adds support for GCS as a datastore using the GCS Python client (no optimizations on top of the vanilla client). All of the patterns adopted here were taken directly from the S3 client, including retries, filepaths and "doneness".
+
+I previously attempted to integrate the existing S3 boto client with GCS using HMAC, but unfortunately, the boto client does multi-part uploads which is not natively supported by GCS and this breaks on uploads larger than 150mb.
+
+Related issue:
+https://github.com/Netflix/metaflow/issues/22
+ Mute datastore creation log on AWS Batch for local metadata store
+ Purely a cosmetic change in AWS Batch job execution logs
+
+ Extending support for other object datastores.
+ Added a `@staticmethod` to the `MetaflowDataStore` class pertaining to commands needed for code package download. 
+
+The method needs to be implemented by each child class of a datastore so that commands related to package download can be different according to different child classes. 
+
+This ensures the decoupling of classes relating to the environment and computational resources from the datastore itself. 
+ Feature : Global environment Flow decorator.
+ A Flow decorator designed to help capture a default global environment. 
+
+It will set default environment variables in every step of the flow. The `@environment` decorator will only add new var / override vars set by `@global_environment`. 
+
+Example code snippet
+```
+from metaflow import FlowSpec, step, global_environment, environment
+
+@global_environment(vars={'CUSTOM_SET_USER_NAME':"New_User"})
+class DummyFlow(FlowSpec):
+    
+    @step
+    def start(self):
+        import os
+        print("Hello ",os.environ.get('CUSTOM_SET_USER_NAME'))
+        self.next(self.end)
+
+    @environment(vars={'CUSTOM_SET_PASSWORD':'random_password'})
+    @step
+    def end(self):
+        import os
+        print("Hello ",os.environ.get('CUSTOM_SET_USER_NAME'),os.environ.get('CUSTOM_SET_PASSWORD'))
+        print('Done!')
+
+if __name__ == '__main__':
+    DummyFlow()
+```
+ Maintain indentation for the 'show' command
+ Addresses #92 
+ Add a method to list the name of the parameters for a flow.
+ Addresses #137 .
+
+You can now do:
+for name in current.parameter_names:
+  print('I have a parameter %s with a value of %s' % (name, getattr(self, name)))
+ Fixing directory issue of local metadataprovider with aws batch.
+ There is an issue in syncing metadata for local metadata provider when using AWS Batch. 
+
+I am using a local metadata provider with executes on Batch with S3 datastore. I was able to complete the flow successfully on batch and was trying to analyze results in a notebook. But when I access properties of the run like `run.data` it throws an error.
+
+I am using https://github.com/valayDave/mnist-experiments-with-metaflow/blob/without_conda_test/hello_mnist.py as the file and running the following command :`python hello_mnist.py --with batch:cpu=2,memory=4000,image=tensorflow/tensorflow:latest-py3 run --num_training_examples 1000`. 
+
+The odd thing is that there are two `.metaflow/.metaflow` folders in my directory and both of them holding the same flows and runs. When moved the data under `.metaflow/.metaflow/FLOWNAME/RUN_ID/STEP_NAME/TASK_ID/_meta` to `.metaflow/FLOWNAME/RUN_ID/STEP_NAME/TASK_ID/_meta` and executed my notebook, It worked perfectly fine. I am using version 2.0.2. 
+
+I investigated that there is data sync after a step from S3 which brings metadata back to the client and does a copy tree operation.
+
+While on batch because of the METAFLOW_DATASTORE_SYSROOT_LOCAL is being referenced to DATASTORE_LOCAL_DIR which is `DATASTORE_LOCAL_DIR = '.metaflow'` in the metaflow_config, the flow-related files are created under `.metaflow/.metaflow`. So when it Tars and untars the data back on the local client and performs copy tree, it creates a new `.metaflow` under the `.metaflow` folder on the local machine. 
+
+Removing the METAFLOW_DATASTORE_SYSROOT_LOCAL the fixed the problem. 

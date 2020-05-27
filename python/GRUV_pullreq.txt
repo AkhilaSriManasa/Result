@@ -1,0 +1,14 @@
+﻿ update sequence_generator.py to work for new keras version
+ the newest version of keras uses Sequence.predict() instead of Sequence._predict()
+
+ solve the problem of maximum recursion depth exceeded
+ 
+ add h5py to dependencies in README.md
+ 
+ Make scripts executable and add --help flag
+ This makes the scripts simpler to use. The command line parsers should probably be extended.
+
+ Ignore the intermediary *.npy files
+ 
+ fix escaping and support FLAC
+ 

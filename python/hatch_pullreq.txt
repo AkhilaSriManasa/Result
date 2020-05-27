@@ -1,0 +1,155 @@
+﻿ Update setup.py
+ 
+ Avoid installing tests as a package
+ ## Description
+Prevent setup.py from adding a package for `tests`.
+<!--- A few words to describe your changes -->
+
+This is a fixed version of https://github.com/ofek/hatch/pull/60 , which was abandoned.
+ Update setup.py
+ 
+ Fix tests
+ 
+ update ci
+ 
+ setup.py: Use OR to indicate MIT or Apache-2.0
+ Using `/` is not ambiguous, however `or` is more clear
+and is syntax recognised by packaging tools.
+
+ Initial CHANGELOG support
+ ## Description
+I'm open to implementation feedback on this.
+
+This pull request provides initial [CHANGELOG](https://keepachangelog.com/en/1.0.0/) support and currently defaults to markdown, as per the spec.
+
+I'm not sure if the initial release should default to `{package_url}/compare/{version}...HEAD` as an editable example or just use `{package_url}` and then update it to the diffs once grow is run.
+`Project Initialized` could be `Project Initialized with [hatch](https://github.com/ofek/hatch)` or configurable via `settings.json`. Should there be a setting to write the file out as `CHANGELOG` without an extension?
+
+I think there is going to be a merge conflict with `package_data` from my other pull requests, but I'm happy to rebase if needed.
+
+ GitHub gitignore
+ ## Description
+Integrating https://raw.githubusercontent.com/github/gitignore/master/Python.gitignore
+into `.gitignore` template
+ Move .gitignore template into package_data
+ ## Description
+This should make it easier to merge something like #58 
+ Support tilde in `extras` globs
+ ## Description
+Support for things like
+```
+"extras": [ "~/.local/share/hatch/CHANGELOG*" ]
+```
+ Support for updating version string in pyproject.toml
+ ## Description
+This patch supports updating the pyproject.toml version string via `hatch grow`
+
+## Feedback Needed
+Some of the tests were straightforward to patch, but I wanted some feedback before I tackled the case where `__init__.py` had an invalid version but `pyproject.toml` had a valid version. It looks like `hatch/grow.py` needs to implement a version consistency check and throw exceptions instead of overloading the return. :thinking:?
+```
+    def test_no_match():
+        with temp_chdir() as d:
+            runner = CliRunner()
+            runner.invoke(hatch, ['init', 'ok', '--basic', '-ne'])
+            with open(os.path.join(d, 'ok', '__init__.py'), 'w') as f:
+                f.write('__version__ = "123"')
+    
+            result = runner.invoke(hatch, ['grow', 'fix'])
+    
+>           assert result.exit_code == 1
+E           assert 0 == 1
+E            +  where 0 = <Result okay>.exit_code
+```
+ Semver docfix for CONFIG.rst
+ Clarifies operation of the semver configuration in the config file documentation.
+
+## Description
+<!--- A few words to describe your changes -->
+
+
+
+## Checklist
+<!--- We appreciate your help and please add yourself to the AUTHORS file. -->
+
+ fix broken link
+ ## Description
+<!--- A few words to describe your changes -->
+fix a 404
+
+## Checklist
+<!--- We appreciate your help and please add yourself to the AUTHORS file. -->
+nah
+ Fixed bad encoding for Python 3.7
+ Python 3.7 threw an error about bad encoding.
+ Fix Travis builds on macOS
+ pip3 is the executable name, at least right now.
+ Avoid installing tests as a package
+ What the title says. Without this, any Hatch-maintained package (including Hatch itself) would, in addition to installing the package code, litter the `site-packages` directory with a `tests` package, which could potentially conflict with other packages.
+ What the title says. Without this, any Hatch-maintained package (including Hatch itself) would, in addition to installing the package code, litter the `site-packages` directory with a `tests` package, which could potentially conflict with other packages.
+ Add decorator to tests which require internet connection.
+ Hello.
+
+I found out that some tests newly require internet and therefore they have to be skipped in an environment without the internet connection.
+
+The latest virtualenv bundles pip 10.0.1. Pip from version 10.0.0 has support for pyproject.toml files (PEP 518) which means that pip now installs build dependencies specified in pyproject.toml file automatically. And it doesn't work without internet obviously.
+
+It would be nice if you can do a release so it would be possible for me to drop downstream patch. Currently, I had to create this patch twice - once for this PR and once for currently released version 0.20.0.
+
+Have a nice day.
+Lumír
+ Update .gitignore
+ ## Description
+Update .gitignore list based on github's gitignore
+ test_download_file() requires internet connection
+ ## Description
+test_download_file obviously need the internet connection and therefore should be marked with the appropriate decorator.
+ Install
+ ## Description
+This is the first draft of managing dependencies and automatically updating pyproject.toml and setup.py files. Running `hatch install` without any arguments will install the dependencies that are listed in pyproject.toml file. Running `hatch install requests --save` will install requests and add it to the pyproject.toml file (as well as setup.py file). Running `hatch install coverage --save-dev` will install coverage and add it to pyproject.toml file (this will NOT be added to setup.py). 
+
+I haven't added tests, but I wanted to get early feedback before I start adding tests and finalizing the design.
+ Project class
+ ## Description
+This is the start of using a Project class to maintain all the project related metadata. An object of this Project() class will be passed into the click sub-commands. In the future, `install` command will use this project class to determine the packages and dev-packages to install. This also paves the path for automatically adding new packages to this list. 
+
+The setup file will be auto-generated anytime new dependencies are added are removed. This PR lays the foundation for that.
+
+Expected changes: 
+* The setup.py generated by `new` and `init` will have a warning messages at the top that say it is maintained by Hatch. 
+* pyproject.toml file will be generated and it will have a list of commands. Right now this is a place holder.
+
+There will be no other changes to the actual behavior of hatch.
+ Support Releases to Alternative Repositories
+ ## Description
+This PR attempts to address #33 by making two changes to `hatch release`:
+- First and foremost, this adds two flags: `-r/--repository` and `--repository-url`. These are simply passed through to `twine`. If they are not given, the `twine` default behavior will be used. For simplicity, it is an error to use these flags in combination with `-t` (since it is not immediately clear whether `-t` should override `-r` and `--repository-url`, or the other way around).
+- Additionally, the behavior of `hatch release` has been changed such that it works correctly with the `TWINE_USERNAME`, `TWINE_REPOSITORY`, and `TWINE_REPOSITORY_URL` environment variables.
+
+
+## Checklist
+<!--- We appreciate your help and please add yourself to the AUTHORS file. -->
+The `AUTHORS.rst` file has been updated accordingly.
+ Add BSD license template.
+ ## Description
+Add BSD license template. 
+
+ Projectfile
+ ## Description
+This will make the `init` command and the `new` command interactive.
+
+
+## Checklist
+<!--- We appreciate your help and please add yourself to the AUTHORS file. -->
+
+ Add new contributor to the list of authors. Fixes #26
+ Thank you!
+ Add a PR template.
+ 
+ Update AUTHORS.rst
+ 
+ Final command refactor
+ This should conclude the commands refactor.
+ More commands refactor
+ 
+ Refactor commands
+ Second batch of refactors. I'll finish the rest tonight.

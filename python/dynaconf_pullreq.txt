@@ -1,0 +1,660 @@
+﻿ Clean tox environment for local testing
+ None
+ vendoring dependencies fix #301
+ None
+ Fix #298 auto complete
+ Fix #298 allow auto complete for editors and console
+
+implemented `__dir__` on Settings and Dynabox
+
+
+![Screenshot_2020-05-12_10-13-23](https://user-images.githubusercontent.com/458654/81695701-5a76c000-9439-11ea-8c13-01ef153df38c.png)
+![Screenshot_2020-05-12_10-14-01](https://user-images.githubusercontent.com/458654/81695723-5f3b7400-9439-11ea-88b5-c4882fb66cac.png)
+
+ Fix #272 allow lowercase keys
+ Fix #272 allow access of lowercase keys
+
+- `settings.lowercase_key` is allowed
+- `settings.dynaconf` is a proxy to internal methods
+- `settings.__reserved_attributes` validates key names
+- `LazySettings __init__ parameters can receive lower case configs`
+
+
+```
+export LOWERCASE_READ_FOR_DYNACONF=true
+```
+
+or pass it to your own settings obj
+
+```py
+from dynaconf import LazySettings
+
+settings = LazySettings(lowercase_read=True)
+
+settings.foo == "bar"
+
+```
+
+```yaml
+default:
+    FOO: bar
+```
+ Add ENVLESS_MODE option
+ HAving `export ENVLESS_MODE_FOR_DYNACONFdata from source files without env separation.
+
+or passing it to your own settings object
+
+```py
+from dynaconf import LazySettings
+
+settings = LazySettings(envless_mode=True)
+
+settings.FOO == "bar"
+```
+
+`settings.yaml`
+```yaml
+foo: bar
+```
+ s/DYNACONF_ENV/ENV_FOR_DYNACONF
+ Update docs with the correct default i.e. `ENV_FOR_DYNACONF`, not `DYNACONF_ENV`.
+ Fixed comma typo
+ 
+ Add support for aliased configs
+ Now when creating a `LazySettings` instance one can use aliases
+
+So instead of `LazySettings("ENV_FOR_DYNACONF='FOO'")` it can be:
+
+`LazySettings(ENV="FOO")`
+ Insert news validator conditions: (len_eq, len_ne, len_min, len_max, contd)
+ ## Insert news validator conditions:
+**Ensure some parameter (string) meets a condition**
+conditions: (len_eq, len_ne, len_min, len_max, contd)
+ - contd : Signifies the presence of the value in a set, text or word
+ - len_eq : Checks whether the length is the same as defined.
+ - len_ne : Checks if the length is different from the one defined.
+ - len_min : Determines the minimum length for the value
+ - len_max : Determines the maximum length for the value
+
+**Application examples**
+```ini
+[default]
+NAME = "Bruno"
+DEV_SERVERS = ['127.0.0.1', 'localhost', 'development.com']
+PORT = 8001
+GITHUB_TOKEN = '5edc6e893d2c881d5b033f0fd9bfb1a54694727b'
+SEARCH_QUERY= 'topic:"flask-extension flask-extensions"'
+```
+
+```python
+Validator("NAME", len_min=3, len_max=125),
+Validator("DEV_SERVERS", contd='localhost'),
+Validator("PORT", len_eq=4),
+Validator('GITHUB_TOKEN', len_eq=40),
+Validator('SEARCH_QUERY', contd='topic:')
+```
+
+**pre-commit**
+>Reorder python imports...................................................Passed  
+>black....................................................................Passed  
+>Trim Trailing Whitespace.................................................Passed  
+>Fix End of Files.........................................................Passed  
+>Check Yaml...........................................(no files to check)Skipped  
+>Check for merge conflicts................................................Passed  
+>Debug Statements (Python)................................................Passed  
+>Fix python encoding pragma...............................................Passed  
+>flake8...................................................................Passed  
+
+**Test response (pytest)**
+_test_validators_conditions.py_
+>============================= test session starts =============================  
+>platform win32 -- Python 3.8.2, pytest-5.4.1, py-1.8.1, pluggy-0.13.1  
+>rootdir: D:\Projetos\GitHub\dynaconf, inifile: pytest.ini  
+>collected 15 items  
+>  
+>test_validators_conditions.py ...............                            [100%]  
+>  
+>============================= 15 passed in 0.25s ==============================  
+  
+_test_validators.py_
+>============================= test session starts =============================  
+>platform win32 -- Python 3.8.2, pytest-5.4.1, py-1.8.1, pluggy-0.13.1  
+>rootdir: D:\Projetos\GitHub\dynaconf, inifile: pytest.ini  
+>plugins: lovely-pytest-docker-0.1.0, cov-2.8.1, mock-3.0.0  
+>collected 11 items  
+  
+test_validators.py ...........                                           [100%]  
+  
+============================= 11 passed in 2.12s ==============================  
+  
+**example of error messages:**
+len_eq - dynaconf.validator.ValidationError: GITHUB_TOKEN must len_eq 41 but it is GITHUB_TOKEN_error in env DEVELOPMENT  
+contd - dynaconf.validator.ValidationError: SEARCH_QUERY must contd topic:: but it is topic:"flask-extension flask-extensions" in env DEVELOPMENT  
+len_min - dynaconf.validator.ValidationError: LOGGER_FILE must len_min 50 but it is log.log in env DEVELOPMENT  
+len_max - dynaconf.validator.ValidationError: LOGGER_FILE must len_max 4 but it is log.log in env DEVELOPMENT  
+len_ne - dynaconf.validator.ValidationError: LOGGER_FILE must len_ne 7 but it is log.log in env DEVELOPMENT  
+len_eq - dynaconf.validator.ValidationError: PORT must len_eq 5 but it is 8001 in env DEVELOPMENT  
+
+ Added little informantion about flask and dotenv.
+ #325 
+ Added little information about how dev into this project.
+ I had problems to start to contribute on this project.
+
+**I forgot to install the pre-commit :( !!**
+
+So I created this little steps to help futures contributor.
+
+ Adding f string
+ This is a task of issue #314.
+ Fix minor typo in Flask extension docs
+ Just a minor typo in the flask extension docs
+ Considering `silent` on import_from_filename
+ Making errors visible when silentfixes #310
+
+```
+➜  dynaconf git:(master) ✗ ls -al | grep fao 
+-rw-------.  1 root    root        0 Mar 10 21:39 fao.py
+```
+```python
+In [1]: import errno
+
+In [2]: import io
+
+In [3]: try:
+   ...:     io.open('fao.py')
+   ...: except IOError as e:
+   ...:     print(e.errno)
+   ...:     print(e.strerror)
+   ...:     
+13
+Permission denied
+
+In [4]: errno.EPERM
+Out[4]: 1
+
+In [5]: errno.EACCES
+Out[5]: 13
+```
+ Better exception handling on env_loader
+ 
+ Fix #306 - don't default to merge, deprecated reset.
+ Fix #306 
+
+- Don't default to `merge` for `__` variables
+- Deprecated `@reset`
+ Defaults to ruamel.yaml when it is available
+ None
+ Fix #305 - printing and exporting LazyFormat
+ Fix #305 
+Fix #311 
+ Changed CLI list to show data type of the envvars to fix #304
+ Changed the code to show the data type and the content of the envvar
+
+Close #304 
+ Added OSX builds to the Azure Pipeline
+ This close #274 
+ Fix #288 - Nullable values
+ None
+ Update python-dotenv requirement from <0.10.6 to <0.11.1
+ Updates the requirements on [python-dotenv](https://github.com/theskumar/python-dotenv) to permit the latest version.
+<details>
+<summary>Changelog</summary>
+<p><em>Sourced from <a href="https://github.com/theskumar/python-dotenv/blob/master/CHANGELOG.md">python-dotenv's changelog</a>.</em></p>
+<blockquote>
+<h2>[0.11.0] - 2020-02-07</h2>
+<h3>Added</h3>
+<ul>
+<li>Add <code>interpolate</code> argument to <code>load_dotenv</code> and <code>dotenv_values</code> to disable interpolation
+(<a href="https://github-redirect.dependabot.com/theskumar/python-dotenv/issues/232">#232</a> by [<a href="https://github.com/ulyssessouza">@ulyssessouza</a>]).</li>
+</ul>
+<h3>Changed</h3>
+<ul>
+<li>Use logging instead of warnings (<a href="https://github-redirect.dependabot.com/theskumar/python-dotenv/issues/231">#231</a> by [<a href="https://github.com/bbc2">@bbc2</a>]).</li>
+</ul>
+<h3>Fixed</h3>
+<ul>
+<li>Fix installation in non-UTF-8 environments (<a href="https://github-redirect.dependabot.com/theskumar/python-dotenv/issues/225">#225</a> by [<a href="https://github.com/altendky">@altendky</a>]).</li>
+<li>Fix PyPI classifiers (<a href="https://github-redirect.dependabot.com/theskumar/python-dotenv/issues/228">#228</a> by [<a href="https://github.com/bbc2">@bbc2</a>]).</li>
+</ul>
+<h2>[0.10.5] - 2020-01-19</h2>
+<h3>Fixed</h3>
+<ul>
+<li>Fix handling of malformed lines and lines without a value (<a href="https://github-redirect.dependabot.com/theskumar/python-dotenv/issues/222">#222</a> by [<a href="https://github.com/bbc2">@bbc2</a>]):
+<ul>
+<li>Don't print warning when key has no value.</li>
+<li>Reject more malformed lines (e.g. &quot;A: B&quot;, &quot;a='b',c&quot;).</li>
+</ul>
+</li>
+<li>Fix handling of lines with just a comment (<a href="https://github-redirect.dependabot.com/theskumar/python-dotenv/issues/224">#224</a> by [<a href="https://github.com/bbc2">@bbc2</a>]).</li>
+</ul>
+<h2>[0.10.4] - 2020-01-17</h2>
+<h3>Added</h3>
+<ul>
+<li>Make typing optional (<a href="https://github-redirect.dependabot.com/theskumar/python-dotenv/issues/179">#179</a> by [<a href="https://github.com/techalchemy">@techalchemy</a>]).</li>
+<li>Print a warning on malformed line (<a href="https://github-redirect.dependabot.com/theskumar/python-dotenv/issues/211">#211</a> by [<a href="https://github.com/bbc2">@bbc2</a>]).</li>
+<li>Support keys without a value (<a href="https://github-redirect.dependabot.com/theskumar/python-dotenv/issues/220">#220</a> by [<a href="https://github.com/ulyssessouza">@ulyssessouza</a>]).</li>
+</ul>
+<h2>0.10.3</h2>
+<ul>
+<li>Improve interactive mode detection ([<a href="https://github.com/andrewsmith">@andrewsmith</a>])(<a href="https://github-redirect.dependabot.com/theskumar/python-dotenv/issues/183">#183</a>).</li>
+<li>Refactor parser to fix parsing inconsistencies ([<a href="https://github.com/bbc2">@bbc2</a>])(<a href="https://github-redirect.dependabot.com/theskumar/python-dotenv/issues/170">#170</a>).
+<ul>
+<li>Interpret escapes as control characters only in double-quoted strings.</li>
+<li>Interpret <code>#</code> as start of comment only if preceded by whitespace.</li>
+</ul>
+</li>
+</ul>
+<h2>0.10.2</h2>
+<ul>
+<li>Add type hints and expose them to users ([<a href="https://github.com/qnighy">@qnighy</a>])(<a href="https://github-redirect.dependabot.com/theskumar/python-dotenv/issues/172">#172</a>)</li>
+<li><code>load_dotenv</code> and <code>dotenv_values</code> now accept an <code>encoding</code> parameter, defaults to <code>None</code>
+([<a href="https://github.com/theskumar">@theskumar</a>])([<a href="https://github.com/earlbread">@earlbread</a>])(<a href="https://github-redirect.dependabot.com/theskumar/python-dotenv/issues/161">#161</a>)</li>
+<li>Fix <code>str</code>/<code>unicode</code> inconsistency in Python 2: values are always <code>str</code> now. ([<a href="https://github.com/bbc2">@bbc2</a>])(<a href="https://github-redirect.dependabot.com/theskumar/python-dotenv/issues/121">#121</a>)</li>
+<li>Fix Unicode error in Python 2, introduced in 0.10.0. ([<a href="https://github.com/bbc2">@bbc2</a>])(<a href="https://github-redirect.dependabot.com/theskumar/python-dotenv/issues/176">#176</a>)</li>
+</ul>
+<h2>0.10.1</h2>
+<ul>
+<li>Fix parsing of variable without a value ([<a href="https://github.com/asyncee">@asyncee</a>])([<a href="https://github.com/bbc2">@bbc2</a>])(<a href="https://github-redirect.dependabot.com/theskumar/python-dotenv/issues/158">#158</a>)</li>
+</ul>
+</tr></table> ... (truncated)
+</blockquote>
+</details>
+<details>
+<summary>Commits</summary>
+<ul>
+<li><a href="https://github.com/theskumar/python-dotenv/commit/d67735509fb38545be9449201cf26ae9fd10e69a"><code>d677355</code></a> Release v0.11.0</li>
+<li><a href="https://github.com/theskumar/python-dotenv/commit/a02bfac154e8a296f87372a0959f674aa622ebac"><code>a02bfac</code></a> Add control over interpolation</li>
+<li><a href="https://github.com/theskumar/python-dotenv/commit/a8daa7c526631d8aab864f862775002191b5ab18"><code>a8daa7c</code></a> Use logging instead of warnings</li>
+<li><a href="https://github.com/theskumar/python-dotenv/commit/558d435aa580c28dff3408d2868b0918cebcd84e"><code>558d435</code></a> Fix PyPI classifiers</li>
+<li><a href="https://github.com/theskumar/python-dotenv/commit/4e68b7f689489c5642908fd7d79f08102d485f10"><code>4e68b7f</code></a> Add CI for Python 3.8</li>
+<li><a href="https://github.com/theskumar/python-dotenv/commit/72d1db53f5528031802113e3552c6b75d953526d"><code>72d1db5</code></a> Fix upload to PyPI by Travis CI</li>
+<li><a href="https://github.com/theskumar/python-dotenv/commit/aeaec2619d48b0636d34dc2d2dbead22406c82ae"><code>aeaec26</code></a> Use io.open for py2 compatibility</li>
+<li><a href="https://github.com/theskumar/python-dotenv/commit/cbd017a50fefed910b0075d433456cf7479f9882"><code>cbd017a</code></a> Set UTF-8 encoding when reading files in setup.py</li>
+<li><a href="https://github.com/theskumar/python-dotenv/commit/3637b3e114b9a3084457594ccfa3cb3e6d3d4ee4"><code>3637b3e</code></a> Bump version: 0.10.4 → 0.10.5</li>
+<li><a href="https://github.com/theskumar/python-dotenv/commit/70d0c19cfae688dc333f753f880a8062b43b9333"><code>70d0c19</code></a> Fix handling of lines with just a comment</li>
+<li>Additional commits viewable in <a href="https://github.com/theskumar/python-dotenv/compare/v0.1.1...v0.11.0">compare view</a></li>
+</ul>
+</details>
+<br />
+
+
+Dependabot will resolve any conflicts with this PR as long as you don't alter it yourself. You can also trigger a rebase manually by commenting `@dependabot rebase`.
+
+[//]: # (dependabot-automerge-start)
+[//]: # (dependabot-automerge-end)
+
+---
+
+<details>
+<summary>Dependabot commands and options</summary>
+<br />
+
+You can trigger Dependabot actions by commenting on this PR:
+- `@dependabot rebase` will rebase this PR
+- `@dependabot recreate` will recreate this PR, overwriting any edits that have been made to it
+- `@dependabot merge` will merge this PR after your CI passes on it
+- `@dependabot squash and merge` will squash and merge this PR after your CI passes on it
+- `@dependabot cancel merge` will cancel a previously requested merge and block automerging
+- `@dependabot reopen` will reopen this PR if it is closed
+- `@dependabot close` will close this PR and stop Dependabot recreating it. You can achieve the same result by closing it manually
+- `@dependabot ignore this major version` will close this PR and stop Dependabot creating any more for this major version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this minor version` will close this PR and stop Dependabot creating any more for this minor version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this dependency` will close this PR and stop Dependabot creating any more for this dependency (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot use these labels` will set the current labels as the default for future PRs for this repo and language
+- `@dependabot use these reviewers` will set the current reviewers as the default for future PRs for this repo and language
+- `@dependabot use these assignees` will set the current assignees as the default for future PRs for this repo and language
+- `@dependabot use this milestone` will set the current milestone as the default for future PRs for this repo and language
+- `@dependabot badge me` will comment on this PR with code to add a "Dependabot enabled" badge to your readme
+
+Additionally, you can set the following in your Dependabot [dashboard](https://app.dependabot.com):
+- Update frequency (including time of day and day of week)
+- Pull request limits (per update run and/or open at any time)
+- Out-of-range updates (receive only lockfile updates, if desired)
+- Security updates (receive only security updates, if desired)
+
+
+
+</details>
+ Fix #203 document the usage with pytest (with examples)
+ Fix #203
+
+## Pytest
+
+For pytest it is common to create fixtures to provide pre-configured settings object or to configure the settings before
+all the tests are collected.
+
+Examples available on [https://github.com/rochacbruno/dynaconf/tree/issue_203/example/pytest_example](https://github.com/rochacbruno/dynaconf/tree/issue_203/example/pytest_example)
+
+With `pytest` fixtures it is recommended to use the `FORCE_ENV_FOR_DYNACONF` isntead of just `ENV_FOR_DYNACONF` because it has precedence.
+
+### A python program
+
+`settings.toml` with the `[testing]` environment.
+
+```toml
+[default]
+VALUE = "On Default"
+
+[testing]
+VALUE = "On Testing"
+```
+
+`app.py` that reads that value from current environment.
+```py
+from dynaconf import settings
+
+
+def return_a_value():
+    return settings.VALUE
+```
+
+`tests/conftest.py` with a fixture to force `settings` to run pointing to `[testing]` environment.
+
+```py
+import pytest
+from dynaconf import settings
+
+
+@pytest.fixture(scope="session", autouse=True)
+def set_test_settings():
+    settings.configure(FORCE_ENV_FOR_DYNACONF="testing")
+```
+
+`tests/test_dynaconf.py` to assert that the correct environment is loaded
+
+```py
+from app import return_a_value
+
+
+def test_dynaconf_is_in_testing_env():
+    assert return_a_value() == "On Testing"
+```
+
+### A Flask program
+
+`settings.toml` with the `[testing]` environment.
+
+```toml
+[default]
+VALUE = "On Default"
+
+[testing]
+VALUE = "On Testing"
+```
+
+`src.py` that has a Flask application factory
+
+```py
+from flask import Flask
+from dynaconf.contrib import FlaskDynaconf
+
+
+def create_app(**config):
+    app = Flask(__name__)
+    FlaskDynaconf(app, **config)
+    return app
+
+```
+
+`tests/conftest.py` with a fixture to provide `app` dependency injection to all the tests,
+And force this `app` to point to `[testing]` config environment.
+
+```py
+import pytest
+from src import create_app
+
+
+@pytest.fixture(scope="session")
+def app():
+    app = create_app(FORCE_ENV_FOR_DYNACONF="testing")
+    return app
+```
+
+`tests/test_flask_dynaconf.py` to assert that the correct environment is loaded
+
+```py
+def test_dynaconf_is_on_testing_env(app):
+    assert app.config["VALUE"] == "On Testing"
+    assert app.config.current_env == "testing"
+```
+ Fix #145 allow string formatting using envvars
+ ## Template substitutions 
+
+Dynaconf has 2 tokens to enable string substitutions `@format` and `@jinja`.
+
+### @format token
+
+Dynaconf allows template substitutions for strings values, by using the `@format` token prefix and including placeholders accepted by Python's `str.format` method Dynaconf will call
+it lazily upon access time.
+
+The call will be like:
+
+```py
+"<YOURVALUE>".format(env=os.environ, this=dynaconf.settings)
+```
+
+So in your string you can refer to environment variables via `env` object, and also to variables defined int the settings object itself via `this` reference. It is lazily evaluated on access it will use the final value for a settings regardless the order of load.
+
+Example:
+
+```bash
+export PROGRAM_NAME=calculator
+```
+
+settings.toml
+
+```toml
+[default]
+DB_NAME = "mydb.db"
+
+[development]
+DB_PATH = "@format {env[HOME]}/{this.current_env}/{env[PROGRAM_NAME]}/{this.DB_NAME}"
+```
+
+- `{env[HOME]}` is the same as `os.environ["HOME"]` or `$HOME` in the shell.
+- `{this.current_env}` is the same as `settings.current_env`
+- `{env[PROGRAM_NAME]}` is the same as `os.environ["PROGRAM_NAME"]` or `$PROGRAM_NAME` in the shell.
+- `{this.DB_NAME}` is the same as `settins.DB_NAME` or `settings["DB_NAME"]`
+
+so in your `program`
+
+```py
+from dynaconf import settings
+
+settings.DB_PATH == '~/development/calculator/mydb.db'
+```
+
+### @jinja token
+
+If `jinja2` package is installed then dynaconf will also allow the use jinja to render string values.
+
+Example:
+
+```bash
+export PROGRAM_NAME=calculator
+```
+
+settings.toml
+
+```toml
+[default]
+DB_NAME = "mydb.db"
+
+[development]
+DB_PATH = "@jinja {{env.HOME}}/{{this.current_env | lower}}/{{env['PROGRAM_NAME']}}/{{this.DB_NAME}}"
+```
+
+so in your `program`
+
+```py
+from dynaconf import settings
+
+settings.DB_PATH == '~/development/calculator/mydb.db'
+```
+
+The main difference is that Jinja allows some Python expressions to be avaluated such as `{% for, if, while %}` and also supports calling methods and has lots of filters like `| lower`.
+ add t.me badge fix #262
+ fix #262 
+
+![https://img.shields.io/badge/chat-t.me/dynaconf-blue.svg?logo=telegram](https://img.shields.io/badge/chat-t.me/dynaconf-blue.svg?logo=telegram)
+ fix object_merge issue #285 with  meta value
+ PR recreated #286 to fix some styling issues before merging
+
+fix #285 
+ adoverriding strategy
+ [13:04:45] <@bmbouter> rochacbruno: can you help me w/ a dynaconf example I'm writing for the docs
+[13:04:59] <rochacbruno> bmbouter: sure!
+[13:05:04] <rochacbruno> I hope so
+[13:05:12] <bmbouter> I want an example of overridding the DEFAULT_AUTHENTICATION_CLASSES key in this dict https://github.com/pulp/pulpcore/blob/master/pulpcore/app/settings.py#L125
+[13:05:16] <bmbouter> and leave the other keys alone
+[13:05:36] <bmbouter> and my goal is to keep L#126 and L#128 but effectively remove L#127
+[13:07:05] <rochacbruno> bmbouter: let me see, one moment
+[13:08:44] <bmbouter> thank you!
+
+
+## Current working Solution
+
+Lets say you have:
+
+```py
+# settings.py
+DATA = {
+  'FOO': [1, 2, 3]
+}
+```
+
+and your goal is to override `settings.DATA.FOO` to be equal to `[1, 3]` (remove the item `2`
+
+On `user_settings.py`
+
+```py
+DATA__FOO = "@reset [1, 3]"
+```
+
+Explain:
+
+- The use of `__` (double under) will traverse the keys
+- The token `@reset` will mark that value to be cleaned before reassign
+- The `[1,3]` is a `toml` list.
+
+## New idea
+
+ There is another approach proposed in this source code, not implemented yet. https://github.com/rochacbruno/dynaconf/pull/289/files#diff-fa16fca7bdc631655faad52678fa1dfaR11
+
+ Update python-dotenv requirement from < Updates the requirements on [python-dotenv](https://github.com/theskumar/python-dotenv) to permit the latest version.
+<details>
+<summary>Changelog</summary>
+<p><em>Sourced from <a href="https://github.com/theskumar/python-dotenv/blob/master/CHANGELOG.md">python-dotenv's changelog</a>.</em></p>
+<blockquote>
+<h2>0.10.5</h2>
+<ul>
+<li>Fix handling of malformed lines and lines without a value ([<a href="https://github.com/bbc2">@bbc2</a>])(<a href="https://github-redirect.dependabot.com/theskumar/python-dotenv/issues/222">#222</a>):
+<ul>
+<li>Don't print warning when key has no value.</li>
+<li>Reject more malformed lines (e.g. &quot;A: B&quot;).</li>
+</ul>
+</li>
+<li>Fix handling of lines with just a comment ([<a href="https://github.com/bbc2">@bbc2</a>])(<a href="https://github-redirect.dependabot.com/theskumar/python-dotenv/issues/224">#224</a>).</li>
+</ul>
+<h2>0.10.4</h2>
+<ul>
+<li>Make typing optional ([<a href="https://github.com/techalchemy">@techalchemy</a>])(<a href="https://github-redirect.dependabot.com/theskumar/python-dotenv/issues/179">#179</a>).</li>
+<li>Print a warning on malformed line ([<a href="https://github.com/bbc2">@bbc2</a>])(<a href="https://github-redirect.dependabot.com/theskumar/python-dotenv/issues/211">#211</a>).</li>
+<li>Support keys without a value ([<a href="https://github.com/ulyssessouza">@ulyssessouza</a>])(<a href="https://github-redirect.dependabot.com/theskumar/python-dotenv/issues/220">#220</a>).</li>
+</ul>
+<h2>0.10.3</h2>
+<ul>
+<li>Improve interactive mode detection ([<a href="https://github.com/andrewsmith">@andrewsmith</a>])(<a href="https://github-redirect.dependabot.com/theskumar/python-dotenv/issues/183">#183</a>).</li>
+<li>Refactor parser to fix parsing inconsistencies ([<a href="https://github.com/bbc2">@bbc2</a>])(<a href="https://github-redirect.dependabot.com/theskumar/python-dotenv/issues/170">#170</a>).
+<ul>
+<li>Interpret escapes as control characters only in double-quoted strings.</li>
+<li>Interpret <code>#</code> as start of comment only if preceded by whitespace.</li>
+</ul>
+</li>
+</ul>
+<h2>0.10.2</h2>
+<ul>
+<li>Add type hints and expose them to users ([<a href="https://github.com/qnighy">@qnighy</a>])(<a href="https://github-redirect.dependabot.com/theskumar/python-dotenv/issues/172">#172</a>)</li>
+<li><code>load_dotenv</code> and <code>dotenv_values</code> now accept an <code>encoding</code> parameter, defaults to <code>None</code>
+([<a href="https://github.com/theskumar">@theskumar</a>])([<a href="https://github.com/earlbread">@earlbread</a>])(<a href="https://github-redirect.dependabot.com/theskumar/python-dotenv/issues/161">#161</a>)</li>
+<li>Fix <code>str</code>/<code>unicode</code> inconsistency in Python 2: values are always <code>str</code> now. ([<a href="https://github.com/bbc2">@bbc2</a>])(<a href="https://github-redirect.dependabot.com/theskumar/python-dotenv/issues/121">#121</a>)</li>
+<li>Fix Unicode error in Python 2, introduced in 0.10.0. ([<a href="https://github.com/bbc2">@bbc2</a>])(<a href="https://github-redirect.dependabot.com/theskumar/python-dotenv/issues/176">#176</a>)</li>
+</ul>
+<h2>0.10.1</h2>
+<ul>
+<li>Fix parsing of variable without a value ([<a href="https://github.com/asyncee">@asyncee</a>])([<a href="https://github.com/bbc2">@bbc2</a>])(<a href="https://github-redirect.dependabot.com/theskumar/python-dotenv/issues/158">#158</a>)</li>
+</ul>
+<h2>0.10.0</h2>
+<ul>
+<li>Add support for UTF-8 in unquoted values ([<a href="https://github.com/bbc2">@bbc2</a>])(<a href="https://github-redirect.dependabot.com/theskumar/python-dotenv/issues/148">#148</a>)</li>
+<li>Add support for trailing comments ([<a href="https://github.com/bbc2">@bbc2</a>])(<a href="https://github-redirect.dependabot.com/theskumar/python-dotenv/issues/148">#148</a>)</li>
+<li>Add backslashes support in values ([<a href="https://github.com/bbc2">@bbc2</a>])(<a href="https://github-redirect.dependabot.com/theskumar/python-dotenv/issues/148">#148</a>)</li>
+<li>Add support for newlines in values ([<a href="https://github.com/bbc2">@bbc2</a>])(<a href="https://github-redirect.dependabot.com/theskumar/python-dotenv/issues/148">#148</a>)</li>
+<li>Force environment variables to str with Python2 on Windows ([<a href="https://github.com/greyli">@greyli</a>])</li>
+<li>Drop Python 3.3 support ([<a href="https://github.com/greyli">@greyli</a>])</li>
+<li>Fix stderr/-out/-in redirection ([<a href="https://github.com/venthur">@venthur</a>])</li>
+</ul>
+<h2>0.9.0</h2>
+</tr></table> ... (truncated)
+</blockquote>
+</details>
+<details>
+<summary>Commits</summary>
+<ul>
+<li><a href="https://github.com/theskumar/python-dotenv/commit/3637b3e114b9a3084457594ccfa3cb3e6d3d4ee4"><code>3637b3e</code></a> Bump version: 0.10.4 → 0.10.5</li>
+<li><a href="https://github.com/theskumar/python-dotenv/commit/70d0c19cfae688dc333f753f880a8062b43b9333"><code>70d0c19</code></a> Fix handling of lines with just a comment</li>
+<li><a href="https://github.com/theskumar/python-dotenv/commit/c68e78fe8dddbe7453f5e14251097f7d0be3beee"><code>c68e78f</code></a> Fix handling of malformed lines</li>
+<li><a href="https://github.com/theskumar/python-dotenv/commit/ae1f1a906feddb23f4fa05c968c52df99c487ead"><code>ae1f1a9</code></a> Bump version: 0.10.3 → 0.10.4</li>
+<li><a href="https://github.com/theskumar/python-dotenv/commit/c5b47f42f9b21be3cae1545bc4c758b30eb4b3dc"><code>c5b47f4</code></a> Clarify env var substitution format (<a href="https://github-redirect.dependabot.com/theskumar/python-dotenv/issues/221">#221</a>)</li>
+<li><a href="https://github.com/theskumar/python-dotenv/commit/c00ccbb7ebdd0715717d13bf8b1685ae62d1e2f6"><code>c00ccbb</code></a> Remove Python 3.4 in .travis (EOL mid 2019)</li>
+<li><a href="https://github.com/theskumar/python-dotenv/commit/23509f2f8856305f18c3e6dd28c42623ba320ae1"><code>23509f2</code></a> Support no value keys</li>
+<li><a href="https://github.com/theskumar/python-dotenv/commit/723809fd9e5b6bb5c016c48bc42246f369e8485b"><code>723809f</code></a> Print a warning on malformed line</li>
+<li><a href="https://github.com/theskumar/python-dotenv/commit/b1e83cafa8d0b09a2958106b7a35a0ee4d6aec22"><code>b1e83ca</code></a> Remove useless try/except</li>
+<li><a href="https://github.com/theskumar/python-dotenv/commit/af192b7956e50c8cc07dc287047a524bb3b10ebb"><code>af192b7</code></a> Minor tweaks</li>
+<li>Additional commits viewable in <a href="https://github.com/theskumar/python-dotenv/compare/v0.1.1...v0.10.5">compare view</a></li>
+</ul>
+</details>
+<br />
+
+
+Dependabot will resolve any conflicts with this PR as long as you don't alter it yourself. You can also trigger a rebase manually by commenting `@dependabot rebase`.
+
+[//]: # (dependabot-automerge-start)
+[//]: # (dependabot-automerge-end)
+
+---
+
+<details>
+<summary>Dependabot commands and options</summary>
+<br />
+
+You can trigger Dependabot actions by commenting on this PR:
+- `@dependabot rebase` will rebase this PR
+- `@dependabot recreate` will recreate this PR, overwriting any edits that have been made to it
+- `@dependabot merge` will merge this PR after your CI passes on it
+- `@dependabot squash and merge` will squash and merge this PR after your CI passes on it
+- `@dependabot cancel merge` will cancel a previously requested merge and block automerging
+- `@dependabot reopen` will reopen this PR if it is closed
+- `@dependabot close` will close this PR and stop Dependabot recreating it. You can achieve the same result by closing it manually
+- `@dependabot ignore this major version` will close this PR and stop Dependabot creating any more for this major version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this minor version` will close this PR and stop Dependabot creating any more for this minor version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this dependency` will close this PR and stop Dependabot creating any more for this dependency (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot use these labels` will set the current labels as the default for future PRs for this repo and language
+- `@dependabot use these reviewers` will set the current reviewers as the default for future PRs for this repo and language
+- `@dependabot use these assignees` will set the current assignees as the default for future PRs for this repo and language
+- `@dependabot use this milestone` will set the current milestone as the default for future PRs for this repo and language
+- `@dependabot badge me` will comment on this PR with code to add a "Dependabot enabled" badge to your readme
+
+Additionally, you can set the following in your Dependabot [dashboard](https://app.dependabot.com):
+- Update frequency (including time of day and day of week)
+- Pull request limits (per update run and/or open at any time)
+- Out-of-range updates (receive only lockfile updates, if desired)
+- Security updates (receive only security updates, if desired)
+
+
+
+</details>
+ fix object_merge issue #285 with  meta value
+ 
+ Add Flask load extensions
+ None

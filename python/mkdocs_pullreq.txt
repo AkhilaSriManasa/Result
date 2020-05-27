@@ -1,0 +1,212 @@
+﻿ Fix relative links
+ It solves cases when the path starts from the project root. The file still must be in `docs_dir`, but links like `[image](../docs/image.png)` and `[image](docs/image.png)` now works. It makes it possible to use README.md files with relative links.
+ Bump version to 1.1.2.
+ Apparently 1.1.1 is completely useless to those who use MkDocs in a Docker Container. Therefore, we are releasing a fix immediately. Sorry for the inconvenience.
+ Normalize IP addresses and change error to warning
+ All IP addresses passed to `dev_addr` are now normalized.
+`127.000.000.001` is normalized to `127.0.0.1`.
+
+With apologies to docker container users, the address `0.0.0.0`
+no longer raises an error but a warning instead. Apparently,
+docker containers need to use that address, even in dev environments.
+
+Closes #2108.
+ Switch to GitHub Actions from Travis
+ This is a work in progress. 
+
+Still need to add a deploy workflow and remove the Travis config.
+
+Addresses #2032.
+ Bump version to 1.1.1
+ Also fixed a couple flake8 issues caught by the latest update.
+ Add plugin error exception and event
+ This PR adds a `PluginError` exception to the `mkdocs.exceptions` module to allow plugin writers to cleanly abort a build without showing a traceback.
+
+It also adds an `on_build_error` event that is triggered by such `PluginError` exceptions, that we catch in the `build` command of the `mkdocs.commands.build` module (most of the diff in this module is just indentation in between the try/except, I could not reduce the noise). This event allows to clean things up if needed, just before aborting the build.
+
+I wondered if I should not rename the event `on_plugin_error`, but to me it makes more sense to call it a build error, because it could be triggered in other places as well. Also, if you think the event doesn't have its place in this PR, I'll gladly remove it so we can discuss it a bit more before opening (or not) another PR for it.
+
+Related: #2082 (the issue also asks for a logging error counter, as well as a `get_logger` utility function, so this PR does not resolve it entirely).
+
+TODO:
+
+- [x] add docs: I documented the `on_build_error` event, but not the `PluginError` since I couldn't find an existing page documenting MkDocs exceptions. It's mentioned in the `on_build_error` documentation though.
+- [x] add tests (any advice?)
+ Make compressed sitemap deterministic
+ Our deployment step for https://datadoghq.dev/integrations-core/ should only trigger when a change occurs in the built site. However, every build was different because gzip includes the timestamp in its header.
+
+cc @waylan since you were involved with https://github.com/mkdocs/mkdocs/pull/1130
+ Fix markdownlint test
+ Just experimenting trying to understand why the markdownlint test is failing.
+ Exclude theme from watched files by default.
+ Add a `--watch-theme` option which theme devs can enable if needed.
+Most users never modify the theme files and watchers are resource hogs.
+Fixes #2092.
+ Add --wait flag to serve command.
+ This should address #2061. However, I don't perceive any actual delay. Perhaps those who have a need for could report back.
+
+```
+$ mkdocs serve --wait 60
+INFO    -  Building documentation...
+INFO    -  Cleaning site directory
+INFO    -  Documentation built in 0.96 seconds
+[I 200505 14:43:49 server:296] Serving on http://127.0.0.1:8000
+INFO    -  Serving on http://127.0.0.1:8000
+[I 200505 14:43:49 handlers:62] Start watching changes
+INFO    -  Start watching changes
+[I 200505 14:43:49 handlers:64] Start detecting changes
+INFO    -  Start detecting changes
+[I 200505 14:43:53 handlers:135] Browser Connected: http://127.0.0.1:8000/
+INFO    -  Browser Connected: http://127.0.0.1:8000/
+[I 200505 14:44:07 watcher:104] Running task: builder (delay: 60)
+INFO    -  Running task: builder (delay: 60)
+INFO    -  Building documentation...
+[I 200505 14:44:08 handlers:95] Reload 1 waiters: /Users/waylan/Code/mkdocs/docs/index.md
+INFO    -  Reload 1 waiters: /Users/waylan/Code/mkdocs/docs/index.md
+[I 200505 14:44:08 handlers:135] Browser Connected: http://127.0.0.1:8000/
+INFO    -  Browser Connected: http://127.0.0.1:8000/
+```
+
+Note that it took me a few seconds to make a change to the file. However, from the timestamps in the log it took less that 60 seconds from the time it started detecting changes until the entire site was rebuilt. However the log clearly shows that the builder has a delay: `Running task: builder (delay: 60)`.
+
+ Ignore IntelliJ IDE conf settings
+ 
+ Use README.md as index.html also if use_directory_urls is false
+ Right now, just like any *foo/index.md*, any *foo/README.md* becomes *foo/index.html*, but that works only if `use_directory_urls` is on.
+But the `use_directory_urls` feature is for changing *foo/bar.md* into *foo/bar/index.html* and should not prevent the former from working.
+
+I'm hoping that this is more of an oversight (due to the source code for the two things being very related) than an intentional exclusion.
+So I'm sending a small pull request to fix that and also unify the code paths. But feel free to discuss this as an issue in case it's not as agreeable as I thought.
+ Ignore links which start with a backslash.
+ Fixes #1680.
+ Pass builder to on_serve event.
+ Every call to `server.watch` requires `builder` to be passed in. If
+users are to add their own watched files, then they need access to
+`builder`. Fixes #1952.
+ Remove deprecated theme_dir option from CLI.
+ This should have been removed some time ago. Fixes #2042.
+ Set dependency to `lunr[languages] Lunr.py version 0.5.8 maintains compatability with Lunr.js 2.3.8, but
+restricts its dependnecy to `nltk>=3.2.5,<3.5`, which avoids installation
+issues on some Docker images. Fixes #2062.
+ Fix #2062 nltk dependency
+ Based on reports in #2062 I created this MR which makes sure `nltk` version `3.5.0` is not installed
+ Fix typo
+ ![Capture](https://user-images.githubusercontent.com/9677399/79078913-9d7a3200-7cd9-11ea-8929-6c70bc411f1b.PNG)
+
+ Adds --page-type option when deploying using gh-deploy
+ I recently ran into an issue trying to deploy my docs to a personal (i.e. user) site with the `gh-deploy` command where the docs would deploy to the URL `http://<user>.github.io/<user>.github.io`. After looking at the [mkdocs docs](https://www.mkdocs.org/user-guide/deploying-your-docs/#organization-and-user-pages) surrounding deployment I found two things: (1) this was expected behavior because I was essentially following the "project" deployment steps and (2) the docs and UI for deploying user and organization pages was confusing.
+
+As a result, I created a `--page-type` option that can be used in a straightforward fashion during the deployment stage, without having to worry about changing directories or having two local repos. This is accompanied by an update to the "Organization and User Pages" section in the documentation and has been tested using `tox`.
+
+Please let me know if you see any issues with implementing this. And thank you so much for continuing to maintain this great library!
+ Fix formatting errors
+ There where some minor formatting errors in https://www.mkdocs.org/user-guide/writing-your-docs/ which I corrected now.
+ Remove disable_unicode_literals_warning config
+ The `click` configuration would be no longer needed.
+Since `mkdocs` already dropped Python 2 support and removed the `unicode_literals` import:
+
+```
+from __future__ import unicode_literals
+```
+
+ Correct error message
+ If the config file was inside the docs dir, mkdocs would give a
+confusing error:
+
+    config value: 'docs_dir'. Error: The 'docs_dir' should not be the parent directory of the config file. Use a child directory instead so that the config file is a sibling of the config file.
+
+The last part of that message now reads:
+
+    Use a child directory instead so that the 'docs_dir' is a sibling of the config file.
+
+Fixes https://github.com/mkdocs/mkdocs/issues/2009
+ 3.8 is supported; 2.7 and 3.4 are not anymore
+ Updated installation information to include Python 3.8 support, and dropped 2.7/3.4 support.
+
+- 2.7 is EOL and no longer supported by MkDocs: #1936 
+- 3.4 is EOL and no longer supported by MkDocs: #1938 
+- 3.8 supported by MkDocs: #1938 
+ fix #2027 code colors
+ Some CSS overrides. See images for Sphinx, mkdocs 1.0.4 and mkdocs 1.1 (without/with PR) comparison.
+
+## sphinx-2.4.4+rtd-0.4.3
+
+![sphinx-2 4 4+rtd-0 4 3](https://user-images.githubusercontent.com/882353/77235352-31624d80-6bb5-11ea-981a-fa34bc4f62b0.png)
+
+## mkdocs-1.0.4
+
+![mkdocs-1 0 4](https://user-images.githubusercontent.com/882353/77235355-38895b80-6bb5-11ea-9ed1-d3f3455183bb.png)
+
+## mkdocs-1.1
+
+![mkdocs-1 1](https://user-images.githubusercontent.com/882353/77235357-3c1ce280-6bb5-11ea-8ac7-cc1f6c8fe8eb.png)
+
+## mkdocs-1.1+PR
+
+![mkdocs-1 1+PR](https://user-images.githubusercontent.com/882353/77235359-3e7f3c80-6bb5-11ea-9b77-d3ac0e209048.png)
+
+  Disallow 0.0.0.0 dev_addr.
+ MkDocs has never supported using the included server for production.
+However, some users have been using it that way. This would prevent that.
+
+Still needs proper tests. However, a quick test on the command line produces these results:
+
+```
+λ mkdocs serve -a 0.0.0.0:8000
+INFO    -  Building documentation...
+ERROR   -  Config value: 'dev_addr'. Error: The MkDocs' server is intended for 
+development purposes only. Therefore, '0.0.0.0' is not a supported IP address.
+Please use a third party production-ready server instead.
+
+Aborted with 1 Configuration Errors!
+λ mkdocs serve -a 277.0.0.0:8000
+INFO    -  Building documentation...
+ERROR   -  Config value: 'dev_addr'. Error: '277.0.0.0' does not appear to be an
+IPv4 or IPv6 address
+
+Aborted with 1 Configuration Errors!
+```
+ Ensure bdist_wheel no longer creates a universal wheel
+ MkDocs no longer supports Python 2. Therefore, a universal wheel would be
+inappropriate as it results in `py2.py3`.
+
+See Python-Markdown/markdown#919.
+ Correct the block name of the search box in the doc
+ As mentionned here: https://github.com/mkdocs/mkdocs/issues/1142#issuecomment-282899537
+I just correct the name in the documentation
+ Support for minimum search length configuration parameter.
+ As mentioned in [issue 2014](https://github.com/mkdocs/mkdocs/issues/2014), searching for any term of less than 3 characters will give the user back a message saying 'No results found' - This is misleading as results may have been present, but due to a hardcoded limit on minimum search length the search was not actually performed.
+
+This PR implements an additional config parameter `min_search_length` for the search plugin.
+
+ Release a public docker image on docker hub
+ I saw few non-official mkdocs docker image and I think that it can be a good idea to have one.
+
+For the moment, I have made a simple start :
+- Automatically built image on Docker Hub's infrastructure
+- Image built on each git tag
+- [label schema](http://label-schema.org/) compliant
+
+I used my personal account to produce a poc :
+https://hub.docker.com/r/lvjp/mkdocs
+
+The only setting I have done is to add this building rule :
+
+ Name | Value 
+------ | ---------
+Source type | Tag
+Source | /^[0-9.]+.*$/
+Docker tag | {sourceref}
+Build context | /docker
+Autobuild | On
+Build Caching | Off
+ Fix a minimum dependency description of Markdown at the release note
+ The release note describes:
+
+>* Update minimum dependancy to Markdown 3.0.1.
+
+However, the actual minimum dependency of Markdown package at mkdocs 1.1 is 3.2.1.
+
+https://github.com/mkdocs/mkdocs/blob/eddeeab066cb071dbe426878a85de715df1b93e7/requirements/project.txt#L4
+
+

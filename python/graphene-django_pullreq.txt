@@ -1,0 +1,150 @@
+﻿ Header functionality
+ enable passing a JWT AUTH token in the header METAdata for a graphql query......also enables curl use.
+ Support stringy middlewares
+ Implements  #972
+ fixes minor typo in docs index
+ 
+ Default camelcase errors
+ Copy of https://github.com/graphql-python/graphene-django/pull/789 on top of v3
+
+For some reason @swist I couldn't push changes to your branch so I had to create this new one.
+ Error in signature of callproc() and execute()
+ Fixes #586
+
+The default params `()` in the two `NormalCursorWrapper` methods should be `None` to match what django expects in the code block below. A bare `cursor.execute(sql)` will have `params=()` added to it by the Wrapper which fails to match the `if` in the code block below, causing the IndexError. 
+
+```
+    def execute(self, sql, params=None):
+        self.db.validate_no_broken_transaction()
+        with self.db.wrap_database_errors:
+            if params is None:
+                return self.cursor.execute(sql)
+            else:
+>               return self.cursor.execute(sql, params)
+E               IndexError: tuple index out of range
+
+django/db/backends/utils.py:65: IndexError
+```
+
+This fix was done @kevingill1966 in their fork, I'm just making a PR to have it added =)
+ DjangoConnectionField slice: use max_limit first, if set
+ I found an interesting performance issue, where if I query without `first` or `last`, and there is a setting for `RELAY_CONNECTION_MAX_LIMIT`, the resolver attempts to pull in the entire queryset.
+
+This is way overkill when there are thousands of items, so it seems wise to use `max_limit` when available.
+
+I opted for optional kwarg in `resolve_connection` to maintain backwards compatibility if anyone overwrote this method, but it would be cleaner to require it, since the calling method `connection_resolver` always has it.
+
+On a query that has multiple nested `DjangoConnectionField`s, I imagine this would reduce queries and data over the SQL wire by a lot.
+ Use psycopg2-binary in tox
+ I tried to use a Dockerfile to run all tox scenarios on my local and the first issue was it needed some extra packages to compile `psycopg2`. This change may not have any important affect on the current workflow but i see no reason to not change it.
+ fix typo
+ changed queryeset to queryset
+
+ Register decimals as string
+ Fixes #91 
+
+I started this branch as a fix to another project. No review is needed yet but they're always appreciated.
+
+Incoming changes:
+* [ ] Connect this change to a global setting. 
+* [ ] Update tests with that setting.
+* [ ] Update `test_should_query_filter_node_limit` and consider what can be affected.
+ Update tests
+ update tests preparing for a functional change.....will pass the AUTH token in the HTTP header, which will require sessions
+ GraphQlView: Do not 'instantiate_middleware' if middleware is already a MiddlewareManager
+ In graphq-core 2, the `MiddlewareManager` can have a `wrap_in_promise` boolean passed to activate/deactivate wrapping the middleware's result into a promise. This has a big performance impact on large requests.
+https://github.com/graphql-python/graphql-core-legacy/blob/52e030bbc6001fd378515600f81ccea0e360131b/graphql/execution/middleware.py#L25
+
+The executor is instantiating the middleware as a `MiddlewareManager` if it's anything else than already a `MiddlewareManager`:
+https://github.com/graphql-python/graphql-core-legacy/blob/52e030bbc6001fd378515600f81ccea0e360131b/graphql/execution/executor.py#L102
+
+So in `graphene_django/views.py` by always converting middleware into a list, it breaks the ability to passe the argument to the `MiddlewareManager` and always default to `wrap_in_promise=True`.
+
+This PR simply checks if the middleware is already a `MiddlewareManager` and pass it without pre-processing, allowing the end-user to define it themselves.
+
+ graphql 3.0 and graphene 3.0 final rebase
+ I rebased almost all change to their original author: form #905 and #774.
+ Add GitHub actions
+ Replace travis with github actions. It's faster and it's nicely integrated with github.
+ Do not access the internals of `SimpleLazyObject`
+ This API is not meant to be used, and it breaks when double-wrapped lazy objects occur, which appears to be a long standing practice.
+
+See original issue in django-otp https://github.com/django-otp/django-otp/pull/36
+
+This was introduced a long time ago, in v1.1.0, surprised it hasn't come up before?
+https://github.com/graphql-python/graphene-django/commit/d73f4aa23581d7604cd92a80e8890ad490170094
+
+At any rate, if you have both `AuthenticationMiddleware` and Django OTP, this will blow up with:
+
+```
+Exception: Received incompatible instance
+```
+ Rename op_name to operation_name
+ Following on from https://github.com/graphql-python/graphene-django/pull/936 this PR renames op_name to operation_name.
+ Make tests order independent (v3)
+ * Add pytest-random-order to change test-order on each pytest-run
+
+Contains the part that can only be merged on v3
+ Disable system checks for graphql_schema management command
+ I find myself generating the schema as part of CI regularly (to avoid having to check a generated file into source control) but some pipelines don't have access to a database and the system checks will always fail as a result.
+
+To combat this I propose [system checks are disabled](https://docs.djangoproject.com/en/dev/howto/custom-management-commands/#django.core.management.BaseCommand.requires_system_checks) for the command.
+ Switch `operation_name` to `operationName` in GraphQLTestCase
+ The [documentation for serving GraphQL over HTTP](https://graphql.org/learn/serving-over-http/#post-request) recommends that the operation name be specified by an `operationName` parameter.
+
+The `GraphQLTestCase.query()` method ends up creating a request that uses snake_case `operation_name` instead. This PR addresses that.
+
+I wasn't sure how to write a complete test for this using GraphQLTestCase itself since it requires a database, so I settled for just testing the arguments that were used for `Client.post()`.
+ Update django form mutation to more granularly handle input/output fields
+ Example of how I'd like to change DjangoFormMutation as per #933. I think this should be backwards compatible with the existing one.  Check out docstring on `DjangoFormMutation` for an overview of what the changes (ought to!) do :)
+
+I also tried to add some docs about class behavior.
+
+This still needs a test case and probably to be merged into the public graphene django docs but I figured this'd be good basis for discussion :)
+
+Ultimately this is motivated by me having desire to be able to have a graphql mutation that just returns `clientMutationId` and a single object even tho I'm not using a `DjangoModelFormMutation`.
+ Make tests order independent
+ * Reset the global registry after each test (teardown)
+
+* Create a settings fixtures that returns graphene_settings and resets the graphene_settings after use (teardown)
+
+* Convert test_mutation tests from unittests.TestCase to pytest
+
+* Convert test_mutation PetType to a pet_type fixtures that reregisters the type
+
+The core change is setup/teardown in conftest.py
+
+https://github.com/graphql-python/graphene-django/blob/a16cebea7c2fb2bb33a5c677e96ad8a0cfe8100d/graphene_django/conftest.py#L8-L18
+ Fix failing tests
+ Also add Python 3.8 to the list of test versions
+ Improve DjangoListField
+ This PR extends `DjangoListField` to always use the `get_queryset` method on a `DjangoObjectType`. Resolves #698 and #925 
+
+Also added some much needed documentation.
+ Adding documentation for installing django-filter
+ 
+ remove **from.data from base mutation
+ closes #922 
+ Section added `GraphQL testing clients`
+ Section added `GraphQL testing clients` in README.md
+ Documentation missing endpoint explanation
+ Add some information about GRAPHQL_URL. Otherwise people run into ERROR 400 problems, if they have a different endpoint.
+ Fix DjangoModelFormMutation
+ https://github.com/graphql-python/graphene-django/pull/811 introduced a bug with DjangoModelFormMutation. This PR fixes it.
+ WIP: Graphql next
+ This PR is based on #904 . When it's merged, this branch should be rebased from main branch.
+
+I tried to use existing PRs #812 and #774 and complete what is left. There is no proper organization in commits at the moment, i'll edit the branch in couple of days.
+
+There are several things to discuss but it passes all tests and i think this is a good start.
+ Python 3
+ Almost all of these changes were included in Graphene 3 related pull requests but they were waiting there for a long time.
+
+Changes:
+* Remove Python 2 support
+* Remove support for deprecated Django versions: 2.0, 2.1
+* Remove support for django-filter < 2
+* Add support for Python 3.8
+* Resolve `RemovedInDjango40Warning` warnings
+ Update dev dependencies
+ 

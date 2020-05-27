@@ -1,0 +1,256 @@
+﻿ Added setNear and setWithin
+ 
+ Update Exporter.py to be compatible with Python 3
+ Small fix with parentecies added to the print statement.
+ Update TweetCriteria.py
+ 
+ Add comments parameter of each tweet
+ Proposal to add comments parameter on each tweet metric. 
+
+I have not used nor revised the got3 code, so it might be needed to modify the code there.
+ Fixes on CSV, Twitter Username, and Emoji
+ I'm using python csv module, and added the emoji. I'm also fixes the username not being pulled into Tweet class.
+ Add retrieving emojis
+ 
+ Abort
+ Abort
+ Fix typos
+ 
+ seve--emoji
+ seve--emoji 
+
+# -*- coding: utf-8 -*-
+
+import json, re, datetime, sys, http.cookiejar
+import urllib.request, urllib.parse, urllib.error
+from pyquery import PyQuery
+from .. import models
+
+class TweetManager:
+    """A class for accessing the Twitter's search engine"""
+    def __init__(self):
+        pass
+
+    @staticmethod
+    def getTweets(tweetCriteria, receiveBuffer=None, bufferLength=100, proxy=None, debug=False):
+        """Get tweets that match the tweetCriteria parameter
+        A static method.
+
+        Parameters
+        ----------
+        tweetCriteria : tweetCriteria, an object that specifies a match criteria
+        receiveBuffer : callable, a function that will be called upon a getting next `bufferLength' tweets
+        bufferLength: int, the number of tweets to pass to `receiveBuffer' function
+        proxy: str, a proxy server to use
+        debug: bool, output debug information
+        """
+        results = []
+        resultsAux = []
+        cookieJar = http.cookiejar.CookieJar()
+
+        all_usernames = []
+        usernames_per_batch = 20
+
+        if hasattr(tweetCriteria, 'username'):
+            if type(tweetCriteria.username) == str or not hasattr(tweetCriteria.username, '__iter__'):
+                tweetCriteria.username = [tweetCriteria.username]
+
+            usernames_ = [u.lstrip('@') for u in tweetCriteria.username if u]
+            all_usernames = sorted({u.lower() for u in usernames_ if u})
+            n_usernames = len(all_usernames)
+            n_batches = n_usernames // usernames_per_batch + (n_usernames % usernames_per_batch > 0)
+        else:
+            n_batches = 1
+
+        for batch in range(n_batches):  # process all_usernames by batches
+            refreshCursor = ''
+            batch_cnt_results = 0
+
+            if all_usernames:  # a username in the criteria?
+                tweetCriteria.username = all_usernames[batch*usernames_per_batch:batch*usernames_per_batch+usernames_per_batch]
+
+            active = True
+            while active:
+                json = TweetManager.getJsonReponse(tweetCriteria, refreshCursor, cookieJar, proxy, debug=debug)
+                if len(json['items_html'].strip()) == 0:
+                    break
+
+                refreshCursor = json['min_position']
+                scrapedTweets = PyQuery(json['items_html'])
+                #Remove incomplete tweets withheld by Twitter Guidelines
+                scrapedTweets.remove('div.withheld-tweet')
+                tweets = scrapedTweets('div.js-stream-tweet')
+
+                if len(tweets) == 0:
+                    break
+
+                for tweetHTML in tweets:
+                    tweetPQ = PyQuery(tweetHTML)
+                    tweet = models.Tweet()
+
+                    usernames = tweetPQ("span.username.u-dir b").text().split()
+                    tweet.username = usernames[0]
+                    tweet.to = usernames[1] if len(usernames) == 2 else None
+                    tweet.text = re.sub(r"\s+", " ", tweetPQ("p.js-tweet-text").html())\
+                        .replace('# ', '#').replace('@ ', '@').replace('$ ', '$')
+                    tweet.retweets = int(tweetPQ("span.ProfileTweet-action--retweet span.ProfileTweet-actionCount").attr("data-tweet-stat-count").replace(",", ""))
+                    tweet.favorites = int(tweetPQ("span.ProfileTweet-action--favorite span.ProfileTweet-actionCount").attr("data-tweet-stat-count").replace(",", ""))
+                    tweet.id = tweetPQ.attr("data-tweet-id")
+                    tweet.permalink = 'https://twitter.com' + tweetPQ.attr("data-permalink-path")
+                    tweet.author_id = int(tweetPQ("a.js-user-profile-link").attr("data-user-id"))
+
+                    dateSec = int(tweetPQ("small.time span.js-short-timestamp").attr("data-time"))
+                    tweet.date = datetime.datetime.fromtimestamp(dateSec, tz=datetime.timezone.utc)
+                    tweet.formatted_date = datetime.datetime.fromtimestamp(dateSec, tz=datetime.timezone.utc)\
+                                                            .strftime("%a %b %d %X +0000 %Y")
+                    tweet.mentions = " ".join(re.compile('(@\\w*)').findall(tweet.text))
+                    tweet.hashtags = " ".join(re.compile('(#\\w*)').findall(tweet.text))
+
+                    geoSpan = tweetPQ('span.Tweet-geo')
+                    if len(geoSpan) > 0:
+                        tweet.geo = geoSpan.attr('title')
+                    else:
+                        tweet.geo = ''
+
+                    urls = []
+                    for link in tweetPQ("a"):
+                        try:
+                            urls.append((link.attrib["data-expanded-url"]))
+                        except KeyError:
+                            pass
+
+                    tweet.urls = ",".join(urls)
+
+                    results.append(tweet)
+                    resultsAux.append(tweet)
+                    
+                    if receiveBuffer and len(resultsAux) >= bufferLength:
+                        receiveBuffer(resultsAux)
+                        resultsAux = []
+
+                    batch_cnt_results += 1
+                    if tweetCriteria.maxTweets > 0 and batch_cnt_results >= tweetCriteria.maxTweets:
+                        active = False
+                        break
+
+            if receiveBuffer and len(resultsAux) > 0:
+                receiveBuffer(resultsAux)
+                resultsAux = []
+
+        return results
+
+    @staticmethod
+    def getJsonReponse(tweetCriteria, refreshCursor, cookieJar, proxy, debug=False):
+        """Invoke an HTTP query to Twitter.
+        Should not be used as an API function. A static method.
+        """
+        url = ("https://twitter.com/i/search/timeline?vertical=news&q=%s&src=typd&%s"
+               "&include_available_features=1&include_entities=1&max_position=%s"
+ geoSpan.attr('title')
+ Removed duplicate opt --within
+ Removed duplicate code
+```
+elif opt == '--within':
+    tweetCriteria.within = '"' + arg + '"'
+```
+ Fix getting username error in Python3
+ 
+ Fix the Access Problem in Twitter
+ Changing header with Chrome header information fix the data access problem.
+ py3
+ edited command print() in py2 to py3
+ update parameter for language
+ the language parameter in the search seems to have changed to only 'l' instead of 'lang'
+ Added isReply and replyTo in tweets and Fixed Mentions and Hashtags
+ Now it is possible to tell when tweets are replys and who to.
+ Change the regex of Hashtag and Mention to make it return right things
+ The function to get hashtags and mentions only returns the `#` or `@`. 
+
+The reason is that in the returned tweet, there is a space between content of hash and tag `#`(same as mentions). Hence the regex `(#\\w*)` does not work. Here it is changed to `r'(#\s\w*)'`. This works now.
+ Fixed print statement for Python 3+
+ Print statement on line 15 was missing ( )  causing an error in Python 3 +
+ handle invalid arguments
+ Running Exporter.py with invalid arguments resulted in the following error message:
+
+`$ python Exporter.py --whoops`
+`Traceback (most recent call last):`
+`  File "Exporter.py", line 79, in <module>`
+`    main(sys.argv[1:])`
+`  File "Exporter.py", line 75, in main`
+`    outputFile.close()`
+`UnboundLocalError: local variable 'outputFile' referenced before assignment`
+
+I moved all file io into a with block, and removed the finally block. This way, if getopt() throws an exception, the program won't call close() on an uninitialized variable.
+
+Running the same command now gives the following output:
+
+`$ python Exporter.py --whoops`
+`Arguments parser error, try -h`
+
+`        option --whoops not recognized`
+ Ignore withheld tweets
+ Currently withheld tweets i.e. tweets from profiles which are temporarily or permenantly banned are shown on the twitter timeline but are "withheld" and as a consequence break this API as a "withheld tweet" has no properties.
+
+Unfortunately their structure is identical to that of normal tweets in that they contain the class js-stream-tweet and the rest of the div classes normal tweets have whilst also containing ".withheld-tweet".
+
+To prevent the breaking from withheld tweets they need to be removed.
+
+**N.B.** the attached changes remove these withheld tweets and handle cosmetic cleanup. I've only recently began to notice that twitter has displayed these withheld tweets so this could be a new addition to the timeline DOM or could just be a minor edge case but nevertheless it will persist as an issue particularly using this API to scrape tweets where banned users are more common.
+
+withheld tweet:
+<img width="472" alt="withheld-tweet" src="https://user-images.githubusercontent.com/11997409/34393752-a7d40e2c-eb4c-11e7-8b3c-1bc63a9c962e.png">
+
+twitter scraped link:
+https://twitter.com/search?q=%20%23Brexit%20OR%20%23StrongerIn%20OR%20%23VoteLeave%20since%3A2016-06-24%20until%3A2016-12-03&src=typd&max_position=TWEET-804621295866417152-804837526057795584
+
+example exporter parameters:
+python2.7 Exporter.py --querysearch "#Brexit OR #StrongerIn OR #VoteLeave" --since 2016-12-01 --until 2016-12-03
+ update TweetManager.py
+ Hi there, I have this package (got3) working on my machine this evening, the only edit I needed to make locally was here in TweetManager.py. Package urllib2 has been distributed into urllib.request and one other urllib class in Python 3, and changing instances of urllib2 to urllib.request does make the opener build successful. I'm suggesting this change so the package can be functional for other Python 3 users, though I understand this isn't your officially supported package. Also if you have the script written as is for a particular reason I'm not aware of, totally understand. Just wanted to share the fix I found.
+ Replace urllib2 components in got3, pep8
+ Substative Changes:
+Replace `urllib2` components with equivalent `urllib3` components. 
+For example:
+```
+
+        if proxy:
+            opener = urllib.request.build_opener(urllib.request.ProxyHandler(
+                {'http': proxy, 'https': proxy}), urllib.request.HTTPCookieProcessor(cookieJar))
+        else:
+            opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(cookieJar))
+        opener.addheaders = headers
+```
+
+Style Changes:
+Ran PEP8 autostyle tool to convert tabs to spaces and other standard styling changes.
+ Added search by location feature
+ Added ability to search 'near' and 'within' a certain location and range. Both functions that were in the Python 2 versions
+ Fixed functionality for Python3
+ Added functionality for searching by location and changed 'urllib2' to 'urllib.requests' for use in Python 3 that Python 2 version had
+ Fix urllib import error in Py 3.5.2
+ Error in Python 3.5.2:
+
+    AttributeError: module 'urllib' has no attribute 'build_opener'
+
+This goes for the whole lines replaced.
+ Update Search Features
+ Changed search names to fit the description of the current Twitter advanced search on the browser.
+ Add support for language-based query
+ Hello,
+
+as in title, I added the option to make a query like:
+
+```
+python Exporter.py --username "barackobama" --maxtweets 1 --lang en
+```
+to retrieve only tweets in a given language.
+
+Seems working like on the website. Hope it can helpful!
+ Urllib Python 3.x functions
+ update urllib2 functions to corresponding Python 3.x
+ Fix issues in Exporter and TweetManager related to Python3 usage
+ Hi, It looks like few minor changes needed to be made, to get got3 working, creating pull request for the changes. Please review.
+ Fix version conflicts, rearrange order of search parameters
+ Fixed the following:
+ Grab Tweet attached link 
+ Grab url from the tweet and add it to the tweet model

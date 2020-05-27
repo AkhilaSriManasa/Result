@@ -1,0 +1,151 @@
+﻿ play_music function
+ playing pikachu.mp3
+ game_demo.py
+ Verified speech to text, text to speech, import Led and Board.
+Updated AIY-projects-python directory as written [here](https://github.com/google/aiyprojects-raspbian/blob/aiyprojects/HACKING.md#python-library) with `sudo pip3 uninstall protobuf` ` sudo pip3 install protobuf==3.5.2`.
+
+ Create voice3aplushack.md
+ Sorry it's a pretty rough submit. Just jot down thoughts.
+
+11-16-18 AIY image is the latest image, and the only image late enough to support the new 3A+ released also in November 2018. Unfortunately that particular image, I've encounter many audio playback issues, some microphone issues also. There would be no sound which I suspect has something to do with pulseaudio that was introduced with August 2018 AIY image. The most recent AIY image that worked as expected was 4-13-18, but unfortunately does not support futureware 3A+. 3A+ would not boot unless with November 2018 the latest AIY image.
+
+Therefore I experimented by downloading the most recent Raspbian image from raspberrypi.org 11-13-18 to ensure that 3A+ would boot. From there I followed the hacking.md guide from google/aiy-raspbian to proceed to add setup AIY voice with src files from 4-13-18 the version that did not include pulseaudio and worked fine. Along with minor changes to configuration files as you will see.
+
+My experiment worked. 3A+ was able to boot, play audio from the v1 voice hat.
+
+I suspect pulseaudio to be the culprit. Additionally, the script folder with install-alsa and install-services with asound.conf seem to disappear from the most recent image. These were found in the 4-13-18 AIY image src/scripts.
+
+Happy hacking!
+ Undefined name: 'new_Position' --> 'new_position'
+ [flake8](http://flake8.pycqa.org) testing of https://github.com/google/aiyprojects-raspbian on Python 3.7.1
+
+$ __flake8 . --count --select=E901,E999,F821,F822,F823 --show-source --statistics__
+```
+./src/aiy/trackplayer.py:306:33: F821 undefined name 'new_Position'
+        self.current_position = new_Position
+                                ^
+1     F821 undefined name 'new_Position'
+1
+```
+ Add scope parameter for Cloud Speech
+ Fix bug for `{"error": "invalid_scope","error_description": "Empty or missing scope not allowed."}`.
+ Fix a potential UnboundLocalError in tests
+ ```python
+name = 'hotdog.jpg'
+
+    @contextmanager
+    def TestImage(name):
+        try:
+            f = open(test_image_path(name), 'rb')
+            try:
+                image = Image.open(f)
+                yield image
+            finally:
+                image.close()
+        finally:
+>           f.close()
+E           UnboundLocalError: local variable 'f' referenced before assignment
+```
+Using the context manager will always do the work for us :)
+
+The same error could happen  for `image`, fixed in the same time.
+ Add set_brightness function to LED driver
+ This makes it possible for voice kit to have a night mode where the LED is dimmer during certain hours by calling `aiy.voicehat.get_led().set_brightness(10)`
+
+This feature was requested by @mpember in #283 and credit for the code goes to him and @drigz who suggested it.
+ Add soundcard setup in HACKING.md
+ The HACKING file doesn't have instructions for setting up the soundcard. Without the setup, the soundcard won't be found or set as the default soundcard.
+
+#210 #261 
+ Add missing dependency to setup.py
+ Currently if you follow the instructions in HACKING.md to install Assistant, you will end up with a broken install. When you try to run any of the demos, you will get an error because the dependency `google-auth-oauthlib` is missing. This was formerly listed as a dependency in the `requirements.txt` file when there was one, I think it still needs to be there in `setup.py`.
+ Update bpm calculation at toneplayer.py
+ Currently the lower the bpm, the faster the speed. The opposite should be true instead.
+Changed to calculation to : The higher the bpm, the faster the speed.
+ Update bpm calculation of toneplayer.py
+ Currently the lower the bpm, the faster the speed. The opposite should be true instead.
+Changed to calculation to : The higher the bpm, the faster the speed.
+ pins: fix typo
+ 
+ make a vidéo about your project
+ Hello sir,
+i'm a french youtubeur and i'd like to make a vidéo about your project.
+i've already done 3 vidéo about the google assistant on raspberry pi but i'll be pleased to an update vidéo.
+the problem is that i've folowed your instruction for the instalation but i don't know how tu strat up the google assistant to give im the autho2 access to my account.
+i've already tried the command in the aiy project page in the right folder : src/examples/voice/assistant_grpc_demo.py
+and run diracly the assistant_grpc_demo.py
+![image ligne de comande aiy project](https://user-images.githubusercontent.com/40274060/41426808-186e5f6a-7005-11e8-88b4-2c7a40234284.jpg)
+
+Can you help me please
+of course i will put you in the decription of my video
+
+ Add files via upload
+ 
+ revise the leds
+ Make the Arcade Button LED lights works using aiy.leds.py instead of aiy.voicehat.py
+ Voicekit - a problem about bluetooth
+ Hello! I am a student who wants to develop some user interfaces using Bluetooth.
+I installed several python modules to take advantage of Bluetooth.
+-sudo apt-get install bluetooth libbluetooth-dev
+-sudo pip install pybluez
+-sudo apt-get install libboost-all-dev
+-sudo pip install gattlib
+However, some errors occurred when installing the above module.
+
+Are there any precautions for using Bluetooth module?
+I want to communicate Bluetooth between raspberry pie.
+Is there a Bluetooth module already installed and usable?
+
+Thank you!!
+ Add explanation for when error 403 happens
+ Addressing #321 by making it more clear what the issue (probably) is.
+ Include vision for led import
+ Changing `aiy.leds` to `aiy.vision.leds`. This change has been made across multiple of the example scripts in this repo. The original code loaded on the Vision kit includes:
+
+`from aiy.vision.leds import Leds` 
+
+ Fix ImportError
+ The module name for leds is wrong, causing "ImportError: No module named 'aiy.leds'" error.
+This is fixed by changing "aiy.leds" to "aiy.vision.leds".
+ Fixing README.md
+ Fixed the relative links in aiyprojects-raspbian/src/README.md
+ Install dependencies in user environment
+ 
+ Voicekit
+ 
+ AIY project
+ I signed it!
+ Add brightness control
+ A brightness variable make it possible to set a maximum LED brightness.
+ Fixing LED deadlock
+ ## Description
+
+During the LED cleanup process, a deadlock occurs as illustrated below. In this example, Thread A is the main thread which calls `LED.stop()`, and Thread B is the animate thread, held by `self.animator`.
+
+1. `LED.stop()` is called by Thread A.
+2. Thread A acquires the lock ([L69](https://github.com/google/aiyprojects-raspbian/blob/aiyprojects/src/aiy/_drivers/_led.py#L69))
+3. It joins with Thread B, without releasing the lock. ([L72](https://github.com/google/aiyprojects-raspbian/blob/aiyprojects/src/aiy/_drivers/_led.py#L72))
+4. Thread B waits for the lock, before being able to terminating. ([L87](https://github.com/google/aiyprojects-raspbian/blob/aiyprojects/src/aiy/_drivers/_led.py#L87))
+
+This was reproduced in Python 3.5.3.
+
+ Also install google-assistant-library on armv6l
+ I'm running a raspberry pi zero w (arm6l). I've done all the setup steps. 
+When running the example scripts, the `google-assistant-library` was missing. So I installed it the same way like in the install-deps.sh does it for ARMv7 and it works fine. So this I guess it's not only available on v7 but on v6?
+ Run check_audio in python env
+ The documented command is missing the env and this is what happend:  
+
+```
+Traceback (most recent call last):
+  File "checkpoints/check_audio.py", line 27, in <module>
+    import aiy.audio  # noqa
+ImportError: No module named 'aiy'
+```
+
+I changed it to the command that can be found in `shortcuts/check_audio.desktop`
+ Add deprecation warning to voicekit/HACKING.md
+ 
+ Update HACKING.md
+ Corrected defaulted co directory
+ Update example script path in HACKING.md
+ The path `src/assistant_library_demo.py` is obsolete, and no longer works in the aiyprojects branch. This PR fixes that in HACKING.md.

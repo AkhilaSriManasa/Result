@@ -1,0 +1,117 @@
+﻿ Change DatabaseScheduler.max_interval to match Celery's default Scheduler behaviour
+ Fixes https://github.com/celery/django-celery/issues/590
+ Adding Tidelift marketing text
+ @auvipy as requested, here is the README marketing text
+ Fix bug for adding a default value to celery.py when base.get_options return None
+ You can see diff information.
+<pre>
+<--
+
+diff --git a/djcelery/management/commands/celery.py b/djcelery/management/commands/celery.py
+index 0ee878d..82cf303 100644
+--- a/djcelery/management/commands/celery.py
++++ b/djcelery/management/commands/celery.py
+@@ -13,7 +13,7 @@ class Command(CeleryCommand):
+     help = 'celery commands, see celery help'
+     options = (
+         tuple(CeleryCommand.options) +
+-        tuple(base.get_options()) +
++        tuple(base.get_options() or ()) +
+         tuple(getattr(base, 'preload_options', ()))
+     )
+
+-->
+</pre>
+ Fix typo in docs
+ Just a small typo in the docs.
+ issue #579. @@tx_isolation is deprecated since MYSQL 5.7.20, add mysq…
+ issue #579. @@tx_isolation is deprecated since MYSQL 5.7.20, add correct version check
+ issue #579. @@tx_isolation is deprecated since MYSQL 5.7.20
+ `@@tx_isolation` is deprecated since MYSQL 5.7.20, we should use `@@transaction_isolation` instead
+https://dev.mysql.com/doc/refman/5.7/en/server-system-variables.html#sysvar_tx_isolation
+
+Fix suggested by [sqlalchemy](https://github.com/sqlalchemy/sqlalchemy/blob/rel_1_3/lib/sqlalchemy/dialects/mysql/base.py#L2193) realization 
+ dropped EOL python3 versions
+ 
+ Foolproof prevention via strict tuples. Fixes #573
+ In 3.3.0 [options were broken](5d1ecb09c6304d22cc447c7c08fba0bd1febc2ef) by messing up tuples and lists
+ Fixed #560: Type casting preload_options to list.
+ Fixed #560 
+ Run management command in tox.
+ Run the `celery` management command, to detect breakage there.
+
+This should be more exaustive (though I'm not sure which commands will work with the celery config here?), it should be enough to check if the management command fails.
+
+This is to try and detect bugs like #573 
+
+It looks like there have been similar bugs recently in the tracker too.
+
+~~NOTE:  **I can't run tox here to see if this works.**~~
+
+This fails in tox, so seems to be correct.
+ Update readme
+ 
+ README fixes
+ ![image](https://user-images.githubusercontent.com/26336/59113881-917c5180-890b-11e9-9863-f5a98d0e235e.png)
+
+ Fix bug when run command `celery`
+ There's a bug when run `python manage celery` related to attribute `preload_options` not existed in `CeleryCommand`.
+ Improve translation notes in the FAQ
+ Update FAQ to demonstrate `translation.override` instead of `translation.activate` for switching language inside a task. The override function is safer and simpler.
+ Update celery.py
+ fix TypeError: can only concatenate tuple (not "NoneType") to tuple #560
+ DatabaseScheduler ignores 'expires' option
+ Fix: #393
+ Made it compatible > 1.9
+ See https://docs.djangoproject.com/en/1.9/releases/1.8/#deprecated-features-1-8
+ Add tox to test requirements
+ This project requires tox to run tests, and Django should be included as default.
+ Version in readme has not been updated
+ Found it misleading, highest version in pip is 3.2.2
+ Add natural key support to the PeriodicTask model.
+ Needed for dumpdata/loaddata to work properly.
+ Support celerycam for reconnecting db connenction if db connection is lost accidentally
+ Currently if the database is not stable and connection is lost, celerycam can not reconnect db connection automatically and it can not work properly anymore. The error ```connection already closed``` will always be raised.
+
+This PR supports to automatically reconnect db connection for celerycam if db connection is lost.
+ Fix incorrect display of html form with Django 2.0
+ Fixes #541 
+
+Already test it under Django 1.11.10 and 2.0.1
+ Importing DictAttribute for celery 4
+ 
+ use celery version lower then 4.0
+ #531 
+ Resolves #531 for branch 3.1
+ 
+ Bump version to 3.2.2
+ edx-platform will temporarily use this edX fork of django-celery until Celery is upgraded to v4.
+edx-platform currently installs django-celery v3.2.1. That version was *not* on master in the upstream repo - it was on an unmerged branch:
+https://github.com/celery/django-celery/compare/master...v3.2.1
+
+This PR bumps the version on the edX fork to avoid confusion around the installation of django-celery. Bumping the version will cause installation of the edX fork version on all edx-platform installations.
+ Fix next id call in test_from_entry
+ 
+ Improves periodic tasks admin, tasks are better clickable.
+ Improves periodic tasks admin, tasks are better clickable.
+Old situation: only `enabled` is clickable. This is not clear because it uses an icon. 
+
+![image](https://user-images.githubusercontent.com/10162961/28262272-bcf5d58c-6ae2-11e7-9c28-4e9ca04f9eb3.png)
+
+New situation, `periodic task` and `task name` are also clickable. This improves navigation in the periodic task admin: 
+
+![image](https://user-images.githubusercontent.com/10162961/28262243-9f8d1a1e-6ae2-11e7-99d4-579af0f46126.png)
+
+
+
+ update timeutils usage to work with celery 4
+ 
+ fixes rst 'unkown target' error
+     $ rst2html.py --version; rst2html.py README.rst > /dev/null
+     rst2html.py (Docutils 0.12 [release], Python 3.4.3, on linux)
+     README.rst:73: (ERROR/3) Unknown target name: "django-celery documentation".
+
+Based on my experience, this should also fix the formatting issue on the
+pypi.python.org site
+
+changed the link based on the intent of the original commit that removed it, 27bec1e20af79df83061105127c123715c3d1011

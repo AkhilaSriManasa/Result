@@ -1,0 +1,291 @@
+﻿ Fix STC StartStyling Demo
+ Update indicator stuff to work with wxPy4.0 and 4.1 with scintilla version change
+Also appended wxPython version and Scintilla version string to demo text for easy reference.
+
+Fixes #1641 
+
+
+ Eliminate deprecation warning
+ Remove import of 'imp' module to eliminate deprecation warning.
+
+ [ULC] add orientation parameter to GetScrollPos
+ 
+
+ [ULC] add method GetCheckedItemCount
+ Added a method to get the number of checked items.
+
+ [ULC] add parameter column index to SendNotify
+ Added a column parameter to SendNotify and set it to the column index in an UltimateListEvent where applicable.
+
+ [ULC] fix calculation of line width
+ If one or more columns are hidden, HitTest would falsely report a hit when clicked right beside the last visible column within the range of the hidden column(s).
+
+
+<details>
+<summary>sample code to show HitTest problem.</summary>
+
+```python
+import wx
+from wx.lib.agw import ultimatelistctrl as ulc
+
+
+class TestFrame(wx.Frame):
+
+    def __init__(self):
+        super(TestFrame, self).__init__(None, size=(700, 300))
+
+        self.lst_ctrl = ulc.UltimateListCtrl(self, agwStyle=ulc.ULC_REPORT)
+        self.fill_list_ctrl(self.lst_ctrl)
+        szr = wx.BoxSizer(wx.VERTICAL)
+        szr.Add(wx.StaticText(
+            self,
+            label="right click on an item in different columns,"
+                  "\nright behind the last column of an item and"
+                  "\nnear the right border of the frame."
+        ))
+        szr.Add(self.lst_ctrl, 1, wx.EXPAND)
+        self.SetSizer(szr)
+        self.Bind(ulc.EVT_LIST_ITEM_RIGHT_CLICK, self.on_right_click)
+        self.lst_ctrl.SetColumnWidth(2, wx.LIST_AUTOSIZE_USEHEADER)
+
+    def on_right_click(self, event):
+        evt_index = event.GetIndex()
+        evt_column = event.GetColumn()
+
+        print("  item index:", evt_index)
+        print("column index:", evt_column)
+        print()
+
+    def fill_list_ctrl(self, ctrl):
+        col_info = ulc.UltimateListItem()
+        col_info.SetMask(ulc.ULC_MASK_TEXT | ulc.ULC_MASK_KIND)
+        col_info.SetKind(0)
+        col_info.SetText('this is column 0')
+        ctrl.InsertColumnInfo(-1, col_info)
+
+        col_info.SetText('this is column 1')
+        col_info.SetShown(False)
+        col_info.SetMask(ulc.ULC_MASK_TEXT | ulc.ULC_MASK_KIND | ulc.ULC_MASK_SHOWN)
+        ctrl.InsertColumnInfo(-1, col_info)
+
+        col_info.SetText('this is column 2 (column 1 is hidden)')
+        col_info.SetMask(ulc.ULC_MASK_TEXT | ulc.ULC_MASK_KIND)
+        ctrl.InsertColumnInfo(-1, col_info)
+
+        for idx in range(5):
+            item = ulc.UltimateListItem()
+            item.SetId(idx)
+            item.SetMask(ulc.ULC_MASK_TEXT | ulc.ULC_MASK_KIND)
+            item.SetKind(0)
+            item.SetColumn(0)
+            item.SetText("row %d, column 0" % idx)
+
+            ctrl.InsertItem(item)
+            item.SetColumn(1)
+            item.SetText("row %d, column 1" % idx)
+
+            ctrl.SetItem(item)
+            item.SetColumn(2)
+            item.SetText("row %d, column 2" % idx)
+            ctrl.SetItem(item)
+
+        ctrl.SetColumnWidth(0, ulc.ULC_AUTOSIZE)
+        ctrl.SetColumnWidth(1, ulc.ULC_AUTOSIZE)
+        ctrl.SetColumnWidth(2, ulc.ULC_AUTOSIZE)
+
+
+if __name__ == '__main__':
+    app = wx.App()
+    win = TestFrame()
+    win.Show()
+    app.MainLoop()
+```
+
+
+</details>
+ new event wx.lib.agw.aui.EVT_AUI_PANE_CLOSED
+ I needed an event when a pane was closed, but the existing `wx.lib.agw.aui.EVT_AUI_PANE_CLOSE` is fired when a pane is about to be closed and that sometimes led to timing issues.
+I added an extra event that is fired when the pane is really closed.
+I was thinking about to rename EVT_AUI_PANE_CLOSE to EVT_AUI_PANE_CLOSING (which better fits), but that could break older code. So i just changed the docstring.
+ Fix issue #1364
+ <!-- Be sure to set the issue number that this PR fixes or implements below, and give
+     a good description. If this PR is for a new feature or enhancement, then it's
+     okay to remove the "Fixes #..." below, but be sure to give an even better
+     description of the PR in that case.
+
+     See also https://wxpython.org/pages/contributor-guide/  -->
+
+Fixes #1364 
+
+
+ ULC block item dragging
+ I wanted to block item dragging in UltimateListControl, but couldn't find a way. With this little addition i was able to get the desired result. If there is another way (any idea @infinity77 ?) , please tell me, otherwise i would love to see this PR merged.
+
+
+
+
+ Add missing binder for wxEVT_STC_AUTOCOMP_SELECTION_CHANGE
+ <!-- Be sure to set the issue number that this PR fixes or implements below, and give
+     a good description. If this PR is for a new feature or enhancement, then it's
+     okay to remove the "Fixes #..." below, but be sure to give an even better
+     description of the PR in that case.
+
+     See also https://wxpython.org/pages/contributor-guide/  -->
+
+Fixes #1613
+
+
+ Remove GTK exceptional handling in DVC Custom Renderer sample
+ When running the DVC Custom Renderer sample under GTK it warns that DVC cannot correctly handle editing of columns that have custom renderers except in WIndows, but this warning is probably obsolete because editing columns with custom renderers appears to work as expected under GTK.
+ Fix classes derived from wxEditorDialogProperty
+ Ensure sip sees that there is an implementation of DisplayEditorDialog in classes derived from wxEditorDialogProperty.
+
+Fixes #1605
+
+
+ Add wrappers for the GridBlockCoords, GridBlocks, and GridBlockDiffResult
+ <!-- Be sure to set the issue number that this PR fixes or implements below, and give
+     a good description. If this PR is for a new feature or enhancement, then it's
+     okay to remove the "Fixes #..." below, but be sure to give an even better
+     description of the PR in that case.
+
+     See also https://wxpython.org/pages/contributor-guide/  -->
+
+
+
+ Stop fly-out timers before closing the floating pane.
+ <!-- Be sure to set the issue number that this PR fixes or implements below, and give
+     a good description. If this PR is for a new feature or enhancement, then it's
+     okay to remove the "Fixes #..." below, but be sure to give an even better
+     description of the PR in that case.
+
+     See also https://wxpython.org/pages/contributor-guide/  -->
+
+Fixes #1501
+
+
+ Use different typecheck code for wxArrayInt and wxArrayString in variant conversions
+ <!-- Be sure to set the issue number that this PR fixes or implements below, and give
+     a good description. If this PR is for a new feature or enhancement, then it's
+     okay to remove the "Fixes #..." below, but be sure to give an even better
+     description of the PR in that case.
+
+     See also https://wxpython.org/pages/contributor-guide/  -->
+
+Fixes #1581 
+
+
+
+ fix sizerflags in genericmessagedialog.py
+ *fixed sizer flags issue in preparation for wxpython 4.1
+*fixed unhandled icon style case, will raise ValueError for bad icon mask flag
+*fixed general code formatting issues
+
+<!-- Be sure to set the issue number that this PR fixes or implements below, and give
+     a good description. If this PR is for a new feature or enhancement, then it's
+     okay to remove the "Fixes #..." below, but be sure to give an even better
+     description of the PR in that case.
+
+     See also https://wxpython.org/pages/contributor-guide/  -->
+
+
+
+
+ build.py: don't nuke PYTHONPATH
+ Append phoenixDir to PYTHONPATH instead of overwriting it.
+
+Partially Fixes #1314
+
+ Use generic animation classes on all platforms
+ <!-- Be sure to set the issue number that this PR fixes or implements below, and give
+     a good description. If this PR is for a new feature or enhancement, then it's
+     okay to remove the "Fixes #..." below, but be sure to give an even better
+     description of the PR in that case.
+
+     See also https://wxpython.org/pages/contributor-guide/  -->
+
+Depends on: https://github.com/wxWidgets/wxWidgets/pull/1768
+Fixes #1567 
+
+The wxWidgets PR adds the ability to use the generic animation classes on all platforms, and also adds the generic-only methods and decoders to the interface headers.
+
+This PR includes the changes needed to take advantage of all that.
+
+
+ Fixes issue #1577: possible memory leak
+ Allocated array should be deallocated with delete [].
+Deallocating it with delete can cause memory leaks.
+
+Fixes #1577
+
+ Fixes issue #1570:
+ Replaced the unsafe "tfname "with tempfile.NamedTemporaryFile(delete=False) as fid: tfname = fid.name"
+
+* Fixes #1570
+
+ Fixes issue #1574: Still missing close for open, replace with a "with" block
+ Fixes #1574 
+
+Adding missing close for open and replaced "fid=open(filename) fid.close()"
+ Switch to the macOS-10.14 image on Azure
+ 
+
+
+
+
+ Fixes issue 1571:
+ Fixes issue #1571: 
+
+Adding missing close for open.
+If the "close()" call is missing after a "open(filename)" call, the filename isn't guaranteed to be closed before the interpreter exits.
+This is generally a bad practice as explained here: https://stackoverflow.com/questions/7395542/is-explicitly-closing-files-important
+
+ Fixes issue # 1554:
+ Fixes issue #1554:
+Replaced "== None" and "!= None" with "is None" and "is not None", respectively, because the former is slower and error-prone.
+
+"is" is generally preferred when comparing arbitrary objects to singletons like None because it is faster and more predictable. "is" always compares by object identity, whereas what "==" will do depends on the exact type of the operands and even on their ordering.
+
+ Fixes issue #1553: Replace wait with communicate to avoid potential d…
+ Fixes issue #1553: Replace wait with communicate to avoid potential deadlock.
+
+ Use WX_CONFIG from the environment if set
+ <!-- Be sure to set the issue number that this PR fixes or implements below, and give
+     a good description. If this PR is for a new feature or enhancement, then it's
+     okay to remove the "Fixes #..." below, but be sure to give an even better
+     description of the PR in that case.
+
+     See also https://wxpython.org/pages/contributor-guide/  -->
+
+if WX_CONFIG is set in the environment then use that instead of defaulting to "wx-config"	
+
+Fixes #1488
+
+
+ Don't use relative imports in the tools scripts
+ <!-- Be sure to set the issue number that this PR fixes or implements below, and give
+     a good description. If this PR is for a new feature or enhancement, then it's
+     okay to remove the "Fixes #..." below, but be sure to give an even better
+     description of the PR in that case.
+
+     See also https://wxpython.org/pages/contributor-guide/  -->
+
+Fixes #1311
+
+
+ Fixes issue #1556
+ Replaced XXX.keys() calls with idiomatic python 3 calls that are compatible with python 2 such as eg:
+ * replaced "y = xxx.keys()" or "y = list(xxx.keys())" with just "y = list(xxx)"
+ * replaced "sorted(xxx.keys())" or "sorted(list(xxx.keys()))" with just "sorted(xxx)"
+ * replaced "if not A in B.keys():" with "if A not in B:"
+ * replaced "for A in B.keys():" or "for A in list(B.keys()):"  with just "for A in B:"
+
+See also https://python-future.org/compatible_idioms.html
+https://python-future.org/compatible_idioms.html#dict-keys-values-items-as-a-list
+
+Fixes #1556
+ Fixes issue 1555
+ Replace open-close statements by the use of "with"-blocks.
+
+ Fixes issue #1557 by replacing call to tempfile.mktemp with tempfile.…
+ Fixes #1557 by replacing call to tempfile.mktemp with tempfile.NamedTemporaryFile.

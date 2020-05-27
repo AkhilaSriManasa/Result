@@ -1,0 +1,240 @@
+﻿ Safely test for optional "type" field in poetry lock
+ The "source" field in a poetry lock file can optionally have a "type"
+field. However, in cases where an alternative "simple" index is offered,
+e.g., artifactory, this type field is not used. This patch makes
+checking this type field safe by returning a None in the case that the
+field doesn't exist.
+
+Fixes: https://github.com/dephell/dephell/issues/437
+ More types
+ 
+ Fix issue with not expanding home paths
+ # Fix expanding ~ (`$HOME`) in file path
+Fixes issue #237 
+
+## Problem
+When using a path with the `$HOME` parameter `~`, this won't get expanded and will reference to the current directory.
+
+## Solution
+Update the config builder with an additional script to expand the user path for all received filepaths.
+ Fix wheel generation
+ # Wheel Generation for Packages with src folder
+Fixes issue #391 
+
+## Problem
+Packages containing a **src** folder above the package folder won't have a working wheel package when building the packages with `dephell build`
+
+## Solution
+Appending the found package dir to the project package path enables the converter to generate a working wheel package for packages with a **src** folder as well as for packages without one (when there is no **src** folder, this parameter contains the value `'.'` )
+
+## Misc
+
+Also fixed a typo in the *project_build* file.
+ Fewer network requests
+ Close #414
+ Fix envs filtering in `deps convert`
+ Close #384
+ Custom CA bundles support
+ Close #419
+ test and fix `deps add`
+ Close #421
+ fix path resolving 4 register
+ 
+ Fixes #425: `vendor download` doesn't do anything with private pypi
+ Fix #425 
+ Fix Converter.lock default value for subclasses
+ Fix lock mechanism for converters with lock supports by default.
+
+Now locking is not working for Pipfile.lock, poetry.lock and other. 
+
+I have dephell==0.8.2 with dependecies in venv
+```
+aiofiles==0.5.0
+aiohttp==3.6.2
+appdirs==1.4.3
+async-timeout==3.0.1
+attrs==19.3.0
+autopep8==1.5.2
+bowler==0.8.0
+Cerberus==1.3.2
+certifi==2020.4.5.1
+chardet==3.0.4
+click==7.1.1
+colorama==0.4.3
+dephell==0.8.2
+dephell-archive==0.1.6
+dephell-argparse==0.1.2
+dephell-changelogs==0.0.1
+dephell-discover==0.2.10
+dephell-licenses==0.1.6
+dephell-links==0.1.5
+dephell-markers==1.0.3
+dephell-pythons==0.1.14
+dephell-setuptools==0.2.3
+dephell-shells==0.1.4
+dephell-specifier==0.2.1
+dephell-venvs==0.1.17
+dephell-versioning==0.1.1
+docker==4.2.0
+dockerpty==0.4.1
+docutils==0.16
+fissix==19.2b1
+graphviz==0.13.2
+html5lib==1.0.1
+idna==2.9
+idna-ssl==1.1.0
+Jinja2==2.11.2
+m2r==0.2.1
+MarkupSafe==1.1.1
+mistune==0.8.4
+multidict==4.7.5
+packaging==20.3
+pexpect==4.8.0
+ptyprocess==0.6.0
+pycodestyle==2.5.0
+Pygments==2.6.1
+pyparsing==2.4.7
+python-gnupg==0.4.6
+requests==2.23.0
+ruamel.yaml==0.16.10
+ruamel.yaml.clib==0.2.0
+sh==1.12.14
+shellingham==1.3.2
+six==1.14.0
+tabulate==0.8.7
+tomlkit==0.6.0
+typing-extensions==3.7.4.2
+urllib3==1.25.9
+webencodings==0.5.1
+websocket-client==0.57.0
+yapf==0.29.0
+yarl==1.4.2
+yaspin==0.16.0
+```
+
+Have minimal project with pyproject.toml
+```
+[tool.dephell.main]
+from = {format = "poetry", path = "pyproject.toml"}
+to = {format = "pipfilelock", path = "Pipfile.lock"}
+
+
+[tool.poetry]
+name = "test"
+version = "1.0.0"
+description = ""
+authors = [""]
+
+[tool.poetry.dependencies]
+python = "==3.6"
+aiohttp = "*"
+aioredis = "*"
+
+[tool.poetry.dev-dependencies]
+asynctest = "*"
+flake8 = "*"
+isort = "*"
+mypy = "*"
+pytest = "*"
+```
+
+And i need to lock this packages to Pipfile.lock. For this i run follow command
+```
+$ dephell deps convert --env=main --level=DEBUG --format=full
+DEBUG 2020-04-22 12:23:57 load dependencies... (format=poetry, path=pyproject.toml)
+DEBUG 2020-04-22 12:23:57 dump dependencies... (format=pipfilelock, path=Pipfile.lock)
+INFO 2020-04-22 12:23:57 converted
+```
+
+Expected fully resolved dependencies in Pipfile.lock, but i see this
+```
+{
+    "_meta": {
+        "sources": [
+            {
+                "url": "https://pypi.org/simple/",
+                "verify_ssl": true,
+                "name": "pypi"
+            }
+        ],
+        "requires": {
+            "python_version": "3.6.8"
+        },
+        "hash": {
+            "sha256": "e0fc994407192dc4be29f1516cc098572519e7eb95b1b277e8a887a580427538"
+        },
+        "pipfile-spec": 6
+    },
+    "default": {
+        "aiohttp": {},
+        "aioredis": {}
+    },
+    "develop": {
+        "asynctest": {},
+        "flake8": {},
+        "isort": {},
+        "mypy": {},
+        "pytest": {}
+    }
+}
+```
+ Small fixes in requesting warehouse (simple and API)
+ + Fix cache name. Before it removed the last part of the version that resulted in the invalid cache.
++ Do not fail on broken archives on warehouse. Close #416
++ Simplify `deps tree` output to make it a bit more readable.
++ Do not fail on invalid extras.
++ Retry aiohttp network requests. Close #406 
++ Correctly parse dependencies with more than one extra for warehouse packages.
++ Fix caching for simple warehouse
++ Fix name and version matching for simple warehouse
+
+ fix typo in examples
+ fix typo in examples
+ Update changelog
+ 
+ Simplify links putting for old formats
+ For PyPI, passing `home_page` and having `Homepage` in `project_urls` is the same. So, let's stop putting `url` and `download_url` as separate fields and just use `project_urls` for everything. Easy to remember, easy to code.
+ Use `-h` as an alias for `--help`
+ Related to https://github.com/dephell/dephell_argparse/issues/3
+ Improve requirements.txt lookup
+ Related to #386
+ Ignore implicit config in `dephell jail`
+ 1. Globall config is used
+1. CLI options are used
+1. Explicitly specified config is used
+1. CHANGED: Implicitly found config is not used for `jail` anymore.
+
+I guess that's what you expect ;)
+
+UPD: do the same for more commands where config isn't actually used. It helps to avoid warning about missed config.
+
+Close #375 
+ `dephell project bump` improvements
+ 1. Bump `version.py`. Close #388
+1. Improve docs a bit. Also related to #388.
+1. Make `ruamel.yaml` fairly optional. See https://github.com/dephell/dephell/issues/402#issuecomment-599583535
+1. Do not mess up extras in poetry if nothing has changed.
+1. Bump version in `conf.py`. Close #373. @maksbotan did you have a request for this as well? :)
+ fix lazy import for html5lib
+ Close #402
+ dephell venv entrypoint
+ Close #214
+ dephell project upload
+ Close #16 
+ dephell package verify
+ 
+ Fix DepHell config lookup for local deps
+ 
+ `dephell project register` command
+ Close #385 
+ --version
+ Show `dephell inspect self` when `dephell --version` has been called
+
+ Show more info in `inspect venv`
+ 
+ Improve entrypoints lookup
+ Close #380
+ Remove flatdict
+ I should be more selective about dependencies contributed into dephell. Flatdict is a library that I had a lot of headaches with. Now all CIs are broken because of it. And it can be replaced by one small function. Here it goes.
+ A bit more docstrings
+ 

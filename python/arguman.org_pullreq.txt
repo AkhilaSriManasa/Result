@@ -1,0 +1,269 @@
+﻿ Bump httplib2 from 0.9 to 0.18.0
+ Bumps [httplib2](https://github.com/httplib2/httplib2) from 0.9 to 0.18.0.
+<details>
+<summary>Changelog</summary>
+<p><em>Sourced from <a href="https://github.com/httplib2/httplib2/blob/master/CHANGELOG">httplib2's changelog</a>.</em></p>
+<blockquote>
+<p>0.18.0</p>
+<p>IMPORTANT security vulnerability CWE-93 CRLF injection
+Force %xx quote of space, CR, LF characters in uri.
+Special thanks to Recar <a href="https://github.com/Ciyfly">https://github.com/Ciyfly</a> for discrete notification.
+<a href="https://cwe.mitre.org/data/definitions/93.html">https://cwe.mitre.org/data/definitions/93.html</a></p>
+<p>0.17.4</p>
+<p>Ship test suite in source dist
+<a href="https://github-redirect.dependabot.com/httplib2/httplib2/pull/168">httplib2/httplib2#168</a></p>
+<p>0.17.3</p>
+<p>IronPython2.7: relative import iri2uri fixes ImportError
+<a href="https://github-redirect.dependabot.com/httplib2/httplib2/pull/163">httplib2/httplib2#163</a></p>
+<p>0.17.2</p>
+<p>python3 + debug + IPv6 disabled: https raised
+&quot;IndexError: Replacement index 1 out of range for positional args tuple&quot;
+<a href="https://github-redirect.dependabot.com/httplib2/httplib2/issues/161">httplib2/httplib2#161</a></p>
+<p>0.17.1</p>
+<p>python3: no_proxy was not checked with https
+<a href="https://github-redirect.dependabot.com/httplib2/httplib2/issues/160">httplib2/httplib2#160</a></p>
+<p>0.17.0</p>
+<p>feature: Http().redirect_codes set, works after follow(_all)_redirects check
+This allows one line workaround for old gcloud library that uses 308
+response without redirect semantics.
+<a href="https://github-redirect.dependabot.com/httplib2/httplib2/issues/156">httplib2/httplib2#156</a></p>
+<p>0.16.0</p>
+<p>IMPORTANT cache invalidation change, fix 307 keep method, add 308 Redirects
+<a href="https://github-redirect.dependabot.com/httplib2/httplib2/issues/151">httplib2/httplib2#151</a></p>
+<p>proxy: username/password as str compatible with pysocks
+<a href="https://github-redirect.dependabot.com/httplib2/httplib2/issues/154">httplib2/httplib2#154</a></p>
+<p>0.15.0</p>
+<p>python2: regression in connect() error handling
+<a href="https://github-redirect.dependabot.com/httplib2/httplib2/pull/150">httplib2/httplib2#150</a></p>
+<p>add support for password protected certificate files
+<a href="https://github-redirect.dependabot.com/httplib2/httplib2/pull/143">httplib2/httplib2#143</a></p>
+</tr></table> ... (truncated)
+</blockquote>
+</details>
+<details>
+<summary>Commits</summary>
+<ul>
+<li><a href="https://github.com/httplib2/httplib2/commit/8373177d3a9e4dd9c956f9bded22a5f96a00957b"><code>8373177</code></a> v0.18.0 release</li>
+<li><a href="https://github.com/httplib2/httplib2/commit/9fef207e85eef0534574d71fe1338c01874eba46"><code>9fef207</code></a> pyproject.toml</li>
+<li><a href="https://github.com/httplib2/httplib2/commit/a1457cc31f3206cf691d11d2bf34e98865873e9e"><code>a1457cc</code></a> IMPORTANT security vulnerability CWE-93 CRLF injection</li>
+<li><a href="https://github.com/httplib2/httplib2/commit/9413ffc973a2dc90abf787509ee82238345d5602"><code>9413ffc</code></a> v0.17.4 release</li>
+<li><a href="https://github.com/httplib2/httplib2/commit/fe3136ac369199abd9d6afd2d2a61a11da9e32ac"><code>fe3136a</code></a> Ship new test suite in source dist</li>
+<li><a href="https://github.com/httplib2/httplib2/commit/f5684876ef5e3b57c81f716c08b316fa36684f08"><code>f568487</code></a> v0.17.3 release</li>
+<li><a href="https://github.com/httplib2/httplib2/commit/fa0c4d2cb98ece0a7b156583d308ddf4370dc7d7"><code>fa0c4d2</code></a> Switched the iri2uri import to a relative import</li>
+<li><a href="https://github.com/httplib2/httplib2/commit/067b3f250769e921dc397e28f3aadd0ffa14e17b"><code>067b3f2</code></a> v0.17.2 release</li>
+<li><a href="https://github.com/httplib2/httplib2/commit/59586b5f0ccfa9d570d8c7d908d00d34cf1f3c89"><code>59586b5</code></a> Fix debug in HTTPSConnectionWithTimeout.connect</li>
+<li><a href="https://github.com/httplib2/httplib2/commit/0d490f692ca5f73cd2caaf9cc5e42e9f7702e453"><code>0d490f6</code></a> travis says matrix is alias for jobs now</li>
+<li>Additional commits viewable in <a href="https://github.com/httplib2/httplib2/compare/0.9...v0.18.0">compare view</a></li>
+</ul>
+</details>
+<br />
+
+
+[![Dependabot compatibility score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=httplib2&package-manager=pip&previous-version=0.9&new-version=0.18.0)](https://help.github.com/articles/configuring-automated-security-fixes)
+
+Dependabot will resolve any conflicts with this PR as long as you don't alter it yourself. You can also trigger a rebase manually by commenting `@dependabot rebase`.
+
+[//]: # (dependabot-automerge-start)
+[//]: # (dependabot-automerge-end)
+
+---
+
+<details>
+<summary>Dependabot commands and options</summary>
+<br />
+
+You can trigger Dependabot actions by commenting on this PR:
+- `@dependabot rebase` will rebase this PR
+- `@dependabot recreate` will recreate this PR, overwriting any edits that have been made to it
+- `@dependabot merge` will merge this PR after your CI passes on it
+- `@dependabot squash and merge` will squash and merge this PR after your CI passes on it
+- `@dependabot cancel merge` will cancel a previously requested merge and block automerging
+- `@dependabot reopen` will reopen this PR if it is closed
+- `@dependabot close` will close this PR and stop Dependabot recreating it. You can achieve the same result by closing it manually
+- `@dependabot ignore this major version` will close this PR and stop Dependabot creating any more for this major version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this minor version` will close this PR and stop Dependabot creating any more for this minor version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this dependency` will close this PR and stop Dependabot creating any more for this dependency (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot use these labels` will set the current labels as the default for future PRs for this repo and language
+- `@dependabot use these reviewers` will set the current reviewers as the default for future PRs for this repo and language
+- `@dependabot use these assignees` will set the current assignees as the default for future PRs for this repo and language
+- `@dependabot use this milestone` will set the current milestone as the default for future PRs for this repo and language
+
+You can disable automated security fix PRs for this repo from the [Security Alerts page](https://github.com/arguman/arguman.org/network/alerts).
+
+</details>
+ Bump django from 1.7 to 1.11.28
+ Bumps [django](https://github.com/django/django) from 1.7 to 1.11.28.
+<details>
+<summary>Commits</summary>
+
+- [`e09f09b`](https://github.com/django/django/commit/e09f09b965ef47ffd99abd2c26ba7416751cffa6) [1.11.x] Bumped version for 1.11.28 release.
+- [`001b063`](https://github.com/django/django/commit/001b0634cd309e372edb6d7d95d083d02b8e37bd) [1.11.x] Fixed CVE-2020-7471 -- Properly escaped StringAgg(delimiter) parameter.
+- [`7fd1ca3`](https://github.com/django/django/commit/7fd1ca3ef63e5e834205a8208f4dc17d80f9a417) [1.11.x] Fixed timezones tests for PyYAML 5.3+.
+- [`121115d`](https://github.com/django/django/commit/121115d2c291b3969ac00ca62253f23513481739) [1.11.x] Added CVE-2019-19844 to the security archive.
+- [`2c4fb9a`](https://github.com/django/django/commit/2c4fb9a35db575ec56207446d782b8f450a2b4e7) [1.11.x] Post-release version bump.
+- [`358973a`](https://github.com/django/django/commit/358973a12eb3105ba084a2d594428a19223b8582) [1.11.x] Bumped version for 1.11.27 release.
+- [`f4cff43`](https://github.com/django/django/commit/f4cff43bf921fcea6a29b726eb66767f67753fa2) [1.11.x] Fixed CVE-2019-19844 -- Used verified user email for password reset ...
+- [`a235574`](https://github.com/django/django/commit/a2355740ed76ca9461b34d65beb450c0156f3224) [1.11.x] Refs [#31073](https://github-redirect.dependabot.com/django/django/issues/31073) -- Added release notes for 02eff7ef60466da108b1a33f1e4dc...
+- [`e8fdf00`](https://github.com/django/django/commit/e8fdf00cc2acdcc992fd9621230e927594dc5d4f) [1.11.x] Fixed [#31073](https://github-redirect.dependabot.com/django/django/issues/31073) -- Prevented CheckboxInput.get_context() from mutating ...
+- [`4f15016`](https://github.com/django/django/commit/4f1501660b869c8358ce32b71464d8016c15208c) [1.11.x] Post-release version bump.
+- Additional commits viewable in [compare view](https://github.com/django/django/compare/1.7...1.11.28)
+</details>
+<br />
+
+[![Dependabot compatibility score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=django&package-manager=pip&previous-version=1.7&new-version=1.11.28)](https://help.github.com/articles/configuring-automated-security-fixes)
+
+Dependabot will resolve any conflicts with this PR as long as you don't alter it yourself. You can also trigger a rebase manually by commenting `@dependabot rebase`.
+
+[//]: # (dependabot-automerge-start)
+[//]: # (dependabot-automerge-end)
+
+---
+
+<details>
+<summary>Dependabot commands and options</summary>
+<br />
+
+You can trigger Dependabot actions by commenting on this PR:
+- `@dependabot rebase` will rebase this PR
+- `@dependabot recreate` will recreate this PR, overwriting any edits that have been made to it
+- `@dependabot merge` will merge this PR after your CI passes on it
+- `@dependabot squash and merge` will squash and merge this PR after your CI passes on it
+- `@dependabot cancel merge` will cancel a previously requested merge and block automerging
+- `@dependabot reopen` will reopen this PR if it is closed
+- `@dependabot close` will close this PR and stop Dependabot recreating it. You can achieve the same result by closing it manually
+- `@dependabot ignore this major version` will close this PR and stop Dependabot creating any more for this major version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this minor version` will close this PR and stop Dependabot creating any more for this minor version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this dependency` will close this PR and stop Dependabot creating any more for this dependency (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot use these labels` will set the current labels as the default for future PRs for this repo and language
+- `@dependabot use these reviewers` will set the current reviewers as the default for future PRs for this repo and language
+- `@dependabot use these assignees` will set the current assignees as the default for future PRs for this repo and language
+- `@dependabot use this milestone` will set the current milestone as the default for future PRs for this repo and language
+
+You can disable automated security fix PRs for this repo from the [Security Alerts page](https://github.com/arguman/arguman.org/network/alerts).
+
+</details>
+ Bump nltk from 3.1 to 3.4.5
+ Bumps [nltk](http://nltk.org/) from 3.1 to 3.4.5.
+
+[![Dependabot compatibility score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=nltk&package-manager=pip&previous-version=3.1&new-version=3.4.5)](https://help.github.com/articles/configuring-automated-security-fixes)
+
+Dependabot will resolve any conflicts with this PR as long as you don't alter it yourself. You can also trigger a rebase manually by commenting `@dependabot rebase`.
+
+[//]: # (dependabot-automerge-start)
+[//]: # (dependabot-automerge-end)
+
+---
+
+<details>
+<summary>Dependabot commands and options</summary>
+<br />
+
+You can trigger Dependabot actions by commenting on this PR:
+- `@dependabot rebase` will rebase this PR
+- `@dependabot recreate` will recreate this PR, overwriting any edits that have been made to it
+- `@dependabot merge` will merge this PR after your CI passes on it
+- `@dependabot squash and merge` will squash and merge this PR after your CI passes on it
+- `@dependabot cancel merge` will cancel a previously requested merge and block automerging
+- `@dependabot reopen` will reopen this PR if it is closed
+- `@dependabot ignore this [patch|minor|major] version` will close this PR and stop Dependabot creating any more for this minor/major version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this dependency` will close this PR and stop Dependabot creating any more for this dependency (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot use these labels` will set the current labels as the default for future PRs for this repo and language
+- `@dependabot use these reviewers` will set the current reviewers as the default for future PRs for this repo and language
+- `@dependabot use these assignees` will set the current assignees as the default for future PRs for this repo and language
+- `@dependabot use this milestone` will set the current milestone as the default for future PRs for this repo and language
+
+You can disable automated security fix PRs for this repo from the [Security Alerts page](https://github.com/arguman/arguman.org/network/alerts).
+
+</details>
+ Scroll-x durumunda body tagı dışında drag edememe problemi
+ Scroll-x durumunda body tagı dışında drag edememe problemi var.
+ Add a Polish translation
+ This PR adds a translation of Arguman into Polish.
+
+I had to remove a `pl` folder that contained strings in some other language - Portuguese, maybe? I can restore it under some other name, if necessary, but it didn't seem to be used anywhere, anyway.
+
+If any further changes are needed to polish (pun not intended) the PR, please let me know.
+ şifre değil parola
+ Correct Turkish translations by changing "şifre" to "parola"
+  X-Forwarded-For allows spoofing client IP address
+ Hi,
+
+"X-Forwarded-For" does not validate IP addresses given as headers. Ip addresses that saved in database, may not be real.
+
+Thanks! :+1: :100: 
+ Change confusing "open source" expression to "free/libre software", add license information to README
+ Hello,
+
+The term "open source" is not appropriate for this project. The term should be "free/libre software".
+
+Also license information added to README files.
+
+Thanks!
+ Add missing requirement psycopg2
+ psycopg2 is missing from the requirements.txt file
+ fixed typo 🍻
+ 
+ Header Fixment in docs/api
+ Files: docs/api/*
+Changes: Some of the header tags adjoining with titles, i splitted them. 
+
+Old:
+![image](https://user-images.githubusercontent.com/25110697/35183275-369e5734-fdf4-11e7-991e-ec521887e28b.png)
+New:
+![image](https://user-images.githubusercontent.com/25110697/35183279-426b0f08-fdf4-11e7-987c-0ada1562b20e.png)
+
+ Little fix
+ 
+ Add spanish version
+ 
+ #365 Missing premises migrations
+ Fixes #365 
+ #350 If there are no featured arguments show most crowded arguments
+ If there are no featured arguments the page is empty.
+
+It would be good to show there something, for example the most crowded arguments.
+ Fix #347 Settingify default view
+ Allow default view to be the list view, fixes #347 
+ Fix #351 Make adding channels easier
+ Changelog:
+- showing channels bar on homepage for admins even if there are no channels
+- added + sign (with WCAG message) on a channels bar to link to channel creation
+- Channel's language is a mandatory field now
+- Channel's and Noun's language is prefilled with current language
+- Channel's order field has been hidden and drag-and-drop interface has been introduced by adminsortable2 library
+- New translation: Hint for Channel's is_featured has been added
+- WCAG "hide element" classes been added to css
+ Add contributing documentation and update install instructions
+ That PR solves #329 #330 #304
+ Create django.po
+ Bsed on Jorge's great work im here trying to add my continuation to the translations for a spanish: es_locale
+
+ duplicate ugettext_lazy as _
+ 
+ Search by slug has been added in Argument api
+ Related: #309 
+
+ WIP: Add Romanian translation support
+ This change aims to introduce Romanian translation support. It's still WIP at this point. I got most of the po file done but I want to test it, see how it looks on a local environment and get some reviews about the logical translations. 
+
+ Add downloading of textblob data in Dockerfile
+ This step was missing to make a functional Docker container.
+
+ Add missing networkx dependency in requirements.txt
+ arguman wouldn't start with docker-compose without this change.
+
+ postgres driver should be optional
+ Details on #305 
+
+ only redirect to translated page if the site is configured to do so
+ This resolves an issue whereby the `PREVENT_LANGUAGE_REDIRECTION` setting would allow users to create new arguments, but all attempts to view detail pages would redirect to non-existent translation pages.
+
+ add missing setup step to download corpora in web container
+ 
+ add missing python networkx requirement
+ 
+ Typo fixed for new premise screen
+ 
+ Update fallacies.json
+ Most of the global logic community calls the fallacy "post hoc ergo propter hoc", shortened to either "post hoc fallacy" or "causalation". I know you're based in the Turkish-speaking community and all, but I never see "previous this" unless it's adjacent to its Turkish name and usually also the Latin name familiar to logicians around the world. And on the Anglophone-facing version of the site it is best to reflect a universal consensus on the name.
+

@@ -1,0 +1,44 @@
+﻿ Fix ietf link
+ - Fix ietf link 🛫
+ Made some grammar and block indentation changes
+ 
+ Properly handle missing fields
+ CocoaPods 1.6 is writing a new PBXAggregateTarget section which contains node without `productName` key. As a result running xUnique against the Pods.xcodeproj resulted in the following error:
+
+``` 
+  File "build/bdist.macosx-10.12-intel/egg/xUnique.py", line 140, in __set_to_result
+KeyError: u'productName'
+```
+
+The fix modifies the `__set_to_result` method making it (naively) resilient to the missing key.
+ Added solution to remove blocks correctly
+ Try to addressing #38 by detecting '{\n' in line end if this line wou…ld be removed. and delete all lines when meeting corresponding '};\n'. Matches done by the same count of leading whitespaces.
+
+assuming this to be removed line would start with a UUID with leading whitespaces
+ sort sections
+ as #17, I rewrote sort to support sorting sections. This will ease the pain of Xcode reordering sections and causing huge modifications.
+
+ Fixes pip install
+ 
+ add python3 compatibility
+ 
+ Add podspec + shell script, update README
+ This PR:
+- Adds a podspec which only preserves paths (allowing CocoaPods to download files without having them included in your actual project) and a shell script to facilitate running xUnique when installed via CocoaPods
+- Adds instructions for use of the podspec and shell script
+- Does a bit of grammatical cleanup on the rest of the README
+
+Would love to hear any questions or thoughts you have. Thank you!
+
+ Jwight/pep8
+ 
+ Provides a console script for xunique.
+ Adds a console script entry point to setup.py
+Adds a new `cli` function to xUnique.py that takes zero parameters and
+calls straight into main() with sys argue.
+
+(The purpose of this is to allow easy installation and execution of xunique for people not too familiar with python, or who don't want to track down where xUnique.py was called from)
+
+ add `cocoapods support` document
+ [Cocoapods](http://cocoapods.org/) is a common tool for iOS development stuff,  adding "cocoapods support document" makes sense of convenience for preventing being confused to many developers I think.
+

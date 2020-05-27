@@ -1,0 +1,82 @@
+﻿ Update README.md
+ I believe there's a typo in here and it should say "federation" as opposed to "replication" as replication does not solve the problem of data size and request load.
+ Added an important point on failover
+ Honestly, active-passive stateful systems are terrible. Never have found one that worked, there's always too much data incongruency or other random errors. Stateless applications, like routers, are great. But not your Jenkins master.
+ Updated back-of-the-envelope usage calculations.
+ Made a small change to explain the logic behind the 4,000 search requests per second.
+ Added scale cube
+ 
+ Update "Scaling up to your first 10 million users" link
+ Upgrading "Scaling up to your first 10 million users" video link to https://www.youtube.com/watch?v bug solutions: mint.com typos
+ 
+ Included apache kafka for event queuing
+ Included apache Kafka for event queuing
+
+added some info on backpressure for parallel consumers
+ Correct the wrong translation for "Error handling is excluded below for simplicity"
+ As title.
+ As title.
+ Check for dependencies (pandoc for now) before running generate_epub script
+ Fixes https://github.com/donnemartin/system-design-primer/issues/339
+
+@donnemartin @Skn0tt Please check
+ Remove redundant index
+ Making a column a primary key enforces uniqueness, and the db usually does so by creating a unique clustered index. So, you don't need a second index.
+ REST section improvement
+ Changed some references, definitions and disadvantages, and removed a misconception. 
+Changes are:
+- Fix HATEOAS reference and definition
+- Fix REST hierarchy disadvantage
+- Removed verb misconcenption
+- Add workaround to complex single view problem
+- Rewrote resource change problem 
+ Add CAP theorem video
+ I feel that [this](https://www.youtube.com/watch?v Missing comma
+ 
+ fix: typo
+ fix typo: single points -> single point
+ Fix the loop over "self.cards"
+ 
+ Update README.md
+ Remove invalid link
+ Update README.md
+ remove redundant space
+ Delete __init__.py
+ 
+ zh-Hans: Translate solutions
+ Related: #374
+ Revert "zh-cn: Sync with upstream to keep it up-to-date (#374)"
+ This reverts commit 301b9d88e4aed1c34b3275301f18b14957c38c91.
+
+#374 overwrote the English version of the solutions
+
+
+ zh-cn: Sync with upstream to keep it up-to-date
+ 
+ Merge pull request #1 from donnemartin/master
+ Merge from upstream
+ Add indonesian translation
+ I have translated the README.md into Indonesian.
+ Fix HTTP definition.
+ HTTP is built on top of TCP only
+ update readme.md
+ `韓國語` means Korean in Chinese. It should be either `Korean` or `한국어`(which means Korean in Korean)
+
+https://en.wiktionary.org/wiki/%ED%95%9C%EA%B5%AD%EC%96%B4
+https://en.wikipedia.org/wiki/Korean_language
+ Fix link
+ Endpoint with trailing slash returns 404.
+ Fix broken 'round robin' links
+ Change URLs from [http://g33kinfo.com/info/archives/2657](http://g33kinfo.com/info/archives/2657) (broken) to [https://www.g33kinfo.com/info/2010/02/round-robin-vs-weighted-round-robin-lb](https://www.g33kinfo.com/info/2010/02/round-robin-vs-weighted-round-robin-lb)
+ Updated the wording for issue #164 - Confusing word play in the defin…
+ …ition of AP under CAP theorem portion.
+
+Updated the wordings as per issue #164  - Confusing word play in the definition of AP under CAP theorem portion. 
+ Fix broken link in CAP theorem section
+ 
+ raise NotImplemented —> raise NotImplementedError
+ __flake8 . --count --exit-zero --max-complexity```
+./solutions/object_oriented_design/call_center/call_center.py:69:9:
+F901 'raise NotImplemented' should be 'raise NotImplementedError'
+```
+https://docs.python.org/3/library/exceptions.html#NotImplementedError

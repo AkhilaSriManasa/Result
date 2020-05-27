@@ -1,0 +1,109 @@
+﻿ feat: add remove method to PBXBuildFile and PBXFileReference
+ 
+ Reduce lookup times while saving by syncing the data on the fly
+ refactor: improve output compatibility with xcode output
+wip: optimize string formatting and removing redundancies
+ chore: move to github actions
+ 
+ setup.py: add readme on pypi (long_description)
+ Doing so makes it look better on the pypi website.
+ Make parent option available on CLI when adding files
+ The addFiles API function has an option to set the parent for newly added files:
+https://github.com/kronenthaler/mod-pbxproj/wiki/files#add-files
+
+The CLI function however didn't expose this function when adding files. (Effectively adding new files through the CLI to the Project Root).
+
+This PR adds a `--parent` parameter to the CLI to also allow setting parents from the CLI.
+
+This feature is requested in:
+https://github.com/kronenthaler/mod-pbxproj/issues/199
+and in:
+https://github.com/endless-sky/endless-sky/pull/4817
+
+ fix: add_files with force false will ignore the targets where the file is present
+ PR to address bug in #225 
+
+@ynechaev please confirm that this will address your issue.
+ Configuration by target
+ 
+ Compiler flags
+ 
+ Python2 removal
+ 
+ Pr review
+ 
+ Speed up saving large projects
+ Large projects can be very slow to save. I have a 10 MB project file that took about 20 minutes to save. Upon profiling the save operation with `cProfile` it became clear it was spending most of its time in `PBXObjects.__getitem__` and `PBXBuildFile._get_section`. These both perform lookups over that are linear in the size of the project for each call, leading to (at least) an n^2 algorithm. While most of the time we *need* to perform the lookups like this (since people could have modified the project data structures in arbitrary ways) if we make the simplifying assumption that the project won't change during saves, we can greatly speed these operations up by pre-computing a mapping from the ID we care about to the object we're looking for and make each of these calls constant time.
+
+This optimization brings the save time for the same project down to just 2.3 seconds on my machine (4 orders of magnitude faster). This would likely also help in the case of https://github.com/kronenthaler/mod-pbxproj/issues/247.
+ Update: add .entitlements file type
+ 
+ Add support for .mlmodel and .html files.
+ Closes #216 
+ Add support for .mlmodel and .html files.
+ closes #216 .
+ Add Method get_build_configurations _by_target, according to the targ…
+ Add Method get_build_configurations _by_target, according to the target name to obtain the corresponding all Build Configuration.
+ Handle fileRefs not existing for FBXBuildFile's
+ This allows saving projects where one or more PBXBuildFile has an invalid reference. While the likely right thing to do in this case is to remove these from the project file, this can be hard when dealing with 3rd party projects that are not under your control. This change mimics what Xcode does in these scenarios. An example project that exhibits this can be found at https://github.com/facebook/react-native/blob/0.55-stable/React/React.xcodeproj/project.pbxproj
+
+I have tested this by adding a new unit test to check the behavior and checked that I can load and save the above linked project.
+
+Fixes https://github.com/kronenthaler/mod-pbxproj/issues/179.
+ Render the name for a ShellScript as its comment, if present
+ The Xcode editor UI allows you to specify a name for a shell script, with the result that it is written into the project file as a `name` field. But projects with named shell scripts were not having those preserved in their comments.
+
+This change uses the `name` of a `ShellScript` as its comment (if it has one).
+ Add support for binary files.
+ 
+ Add missing newline to end of file
+ Some other utils (react-native link) were complaining about missing newline at the end
+of the generated project file.
+ Supported the jpg files
+ Supported the jpg files.
+ add support for setting group path same as name while add folder
+ Hi kronenthaler,
+Setting the path of Group same as its name, we can:
+1. the group will be along with the project which was copied to anywhere or any PC
+2. each one can change the files of the group after one has copied the group in a project, no need to worry about the group maybe referenced by other projects.
+ Add compiler flags and attributes getters.
+ ## This PR introduces compiler flags and attributes API for `PBXBuildFile`.
+
+## Problem
+Sometimes there is a need to make a decision based on existing compiler flags and/or attributes fetched from `PBXBuildFile` references. This is mostly required by non-invasive approach during complex integration operations (like you need to check if added file is already presented in the project and if it has particular attributes/flags).
+
+## Solution
+New API `get_attributes` and `get_compiler_flags` are solving the container encapsulation problem. Implementation returns `None` if `settings` or container itself not presented, so no new objects are created (no additional source control noise).
+
+## Unit tests
+Unit tests added according to the new API:
+`testGetAttributesWithoutSettings`
+`testGetAttributesWithoutAttributes`
+`testGetAttributesWithAttributes`
+`testGetCompilerFlagsWithoutSettings`
+`testGetCompilerFlagsWithoutFlags`
+`testGetCompilerFlagsWithFlags`
+ feat: improve show command to show target types, build phase types an…
+ …d filter other build phases.
+ Cli show
+ 
+ feat: add support for multiple target on each command
+ 
+ feat: add support for header scopes as FileOption when adding a file
+ 
+ fix: configuration retains unique flags
+ 
+ fix: misspelled PBXAggregateTarget
+ 
+ Set only unique flags
+ During adding libraries or frameworks from same place it would be added many times to search path(Lib. or framework). This commit will fix this.
+ 修复 脚本误改 xxxx.pbxproj 中的注释代码问题
+ 执行 下面两行代码
+project = XcodeProject.load('myapp.xcodeproj/project.pbxproj')
+project.save()
+
+理论上   myapp.xcodeproj/project.pbxproj文件内容不会有任何修改的。
+但是 该文件内容被修改了，本次提交修复了部分问题，其余地方不太确定暂未修改（还请作者自行校验）。
+
+请知悉。
+

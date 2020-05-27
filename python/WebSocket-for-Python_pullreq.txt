@@ -1,0 +1,219 @@
+﻿ Python 3.7 and 3.8 compat
+ Fix #250 
+ fix #254 (Exclude installation of tronado-5.x)
+ I wrote patch fix to Travel CI test fail.
+Please merge this patch.
+
+This failed Travel CI test was installed tornado-5 series.
+
+But tornado-5 series is not support python3.3.
+
+The Travel CI test should use tornado-4 series in python3.3.
+ Use print() function in both Python 2 and Python 3
+ __print()__ is a function in Python 3.
+ Fix Incorrect 'Sec-WebSocket-Accept' header value
+ For cherrypyserver on Python 3 and above (tested with Python 3.6)
+Same logic applied as in wsgiutils.py
+
+Screenshot of issue:
+![image](https://user-images.githubusercontent.com/1945295/47589479-891d6a80-d969-11e8-970c-1e1432bfcf99.png)
+
+As you can see, the value of the 'Sec-Websocket-Accept' header is in the wrong format. It must be decoded when running Py3.
+ Travis CI: Upgrade to Python 3.7 and add flake8 tests
+ * Add Python 3.7 to Travis CI and tox in alignment with travis-ci/travis-ci#9069
+* Add [flake8](http://flake8.pycqa.org) tests to look for Python syntax errors and undefined names
+
+__E901,E999,F821,F822,F823__ are the "showstopper" flake8 issues that can halt the runtime with a SyntaxError, NameError, etc.  Most other flake8 issues are merely "style violations" -- useful for readability but they do not effect runtime safety.
+* F821: undefined name `name`
+* F822: undefined name `name` in `__all__`
+* F823: local variable `name` referenced before assignment
+* E901: SyntaxError or IndentationError
+* E999: SyntaxError -- failed to compile a file into an Abstract Syntax Tree
+ file() was removed in Python 3
+ __file()__ was removed in Python 3 in favor of __open()__.
+ Define unicode in Python 3
+ 
+ print() is a function in Python 3
+ 
+ async is a reserved word in Python 3.7
+ https://docs.python.org/3.7/whatsnew/3.7.html#porting-to-python-37
+ Remove SO_REUSEADDR
+ Reusing address for ephemeral ports is not a good idea and may cause
+"Address already in use" error.
+See https://gavv.github.io/blog/ephemeral-port-reuse/ for a more
+detailed explanation.
+ proper fix for #230: on secure, only pass the requested number of bytes to the parsers
+ The parsers only expect to get the requested number of bytes, so buffer everything on SSL and only pass down what was actually requested and remove only that from the buffer
+ Fix 230
+ Fix for https://github.com/Lawouach/WebSocket-for-Python/issues/230
+
+This script exposed the issue:
+
+```
+from ws4py.client.threadedclient import WebSocketClient
+import json, time, logging, threading
+
+class DummyClient(WebSocketClient):
+    def __init__(self, url):
+        super().__init__(url)
+
+    def opened(self):
+        print("Websocket opened")
+        self.send(json.dumps({'event': u'subscribe', 'channel': u'candles', 'key':'trade:5m:tBCHUSD'}))
+        self.send(json.dumps({'event': u'subscribe', 'channel': u'ticker', 'symbol': u'tBTCUSD'}))
+        self.send(json.dumps({'event': u'subscribe', 'channel': u'ticker', 'symbol': u'tBTGUSD'}))
+        self.send(json.dumps({'event': u'subscribe', 'channel': u'ticker', 'symbol': u'tBCHUSD'}))
+
+    def closed(self, code, reason=None):
+        print("Websocket Closed", code, reason)
+
+    def received_message(self, m):
+        print(m)
+        data = json.loads(str(m))
+        if isinstance(data, dict):
+            if data.get('event', None) == 'subscribed':
+                print('Subscribed with id ', data['chanId'])
+
+if __name__ == '__main__':
+    logging.basicConfig(level=logging.DEBUG)
+    try:
+        ws = DummyClient('wss://api.bitfinex.com/ws/2')
+        ws.connect()
+        ws.run_forever()
+    except KeyboardInterrupt:
+        ws.close()
+```
+
+It should produce this kind of output:
+for each 'suscribe', you should have a 'susbcribed' with a chanId
+then you should see data for each subscription as arrays with the chanId as first element.
+
+```Websocket opened
+{"event":"info","version":2}
+{"event":"subscribed","channel":"ticker","chanId":1,"symbol":"tBTCUSD","pair":"BTCUSD"}
+Subscribed with id  1
+[1,[11669,50.19305176,11670,27.40211685,19,0.0016,11669,64602.90194275,11904,10647]]
+{"event":"subscribed","channel":"ticker","chanId":49,"symbol":"tBTGUSD","pair":"BTGUSD"}
+Subscribed with id  49
+[49,[230.47,446.02458036,230.82,527.27514541,24,0.1168,229.5,71645.18196272,241.5,185]]
+{"event":"subscribed","channel":"ticker","chanId":31,"symbol":"tBCHUSD","pair":"BCHUSD"}
+Subscribed with id  31
+[31,[1816,80.75025412,1816.2,185.6989998,-23.5,-0.0128,1818.5,28538.79857777,1863.1,1656]]
+{"event":"subscribed","channel":"candles","chanId":76524,"key":"trade:5m:tBCHUSD"}
+Subscribed with id  76524
+[76524,[[1516304100000,1817.9,1829.8,1830,1810.9,80.06575253],[1516303800000,1798,1813.5,1820,1798,53.29618585],[1516303500000,1824.6,1798.1,1825,1798,170.83190693],[1516303200000,1824.4,1825,1832.1,1821.4,85.01132438],[1516302900000,1824.9,1824.4,1825,1823.1,77.16357855],[1516302600000,1827.9,1825,1834.9,1823.7,78.9139323],[1516302300000,1828.5,1825.4,1833.2,1823.3,38.58896115],[1516302000000,1830.6,1828.4,1836.5,1826.7,99.0569226],[1516301700000,1818.5,1830.5,1830.6,1818.5,39.46627181],[1516301400000,1816.8,1822.1,1830.4,1813,74.11415388],[1516301100000,1822.5,1816.7,1822.9,1805,97.3917624],[1516300800000,1819.3,1819.7,1822.9,1819.3,92.72934884],[1516300500000,1819,1819.3,1820,1814.2,57.18609166],[1516300200000,1810.8,1819,1820,1809.9,71.81453538],[1516299900000,1811.8,1811.4,1814.8,1795,125.18208723],[1516299600000,1815.2,1809.1,1819.4,1804.8,143.36985543],[1516299300000,1810.8,1815.5,1820,1800.4,69.44463075],[1516299000000,1806.8,1812.8,1820,1800.2,159.41801108],[1516298700000,1783.1,1809.3,1814,1775.4,389.83692787],[1516298400000,1771.3,1782.9,1787.2,1770,165.87814414],[1516298100000,1781.1,1774.4,1786.8,1770,107.03924811],[1516297800000,1780.6,1778.5,1795.4,1775.1,159.89096939],[1516297500000,1783.8,1780.5,1786.6,1776.2,83.35048525]]]
+[76524,[1516368900000,1817.2,1817.5,1822.6,1810.5,8.3972583]]
+[76524,[1516369200000,1817.3,1818.5,1818.5,1817,0.24530253]]
+[49,[230.47,446.02458036,230.48,468.5786241,24,0.1168,229.5,71645.18196272,241.5,185]]
+[76524,"hb"]
+[1,"hb"]
+[31,"hb"]
+```
+ fix issue #235: change from type() to isinstance())
+ type() check for exact match, which failed to detect the subclass used by WS4PY
+ fixed runtime error: Set changed size during iteration
+ thanks to https://github.com/Lawouach/WebSocket-for-Python/issues/132
+when I stop the server in a proper way, e.g. server.stop(), it seems the mutable iteration object caused some inconsistent issue which is Set changed size during iteration
+ fix bug about sec-websocket-protocol
+ fix bug when sec-websocket-protocol and sec-websocket-extensions appear in header
+ Fix for #226.
+ Currently the client init uses only the first address info tuple returned from `socket.getaddrinfo()` to create the socket (see line [97](https://github.com/Lawouach/WebSocket-for-Python/compare/master...emmawillemsma:getaddrinfo_fix?expand SSL message parsing fix
+ I've been running into a problem with recent versions of ws4py where messages received in quick succession over an SSL connection are not properly parsed.
+
+I believe the problem originated in this commit 75b88bdecd988694b0429c46cf5c3d6c719cc1f2 which can result in the `WebSocket.process` method being called with more than `reading_buffer_size` bytes which seems to violate an assumption of the stream/frame parser.  In specific, the `Stream.receiver` coroutine does not pass unused bytes from the previous `Frame` to the next `Frame` which causes a problem should a single call to `WebSocket.process` include data for multiple frames.
+
+The `WebSocket.once` method has undergone several revisions since this change was first introduced but I believe the original problem remains.  My proposed fix restores the old behavior of limiting the size of the byte string passed to `WebSocket.process` while still consuming all data received by the socket.
+
+I have added a couple unit tests for this behavior.  Of particular note is `WSWebSocketTest.test_messages_parsing_ssl` which fails for me with python 2, 3, and pypy before the proposed change.
+ Adds argument to set block value on gevent get command in WebSocketClient.receive()
+ I'm using the gevent websocket client to manage some web socket connections for a load testing project.
+As part of this I need to constantly poll the websocket checking to see if messages have been received that my tests need to act on, it can't wait for a message to be received as this then blocks other actions the tests need to perform.
+
+As the gevent queue `.get()` method lets you specify if you want to get command to be blocking or not, I've added this as a pass through for the `WebSocketClient.receive()` method. 
+I've defaulted it to True, as thats the `.get()` default, so it will keep current behaviour the same unless explicitly specified otherwise. 
+
+I've added a note to the doc string about handling the `Empty` error raised if there are no messages in the queue, but I can raise a further PR for documentation if you think it needs explaining in more detail. 
+
+ Add test for frame spillover issue (#218, #230)
+ When Frame.parser is given more data than expected, the next frame's header +
+contents can end up as part of the payload, causing a UTF-8 validation error, or
+ends up being thrown away. This can happen in the SSL case if we read slowly and
+allow the socket's buffer to fill up a little.
+
+This commit fixes that by amending WebSocket.once() to only provide bytes <=
+reading_buffer_size to the stream parser and keeping the rest in a buffer,
+giving the Frame a chance to stop receiving data at a frame boundary.
+
+Fixes: #218
+
+
+Edit: This PR now only contains tests for the issue since the issue itself has been fixed by #239.
+ Rudimentary fix and testcase for Issue #179
+ See comments and fix for #179 in 854b33b. As indicated, this fix is incomplete, but certainly better than nothing. 
+
+Secondary commit, f84dd25, is just to make the code easier to work with. I can cherry pick just the fix if you don't want those changes as well.
+ exclude certain headers when requested
+ add option to exclude certain headers which would ordinarily be added by default
+
+patch for #216
+ Create MANIFEST.in with LICENSE
+ Hey-lo,
+
+I'm maintaining a version of `ws4py` using [`conda`](http://conda.pydata.org/) for [conda-forge](http://conda-forge.github.io/). (See [here](https://github.com/conda-forge/ws4py-feedstock/).) When possible, we try to include a link to the license file in the `meta.yaml` specification for the build; doing so requires the license be indexed in an explicit [`MANIFEST.in`](https://docs.python.org/2/distutils/sourcedist.html#manifest-related-options) file so that it gets included in the source distribution.
+
+This pull should add just such a manifest, guaranteeing that the license, the change log, and the readme are included in future source distributions.
+ Return additional headers/response code with HandshakeException
+ 
+ Change threaded client test to test ssl socket
+ This change tests the bug that was fixed in pull request #212 . The call to `self.assertTrue(c._th.is_alive())` would fail before the changes in that pull request.
+
+I decided to just modify the existing test. Let me know if you'd prefer a new separate test instead.
+ Block on receiving from SSL socket
+ This fixes a bug where not receiving any bytes immediately from an SSL socket would be considered a socket error and the connection would be closed. This changes the code to block and wait for bytes from the SSL socket.
+
+To test, I used the example DummyClient script in the [tutorial](https://ws4py.readthedocs.io/en/latest/sources/clienttutorial/#built-in) and pointed it to "wss://echo.websocket.org". Without this change, the example script closes the connection without receiving any messages. With the change, the expected behavior occurs.
+ fixes parsed hostname
+ This will also fix lxdock/lxdock#52
+ change cherrypy.wsgiserver to cheroot.server
+ change cherrypy.wsigiserver because delete cherrypy.wsgiserver in cherrypy. 
+see https://github.com/cherrypy/cherrypy/commit/929695cd3efedcb3e416b84d3369b33f1ee96f4f.
+ This change is to address the issue with run_forever() terminating too early.
+ https://github.com/Lawouach/WebSocket-for-Python/issues/152
+ Don't crash with broken pipe when trying to close a connection
+ I am still encountering this issue with the latest version of ws4py. ( #150 )
+
+My error was:
+
+```
+INFO:ws4py:Managing websocket [Local => 127.0.0.1:8080 | Remote => 127.0.0.1:53699]
+Exception in thread Thread-1:
+Traceback (most recent call last):
+  File "/usr/lib/python2.7/threading.py", line 810, in __bootstrap_inner
+    self.run()
+  File "build/bdist.linux-x86_64/egg/ws4py/manager.py", line 310, in run
+    if not ws.once():
+  File "build/bdist.linux-x86_64/egg/ws4py/websocket.py", line 391, in once
+    if not self.process(b):
+  File "build/bdist.linux-x86_64/egg/ws4py/websocket.py", line 448, in process
+    self.close(s.closing.code, s.closing.reason)
+  File "build/bdist.linux-x86_64/egg/ws4py/websocket.py", line 190, in close
+    self._write(self.stream.close(code=code, reason=reason).single(mask=self.stream.always_mask))
+  File "build/bdist.linux-x86_64/egg/ws4py/websocket.py", line 282, in _write
+    self.sock.sendall(b)
+  File "/usr/lib/python2.7/socket.py", line 224, in meth
+    return getattr(self._sock,name)(*args)
+error: [Errno 32] Broken pipe
+```
+
+The error was reproduced 100%.
+I have a CherryPy application that sends a lot of data to clients (continuous chunks of text, around 200KB each)
+I have a webpage open in the browser, with some JavaScript code for receiving data.
+When I closed the webpage in the browser, my server became unresponsive after the error mentioned above.
+
+What do you think about ignoring the error (and not crashing the server) when the server can't send the closing frame to a client?
+
+I don't want to use ws4py in production if a user that closes a webpage crashes my backend.
+
+ adding heartbeat for gevent_client
+ small fix needed to maintain a client connection open using gevents
+

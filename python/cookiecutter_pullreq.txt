@@ -1,0 +1,99 @@
+﻿ Tests refactoring: test_utils write issues fixed #1405
+ * Monkeypatching instead of "possible to fail values"
+* tmpdir -> tmp_path
+* os -> pathlib
+
+related #1405
+ Removed: Bumpversion, setup.py arguments.
+ This fixes 7 possible security issues. 
+
+https://codeclimate.com/github/cookiecutter/cookiecutter/pull/1404
+ Making code python 3 only: Remove python2 u' sign, fix some strings
+ 
+ py3: remove futures, six and encoding
+ 
+ Added: Automatic PyPI deploy on tag creation
+ Closes  #1337
+ Changed: Restored coverage reporter
+ Closes #1398
+ Added: Example for conditional files / directories in hooks
+ fix https://github.com/cookiecutter/cookiecutter/issues/127#issuecomment-223635938
+ feat: don't call Popen for python hooks
+ I want to run cookiecutter with untrusted templates.
+
+One way to do it is run cookiecutter in a sandbox environment such as the the ones in pypy, jython and ironpython.   In such sandbox, I can prevent the untrusted template from modifying files outside the generated project.
+
+The challenge is that the hooks are invoked using subprocess.Popen.  Sandboxes cannot allow Popen, because the child process would escape the sandbox. 
+
+This PR uses python's exec to run the hook code within the same process and remain sandboxed.
+
+Note the tests don't pass because some of the tests invoke sys.exit(1),  which just exits cookiecutter itself.  Looking for feedback for ways to solve this.
+ 
+ Fixed: Replaced no longer maintained pipsi by pipx
+ Pipsi is no longer maintained (from the [pipsi github page](https://github.com/mitsuhiko/pipsi/)).
+ Changed: README.md PyPI URLs changed to the modern PyPI last version
+ 
+ Fixed: Comma in README.md
+ Closes #1389 
+ MANIFEST: Fix file name extensions
+ The files got new file name extensions, but MANIFEST was not updated -> files were missing in the tarballs
+ Remove support for python2.7
+ Python 2.7 is officially dead and we are not going to make any new release that supports it.
+
+This removes py27 code but a follow-up will address other changes like removing use of `six`.
+
+Major version is bumped to 1.8.0 to mark this breaking change.
+ Fixed: Jinja2&Six version limits causing build errors with ansible project (#1384)
+ …
+ Prepare release 1.7.1
+ 
+ readme: document specific topics
+ Documents how template authors can use github topics to make
+their templates easily discoverable by others.
+
+Note: many of these topics do not have any entries because template authors did not know about this. Still, to avoid a chick-n-egg issue, we start by documenting them first. Later we can ping some of them to ask them to update their github topics based on the documentation.
+ Removed: docstrings exclusions from flake8 tests
+ Fixes: #1269
+ Updated: test_prompt.py refactored
+ 
+ Updated: test_generate_context.py refactored
+ Partial-Fix: #742
+ Updated: test_generate* files refactored
+ * Added docstrings
+* Added more strict check for binary files
+* Setup/teardown updated
+* Reformatted
+* 1 test order changed.
+
+Partial-Fix: #742
+ Add docstrings to cookiecutter test files and updated fixtures syntax
+ * Added docstrings
+* Setup/Teardown fixtures to modern syntax
+* Some reformatting
+ Added: docstrings for cookiecutter test files
+ Docstrings only changes.
+Partial-Fix: #742
+ Added: docstrings for invocation test files
+ * Added docstrings
+* One fixture replaced with parametrization
+* New setup/teardown syntax
+
+Partial-Fix: #742
+ Updated: test_abort_generate_on_hook_error file refactored
+ Partial-Fix: #742
+ Added: docstrings for extensions feature test files
+ 
+ Updated: test_generate_hooks refactored
+ * test_generate_hooks changed setup/teardown syntax
+* test-data generation function replaced with static data
+* docstrings added
+ Added: docstrings to `tests/repository` directory files
+ 
+ Updated: get_config Function exception extended with config file path information
+ 
+ Updated: test_abbreviation_expansion files refactored
+ Partial-Fix: #742
+ Added: Black formatting verification for whole project
+ Adopts black formatting and runs it as part of the linting process. This should assure that code style is assured by black and we do not have to care about it anymore.
+
+Fixes:  #1305

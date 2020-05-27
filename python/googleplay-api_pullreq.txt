@@ -1,0 +1,72 @@
+﻿ < Working >
+ 
+ Fix typographical error(s)
+ @egirault, I've corrected a typographical error in the documentation of the [googleplay-api](https://github.com/egirault/googleplay-api) project. Specifically, I've changed catagories to categories. You should be able to merge this pull request automatically. However, if this was intentional or if you enjoy living in linguistic squalor, please let me know and [create an issue](https://github.com/thoppe/orthographic-pedant/issues/new) on my home repository.
+
+ added requirements.txt
+ 
+ add proxies and fix bug in list more and more apps
+ add proxies in config.py and googleplay.py
+
+ Don't crash when no results are returned
+ Searching for strings that return no results crashes.
+
+```
+➜  googleplay-api git:(master) ✗ python search.py asdasda
+Title;Package name;Creator;Super Dev;Price;Offer Type;Version Code;Size;Rating;Num Downloads
+Traceback (most recent call last):
+  File "search.py", line 39, in <module>
+    doc = message.doc[0]
+  File "/usr/local/lib/python2.7/dist-packages/protobuf-2.5.0-py2.7.egg/google/protobuf/internal/containers.py", line 64, in __getitem__
+IndexError: list index out of range
+```
+
+ Feature/reviews
+ Added a CLI script to fetch reviews for a given package.
+
+ Fix for list() method when run with integer inputs
+ I've changed the sanitization method for the nb_results and offset parameters of the GooglePlayAPI.list() method from requests.utils.quote() to int().  The quote function causes issues with integer inputs - doesn't look like it was an issue when running via command line, but shows up if you call the function manually with integer inputs.
+
+ Added a setup.py
+ Can now be installed with either the following:
+
+python setup.py install
+
+or
+
+pip install -e <path-to-project>
+
+ Enable packaged installation using setup.py
+ This also removes the dependency on config.py from googleplay.py. The
+reason for that is because GooglePlayAPI constructor already accepts
+values for the fields being obtained via `config.py`, and only the driver
+wrapper scripts pass in those values from `config.py`.
+
+By removing `config.py` dependency, it allows the package to be installed
+via `easy_install`, which will only install the `googleplay` and
+`googleplay_pb2` modules to the system, avoiding the need to introduce any
+of the other scripts.
+
+ ProtoBuf definitions for checkins
+ These are some other checkin protobufs that were missing from the main file. Maybe they should be separated. Also, they should probably be compiled. These commits are based on top of my packaging branch, which allows googleplayapi to be installed in different projects.
+
+ Packaging
+ Makes all this code accessible from other projects as a python egg. Also, googleplayapi could be submitted to PyPi at some point.
+
+ Switch from urllib2 to python-requests
+ Here's what's in here:
+- Switch from urllib2 to python-requests (hooray!)
+- pep8, formatting, whitespace, tab crusading, dos2unix
+- Move copied functions into a shared file
+- Make the config file complain loudly (but honestly this needs to be refactored completely, why is there a config file in a library anyway)
+- basic `.gitignore`
+- other things
+
+ Fixed bug in api login response
+ Traceback (most recent call last):
+  File "search.py", line 64, in <module>
+    api.login(GOOGLE_LOGIN, GOOGLE_PASSWORD, AUTH_TOKEN)
+  File "[...]/googleplay-api/googleplay.py", line 124, in login
+    k, v = d.split("=")
+ValueError: need more than 1 value to unpack
+
